@@ -1,9 +1,11 @@
 ---
+import '../assets/main.css';
 export interface Props {
 	title: string;
 }
 
 const { title } = Astro.props;
+
 ---
 
 <!DOCTYPE html>
@@ -12,7 +14,6 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="stylesheet" href="../assets/main.css" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
@@ -34,3 +35,4 @@ const { title } = Astro.props;
 			Bitstream Vera Sans Mono, Courier New, monospace;
 	}
 </style>
+
