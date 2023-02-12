@@ -1,0 +1,12 @@
+<footer class="text-center py-4">
+<h4 class="font-bold">Audacity</h4>
+  <small
+    >Copyright &copy; <span id="copyright"></span> by Audacity | All rights reserved.</small
+  >
+</footer>
+
+<script>
+  document.querySelector("#copyright").textContent = new Date()
+    .getFullYear()
+    .toString();
+</script>
