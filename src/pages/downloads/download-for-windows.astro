@@ -1,0 +1,43 @@
+---
+import OSDownloadCard from "../../components/OSDownloadCard.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Audacity | Home">
+  <main class="container mx-auto mb-24">
+    <div class="pt-32 mb-12 mx-24">
+      <h2 class="text-4xl font-semibold">Download for Windows</h2>
+      <p class="text-base">Version 3.3.1</p>
+    </div>
+    <div class="grid grid-cols-12 grid-flow-row auto-rows-max mx-24">
+      <div class="col-span-8">
+        <div class="mb-20">
+          <h4 class="font-bold text-lg mb-4">64-bit</h4>
+          <OSDownloadCard
+            title="Audacity 3.2.4 64 bit installer"
+            downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+            checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+          />
+          <OSDownloadCard
+            title="Audacity 3.2.4 64 bit .zip installer"
+            downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+            checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+          />
+        </div>
+        <div class="mb-20">
+            <h4 class="font-bold text-lg mb-4">32-bit</h4>
+            <OSDownloadCard
+              title="Audacity 3.2.4 32 bit installer"
+              downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+            />
+            <OSDownloadCard
+              title="Audacity 3.2.4 32 bit .zip installer"
+              downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+            />
+          </div>
+      </div>
+    </div>
+  </main>
+</Layout>
