@@ -1,23 +1,71 @@
 ---
-import HeroBanner from "../components/HeroBanner.astro";
 import Layout from "../layouts/Layout.astro";
+
+import ReleaseVideo from "../components/ReleaseVideo.astro";
+import HeroBanner from "../components/HeroBanner.astro";
+
+import AudacityLight from "../assets/img/AudacityLight.png";
+import AudacityDark from "../assets/img/AudacityDark.png";
 ---
 
 <Layout title="Audacity | Home">
   <main>
-    <HeroBanner />
-    <section id="releaseVideo" class="bg-gray-900">
-      <div class="container mx-auto text-center pt-16 md:pt-24 pb-24 md:pb-40">
-        <h2 class="text-3xl font-bold text-white mb-8">
-          Audacity 3.2.1 is here!
-        </h2>
-        <div class="px-16">
-          <iframe
-            class="w-full aspect-video rounded-md"
-            src="https://www.youtube.com/embed/DTRnDNR9LR8"
-            title="YouTube video player"></iframe>
+    <section class="grid-background">
+      <div class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-2xl mx-auto">
+        <div
+          class="lg:hidden relative overflow-hidden shadow-inner bg-gray-200 rounded-md pt-6 pl-6 sm:pt-12 sm:pl-12"
+        >
+          <img
+            src={AudacityLight}
+            alt="Audacity"
+            class="absolute sm:scale-125 sm:origin-top-left -right-12 sm:-right-24 -bottom-10 sm:-bottom-20 z-10"
+          />
+          <img src={AudacityDark} alt="Audacity" class="sm:scale-125 sm:origin-top-left z-0" />
         </div>
+
+        <h1
+          class="mt-6 sm:mt-8 text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900"
+        >
+          <span class="text-blue-500">Free</span>, open source, cross-platform
+          audio software
+        </h1>
+        <p class="mt-2 sm:mt-4 lg:mt-6 md:text-xl text-gray-600">
+          A compelling and well rationalised value proposition statement for
+          music producers that converts them.
+        </p>
+        <a
+          id="downloadButton"
+          href=""
+          class="mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base flex h-10 sm:h-11 items-center px-3 bg-blue-700 hover:bg-blue-600 text-white w-fit rounded-sm shadow-xl"
+          >Download</a
+        >
       </div>
     </section>
+    <ReleaseVideo />
   </main>
 </Layout>
+
+<!-- Detect OS and provide appropriate download link -->
+
+<script>
+  if (navigator.platform.indexOf("Mac") > -1) {
+    document.getElementById("downloadButton").href =
+      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg";
+    document.getElementById("downloadButton").innerHTML = "Download for Mac";
+  } else if (navigator.platform.indexOf("Win") > -1) {
+    document.getElementById("downloadButton").href =
+      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe";
+    document.getElementById("downloadButton").innerHTML =
+      "Download for Windows";
+  } else if (navigator.platform.indexOf("Lin") > -1) {
+    document.getElementById("downloadButton").href =
+      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-linux-3.2.4-x64.AppImage";
+    document.getElementById("downloadButton").innerHTML = "Download for Linux";
+  }
+</script>
+
+<style>
+  .grid-background {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath opacity='0.8' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+</style>
