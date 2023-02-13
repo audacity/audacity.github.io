@@ -1,3 +1,12 @@
+---
+import { useUserAgent } from "astro-useragent";
+
+const uaString = Astro.request.headers.get("user-agent");
+const { source, isMobile } = useUserAgent(uaString);
+
+console.log(source, isMobile);
+---
+
 <div class="bg-gradient-to-b from-gray-100 to-gray-300">
   <div class="container mx-auto sm:grid sm:grid-cols-12 py-16 px-8">
     <div
@@ -11,12 +20,15 @@
         producers that converts them.
       </p>
       <div class="flex gap-2">
-        <button class="bg-blue-600 text-white h-10 md:h-12 px-4 rounded-md hover:bg-blue-500 whitespace-nowrap"
+        <button
+          class="bg-blue-600 text-white h-10 md:h-12 px-4 rounded-md hover:bg-blue-500 whitespace-nowrap"
           >Download</button
         >
-        <button class= "text-blue-600 border-2 border-box border-blue-600 h-10 md:h-12 px-4 rounded-md hover:bg-blue-600 hover:text-white whitespace-nowrap"
+        <button
+          class="text-blue-600 border-2 border-box border-blue-600 h-10 md:h-12 px-4 rounded-md hover:bg-blue-600 hover:text-white whitespace-nowrap"
           >Find out more</button
-        ></div>
+        >
+      </div>
     </div>
   </div>
 </div>
