@@ -1,6 +1,6 @@
 ---
 import Footer from '../components/Footer.astro';
-import Navigation from '../components/Navigation.astro';
+import NavigationReact from '../components/NavigationReact';
 
 export interface Props {
 	title: string;
@@ -18,7 +18,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<Navigation />
+		<NavigationReact client:load/>
 		<slot />
 		<Footer />
 	</body>
