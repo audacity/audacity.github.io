@@ -4,6 +4,17 @@ import Layout from "../layouts/Layout.astro";
 import ReleaseVideo from "../components/ReleaseVideo.astro";
 import AudacityLight from "../assets/img/AudacityLight.png";
 import AudacityDark from "../assets/img/AudacityDark.png";
+import LatestBlogPosts from "../components/LatestBlogPosts.astro";
+import Card from "../components/Card.astro";
+
+interface Frontmatter {
+  title: string;
+  slug: string;
+  thumbnail: string;
+  date: string;
+}
+
+const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
 <Layout title="Audacity | Home">
@@ -41,11 +52,39 @@ import AudacityDark from "../assets/img/AudacityDark.png";
             id="downloadButton"
             href=""
             class="mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base flex h-10 sm:h-11 items-center px-3 bg-blue-700 hover:bg-blue-600 text-white w-fit rounded-sm shadow-xl"
-            >Download</a>
+            >Download</a
+          >
         </div>
       </div>
     </section>
     <ReleaseVideo />
+    <section>
+      <div
+        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-2xl mx-auto"
+      >
+        <h2 class="mt-6 sm:mt-8 text-lg sm:text-2xl text-gray-700 font-bold mb-4">
+          Latest blog posts</h2>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            {
+              posts
+                .sort(
+                  (a, b) =>
+                    Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
+                )
+                .map((post) => (
+                  <Card
+                    title={post.frontmatter.title}
+                    description={post.rawContent().slice(0, 100)}
+                    href={`/posts/${post.frontmatter.slug}`}
+                    thumbnail={post.frontmatter.thumbnail}
+                  />
+                ))
+            }
+          </div>
+        </h1>
+      </div>
+    </section>
   </main>
 </Layout>
 
