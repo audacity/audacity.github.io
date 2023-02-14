@@ -1,85 +1,71 @@
 ---
-import PaginationButton from "../../components/PaginationButton.astro";
-import Layout from "../../layouts/Layout.astro";
 import { releaseData } from "../../assets/js/releaseData";
 import OSDownloadCard from "../../components/OSDownloadCard.astro";
+import PaginationButton from "../../components/PaginationButton.astro";
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
 ---
 
-<Layout title="Audacity | Downloads">
-  <main>
-    <section>
-      <div
-        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
-      >
-        <h1 class="text-2xl md:text-4xl font-bold mb-6 md:mb-16 md:mt-16">
-          Download for Windows
-        </h1>
-        <div class="xl:grid xl:grid-cols-12">
-          <div class="col-span-8">
-            <h4 class="text-xl md:text-2xl font-bold mb-4">64 bit</h4>
-            <OSDownloadCard
-              title={releaseData.win.x64.name}
-              downloadURL={releaseData.win.x64.browser_download_url}
-              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-            />
-            <OSDownloadCard
-              title={releaseData.win.x64_zip.name}
-              downloadURL={releaseData.win.x64_zip.browser_download_url}
-              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-            />
+<DownloadPageLayout title="Download for Windows">
+  <div class="mb-16">
+    <div class="mb-12 divide-y">
+      <h4 class="text-md font-bold mb-4">64 bit</h4>
+      <OSDownloadCard
+        title={releaseData.win.x64.name}
+        downloadURL={releaseData.win.x64.browser_download_url}
+        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+      />
+      <OSDownloadCard
+        title={releaseData.win.x64_zip.name}
+        downloadURL={releaseData.win.x64_zip.browser_download_url}
+        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+      />
+    </div>
+    <div class="divide-y">
+      <h4 class="text-md font-bold mb-4">32 bit</h4>
+      <OSDownloadCard
+        title={releaseData.win.x32.name}
+        downloadURL={releaseData.win.x32.browser_download_url}
+        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+      />
+      <OSDownloadCard
+        title={releaseData.win.x32_zip.name}
+        downloadURL={releaseData.win.x32_zip.browser_download_url}
+        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+      />
+    </div>
+  </div>
 
-            <h4 class="text-xl md:text-2xl font-bold mb-4 md:mt-16">32 bit</h4>
-            <OSDownloadCard
-              title={releaseData.win.x32.name}
-              downloadURL={releaseData.win.x32.browser_download_url}
-              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-            />
-            <OSDownloadCard
-              title={releaseData.win.x32_zip.name}
-              downloadURL={releaseData.win.x32_zip.browser_download_url}
-              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-            />
-            <div class="my-20">
-              <h4 class="font-bold text-lg mb-4">
-                Running an older version of Windows?
-              </h4><p class="text-base">
-                Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1
-                and Vista, though please note that 7, 8 and Vista obsolete and
-                no longer supported by Microsoft. More information about
-                Audacity on Vista HERE.<br />
-                <br />
-                For Windows 98, ME and 2000, also for XP without the final Service
-                Pack see Legacy Windows Downloads.
-              </p>
-            </div>
-            <div class="mb-40">
-              <h4 class="font-bold text-lg mb-4">
-                Looking for an older version for Audacity?
-              </h4><p class="text-base">
-                Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1
-                and Vista, though please note that 7, 8 and Vista obsolete and
-                no longer supported by Microsoft. More information about
-                Audacity on Vista HERE.<br />
-                <br />
-                OldFoss hosts the current Audacity version and all previous versions
-                from 2.1.2 onwards. Google Code hosts selected previous versions
-                up to and including Audacity 2.0.5.
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-40">
-          <PaginationButton
-            title="Download for Mac"
-            url="/downloads/download-for-mac"
-          />
-          <PaginationButton
-            title="Download for Linux"
-            url="/downloads/download-for-linux"
-          />
-        </div>
-      </div>
-    </section>
-  </main>
-</Layout>
+  <div class="mb-16">
+    <h4 class="font-bold text-lg mb-2">
+      Running an older version of Windows?
+    </h4><p class="text-base">
+      Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and Vista,
+      though please note that 7, 8 and Vista obsolete and no longer supported by
+      Microsoft. More information about Audacity on Vista HERE.<br />
+      <br />
+      For Windows 98, ME and 2000, also for XP without the final Service Pack see
+      Legacy Windows Downloads.
+    </p>
+  </div>
+
+  <div>
+    <h4 class="font-bold text-lg mb-2">
+      Looking for an older version for Audacity?
+    </h4><p class="text-base">
+      Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and Vista,
+      though please note that 7, 8 and Vista obsolete and no longer supported by
+      Microsoft. More information about Audacity on Vista HERE.<br />
+      <br />
+      OldFoss hosts the current Audacity version and all previous versions from 2.1.2
+      onwards. Google Code hosts selected previous versions up to and including Audacity
+      2.0.5.
+    </p>
+  </div>
+
+  <div class="flex flex-col gap-4 sm:flex-row mt-16">
+    <PaginationButton
+      title="Mac OS"
+      url="/downloads/download-for-mac"
+    /><PaginationButton title="Linux" url="/downloads/download-for-linux" />
+  </div>
+</DownloadPageLayout>
