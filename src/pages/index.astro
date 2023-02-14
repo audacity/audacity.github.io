@@ -11,34 +11,40 @@ import AudacityDark from "../assets/img/AudacityDark.png";
 <Layout title="Audacity | Home">
   <main>
     <section class="grid-background">
-      <div class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl mx-auto">
+      <div
+        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-4xl xl:max-w-6xl mx-auto lg:flex xl:gap-24"
+      >
         <div
-          class="md:hidden relative overflow-hidden shadow-inner bg-gray-200 rounded-md pt-6 pl-6 sm:pt-12 sm:pl-12"
+          class="relative overflow-hidden shadow-inner bg-gray-200 rounded-md pt-6 pl-6 sm:pt-12 sm:pl-12 flex-1 lg:order-2"
         >
           <img
             src={AudacityLight}
             alt="Audacity"
-            class="absolute sm:scale-125 sm:origin-top-left -right-12 sm:-right-24 -bottom-10 sm:-bottom-20 z-10"
+            class="absolute sm:scale-125 lg:scale-150 sm:origin-top-left -right-12 sm:-right-24 -bottom-10 sm:-bottom-20 z-10 lg:bottom-8 lg:-right-16 xl:-bottom-24 xl:-right-24"
           />
-          <img src={AudacityDark} alt="Audacity" class="sm:scale-125 sm:origin-top-left z-0" />
+          <img
+            src={AudacityDark}
+            alt="Audacity"
+            class="sm:scale-125 lg:scale-150 sm:origin-top-left z-0"
+          />
         </div>
-
-        <h1
-          class="mt-6 sm:mt-8 text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900"
-        >
-          <span class="text-blue-500">Free</span>, open source, cross-platform
-          audio software
-        </h1>
-        <p class="mt-2 sm:mt-4 lg:mt-6 md:text-xl text-gray-600">
-          A compelling and well rationalised value proposition statement for
-          music producers that converts them.
-        </p>
-        <a
-          id="downloadButton"
-          href=""
-          class="mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base flex h-10 sm:h-11 items-center px-3 bg-blue-700 hover:bg-blue-600 text-white w-fit rounded-sm shadow-xl"
-          >Download</a
-        >
+        <div class="flex-1">
+          <h1
+            class="mt-6 sm:mt-8 text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900"
+          >
+            <span class="text-blue-500">Free</span>, open source, cross-platform
+            audio software
+          </h1>
+          <p class="mt-2 sm:mt-4 lg:mt-6 md:text-xl text-gray-600">
+            A compelling and well rationalised value proposition statement for
+            music producers that converts them.
+          </p>
+          <a
+            id="downloadButton"
+            href=""
+            class="mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base flex h-10 sm:h-11 items-center px-3 bg-blue-700 hover:bg-blue-600 text-white w-fit rounded-sm shadow-xl"
+            >Download</a>
+        </div>
       </div>
     </section>
     <ReleaseVideo />
