@@ -9,8 +9,9 @@ const { title, url } = Astro.props as Props;
 
 <div class="flex-1 border border-1 rounded-sm">
   <a href={url}
-    ><div class="p-8">
-      <h5 class="font-bold text-lg">{title}</h5>
+    ><div class="p-4">
+      <p class="text-sm">Download for</p>
+      <h5 class="font-bold text-md">{title}</h5>
     </div>
   </a>
 </div>
