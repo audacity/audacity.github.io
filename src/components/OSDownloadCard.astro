@@ -9,9 +9,9 @@ const { title, checksum, downloadURL } = Astro.props as Props;
 ---
 
 <div
-  class="flex flex-col border box-content border-gray-200 px-6 py-8 rounded-md mb-4 space-y-4"
+  class="flex flex-col border box-content border-gray-200 p-6 rounded-md mb-4 space-y-4"
 >
-  <h5 class="font-bold">{title}</h5>
+  <h5 class="font-bold md:text-xl text-gray-800">{title}</h5>
   <div>
     <p class="mb-1">Check sum</p>
     <div class="bg-gray-50 border border-gray-200 rounded-sm p-2 max-w-lg"><span class="break-words">{checksum}</span></div>

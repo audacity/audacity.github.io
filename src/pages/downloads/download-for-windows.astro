@@ -1,87 +1,85 @@
 ---
-import OSDownloadCard from "../../components/OSDownloadCard.astro";
 import PaginationButton from "../../components/PaginationButton.astro";
 import Layout from "../../layouts/Layout.astro";
+import { releaseData } from "../../assets/js/releaseData";
+import OSDownloadCard from "../../components/OSDownloadCard.astro";
 ---
 
-<Layout title="Audacity | Home">
-  <main class="container mx-auto mb-24">
-    <div class="mx-8 lg:mx-16 mt-40">
-      <h2 class="text-4xl font-semibold">Download for Windows</h2>
-      <p class="text-base mb-16">Version 3.3.1</p>
-      <div class="grid grid-cols-12 grid-flow-row auto-rows-max gap-x-6">
-        <div class="col-span-12 lg:col-span-8 mb-20">
-          <div class="mb-20">
-            <h4 class="font-bold text-lg mb-4">64-bit</h4>
+<Layout title="Audacity | Downloads">
+  <main>
+    <section>
+      <div
+        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
+      >
+        <h1 class="text-2xl md:text-4xl font-bold mb-6 md:mb-16 md:mt-16">
+          Download for Windows
+        </h1>
+        <div class="xl:grid xl:grid-cols-12">
+          <div class="col-span-8">
+            <h4 class="text-xl md:text-2xl font-bold mb-4">64 bit</h4>
             <OSDownloadCard
-              title="Audacity 3.2.4 64 bit installer"
-              downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+              title={releaseData.win.x64.name}
+              downloadURL={releaseData.win.x64.browser_download_url}
               checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
             />
             <OSDownloadCard
-              title="Audacity 3.2.4 64 bit .zip installer"
-              downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+              title={releaseData.win.x64_zip.name}
+              downloadURL={releaseData.win.x64_zip.browser_download_url}
               checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
             />
-          </div>
-          <div class="mb-16">
-            <h4 class="font-bold text-lg mb-4">32-bit</h4>
+
+            <h4 class="text-xl md:text-2xl font-bold mb-4 md:mt-16">32 bit</h4>
             <OSDownloadCard
-              title="Audacity 3.2.4 32 bit installer"
-              downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+              title={releaseData.win.x32.name}
+              downloadURL={releaseData.win.x32.browser_download_url}
               checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
             />
             <OSDownloadCard
-              title="Audacity 3.2.4 32 bit .zip installer"
-              downloadURL="https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
+              title={releaseData.win.x32_zip.name}
+              downloadURL={releaseData.win.x32_zip.browser_download_url}
               checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
             />
-          </div>
-          <div class="mb-20">
-            <h4 class="font-bold text-lg mb-4">
-              Running an older version of Windows?
-            </h4><p class="text-base">
-              Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
-              Vista, though please note that 7, 8 and Vista obsolete and no
-              longer supported by Microsoft. More information about Audacity on
-              Vista HERE.<br />
-              <br />
-              For Windows 98, ME and 2000, also for XP without the final Service
-              Pack see Legacy Windows Downloads.
-            </p>
-          </div>
-          <div class="mb-40">
-            <h4 class="font-bold text-lg mb-4">
-              Looking for an older version for Audacity?
-            </h4><p class="text-base">
-              Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
-              Vista, though please note that 7, 8 and Vista obsolete and no
-              longer supported by Microsoft. More information about Audacity on
-              Vista HERE.<br />
-              <br />
-              OldFoss hosts the current Audacity version and all previous versions
-              from 2.1.2 onwards. Google Code hosts selected previous versions up
-              to and including Audacity 2.0.5.
-            </p>
+            <div class="my-20">
+              <h4 class="font-bold text-lg mb-4">
+                Running an older version of Windows?
+              </h4><p class="text-base">
+                Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1
+                and Vista, though please note that 7, 8 and Vista obsolete and
+                no longer supported by Microsoft. More information about
+                Audacity on Vista HERE.<br />
+                <br />
+                For Windows 98, ME and 2000, also for XP without the final Service
+                Pack see Legacy Windows Downloads.
+              </p>
+            </div>
+            <div class="mb-40">
+              <h4 class="font-bold text-lg mb-4">
+                Looking for an older version for Audacity?
+              </h4><p class="text-base">
+                Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1
+                and Vista, though please note that 7, 8 and Vista obsolete and
+                no longer supported by Microsoft. More information about
+                Audacity on Vista HERE.<br />
+                <br />
+                OldFoss hosts the current Audacity version and all previous versions
+                from 2.1.2 onwards. Google Code hosts selected previous versions
+                up to and including Audacity 2.0.5.
+              </p>
+            </div>
           </div>
         </div>
-        <div class="mb-20 lg:mb-0 col-span-12 lg:col-span-4">
-          <div
-            class="lg:p-4 lg:mt-11 lg:bg-gray-50 lg:rounded-sm lg:border lg:border-gray-100"
-          >
-            <h5 class="font-bold text-lg mb-2 lg:text-base">
-              Optional downloads
-            </h5>
-            <ul>
-              <li><a href="#">Plugins</a></li>
-              <li><a href="#">FFmpeg import/export library</a></li>
-              <li><a href="#">Audacity manual</a></li>
-            </ul>
-          </div>
+        
+        <div class="flex gap-8">
+          <PaginationButton
+            title="Download for Mac"
+            url="/downloads/download-for-mac"
+          />
+          <PaginationButton
+            title="Download for Linux"
+            url="/downloads/download-for-linux"
+          />
         </div>
-        <div class="col-span-6"><PaginationButton title="Download for Mac" url="/downloads/download-for-mac" /></div>
-        <div class="col-span-6"><PaginationButton title="Download for Linux" url="/downloads/download-for-linux" /></div>
       </div>
-    </div>
+    </section>
   </main>
 </Layout>

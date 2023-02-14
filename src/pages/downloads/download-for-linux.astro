@@ -1,0 +1,41 @@
+---
+import PaginationButton from "../../components/PaginationButton.astro";
+import Layout from "../../layouts/Layout.astro";
+import { releaseData } from "../../assets/js/releaseData";
+import OSDownloadCard from "../../components/OSDownloadCard.astro";
+---
+
+<Layout title="Audacity | Downloads">
+  <main>
+    <section>
+      <div
+        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
+      >
+        <h1 class="text-2xl md:text-4xl font-bold mb-6 md:mb-16 md:mt-16">
+          Download for Linux
+        </h1>
+        <div class="xl:grid xl:grid-cols-12">
+          <div class="col-span-8">
+            <h4 class="text-xl md:text-2xl font-bold mb-4">Standard</h4>
+            <OSDownloadCard
+              title={releaseData.linux.name}
+              downloadURL={releaseData.mac.arm64.browser_download_url}
+              checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
+            />
+          
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-40">
+          <PaginationButton
+            title="Download for Mac"
+            url="/downloads/download-for-mac"
+          />
+          <PaginationButton
+            title="Download for Windows"
+            url="/downloads/download-for-windows"
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
