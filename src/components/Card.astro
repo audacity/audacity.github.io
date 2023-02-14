@@ -11,8 +11,8 @@ const {title, description, href, thumbnail} = Astro.props as Props;
 <div class="flex flex-col rounded-lg border border-gray-200">
   <img src={thumbnail} alt={title} class="aspect-video rounded-t-lg object-cover h-48" />
   <div class="py-3.5 px-5">
-    <h2 class="text-xl font-bold text-blue-700">{title}</h2>
-    <p class="mt-2.5 text-gray-800">{description}
+    <h2 class="text-lg font-bold text-gray-800">{title}</h2>
+    <p class="text-base font-normaltext-gray-800 mt-2">{description}
     </p>
     <a
       href={href}
