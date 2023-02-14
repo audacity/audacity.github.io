@@ -1,20 +1,22 @@
 ---
+import PaginationButton from "../components/PaginationButton.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Audacity | Downloads">
-  <main class="container mx-6 py-12">
-    <h4 class="text-4xl font-bold mb-6">Downloads</h4>
-    <ul class="space-y-4">
-      <li>
-        <a href="/downloads/download-for-windows">Download for Windows</a>
-      </li>
-      <li>
-        <a href="/downloads/download-for-mac">Download for Mac</a>
-      </li>
-      <li>
-        <a href="/downloads/download-for-linux">Download for Linux</a>
-      </li>
-    </ul>
+  <main>
+    <section>
+      <div
+        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-4xl mx-auto"
+      >
+        <h4 class="text-4xl font-bold mb-6">Downloads</h4>
+
+        <div class="flex gap-4">
+          <PaginationButton title="Download for Windows" url="/downloads/download-for-windows"/>
+          <PaginationButton title="Download for Mac" url="/downloads/download-for-mac"/>
+          <PaginationButton title="Download for Linux" url="/downloads/download-for-"/>
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>
