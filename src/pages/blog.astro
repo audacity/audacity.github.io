@@ -20,7 +20,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
       <h1 class="text-xl sm:text-2xl mb-6 sm:mb-8 font-bold text-gray-800">
         Blog
       </h1>
-      <div class="grid grid-cols-2 gap-x-4">
+      <div class="grid md:grid-cols-2 gap-4">
         {
           posts
             .sort(
