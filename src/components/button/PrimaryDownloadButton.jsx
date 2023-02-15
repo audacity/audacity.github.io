@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import platform from "platform";
 
-function PrimaryDownloadButton(props) {
-  const { buttonText } = props;
+function PrimaryDownloadButton() {
 
   const [browserOS, setBrowserOS] = useState("");
 
   useEffect(() => {
-    if (navigator.userAgent.indexOf("Mac") != -1) {
-    setBrowserOS("Download for Mac OS");
-    } else if (navigator.userAgent.indexOf("Win") != -1) {
-      setBrowserOS("Download for Windows");
-    } else if (navigator.userAgent.indexOf("Lin") != -1) {
-      setBrowserOS("Download for Linux");
-    } else if (navigator.userAgent.indexOf("iPhone") != -1) {
-      setBrowserOS("Your're on iOS!");
-    } else if (navigator.userAgent.indexOf("Android") != -1) {
-      setBrowserOS("Your're on Android!");
-    } 
+    setBrowserOS(platform.os.family)
   }, []);
 
-  console.log(navigator.userAgent)
+  console.log(platform)
 
   // "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg"
   // "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
