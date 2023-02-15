@@ -30,13 +30,14 @@ function NavigationReact() {
         <a href="/">
           <span className="text-blue-700 text-base font-bold">Audacity</span>
         </a>
-        <div class="hidden sm:flex">
-          {navLinks.map((navLink) => {
+        <div className="hidden sm:flex">
+          {navLinks.map((navLink, index) => {
             return (
               <a
                 className="text-gray-700 hover:text-blue-700 py-2 px-3"
                 href={navLink.href}
                 target={navLink.target}
+                key={index}
               >
                 {navLink.linkText}
               </a>
