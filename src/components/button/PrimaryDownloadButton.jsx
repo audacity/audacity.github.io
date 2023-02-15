@@ -13,7 +13,7 @@ function PrimaryDownloadButton(props) {
       setBrowserOS("Download for Windows");
     } else if (navigator.userAgent.indexOf("Lin") != -1) {
       setBrowserOS("Download for Linux");
-    } else if (navigator.userAgent.indexOf("like Mac") != -1) {
+    } else if (navigator.userAgent.indexOf("iPhone") != -1) {
       setBrowserOS("Your're on iOS!");
     } else if (navigator.userAgent.indexOf("Android") != -1) {
       setBrowserOS("Your're on Android!");
