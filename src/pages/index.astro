@@ -5,7 +5,7 @@ import ReleaseVideo from "../components/ReleaseVideo.astro";
 import AudacityLight from "../assets/img/AudacityLight.png";
 import AudacityDark from "../assets/img/AudacityDark.png";
 import Card from "../components/Card.astro";
-import { Icon } from "astro-icon";
+import PrimaryDownloadButton from "../components/button/PrimaryDownloadButton";
 
 interface Frontmatter {
   title: string;
@@ -48,21 +48,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
             A compelling and well rationalised value proposition statement for
             music producers that converts them.
           </p>
-          <button class="mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base flex h-10 sm:h-11 items-center px-3 bg-blue-700 hover:bg-blue-600 text-white w-fit rounded-md shadow-xl">
-            <span
-              ><Icon
-                class="w-4 h-4 text-white"
-                pack="fa"
-                name="download"
-              /></span
-            >
-            <a
-              id="downloadButton"
-              href=""
-              class="ml-3"
-              >Download
-            </a>
-          </button>
+          <PrimaryDownloadButton buttonText="Download" client:only />
         </div>
       </div>
     </section>
@@ -99,25 +85,6 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
     </section>
   </main>
 </Layout>
-
-<!-- Detect OS and provide appropriate download link -->
-
-<script>
-  if (navigator.platform.indexOf("Mac") > -1) {
-    document.getElementById("downloadButton").href =
-      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg";
-    document.getElementById("downloadButton").innerHTML = "Download for Mac";
-  } else if (navigator.platform.indexOf("Win") > -1) {
-    document.getElementById("downloadButton").href =
-      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe";
-    document.getElementById("downloadButton").innerHTML =
-      "Download for Windows";
-  } else if (navigator.platform.indexOf("Lin") > -1) {
-    document.getElementById("downloadButton").href =
-      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-linux-3.2.4-x64.AppImage";
-    document.getElementById("downloadButton").innerHTML = "Download for Linux";
-  }
-</script>
 
 <style>
   .grid-background {
