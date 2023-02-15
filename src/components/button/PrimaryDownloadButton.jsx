@@ -15,7 +15,11 @@ function PrimaryDownloadButton(props) {
       setBrowserOS("Download for Linux");
     } else if (navigator.platform.indexOf("iPhone") > -1) {
       setBrowserOS("Your're on a Mobile!");
-    }
+    } else if (navigator.platform.indexOf("iPad") > -1) {
+      setBrowserOS("Your're on a Mobile!");
+    } else if (navigator.platform.indexOf("Android") > -1) {
+      setBrowserOS("Your're on a Mobile!");
+    } 
   }, []);
 
   // "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg"
