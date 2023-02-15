@@ -8,7 +8,9 @@ function NavigationReact() {
   }
 
   return (
-    <nav className="relative bg-white border-y-2">
+    <nav
+      className="relative bg-white border-b-2"
+    >
       <div className="flex justify-between mx-w-sm mx-auto py-3 px-4">
         <a href="/">
           <span className="text-blue-700 text-base font-bold">Audacity</span>
@@ -54,7 +56,7 @@ function NavigationReact() {
         </button>
       </div>
       {isOpen && (
-        <div className="px-4 py-4 w-full bg-gray-100 absolute top-12 z-20 border-t-2">
+        <div className="px-4 py-4 w-full bg-gray-100 absolute top-12 z-20 border-y-2">
           <div className="flex flex-col gap-y-2">
             <a className="py-2 hover:bg-gray-200" href="/downloads">
               Downloads
