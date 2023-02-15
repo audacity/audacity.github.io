@@ -7,20 +7,20 @@ function PrimaryDownloadButton(props) {
   const [browserOS, setBrowserOS] = useState("");
 
   useEffect(() => {
-    if (navigator.platform.indexOf("Mac") > -1) {
-      setBrowserOS("Download for Mac OS");
-    } else if (navigator.platform.indexOf("Win") > -1) {
+    if (navigator.userAgent.indexOf("Mac") != -1) {
+    setBrowserOS("Download for Mac OS");
+    } else if (navigator.userAgent.indexOf("Win") != -1) {
       setBrowserOS("Download for Windows");
-    } else if (navigator.platform.indexOf("Lin") > -1) {
+    } else if (navigator.userAgent.indexOf("Lin") != -1) {
       setBrowserOS("Download for Linux");
-    } else if (navigator.platform.indexOf("iPhone") > -1) {
-      setBrowserOS("Your're on a Mobile!");
-    } else if (navigator.platform.indexOf("iPad") > -1) {
-      setBrowserOS("Your're on a Mobile!");
-    } else if (navigator.platform.indexOf("Android") > -1) {
-      setBrowserOS("Your're on a Mobile!");
+    } else if (navigator.userAgent.indexOf("like Mac") != -1) {
+      setBrowserOS("Your're on iOS!");
+    } else if (navigator.userAgent.indexOf("Android") != -1) {
+      setBrowserOS("Your're on Android!");
     } 
   }, []);
+
+  console.log(navigator.userAgent)
 
   // "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg"
   // "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-win-3.2.4-x64.exe"
