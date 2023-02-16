@@ -6,6 +6,10 @@ import AudacityDark from "../assets/img/AudacityDark.png";
 import Card from "../components/card/Card.astro";
 import PrimaryDownloadButton from "../components/button/PrimaryDownloadButton";
 import VanityMetric from "../components/VanityMetric.astro";
+import Badge from "../components/Badge.astro";
+import RealTimeEffects from "../assets/img/features/RealTimeEffects.png";
+import ShareAudio from "../assets/img/features/ShareAudio.png";
+import FeaturedFeature from "../components/FeaturedFeature.astro";
 
 interface Frontmatter {
   title: string;
@@ -50,7 +54,13 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
             music producers that converts them.
           </p>
           <PrimaryDownloadButton client:only />
-          <div class="flex flex-col md:flex-row mt-4 md:divide-x md:gap-x-4"><p class="text-gray-600">Latest version 3.2.3</p><a href="https://github.com/audacity/audacity/releases/tag/Audacity-3.2.4" target="_blank" class="text-gray-600 md:pl-4 underline">Read release notes</a></div>
+          <div class="flex flex-col md:flex-row mt-4 md:divide-x md:gap-x-4">
+            <p class="text-gray-600">Latest version 3.2.3</p><a
+              href="https://github.com/audacity/audacity/releases/tag/Audacity-3.2.4"
+              target="_blank"
+              class="text-gray-600 md:pl-4 underline">Read release notes</a
+            >
+          </div>
         </div>
       </div>
     </section>
@@ -58,10 +68,12 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 
     <!--- VANITY METRICS  --->
     <section class="bg-gray-100">
-      <div class="max-w-sm sm:max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-6xl mx-auto py-10 px-8 grid gap-y-4 sm:grid-cols-3 sm:divide-x">
-        <VanityMetric label="Downloads" value="240M +"/>
-        <VanityMetric label="Languages" value="24"/>
-        <VanityMetric label="Contributors" value="569"/>
+      <div
+        class="max-w-sm sm:max-w-xl md:max-w-xl lg:max-w-2xl xl:max-w-6xl mx-auto py-10 px-8 grid gap-y-4 sm:grid-cols-3 sm:divide-x"
+      >
+        <VanityMetric label="Downloads" value="240M +" />
+        <VanityMetric label="Languages" value="24" />
+        <VanityMetric label="Contributors" value="569" />
       </div>
     </section>
     <!----------------------->
@@ -70,39 +82,59 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
     <ReleaseVideo />
     <!----------------------->
 
-    <!-- LATEST BLOG POSTS -->
+    <!-- FEATURED FEATURES -->
     <section>
-      <div
-        class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-2xl mx-auto"
-      >
-        <h2
-          class="mt-6 sm:mt-8 text-lg sm:text-2xl text-gray-700 font-bold mb-4"
-        >
-          Latest blog posts
-        </h2>
-
-        <div class="grid md:grid-cols-2 gap-4">
-          {
-            posts
-              .sort(
-                (a, b) =>
-                  Date.parse(a.frontmatter.date) -
-                  Date.parse(b.frontmatter.date)
-              )
-              .map((post) => (
-                <Card
-                  title={post.frontmatter.title}
-                  description={post.rawContent().slice(0, 100)}
-                  href={`/posts/${post.frontmatter.slug}`}
-                  thumbnail={post.frontmatter.thumbnail}
-                />
-              ))
-          }
-        </div>
+      <div class="flex flex-col max-w-sm mx-auto lg:max-w-4xl px-8 pt-24 pb-28 gap-y-24">
+        <FeaturedFeature
+          imgSrc={RealTimeEffects}
+          featuredText="Audacity 3.2.0 is a gigantic release, adding: VST3 support, Realtime Effects support and the ability to upload and share audio with our new sister service, audio.com."
+          badgeText="New in v3.2"
+          title="Realtime effects"
+          flipped={false}
+          href="https://support.audacityteam.org/audio-editing/using-realtime-effects"
+        />
+        <FeaturedFeature
+          imgSrc={ShareAudio}
+          featuredText="Plugins allow you to add entirely new effects to your project and extend Audacity’s functionality."
+          badgeText="New in v3.2"
+          title="Share to audio.com"
+          flipped
+          href="https://support.audacityteam.org/basics/sharing-audio-online"
+        />
       </div>
     </section>
-    <!----------------------->
   </main>
+  <!----------------------->
+
+  <!-- LATEST BLOG POSTS -->
+  <section class="grid-background">
+    <div
+      class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-4xl mx-auto"
+    >
+      <h2 class="mt-6 sm:mt-8 text-lg sm:text-2xl text-gray-700 font-bold mb-4">
+        Latest blog posts
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-x-8">
+        {
+          posts
+            .sort(
+              (a, b) =>
+                Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
+            )
+            .map((post) => (
+              <Card
+                title={post.frontmatter.title}
+                description={post.rawContent().slice(0, 100)}
+                href={`/posts/${post.frontmatter.slug}`}
+                thumbnail={post.frontmatter.thumbnail}
+              />
+            ))
+        }
+      </div>
+    </div>
+  </section>
+  <!----------------------->
 </Layout>
 
 <style>

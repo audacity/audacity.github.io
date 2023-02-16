@@ -1,0 +1,9 @@
+---
+interface Props {
+  badgeText: string;
+}
+
+const { badgeText } = Astro.props as Props;
+---
+
+<div class="py-0.5 px-2 rounded-md bg-gray-900 w-fit h-fit"><p class="text-white text-sm">{badgeText}</p></div>
