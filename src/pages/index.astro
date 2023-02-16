@@ -6,6 +6,7 @@ import AudacityLight from "../assets/img/AudacityLight.png";
 import AudacityDark from "../assets/img/AudacityDark.png";
 import Card from "../components/Card.astro";
 import PrimaryDownloadButton from "../components/button/PrimaryDownloadButton";
+import VanityMetric from "../components/VanityMetric.astro";
 
 interface Frontmatter {
   title: string;
@@ -19,6 +20,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 
 <Layout title="Audacity | Home">
   <main class="mt-12">
+    <!----- HERO BANNER ----->
     <section class="grid-background">
       <div
         class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-4xl xl:max-w-6xl mx-auto lg:flex lg:gap-8"
@@ -52,7 +54,23 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
         </div>
       </div>
     </section>
+    <!----------------------->
+
+    <!--- VANITY METRICS  --->
+    <section class="bg-gray-100">
+      <div class="max-w-sm sm:max-w-xl md:max-w-xl lg:max-w-2xl mx-auto py-10 px-8 grid gap-y-4 sm:grid-cols-3 sm:divide-x">
+        <VanityMetric label="Downloads" value="240M +"/>
+        <VanityMetric label="Languages" value="24"/>
+        <VanityMetric label="Contributors" value="569"/>
+      </div>
+    </section>
+    <!----------------------->
+
+    <!---- RELEASE VIDEO ---->
     <ReleaseVideo />
+    <!----------------------->
+
+    <!-- LATEST BLOG POSTS -->
     <section>
       <div
         class="px-8 pt-10 pb-16 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-2xl mx-auto"
@@ -83,6 +101,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
         </div>
       </div>
     </section>
+    <!----------------------->
   </main>
 </Layout>
 

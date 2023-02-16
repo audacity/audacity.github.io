@@ -10,10 +10,6 @@ const { title, checksum, downloadURL } = Astro.props as Props;
 
 <div class="flex flex-col sm:flex-row justify-between py-4 sm:py-6">
   <h5 class="font-semibold text-base text-gray-800">{title}</h5>
-  <!-- <p class="mb-1">Check sum</p>
-  <div class="bg-gray-50 border border-gray-200 rounded-sm p-2 max-w-lg mb-4">
-    <p class="font-mono text-sm break-words">{checksum}</p>
-  </div> -->
   <a
     href={downloadURL}
     download={title}
