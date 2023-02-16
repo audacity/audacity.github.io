@@ -13,9 +13,9 @@ const { imgSrc, featuredText, title, badgeText, flipped, href } =
 import Badge from "./Badge.astro";
 ---
 
-<div class="grid grid-cols-12 gap-x-20 items-center">
-  {!flipped && <img class="col-span-8 aspect-video rounded-md shadow-lg" src={imgSrc} />}
-  <div class="col-span-4 flex flex-col">
+<div class="grid gap-x-8 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-20 lg:items-center">
+  {!flipped && <img class="hidden md:block md:col-span-1 lg:col-span-8 aspect-video rounded-md shadow-lg" src={imgSrc} />}
+  <div class="md:col-span-1 lg:col-span-4 flex flex-col">
     <Badge badgeText={badgeText} />
     <h3 class="text-2xl font-bold mt-2 text-gray-800">{title}</h3>
     <p class="text-gray-700 mt-2">
@@ -35,5 +35,5 @@ import Badge from "./Badge.astro";
       ></a
     >
   </div>
-  {flipped && <img class="col-span-8 aspect-video rounded-md shadow-lg" src={imgSrc} />}
+  {flipped && <img class="hidden md:col-span-1 lg:col-span-8 md:block col-span-8 aspect-video rounded-md shadow-lg" src={imgSrc} />}
 </div>

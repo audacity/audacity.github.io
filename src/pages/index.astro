@@ -10,6 +10,7 @@ import Badge from "../components/Badge.astro";
 import RealTimeEffects from "../assets/img/features/RealTimeEffects.png";
 import ShareAudio from "../assets/img/features/ShareAudio.png";
 import FeaturedFeature from "../components/FeaturedFeature.astro";
+import SectionLayout from "../layouts/SectionLayout.astro";
 
 interface Frontmatter {
   title: string;
@@ -84,7 +85,9 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 
     <!-- FEATURED FEATURES -->
     <section>
-      <div class="flex flex-col max-w-sm mx-auto lg:max-w-4xl px-8 pt-24 pb-28 gap-y-24">
+      <div
+        class="flex flex-col max-w-sm md:max-w-2xl mx-auto lg:max-w-4xl px-8 pt-24 pb-28 gap-y-24"
+      >
         <FeaturedFeature
           imgSrc={RealTimeEffects}
           featuredText="Audacity 3.2.0 is a gigantic release, adding: VST3 support, Realtime Effects support and the ability to upload and share audio with our new sister service, audio.com."
@@ -103,38 +106,42 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
         />
       </div>
     </section>
+
+    <!----------------------->
+
+    <!-- LATEST BLOG POSTS -->
+
+    <!----------------------->
+
+    <section class="grid-background">
+      <SectionLayout>
+        <h2
+          class="text-gray-800 mt-6 sm:mt-8 text-lg sm:text-2xl text-gray-700 font-bold"
+        >
+          Latest blog posts
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-x-8 mt-6">
+          {
+            posts
+              .sort(
+                (a, b) =>
+                  Date.parse(a.frontmatter.date) -
+                  Date.parse(b.frontmatter.date)
+              )
+              .map((post) => (
+                <Card
+                  title={post.frontmatter.title}
+                  description={post.rawContent().slice(0, 100)}
+                  href={`/posts/${post.frontmatter.slug}`}
+                  thumbnail={post.frontmatter.thumbnail}
+                />
+              ))
+          }
+        </div>
+      </SectionLayout>
+    </section>
   </main>
-  <!----------------------->
-
-  <!-- LATEST BLOG POSTS -->
-  <section class="grid-background">
-    <div
-      class="px-8 pt-16 pb-32 max-w-md sm:max-w-xl md:max-w-xl lg:max-w-4xl mx-auto"
-    >
-      <h2 class="text-gray-800 mt-6 sm:mt-8 text-lg sm:text-2xl text-gray-700 font-bold">
-        Latest blog posts
-      </h2>
-
-      <div class="grid md:grid-cols-2 gap-x-8 mt-6">
-        {
-          posts
-            .sort(
-              (a, b) =>
-                Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
-            )
-            .map((post) => (
-              <Card
-                title={post.frontmatter.title}
-                description={post.rawContent().slice(0, 100)}
-                href={`/posts/${post.frontmatter.slug}`}
-                thumbnail={post.frontmatter.thumbnail}
-              />
-            ))
-        }
-      </div>
-    </div>
-  </section>
-  <!----------------------->
 </Layout>
 
 <style>
