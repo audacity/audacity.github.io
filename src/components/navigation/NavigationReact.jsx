@@ -26,7 +26,7 @@ function NavigationReact() {
 
   return (
     <nav className="fixed left-0 right-0 top-0 bg-white border-b-2 z-50 ">
-      <div className="flex justify-between max-w-6xl mx-auto h-12 px-8 items-center">
+      <div className="flex justify-between max-w-6xl mx-auto h-12 px-3 xl:px-0 items-center">
         <a href="/">
           <span className="text-blue-700 text-lg font-bold">Audacity</span>
         </a>

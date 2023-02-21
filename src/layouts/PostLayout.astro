@@ -1,5 +1,5 @@
 ---
-import Layout from "./Layout.astro";
+import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   frontmatter: {
@@ -14,7 +14,7 @@ interface Props {
 const { frontmatter } = Astro.props;
 ---
 
-<Layout title={frontmatter.title}>
+<BaseLayout title={frontmatter.title}>
   <div class="max-w-screen-md mx-auto">
     <h1 class="text-4xl text-blue-700 font-bold mt-16 text-center">
       {frontmatter.title}
@@ -34,7 +34,7 @@ const { frontmatter } = Astro.props;
     />
     <div class="mt-4 content"><slot /></div>
   </div>
-</Layout>
+</BaseLayout>
 
 <style is:global>
   .content p {

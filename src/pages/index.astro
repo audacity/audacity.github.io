@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import ReleaseVideo from "../components/ReleaseVideo.astro";
 import AudacityLight from "../assets/img/AudacityLight.png";
 import AudacityDark from "../assets/img/AudacityDark.png";
@@ -22,7 +22,7 @@ interface Frontmatter {
 const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
-<Layout title="Audacity | Home">
+<BaseLayout title="Audacity | Home">
   <main class="mt-12">
     <!----- HERO BANNER ----->
     <section class="grid-background">
@@ -142,7 +142,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
       </SectionLayout>
     </section>
   </main>
-</Layout>
+</BaseLayout>
 
 <style>
   .grid-background {
