@@ -10,11 +10,14 @@ const { title } = Astro.props;
 
 <Layout title={title}>
   <main>
-    <div class="max-w-sm sm:max-w-xl mx-auto px-4 mt-20 sm:mt-24 mb-24 lg:mb-40">
-      <h1 class="text-xl sm:text-2xl mb-6 sm:mb-8 font-bold text-gray-800">
+    <div
+      class="max-w-sm md:max-w-2xl lg:max-w-4xl mx-auto mt-12 px-3 pt-24"
+    >
+      <h1 class="text-xl sm:text-2xl font-bold text-gray-800">
         {title}
       </h1>
-      <slot />
+      <p>Version 3.2.4</p>
+      <div class="mt-12"><slot /></div>
     </div>
   </main>
 </Layout>

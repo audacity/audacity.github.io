@@ -1,65 +1,81 @@
 ---
 import { releaseData } from "../../assets/js/releaseData";
-import OSDownloadCard from "../../components/card/OSDownloadCard.astro";
+import DownloadCard from "../../components/card/DownloadCard";
 import PaginationButton from "../../components/PaginationButton.astro";
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
+
+const { win } = releaseData;
 ---
 
 <DownloadPageLayout title="Download for Windows">
-  <div class="mb-16">
-    <div class="mb-12 divide-y">
-      <h4 class="text-md font-bold mb-4">64 bit</h4>
-      <OSDownloadCard
-        title={releaseData.win.x64.name}
-        downloadURL={releaseData.win.x64.browser_download_url}
-        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-      />
-      <OSDownloadCard
-        title={releaseData.win.x64_zip.name}
-        downloadURL={releaseData.win.x64_zip.browser_download_url}
-        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-      />
-    </div>
-    <div class="divide-y">
-      <h4 class="text-md font-bold mb-4">32 bit</h4>
-      <OSDownloadCard
-        title={releaseData.win.x32.name}
-        downloadURL={releaseData.win.x32.browser_download_url}
-        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-      />
-      <OSDownloadCard
-        title={releaseData.win.x32_zip.name}
-        downloadURL={releaseData.win.x32_zip.browser_download_url}
-        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-      />
-    </div>
+  <div class="flex flex-col gap-y-4">
+    {
+      win.map((item) => {
+        return (
+          <DownloadCard
+            client:load
+            title={item.name}
+            checksum={item.checksum}
+            downloadURL={item.browser_download_url}
+            buttonText="Download"
+            downloadType={item.type}
+          />
+        );
+      })
+    }
   </div>
 
-  <div class="mb-16">
-    <h4 class="font-bold text-lg mb-2">
-      Running an older version of Windows?
-    </h4><p class="text-base">
-      Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and Vista,
-      though please note that 7, 8 and Vista obsolete and no longer supported by
-      Microsoft. More information about Audacity on Vista HERE.<br />
-      <br />
-      For Windows 98, ME and 2000, also for XP without the final Service Pack see
-      Legacy Windows Downloads.
-    </p>
-  </div>
+  <div class="mt-12 space-y-12">
+    <div>
+      <h4 class="font-bold text-lg mb-2">FFmpeg import/export library</h4><p
+        class="text-base"
+      >
+        An optional library which handles additional file formats (like WMA,
+        M4A, AC3 and others)
+      </p>
+      <a
+        class="font-medium inline-flex gap-x-2 hover:underline text-blue-700 mt-2"
+        href=""
+        >Find out more<svg
+          class="fill-blue-700 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+          ></path></svg
+        ></a
+      >
+    </div>
 
-  <div>
-    <h4 class="font-bold text-lg mb-2">
-      Looking for an older version for Audacity?
-    </h4><p class="text-base">
-      Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and Vista,
-      though please note that 7, 8 and Vista obsolete and no longer supported by
-      Microsoft. More information about Audacity on Vista HERE.<br />
-      <br />
-      OldFoss hosts the current Audacity version and all previous versions from 2.1.2
-      onwards. Google Code hosts selected previous versions up to and including Audacity
-      2.0.5.
-    </p>
+    <div>
+      <h4 class="font-bold text-lg mb-2">
+        Running an older version of Windows?
+      </h4><p class="text-base">
+        Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
+        Vista, though please note that 7, 8 and Vista obsolete and no longer
+        supported by Microsoft. More information about Audacity on Vista HERE.<br
+        />
+        <br />
+        For Windows 98, ME and 2000, also for XP without the final Service Pack see
+        Legacy Windows Downloads.
+      </p>
+    </div>
+
+    <div class="mt-16">
+      <h4 class="font-bold text-lg mb-2">
+        Looking for an older version for Audacity?
+      </h4><p class="text-base">
+        Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
+        Vista, though please note that 7, 8 and Vista obsolete and no longer
+        supported by Microsoft. More information about Audacity on Vista HERE.<br
+        />
+        <br />
+        OldFoss hosts the current Audacity version and all previous versions from
+        2.1.2 onwards. Google Code hosts selected previous versions up to and including
+        Audacity 2.0.5.
+      </p>
+    </div>
   </div>
 
   <div class="flex flex-col gap-4 sm:flex-row mt-16">
