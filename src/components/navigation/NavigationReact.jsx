@@ -25,10 +25,10 @@ function NavigationReact() {
   }
 
   return (
-    <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter backdrop-blur-xl">
+    <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl">
       <div className="flex justify-between max-w-6xl mx-auto h-12 px-3 xl:px-0 items-center">
         <a href="/">
-          <span className="text-blue-700 text-lg font-bold">Audacity</span>
+          <span className="text-blue-700 text-lg font-semibold">Audacity</span>
         </a>
         <div className="hidden sm:flex">
           {navLinks.map((navLink, index) => {

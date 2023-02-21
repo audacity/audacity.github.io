@@ -1,5 +1,6 @@
 ---
 import HeroBanner from "../components/homepage/HeroBanner.astro";
+import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 interface Frontmatter {
@@ -14,6 +15,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 
 <BaseLayout title="Audacity | Home">
   <HeroBanner/>
+  <ReleaseVideo/>
 </BaseLayout>
 
 <style>
