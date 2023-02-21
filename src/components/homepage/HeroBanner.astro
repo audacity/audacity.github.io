@@ -1,0 +1,26 @@
+---
+import PrimaryDownloadButton from "../button/PrimaryDownloadButton";
+import Audacity_Logo from "../../assets/img/Audacity_Logo.png";
+---
+
+<section class="mt-12 mx-auto max-w-sm xl:max-w-xl px-3 lg:px-0">
+  <div class="pt-16 xl:pt-40 flex flex-col space-y-4 xl:space-y-6 items-center text-center">
+    <img class="w-16 xl:w-48" src={Audacity_Logo} />
+    <h1 class="text-2xl xl:text-5xl font-bold text-gray-900">
+      Free, open source, cross-platform audio
+      software
+    </h1>
+    <p class="mt-2 sm:mt-4 xl:text-xl text-gray-600">
+      A compelling and well rationalised value proposition statement for music
+      producers that converts them.
+    </p>
+    <PrimaryDownloadButton client:only />
+    <div class="flex flex-col md:flex-row mt-4 md:divide-x md:gap-x-4">
+      <p class="text-gray-600">Latest version 3.2.4</p><a
+        href="https://github.com/audacity/audacity/releases/tag/Audacity-3.2.4"
+        target="_blank"
+        class="text-gray-600 md:pl-4 underline">Read release notes</a
+      >
+    </div>
+  </div>
+</section>
