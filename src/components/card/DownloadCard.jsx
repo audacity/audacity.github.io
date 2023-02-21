@@ -68,7 +68,7 @@ function DownloadCard(props) {
       <a
         href={downloadURL}
         download
-        className="flex items-center mt-6 h-10 w-fit px-3 bg-blue-700 hover:bg-blue-600 text-sm sm:text-base text-white rounded"
+        className="flex justify-center sm:justify-start items-center mt-6 h-10 sm:w-fit px-3 bg-blue-700 hover:bg-blue-600 text-sm sm:text-base text-white rounded"
       >
         {`${buttonText}` + `${downloadType}`}
       </a>
