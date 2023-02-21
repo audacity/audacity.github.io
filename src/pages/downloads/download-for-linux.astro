@@ -1,0 +1,142 @@
+---
+import { releaseData } from "../../assets/js/releaseData";
+import DownloadsPaginationButton from "../../components/button/DownloadsPaginationButton";
+import DownloadCard from "../../components/card/DownloadCard";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+const { lin } = releaseData;
+---
+
+<PageLayout title="Download for Linux">
+  <div class="lg:grid lg:grid-cols-12">
+    <section class="col-span-6 mt-4 md:mt-8 lg:mt-12">
+      <div class="flex flex-col gap-y-4">
+        {
+          lin.map((item) => {
+            return (
+              <DownloadCard
+                client:load
+                title={item.name}
+                checksum={item.checksum}
+                downloadURL={item.browser_download_url}
+                buttonText="Download"
+                downloadType={item.type}
+              />
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <section class="mt-12 md:mt-16 lg:mt-12 col-start-8 col-span-5 space-y-8">
+      <div>
+        <h4 class="font-bold text-lg mb-2">FFmpeg import/export library</h4><p
+          class="text-base"
+        >
+          An optional library which handles additional file formats (like WMA,
+          M4A, AC3 and others)
+        </p>
+        <a
+          class="font-medium inline-flex gap-x-2 hover:underline text-blue-700 mt-2"
+          href="https://manual.audacityteam.org/man/installing_ffmpeg_for_windows.html"
+          target="_blank"
+          >Find out more<svg
+            class="fill-blue-700 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+          >
+            <path
+              d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+            ></path></svg
+          ></a
+        >
+      </div>
+      <div>
+        <h4 class="font-bold text-lg mb-2">Plugins</h4><p class="text-base">
+          Download additional effects and filters.
+        </p>
+        <a
+          class="font-medium inline-flex gap-x-2 hover:underline text-blue-700 mt-2"
+          href="https://plugins.audacityteam.org"
+          target="_blank"
+          >Find out more<svg
+            class="fill-blue-700 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+          >
+            <path
+              d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+            ></path></svg
+          ></a
+        >
+      </div>
+    </section>
+
+    <section class="row-start-2 col-span-6 mt-12 md:mt-16 space-y-12">
+      <div>
+        <h4 class="font-bold text-lg mb-2 text-gray-900">Installation</h4>
+        <ul class="space-y-4 text-gray-800">
+          <li class="list-decimal">
+            <p class="text-base">Left-click the Audacity .dmg link above.</p>
+          </li>
+          <li class="list-decimal">
+            <p class="text-base">
+              Then left-click the Audacity macOS DMG link to start the download.
+            </p>
+          </li>
+          <li class="list-decimal">
+            <p class="text-base">
+              Once the download has completed to your Downloads folder,
+              Double-click the DMG file to mount it.
+            </p>
+          </li>
+          <li class="list-decimal">
+            <p class="text-base">
+              Drag the Audacity.app icon rightwards onto the “Applications”
+              folder shortcut.<br />
+              <span class="italic text-gray-500"
+                >You can also drag Audacity out of the DMG to any other
+                location. You need the administrator password to copy Audacity
+                to “Applications”.</span
+              >
+            </p>
+          </li>
+          <li class="list-decimal">
+            <p class="text-base">
+              OLaunch Audacity.app from /Applications or from your chosen
+              location.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="row-start-3 col-span-12 mt-12 md:mt-16 lg:mt-40">
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <DownloadsPaginationButton targetUrl="/downloads/download-for-windows">
+          <svg
+            class="w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            ><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+            <path
+              d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"
+            ></path></svg
+          > Windows
+        </DownloadsPaginationButton>
+        <DownloadsPaginationButton targetUrl="/downloads/download-for-mac">
+          <svg
+            class="w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 384 512"
+            ><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+            <path
+              d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
+            ></path></svg
+          >
+          Mac OS
+        </DownloadsPaginationButton>
+      </div>
+    </section>
+  </div>
+</PageLayout>

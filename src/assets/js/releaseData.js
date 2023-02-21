@@ -33,26 +33,36 @@ export const releaseData = {
       type: ".zip",
     },
   ],
-  mac: {
-    arm64: {
-      name: "audacity-macOS-3.2.4-arm64.dmg",
+  mac: [
+    {
+      name: "ARM 64 dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-arm64.dmg",
+      checksum: "?",
+      type: ".dmg",
     },
-    universal: {
-      name: "audacity-macOS-3.2.4-universal.dmg",
+    {
+      name: "Universal dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg",
+      checksum: "?",
+      type: ".dmg",
     },
-    x86: {
-      name: "audacity-macOS-3.2.4-x86_64.dmg",
+    {
+      name: "x86_64 dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-x86_64.dmg",
+      checksum: "?",
+      type: ".dmg",
     },
-  },
-  linux: {
-    name: "audacity-linux-3.2.4-x64.AppImage",
-    browser_download_url:
-      "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-linux-3.2.4-x64.AppImage",
-  },
+  ],
+  lin: [
+    {
+      name: "AppImage",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-linux-3.2.4-x64.AppImage",
+      checksum: "?",
+      type: ".AppImage"
+    },
+  ],
 };
