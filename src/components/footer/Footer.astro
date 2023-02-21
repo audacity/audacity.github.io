@@ -1,42 +1,44 @@
 ---
 import SocialLinks from "./SocialLinks.astro";
 
-const navLinks = [
-  { href: "/downloads", linkText: "Downloads", target: "" },
-  {
-    href: "/downloads/download-for-windows",
-    linkText: "Download for Windows",
-    target: "",
-  },
-  {
-    href: "/downloads/download-for-mac",
-    linkText: "Download for Mac OS",
-    target: "",
-  },
-  {
-    href: "/downloads/download-for-linux",
-    linkText: "Download for Linux",
-    target: "",
-  },
-  { href: "/blog", linkText: "Blog", target: "" },
-  {
-    href: "https://support.audacityteam.org",
-    linkText: "Help",
-    target: "_blank",
-  },
-  {
-    href: "https://forum.audacityteam.org/",
-    linkText: "Forum",
-    target: "_blank",
-  },
-];
+// const navLinks = [
+//   { downloads: { href: "/downloads", linkText: "Downloads", target: "" } },
+//   {
+//     download_for_windows: {
+//       href: "/downloads/download-for-windows",
+//       linkText: "Download for Windows",
+//       target: "",
+//     },
+//   },
+//   {
+//     href: "/downloads/download-for-mac",
+//     linkText: "Download for Mac OS",
+//     target: "",
+//   },
+//   {
+//     href: "/downloads/download-for-linux",
+//     linkText: "Download for Linux",
+//     target: "",
+//   },
+//   { href: "/blog", linkText: "Blog", target: "" },
+//   {
+//     href: "https://support.audacityteam.org",
+//     linkText: "Help",
+//     target: "_blank",
+//   },
+//   {
+//     href: "https://forum.audacityteam.org/",
+//     linkText: "Forum",
+//     target: "_blank",
+//   },
+// ];
 ---
 
 <footer class="bg-gray-100">
   <div
-    class="max-w-md sm:max-w-xl md:max-w-4xl lg:max-w-6xl grid sm:grid-cols-2 gap-x-10 mx-auto pt-12 pb-8 px-8"
+    class="max-w-md sm:max-w-xl md:max-w-4xl lg:max-w-6xl grid sm:grid-cols-8 gap-x-10 mx-auto pt-12 pb-8 px-8"
   >
-    <div>
+    <div class="col-span-3">
       <h4 class="text-gray-900 text-md font-bold">Audacity</h4>
       <p class="text-sm mt-4 text-gray-700">
         Audacity is an easy-to-use, multi-track audio editor and recorder for
@@ -45,26 +47,25 @@ const navLinks = [
       </p>
       <div class="mt-8"><SocialLinks /></div>
     </div>
-
-    <div class="flex flex-col mt-8 sm:mt-0">
-      {
-        navLinks.map((navLink) => {
-          return (
-            <a
-              class="text-gray-800 hover:text-blue-500 mt-4 sm:mt-0 sm:mb-4"
-              href={navLink.href}
-              target={navLink.target}
-            >
-              {navLink.linkText}
-            </a>
-          );
-        })
-      }
+    <div class="flex flex-col col-span-2 col-start-5 mt-8 sm:mt-0 gap-y-2">
+      <a href="">Downloads</a>
+      <a href="">Download for Windows</a>
+      <a href="">Download for Mac</a>
+      <a href="">Download for Linux</a>
     </div>
-    <div class="border-t-[1px] border-gray-300 mt-12 py-2 text-center pt-4 sm:col-span-2 lg">
+    <div class="flex flex-col col-span-2 mt-8 sm:mt-0 gap-y-2">
+      <a href="">Blog</a>
+      <a href="">Help</a>
+      <a href="">Forum</a>
+    </div>
+    <div
+      class="border-t-[1px] border-gray-300 mt-12 py-2 text-center pt-4 sm:col-span-8 lg"
+    >
       <p class="text-sm text-gray-500">
         Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
-        Contents licensed under the Creative Commons-Attribution 4.0 license.
+        Audacity® software is licensed under the terms of the GNU General Public
+        License, Version 3. Further information about the software license, distribution
+        and acceptable use can be found on the “License” page.
       </p>
     </div>
   </div>
@@ -75,3 +76,9 @@ const navLinks = [
     .getFullYear()
     .toString();
 </script>
+
+<style>
+  a {
+    @apply text-gray-700 hover:text-blue-500 hover:underline;
+  }
+</style>
