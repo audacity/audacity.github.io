@@ -15,7 +15,7 @@ function DownloadCard(props) {
         <h4 className="text-md sm:text-lg font-bold">{title}</h4>
 
         {isOpen ? (
-          <div class="flex gap-x-2">
+          <div className="flex gap-x-2">
             <div
               onClick={() => showDetailsHandler()}
               className="flex space-x-2 items-center"
@@ -31,7 +31,7 @@ function DownloadCard(props) {
             </div>
           </div>
         ) : (
-          <div class="flex gap-x-2">
+          <div className="flex gap-x-2">
             <div
               onClick={() => showDetailsHandler()}
               className="flex space-x-2 items-center"
