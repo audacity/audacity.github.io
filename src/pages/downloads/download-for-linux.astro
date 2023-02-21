@@ -1,6 +1,5 @@
 ---
 import { releaseData } from "../../assets/js/releaseData";
-import OSDownloadCard from "../../components/card/OSDownloadCard.astro";
 import PaginationButton from "../../components/PaginationButton.astro";
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
 ---
@@ -9,11 +8,7 @@ import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
   <div class="mb-16">
     <div class="mb-12 divide-y">
       <h4 class="text-md font-bold mb-4">Standard</h4>
-      <OSDownloadCard
-        title={releaseData.linux.name}
-        downloadURL={releaseData.linux.browser_download_url}
-        checksum="82762426cd3256d30d065b3f99d2f4e20e5ad1944cf25ed4c094ad2690c9b730"
-      />
+      
     </div>
   </div>
 
