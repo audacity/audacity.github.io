@@ -11,7 +11,7 @@ function PrimaryDownloadButton() {
   function renderButton(href, buttonText) {
     return (
       <a
-        className="flex h-12 xl:h-16 text-base xl:text-lg px-3.5 xl:px-6 w-fit bg-blue-700 hover:bg-blue-600 active:bg-blue-800 text-white items-center gap-x-3 rounded mt-8"
+        className="flex h-14 xl:h-16 text-lg xl:text-lg px-4 xl:px-6 w-fit bg-blue-700 hover:bg-blue-600 active:bg-blue-800 text-white items-center gap-x-3 rounded mt-8"
         href={href}
       >
         <svg className="w-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
