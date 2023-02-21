@@ -1,5 +1,4 @@
 ---
-import PaginationButton from "../components/PaginationButton.astro";
 import Layout from "./Layout.astro";
 
 export interface Props {
@@ -11,7 +10,7 @@ const { title } = Astro.props;
 <Layout title={title}>
   <main>
     <div
-      class="max-w-sm md:max-w-2xl mx-auto mt-12 px-3 pt-24"
+      class="max-w-sm md:max-w-2xl mx-auto mt-12 px-3 pt-16 md:pt-24 xl:pt-32"
     >
       <h1 class="text-xl sm:text-2xl font-bold text-gray-800">
         {title}

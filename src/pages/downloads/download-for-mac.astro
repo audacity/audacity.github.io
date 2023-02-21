@@ -1,6 +1,5 @@
 ---
 import { releaseData } from "../../assets/js/releaseData";
-import PaginationButton from "../../components/PaginationButton.astro";
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
 ---
 
@@ -13,10 +12,7 @@ import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
   </div>
 
   <div class="flex flex-col gap-4 sm:flex-row mt-16">
-    <PaginationButton
-      title="Linux"
-      url="/downloads/download-for-linux"
-    /><PaginationButton title="Windows" url="/downloads/download-for-windows" />
+   
   </div>
 
 </DownloadPageLayout>
