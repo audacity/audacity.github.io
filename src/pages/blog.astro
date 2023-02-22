@@ -1,6 +1,7 @@
 ---
 import Card from "../components/card/Card.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 
 interface Frontmatter {
   title: string;
@@ -14,30 +15,28 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
 <BaseLayout title="Blog">
-  <main>
-    <div
-      class="max-w-sm sm:max-w-xl mx-auto px-4 mt-20 sm:mt-24 mb-24 lg:mb-40"
-    >
-      <h1 class="text-xl sm:text-2xl mb-6 sm:mb-8 font-bold text-gray-800">
-        Blog
-      </h1>
-      <div class="grid md:grid-cols-2 gap-4">
-        {
-          posts
-            .sort(
-              (a, b) =>
-                Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
-            )
-            .map((post) => (
-              <Card
-                title={post.frontmatter.title}
-                description={post.frontmatter.description.slice(0, 100) + '...'}
-                href={`/posts/${post.frontmatter.slug}`}
-                thumbnail={post.frontmatter.thumbnail}
-              />
-            ))
-        }
-      </div>
-    </div>
-  </main>
+  <PageLayout title="Blog">
+    <main class="mt-8">
+        <div class="grid md:grid-cols-2 gap-4">
+          {
+            posts
+              .sort(
+                (a, b) =>
+                  Date.parse(a.frontmatter.date) -
+                  Date.parse(b.frontmatter.date)
+              )
+              .map((post) => (
+                <Card
+                  title={post.frontmatter.title}
+                  description={
+                    post.frontmatter.description.slice(0, 100) + "..."
+                  }
+                  href={`/posts/${post.frontmatter.slug}`}
+                  thumbnail={post.frontmatter.thumbnail}
+                />
+              ))
+          }
+        </div>
+    </main>
+  </PageLayout>
 </BaseLayout>

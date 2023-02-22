@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import PageLayout from "./PageLayout.astro";
 
 interface Props {
   frontmatter: {
@@ -26,6 +25,9 @@ const { frontmatter } = Astro.props;
       <slot />
     </div>
     </section>
+    <section>
+
+    </section>
   </main>
 </BaseLayout>
 
@@ -42,7 +44,15 @@ const { frontmatter } = Astro.props;
     @apply mt-12
   }
 
+  .content figure {
+    @apply my-12 text-center
+  }
+
   .content img {
-    @apply my-8 rounded shadow-md
+    @apply rounded shadow-md text-center
+  }
+
+  .content em {
+    @apply text-center font-bold 
   }
 </style>
