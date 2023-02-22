@@ -14,7 +14,6 @@ interface Frontmatter {
 const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
-<BaseLayout title="Blog">
   <PageLayout title="Blog">
     <main class="mt-8">
         <div class="grid md:grid-cols-2 gap-4">
@@ -39,4 +38,3 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
         </div>
     </main>
   </PageLayout>
-</BaseLayout>

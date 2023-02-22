@@ -1,23 +1,18 @@
 ---
+import FeaturedFeature from "../components/FeaturedFeature.astro";
+import BlogPosts from "../components/homepage/BlogPosts.astro";
 import HeroBanner from "../components/homepage/HeroBanner.astro";
 import NewFeatures from "../components/homepage/NewFeatures.astro";
 import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-interface Frontmatter {
-  title: string;
-  slug: string;
-  thumbnail: string;
-  date: string;
-}
-
-const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
 <BaseLayout title="Audacity | Home">
   <HeroBanner/>
   <ReleaseVideo/>
   <NewFeatures/>
+  <BlogPosts />
 </BaseLayout>
 
 <style>

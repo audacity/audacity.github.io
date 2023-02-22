@@ -10,7 +10,7 @@ const { title, description, href, thumbnail } = Astro.props as Props;
 const clippedDescription = description.slice(0, 100);
 ---
 
-<div class="w-fill shadow-md hover:shadow-lg hover:scale-105 transition ease-in-out border-2 border-gray-100 rounded-lg overflow-hidden bg-white">
+<div class="w-fill shadow-md hover:shadow-lg hover:scale-105 transition ease-in-out  rounded-lg overflow-hidden bg-white">
   <img class="object-cover w-full h-44" src={thumbnail} />
   <div class="py-8 px-6">
     <h3 class="font-semibold text-lg text-gray-900">{title}</h3>

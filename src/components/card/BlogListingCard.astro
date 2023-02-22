@@ -8,9 +8,10 @@ interface Props {
 const { title, description, href, thumbnail } = Astro.props as Props;
 ---
 
-<div class="bg-white flex flex-col rounded-mf border border-gray-200">
-  <div class="py-3.5 px-5">
-    <h2 class="text-lg font-bold text-gray-800">{title}</h2>
+<div class="bg-white flex flex-col rounded-md border border-gray-200 shadow-md">
+  <div class="p-6">
+    <!-- <img src={thumbnail} class="h-24 w-full object-cover"/> -->
+    <h3 class="text-lg font-bold text-gray-800">{title}</h3>
     <p class="text-base font-normaltext-gray-800 mt-2">{description}</p>
     <a
       class="font-medium inline-flex gap-x-2 hover:underline text-blue-700 mt-6"
