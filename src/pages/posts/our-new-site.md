@@ -5,6 +5,7 @@ thumbnail: /our-new-site.jpg
 author: Dawson Custons-Cole
 date: February 14, 2023
 layout: "../../layouts/PostLayout.astro"
+description: Oh look, another site. What is the tech stack now? Something mundane I imagine. Oh wait, maybe it's really cool.
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id porta nibh venenatis cras. Fermentum dui faucibus in ornare quam viverra orci sagittis eu. Congue quisque egestas diam in arcu cursus euismod quis. Arcu odio ut sem nulla pharetra diam. Urna duis convallis convallis tellus. Placerat vestibulum lectus mauris ultrices eros in. Sem et tortor consequat id porta nibh venenatis cras. Tempus egestas sed sed risus pretium. Malesuada nunc vel risus commodo viverra. Ac tortor vitae purus faucibus ornare suspendisse. Sit amet justo donec enim diam.

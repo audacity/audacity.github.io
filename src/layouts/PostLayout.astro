@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import PageLayout from "./PageLayout.astro";
 
 interface Props {
   frontmatter: {
@@ -8,6 +9,7 @@ interface Props {
     thumbnail: string;
     author: string;
     date: string;
+    descrption: string;
   };
 }
 
@@ -15,29 +17,32 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <div class="max-w-screen-md mx-auto">
-    <h1 class="text-4xl text-blue-700 font-bold mt-16 text-center">
-      {frontmatter.title}
-    </h1>
-    <div class="flex justify-center items-center divide-x divide-gray-300 mt-4">
-      <div class="flex items-center space-x-1 px-2">
-        <p class="text-sm">{frontmatter.author}</p>
-      </div>
-      <div class="flex items-center space-x-1 px-2">
-        <p class="text-sm">{frontmatter.date}</p>
-      </div>
+  <main class="mx-auto mt-12 max-w-xl">
+    <section class="pt-24 px-3">
+      <h1 class="text-3xl font-bold">{frontmatter.title}</h1>
+      <p class="text-sm">By {frontmatter.author}</p>
+      <p class="text-sm">{frontmatter.date}</p>
+      <div class="content">
+      <slot />
     </div>
-    <img
-      src={frontmatter.thumbnail}
-      alt=""
-      class="aspect-video object-cover rounded-lg shadow-lg mt-4"
-    />
-    <div class="mt-4 content"><slot /></div>
-  </div>
+    </section>
+  </main>
 </BaseLayout>
 
 <style is:global>
-  .content p {
-    @apply mt-4 text-gray-800;
+ .content p {
+    @apply text-gray-800 mt-4;
+  }
+
+  .content h1 {
+    @apply text-blue-500 text-xl font-bold
+  }
+
+  .content {
+    @apply mt-12
+  }
+
+  .content img {
+    @apply my-8 rounded shadow-md
   }
 </style>
