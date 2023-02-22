@@ -16,7 +16,7 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <main class="mx-auto mt-12 max-w-xl">
+  <main class="mx-auto mt-12 max-w-xl xl:max-w-2xl mb-24 xl:mb-40">
     <section class="pt-24 px-3">
       <h1 class="text-3xl font-bold">{frontmatter.title}</h1>
       <p class="text-sm">By {frontmatter.author}</p>
