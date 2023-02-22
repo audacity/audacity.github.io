@@ -5,7 +5,7 @@ thumbnail: /leo-our-saviour.jpg
 author: Leo Wattenburg
 date: February 14, 2023
 layout: "../../layouts/PostLayout.astro"
-description: This is the text that will be rendered on the blog card as a preview, it may be truncated so watch out!
+description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ---
 
 # Hello there

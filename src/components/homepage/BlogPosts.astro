@@ -6,22 +6,34 @@ interface Frontmatter {
   slug: string;
   thumbnail: string;
   date: string;
+  author: string;
+  description: string;
 }
 
 const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
 ---
 
-<section class="grid-background">
+<section>
   <div class="mx-auto max-w-4xl px-3 lg:px-0 pt-24 pb-32 space-y-12">
-    <div class="space-y-2 flex justify-between items-center">
+    <div class="flex justify-between items-center">
         <h2 class="text-2xl xl:text-3xl font-bold text-gray-900">
           Latest blog posts
         </h2>
-        <a href="/blog" class="text-lg text-gray-700">
-          View all posts
-        </a>
+        <a
+        class="font-medium inline-flex gap-x-2 hover:underline text-blue-700 items-center"
+        href="/blog"
+        >View all<svg
+          class="fill-blue-700 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+          ></path></svg
+        ></a
+      >
       </div>
-    <div class="grid md:grid-cols-3 gap-4 mt-6">
+    <div class="space-y-6 mt-6 divide-y-2">
       {
         posts
           .sort(
@@ -31,9 +43,12 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
           .map((post) => (
             <BlogListingCard
               title={post.frontmatter.title}
-              description={post.rawContent().slice(0, 100) + "..."}
+              description={post.frontmatter.description.slice(0, 200) + "..."}
               href={`/posts/${post.frontmatter.slug}`}
               thumbnail={post.frontmatter.thumbnail}
+              author={post.frontmatter.author}
+              date={post.frontmatter.date}
+
             />
           ))
       }
@@ -41,9 +56,5 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
   </div>
 </section>
 
-<style>
-    .grid-background {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath opacity='0.8' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-  </style>
+
   

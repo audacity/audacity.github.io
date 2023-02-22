@@ -4,27 +4,29 @@ interface Props {
   description: string;
   href: string;
   thumbnail: string;
+  author: string;
+  date: string;
 }
-const { title, description, href, thumbnail } = Astro.props as Props;
+const { title, description, href, thumbnail, author, date } =
+  Astro.props as Props;
 ---
 
-<div class="bg-white flex flex-col rounded-md border border-gray-200 shadow-md">
-  <div class="p-6">
-    <!-- <img src={thumbnail} class="h-24 w-full object-cover"/> -->
-    <h3 class="text-lg font-bold text-gray-800">{title}</h3>
-    <p class="text-base font-normaltext-gray-800 mt-2">{description}</p>
-    <a
-      class="font-medium inline-flex gap-x-2 hover:underline text-blue-700 mt-6"
-      href={href}
-      >Read post<svg
-        class="fill-blue-700 w-4"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 448 512"
+<div class="bg-white flex flex-col py-12">
+  <div class="flex gap-8">
+    <img src={thumbnail} class="h-40 w-40 object-cover rounded" />
+    <div class="flex flex-col space-y-2">
+      <a href={href}
+        ><h3
+          class="text-xl font-bold text-gray-900 hover:text-blue-700 hover:underline"
+        >
+          {title}
+        </h3></a
       >
-        <path
-          d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
-        ></path></svg
-      ></a
-    >
+      <p class="text-base font-normal text-gray-700 mt-2">{description}</p>
+      <div class="pt-4">
+        <p class="font-bold text-gray-800">By {author}</p>
+        <p class="font-mono text-gray-700">{date}</p>
+      </div>
+    </div>
   </div>
 </div>

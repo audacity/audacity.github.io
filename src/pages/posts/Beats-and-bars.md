@@ -5,7 +5,7 @@ thumbnail: /our-new-site.jpg
 author: Dawson Custons-Cole
 date: February 24, 2023
 layout: "../../layouts/PostLayout.astro"
-description: We've got cool stuff on the way in the shape of time formats, beats, rules and all things measurement based. Oh yeah, you'll be able to work properly now.
+description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id porta nibh venenatis cras. Fermentum dui faucibus in ornare quam viverra orci sagittis eu. Congue quisque egestas diam in arcu cursus euismod quis. Arcu odio ut sem nulla pharetra diam. Urna duis convallis convallis tellus. Placerat vestibulum lectus mauris ultrices eros in. Sem et tortor consequat id porta nibh venenatis cras. Tempus egestas sed sed risus pretium. Malesuada nunc vel risus commodo viverra. Ac tortor vitae purus faucibus ornare suspendisse. Sit amet justo donec enim diam.
