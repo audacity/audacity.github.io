@@ -1,24 +1,39 @@
 ---
-import HeroBanner from "../components/homepage/HeroBanner.astro";
-import NewFeatures from "../components/homepage/NewFeatures.astro";
-import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
-
-interface Frontmatter {
-  title: string;
-  slug: string;
-  thumbnail: string;
-  date: string;
-}
-
-const posts = await Astro.glob<Frontmatter>("./posts/*.md");
+import FeatureCard from "../card/FeatureCard.astro";
+import RealTimeEffects from "../../assets/img/features/RealTimeEffects.png";
+import ShareAudio from "../../assets/img/features/ShareAudio.png";
 ---
 
-<BaseLayout title="Audacity | Home">
-  <HeroBanner/>
-  <ReleaseVideo/>
-  <NewFeatures/>
-</BaseLayout>
+<section class="grid-background">
+  <div class="mx-auto max-w-4xl px-3 lg:px-0 pt-24 pb-32 space-y-12">
+    <div class="text-center space-y-2">
+      <h2 class="text-2xl xl:text-3xl font-bold text-gray-900 text-center">
+        Features we're proud of
+      </h2>
+      <p class="text-lg text-gray-700">
+        This release we've got some crackers check 'em out
+      </p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-x-12">
+      <FeatureCard
+        title="Real-time effects"
+        description="You can also use variant modifiers to target media queries like responsive breakpoints, dark mode, prefers-reduced-motion, and more. For example, use md:object-scale-down to apply the object-scale-down utility at only medium screen sizes and above."
+        thumbnail={RealTimeEffects}
+        href="#"
+      />
+      <FeatureCard
+        title="Share to audio.com"
+        description="Tailwind lets you conditionally apply utility classes in different states using variant modifiers. For example, use hover:object-scale-down to only apply the object-scale-down utility on hover."
+        thumbnail={ShareAudio}
+        href="#"
+      />
+    </div>
+    <p class="text-base text-gray-700 text-center">
+        Check out the rest of our features <a href="https://support.audacityteam.org" target="_blank" class="text-blue-700 underline">here</a>
+      </p>
+  </div>
+  
+</section>
 
 <style>
   .grid-background {
