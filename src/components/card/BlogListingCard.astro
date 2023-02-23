@@ -11,22 +11,16 @@ const { title, description, href, thumbnail, author, date } =
   Astro.props as Props;
 ---
 
-<div class="bg-white flex flex-col py-12">
-  <div class="flex gap-8">
-    <img src={thumbnail} class="h-40 w-40 object-cover rounded" />
-    <div class="flex flex-col space-y-2">
-      <a href={href}
-        ><h3
-          class="text-xl font-bold text-gray-900 hover:text-blue-700 hover:underline"
-        >
-          {title}
-        </h3></a
-      >
-      <p class="text-base font-normal text-gray-700 mt-2">{description}</p>
-      <div class="pt-4">
-        <p class="font-bold text-gray-800">By {author}</p>
-        <p class="font-mono text-gray-700">{date}</p>
+<div class="flex rounded overflow-hidden bg-white shadow-lg">
+    <img src={thumbnail} class="h-fill w-40 object-cover" />
+    <div class="flex flex-col py-6 px-4 ">
+      <div class="h-32">
+        <h4 class="text-lg font-bold">{title}</h4>
+        <p class="mt-2">{description.slice(0, 50) + "..."}</p>
+      </div>
+      <div class="flex flex-col">
+        <p class="font-bold text-sm">{author}</p>
+        <p class="font-mono text-sm">{date}</p>
       </div>
     </div>
-  </div>
 </div>
