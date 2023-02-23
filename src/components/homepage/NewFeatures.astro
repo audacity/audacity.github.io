@@ -1,42 +1,65 @@
 ---
-import FeatureCard from "../card/FeatureCard.astro";
-import RealTimeEffects from "../../assets/img/features/RealTimeEffects.png";
-import ShareAudio from "../../assets/img/features/ShareAudio.png";
+import Badge from "../badge/Badge.astro";
+import RealTimeEffects from "../../assets/img/features/Spectrogram.png";
+import ShareAudio from '../../assets/img/features/ShareAudio.png'
 ---
 
-<section class="grid-background">
-  <div class="mx-auto max-w-4xl px-3 lg:px-0 pt-24 pb-32 space-y-12">
-    <div class="text-center space-y-2">
-      <h2 class="text-2xl xl:text-3xl font-bold text-gray-900 text-center">
-        Features we're proud of
-      </h2>
-      <p class="text-lg text-gray-700">
-        This release we've got some crackers check 'em out
-      </p>
+<section>
+  <div class="mx-auto max-w-6xl px-3 lg:px-0 pt-16 pb-12">
+    <div class="grid grid-cols-2">
+      <div class="flex flex-col justify-center p-16">
+        <Badge badgeText="New in v3.2" />
+        <h1 class="text-5xl font-bold mt-2">Real-time effects</h1>
+        <p class="mt-6">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+        <a
+          class="font-lg font-bold inline-flex gap-x-2 hover:underline text-blue-700 items-center mt-12"
+          href="/blog"
+          >Find out more<svg
+            class="fill-blue-700 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+          >
+            <path
+              d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+            ></path></svg
+          ></a
+        >
+      </div>
+      <div class="p-16 "><img class="object-cover" src={RealTimeEffects} /></div>
     </div>
-    <div class="grid md:grid-cols-2 gap-4 sm:gap-8 md:gap-12">
-      <FeatureCard
-        title="Real-time effects"
-        description="You can also use variant modifiers to target media queries like responsive breakpoints, dark mode, prefers-reduced-motion, and more. For example, use md:object-scale-down to apply the object-scale-down utility at only medium screen sizes and above."
-        thumbnail={RealTimeEffects}
-        href="#"
-      />
-      <FeatureCard
-        title="Share to audio.com"
-        description="Tailwind lets you conditionally apply utility classes in different states using variant modifiers. For example, use hover:object-scale-down to only apply the object-scale-down utility on hover."
-        thumbnail={ShareAudio}
-        href="#"
-      />
-    </div>
-    <p class="text-base text-gray-700 text-center">
-        Check out the rest of our features <a href="https://support.audacityteam.org" target="_blank" class="text-blue-700 underline">here</a>
-      </p>
-  </div>
-  
-</section>
 
-<style>
-    .grid-background {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath opacity='0.8' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-  </style>
+    <div class="grid grid-cols-2 mt-16">
+        <div class="p-16 "><img class="object-cover" src={ShareAudio} /></div>
+        <div class="flex flex-col justify-center p-16">
+          <Badge badgeText="New in v3.2" />
+          <h1 class="text-5xl font-bold mt-2">Share audio</h1>
+          <p class="mt-6">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+          <a
+            class="font-lg font-bold inline-flex gap-x-2 hover:underline text-blue-700 items-center mt-12"
+            href="/blog"
+            >Find out more<svg
+              class="fill-blue-700 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+            >
+              <path
+                d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+              ></path></svg
+            ></a
+          >
+        </div>
+      </div>
+
+   
+  </div>
+</section>
