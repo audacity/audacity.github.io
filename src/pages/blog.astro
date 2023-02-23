@@ -9,6 +9,7 @@ interface Frontmatter {
   thumbnail: string;
   date: string;
   description: string;
+  author: string;
 }
 
 const posts = await Astro.glob<Frontmatter>("./posts/*.md");
@@ -16,7 +17,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 
   <PageLayout title="Blog">
     <main class="mt-8">
-        <div class="grid md:grid-cols-3 gap-4">
+        <div class="grid md:grid-cols-2 gap-8">
           {
             posts
               .sort(
@@ -32,6 +33,8 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
                   }
                   href={`/posts/${post.frontmatter.slug}`}
                   thumbnail={post.frontmatter.thumbnail}
+                  author={post.frontmatter.author}
+                  date={post.frontmatter.date}
                 />
               ))
           }

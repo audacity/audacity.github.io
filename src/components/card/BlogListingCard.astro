@@ -11,7 +11,7 @@ const { title, description, href, thumbnail, author, date } =
   Astro.props as Props;
 ---
 
-<div class="flex rounded overflow-hidden bg-white shadow-lg">
+<a href={href} class="flex rounded overflow-hidden bg-white shadow-lg">
     <img src={thumbnail} class="h-fill w-40 object-cover" />
     <div class="flex flex-col py-6 px-4 ">
       <div class="h-32">
@@ -23,4 +23,4 @@ const { title, description, href, thumbnail, author, date } =
         <p class="font-mono text-sm">{date}</p>
       </div>
     </div>
-</div>
+  </a>
