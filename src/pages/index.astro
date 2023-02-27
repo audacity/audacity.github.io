@@ -6,15 +6,18 @@ import NewFeatures from "../components/homepage/NewFeatures.astro";
 import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
 import VanityMetrics from "../components/homepage/VanityMetrics.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import RealTimeEffects from "../components/homepage/features/RealTimeEffects.astro";
+import ShareToAudio from "../components/homepage/features/ShareToAudio.astro";
 
 ---
 
 <BaseLayout title="Audacity | Home">
   <HeroBanner/>
   <ReleaseVideo/>
-  <NewFeatures/>
-  <BlogPosts />
+  <RealTimeEffects />
+  <ShareToAudio />
   <DownloadBanner/>
+  <BlogPosts />
 </BaseLayout>
 
 
