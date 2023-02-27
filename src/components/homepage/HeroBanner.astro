@@ -5,25 +5,22 @@ import Audacity_Logo from "../../assets/img/Audacity_Logo.png";
 
 <section>
   <div class="mt-12 mx-auto max-w-sm xl:max-w-xl px-3 lg:px-0">
-    <div class="pt-32 pb-24 xl:pt-40 xl:pb-32 flex flex-col space-y-16">
+    <div class="pt-32 pb-24 xl:pt-24 xl:pb-24 flex flex-col space-y-16">
       <div class="flex flex-col items-center text-center space-y-4">
-        <img class="w-24 xl:w-48" src={Audacity_Logo} />
-        <h1 class="text-3xl xl:text-5xl font-bold text-gray-900">
+        <img class="w-24 xl:w-24" src={Audacity_Logo} />
+        <h1 class="text-2xl xl:text-4xl xl:leading-snug font-bold text-gray-800">
           Free, open source, cross-platform audio software
         </h1>
-        <p class="text-lg xl:text-xl text-gray-600">
-          A compelling and well rationalised value proposition statement for
-          music producers that converts them.
-        </p>
+  
       </div>
 
       <div class="flex flex-col items-center justify-center space-y-8">
         <PrimaryDownloadButton client:only />
-        <div class="flex flex-col sm:flex-row sm:divide-x sm:gap-x-4">
-          <p class="text-gray-600">Latest version 3.2.4</p><a
+        <div class="flex flex-col sm:flex-row divide-x-2">
+          <p class="text-gray-600 px-3">Latest version 3.2.4</p><a
             href="https://github.com/audacity/audacity/releases/tag/Audacity-3.2.4"
             target="_blank"
-            class="text-gray-600 sm:pl-4 underline">Read release notes</a
+            class="text-gray-600 px-3 underline">Read release notes</a
           >
         </div>
       </div>
