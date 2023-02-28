@@ -14,8 +14,8 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
 ---
 
 <section class="bg-gray-50">
-  <div class="mx-auto max-w-6xl px-3 lg:px-0 pt-24 pb-32 space-y-12">
-    <div class="flex justify-between items-center">
+  <div class="mx-auto max-w-4xl xl:max-w-6xl px-3 lg:px-0 pt-12 pb-16 md:pt-24 md:pb-32">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center">
       <h2 class="text-2xl xl:text-3xl font-bold text-gray-900">
         Latest blog posts
       </h2>
@@ -33,7 +33,7 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
         ></a
       >
     </div>
-    <div class="grid grid-cols-2 gap-12">
+    <div class="grid sm:grid-cols-2 gap-12 xl:gap-24 mt-6 md:mt-12">
       {
         posts
           .slice(0, 2)

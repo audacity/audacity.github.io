@@ -12,10 +12,10 @@ const { title, description, href, thumbnail, author, date } =
 ---
 
 <a href={href} class="">
-  <img href={href} class="h-72 rounded w-full object-cover" src={thumbnail} />
-  <div class="flex mt-3 gap-2 items-center">
-    <p class="">{author}</p>-<p class="">{date}</p>
+  <img href={href} class="h-48 md:h-72 rounded w-full object-cover" src={thumbnail} />
+  <div class="sm:flex mt-3 gap-2 items-center">
+    <p class="">{author}</p><p class="">{date}</p>
   </div>
   <h3 href={href} class="hover:text-blue-700 hover:underline font-bold text-gray-800 text-lg mt-2">{title}</h3>
-  <p class="mt-2">{description.slice(0, 200)}</p>
+  <p class="mt-2">{description.slice(0, 200)}...</p>
 </a>
