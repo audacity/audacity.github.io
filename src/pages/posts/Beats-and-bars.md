@@ -1,7 +1,7 @@
 ---
 title: Beats and bars
 slug: Beats-and-bars
-thumbnail: /our-new-site.jpg
+thumbnail: /beats-and-bars.png
 author: Dawson Custons-Cole
 date: February 24, 2023
 layout: "../../layouts/PostLayout.astro"
@@ -9,6 +9,7 @@ description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiu
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id porta nibh venenatis cras. Fermentum dui faucibus in ornare quam viverra orci sagittis eu. Congue quisque egestas diam in arcu cursus euismod quis. Arcu odio ut sem nulla pharetra diam. Urna duis convallis convallis tellus. Placerat vestibulum lectus mauris ultrices eros in. Sem et tortor consequat id porta nibh venenatis cras. Tempus egestas sed sed risus pretium. Malesuada nunc vel risus commodo viverra. Ac tortor vitae purus faucibus ornare suspendisse. Sit amet justo donec enim diam.
+
 
 In egestas erat imperdiet sed euismod nisi porta. Et pharetra pharetra massa massa ultricies mi. Convallis tellus id interdum velit laoreet. Faucibus interdum posuere lorem ipsum dolor sit. Cursus in hac habitasse platea dictumst quisque sagittis. Risus quis varius quam quisque id diam. Ac odio tempor orci dapibus ultrices in iaculis. Quam viverra orci sagittis eu volutpat odio facilisis mauris. Viverra justo nec ultrices dui. Vulputate enim nulla aliquet porttitor lacus. Aliquam faucibus purus in massa tempor nec feugiat nisl. Eget felis eget nunc lobortis mattis aliquam faucibus purus. Odio pellentesque diam volutpat commodo sed egestas egestas. Arcu odio ut sem nulla pharetra diam sit amet nisl. Mattis aliquam faucibus purus in massa tempor nec feugiat. Eget dolor morbi non arcu risus quis varius. Vitae et leo duis ut diam quam nulla porttitor.
 

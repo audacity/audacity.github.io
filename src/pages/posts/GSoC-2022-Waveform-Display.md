@@ -1,7 +1,7 @@
 ---
 title: GSoC 2022 - Fundamental Ruler and Waveform Display
 slug: GSoC-2022-Waveform-Display
-thumbnail: /our-new-site.jpg
+thumbnail: /waveform.png
 author: Michael Papadopoulos
 date: September 1, 2022
 layout: "../../layouts/PostLayout.astro"
