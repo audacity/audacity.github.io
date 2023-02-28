@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
 
-function PrimaryDownloadButton() {
+function DownloadButton(props) {
+  const { primary } = props;
   const [browserOS, setBrowserOS] = useState("");
 
   useEffect(() => {
@@ -11,10 +12,18 @@ function PrimaryDownloadButton() {
   function renderButton(href, buttonText) {
     return (
       <a
-        className="flex h-12 xl:h-14 text-lg xl:text-lg px-4 xl:px-6 w-fit bg-blue-700 hover:bg-blue-600 active:bg-blue-800 outline-blue-400 text-white items-center gap-x-3 rounded"
+        className={`flex h-12 gap-3 px-4 items-center rounded justify-center whitespace-nowrap	 + ${
+          primary
+            ? "bg-blue-700 hover:bg-blue-600 active:bg-blue-800 text-white rounded "
+            : "bg-white hover:bg-gray-200 text-blue-700"
+        }`}
         href={href}
       >
-        <svg className="w-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <svg
+          className={`w-4 + ${primary ? "fill-white" : "fill-blue-700"} `}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        >
           <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
         </svg>
         {buttonText}
@@ -42,11 +51,8 @@ function PrimaryDownloadButton() {
       );
       break;
     default:
-      return renderButton(
-        "/downloads",
-        "Download Audacity"
-      );
+      return renderButton("/downloads", "Download Audacity");
   }
 }
 
-export default PrimaryDownloadButton;
+export default DownloadButton;

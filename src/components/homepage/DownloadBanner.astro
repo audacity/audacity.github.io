@@ -1,28 +1,16 @@
+---
+import DownloadButton from '../button/DownloadButton.jsx'
+---
+
 <section class="bg-gradient-to-r from-indigo-500 to-indigo-700">
-  <div class="mx-auto max-w-4xl lg:max-w-6xl px-3 lg:px-0 pt-16 pb-16 grid md:grid-cols-2">
-    <div class="text-white text-center sm:text-left">
+  <div class="mx-auto max-w-sm sm:max-w-xl md:max-w-6xl px-3 lg:px-0 pt-16 pb-16 grid md:grid-cols-2">
+    <div class="text-white text-center md:text-left">
       <h3 class="text-2xl font-bold">Download Audacity free today</h3>
       <p class="text-lg">City of Auda, popualation: you.</p>
     </div>
-    <div class="flex flex-col mt-8 sm:mt-0 sm:flex-row sm:space-x-4 lg-space-8 space-y-4 sm:space-y-0">
-      <button
-        class="flex h-16 text-base lg:text-lg justify-center gap-x-3 items-center rounded bg-white p-4 text-indigo-700 w-full"
-      >
-        <svg
-          class="w-4 fill-indigo-700"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-        >
-          <path
-            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"
-          ></path>
-        </svg>Download Audacity</button
-      >
-      <button
-        class="flex  h-16 text-base lg:text-lg justify-center gap-x-3 border border-white items-center rounded p-4 text-white w-full"
-      >
-        Find out more</button
-      >
+    <div class="flex items-center justify-center flex-col mt-8 md:mt-0 sm:flex-row sm:space-x-4 lg-space-8 space-y-4 sm:space-y-0">
+      <DownloadButton client:load />
+      <a href="/downloads" class="flex items-center h-12 px-4 rounded whitespace-nowrap text-gray-100 border border-white hover:bg-white/25 hover:text-white">View download options</a>
     </div>
   </div>
 </section>
