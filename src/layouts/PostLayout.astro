@@ -32,27 +32,44 @@ const { frontmatter } = Astro.props;
 </BaseLayout>
 
 <style is:global>
+.content {
+  @apply mt-8
+}
+
  .content p {
-    @apply text-gray-800 mt-4;
+    @apply text-gray-800;
   }
 
   .content h1 {
-    @apply text-blue-500 text-xl font-bold
-  }
-
-  .content {
-    @apply mt-12
+    @apply text-blue-500 text-xl font-bold mt-8;
   }
 
   .content figure {
-    @apply my-12 text-center
+    @apply my-12 text-center;
   }
 
   .content img {
-    @apply rounded shadow-md text-center
+    @apply rounded shadow-md text-center;
   }
 
   .content em {
-    @apply text-center font-bold 
+    @apply text-center font-bold;
   }
+
+  .content h5 {
+    @apply text-lg font-semibold text-gray-700 mt-12;
+  }
+
+  .content li {
+    @apply list-disc mt-2
+  }
+
+  .content ul{
+    @apply mb-12;
+  }
+
+  .content a {
+    @apply text-blue-700 underline
+  }
+
 </style>
