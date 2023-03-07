@@ -5,17 +5,24 @@ import Audacity_Logo from "../../assets/img/Audacity_Logo.png";
 
 <section>
   <div class="mt-12 mx-auto max-w-md xl:max-w-xl px-3 lg:px-0">
-    <div class="pt-32 pb-24 lg:pt-32 lg:pb-24 flex flex-col space-y-12 lg:space-y-16">
+    <div
+      class="pt-12 pb-16 lg:pt-12 lg:pb-16 flex flex-col space-y-8 lg:space-y-8"
+    >
       <div class="flex flex-col items-center text-center space-y-4">
         <img class="w-16 xl:w-24" src={Audacity_Logo} />
         <h1 class="text-2xl xl:text-4xl leading-snug font-bold text-gray-800">
           The world's most popular audio editing and recording app
         </h1>
-  
       </div>
 
       <div class="flex flex-col items-center justify-center space-y-8">
-        <DownloadButton client:only primary/>
+        <div class="flex gap-6">
+          <DownloadButton client:only primary />
+          <a
+            class="flex items-center border rounded border-blue-700 px-4 text-blue-700" href="https://www.musehub.com" target="_blank"
+            >Download with free VST effects</a
+          >
+        </div>
         <div class="flex flex-col sm:flex-row sm:divide-x-2">
           <p class="text-gray-600 px-3">Latest version 3.2.4</p><a
             href="https://github.com/audacity/audacity/releases/tag/Audacity-3.2.4"
@@ -27,5 +34,3 @@ import Audacity_Logo from "../../assets/img/Audacity_Logo.png";
     </div>
   </div>
 </section>
-
-
