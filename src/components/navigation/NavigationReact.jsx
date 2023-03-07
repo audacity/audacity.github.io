@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import HamburgerMenu from "./HamburgerMenu";
 
 function NavigationReact() {
@@ -24,24 +24,26 @@ function NavigationReact() {
     setIsHamburgerMenuOpen(!isHamburgerMenuOpen);
   }
 
+  function renderNavLink(navLink, index) {
+    const currentURL = "/" + window.location.href.split('/').pop();
+    const navLinkURL = navLink.href;
+
+    return (
+      <a href={navLink.href} target={navLink.target} key={index} className={navLinkURL === currentURL ? 'underline underline-offset-4 text-gray-800' : 'font-regular text-gray-800 hover:text-blue-700'}>
+        {navLink.linkText}
+      </a>
+    );
+  }
+
   return (
     <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl">
       <div className="flex justify-between max-w-6xl mx-auto h-12 px-3 xl:px-0 items-center">
         <a href="/">
           <span className="text-blue-700 text-lg font-semibold">Audacity</span>
         </a>
-        <div className="hidden sm:flex">
+        <div className="hidden gap-3 sm:flex">
           {navLinks.map((navLink, index) => {
-            return (
-              <a
-                className="text-gray-700 hover:text-blue-700 py-2 px-3"
-                href={navLink.href}
-                target={navLink.target}
-                key={index}
-              >
-                {navLink.linkText}
-              </a>
-            );
+            return renderNavLink(navLink, index);
           })}
         </div>
 

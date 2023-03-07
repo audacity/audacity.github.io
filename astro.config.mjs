@@ -11,3 +11,4 @@ export default defineConfig({
   site: 'https://audacity.github.io',
   integrations: [tailwind(), react()]
 });
+
