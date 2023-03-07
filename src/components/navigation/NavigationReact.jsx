@@ -25,13 +25,8 @@ function NavigationReact() {
   }
 
   function renderNavLink(navLink, index) {
-    const currentURL = "/" + window.location.href.split('/').pop();
-    const navLinkURL = navLink.href;
-
-    console.log(currentURL, navLinkURL);
-
     return (
-      <a href={navLink.href} target={navLink.target} key={index} className={navLinkURL === currentURL ? 'underline underline-offset-4 text-gray-800' : 'font-regular text-gray-800 hover:text-blue-700'}>
+      <a href={navLink.href} target={navLink.target} key={index} className='font-regular text-gray-800 hover:text-blue-700'>
         {navLink.linkText}
       </a>
     );
