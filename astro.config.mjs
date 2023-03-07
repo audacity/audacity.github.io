@@ -8,6 +8,6 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://audacity.github.io/audacity-website',
+  site: 'https://audacity.github.io',
   integrations: [tailwind(), react()]
 });
