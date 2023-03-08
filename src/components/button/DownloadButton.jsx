@@ -18,6 +18,7 @@ function DownloadButton(props) {
             : "bg-white hover:bg-gray-200 text-blue-700"
         }`}
         href={href}
+        onclick="_paq.push(['trackEvent', 'Menu', 'Freedom']);"
       >
         {/* <svg
           className={`w-4 + ${primary ? "fill-white" : "fill-blue-700"} `}
