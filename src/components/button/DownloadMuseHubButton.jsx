@@ -14,7 +14,7 @@ function DownloadMuseHubButton(props) {
         className="flex h-12 gap-3 px-4 items-center rounded justify-center whitespace-nowrap border border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white"
         href={href}
       >
-        Download with free effects and samples
+        Download with free VST effects
       </a>
     );
   }
