@@ -1,6 +1,7 @@
 ---
 import DownloadButton from "../button/DownloadButton";
 import Audacity_Logo from "../../assets/img/Audacity_Logo.png";
+import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 ---
 
 <section>
@@ -18,10 +19,7 @@ import Audacity_Logo from "../../assets/img/Audacity_Logo.png";
       <div class="flex flex-col items-center justify-center space-y-8">
         <div class="flex gap-6">
           <DownloadButton client:only primary />
-          <a
-            class="flex items-center border rounded border-blue-700 px-4 text-blue-700" href="https://www.musehub.com" target="_blank"
-            >Download with free VST effects</a
-          >
+          <DownloadMuseHubButton client:only />
         </div>
         <div class="flex flex-col sm:flex-row sm:divide-x-2">
           <p class="text-gray-600 px-3">Latest version 3.2.4</p><a
