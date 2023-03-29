@@ -18,7 +18,6 @@ function DownloadButton(props) {
             : "bg-white hover:bg-gray-200 text-blue-700"
         }`}
         href={href}
-        onclick="_paq.push(['trackEvent', 'eCommerce', 'Add to Wishlist', 'Smartphone', 1000]);"
       >
         {buttonText}
       </a>
