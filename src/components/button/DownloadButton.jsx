@@ -12,7 +12,7 @@ function DownloadButton(props) {
   function renderButton(href) {
     return (
       <a
-        className={`flex flex-col flex-grow gap-1 py-3 px-8 items-center rounded justify-center text-center + ${
+        className={`flex flex-col flex-1 gap-1 py-3 items-center rounded justify-center text-center + ${
           primary
             ? "bg-blue-700 hover:bg-blue-600 active:bg-blue-800 text-white rounded"
             : "bg-white hover:bg-gray-200 text-blue-700"
