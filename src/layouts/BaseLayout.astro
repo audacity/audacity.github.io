@@ -1,5 +1,4 @@
 ---
-import { MatomoProvider, createInstance } from "@datapunt/matomo-tracker-react";
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
 
@@ -7,11 +6,6 @@ export interface Props {
   title: string;
 }
 const { title } = Astro.props;
-
-const instance = createInstance({
-  urlBase: 'https://audacity.github.io',
-  siteId: 3,
-})
 ---
 
 <!DOCTYPE html>
@@ -23,10 +17,9 @@ const instance = createInstance({
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <MatomoProvider value={instance}>
+  <body>
     <NavigationReact client:load />
     <slot />
     <Footer />
-  </MatomoProvider>
-
+  </body>
 </html>
