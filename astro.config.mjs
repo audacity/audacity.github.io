@@ -9,6 +9,11 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://audacity.github.io',
-  integrations: [tailwind(), react()]
+  integrations: [tailwind(), react()],
+  vite: {
+    ssr: {
+      noExternal: ['@datapunt/matomo-tracker-react', '@datapunt/matomo-tracker-js']
+    }
+  }
 });
 

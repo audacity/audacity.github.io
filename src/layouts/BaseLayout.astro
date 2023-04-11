@@ -1,11 +1,18 @@
 ---
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
+
 
 export interface Props {
   title: string;
 }
 const { title } = Astro.props;
+
+const instance = createInstance({
+  urlBase: 'test',
+  siteId: 1
+})
 ---
 
 <!DOCTYPE html>
@@ -18,8 +25,12 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <NavigationReact client:load />
-    <slot />
-    <Footer />
-  </body>
+      <MatomoProvider value={instance}>
+      <NavigationReact client:load />
+      <slot />
+      <Footer />
+    </MatomoProvider>
+    </body>
+
+
 </html>

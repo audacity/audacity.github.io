@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
+import { useMatomo } from "@datapunt/matomo-tracker-react";
 
 function DownloadMuseHubButton(props) {
   const [browserOS, setBrowserOS] = useState("");
+  const {trackEvent} = useMatomo();
 
   useEffect(() => {
     setBrowserOS(platform.os.family);
   }, []);
+
+  const handleDownloadButtonClick = () => {
+    trackEvent({ category: 'product-download', action: 'Muse Hub download' })
+  }
 
   function renderButton(href) {
     return (
       <a
         className="flex flex-col flex-1 gap-1 py-3 items-center rounded justify-center border border-gray-200 text-blue-700 hover:bg-gray-100 hover:border-gray-300 text-center"
         href={href}
+        onClick={() => handleDownloadButtonClick()}
       >
         Audacity + free effects & samples
         <p class="text-xs text-gray-700">Requires the MuseHub installer</p>

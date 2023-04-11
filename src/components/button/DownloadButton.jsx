@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
+import { useMatomo } from "@datapunt/matomo-tracker-react";
 
 function DownloadButton(props) {
   const { primary } = props;
   const [browserOS, setBrowserOS] = useState("");
+  const { trackEvent } = useMatomo()
 
   useEffect(() => {
     setBrowserOS(platform.os.family);
   }, []);
+
+  const handleDownloadButtonClick = () => {
+    trackEvent({ category: 'product-download', action: 'Standalone Audacity download' })
+  }
 
   function renderButton(href) {
     return (
@@ -18,10 +24,11 @@ function DownloadButton(props) {
             : "bg-white hover:bg-gray-200 text-blue-700"
         }`}
         href={href}
+        onClick={() => handleDownloadButtonClick()}
       >
-        <div class="flex gap-2">
+        <div className="flex gap-2">
           <svg
-            class="fill-white w-4"
+            className="fill-white w-4"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
           >
@@ -30,7 +37,7 @@ function DownloadButton(props) {
           Download Audacity
         </div>
 
-        <p class="text-xs">Installs with no add-ons</p>
+        <p className="text-xs">Installs with no add-ons</p>
       </a>
     );
   }
