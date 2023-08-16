@@ -1,5 +1,5 @@
 ---
-import Footer from "../components/footer/Footer.astro";
+import FooterNEW from "../components/footer/FooterNEW.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
 import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
 
@@ -28,7 +28,7 @@ const instance = createInstance({
       <MatomoProvider value={instance}>
       <NavigationReact client:load />
       <slot />
-      <Footer />
+      <FooterNEW/>
     </MatomoProvider>
     </body>
 
