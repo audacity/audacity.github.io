@@ -1,5 +1,9 @@
 ---
 import RecordAnything from "../../assets/img/record-anyting.jpg";
+import RecordAnything2 from '../../assets/img/RecordAnything2.jpg'
+import Waveform from "../../assets/img/waveform.png";
+import TransportTools from "../../assets/img/TransportTools.png";
+import RecordCursor from '../../assets/img/RecordCursor.png'
 ---
 
 <section class="bg-slate-50">
@@ -10,6 +14,19 @@ import RecordAnything from "../../assets/img/record-anyting.jpg";
         All you need is a microphone.
       </p>
     </div>
-    <image class="col-start-7 col-end-13" src={RecordAnything} />
+    <div class="col-start-7 col-end-13 grid grid-cols-6 grid-rows-auto gap-4">
+      <div class="relative col-span-6 h-48">
+        <div class="absolute -right-12 top-24 h-24 w-400">
+          <img class="h-full w-full rounded-lg" src={TransportTools} />
+        </div><img class="object-cover object-top h-full w-full rounded-lg" src={RecordAnything} />
+      </div>
+      <div class="relative row-start-2 col-span-3 h-48">
+        <div class="absolute -right-3 bottom-0"><img class="w-full h-52 object-cover" src={RecordCursor}/></div>
+        <img class="h-full w-full rounded-lg" src={Waveform} />
+      </div>
+      <div class="row-start-2 col-span-3 h-48">
+        <img class="h-full w-full rounded-lg" src={RecordAnything2} />
+      </div>
+    </div>
   </div>
 </section>
