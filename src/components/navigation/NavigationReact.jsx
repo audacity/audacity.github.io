@@ -43,7 +43,7 @@ function NavigationReact() {
         <a class="flex-1" href="/">
           <span className="text-blue-700 text-lg font-semibold">Audacity</span>
         </a>
-        <div className="flex-1 justify-center hidden gap-3 sm:flex">
+        <div className="flex-1 justify-center hidden gap-4 sm:flex">
           {navLinks.map((navLink, index) => {
             return renderNavLink(navLink, index);
           })}
