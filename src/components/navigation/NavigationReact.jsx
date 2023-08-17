@@ -39,7 +39,7 @@ function NavigationReact() {
 
   return (
     <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl ">
-      <div className="flex max-w-screen-2xl mx-auto h-14 px-3 xl:px-0 items-center">
+      <div className="flex max-w-screen-xl mx-auto h-14 px-3 xl:px-0 items-center">
         <a class="flex-1" href="/">
           <span className="text-blue-700 text-lg font-semibold">Audacity</span>
         </a>
