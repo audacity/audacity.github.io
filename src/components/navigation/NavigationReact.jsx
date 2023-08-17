@@ -26,22 +26,35 @@ function NavigationReact() {
 
   function renderNavLink(navLink, index) {
     return (
-      <a href={navLink.href} target={navLink.target} key={index} className='font-regular text-gray-800 hover:text-blue-700'>
+      <a
+        href={navLink.href}
+        target={navLink.target}
+        key={index}
+        className="font-regular text-gray-800 hover:text-blue-700"
+      >
         {navLink.linkText}
       </a>
     );
   }
 
   return (
-    <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl">
-      <div className="flex justify-between max-w-6xl mx-auto h-12 px-3 xl:px-0 items-center">
-        <a href="/">
+    <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl ">
+      <div className="flex max-w-screen-2xl mx-auto h-14 px-3 xl:px-0 items-center">
+        <a class="flex-1" href="/">
           <span className="text-blue-700 text-lg font-semibold">Audacity</span>
         </a>
-        <div className="hidden gap-3 sm:flex">
+        <div className="flex-1 justify-center hidden gap-3 sm:flex">
           {navLinks.map((navLink, index) => {
             return renderNavLink(navLink, index);
           })}
+        </div>
+        <div className="flex flex-1 justify-end items-center gap-2">
+          <p>Free audio hosting</p>
+          <a href="https://audio.com/auth/sign-up" target="_blank">
+            <button className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white">
+              Sign up
+            </button>
+          </a>
         </div>
 
         <button
