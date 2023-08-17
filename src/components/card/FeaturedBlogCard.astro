@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  thumbnail: string;
+  author: string;
+  date: string;
+}
+const { title, description, href, thumbnail, author, date } =
+  Astro.props as Props;
+---
+
+<a href={href}>
+  <div class="flex rounded-lg overflow-hidden bg-slate-100 h-full">
+    <div class="h-full w-80">
+      <img class="w-full h-full object-cover" src={thumbnail} />
+    </div>
+    <div class="flex flex-1 flex-col p-6 gap-4">
+      <p class="uppercase font-bold text-gray-600">{date}</p>
+      <h3
+        class="hover:text-blue-700 hover:underline font-bold text-gray-800 text-2xl"
+      >
+        {title}
+      </h3><p class="text-xl">{description}</p>
+      <p>Read more</p>
+    </div>
+  </div>
+</a>

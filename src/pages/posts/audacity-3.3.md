@@ -1,11 +1,11 @@
 ---
-title: Audacity 3.3 released
+title: Unleash Your Creativity with Audacity. The Ultimate Audio Editing Tool 
 slug: audacity-3.3
-thumbnail: /our-new-site.jpg
+thumbnail: /blog1.png
 author: Leo Wattenberg
 date: April 1, 2023
 layout: "../../layouts/PostLayout.astro"
-description: linear dB, beats & bars and a lot of under the hood work
+description: A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms - reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development. 
 ---
 
 ## About Audacity 3.3
