@@ -36,7 +36,16 @@ const { win } = releaseData;
       <div class="flex flex-col gap-4 border-t border-b">
         {
           win.map((item) => {
-            return <DownloadCard client:load title={item.name} />;
+            return (
+              <DownloadCard
+                client:load
+                title={item.name}
+                checksum={item.checksum}
+                downloadURL={item.browser_download_url}
+                buttonText="Download"
+                downloadType={item.type}
+              />
+            );
           })
         }
       </div>
