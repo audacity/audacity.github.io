@@ -3,6 +3,7 @@ import { releaseData } from "../../assets/js/releaseData";
 import DownloadsPaginationButton from "../../components/button/DownloadsPaginationButton";
 import DownloadCard from "../../components/card/DownloadCard";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import IconLinkCard from "../../components/card/IconLinkCard";
 import "../../styles/icons.css";
 
 const { win } = releaseData;
@@ -35,16 +36,7 @@ const { win } = releaseData;
       <div class="flex flex-col gap-4 border-t border-b">
         {
           win.map((item) => {
-            return (
-              <DownloadCard
-                client:load
-                downloadURL={item.browser_download_url}
-                title={item.name}
-                checksum={item.checksum}
-                downloadType={item.type}
-                buttonText="Download"
-              />
-            );
+            return <DownloadCard client:load title={item.name} />;
           })
         }
       </div>
@@ -52,40 +44,20 @@ const { win } = releaseData;
     <section class="mt-16">
       <h2 class="text-3xl font-bold">Additional resources</h2>
       <div class="flex gap-8 mt-8">
-        <div
-          class="flex flex-1 flex-col gap-12 border rounded-md drop-shadow-lg bg-white p-8 justify-between"
-        >
-          <div class="flex flex-col gap-2">
-            <span class="icon icon-large icon-export text-blue-700"></span>
-            <h4 class="text-xl font-bold">Ffmpeg import/export library</h4><p
-              class="text-xl"
-            >
-              An optional library which handles additional file formats (like
-              WMA, M4A, AC3 and others)
-            </p>
-          </div>
-
-          <a class="text-blue-700 underline text-xl"
-            >Link to ffmpef page <span class="icon icon-share text-blue-700"
-            ></span></a
-          >
-        </div>
-        <div
-          class="flex flex-1 flex-col gap-12 border rounded-md drop-shadow-lg bg-white p-8 justify-between"
-        >
-          <div class="flex flex-col gap-2">
-            <span class="icon icon-large icon-mixer text-blue-700"></span>
-            <h4 class="text-xl font-bold">Plugins</h4><p class="text-xl">
-              Elevate your productions with a vast selection of third-party
-              plug-ins, including VST3, Nyquist and more.
-            </p>
-          </div>
-
-          <a class="text-blue-700 underline text-xl"
-            >Link to ffmpef page <span class="icon icon-share text-blue-700"
-            ></span></a
-          >
-        </div>
+        <IconLinkCard
+          icon="icon-export"
+          title="Ffmpeg import/export library"
+          description="An optional library which handles additional file formats (like WMA, M4A, AC3 and others)"
+          linkText="Link to ffmpeg library"
+          targetURL="/"
+        />
+        <IconLinkCard
+          icon="icon-mixer"
+          title="Plugins"
+          description="Elevate your productions with a vast selection of third-party plug-ins, including VST3, Nyquist and more."
+          linkText="Link to plugins page"
+          targetURL="/"
+        />
       </div>
     </section>
     <section class="mt-16">
@@ -130,13 +102,21 @@ const { win } = releaseData;
 
     <section class="my-24">
       <div class="flex justify-between">
-        <div>
-          <a class="text-xl font-bold text-blue-700 underline" href="/downloads/download-for-linux">Download for Linux</a>
+        <div class="flex gap-2 items-center">
+          <span class="icon icon-medium icon-arrow-left text-blue-700"></span>
+
+          <a
+            class="text-xl font-bold text-blue-700 underline"
+            href="/downloads/download-for-linux">Download for Linux</a
+          >
         </div>
-        <div>
-          <a class="text-xl font-bold text-blue-700 underline" href="/downloads/download-for-mac">Download for Mac</a>
+        <div class="flex gap-2 items-center">
+          <a
+            class="text-xl font-bold text-blue-700 underline"
+            href="/downloads/download-for-mac">Download for Mac</a
+          >
+          <span class="icon icon-medium icon-arrow-right text-blue-700"></span>
         </div>
-     
       </div>
     </section>
   </main>
