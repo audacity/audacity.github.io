@@ -8,17 +8,14 @@ layout: "../../layouts/PostLayout.astro"
 description: A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms - reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development. 
 ---
 
-## About Audacity 3.3
-Audacity 3.3 is quite humble compared to our last releases. In terms of features, there's not too much to report:
+In addition to its visually appealing interface, Audacity's new website brings improved functionality that enhances the overall user experience. Navigation has been streamlined, making it effortless to explore the different sections of the website, discover new features, and access tutorials and documentation. Whether you're a beginner seeking guidance or an experienced user looking for advanced tips and tricks, the revamped website is designed to cater to your needs.
 
-* We added a linear dB ruler for waveforms. This ruler uses the standard convention found across the audio world. Meters and waveform now report the same values.
-* We reworked the way snapping works. 
-* We also started working on a Beats & Measures feature. It's not quite ready yet, so the coresponding toolbar is hidden by default. More information can be found [here](#)
+Audacity's commitment to accessibility shines through in its new website as well. The site has been optimized for various devices and screen sizes, ensuring a seamless browsing experience across desktop computers, laptops, tablets, and smartphones. No matter where you are or what device you're using, you can easily access Audacity's resources and engage with the vibrant community surrounding the software.
 
-Additional changes can be found in the [changelog](#).
+<figure><img src="/public/beats-and-bars.png"/></figure>
 
-## Why this happened
+Speaking of community, Audacity's new website offers an enhanced platform for users to connect, collaborate, and share their audio projects. The updated forum and support section provide a space for users to seek advice, share knowledge, and discuss their experiences. With an active community, comprehensive documentation, and helpful tutorials, Audacity continues to foster a supportive environment where users can learn, grow, and inspire one another.
 
-A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms: reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development. 
+Furthermore, the new website highlights Audacity's commitment to open-source software development and the spirit of collaboration. It showcases the latest updates, features, and enhancements, giving users a glimpse into the future of audio editing. By providing transparent and accessible information about ongoing development and future plans, Audacity invites users to actively contribute to the software's evolution and shape its future.
 
-We will share more information about Audacity 4 in a future post.
+Audacity's new website is more than just a visual upgrade; it represents a dedication to user satisfaction and a commitment to continuous improvement. With its sleek design, improved functionality, enhanced accessibility, and emphasis on community engagement, the new website serves as a gateway to an even more fulfilling and immersive audio editing experience. Whether you're a professional sound engineer or an aspiring podcaster, Audacity's new website is ready to accompany you on your creative journey, offering the tools and resources you need to bring your audio projects to life.

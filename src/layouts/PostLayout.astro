@@ -16,28 +16,32 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <main class="mx-auto mt-12 max-w-xl xl:max-w-2xl mb-24 xl:mb-40">
-    <section class="pt-24 px-3">
-      <h1 class="text-3xl font-bold">{frontmatter.title}</h1>
-      <p class="text-sm">By {frontmatter.author}</p>
-      <p class="text-sm">{frontmatter.date}</p>
-      <div class="content">
+  <main class="max-w-screen-md mx-auto mt-14">
+    <div class="pt-20">
+      <h1 class="text-5xl font-semibold">{frontmatter.title}</h1>
+      <div class="flex gap-2 text-lg mt-4">
+        <p>{frontmatter.date} |</p><p class="font-bold">{frontmatter.author}</p>
+      </div>
+    </div>
+
+    <div class="content mb-20">
       <slot />
     </div>
-    </section>
-    <section>
 
-    </section>
+    <div class="mb-40">
+      <p class="text-2xl font-bold">By {`${frontmatter.author}`}</p>
+      <p class="text-xl">{frontmatter.date}</p>
+    </div>
   </main>
 </BaseLayout>
 
 <style is:global>
-.content {
-  @apply mt-8
-}
+  .content {
+    @apply mt-16;
+  }
 
- .content p {
-    @apply text-gray-800 mt-4;
+  .content p {
+    @apply text-xl text-gray-800 mt-8;
   }
 
   .content h1 {
@@ -45,11 +49,11 @@ const { frontmatter } = Astro.props;
   }
 
   .content figure {
-    @apply my-12 text-center;
+    @apply my-8 text-center;
   }
 
   .content img {
-    @apply rounded shadow-md text-center;
+    @apply rounded-lg shadow-lg text-center;
   }
 
   .content em {
@@ -61,15 +65,14 @@ const { frontmatter } = Astro.props;
   }
 
   .content li {
-    @apply list-disc mt-2
+    @apply mt-2;
   }
 
-  .content ul{
-    @apply mb-12;
+  .content ul {
+    @apply mb-8 list-outside list-disc;
   }
 
   .content a {
-    @apply text-blue-700 underline
+    @apply text-blue-700 underline;
   }
-
 </style>

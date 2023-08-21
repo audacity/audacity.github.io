@@ -11,7 +11,7 @@ const { title, description, href, thumbnail, author, date } =
   Astro.props as Props;
 ---
 
-<a href={href} class="flex bg-slate-100 rounded-lg overflow-hidden">
+<a href={href} class="flex col-span-6 bg-slate-100 rounded-lg overflow-hidden">
   <div class="w-56 h-64"><img href={href} class="w-full h-full object-cover" src={thumbnail} /></div>
   <div class="flex flex-1 flex-col gap-2 items-start p-4">
     <p class="uppercase font-bold text-gray-600">{date}</p>

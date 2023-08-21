@@ -15,29 +15,30 @@ interface Frontmatter {
 const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
-  <PageLayout title="Blog">
-    <main class="mt-8 xl:mt-16">
-        <div class="grid md:grid-cols-2 gap-12 xl:gap-16">
-          {
-            posts
-              .sort(
-                (a, b) =>
-                  Date.parse(a.frontmatter.date) -
-                  Date.parse(b.frontmatter.date)
-              )
-              .map((post) => (
-                <BlogListingCard
-                  title={post.frontmatter.title}
-                  description={
-                    post.frontmatter.description.slice(0, 100) + "..."
-                  }
-                  href={`/posts/${post.frontmatter.slug}`}
-                  thumbnail={post.frontmatter.thumbnail}
-                  author={post.frontmatter.author}
-                  date={post.frontmatter.date}
-                />
-              ))
-          }
-        </div>
-    </main>
-  </PageLayout>
+<BaseLayout title="Audacity | Blog">
+  <section class="mt-14 max-w-screen-xl mx-auto">
+    <div class="text-center pt-16">
+      <h2 class="text-5xl font-bold">Blog posts</h2>
+    </div>
+
+    <div class="grid grid-cols-12 gap-8 mt-14 mb-20">
+      {
+        posts
+          .sort(
+            (a, b) =>
+              Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
+          )
+          .map((post) => (
+            <BlogListingCard
+              title={post.frontmatter.title}
+              description={post.frontmatter.description.slice(0, 100) + "..."}
+              href={`/posts/${post.frontmatter.slug}`}
+              thumbnail={post.frontmatter.thumbnail}
+              author={post.frontmatter.author}
+              date={post.frontmatter.date}
+            />
+          ))
+      }
+    </div>
+  </section>
+</BaseLayout>
