@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'MusescoreIcon';
+    src: url('/fonts/MusescoreIcon.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon {
+    font-family: 'MusescoreIcon', sans-serif;
+    /* Fallback to sans-serif if custom font doesn't load */
+    font-size: 16px;
+}
+
+.icon-save:before {
+    content: "\EF29";
+}
+
+.icon-share:before {
+    content: "\F359"
+}
