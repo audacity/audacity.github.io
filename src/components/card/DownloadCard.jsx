@@ -12,10 +12,10 @@ function DownloadCard(props) {
   return (
     <div class="flex flex-col gap-2 py-12 border-b">
       <div className="flex justify-between">
-        <h4 className="text-2xl font-semibold">{title}</h4>
+        <h4 className="text-xl font-semibold">{title}</h4>
         <a
           href={downloadURL}
-          className="flex justify-center sm:justify-start items-center h-14 sm:w-fit px-8 bg-slate-200 hover:bg-slate-300 text-xl text-black rounded"
+          className="flex justify-center sm:justify-start items-center h-12 sm:w-fit px-8 bg-slate-200 hover:bg-slate-300 text-lg text-black rounded"
         >
           {`${buttonText}` + `${downloadType}`}
         </a>
@@ -27,7 +27,7 @@ function DownloadCard(props) {
         <div>
           <a
             onClick={() => showDetailsHandler()}
-            className="text-blue-700 text-xl underline"
+            className="text-blue-700 text-lg underline"
           >
             Show checksum
           </a>
@@ -43,7 +43,9 @@ function DownloadCard(props) {
             className="flex flex-col gap-4 mt-4"
           >
             <div>
-              <label className="text-sm uppercase text-gray-600">Checksum</label>
+              <label className="text-sm uppercase text-gray-600">
+                Checksum
+              </label>
               <div className="p-4 border bg-gray-50">
                 <p className="font-mono text-sm break-words">{checksum}</p>
               </div>
@@ -51,7 +53,7 @@ function DownloadCard(props) {
 
             <a
               onClick={() => showDetailsHandler()}
-              className="text-blue-700 text-xl underline"
+              className="text-blue-700 text-lg underline"
             >
               Hide checksum
             </a>
