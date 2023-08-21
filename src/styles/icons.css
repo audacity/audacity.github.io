@@ -18,3 +18,11 @@
 .icon-share:before {
     content: "\F359"
 }
+
+.icon-export:before {
+    content: "\EF24"
+}
+
+.icon-mixer:before {
+    content: "\EF27"
+}
