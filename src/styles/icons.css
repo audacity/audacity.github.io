@@ -7,8 +7,11 @@
 
 .icon {
     font-family: 'MusescoreIcon', sans-serif;
-    /* Fallback to sans-serif if custom font doesn't load */
-    font-size: 16px;
+    font-size:16px
+}
+
+.icon-large {
+    font-size: 36px;
 }
 
 .icon-save:before {
