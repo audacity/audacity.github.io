@@ -7,9 +7,9 @@ import RecordCursor from "../../assets/img/RecordCursor.png";
 ---
 
 <section class="bg-slate-50">
-  <div class="grid grid-cols-12 gap-8 max-w-screen-xl mx-auto py-20">
+  <div class="grid grid-cols-12 max-w-screen-xl mx-auto py-12">
     <div
-      class="flex flex-col justify-center gap-4 col-start-2 col-span-10 md:col-start-1 md:col-span-5"
+      class="flex flex-col justify-center gap-2 md:gap-4 col-start-2 col-span-10 md:col-start-2 md:col-span-4"
     >
       <h2 class="text-3xl md:text-5xl font-bold">Record anything</h2>
       <p class="text-base md:text-xl">
@@ -17,12 +17,13 @@ import RecordCursor from "../../assets/img/RecordCursor.png";
         All you need is a microphone.
       </p>
     </div>
+
     <div
-      class="col-start-2 col-span-10 md:col-span-6 lg:col-start-7 grid grid-cols-6 grid-rows-auto gap-4"
+      class="col-start-2 md:col-start-7 col-span-10 md:col-span-5 grid grid-cols-6 grid-rows-auto gap-4"
     >
       <div class="relative col-span-6 h-48">
-        <div class="absolute -right-8 md:-right-12 top-24 h-16 md:h-24 w-400">
-          <img class="h-full w-full rounded-lg" src={TransportTools} />
+        <div class="absolute -right-8 top-28 md:top-28 h-16 w-64 md:w-72">
+          <img class="object-fit rounded-lg" src={TransportTools} />
         </div><img
           class="object-cover object-top h-full w-full rounded-lg"
           src={RecordAnything}
