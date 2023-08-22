@@ -1,13 +1,14 @@
 import React from "react";
+import '../../styles/icons.css'
 
 function FeatureCard(props) {
-  const { children, title, description } = props;
+  const { icon, title, description } = props;
 
   return (
-    <div class="col-span-3 p-6 border drop-shadow-lg bg-white rounded-lg h-96 flex flex-col">
-      {children}
-      <h3 class="text-xl mt-3 font-bold">{title}</h3>
-      <p class="mt-2 text-lg text-gray-600">{description}</p>
+    <div className="h-full col-span-12 sm:col-span-6 xl:col-span-3 p-4 md:p-6 border drop-shadow-sm md:drop-shadow-lg bg-white rounded-lg flex flex-col">
+      <span className={`icon icon-medium text-blue-700 ${icon}`}></span>
+      <h3 className="text-lg md:text-xl mt-3 font-bold">{title}</h3>
+      <p className="mt-2 text-base md:text-lg text-gray-600">{description}</p>
     </div>
   );
 }

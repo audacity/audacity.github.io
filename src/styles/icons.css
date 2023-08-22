@@ -41,3 +41,19 @@
 .icon-arrow-right:before {
     content: "\EF34"
 }
+
+.icon-monitor:before {
+    content: "\F35E"
+}
+
+.icon-file:before {
+    content: "\EF22"
+}
+
+.icon-plug:before {
+    content: "\F440"
+}
+
+.icon-waveform:before {
+    content: "\F43C"
+}
