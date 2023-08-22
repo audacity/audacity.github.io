@@ -48,7 +48,8 @@ function NavigationReact() {
             return renderNavLink(navLink, index);
           })}
         </div>
-        <div className="flex flex-1 justify-end items-center gap-2">
+
+        <div className="hidden lg:flex flex-1 justify-end items-center gap-2">
           <p>Free audio hosting</p>
           <a href="https://audio.com/auth/sign-up" target="_blank">
             <button className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white">
