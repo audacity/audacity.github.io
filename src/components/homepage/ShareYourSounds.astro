@@ -1,14 +1,24 @@
 ---
-import AudioCard from '../../assets/img/AudioCard.png'
+import AudioCard from "../../assets/img/AudioCard.png";
 ---
+
 <section
   class="bg-[url('src/assets/img/ShareYourSounds.jpg')] bg-cover bg-center"
 >
-  <div class="grid grid-cols-12 max-w-screen-xl mx-auto py-32 gap-8">
-    <div class="col-start-1 col-span-6"><img src={AudioCard}/></div>
-    <div class="flex flex-col gap-4 col-start-8 col-span-6 justify-center">
-      <h2 class="text-5xl font-bold text-white">Share your sounds</h2>
-      <p class="text-2xl text-white">Upload your sounds online to Audio.com, instantly.</p>
+  <div class="grid grid-cols-12 gap-y-4 max-w-screen-xl mx-auto py-12">
+    <div class="flex flex-col gap-2 col-start-2 col-span-10 md:col-start-2 md:col-span-4">
+      <h2 class="text-3xl lg:text-5xl font-bold text-white">Share your sounds</h2>
+      <p class="text-base md:text-lg lg:text-2xl text-white">
+        Upload your sounds online to Audio.com, instantly.
+      </p>
     </div>
+
+    <div class="col-start-2 col-span-10 md:col-start-7 md:col-span-5"><img src={AudioCard} /></div>
   </div>
 </section>
+
+<!-- <div class="col-start-1 col-span-6"><img src={AudioCard}/></div>
+<div class="flex flex-col gap-4 col-start-8 col-span-6 justify-center">
+  <h2 class="text-5xl font-bold text-white">Share your sounds</h2>
+  <p class="text-2xl text-white">Upload your sounds online to Audio.com, instantly.</p>
+</div> -->
