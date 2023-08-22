@@ -1,16 +1,25 @@
 ---
-import DownloadButton from '../button/DownloadButton.jsx'
+import DownloadButton from "../button/DownloadButton.jsx";
+import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 ---
 
-<section class="bg-gradient-to-r from-indigo-500 to-indigo-700">
-  <div class="mx-auto max-w-sm sm:max-w-xl md:max-w-4xl xl:max-w-6xl px-3 xl:px-0 pt-16 pb-16 grid md:grid-cols-2">
-    <div class="text-white text-center md:text-left">
-      <h3 class="text-2xl font-bold">Download Audacity free today</h3>
-      <p class="text-lg">The world's most popular audio editing and recording app</p>
+<section class="bg-gray-100 pt-10 pb-12">
+  <div
+    class="max-w-screen-sm md:max-w-screen-lg mx-auto grid grid-cols-12 gap-y-6"
+  >
+    <div class="flex flex-col gap-2 col-start-2 col-span-10 items-center">
+      <h1
+        class="text-center text-2xl md:text-3xl lg:text-3xl leading-snug font-bold text-gray-800"
+      >
+        Audacity is free, forever
+      </h1>
     </div>
-    <div class="flex items-center sm:justify-center md:justify-end flex-col mt-8 md:mt-0 sm:flex-row sm:space-x-4 lg-space-8 space-y-4 sm:space-y-0">
-      <DownloadButton client:load />
-      <a href="/downloads" class="flex items-center h-12 px-4 rounded whitespace-nowrap text-gray-100 border border-white hover:bg-white/25 hover:text-white">View download options</a>
+
+    <div
+      class="flex flex-col md:flex-row gap-4 col-start-2 col-span-10 sm:col-start-4 sm:col-span-6 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8"
+    >
+      <DownloadButton client:only primary />
+      <DownloadMuseHubButton client:only />
     </div>
   </div>
 </section>
