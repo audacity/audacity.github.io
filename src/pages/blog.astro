@@ -1,7 +1,6 @@
 ---
-import BlogListingCard from "../components/card/BlogListingCard.astro";
+import BlogPostCard from "../components/card/BlogPostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageLayout from "../layouts/PageLayout.astro";
 
 interface Frontmatter {
   title: string;
@@ -16,12 +15,13 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
 ---
 
 <BaseLayout title="Audacity | Blog">
-  <section class="mt-14 max-w-screen-xl mx-auto">
-    <div class="text-center pt-16">
-      <h2 class="text-5xl font-bold">Blog posts</h2>
+  <section class="mt-14 max-w-screen-lg mx-auto grid grid-cols-12">
+    <div class="col-start-2 col-span-10 sm:text-center mt-12">
+      <h2 class="text-3xl sm:text-5xl font-bold">Blog posts</h2>
+      
     </div>
 
-    <div class="grid grid-cols-12 gap-8 mt-14 mb-20">
+    <div class="col-start-2 col-span-10 grid grid-cols-12 md:mx-12 mt-8 lg:mt-12 mb-12 lg:mb-20 gap-y-8 lg:gap-x-8">
       {
         posts
           .sort(
@@ -29,7 +29,7 @@ const posts = await Astro.glob<Frontmatter>("./posts/*.md");
               Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
           )
           .map((post) => (
-            <BlogListingCard
+            <BlogPostCard
               title={post.frontmatter.title}
               description={post.frontmatter.description.slice(0, 100) + "..."}
               href={`/posts/${post.frontmatter.slug}`}
