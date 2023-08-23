@@ -10,29 +10,24 @@ function DownloadCard(props) {
   }
 
   return (
-    <div class="flex flex-col gap-2 py-12 border-b">
-      <div className="flex justify-between">
+    <div className="border border-bg-200 rounded-sm p-6">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between items-center">
         <h4 className="text-xl font-semibold">{title}</h4>
-        <a
-          href={downloadURL}
-          className="flex justify-center sm:justify-start items-center h-12 sm:w-fit px-8 bg-slate-200 hover:bg-slate-300 text-lg text-black rounded"
-        >
-          {`${buttonText}` + `${downloadType}`}
-        </a>
-      </div>
-
-      {isOpen ? (
-        <></>
-      ) : (
-        <div>
+        <div class="flex w-full md:w-fit flex-col-reverse text sm:flex-row gap-2">
           <a
             onClick={() => showDetailsHandler()}
-            className="text-blue-700 text-lg underline"
+            className="text-blue-700 text-base underline h-12 px-4 w-full whitespace-nowrap flex items-center justify-center"
           >
-            Show checksum
+            {isOpen ?  "Hide checksum" : "Show checksum" }
+          </a>
+          <a
+            href={downloadURL}
+            className="flex justify-center text-center items-center px-4 h-12 w-full bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
+          >
+            {`${buttonText}` + `${downloadType}`}
           </a>
         </div>
-      )}
+      </div>
 
       <AnimatePresence>
         {isOpen && (
@@ -50,13 +45,6 @@ function DownloadCard(props) {
                 <p className="font-mono text-sm break-words">{checksum}</p>
               </div>
             </div>
-
-            <a
-              onClick={() => showDetailsHandler()}
-              className="text-blue-700 text-lg underline"
-            >
-              Hide checksum
-            </a>
           </motion.div>
         )}
       </AnimatePresence>
