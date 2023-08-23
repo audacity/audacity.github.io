@@ -1,7 +1,7 @@
 import React from "react";
 
 function OperatingSystemCard(props) {
-  const { title, description } = props;
+  const { title, description, targetURL } = props;
 
   function renderOSIcon(title) {
     switch (title) {
@@ -55,7 +55,7 @@ function OperatingSystemCard(props) {
   }
 
   return (
-    <a href="/downloads/download-for-mac">
+    <a href={targetURL}>
       <div class="bg-white border drop-shadow-md rounded-md p-6">
         {renderOSIcon(title)}
         <h3 class="text-2xl font-bold">{title}</h3>
