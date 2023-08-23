@@ -11,8 +11,8 @@ const { mac } = releaseData;
 
 <BaseLayout title="Audacity | Download for Mac">
   <main class="max-w-screen-lg mx-auto mt-14">
-    <section class="pt-16">
-      <div class="flex flex-col gap-4 items-center text-center">
+    <section class="mt-14 py-12 xl:pt-20">
+      <div class="flex flex-col gap-2 col-start-2 col-span-10 items-center">
         <svg
           class="w-8 fill-gray-600"
           xmlns="http://www.w3.org/2000/svg"
@@ -20,18 +20,25 @@ const { mac } = releaseData;
           ><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
           <path
             d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"
-          ></path></svg
+          ></path>
+        </svg>
+        <h1
+          class="text-center text-2xl md:text-3xl lg:text-5xl leading-snug font-bold text-gray-800"
         >
-        <h2 class="text-5xl font-bold">Download for Mac</h2>
-        <div>
-          <p class="text-xl">
-            Current version 3.3.3 | <a class="text-blue-700 underline"
-              >View release notes</a
-            >
-          </p>
+          Download for Mac OS
+        </h1>
+        <div
+          class="flex flex-col text-center sm:flex-row sm:align-left sm:gap-2"
+        >
+          <p class="text-base md:text-xl">Current version 3.3.3</p>
+          <p class="text-base md:text-xl hidden sm:block">|</p>
+          <a class="text-blue-700 underline text-base md:text-xl"
+            >View release notes</a
+          >
         </div>
       </div>
     </section>
+
     <section class="mt-24">
       <div class="flex flex-col gap-4 border-t border-b">
         {
@@ -74,13 +81,16 @@ const { mac } = releaseData;
         </li>
       </ol>
     </section>
- 
 
     <section class="grid grid-cols-12 mt-16 gap-6">
-      <h2 class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold">
+      <h2
+        class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold"
+      >
         Addtional resources
       </h2>
-      <div class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6">
+      <div
+        class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6"
+      >
         <IconLinkCard
           icon="icon-export"
           title="Ffmpeg import/export library"
@@ -98,64 +108,64 @@ const { mac } = releaseData;
       </div>
     </section>
 
-  <section class="mt-24">
-    <h2 class="text-3xl font-bold">Older versions</h2>
-    <div>
-      <h4 class="text-xl font-bold mt-8">
-        Running and older version of Audacity?
-      </h4>
-      <p class="text-xl mt-2">
-        Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
-        Vista, though please note that 7, 8 and Vista obsolete and no longer
-        supported by Microsoft.
-        <br />
-        <br />
-        <a class="text-blue-700 underline"
-          >More information about Audacity on Visa HERE</a
-        >
-        <br />
-        <br />
-        For Windows 98, ME and 2000, also for XP without the final Service Pack see
-        Legacy Windows Downloads.
-      </p>
-    </div>
-    <div class="mt-16">
-      <h4 class="text-xl font-bold mt-8">
-        Looking for an older version for Audacity?
-      </h4>
-      <p class="text-xl mt-2">
-        Go ahead, dive into the archives, and discover the perfect Audacity
-        version for your unique needs. Begin your journey today and unleash your
-        creativity with Audacity!
-        <br />
-        <br />
-        <a class="text-blue-700 underline">Link to Fosshub</a>
-        <br />
-        <br />
-        For Windows 98, ME and 2000, also for XP without the final Service Pack see
-        Legacy Windows Downloads.
-      </p>
-    </div>
-  </section>
-
-  <section class="my-24">
-    <div class="flex justify-between">
-      <div class="flex gap-2 items-center">
-        <span class="icon icon-medium icon-arrow-left text-blue-700"></span>
-
-        <a
-          class="text-xl font-bold text-blue-700 underline"
-          href="/downloads/download-for-windows">Download for Windows</a
-        >
+    <section class="mt-24">
+      <h2 class="text-3xl font-bold">Older versions</h2>
+      <div>
+        <h4 class="text-xl font-bold mt-8">
+          Running and older version of Audacity?
+        </h4>
+        <p class="text-xl mt-2">
+          Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
+          Vista, though please note that 7, 8 and Vista obsolete and no longer
+          supported by Microsoft.
+          <br />
+          <br />
+          <a class="text-blue-700 underline"
+            >More information about Audacity on Visa HERE</a
+          >
+          <br />
+          <br />
+          For Windows 98, ME and 2000, also for XP without the final Service Pack
+          see Legacy Windows Downloads.
+        </p>
       </div>
-      <div class="flex gap-2 items-center">
-        <a
-          class="text-xl font-bold text-blue-700 underline"
-          href="/downloads/download-for-linux">Download for Linux</a
-        >
-        <span class="icon icon-medium icon-arrow-right text-blue-700"></span>
+      <div class="mt-16">
+        <h4 class="text-xl font-bold mt-8">
+          Looking for an older version for Audacity?
+        </h4>
+        <p class="text-xl mt-2">
+          Go ahead, dive into the archives, and discover the perfect Audacity
+          version for your unique needs. Begin your journey today and unleash
+          your creativity with Audacity!
+          <br />
+          <br />
+          <a class="text-blue-700 underline">Link to Fosshub</a>
+          <br />
+          <br />
+          For Windows 98, ME and 2000, also for XP without the final Service Pack
+          see Legacy Windows Downloads.
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="my-24">
+      <div class="flex justify-between">
+        <div class="flex gap-2 items-center">
+          <span class="icon icon-medium icon-arrow-left text-blue-700"></span>
+
+          <a
+            class="text-xl font-bold text-blue-700 underline"
+            href="/downloads/download-for-windows">Download for Windows</a
+          >
+        </div>
+        <div class="flex gap-2 items-center">
+          <a
+            class="text-xl font-bold text-blue-700 underline"
+            href="/downloads/download-for-linux">Download for Linux</a
+          >
+          <span class="icon icon-medium icon-arrow-right text-blue-700"></span>
+        </div>
+      </div>
+    </section>
   </main>
 </BaseLayout>

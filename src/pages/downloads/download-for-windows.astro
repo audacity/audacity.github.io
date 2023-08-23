@@ -10,27 +10,34 @@ const { win } = releaseData;
 
 <BaseLayout title="Audacity | Download for Windows">
   <main class="max-w-screen-lg mx-auto mt-14">
-    <section class="pt-16">
-      <div class="flex flex-col gap-4 items-center text-center">
+    <section class="mt-14 py-12 xl:pt-20">
+      <div class="flex flex-col gap-2 col-start-2 col-span-10 items-center">
         <svg
-          class="w-8 fill-blue-700"
+          class="w-6 md:w-8 fill-blue-700"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
           ><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
           <path
             d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"
-          ></path></svg
+          ></path>
+        </svg>
+        <h1
+          class="text-center text-2xl md:text-3xl lg:text-5xl leading-snug font-bold text-gray-800"
         >
-        <h2 class="text-5xl font-bold">Download for Windows</h2>
-        <div>
-          <p class="text-xl">
-            Current version 3.3.3 | <a class="text-blue-700 underline"
+          Download for Windows
+        </h1>
+        <div class="flex flex-col text-center sm:flex-row sm:align-left sm:gap-2">
+          <p class="text-base md:text-xl">
+            Current version 3.3.3
+          </p>
+          <p class="text-base md:text-xl hidden sm:block">|</p>
+          <a class="text-blue-700 underline text-base md:text-xl"
               >View release notes</a
             >
-          </p>
         </div>
       </div>
     </section>
+
     <section class="mt-16">
       <div class="flex flex-col gap-4 border-t border-b">
         {
@@ -50,10 +57,14 @@ const { win } = releaseData;
       </div>
     </section>
     <section class="grid grid-cols-12 mt-16 gap-6">
-      <h2 class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold">
+      <h2
+        class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold"
+      >
         Addtional resources
       </h2>
-      <div class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6">
+      <div
+        class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6"
+      >
         <IconLinkCard
           icon="icon-export"
           title="Ffmpeg import/export library"
