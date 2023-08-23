@@ -1,6 +1,5 @@
 ---
 import BlogListingCard from "../card/BlogListingCard.astro";
-import FeaturedBlogCard from "../card/FeaturedBlogCard.astro";
 
 interface Frontmatter {
   title: string;
@@ -14,35 +13,13 @@ interface Frontmatter {
 const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
 ---
 
-<section class="bg-gray-50">
-  <div class="max-w-screen-xl mx-auto py-12 grid grid-cols-12 gap-y-4 md:gap-y-8 md:gap-x-8">
-    <div class="flex justify-center col-start-2 col-span-10">
-      <h1 class="text-3xl lg:text-4xl font-bold text-center">Latest from our <a class="underline" href="/blog">blog</a></h1>
-    </div>
-    <div class="col-start-2 col-span-10 md:col-start-1 md:col-span-6">
+<section class="bg-gray-50 py-12">
+  <div class="max-w-screen-xl mx-auto grid grid-cols-12 gap-y-8">
+    <div class="col-start-2 col-span-10 text-center"><h3 class="text-3xl lg:text-4xl font-bold">Latest from the <a href="/" class="underline text-blue-700">blog</a></h3></div>
+    <div class="col-start-2 col-span-10 grid grid-cols-12 gap-6 row-start-2">
       {
         posts
-          .slice(0, 1)
-          .sort(
-            (a, b) =>
-              Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
-          )
-          .map((post) => (
-            <FeaturedBlogCard
-              title={post.frontmatter.title}
-              description={post.frontmatter.description}
-              href={`/posts/${post.frontmatter.slug}`}
-              thumbnail={post.frontmatter.thumbnail}
-              author={post.frontmatter.author}
-              date={post.frontmatter.date}
-            />
-          ))
-      }
-    </div>
-    <div class="col-start-2 col-span-10 md:col-start-7 md:col-span-6 flex flex-col gap-8">
-      {
-        posts
-          .slice(1, 3)
+          .slice(0, 3)
           .sort(
             (a, b) =>
               Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
@@ -59,49 +36,8 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
           ))
       }
     </div>
-  </div> 
+  </div>
 </section>
 
-
-
 <!-- 
-<div class="col-span-6">
-  {
-    posts
-      .slice(0, 1)
-      .sort(
-        (a, b) =>
-          Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
-      )
-      .map((post) => (
-        <FeaturedBlogCard
-          title={post.frontmatter.title}
-          description={post.frontmatter.description}
-          href={`/posts/${post.frontmatter.slug}`}
-          thumbnail={post.frontmatter.thumbnail}
-          author={post.frontmatter.author}
-          date={post.frontmatter.date}
-        />
-      ))
-  }
-</div>
-<div class="col-span-6 flex flex-col gap-8">
-  {
-    posts
-      .slice(1, 3)
-      .sort(
-        (a, b) =>
-          Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
-      )
-      .map((post) => (
-        <BlogListingCard
-          title={post.frontmatter.title}
-          description={post.frontmatter.description}
-          href={`/posts/${post.frontmatter.slug}`}
-          thumbnail={post.frontmatter.thumbnail}
-          author={post.frontmatter.author}
-          date={post.frontmatter.date}
-        />
-      ))
-  }
-</div> -->
+ -->
