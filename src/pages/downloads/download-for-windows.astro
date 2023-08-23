@@ -9,7 +9,7 @@ const { win } = releaseData;
 ---
 
 <BaseLayout title="Audacity | Download for Windows">
-  <main class="max-w-screen-lg mx-auto mt-14">
+  <main class="max-w-screen-md mx-auto mt-14">
     <section class="mt-14 py-12 xl:pt-20">
       <div class="flex flex-col gap-2 col-start-2 col-span-10 items-center">
         <svg
@@ -22,48 +22,47 @@ const { win } = releaseData;
           ></path>
         </svg>
         <h1
-          class="text-center text-2xl md:text-3xl lg:text-5xl leading-snug font-bold text-gray-800"
+          class="text-center text-2xl md:text-5xl leading-snug font-bold text-gray-800"
         >
           Download for Windows
         </h1>
-        <div class="flex flex-col text-center sm:flex-row sm:align-left sm:gap-2">
-          <p class="text-base md:text-xl">
-            Current version 3.3.3
-          </p>
+        <div
+          class="flex flex-col text-center sm:flex-row sm:align-left sm:gap-2"
+        >
+          <p class="text-base md:text-xl">Current version 3.3.3</p>
           <p class="text-base md:text-xl hidden sm:block">|</p>
           <a class="text-blue-700 underline text-base md:text-xl"
-              >View release notes</a
-            >
+            >View release notes</a
+          >
         </div>
       </div>
     </section>
 
-    <section class="mt-16">
-      <div class="flex flex-col gap-4 border-t border-b">
-        {
-          win.map((item) => {
-            return (
-              <DownloadCard
-                client:load
-                title={item.name}
-                checksum={item.checksum}
-                downloadURL={item.browser_download_url}
-                buttonText="Download"
-                downloadType={item.type}
-              />
-            );
-          })
-        }
-      </div>
+    <section class="mx-4 sm:mx-12 flex flex-col gap-4">
+      {
+        win.map((item) => {
+          return (
+            <DownloadCard
+              client:load
+              title={item.name}
+              checksum={item.checksum}
+              downloadURL={item.browser_download_url}
+              buttonText="Download"
+              downloadType={item.type}
+            />
+          );
+        })
+      }
     </section>
-    <section class="grid grid-cols-12 mt-16 gap-6">
+
+    <section class="py-12 mx-4 sm:mx-12">
       <h2
-        class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold"
+        class="col-start-2 col-span-10 lg:col-start-1 lg:col-span-12 text-xl md:text-3xl font-bold"
       >
         Addtional resources
       </h2>
       <div
-        class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6"
+        class="col-start-2 col-span-10 lg:col-start-1 lg:col-span-12 grid grid-cols-12 gap-6 mt-4 md:mt-8"
       >
         <IconLinkCard
           icon="icon-export"
@@ -81,7 +80,8 @@ const { win } = releaseData;
         />
       </div>
     </section>
-    <section class="mt-16">
+    
+    <section class="mx-4 sm:mx-12">
       <h2 class="text-3xl font-bold">Older versions</h2>
       <div>
         <h4 class="text-xl font-bold mt-8">
@@ -121,19 +121,19 @@ const { win } = releaseData;
       </div>
     </section>
 
-    <section class="my-24">
+    <section class="mx-4 sm:mx-12 my-12 xl:my-24">
       <div class="flex justify-between">
         <div class="flex gap-2 items-center">
           <span class="icon icon-medium icon-arrow-left text-blue-700"></span>
 
           <a
-            class="text-xl font-bold text-blue-700 underline"
+            class="text-base md:text-xl font-bold text-blue-700 underline"
             href="/downloads/download-for-linux">Download for Linux</a
           >
         </div>
         <div class="flex gap-2 items-center">
           <a
-            class="text-xl font-bold text-blue-700 underline"
+            class="text-base md:text-xl font-bold text-blue-700 underline"
             href="/downloads/download-for-mac">Download for Mac</a
           >
           <span class="icon icon-medium icon-arrow-right text-blue-700"></span>
