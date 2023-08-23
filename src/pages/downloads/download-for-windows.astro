@@ -1,6 +1,5 @@
 ---
 import { releaseData } from "../../assets/js/releaseData";
-import DownloadsPaginationButton from "../../components/button/DownloadsPaginationButton";
 import DownloadCard from "../../components/card/DownloadCard";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import IconLinkCard from "../../components/card/IconLinkCard";
@@ -50,9 +49,11 @@ const { win } = releaseData;
         }
       </div>
     </section>
-    <section class="mt-16">
-      <h2 class="text-3xl font-bold">Additional resources</h2>
-      <div class="flex gap-8 mt-8">
+    <section class="grid grid-cols-12 mt-16 gap-6">
+      <h2 class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold">
+        Addtional resources
+      </h2>
+      <div class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6">
         <IconLinkCard
           icon="icon-export"
           title="Ffmpeg import/export library"

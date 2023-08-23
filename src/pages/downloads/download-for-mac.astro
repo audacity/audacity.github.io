@@ -76,25 +76,27 @@ const { mac } = releaseData;
     </section>
  
 
-  <section class="mt-24">
-    <h2 class="text-3xl font-bold">Additional resources</h2>
-    <div class="flex gap-8 mt-8">
-      <IconLinkCard
-        icon="icon-export"
-        title="Ffmpeg import/export library"
-        description="An optional library which handles additional file formats (like WMA, M4A, AC3 and others)"
-        linkText="Link to ffmpeg library"
-        targetURL="/"
-      />
-      <IconLinkCard
-        icon="icon-mixer"
-        title="Plugins"
-        description="Elevate your productions with a vast selection of third-party plug-ins, including VST3, Nyquist and more."
-        linkText="Link to plugins page"
-        targetURL="/"
-      />
-    </div>
-  </section>
+    <section class="grid grid-cols-12 mt-16 gap-6">
+      <h2 class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 text-xl md:text-3xl font-bold">
+        Addtional resources
+      </h2>
+      <div class="col-start-2 col-span-10 xl:col-start-1 xl:col-span-12 grid grid-cols-12 gap-6">
+        <IconLinkCard
+          icon="icon-export"
+          title="Ffmpeg import/export library"
+          description="An optional library which handles additional file formats (like WMA, M4A, AC3 and others)"
+          linkText="Link to ffmpeg library"
+          targetURL="/"
+        />
+        <IconLinkCard
+          icon="icon-mixer"
+          title="Plugins"
+          description="Elevate your productions with a vast selection of third-party plug-ins, including VST3, Nyquist and more."
+          linkText="Link to plugins page"
+          targetURL="/"
+        />
+      </div>
+    </section>
 
   <section class="mt-24">
     <h2 class="text-3xl font-bold">Older versions</h2>
