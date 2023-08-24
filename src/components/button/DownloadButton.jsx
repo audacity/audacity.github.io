@@ -21,7 +21,7 @@ function DownloadButton() {
     return (
       <a className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3" href={href} onClick={() => handleDownloadButtonClick()}>
           <div className="flex gap-2 items-center">
-            <span className="icon icon-export text-white"></span>
+            <span className="icon icon-import text-white"></span>
             <p className="button-text font-semibold text-white"> Download Audacity</p>
           </div>
           <p className="button-caption text-white opacity-80">Installs with no add-ons</p>

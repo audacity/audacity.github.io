@@ -30,6 +30,10 @@
     content: "\EF24"
 }
 
+.icon-import:before {
+    content: "\F357"
+}
+
 .icon-mixer:before {
     content: "\EF27"
 }

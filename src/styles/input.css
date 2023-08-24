@@ -4,20 +4,20 @@
 
 @layer base {
     h1 {
-        @apply text-3xl md:text-4xl lg:text-5xl text-gray-900 font-semibold
+        @apply text-3xl md:text-4xl lg:text-5xl text-gray-900 font-bold xl:leading-snug
     }
 
     h2 {
-        @apply text-2xl md:text-3xl lg:text-4xl text-gray-800 font-semibold
+        @apply text-2xl md:text-3xl lg:text-4xl text-gray-800 font-bold
     }
 
 
     h3 {
-        @apply text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold
+        @apply text-xl md:text-2xl lg:text-3xl text-gray-700 font-bold
     }
 
     h4 {
-        @apply text-base lg:text-lg text-gray-700 font-semibold
+        @apply text-base md:text-lg text-gray-700 font-bold xl:leading-snug
     }
 
     p {

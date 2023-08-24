@@ -5,52 +5,69 @@ import "../styles/icons.css";
 ---
 
 <BaseLayout title="Audacity | Downloads">
-  <section class="mt-14 max-w-screen-xl mx-auto">
+  <section class="max-w-screen-xl mx-auto">
     <div class="grid grid-cols-12 py-12 gap-y-12">
       <div class="col-start-2 col-span-10 sm:text-center">
-        <h2 class="text-5xl font-bold">Downloads</h2>
-        <div class="mt-4">
-          Current version: 3.3.3 | <a class="text-blue-700 underline" href="https://github.com/audacity/audacity/releases/latest" target="_blank"
-            >View release notes</a
+        <h1>Downloads</h1>
+        <div class="inline-flex items-center mt-2">
+          <p>Current version: 3.3.3 |</p>
+          <a
+            class="hyperlink ml-2"
+            href="https://github.com/audacity/audacity/releases/latest"
+            target="_blank">View release notes</a
           >
         </div>
       </div>
       <div class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
-        <h4 class="text-gray-600">Download for</h4>
+        <small>Download for</small>
         <div class="flex flex-col gap-4 mt-2">
-          <OperatingSystemCard title="Windows" description="32 & 64 bit" targetURL="/downloads/download-for-windows"/>
-          <OperatingSystemCard title="Mac OS" description="64 bit intel" targetURL="/downloads/download-for-mac"/>
-          <OperatingSystemCard title="Linux" description="64 bit appimage" targetURL="/downloads/download-for-linux"/>
+          <OperatingSystemCard
+            title="Windows"
+            description="32 & 64 bit"
+            targetURL="/downloads/download-for-windows"
+          />
+          <OperatingSystemCard
+            title="Mac OS"
+            description="64 bit intel"
+            targetURL="/downloads/download-for-mac"
+          />
+          <OperatingSystemCard
+            title="Linux"
+            description="64 bit appimage"
+            targetURL="/downloads/download-for-linux"
+          />
         </div>
       </div>
       <div class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-4">
-        <h4 class="text-gray-600">Additional resources</h4>
+        <small>Additional resources</small>
         <div class="flex flex-col gap-6 mt-2">
           <div>
-            <h3 class="text-lg font-bold">Manual download</h3>
+            <h4>Manual download</h4>
             <div class="gap-2">
-              <a href="/" class="text-blue-700 underline" href="/"
-                >Download Audacity manual</a
+              <a href="/" class="hyperlink" href="/">Download Audacity manual</a
               >
-              <span class="align-middle icon icon-share text-blue-700"></span>
+              <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
           </div>
           <div>
-            <h3 class="text-lg font-bold">Ffmpeg library</h3>
+            <h4>Ffmpeg library</h4>
             <div class="gap-2">
-              <a href="/" class="text-blue-700 underline" href="/"
+              <a href="/" class="hyperlink" href="/"
                 >Ffmpeg import/export library</a
               >
-              <span class="align-middle icon icon-share text-blue-700"></span>
+              <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
           </div>
           <div>
-            <h3 class="text-lg font-bold">Older versions of Audacity</h3>
+            <h4>Older versions of Audacity</h4>
             <div class="gap-2">
-              <a href="https://www.fosshub.com/Audacity.html" target="_blank" class="text-blue-700 underline" href="/"
-                >Download older versions from Fosshub</a
+              <a
+                href="https://www.fosshub.com/Audacity.html"
+                target="_blank"
+                class="hyperlink"
+                href="/">Download older versions from Fosshub</a
               >
-              <span class="align-middle icon icon-share text-blue-700"></span>
+              <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
           </div>
         </div>
