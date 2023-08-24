@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import HamburgerMenu from "./HamburgerMenu";
+import AudacityLogo from "../../assets/img/Audacity_Logo.png";
+import '@fontsource-variable/signika';
+import '../../styles/fonts.css'
 
 function NavigationReact() {
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
@@ -39,11 +42,15 @@ function NavigationReact() {
 
   return (
     <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl ">
-      <div className="flex max-w-screen-xl mx-auto h-14 px-3 xl:px-0 items-center">
-        <a class="flex-1" href="/">
-          <span className="text-blue-700 text-lg font-semibold">Audacity</span>
+      <div className="flex max-w-screen-xl mx-auto h-14 px-4 xl:px-0 items-center">
+        <a class="flex-1 " href="/">
+          <div class="flex gap-1 items-center">
+            <img class="w-5 lg:w-6 h-full" src={AudacityLogo} />
+            <p class="signika text-blue-700 lg:text-lg font-medium">Audacity</p>
+          </div>
         </a>
-        <div className="flex-1 justify-center hidden gap-4 sm:flex">
+
+        <div className="lg:flex-1 justify-center hidden gap-4 sm:flex">
           {navLinks.map((navLink, index) => {
             return renderNavLink(navLink, index);
           })}
@@ -94,3 +101,4 @@ function NavigationReact() {
 }
 
 export default NavigationReact;
+
