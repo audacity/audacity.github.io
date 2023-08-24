@@ -23,10 +23,10 @@ const instance = createInstance({
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="">
+  <body class="flex flex-col h-screen">
     <MatomoProvider value={instance}>
       <NavigationReact client:load />
-      <div class="mt-14"><slot /></div>
+      <div class="mt-14 flex-1"><slot /></div>
       <Footer/>
     </MatomoProvider>
   </body>
