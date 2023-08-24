@@ -4,13 +4,31 @@
 
 @layer base {
     h1 {
-      @apply text-xl md:text-2xl lg:text-4xl text-gray-900 font-bold
+        @apply text-3xl md:text-4xl lg:text-5xl text-gray-900 font-semibold
     }
 
     h2 {
-        @apply text-xl md:text-xl lg:text-3xl text-gray-800 font-bold
+        @apply text-2xl md:text-3xl lg:text-4xl text-gray-800 font-semibold
     }
-  }
 
 
+    h3 {
+        @apply text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold
+    }
 
+    h4 {
+        @apply text-base lg:text-lg text-gray-700 font-semibold
+    }
+
+    p {
+        @apply text-base lg:text-lg text-gray-700 leading-relaxed
+    }
+
+    small {
+        @apply text-xs md:text-sm uppercase text-gray-500
+    }
+
+    .hyperlink {
+        @apply text-blue-500 underline
+    }
+}

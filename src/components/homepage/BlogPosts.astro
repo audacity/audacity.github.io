@@ -15,7 +15,7 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
 
 <section class="bg-gray-50 py-12">
   <div class="max-w-screen-xl mx-auto grid grid-cols-12 gap-y-8">
-    <div class="col-start-2 col-span-10 text-center"><h3 class="text-3xl lg:text-4xl font-bold">Latest from the <a href="/" class="underline text-blue-700">blog</a></h3></div>
+    <div class="col-start-2 col-span-10 text-center"><h2>Latest from the <a href="/" class="hyperlink">blog</a></h2></div>
     <div class="col-start-2 col-span-10 grid grid-cols-12 gap-6 row-start-2">
       {
         posts
