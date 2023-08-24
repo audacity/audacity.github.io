@@ -16,63 +16,57 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <main class="max-w-screen-md mx-auto mt-14">
-    <div class="pt-20">
-      <h1 class="text-5xl font-semibold">{frontmatter.title}</h1>
-      <div class="flex gap-2 text-lg mt-4">
-        <p>{frontmatter.date} |</p><p class="font-bold">{frontmatter.author}</p>
+  <div class="mt-14 mx-4 sm:max-w-screen-sm lg:max-w-screen-md sm:mx-auto">
+    <article class="py-20 prose lg:prose-lg">
+      <div>
+        <h1 class="my-0">{frontmatter.title}</h1><div>
+          <strong class="my-0">{frontmatter.author}</strong>
+          <p class="my-0">{frontmatter.date}</p>
+        </div>
+        <slot />
       </div>
-    </div>
+    </article>
+  </div>
 
-    <div class="content mb-20">
-      <slot />
-    </div>
+  <style is:global>
+    .content {
+      @apply mt-16;
+    }
 
-    <div class="mb-40">
-      <p class="text-2xl font-bold">By {`${frontmatter.author}`}</p>
-      <p class="text-xl">{frontmatter.date}</p>
-    </div>
-  </main>
+    .content p {
+      @apply text-xl text-gray-800 mt-8;
+    }
+
+    .content h1 {
+      @apply text-blue-500 text-xl font-bold mt-8 -mb-4;
+    }
+
+    .content figure {
+      @apply my-8 text-center;
+    }
+
+    .content img {
+      @apply rounded-lg shadow-lg text-center;
+    }
+
+    .content em {
+      @apply text-center font-bold;
+    }
+
+    .content h5 {
+      @apply text-lg font-semibold text-gray-700 mt-12;
+    }
+
+    .content li {
+      @apply mt-2;
+    }
+
+    .content ul {
+      @apply mb-8 list-outside list-disc;
+    }
+
+    .content a {
+      @apply text-blue-700 underline;
+    }
+  </style>
 </BaseLayout>
-
-<style is:global>
-  .content {
-    @apply mt-16;
-  }
-
-  .content p {
-    @apply text-xl text-gray-800 mt-8;
-  }
-
-  .content h1 {
-    @apply text-blue-500 text-xl font-bold mt-8 -mb-4;
-  }
-
-  .content figure {
-    @apply my-8 text-center;
-  }
-
-  .content img {
-    @apply rounded-lg shadow-lg text-center;
-  }
-
-  .content em {
-    @apply text-center font-bold;
-  }
-
-  .content h5 {
-    @apply text-lg font-semibold text-gray-700 mt-12;
-  }
-
-  .content li {
-    @apply mt-2;
-  }
-
-  .content ul {
-    @apply mb-8 list-outside list-disc;
-  }
-
-  .content a {
-    @apply text-blue-700 underline;
-  }
-</style>
