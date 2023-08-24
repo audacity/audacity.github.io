@@ -16,57 +16,19 @@ const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <div class="mt-14 mx-4 sm:max-w-screen-sm lg:max-w-screen-md sm:mx-auto">
-    <article class="py-20 prose lg:prose-lg">
-      <div>
-        <h1 class="my-0">{frontmatter.title}</h1><div>
-          <strong class="my-0">{frontmatter.author}</strong>
-          <p class="my-0">{frontmatter.date}</p>
-        </div>
-        <slot />
+  <div class="mx-4 sm:max-w-screen-sm lg:max-w-screen-md sm:mx-auto">
+    <article class="py-12 md:py-20">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold lg:leading-tight">
+        {frontmatter.title}
+      </h1>
+
+      <div class="mt-4">
+        <p class="inline">
+          {frontmatter.date} | <strong>{frontmatter.author}</strong>
+        </p>
       </div>
+
+      <div class="mt-8 md:mt-14 prose lg:prose-lg"><slot /></div>
     </article>
   </div>
-
-  <style is:global>
-    .content {
-      @apply mt-16;
-    }
-
-    .content p {
-      @apply text-xl text-gray-800 mt-8;
-    }
-
-    .content h1 {
-      @apply text-blue-500 text-xl font-bold mt-8 -mb-4;
-    }
-
-    .content figure {
-      @apply my-8 text-center;
-    }
-
-    .content img {
-      @apply rounded-lg shadow-lg text-center;
-    }
-
-    .content em {
-      @apply text-center font-bold;
-    }
-
-    .content h5 {
-      @apply text-lg font-semibold text-gray-700 mt-12;
-    }
-
-    .content li {
-      @apply mt-2;
-    }
-
-    .content ul {
-      @apply mb-8 list-outside list-disc;
-    }
-
-    .content a {
-      @apply text-blue-700 underline;
-    }
-  </style>
 </BaseLayout>
