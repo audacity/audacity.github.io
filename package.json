@@ -10,8 +10,8 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/react": "^2.0.2",
-		"@astrojs/tailwind": "^3.0.1",
+		"@astrojs/react": "^2.3.2",
+		"@astrojs/tailwind": "^4.0.0",
 		"@datapunt/matomo-tracker-react": "^0.5.1",
 		"@fontsource-variable/signika": "^5.0.8",
 		"@fontsource/twinkle-star": "^5.0.8",
