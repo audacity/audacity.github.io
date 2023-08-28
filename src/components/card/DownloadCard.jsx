@@ -10,13 +10,13 @@ function DownloadCard(props) {
   }
 
   return (
-    <div className="border border-bg-200 rounded-sm p-6">
+    <div className="border border-bg-200 rounded-md p-6">
       <div className="flex flex-col gap-4 md:flex-row md:justify-between items-center">
-        <h4 className="text-xl font-semibold">{title}</h4>
+        <h4>{title}</h4>
         <div class="flex w-full md:w-fit flex-col-reverse text sm:flex-row gap-2">
           <a
             onClick={() => showDetailsHandler()}
-            className="text-blue-700 text-base underline h-12 px-4 w-full whitespace-nowrap flex items-center justify-center"
+            className="hyperlink h-12 px-4 w-full whitespace-nowrap flex items-center justify-center"
           >
             {isOpen ?  "Hide checksum" : "Show checksum" }
           </a>
@@ -38,9 +38,9 @@ function DownloadCard(props) {
             className="flex flex-col gap-4 mt-4"
           >
             <div>
-              <label className="text-sm uppercase text-gray-600">
+              <small>
                 Checksum
-              </label>
+              </small>
               <div className="p-4 border bg-gray-50">
                 <p className="font-mono text-sm break-words">{checksum}</p>
               </div>
