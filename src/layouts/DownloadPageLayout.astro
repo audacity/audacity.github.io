@@ -49,7 +49,7 @@ const { title, OS, version, releaseData, iconName, iconColor } = Astro.props;
                   title={item.name}
                   checksum={item.checksum}
                   downloadURL={item.browser_download_url}
-                  buttonText="Download"
+                  buttonText="Download "
                   downloadType={item.type}
                 />
               );
@@ -68,9 +68,9 @@ const { title, OS, version, releaseData, iconName, iconColor } = Astro.props;
           >
             <IconLinkCard
               icon="icon-export"
-              title="Ffmpeg import/export library"
+              title="FFmpeg import/export library"
               description="An optional library which handles additional file formats (like WMA, M4A, AC3 and others)"
-              linkText="Link to ffmpeg library"
+              linkText="Link to FFmpeg library"
               targetURL="https://support.audacityteam.org/basics/installing-ffmpeg"
             />
             <IconLinkCard
