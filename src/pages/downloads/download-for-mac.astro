@@ -1,0 +1,17 @@
+---
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
+import { releaseData } from "../../assets/js/releaseData";
+
+const { mac } = releaseData;
+---
+
+<DownloadPageLayout
+  title="Audacity | Download for Mac OS"
+  OS="Mac OS"
+  version="3.3.3"
+  releaseData={mac}
+  iconName="apple"
+  iconColor="text-gray-600"
+>
+<h3>[Insert info on Mac OS]</h3>
+</DownloadPageLayout>
