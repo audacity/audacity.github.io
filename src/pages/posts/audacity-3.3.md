@@ -12,7 +12,7 @@ In addition to its visually appealing interface, Audacity's new website brings i
 
 Audacity's commitment to accessibility shines through in its new website as well. The site has been optimized for various devices and screen sizes, ensuring a seamless browsing experience across desktop computers, laptops, tablets, and smartphones. No matter where you are or what device you're using, you can easily access Audacity's resources and engage with the vibrant community surrounding the software.
 
-<figure><img src="/public/beats-and-bars.png"/></figure>
+<figure><img src="/beats-and-bars.png"/></figure>
 
 Speaking of community, Audacity's new website offers an enhanced platform for users to connect, collaborate, and share their audio projects. The updated forum and support section provide a space for users to seek advice, share knowledge, and discuss their experiences. With an active community, comprehensive documentation, and helpful tutorials, Audacity continues to foster a supportive environment where users can learn, grow, and inspire one another.
 
