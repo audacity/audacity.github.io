@@ -21,8 +21,8 @@ const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
         posts
           .slice(0, 3)
           .sort(
-            (a, b) =>
-              Date.parse(a.frontmatter.date) - Date.parse(b.frontmatter.date)
+            (a, b) => /* This is reversed because we want the latest post on top */
+              Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date)
           )
           .map((post) => (
             <BlogListingCard
