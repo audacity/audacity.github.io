@@ -31,4 +31,8 @@
     .hyperlink {
         @apply text-blue-500 underline
     }
+
+    .copyright {
+        @apply text-sm text-gray-600
+    }
 }
