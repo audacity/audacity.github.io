@@ -33,6 +33,6 @@
     }
 
     .copyright {
-        @apply text-sm text-gray-600
+        @apply text-xs text-gray-600
     }
 }
