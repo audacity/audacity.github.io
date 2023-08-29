@@ -1,0 +1,17 @@
+---
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
+import { releaseData } from "../../assets/js/releaseData";
+
+const { lin } = releaseData;
+---
+
+<DownloadPageLayout
+  title="Audacity | Download for Linux"
+  OS="Linux"
+  version="3.3.3"
+  releaseData={lin}
+  iconName="linux"
+  iconColor="text-gray-900"
+>
+<h3>[Insert info on Linux]</h3>
+</DownloadPageLayout>

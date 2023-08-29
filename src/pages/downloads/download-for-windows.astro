@@ -4,141 +4,48 @@ import DownloadCard from "../../components/card/DownloadCard";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import IconLinkCard from "../../components/card/IconLinkCard";
 import "../../styles/icons.css";
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
 
 const { win } = releaseData;
 ---
 
-<BaseLayout title="Audacity | Download for Windows">
-  <main class="max-w-screen-md mx-auto">
-    <section class="py-12">
-      <div class="flex flex-col gap-2 col-start-2 col-span-10 items-center">
-        <svg
-          class="w-6 md:w-8 fill-blue-600"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-          ><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-          <path
-            d="M0 93.7l183.6-25.3v177.4H0V93.7zm0 324.6l183.6 25.3V268.4H0v149.9zm203.8 28L448 480V268.4H203.8v177.9zm0-380.6v180.1H448V32L203.8 65.7z"
-          ></path>
-        </svg>
-        <h1
-          
-        >
-          Download for Windows
-        </h1>
-        <div
-          class="flex flex-col text-center items-center sm:flex-row sm:align-left sm:gap-2"
-        >
-          <p>Current version 3.3.3</p>
-          <p>|</p>
-          <a class="hyperlink"
-            >View release notes</a
-          >
-        </div>
-      </div>
-    </section>
-
-    <section class="mx-4 sm:mx-12 flex flex-col gap-4">
-      {
-        win.map((item) => {
-          return (
-            <DownloadCard
-              client:load
-              title={item.name}
-              checksum={item.checksum}
-              downloadURL={item.browser_download_url}
-              buttonText="Download"
-              downloadType={item.type}
-            />
-          );
-        })
-      }
-    </section>
-
-    <section class="py-12 mx-4 sm:mx-12">
-      <h3
-        class="col-start-2 col-span-10 lg:col-start-1 lg:col-span-12"
-      >
-        Addtional resources
-      </h3>
-      <div
-        class="col-start-2 col-span-10 lg:col-start-1 lg:col-span-12 grid grid-cols-12 gap-6 mt-4 md:mt-8"
-      >
-        <IconLinkCard
-          icon="icon-export"
-          title="Ffmpeg import/export library"
-          description="An optional library which handles additional file formats (like WMA, M4A, AC3 and others)"
-          linkText="Link to ffmpeg library"
-          targetURL="/"
-        />
-        <IconLinkCard
-          icon="icon-mixer"
-          title="Plugins"
-          description="Elevate your productions with a vast selection of third-party plug-ins, including VST3, Nyquist and more."
-          linkText="Link to plugins page"
-          targetURL="/"
-        />
-      </div>
-    </section>
-
-    <section class="mx-4 sm:mx-12">
-      <h3>Older versions</h3>
-      <div>
-        <h4 class="mt-8">
-          Running and older version of Audacity?
-        </h4>
-        <p class="mt-2">
-          Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and
-          Vista, though please note that 7, 8 and Vista obsolete and no longer
-          supported by Microsoft.
-          <br />
-          <br />
-          <a class="hyperlink"
-            >More information about Audacity on Visa HERE</a
-          >
-          <br />
-          <br />
-          For Windows 98, ME and 2000, also for XP without the final Service Pack
-          see Legacy Windows Downloads.
-        </p>
-      </div>
-      <div class="mt-16">
-        <h4 class="mt-8">
-          Looking for an older version for Audacity?
-        </h4>
-        <p class="mt-2">
-          Go ahead, dive into the archives, and discover the perfect Audacity
-          version for your unique needs. Begin your journey today and unleash
-          your creativity with Audacity!
-          <br />
-          <br />
-          <a class="hyperlink">Link to Fosshub</a>
-          <br />
-          <br />
-          For Windows 98, ME and 2000, also for XP without the final Service Pack
-          see Legacy Windows Downloads.
-        </p>
-      </div>
-    </section>
-
-    <section class="mx-4 sm:mx-12 my-20 xl:my-24">
-      <div class="flex justify-between">
-        <div class="flex gap-2 items-center">
-          <span class="icon icon-arrow-left text-blue-600"></span>
-
-          <a
-            class="hyperlink"
-            href="/downloads/download-for-linux">Download for Linux</a
-          >
-        </div>
-        <div class="flex gap-2 items-center">
-          <a
-            class="hyperlink"
-            href="/downloads/download-for-mac">Download for Mac</a
-          >
-          <span class="icon icon-arrow-right text-blue-600"></span>
-        </div>
-      </div>
-    </section>
-  </main>
-</BaseLayout>
+<DownloadPageLayout
+  title="Audacity | Download for Windows"
+  OS="Windows"
+  version="3.3.3"
+  releaseData={win}
+  iconName="windows"
+  iconColor="text-blue-700"
+>
+  <h3>Older versions</h3>
+  <div>
+    <h4 class="mt-8">Running and older version of Audacity?</h4>
+    <p class="mt-2">
+      Audacity 3.1.0 is believed to work correctly on Windows 7, 8.1 and Vista,
+      though please note that 7, 8 and Vista obsolete and no longer supported by
+      Microsoft.
+      <br />
+      <br />
+      <a class="hyperlink">More information about Audacity on Visa HERE</a>
+      <br />
+      <br />
+      For Windows 98, ME and 2000, also for XP without the final Service Pack see
+      Legacy Windows Downloads.
+    </p>
+  </div>
+  <div class="mt-16">
+    <h4 class="mt-8">Looking for an older version for Audacity?</h4>
+    <p class="mt-2">
+      Go ahead, dive into the archives, and discover the perfect Audacity
+      version for your unique needs. Begin your journey today and unleash your
+      creativity with Audacity!
+      <br />
+      <br />
+      <a class="hyperlink">Link to Fosshub</a>
+      <br />
+      <br />
+      For Windows 98, ME and 2000, also for XP without the final Service Pack see
+      Legacy Windows Downloads.
+    </p>
+  </div>
+</DownloadPageLayout>
