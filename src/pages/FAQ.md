@@ -1,0 +1,170 @@
+---
+layout: "../layouts/FaqLayout.astro"
+slug: FAQ
+---
+
+## About Audacity
+
+#### What is Audacity?
+Audacity is the world’s most popular free software for recording and editing audio. So if you're producing music, a podcast, or just playing around with audio, Audacity is for you. It is [available to download](/downloads) as a desktop app for Windows, macOS and Linux.
+
+#### Is Audacity free?
+Yes! Audacity has always — and will always — remain free for everyone. It is available to download from the [Audacity website](/).
+
+#### Who is Audacity for?
+Audacity is for anyone who wants to get creative with sound. It’s also the perfect tool for anyone who needs to quickly edit or export audio, for any reason.
+
+Here are a few of the most common ways Audacity is used every day: 
+
+- Podcasters recording and editing spoken content. Audacity is the world’s most popular app for podcasters.
+- Musicians and bedroom producers, who can edit multiple-parts, mix and add simple effects in an app that’s faster and more intuitive than most DAWs.
+- Field recorders and educators, who can capture, edit or analyze the sounds of environments, ambience, animals and more.
+
+#### Is Audacity open source?
+Audacity is proudly open source. This means its source code remains open to anyone to view or modify. 
+
+A dedicated worldwide community of passionate audio lovers have collaborated to make Audacity the well-loved software it is today. Many third-party plug-ins have also been developed for Audacity thanks to its open source nature.
+
+---
+
+## Download & install
+
+#### What devices are compatible with Audacity?
+Audacity is compatible with the following operating systems:
+
+- Windows X
+- Mac OS X
+- Linux
+
+
+#### Is Audacity only available for desktop?
+Yes, Audacity is only available for desktop computers or laptops.
+
+There is no mobile version of Audacity available.
+
+#### Where can I download Audacity?
+Audacity is available to download from the [Audacity website](/).
+
+You can either download the app directly, or download Audacity through the free [Muse Hub](https://www.musehub.com/). 
+
+If you download Audacity via the Muse Hub, you'll also get access to a free selection of sounds, loops and effects available to use in your Audacity projects.
+
+#### Why should I download Audacity through the Muse Hub?
+The [Muse Hub](https://www.musehub.com/) is a gateway to creativity for any audio producer. It's packed with the best free apps, sounds and effects for composing, producing or performing. In the Muse Hub you'll find:
+
+- **Muse Sounds:** premium collections of sampled instruments, including keys, strings, brass, woodwind, percussion, choirs and electronics. Hear your music played back in astonishing detail with these moving — and completely free — preset packs.
+- **Elements:** free looping sound clips. Drop them easily into your Audacity performances or podcasts.
+- **Muse FX:** effects plug-ins including reverb, delay, compress and more, for fine-tuning your Audacity projects.
+You can download Audacity via the Muse Hub. If you already have Audacity, you can download the Muse Hub and access the free extras [here](https://www.musehub.com/).
+
+
+#### How do I install Audacity or update to the latest version?
+Learn how to install Audacity for Windows [here](https://manual.audacityteam.org/man/installing_and_updating_audacity_on_windows.html), for [Mac](https://manual.audacityteam.org/man/installing_and_updating_audacity_on_mac_os_x.html) here and for [Linux](https://manual.audacityteam.org/man/installing_and_updating_audacity_on_linux.html#:~:text=You%20can%20check%20to%20see,release%20version%20of%20Audacity%20is.) here.
+
+
+#### Is Audacity safe to download?
+Yes. Audacity is entirely safe to download and install on your desktop computer if it has been downloaded directly from the [Audacity website](/).
+
+However, there have been past instances of 'bad adverts' falsely using Audacity's name or logo to encourage downloads of unwanted software or malware in other channels. Please download Audacity from our website to avoid any issues. [Read this article for more safety information](https://www.audacityteam.org/download/online-safety-when-downloading/). 
+
+---
+
+## Features
+
+#### What features come with Audacity?
+In the app, every audio creator can: 
+
+- Record live with a microphone or mixer. Or digitize imported recordings.
+- Edit your tracks fast with intuitive tools, including cutting, pasting and smooth volume mixing.
+- Perfect your audio with more advanced effects:
+- Reduce background static with noise reduction tools.
+- Adjust tempo without altering pitch or vice versa.
+- Alter frequencies with equalizers, high and low-pass filters and more.
+- Reduce or isolate vocals in stereo tracks.
+- Add impact with distortion, echo, reverb and more effects.
+- Import, export and convert files in every popular audio format, including mp3, m4a, AIFF, FLAC, WAV and more. You can even combine clips from multiple formats into the same project.
+- Take your editing to the next level with an extensive selection of third-party effects plug-ins, designed by the passionate Audacity, open-source community.
+- Visualize and analyze your audio clips in Spectrogram view.
+- Upload and share your files online to [audio.com](https://audio.com/), instantly.
+
+To learn more about specific features, check out the [Audacity manual](https://manual.audacityteam.org/index.html).
+
+#### What audio file formats are compatible with Audacity?
+Audacity supports import, export and conversion of files in every popular audio format, including mp3, m4a, AIFF, FLAC, WAV and more. In fact, you can just use Audacity to convert files into different formats if you like.
+
+You can even combine clips from multiple formats into the same audio project. 
+
+#### What audio quality is compatible with Audacity?
+Audacity supports 16-bit, 24-bit and 32-bit audio. Sample rates and formats are converted using high-quality resampling and dithering.
+
+#### Can I use Audacity to produce music?
+Yes! Audacity can be used to record and produce your music tracks. Because it's free and easy-to-use, Audacity is a great DAW for music production beginners or those who want to make quick edits to recordings of live performances.
+
+For more information on how to use specific Audacity features, check out the [Audacity manual](https://manual.audacityteam.org/).
+
+#### Can I use Audacity to produce podcasts?
+Yes! In fact, Audacity is the world's most popular software for recording and producing podcasts — because it's easy-to-use and completely free.
+
+For more information on how to use specific Audacity features, check out the [Audacity manual](https://manual.audacityteam.org/).
+
+#### Is Audacity a DAW?
+Yes. Audacity is a DAW just like GarageBand, FL Studio, Ableton Live, Logic Pro and others. Many musicians use Audacity to record and produce their tracks.
+
+The Audacity team is always looking for new ways to improve the experience for musicians and music producers, so look out for new features in future updates.
+
+#### I'm just getting started with Audacity. Are there any free tutorials available?
+The free, online [Audacity manual](https://manual.audacityteam.org/) includes both [How-Tos](https://manual.audacityteam.org/man/how_to_use_audacity.html) and step-by-step [Tutorials](https://manual.audacityteam.org/man/tutorials_for_audacity.html) for beginners.
+
+#### Is Audacity compatible with third party plug-ins?
+Yes! As an open-source application many third party plug-ins have been developed for Audacity. Check out a list of some of our team's favorite Audacity plug-ins here.
+
+The software supports LADSPA, LV2, Nyquist, VST and Audio Unit plug-ins.
+
+
+
+#### Where can I find more information about specific Audacity features?
+
+Try the free, online [Audacity manual](https://manual.audacityteam.org/) for in-depth, technical information on specific features.
+
+---
+
+## Legal & privacy
+
+#### What is Audacity's privacy policy?
+The Audacity app only collects data relevant to error reporting (such as device information) and software updates.
+
+The Audacity team will take all the necessary steps to keep your data protected. It is fully GDPR compliant in EU regions.
+
+Read Audacity's privacy policy in full [here](https://www.audacityteam.org/contact/privacy-policy/).
+
+#### Is Audacity spyware?
+No. Audacity is entirely safe to use and only collects data relevant to error reporting (such as device information) and software updates.
+
+After Audacity 3.0.3 was released, we have since reviewed our privacy policy and will take all the necessary steps to keep your data protected. The Audacity team is fully GDPR compliant in EU regions.
+
+Read Audacity's privacy policy in full [here](https://www.audacityteam.org/contact/privacy-policy/).
+
+#### I've shared my Audacity project on Audio.com. What are my legal rights regarding my project?
+If you are the sole creator of the audio project, the intellectual property rights and mechanical copyright is retained by you. Similar to other UGC (User Generated Content) platforms, by using [audio.com](https://audio.com/) you grant a license to host and show your work. You are also free to distribute your work on other platforms, if you wish. For more details read the full [Terms & Conditions](https://audio.com/legal/terms-of-use.pdf). 
+
+---
+
+## Team & news
+
+#### Where can I stay up to date with the latest Audacity news and updates?
+Subscribe to Audacity [YouTube Channel](https://www.youtube.com/@audacity), or follow us on [Facebook](https://www.facebook.com/Audacity/) or [Twitter](https://twitter.com/getaudacity).
+
+#### I have a question or issue with Audacity. Is there a support team I can contact?
+Many frequently asked questions and issues are answered on our support page [here](https://support.audacityteam.org/). For detailed information on Audacity features, please check out the [Audacity manual](https://manual.audacityteam.org/index.html).
+
+If you have a question you can't find the answer to, please leave a comment on the [Audacity forum](https://forum.audacityteam.org/), where one of our team (or someone in the Audacity community), will be happy to help!
+
+#### I'm an open-source developer working with Audacity. How can I get in touch with the team?
+No answer to this question yet
+
+#### What is the history of Audacity?
+Audacity has transformed the lives of musicians and audio content creators for over two decades. Since launching in 2000, the desktop app has been downloaded over 100 million times.
+
+In 2020, we joined with the makers of Ultimate Guitar, MuseScore and others to form Muse Group, with a mission to empower millions of creatives all over the globe. 
+
+We remain committed to our free, open-source roots — and passionate about helping the next generation create the very best sounds, music and podcasts with Audacity.
