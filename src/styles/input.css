@@ -33,7 +33,11 @@
     }
 
     .hyperlink {
-        @apply text-blue-500 underline
+        @apply text-blue-500 underline hover:text-blue-600
+    }
+
+    .footer-link-list li {
+        @apply text-gray-700 hover:text-blue-700 w-fit
     }
 
     .copyright {
