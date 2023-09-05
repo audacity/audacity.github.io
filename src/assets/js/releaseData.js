@@ -1,5 +1,4 @@
 export const releaseData = {
-  gitReleaseURL: 'https://github.com/audacity/audacity/releases/tag/Audacity-3.3.3',
   win: [
     {
       name: "32 bit installer",
