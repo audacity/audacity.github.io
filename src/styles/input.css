@@ -23,6 +23,10 @@
     p {
         @apply text-base lg:text-lg text-gray-700 leading-relaxed
     }
+    
+    .list li {
+        @apply mt-2 list-disc list-inside text-base lg:text-lg text-gray-700 leading-relaxed
+    }
 
     small {
         @apply text-xs md:text-sm uppercase text-gray-500
