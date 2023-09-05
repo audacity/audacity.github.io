@@ -25,8 +25,11 @@ const { title, description, href, thumbnail, author, date } =
           {date}
         </small>
         <h4>
-          {title.slice(0, 100)}...
+          {title.length > 100 ? title.slice(0, 100) + `...` : title}
         </h4>
+        <p>
+          {description.length > 100 ? description.slice(0, 100) + `...` : description}
+        </p>
       </div>
 
       <div class="mt-4">

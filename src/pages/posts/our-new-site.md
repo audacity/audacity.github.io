@@ -1,5 +1,5 @@
 ---
-title: audacityteam.org now has a new look!
+title: Our new website
 slug: our-new-site
 thumbnail: /our-new-site.jpg
 author: Dawson Custons-Cole

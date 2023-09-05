@@ -12,25 +12,28 @@ const { title, description, href, thumbnail, author, date } =
 ---
 
 <a href={href} class="col-span-12 lg:col-span-6 cursor-pointer">
-  <div class="flex flex-col sm:flex-row lg:flex-col rounded-lg overflow-hidden bg-slate-100 h-80 sm:h-full drop-shadow-md">
-    <div class="w-full h-32 sm:w-48 sm:h-48 lg:w-full lg:h-40">
+  <div
+    class="flex flex-col md:flex-row lg:flex-col rounded-lg overflow-hidden bg-slate-100 h-80 md:h-full drop-shadow-md"
+  >
+    <div class="w-full h-32 md:w-48 md:h-48 lg:w-full lg:h-40">
       <img class="w-full h-full object-cover" src={thumbnail} />
     </div>
 
     <div class="flex flex-1 flex-col justify-between p-4 pb-6">
       <div class="flex flex-col gap-1">
-        <p class="text-xs sm:text-sm uppercase text-gray-600">
+        <small>
           {date}
+        </small>
+        <h4>
+          {title.length > 100 ? title.slice(0, 100) + `...` : title}
+        </h4>
+        <p>
+         {description}
         </p>
-        <h3
-          class="font-bold text-gray-800 text-base md:text-lg"
-        >
-          {title}
-        </h3>
       </div>
 
       <div class="mt-4">
-        <p class="text-base sm:text-lg text-blue-700 underline">Read more</p>
+        <p class="hyperlink">Read more</p>
       </div>
     </div>
   </div>

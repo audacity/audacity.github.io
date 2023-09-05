@@ -1,5 +1,5 @@
 ---
-title: A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms - reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development. 
+title: Audacity 3.3 
 slug: audacity-3.3
 thumbnail: /blog1.png
 author: Leo Wattenberg

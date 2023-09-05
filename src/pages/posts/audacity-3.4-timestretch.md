@@ -1,5 +1,5 @@
 ---
-title: A technical look into time stretching in Audacity 3.4
+title: Time stretching in Audacity 3.4
 slug: audacity-3.4
 thumbnail: /blog1.png
 author: Leo Wattenberg
