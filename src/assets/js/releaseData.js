@@ -38,21 +38,21 @@ export const releaseData = {
       name: "ARM 64 dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-arm64.dmg",
-      checksum: "?",
+      checksum: null,
       type: ".dmg",
     },
     {
       name: "Universal dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg",
-      checksum: "?",
+      checksum: null,
       type: ".dmg",
     },
     {
       name: "x86_64 dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-x86_64.dmg",
-      checksum: "?",
+      checksum: null,
       type: ".dmg",
     },
   ],
@@ -61,7 +61,7 @@ export const releaseData = {
       name: "AppImage",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-linux-3.2.4-x64.AppImage",
-      checksum: "?",
+      checksum: null,
       type: ".AppImage"
     },
   ],
