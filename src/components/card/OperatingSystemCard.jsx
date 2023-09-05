@@ -56,10 +56,10 @@ function OperatingSystemCard(props) {
 
   return (
     <a href={targetURL}>
-      <div class="bg-white border drop-shadow-md rounded-md p-6">
+      <div class="bg-white border drop-shadow-md rounded-md p-4 lg:p-6">
         {renderOSIcon(title)}
-        <h3 class="text-2xl font-bold">{title}</h3>
-        <p class="uppercase text-gray-700">{description}</p>
+        <h4>{title}</h4>
+        <p>{description}</p>
       </div>
     </a>
   );
