@@ -1,3 +1,7 @@
+---
+import { releaseData } from "../../assets/js/releaseData";
+---
+
 <section class="bg-gray-900">
   <div class="grid grid-cols-12 max-w-screen-xl mx-auto py-12 gap-y-4">
     <div
@@ -7,7 +11,7 @@
         Produce music. Produce podcasts. Take total control of your sound
       </h3>
       <a
-        href="https://support.audacityteam.org/audio-editing/using-realtime-effects"
+        href={releaseData.gitReleaseURL}
         target="_blank"><p class="hyperlink">More about our new release</p></a
       >
     </div>
