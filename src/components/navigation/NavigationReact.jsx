@@ -47,7 +47,9 @@ function NavigationReact() {
         <div class="flex-1">
           <a class="flex w-fit items-center gap-1 lg:gap-2" href="/">
             <img class="w-5 lg:w-6 h-full" src={AudacityLogo} />
-            <brand class="signika text-blue-700 lg:text-lg font-medium lg:leading-none">Audacity</brand>
+            <brand class="signika text-blue-700 lg:text-lg font-medium lg:leading-none">
+              Audacity
+            </brand>
           </a>
         </div>
 
@@ -57,8 +59,8 @@ function NavigationReact() {
           })}
         </div>
 
-        <div className="hidden lg:flex flex-1 justify-end items-center gap-2">
-          <p>Free audio hosting</p>
+        <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
+          <p class="text-base">Free audio hosting</p>
           <a href="https://audio.com/auth/sign-up" target="_blank">
             <button className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white">
               Sign up
