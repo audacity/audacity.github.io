@@ -22,4 +22,7 @@ export default defineConfig({
       ],
     },
   },
+  redirects: {
+    '/3.1.0-video': "https://www.youtube.com/watch?v=HpA138b-J9s"
+  }
 });
