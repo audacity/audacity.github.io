@@ -23,6 +23,16 @@ export default defineConfig({
     },
   },
   redirects: {
-    '/3.1.0-video': "https://www.youtube.com/watch?v=HpA138b-J9s"
+    '/3.1.0-video': "https://www.youtube.com/watch?v=HpA138b-J9s",
+    '/3.2.0-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
+    '/realtime-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
+    '/errors': "https://support.audacityteam.org/troubleshooting/error-codes",
+    '/nightly': "https://nightly.link/audacity/audacity/workflows/build/master",
+    '/help/faq': "https://manual.audacityteam.org/man/faq.html",
+    '/download/plug-ins/': "https://plugins.audacityteam.org/",
+    '/help/documentation/': "https://support.audacityteam.org/",
+    '/gitbook-plugins': "https://app.gitbook.com/invite/-MhmG2mhIIHTtQPuHV_k/kY9XD8X03nb2bluFgolK",
+    '/devserver': "https://discord.gg/N3XKxzTrq3",
+    '/gitbook-access': "https://app.gitbook.com/invite/-MhmG2mhIIHTtQPuHV_k/acNI2LAF6LtdJW06t4Hc"
   }
 });
