@@ -1,6 +1,6 @@
 ---
 title: Time stretching in Audacity 3.4
-slug: audacity-3.4
+slug: audacity-3.4-timestretch
 thumbnail: /blog1.png
 author: Leo Wattenberg
 date: September 30, 2023
