@@ -39,21 +39,21 @@ export const releaseData = {
       name: "ARM 64 dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-arm64.dmg",
-      checksum: null,
+      checksum: "1d8060026405c34a6868f81ac7f4271be9c233802abc438803e8c8777b7f9e25",
       type: ".dmg",
     },
     {
       name: "Universal dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-universal.dmg",
-      checksum: null,
+      checksum: "a8b1184ef86bc9107fbc84b5bca60335352dc1ace2535a2018d9a491018f9f42",
       type: ".dmg",
     },
     {
       name: "x86_64 dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-macOS-3.2.4-x86_64.dmg",
-      checksum: null,
+      checksum: "69f8fcb2777d1da4e0b758cf3ffa595bc767dcbb0f039debe428f5819ceedeae",
       type: ".dmg",
     },
   ],
@@ -62,8 +62,22 @@ export const releaseData = {
       name: "AppImage",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.2.4/audacity-linux-3.2.4-x64.AppImage",
-      checksum: null,
+      checksum: "31284c6bc9e63803cf910d3fc18b4d5d9d0d96357931a5382332b470921157d9",
       type: ".AppImage"
     },
   ],
+  src: [
+    {
+      name: "Source code",
+      browser_download_url: "https://github.com/audacity/audacity/archive/refs/tags/Audacity-3.2.4.zip",
+      checksum: "",
+      type: ".zip"
+    },
+    {
+      name: "Source code",
+      browser_download_url: "https://github.com/audacity/audacity/archive/refs/tags/Audacity-3.2.4.tar.gz",
+      checksum: "cbfd04e9b1ccbebb9b723b7678ffaeac32201e62e4449166956edde1fbef7476",
+      type: ".tar.gz"
+    }
+  ]
 };
