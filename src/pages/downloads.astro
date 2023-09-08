@@ -2,6 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import OperatingSystemCard from "../components/card/OperatingSystemCard";
 import "../styles/icons.css";
+import { releaseData } from "../assets/js/releaseData";
+
+const {version} = releaseData
 ---
 
 <BaseLayout title="Audacity | Downloads">
@@ -10,7 +13,7 @@ import "../styles/icons.css";
       <div class="col-start-2 col-span-10 sm:text-center">
         <h1>Downloads</h1>
         <div class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4">
-          <p>Current version: 3.3.3</p>
+          <p>Current version: {version}</p>
           <p class="hidden sm:block">|</p>
           <a
             class="hyperlink"

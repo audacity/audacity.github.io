@@ -1,4 +1,5 @@
 export const releaseData = {
+  version: "3.2.4",
   win: [
     {
       name: "32 bit installer",

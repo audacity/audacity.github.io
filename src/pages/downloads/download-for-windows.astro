@@ -3,13 +3,13 @@ import { releaseData } from "../../assets/js/releaseData";
 import "../../styles/icons.css";
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
 
-const { win } = releaseData;
+const { win, version } = releaseData;
 ---
 
 <DownloadPageLayout
   title="Audacity | Download for Windows"
   OS="Windows"
-  version="3.3.3"
+  version={version}
   releaseData={win}
   iconName="windows"
   iconColor="text-blue-700"
