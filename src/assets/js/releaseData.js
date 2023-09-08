@@ -70,7 +70,7 @@ export const releaseData = {
     {
       name: "Source code",
       browser_download_url: "https://github.com/audacity/audacity/archive/refs/tags/Audacity-3.2.4.zip",
-      checksum: "",
+      checksum: "4cb5974a4806d582179dd3f8998ec892e9ca910a5fe7dff59275c062e261c28f",
       type: ".zip"
     },
     {

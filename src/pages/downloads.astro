@@ -4,7 +4,7 @@ import OperatingSystemCard from "../components/card/OperatingSystemCard";
 import "../styles/icons.css";
 import { releaseData } from "../assets/js/releaseData";
 
-const {version} = releaseData
+const {version, src} = releaseData
 ---
 
 <BaseLayout title="Audacity | Downloads">
@@ -46,7 +46,7 @@ const {version} = releaseData
         <small>Additional resources</small>
         <div class="flex flex-col gap-6 mt-2">
           <div>
-            <h4>Manual download</h4>
+            <h4>Offline manual</h4>
             <div class="gap-2">
               <a class="hyperlink" href="https://github.com/audacity/audacity-manual/releases">Download Audacity manual</a
               >
@@ -60,6 +60,23 @@ const {version} = releaseData
                 >FFmpeg import/export library</a
               >
               <span class="align-middle icon icon-share text-blue-600"></span>
+            </div>
+          </div>
+          <div>
+            <h4>Source code</h4>
+            <div class="gap-2">
+              <a href=`${src[0].browser_download_url}` class="hyperlink" 
+                >.zip</a><span class="align-middle icon icon-share text-blue-600"></span>
+                <a href=`${src[1].browser_download_url}` class="hyperlink" 
+                >.tar.gz</a>
+              <span class="align-middle icon icon-share text-blue-600"></span><br>
+              <details>
+                <summary>checksums</summary>
+                <ul>
+                  <li>.zip: <code style="display:inline-block" class="mt-2 p-2 bg-gray-50 border border-gray-200">{src[0].checksum}</code></li>
+                  <li>.tar.gz: <code style="display:inline-block" class="mt-2 p-2 bg-gray-50 border border-gray-200">{src[1].checksum}</code></li>
+                </ul>
+              </details>
             </div>
           </div>
           <div>
