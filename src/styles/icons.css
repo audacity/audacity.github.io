@@ -61,3 +61,11 @@
 .icon-waveform:before {
     content: "\F43C"
 }
+
+.icon-caret-right:before {
+    content: "\EF11"
+}
+
+.icon-caret-down:before {
+    content: "\EF12"
+}

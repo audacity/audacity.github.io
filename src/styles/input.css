@@ -20,8 +20,16 @@
         @apply text-base md:text-lg text-gray-700 font-bold xl:leading-snug
     }
 
+    h5 {
+        @apply text-base font-bold text-gray-700
+    }
+
     p {
         @apply text-base lg:text-lg text-gray-700 leading-relaxed
+    }
+
+    label {
+        @apply text-gray-700
     }
     
     .list li {
@@ -43,4 +51,5 @@
     .copyright {
         @apply text-xs text-gray-600
     }
+    
 }

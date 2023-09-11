@@ -3,8 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import OperatingSystemCard from "../components/card/OperatingSystemCard";
 import "../styles/icons.css";
 import { releaseData } from "../assets/js/releaseData";
+import ChecksumAccordion from "../components/accordion/ChecksumAccordion";
 
-const {version, src} = releaseData
+const { version, src } = releaseData;
 ---
 
 <BaseLayout title="Audacity | Downloads">
@@ -12,7 +13,9 @@ const {version, src} = releaseData
     <div class="grid grid-cols-12 py-12 gap-y-12">
       <div class="col-start-2 col-span-10 sm:text-center">
         <h1>Downloads</h1>
-        <div class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4">
+        <div
+          class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
+        >
           <p>Current version: {version}</p>
           <p class="hidden sm:block">|</p>
           <a
@@ -42,51 +45,57 @@ const {version, src} = releaseData
           />
         </div>
       </div>
-      <div class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-4">
+      <div class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
         <small>Additional resources</small>
         <div class="flex flex-col gap-6 mt-2">
           <div>
             <h4>Offline manual</h4>
             <div class="gap-2">
-              <a class="hyperlink" href="https://github.com/audacity/audacity-manual/releases">Download Audacity manual</a
+              <a
+                class="hyperlink"
+                href="https://github.com/audacity/audacity-manual/releases"
+                >Download Audacity manual</a
               >
               <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
           </div>
+
           <div>
             <h4>FFmpeg library</h4>
             <div class="gap-2">
-              <a href="https://support.audacityteam.org/basics/installing-ffmpeg" class="hyperlink" 
-                >FFmpeg import/export library</a
+              <a
+                href="https://support.audacityteam.org/basics/installing-ffmpeg"
+                class="hyperlink">FFmpeg import/export library</a
               >
               <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
           </div>
+
           <div>
             <h4>Source code</h4>
-            <div class="gap-2">
-              <a href=`${src[0].browser_download_url}` class="hyperlink" 
-                >.zip</a><span class="align-middle icon icon-share text-blue-600"></span>
-                <a href=`${src[1].browser_download_url}` class="hyperlink" 
-                >.tar.gz</a>
-              <span class="align-middle icon icon-share text-blue-600"></span><br>
-              <details>
-                <summary>checksums</summary>
-                <ul>
-                  <li>.zip: <code style="display:inline-block" class="mt-2 p-2 bg-gray-50 border border-gray-200">{src[0].checksum}</code></li>
-                  <li>.tar.gz: <code style="display:inline-block" class="mt-2 p-2 bg-gray-50 border border-gray-200">{src[1].checksum}</code></li>
-                </ul>
-              </details>
+            <div class="flex flex-col gap-2">
+              <ChecksumAccordion
+                title=".zip"
+                downloadUrl={src[0].browser_download_url}
+                checksum={src[0].checksum}
+                client:load
+              />
+              <ChecksumAccordion
+                title=".tar.gz"
+                downloadUrl={src[1].browser_download_url}
+                checksum={src[1].checksum}
+                client:load
+              />
             </div>
           </div>
+
           <div>
             <h4>Older versions of Audacity</h4>
             <div class="gap-2">
               <a
                 href="https://www.fosshub.com/Audacity-old.html"
                 target="_blank"
-                class="hyperlink"
-                >Download older versions from Fosshub</a
+                class="hyperlink">Download older versions from Fosshub</a
               >
               <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
