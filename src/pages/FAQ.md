@@ -30,11 +30,11 @@ A dedicated worldwide community of passionate audio lovers have collaborated to 
 ## Download & install
 
 #### What devices are compatible with Audacity?
-Audacity is compatible with the following operating systems:
+Audacity is tested compatible with the following operating systems:
 
-- Windows X
-- Mac OS X
-- Linux
+- Windows 10 & 11, with Vista, 7 and 8.1 believed to work
+- MacOS 12 & 13, with OS X versions since 10.9 believed to still work
+- Linux: Ubuntu 22.04, with most major distributions believed to work.
 
 
 #### Is Audacity only available for desktop?
@@ -59,13 +59,13 @@ You can download Audacity via the Muse Hub. If you already have Audacity, you ca
 
 
 #### How do I install Audacity or update to the latest version?
-Learn how to install Audacity for Windows [here](https://manual.audacityteam.org/man/installing_and_updating_audacity_on_windows.html), for [Mac](https://manual.audacityteam.org/man/installing_and_updating_audacity_on_mac_os_x.html) here and for [Linux](https://manual.audacityteam.org/man/installing_and_updating_audacity_on_linux.html#:~:text=You%20can%20check%20to%20see,release%20version%20of%20Audacity%20is.) here.
+[Learn how to install Audacity](https://support.audacityteam.org/basics/downloading-and-installing-audacity) on Windows, macOS and Linux here: https://support.audacityteam.org/basics/downloading-and-installing-audacity
 
 
 #### Is Audacity safe to download?
-Yes. Audacity is entirely safe to download and install on your desktop computer if it has been downloaded directly from the [Audacity website](/).
+Yes. Audacity is entirely safe to download and install on your desktop computer if it has been downloaded directly from the [Audacity website](/). 
 
-However, there have been past instances of 'bad adverts' falsely using Audacity's name or logo to encourage downloads of unwanted software or malware in other channels. Please download Audacity from our website to avoid any issues. [Read this article for more safety information](https://www.audacityteam.org/download/online-safety-when-downloading/). 
+We also publish versions through the Microsoft Store, via `winget`, via Github and Fosshub. There also are third party Audacity builds around, though we cannot guarantee for the integrity of versions downloaded from places other than mentioned here.
 
 ---
 
@@ -113,12 +113,12 @@ Yes. Audacity is a DAW just like GarageBand, FL Studio, Ableton Live, Logic Pro 
 The Audacity team is always looking for new ways to improve the experience for musicians and music producers, so look out for new features in future updates.
 
 #### I'm just getting started with Audacity. Are there any free tutorials available?
-The free, online [Audacity manual](https://manual.audacityteam.org/) includes both [How-Tos](https://manual.audacityteam.org/man/how_to_use_audacity.html) and step-by-step [Tutorials](https://manual.audacityteam.org/man/tutorials_for_audacity.html) for beginners.
+We have a beginner tutorial series available on https://support.audacityteam.org/, beginning with [installing Audacity](https://support.audacityteam.org/basics/downloading-and-installing-audacity) and [FFmpeg](https://support.audacityteam.org/basics/installing-ffmpeg), [recording your voice](https://support.audacityteam.org/basics/recording-your-voice-and-microphone), [recording desktop audio](https://support.audacityteam.org/basics/recording-desktop-audio), [editing audio](https://support.audacityteam.org/basics/audacity-editing),  [saving and exporting projects](https://support.audacityteam.org/basics/saving-and-exporting-projects) and more!
 
-#### Is Audacity compatible with third party plug-ins?
-Yes! As an open-source application many third party plug-ins have been developed for Audacity. Check out a list of some of our team's favorite Audacity plug-ins here.
+#### Is Audacity compatible with third party plugins?
+Yes! As an open-source application many third party plugins have been developed for Audacity. Check out a list of some of our team's favorite Audacity plugins at https://plugins.audacityteam.org/
 
-The software supports LADSPA, LV2, Nyquist, VST and Audio Unit plug-ins.
+Audacity supports VST3, LADSPA, LV2, Nyquist, VST and Audio Unit plugins.
 
 
 
@@ -135,14 +135,14 @@ The Audacity app only collects data relevant to error reporting (such as device 
 
 The Audacity team will take all the necessary steps to keep your data protected. It is fully GDPR compliant in EU regions.
 
-Read Audacity's privacy policy in full [here](https://www.audacityteam.org/contact/privacy-policy/).
+Read Audacity's privacy policy in full [here](https://www.audacityteam.org/desktop-privacy-policy/).
 
 #### Is Audacity spyware?
 No. Audacity is entirely safe to use and only collects data relevant to error reporting (such as device information) and software updates.
 
 After Audacity 3.0.3 was released, we have since reviewed our privacy policy and will take all the necessary steps to keep your data protected. The Audacity team is fully GDPR compliant in EU regions.
 
-Read Audacity's privacy policy in full [here](https://www.audacityteam.org/contact/privacy-policy/).
+Read Audacity's privacy policy in full [here](https://www.audacityteam.org/desktop-privacy-policy/).
 
 #### I've shared my Audacity project on Audio.com. What are my legal rights regarding my project?
 If you are the sole creator of the audio project, the intellectual property rights and mechanical copyright is retained by you. Similar to other UGC (User Generated Content) platforms, by using [audio.com](https://audio.com/) you grant a license to host and show your work. You are also free to distribute your work on other platforms, if you wish. For more details read the full [Terms & Conditions](https://audio.com/legal/terms-of-use.pdf). 
@@ -160,7 +160,7 @@ Many frequently asked questions and issues are answered on our support page [her
 If you have a question you can't find the answer to, please leave a comment on the [Audacity forum](https://forum.audacityteam.org/), where one of our team (or someone in the Audacity community), will be happy to help!
 
 #### I'm an open-source developer working with Audacity. How can I get in touch with the team?
-No answer to this question yet
+Audacity is currently undergoing major restructuring, so we unfortunately have very limited capacity to support third parties. That said, feel free to drop by our [dev discord](/devserver). 
 
 #### What is the history of Audacity?
 Audacity has transformed the lives of musicians and audio content creators for over two decades. Since launching in 2000, the desktop app has been downloaded over 100 million times.
