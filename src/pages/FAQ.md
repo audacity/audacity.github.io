@@ -65,7 +65,7 @@ You can download Audacity via the Muse Hub. If you already have Audacity, you ca
 #### Is Audacity safe to download?
 Yes. Audacity is entirely safe to download and install on your desktop computer if it has been downloaded directly from the [Audacity website](/). 
 
-We also publish versions through the Microsoft Store, via `winget`, via Github and Fosshub. There also are third party Audacity builds around, though we cannot guarantee for the integrity of versions downloaded from places other than mentioned here.
+We also publish official versions through the Microsoft Store, via `winget`, via Github and Fosshub. There also are third party Audacity builds around, though we cannot guarantee for the integrity of versions downloaded from places other than mentioned here.
 
 ---
 
@@ -135,7 +135,7 @@ The Audacity app only collects data relevant to error reporting (such as device 
 
 The Audacity team will take all the necessary steps to keep your data protected. It is fully GDPR compliant in EU regions.
 
-Read Audacity's privacy policy in full [here](https://www.audacityteam.org/desktop-privacy-policy/).
+Read Audacity's privacy policy in full [here](/desktop-privacy-policy/). The cookie policy for this website can be found [here](/cookie-policy/).
 
 #### Is Audacity spyware?
 No. Audacity is entirely safe to use and only collects data relevant to error reporting (such as device information) and software updates.
