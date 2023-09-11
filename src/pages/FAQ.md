@@ -1,6 +1,6 @@
 ---
-layout: "../layouts/FaqLayout.astro"
-slug: FAQ
+layout: "../layouts/PageLayout.astro"
+title: Audacity | FAQ
 ---
 
 ## About Audacity
