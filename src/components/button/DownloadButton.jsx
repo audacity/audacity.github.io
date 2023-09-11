@@ -44,7 +44,7 @@ function DownloadButton() {
         releaseData.lin[0].browser_download_url
       );
     default:
-      return renderButton("/downloads");
+      return renderButton("/download");
   }
 }
 

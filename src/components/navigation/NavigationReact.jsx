@@ -9,7 +9,7 @@ function NavigationReact() {
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "/downloads", linkText: "Downloads", target: "" },
+    { href: "/download", linkText: "Downloads", target: "" },
     { href: "/FAQ", linkText: "FAQ", target: "" },
     { href: "/blog", linkText: "Blog", target: "" },
     {

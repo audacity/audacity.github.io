@@ -6,7 +6,7 @@ title: Audacity | FAQ
 ## About Audacity
 
 #### What is Audacity?
-Audacity is the world’s most popular free software for recording and editing audio. So if you're producing music, a podcast, or just playing around with audio, Audacity is for you. It is [available to download](/downloads) as a desktop app for Windows, macOS and Linux.
+Audacity is the world’s most popular free software for recording and editing audio. So if you're producing music, a podcast, or just playing around with audio, Audacity is for you. It is [available to download](/download) as a desktop app for Windows, macOS and Linux.
 
 #### Is Audacity free?
 Yes! Audacity has always — and will always — remain free for everyone. It is available to download from the [Audacity website](/).
