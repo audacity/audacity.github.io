@@ -19,7 +19,6 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
       <div class="grid grid-cols-12 my-4 sm:my-8 md:my-12 gap-y-8 sm:gap-8 md:gap-12">
         {
           publishedBlogPosts.map((post) => {
-            console.log("hello");
             return (
               <NEWBlogPostCard
                 href={post.slug}
