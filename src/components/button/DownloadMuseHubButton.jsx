@@ -24,7 +24,7 @@ function DownloadMuseHubButton() {
         <p className="text-blue-700 font-semibold">
           Audacity + free effects & samples
         </p>
-        <p className="text-gray-500">Requires the MuseHub installer</p>
+        <p className="text-gray-700">Requires the MuseHub installer</p>
       </a>
     );
   }

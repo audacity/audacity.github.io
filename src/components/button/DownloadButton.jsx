@@ -25,7 +25,7 @@ function DownloadButton() {
             <span className="icon icon-import text-white"></span>
             <p className="button-text font-semibold text-white"> Download Audacity {releaseData.version}</p>
           </div>
-          <p className="button-caption text-white opacity-80">Installs with no add-ons</p>
+          <p className="button-caption text-white">Installs with no add-ons</p>
       </a>
     );
   }
