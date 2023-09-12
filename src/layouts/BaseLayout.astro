@@ -3,6 +3,7 @@ import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
 import { MatomoProvider, createInstance } from "@datapunt/matomo-tracker-react";
 import '../styles/input.css'
+import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
   title: string;
@@ -25,6 +26,7 @@ const instance = createInstance({
     <link href="/output.css" rel="stylesheet"/>
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
   <body class="flex flex-col h-screen">
     <MatomoProvider value={instance}>
