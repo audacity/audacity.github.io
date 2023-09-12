@@ -7,29 +7,29 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
 });
 ---
 
-<section
-  class="max-w-screen-lg mx-12 xl:mx-auto grid grid-cols-12 py-12 gap-y-4 md:gap-y-12"
->
-  <div class="col-start-2 col-span-10 sm:text-center">
-    <h1>Blog posts</h1>
-  </div>
+<section class="pt-8 pb-16">
+  <div class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto">
+    <h2 class="text-left sm:text-center">
+      New from our <a href="/blog" class="hyperlink">blog</a>
+    </h2>
 
-  <div class="col-span-12">
-    {
-      publishedBlogPosts.map((post) => {
-        console.log("hello")
-        return (
-          <NEWBlogPostCard
-            href={post.slug}
-            title={post.data.title}
-            description={post.data.description}
-            author={post.data.author}
-            publishDate={post.data.publishDate}
-            cover={post.data.cover}
-            coverAlt={post.data.coverAlt}
-          />
-        );
-      })
-    }
+    <div class="grid grid-cols-12 my-4 sm:my-8 md:my-12 gap-y-8 sm:gap-8 md:gap-12">
+      {
+        publishedBlogPosts.map((post) => {
+          console.log("hello");
+          return (
+            <NEWBlogPostCard
+              href={post.slug}
+              title={post.data.title}
+              description={post.data.description}
+              author={post.data.author}
+              publishDate={post.data.publishDate}
+              cover={post.data.cover}
+              coverAlt={post.data.coverAlt}
+            />
+          );
+        })
+      }
+    </div>
   </div>
 </section>

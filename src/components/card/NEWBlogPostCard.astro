@@ -4,20 +4,29 @@ export interface Props {
   description: string;
   author: string;
   href: string;
-  publishDate: string;
+  publishDate: Date;
   cover: ImageMetadata;
   coverAlt: string;
 }
-const { title, author, href, publishDate, description, cover, coverAlt} = Astro.props;
+const { title, author, href, publishDate, description, cover, coverAlt } =
+  Astro.props;
+
+const options = {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
 ---
 
-<div class="flex gap-4 rounded border drop-shadow-md bg-white p-4">
-    <img class="w-40 h-40" alt={coverAlt} src={cover.src}/>
-  <div class="flex flex-col flex-1 gap-2">
-    <h1>{title}</h1><p>{author}</p><small>{publishDate}</small>
-    <p>
-      {description.slice(0, 200)}...
-    </p>
-    <a href=`/blog/${href}` class="hyperlink">Read more</a>
+<a href=`/blog/${href}` class="col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-4">
+  <img class="rounded-md aspect-video" alt={coverAlt} src={cover.src} />
+  <div class="flex flex-col gap-1">
+    <small>{publishDate.toLocaleDateString("en-US", options)}</small>
+    <h3>{title}</h3>
   </div>
-</div>
+
+  <p>
+    {description.length > 200 ? `${description.slice(0, 200)}...` : description}
+  </p>
+</a>
