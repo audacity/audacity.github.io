@@ -43,7 +43,7 @@ function DownloadMuseHubButton() {
         "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.deb"
       );
     default:
-      return renderButton("/downloads", "Download Audacity");
+      return renderButton("/download", "Download Audacity");
   }
 }
 
