@@ -6,19 +6,20 @@ import { getCollection } from "astro:content";
 const publishedBlogPosts = await getCollection("blog", ({ data }) => {
   return data.draft !== true;
 });
+
+
 ---
 
 <BaseLayout title="Audacity | Blog">
-
   <section class="pt-8 pb-16">
     <div class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto">
-      <h2 class="text-left sm:text-center">
-        Blog posts
-      </h2>
-  
-      <div class="grid grid-cols-12 my-4 sm:my-8 md:my-12 gap-y-8 sm:gap-8 md:gap-12">
+      <h2 class="text-left sm:text-center">Blog posts</h2>
+
+      <div
+        class="grid grid-cols-12 my-4 sm:my-8 md:my-12 gap-y-8 sm:gap-8 md:gap-12"
+      >
         {
-          publishedBlogPosts.map((post) => {
+         publishedBlogPosts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()).map((post) => {
             return (
               <NEWBlogPostCard
                 href={post.slug}
