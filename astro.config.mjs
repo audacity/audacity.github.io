@@ -60,6 +60,7 @@ export default defineConfig({
     "/community/users/": "https://support.audacityteam.org/community/contributing",
     "/community/developers/": "https://audacity.gitbook.io/dev",
     "/community/translators/": "https://support.audacityteam.org/community/contributing/translating",
-    "/copyright/": "https://github.com/audacity/audacity/blob/master/LICENSE.txt"
+    "/copyright/": "https://github.com/audacity/audacity/blob/master/LICENSE.txt",
+    "/Setup-Exit-Codes/": "https://support.audacityteam.org/troubleshooting/error-codes/installation-exit-codes"
   }
 });
