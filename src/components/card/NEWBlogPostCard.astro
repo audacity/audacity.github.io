@@ -1,0 +1,23 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  author: string;
+  href: string;
+  publishDate: string;
+  cover: ImageMetadata;
+  coverAlt: string;
+}
+const { title, author, href, publishDate, description, cover, coverAlt} = Astro.props;
+---
+
+<div class="flex gap-4 rounded border drop-shadow-md bg-white p-4">
+    <img class="w-40 h-40" alt={coverAlt} src={cover.src}/>
+  <div class="flex flex-col flex-1 gap-2">
+    <h1>{title}</h1><p>{author}</p><small>{publishDate}</small>
+    <p>
+      {description.slice(0, 200)}...
+    </p>
+    <a href=`/blog/${href}` class="hyperlink">Read more</a>
+  </div>
+</div>

@@ -1,42 +1,34 @@
 ---
-import BlogPostCard from "../components/card/BlogPostCard.astro";
+import NEWBlogPostCard from "../components/card/NEWBlogPostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-interface Frontmatter {
-  title: string;
-  slug: string;
-  thumbnail: string;
-  date: string;
-  description: string;
-  author: string;
-}
-
-const posts = await Astro.glob<Frontmatter>("./posts/*.md");
+import { getCollection } from "astro:content";
+const publishedBlogPosts = await getCollection("blog", ({ data }) => {
+  return data.draft !== true;
+});
 ---
 
 <BaseLayout title="Audacity | Blog">
-  <section class="max-w-screen-lg mx-auto grid grid-cols-12 py-12 gap-y-4 md:gap-y-12">
+  <section
+    class="max-w-screen-lg mx-12 xl:mx-auto grid grid-cols-12 py-12 gap-y-4 md:gap-y-12"
+  >
     <div class="col-start-2 col-span-10 sm:text-center">
       <h1>Blog posts</h1>
     </div>
 
-    <div class="col-start-2 col-span-10 grid grid-cols-12 md:mx-12 mb-12 lg:mb-20 gap-y-8 lg:gap-x-8">
+    <div class="col-span-12">
       {
-        posts
-          .sort(
-            (a, b) => /* This is reversed because we want the latest post on top */
-              Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date)
-          )
-          .map((post) => (
-            <BlogPostCard
-              title={post.frontmatter.title}
-              description={post.frontmatter.description.slice(0, 100) + "..."}
-              href={`/posts/${post.frontmatter.slug}`}
-              thumbnail={post.frontmatter.thumbnail}
-              author={post.frontmatter.author}
-              date={post.frontmatter.date}
-            />
-          ))
+        publishedBlogPosts.map((post) => (
+          <NEWBlogPostCard
+            href={post.slug}
+            title={post.data.title}
+            description={post.data.description}
+            author={post.data.author}
+            publishDate={post.data.publishDate}
+            cover={post.data.cover}
+            coverAlt={post.data.coverAlt}
+          />
+        ))
       }
     </div>
   </section>

@@ -1,43 +1,35 @@
 ---
-import BlogListingCard from "../card/BlogListingCard.astro";
+import NEWBlogPostCard from "../../components/card/NEWBlogPostCard.astro";
 
-interface Frontmatter {
-  title: string;
-  slug: string;
-  thumbnail: string;
-  date: string;
-  author: string;
-  description: string;
-}
-
-const posts = await Astro.glob<Frontmatter>("../../pages/posts/*.md");
+import { getCollection } from "astro:content";
+const publishedBlogPosts = await getCollection("blog", ({ data }) => {
+  return data.draft !== true;
+});
 ---
 
-<section class="bg-gray-50 py-12">
-  <div class="max-w-screen-xl mx-auto grid grid-cols-12 gap-y-8">
-    <div class="col-start-2 col-span-10 text-center"><h2>Latest from the <a href="/blog" class="hyperlink">blog</a></h2></div>
-    <div class="col-start-2 col-span-10 grid grid-cols-12 gap-6 row-start-2">
-      {
-        posts
-          .slice(0, 3)
-          .sort(
-            (a, b) => /* This is reversed because we want the latest post on top */
-              Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date)
-          )
-          .map((post) => (
-            <BlogListingCard
-              title={post.frontmatter.title}
-              description={post.frontmatter.description}
-              href={`/posts/${post.frontmatter.slug}`}
-              thumbnail={post.frontmatter.thumbnail}
-              author={post.frontmatter.author}
-              date={post.frontmatter.date}
-            />
-          ))
-      }
-    </div>
+<section
+  class="max-w-screen-lg mx-12 xl:mx-auto grid grid-cols-12 py-12 gap-y-4 md:gap-y-12"
+>
+  <div class="col-start-2 col-span-10 sm:text-center">
+    <h1>Blog posts</h1>
+  </div>
+
+  <div class="col-span-12">
+    {
+      publishedBlogPosts.map((post) => {
+        console.log("hello")
+        return (
+          <NEWBlogPostCard
+            href={post.slug}
+            title={post.data.title}
+            description={post.data.description}
+            author={post.data.author}
+            publishDate={post.data.publishDate}
+            cover={post.data.cover}
+            coverAlt={post.data.coverAlt}
+          />
+        );
+      })
+    }
   </div>
 </section>
-
-<!-- 
- -->
