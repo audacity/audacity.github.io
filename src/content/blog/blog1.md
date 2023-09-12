@@ -2,7 +2,7 @@
 title: Audacity 3.3 
 author: Leo Wattenberg
 description:  A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms - reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development. 
-cover: "./audacity-3.3.png"
+cover: "./audacity-3.3.jpg"
 coverAlt: "A picture of Audacity 3.3"
 publishDate: 2023-04-02
 draft: false
