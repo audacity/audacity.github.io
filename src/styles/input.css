@@ -17,7 +17,7 @@
     }
 
     h4 {
-        @apply text-base md:text-lg text-gray-700 font-bold xl:leading-snug
+        @apply text-2xl text-gray-700 font-bold xl:leading-snug
     }
 
     h5 {
@@ -25,7 +25,7 @@
     }
 
     p {
-        @apply text-base lg:text-lg text-gray-700 leading-relaxed
+        @apply text-base lg:text-lg text-gray-700 leading-snug
     }
 
     label {
