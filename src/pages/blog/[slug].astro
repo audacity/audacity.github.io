@@ -15,9 +15,9 @@ const { Content } = await post.render();
 ---
 
 <BaseLayout title="Audacity | ">
-  <article class="prose prose-xl mx-auto my-12">
+  <article class="prose prose-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto my-8 lg:my-12">
     <div class="flex flex-col gap-2 border-b pb-6">
-      <h2 class="mb-0">{post.data.title}</h2>
+      <h2 class="my-0">{post.data.title}</h2>
       <p class="mb-0">By {post.data.author}</p>
       <small>{post.data.publishDate}</small>
     </div>
