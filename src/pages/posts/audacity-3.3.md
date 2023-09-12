@@ -1,7 +1,7 @@
 ---
 title: Audacity 3.3 
-slug: audacity-3.3
-thumbnail: /blog1.png
+slug: /audacity-3.3
+thumbnail: /audacity-3.3.png
 author: Leo Wattenberg
 date: April 25, 2023
 layout: "../../layouts/PostLayout.astro"
