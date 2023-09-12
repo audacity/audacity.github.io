@@ -7,7 +7,7 @@
 
 .icon {
     font-family: 'MusescoreIcon', sans-serif;
-    font-size:16px
+    font-size: 16px
 }
 
 .icon-large {
@@ -68,4 +68,16 @@
 
 .icon-caret-down:before {
     content: "\EF12"
+}
+
+.icon-cloud-upload:before {
+    content: "\EF25"
+}
+
+.icon-microphone:before {
+    content: "\F41B"
+}
+
+.icon-waveform:before {
+    content: "\F43C"
 }

@@ -1,18 +1,42 @@
 ---
-import AudioCard from "../../assets/img/AudioCard.png";
+import AudioDotComCard from "../card/AudioDotComCard.astro";
+import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
 ---
 
-<section
-  class="bg-black"
->
-  <div class="grid grid-cols-12 gap-y-4 max-w-screen-xl mx-auto py-12">
-    <div class="flex flex-col gap-2 col-start-2 col-span-10 md:col-start-2 md:col-span-4">
-      <h2 class="text-white">Share your sounds</h2>
-      <p class="text-white">
-        Upload your sounds online to Audio.com, instantly.
-      </p>
+<section class="bg-[url('../assets/img/audio-background.jpg')] bg-cover">
+  <div class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid gap-12 xl:grid-cols-12">
+    <div class="flex flex-col gap-12 xl:col-span-6 xl:col-start-7 xl:py-12">
+      <img src={AudioDotComLogo.src} class="w-28" />
+      <div>
+        <h2 class="text-white">Get free web space for your audio files</h2>
+        <p class="text-gray-300 mt-4 text-2xl">
+          Host and share your audio instantly using our sister service
+          audio.com. <a class="hyperlink">audio.com</a>
+        </p>
+      </div>
+      <a class="px-4 py-3 bg-blue-700 w-fit text-white rounded">Join for free</a
+      >
     </div>
 
-    <div class="col-start-2 col-span-10 md:col-start-7 md:col-span-5"><img src={AudioCard.src} /></div>
+    <div class="grid gap-2 sm:grid-cols-2 lg:col-start-1 xl:col-span-6 xl:row-start-1">
+      <AudioDotComCard
+        title="Unlimited audio hosting"
+        icon="icon-cloud-upload"
+        description="Store and share your audio creations in unlimited amounts directly from Audacity and to the world."
+      />
+      <AudioDotComCard
+        title="Audacity integration"
+        icon="icon-waveform"
+        description="Create an account directly in Audacity and seamlessly upload to your account without any hassle or additional authentication required."
+      /><AudioDotComCard
+        title="Podcast transcriptions"
+        icon="icon-microphone"
+        description="Instantly transcribe your podcasts and audiobooks into text formats using our exclusive free to use speech to text AI service."
+      /><AudioDotComCard
+        title="And more..."
+        icon="icon-mixer"
+        description="Find like minded audio creators & musicians across a growing network of creative individuals, commenting and sharing feedback on the fly."
+      />
+    </div>
   </div>
 </section>
