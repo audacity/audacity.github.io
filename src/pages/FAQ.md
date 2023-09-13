@@ -21,7 +21,7 @@ Here are a few of the most common ways Audacity is used every day:
 - Field recorders and educators, who can capture, edit or analyze the sounds of environments, ambience, animals and more.
 
 #### Is Audacity open source?
-Audacity is proudly open source. This means its source code remains open to anyone to view or modify. 
+Audacity is proudly open source. This means its source code remains open to anyone to view or modify. Audacity is licensed under the GNU General Public License. Details can be found [here](https://github.com/audacity/audacity/blob/master/LICENSE.txt). 
 
 A dedicated worldwide community of passionate audio lovers have collaborated to make Audacity the well-loved software it is today. Many third-party plug-ins have also been developed for Audacity thanks to its open source nature.
 
@@ -133,16 +133,14 @@ Try the free, online [Audacity manual](https://manual.audacityteam.org/) for in-
 #### What is Audacity's privacy policy?
 The Audacity app only collects data relevant to error reporting (such as device information) and software updates.
 
-The Audacity team will take all the necessary steps to keep your data protected. It is fully GDPR compliant in EU regions.
+The Audacity team will take all the necessary steps to keep your data protected. It is fully GDPR compliant.
 
 Read Audacity's privacy policy in full [here](/desktop-privacy-policy/). The cookie policy for this website can be found [here](/cookie-policy/).
 
 #### Is Audacity spyware?
-No. Audacity is entirely safe to use and only collects data relevant to error reporting (such as device information) and software updates.
+No. Audacity is entirely safe to use and doesn't store personal information. Audacity only collects data relevant to error reporting (such as device information) and software updates.
 
-After Audacity 3.0.3 was released, we have since reviewed our privacy policy and will take all the necessary steps to keep your data protected. The Audacity team is fully GDPR compliant in EU regions.
-
-Read Audacity's privacy policy in full [here](https://www.audacityteam.org/desktop-privacy-policy/).
+The Audacity team is fully GDPR compliant. Read Audacity's privacy policy in full [here](/desktop-privacy-policy/).
 
 #### I've shared my Audacity project on Audio.com. What are my legal rights regarding my project?
 If you are the sole creator of the audio project, the intellectual property rights and mechanical copyright is retained by you. Similar to other UGC (User Generated Content) platforms, by using [audio.com](https://audio.com/) you grant a license to host and show your work. You are also free to distribute your work on other platforms, if you wish. For more details read the full [Terms & Conditions](https://audio.com/legal/terms-of-use.pdf). 
@@ -151,8 +149,22 @@ If you are the sole creator of the audio project, the intellectual property righ
 
 ## Team & news
 
+#### Who is the Audacity Team?
+Audacity is developed by a small team working remotely and supported by the community. 
+
+Current team members are:
+
+* Product owner: Martin Keary
+* Project manager: Yana Larina
+* Developers: Matthieu Hodgkinson, Paul Licameli, K. Soze, Vitaly Sverchinsky, Dmitry Vedenko
+* Designers: Dilson's Pickles, Leo Wattenberg 
+* Testers: Sergey Lapysh
+* Borrowed from other muse projects: Peter Jonas, Anita Sudan, Jessica Williamson
+
+Code contributors can be found on Github in the [commit history](https://github.com/audacity/audacity/commits/master) and [graphs](https://github.com/audacity/audacity/graphs/contributors), [contributors to the manual](https://manual.audacityteam.org/man/credits.html), [contributors to the forum](https://forum.audacityteam.org/u?order=post_count&period=all) and [contributors to the support site](https://support.audacityteam.org/community/contributing/credits-and-license) can be found on the respective pages.
+
 #### Where can I stay up to date with the latest Audacity news and updates?
-Subscribe to Audacity [YouTube Channel](https://www.youtube.com/@audacity), or follow us on [Facebook](https://www.facebook.com/Audacity/) or [Twitter](https://twitter.com/getaudacity).
+Check out our [blog](/blog), subscribe to Audacity [YouTube Channel](https://www.youtube.com/@audacity), or follow us on [Facebook](https://www.facebook.com/Audacity/) or [Twitter](https://twitter.com/getaudacity).
 
 #### I have a question or issue with Audacity. Is there a support team I can contact?
 Many frequently asked questions and issues are answered on our support page [here](https://support.audacityteam.org/). For detailed information on Audacity features, please check out the [Audacity manual](https://manual.audacityteam.org/index.html).
@@ -160,11 +172,11 @@ Many frequently asked questions and issues are answered on our support page [her
 If you have a question you can't find the answer to, please leave a comment on the [Audacity forum](https://forum.audacityteam.org/), where one of our team (or someone in the Audacity community), will be happy to help!
 
 #### I'm an open-source developer working with Audacity. How can I get in touch with the team?
-Audacity is currently undergoing major restructuring, so we unfortunately have very limited capacity to support third parties. That said, feel free to drop by our [dev discord](/devserver). 
+Audacity is currently undergoing major code restructuring, so we unfortunately have very limited capacity to support third parties. That said, feel free to drop by our [dev discord](/devserver). 
 
 #### What is the history of Audacity?
-Audacity has transformed the lives of musicians and audio content creators for over two decades. Since launching in 2000, the desktop app has been downloaded over 100 million times.
+Audacity has transformed the lives of musicians and audio content creators for over two decades. Since launching in 2000, the desktop app has been downloaded over 200 million times.
 
-In 2020, we joined with the makers of Ultimate Guitar, MuseScore and others to form Muse Group, with a mission to empower millions of creatives all over the globe. 
+In 2020, we joined with the makers of [Ultimate Guitar](https://www.ultimate-guitar.com/), [MuseScore](https://musescore.org/) and others to form [Muse Group](https://mu.se/), with a mission to empower millions of creatives all over the globe. Since then, our sister service [audio.com](https://audio.com) launched.
 
 We remain committed to our free, open-source roots — and passionate about helping the next generation create the very best sounds, music and podcasts with Audacity.
