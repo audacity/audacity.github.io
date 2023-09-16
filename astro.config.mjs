@@ -54,6 +54,8 @@ export default defineConfig({
     "/about/news/": "/blog",
     "/download/online-safety-when-downloading/": "/FAQ#is-audacity-safe-to-download",
     "/download/source/": "/download",
+    "/download/legacy-windows/": "/download/windows",
+    "/download/legacy-mac/": "/download/mac",
     "/help/": "https://support.audacityteam.org/",
     "/contact/": "/FAQ#i-have-a-question-or-issue-with-audacity-is-there-a-support-team-i-can-contact",
     "/community/": "https://support.audacityteam.org/community/contributing",
