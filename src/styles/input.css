@@ -51,5 +51,9 @@
     .copyright {
         @apply text-xs text-gray-600
     }
+
+    .sub-heading {
+        @apply text-xl
+    }
     
 }
