@@ -17,7 +17,7 @@ function DownloadMuseHubButton() {
   function renderButton(href) {
     return (
       <a
-        className="flex flex-1 flex-col py-3 items-center rounded justify-center border bg-white border-gray-200 text-blue-700 hover:bg-gray-100 hover:border-gray-300 text-center"
+        className="flex flex-1 flex-col py-3 items-center rounded justify-center border-2 bg-white border-gray-300 text-blue-700 hover:bg-gray-100 text-center"
         href={href}
         onClick={() => handleDownloadButtonClick()}
       >
