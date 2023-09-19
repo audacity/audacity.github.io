@@ -8,7 +8,7 @@ function OperatingSystemCard(props) {
       case "Windows":
         return (
           <svg
-            class="w-4 fill-blue-700"
+            className="w-4 fill-blue-700"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
           >
@@ -19,7 +19,7 @@ function OperatingSystemCard(props) {
       case "Mac OS":
         return (
           <svg
-            class="w-4 fill-gray-400"
+            className="w-4 fill-gray-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 512"
           >
@@ -31,7 +31,7 @@ function OperatingSystemCard(props) {
       case "Linux":
         return (
           <svg
-            class="w-4 fill-gray-900"
+            className="w-4 fill-gray-900"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
           >
@@ -56,7 +56,7 @@ function OperatingSystemCard(props) {
 
   return (
     <a href={targetURL}>
-      <div class="bg-white border drop-shadow-md rounded-md p-4 lg:p-6">
+      <div className="bg-white border drop-shadow-md rounded-md p-4 lg:p-6">
         {renderOSIcon(title)}
         <h4>{title}</h4>
         <p>{description}</p>
