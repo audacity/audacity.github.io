@@ -4,39 +4,38 @@ import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
 ---
 
 <section class="bg-[url('../assets/img/audio-background.jpg')] bg-cover">
-  <div class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid gap-12 xl:grid-cols-12">
-    <div class="flex flex-col gap-12 xl:col-span-6 xl:col-start-7 xl:py-12">
-      <img src={AudioDotComLogo.src} class="w-20 md:w-24" alt="audio.com logo"/>
+  <div
+    class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid gap-12 lg:grid-cols-12"
+  >
+    <div class="flex flex-col gap-8 lg:col-span-6 lg:col-start-7 lg:py-12">
+      <img
+        src={AudioDotComLogo.src}
+        class="w-20 md:w-24"
+        alt="audio.com logo"
+      />
       <div>
         <h2 class="text-white">Get free web space for your audio files</h2>
         <p class="text-gray-300 mt-4 text-2xl">
           Host and share your audio instantly using our sister service
-          <a class="hyperlink" href="https://audio.com">audio.com</a>. 
+          <a class="hyperlink" href="https://audio.com">audio.com</a>.
         </p>
       </div>
-      <a href="https://audio.com" class="px-4 py-3 bg-blue-700 w-fit text-white rounded hover:bg-blue-600">Join for free</a
+      <a
+        href="https://audio.com"
+        class="px-4 py-3 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
+        >Join for free</a
       >
     </div>
 
-    <div class="grid gap-2 sm:grid-cols-2 lg:col-start-1 xl:col-span-6 xl:row-start-1">
-      <AudioDotComCard
-        title="Unlimited audio hosting"
-        icon="icon-cloud-upload"
-        description="Store and share your audio creations in unlimited amounts directly from Audacity and to the world."
-      />
-      <AudioDotComCard
-        title="Audacity integration"
-        icon="icon-waveform"
-        description="Create an account directly in Audacity and seamlessly upload to your account without any hassle or additional authentication required."
-      /><AudioDotComCard
-        title="Podcast transcriptions"
-        icon="icon-microphone"
-        description="Instantly transcribe your podcasts and audiobooks into text formats using our exclusive free to use speech to text AI service."
-      /><AudioDotComCard
-        title="And more..."
-        icon="icon-mixer"
-        description="Find like minded audio creators & musicians across a growing network of creative individuals, commenting and sharing feedback on the fly."
-      />
+    <div class="lg:col-start-1 lg:col-span-6 lg:row-start-1 items-center flex">
+      <iframe
+        class="w-full aspect-video rounded-md shadow-xl"
+        src="https://www.youtube.com/embed/-rBOZ9Bi4rk"
+        title="Introducing Audio.com"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      >
+      </iframe>
     </div>
   </div>
 </section>
