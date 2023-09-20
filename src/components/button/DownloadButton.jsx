@@ -33,11 +33,11 @@ function DownloadButton() {
   switch (browserOS) {
     case "OS X":
       return renderButton(
-        releaseData.mac[1].browser_download_url
+        releaseData.mac[0].browser_download_url
       );
     case "Windows":
       return renderButton(
-        releaseData.win[2].browser_download_url
+        releaseData.win[0].browser_download_url
       );
     case "Linux":
       return renderButton(
