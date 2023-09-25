@@ -17,18 +17,26 @@ const storageType = cookieStorage;
 const consentPropertyName = "Audacity_consent";
 
 const showShowPopup = () => !storageType.getItem(consentPropertyName);
-const saveToStorage = () => storageType.setItem(consentPropertyName, true);
+const saveAcceptToStorage = () => storageType.setItem(consentPropertyName, true);
+const saveRejectToStorage = () => storageType.setItem(consentPropertyName, false);
 
 window.onload = () => {
   const consentPopup = document.getElementById("consent-popup");
   const acceptBtn = document.getElementById("accept");
+  const rejectBtn = document.getElementById("reject");
 
-  const acceptFn = (event) => {
-    saveToStorage(storageType);
+  const acceptCookie = (event) => {
+    saveAcceptToStorage(storageType);
     consentPopup.classList.add("hide");
   };
 
-  acceptBtn.addEventListener("click", acceptFn);
+  const rejectCookie = (event) => {
+    saveRejectToStorage(storageType);
+    consentPopup.classList.add("hide")
+  }
+
+  acceptBtn.addEventListener("click", acceptCookie);
+  rejectBtn.addEventListener("click", rejectCookie)
 
   if (showShowPopup(storageType)) {
     setTimeout(() => {
