@@ -4,23 +4,24 @@ import DownloadBanner from "../components/homepage/DownloadBanner.astro";
 import HeroBanner from "../components/homepage/HeroBanner.astro";
 import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ShareYourSounds from "../components/homepage/ShareYourSounds.astro"
+import ShareYourSounds from "../components/homepage/ShareYourSounds.astro";
 import FeatureCards from "../components/homepage/FeatureCards.astro";
 import FAQ from "../components/homepage/FAQ.astro";
 import RecordAnything from "../components/homepage/RecordAnything.astro";
 ---
 
-  <BaseLayout title="Audacity | Home">
-    <HeroBanner />
-    <ReleaseVideo />
-    <RecordAnything />
-    <ShareYourSounds />
-    <FeatureCards/>
-    <BlogPosts />
-    <DownloadBanner />
-    <FAQ />
-  </BaseLayout>
+<BaseLayout title="Audacity | Home">
+  <HeroBanner />
+  <ReleaseVideo />
+  <RecordAnything />
+  <ShareYourSounds />
+  <FeatureCards />
+  <BlogPosts />
+  <DownloadBanner />
+  <FAQ />
+</BaseLayout>
 
-  
-
-
+<script>
+  const allCookies = document.cookie;
+  console.log("Cookies", allCookies);
+</script>
