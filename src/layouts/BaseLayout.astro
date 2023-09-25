@@ -1,8 +1,9 @@
 ---
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
+import CookieConsent from '../components/banner/CookieConsent'
 import { MatomoProvider, createInstance } from "@datapunt/matomo-tracker-react";
-import '../styles/input.css'
+import "../styles/input.css";
 import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
@@ -14,16 +15,15 @@ const instance = createInstance({
   urlBase: "test",
   siteId: 1,
 });
-
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <link href="/output.css" rel="stylesheet"/>
+    <link href="/output.css" rel="stylesheet" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ViewTransitions />
@@ -32,9 +32,10 @@ const instance = createInstance({
     <MatomoProvider value={instance}>
       <NavigationReact client:load />
       <div class="mt-14 flex-1"><slot /></div>
-      <Footer/>
+      <Footer />
+    <!-- <CookieConsent/> -->
     </MatomoProvider>
     <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/46bd7746cd70214163af67a3/script.js"></script>
+    <!-- <script src="../assets/js/cookieConsent.js"/> -->
   </body>
 </html>
-

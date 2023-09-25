@@ -55,5 +55,20 @@
     .sub-heading {
         @apply text-xl
     }
+
+    #consent-popup {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        background-color: #fff;
+        opacity: 1;
+        transition: opacity .8s ease;
+
+        &.hide{
+            opacity: 0;
+        }
+    }
     
 }
