@@ -5,7 +5,7 @@ description:  A lot of our work has been focused on getting Audacity ready for a
 cover: "./a-new-blog.jpg"
 coverAlt: "A picture of Audacity 3.3"
 publishDate: 2025-09-12
-draft: false
+draft: true
 ---
 
 ![A picture of Audacity's 'Snap-to' dropdown](./beats-and-bars.png)
