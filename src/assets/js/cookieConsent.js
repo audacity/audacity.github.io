@@ -9,7 +9,7 @@ const cookieStorage = {
   setItem: (key, value) => {
     document.cookie = `${key}=${value}; expires=${new Date(
       new Date().getTime() + 1000 * 60 * 60 * 24 * 365
-    ).toGMTString()}`;
+    ).toGMTString()}; path=/ `;
   },
 };
 
