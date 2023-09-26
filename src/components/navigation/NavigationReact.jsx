@@ -71,6 +71,7 @@ function NavigationReact() {
         <button
           className="flex w-10 h-10 hover:bg-gray-100 active:bg-gray-200 rounded-sm justify-center items-center sm:hidden"
           onClick={() => handleHamburgerMenuClick()}
+          aria-label="Hamburger menu"
         >
           {isHamburgerMenuOpen ? (
             <svg
