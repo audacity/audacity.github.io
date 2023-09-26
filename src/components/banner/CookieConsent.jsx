@@ -12,13 +12,14 @@ function CookieConsent() {
           <p>
             We use a privacy preserving first-party analytics service if you
             consent. Otherwise, only necessary cookies are used.
-            <a href="/cookie-policy" class="hyperlink"> Read cookie policy</a>
+            <a href="/cookie-policy" class="hyperlink" aria-label="Read cookie policy">Read cookie policy</a>
           </p>
           <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0">
             <a
               id="reject"
               class="flex h-12 w-full md:w-fit justify-center items-center border border-blue-700 px-3 rounded-md  text-blue-700"
               href="#"
+              aria-label="reject"
             >
               Reject
             </a>
@@ -26,6 +27,7 @@ function CookieConsent() {
               id="accept"
               class="flex h-12 w-full md:w-fit justify-center items-center px-3 rounded-md bg-blue-700 text-white"
               href="#"
+              aria-label="accept"
             >
               Accept
             </a>
