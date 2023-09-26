@@ -72,6 +72,10 @@
         @apply font-semibold text-2xl text-gray-800
     }
 
+    .additional-resource-heading {
+        @apply font-semibold text-lg text-gray-800
+    }
+
     .skip-to-content {
         position: fixed;
         background-color: rgb(29 78 216 );

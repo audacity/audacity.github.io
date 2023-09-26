@@ -9,24 +9,27 @@ const { version, src } = releaseData;
 ---
 
 <BaseLayout title="Audacity | Downloads">
-  <section id="main" class="max-w-screen-xl mx-auto">
-    <div class="grid grid-cols-12 py-12 gap-y-12">
-      <div class="col-start-2 col-span-10 sm:text-center">
-        <h1>Downloads</h1>
-        <div
-          class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="sm:text-center">
+      <h1>Downloads</h1>
+      <div
+        class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
+      >
+        <p>Current version: {version}</p>
+        <p class="hidden sm:block">|</p>
+        <a
+          class="hyperlink"
+          href="https://support.audacityteam.org/additional-resources/changelog"
+          target="_blank">View changelog</a
         >
-          <p>Current version: {version}</p>
-          <p class="hidden sm:block">|</p>
-          <a
-            class="hyperlink"
-            href="https://support.audacityteam.org/additional-resources/changelog"
-            target="_blank">View changelog</a
-          >
-        </div>
       </div>
-      <div class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
-        <small>Download for</small>
+    </div>
+
+    <div class="grid grid-cols-12 py-12 gap-y-12">
+      <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
+        <h2 class="text-sm uppercase font-normal text-gray-600">
+          Download for
+        </h2>
         <div class="flex flex-col gap-4 mt-2">
           <OperatingSystemCard
             title="Windows"
@@ -44,12 +47,14 @@ const { version, src } = releaseData;
             targetURL="/download/linux"
           />
         </div>
-      </div>
-      <div class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
-        <small>Additional resources</small>
+      </section>
+      <aside class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
+        <h2 class="text-sm uppercase font-normal text-gray-600">
+          Additional resources
+        </h2>
         <div class="flex flex-col gap-6 mt-2">
           <div>
-            <h4>Offline manual</h4>
+            <h3 class="additional-resource-heading">Offline manual</h3>
             <div class="gap-2">
               <a
                 class="hyperlink"
@@ -61,7 +66,7 @@ const { version, src } = releaseData;
           </div>
 
           <div>
-            <h4>FFmpeg library</h4>
+            <h3 class="additional-resource-heading">FFmpeg library</h3>
             <div class="gap-2">
               <a
                 href="https://support.audacityteam.org/basics/installing-ffmpeg"
@@ -72,7 +77,7 @@ const { version, src } = releaseData;
           </div>
 
           <div>
-            <h4>Source code</h4>
+            <h3 class="additional-resource-heading">Source code</h3>
             <div class="flex flex-col gap-2">
               <ChecksumAccordion
                 title=".zip"
@@ -90,7 +95,9 @@ const { version, src } = releaseData;
           </div>
 
           <div>
-            <h4>Older versions of Audacity</h4>
+            <h3 class="additional-resource-heading">
+              Older versions of Audacity
+            </h3>
             <div class="gap-2">
               <a
                 href="https://www.fosshub.com/Audacity-old.html"
@@ -101,7 +108,7 @@ const { version, src } = releaseData;
             </div>
           </div>
         </div>
-      </div>
+      </aside>
     </div>
-  </section>
+  </main>
 </BaseLayout>

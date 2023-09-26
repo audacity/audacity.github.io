@@ -20,7 +20,7 @@ function ChecksumAccordion(props) {
         ) : (
           <span className="align-middle icon icon-caret-right text-gray-600"></span>
         )}
-        <h5>{title}</h5>
+        <p className="font-bold">{title}</p>
       </div>
 
       {isOpen && (
