@@ -10,22 +10,21 @@ const { version, src } = releaseData;
 
 <BaseLayout title="Audacity | Downloads">
   <main id="main" class="max-w-screen-xl mx-auto">
-    <div class="sm:text-center">
-      <h1>Downloads</h1>
-      <div
-        class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
-      >
-        <p>Current version: {version}</p>
-        <p class="hidden sm:block">|</p>
-        <a
-          class="hyperlink"
-          href="https://support.audacityteam.org/additional-resources/changelog"
-          target="_blank">View changelog</a
-        >
-      </div>
-    </div>
-
     <div class="grid grid-cols-12 py-12 gap-y-12">
+      <div class="col-start-2 col-span-10 sm:text-center">
+        <h1>Downloads</h1>
+        <div
+          class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
+        >
+          <p>Current version: {version}</p>
+          <p class="hidden sm:block">|</p>
+          <a
+            class="hyperlink"
+            href="https://support.audacityteam.org/additional-resources/changelog"
+            target="_blank">View changelog</a
+          >
+        </div>
+      </div>
       <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
         <h2 class="text-sm uppercase font-normal text-gray-600">
           Download for
