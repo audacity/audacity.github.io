@@ -105,7 +105,7 @@
         padding: 2rem;
         background-color: #fff;
         opacity: 1;
-        transition: opacity .8s ease;
+        transition: opacity .35s ease;
 
         &.hide{
             opacity: 0;

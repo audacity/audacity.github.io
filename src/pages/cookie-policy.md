@@ -3,13 +3,13 @@ layout: "../layouts/PageLayout.astro"
 title: Audacity | Cookie Policy
 ---
 
-Last updated: 11. September 2023
+Last updated: 26. September 2023
 ## About this Policy
 
 This Cookie Policy (“**Policy”**) explains how we use cookies and other similar technologies to recognise you when you visit our website https://www.audacityteam.org (“**Website”**). It explains what these technologies are and why we use them, as well as your rights to control our use of them.
 Please take the time to read this Policy carefully. If you have any questions or comments, please contact us via email at privacy@audacityteam.org.
 
-A note about your personal information
+## A note about your personal information
 When you arrive on AudacityTeam.org, your IP address is anonymised before being stored on our servers by default. This makes it impossible for us to ever identify you.
 
 ## What are cookies?
@@ -30,14 +30,12 @@ On our Website we use only first party cookies, which means that all your cookie
 
 |Cookie|Duration|Description|Type
 |------|--------|-----------|---------|
-|`cookieyes-consent`|1 year|Stores your cookie preferences|Necessary| 
+|`audacity-consent`|1 year|Stores your cookie preferences|Necessary| 
 |`__cf_bm`|30 min|Cloudflare Bot Management - to distinguish between humans and bots|Necessary|
 
 
 ## How can I control cookies?
-You have the right to decide whether to accept or reject specific cookies. You can exercise your cookie preferences on the cookie banner available in the bottom left corner of the Website (a blue circle with a white cookie symbol and checkmark).
-
-In addition to the preferences that you set within the cookie banner, you can set or amend your web browser controls to accept or refuse some cookies. If you choose to reject cookies, you may still use our Website. As means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser’s help menu for more information.
+In addition to the preferences that you set within the cookie banner, you can set or amend your web browser controls to accept or refuse some cookies. You also can delete existing cookies in the web browser. If you choose to reject cookies, you may still use our Website. As means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser’s help menu for more information.
 
 ## The cookies that were sent in the past
 If you have disabled one or more cookies, we can use information collected by these cookies before the deactivation. Information collected before deactivation will expire after a maximum of 13 months. However, we cease to collect information via the opted-out cookie.
