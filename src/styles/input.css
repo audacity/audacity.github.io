@@ -8,7 +8,7 @@
     }
 
     h2 {
-        @apply text-xl md:text-3xl text-gray-800 font-bold leading-tight
+        @apply text-xl md:text-3xl text-gray-800 font-semibold leading-tight
     }
 
 
@@ -41,7 +41,11 @@
     }
 
     .hyperlink {
-        @apply text-blue-500 underline hover:text-blue-700
+        @apply text-blue-700 underline hover:text-blue-600
+    }
+
+    .dark-hyperlink {
+        @apply text-blue-400 underline hover:text-blue-300
     }
 
     .footer-link-list li {
@@ -54,6 +58,18 @@
 
     .sub-heading {
         @apply text-base
+    }
+
+    .faq-question {
+        @apply font-semibold text-lg text-gray-800
+    }
+
+    .footer-list-heading {
+        @apply font-semibold text-lg text-gray-800
+    }
+
+    .privacy-banner-heading {
+        @apply font-semibold text-2xl text-gray-800
     }
 
     #consent-popup {

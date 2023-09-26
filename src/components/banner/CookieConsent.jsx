@@ -7,14 +7,12 @@ function CookieConsent() {
       className="bg-white sticky bottom-0 w-full border-t-2 hide"
     >
       <div className="flex flex-col  bg-white  hide max-w-screen-lg xl:max-w-screen-xl mx-auto">
-        <h4>We value your piracy</h4>
+        <p class="privacy-banner-heading">We value your piracy</p>
         <div className="mt-2 flex flex-col md:flex-row md:justify-between">
           <p>
             We use a privacy preserving first-party analytics service if you
             consent. Otherwise, only necessary cookies are used.
-            <a href="/cookie-policy" class="hyperlink">
-              Read cookie policy
-            </a>
+            <a href="/cookie-policy" class="hyperlink"> Read cookie policy</a>
           </p>
           <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0">
             <a
