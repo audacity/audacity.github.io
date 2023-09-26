@@ -72,6 +72,27 @@
         @apply font-semibold text-2xl text-gray-800
     }
 
+    .skip-to-content {
+        position: fixed;
+        background-color: rgb(29 78 216 );
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0px;
+        right: 0px;
+        top: 0px;   
+        opacity: 0;
+        transition-property: top;
+        transition-duration: .3s;
+        height: 48px;
+    }
+
+    .skip-to-content:focus {
+        top: 56px;
+        opacity: 1;
+    }
+
     #consent-popup {
         position: fixed;
         bottom: 0;
