@@ -4,7 +4,7 @@ function CookieConsent() {
   return (
     <div
       id="consent-popup"
-      className="bg-white sticky bottom-0 w-full border-t-2"
+      className="bg-white sticky bottom-0 w-full border-t-2 hide"
     >
       <div className="flex flex-col  bg-white  hide max-w-screen-lg xl:max-w-screen-xl mx-auto">
         <h4>We value your piracy</h4>
