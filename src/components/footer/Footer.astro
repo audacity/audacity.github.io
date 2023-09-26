@@ -1,11 +1,13 @@
 ---
-import "../../styles/fonts.css"
+import "../../styles/fonts.css";
 ---
 
 <footer class="bg-gray-100 py-12">
   <div class="grid grid-cols-12 max-w-screen-xl mx-auto gap-y-4">
     <div class="col-start-2 col-span-10 lg:col-start-2 lg:col-span-3">
-      <p class="signika text-gray-900 text-lg md:text-2xl font-bold">Audacity</p>
+      <p class="signika text-gray-900 text-lg md:text-2xl font-bold">
+        Audacity
+      </p>
       <p class="text-base mt-1 text-gray-700">
         Audacity is an easy-to-use, multi-track audio editor and recorder for
         Windows, macOS, GNU/Linux and other operating systems. Audacity is free,
@@ -17,53 +19,97 @@ import "../../styles/fonts.css"
     >
       <p class="footer-list-heading">Links</p>
       <ul class="mt-2 footer-link-list">
-        <li><a href="https://support.audacityteam.org">Help</a></li>
-        <li><a href="/FAQ">FAQ</a></li>
-        <li><a href="/blog">Blog</a></li>
         <li>
-          <a href="https://forum.audacityteam.org/" target="_blank">Forum</a>
+          <a
+            href="https://support.audacityteam.org"
+            aria-label="External link to Help">Help</a>
+        </li>
+        <li><a href="/FAQ" aria-label="Link to FAQ">FAQ</a></li>
+        <li><a href="/blog" aria-label="Link to Blog">Blog</a></li>
+        <li>
+          <a
+            href="https://forum.audacityteam.org/"
+            aria-label="External link to Forum"
+            target="_blank">Forum</a
+          >
         </li>
         <li>
-          <a href="https://manual.audacityteam.org/" target="_blank">Manual</a>
+          <a
+            href="https://manual.audacityteam.org/"
+            aria-label="External link to Mauanl"
+            target="_blank">Manual</a
+          >
         </li>
-        <li><a href="https://audio.com/" target="_blank">Audio.com</a></li>
+        <li>
+          <a
+            href="https://audio.com/"
+            aria-label="External link to audio.com"
+            target="_blank">Audio.com</a>
+        </li>
       </ul>
     </div>
 
     <div
       class="col-start-7 col-span-5 row-start-2 md:col-span-2 md:col-start-4 lg:col-start-8 lg:row-start-1"
     >
-    <p class="footer-list-heading">Downloads</p>
+      <p class="footer-list-heading">Downloads</p>
       <ul class="mt-2 footer-link-list">
-        <li><a href="/download/windows">Windows</a></li>
-        <li><a href="/download/mac">Mac OS</a></li>
-        <li><a href="/download/linux">Linux</a></li>
+        <li>
+          <a href="/download/windows" aria-label="Link to Windows">Windows</a>
+        </li>
+        <li><a href="/download/mac" aria-label="Link to Mac OS">Mac OS</a></li>
+        <li><a href="/download/linux" aria-label="Link to Linux">Linux</a></li>
       </ul>
     </div>
 
     <div
       class="col-start-2 col-span-5 row-start-3 md:row-start-2 md:col-start-6 md:col-span-2 lg:col-start-10 lg:row-start-1"
     >
-    <p class="footer-list-heading">Social</p>
+      <p class="footer-list-heading">Social</p>
       <ul class="mt-2 footer-link-list">
-        <li><a href="https://www.facebook.com/Audacity/" target="_blank">Facebook</a></li>
-        <li><a href="https://twitter.com/getaudacity" target="_blank">Twitter</a></li>
-        <li><a href="https://github.com/audacity" target="_blank">Github</a></li>
-        <li><a href="https://discord.gg/audacity" target="_blank">Discord</a></li>
-        <li><a href="https://www.youtube.com/c/audacity" target="_blank">YouTube</a></li>
+        <li>
+          <a
+            href="https://www.facebook.com/Audacity/"
+            aria-label="External link to Facebook"
+            target="_blank">Facebook</a>
+        </li>
+        <li>
+          <a
+            href="https://twitter.com/getaudacity"
+            aria-label="External link to Twitter"
+            target="_blank">Twitter</a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/audacity"
+            aria-label="External link to github"
+            target="_blank">Github</a>
+        </li>
+        <li>
+          <a
+            href="https://discord.gg/audacity"
+            aria-label="External link to discord"
+            target="_blank">Discord</a>
+        </li>
+        <li>
+          <a
+            href="https://www.youtube.com/c/audacity"
+            aria-label="External link to Youtube"
+            target="_blank">YouTube</a>
+        </li>
       </ul>
     </div>
 
     <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
       <div class="border-t-[1px] border-gray-300 pt-4">
         <p class="copyright text-center">
-          Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
-          Audacity® software is licensed under the terms of the GNU General Public
-          License, Version 3. Further information about the software license, distribution
-          and acceptable use can be found <a
+          Copyright &copy; <span id="copyright"></span> | Muse Group &
+          contributors. Audacity® software is licensed under the terms of the
+          GNU General Public License, Version 3. Further information about the
+          software license, distribution and acceptable use can be found <a
             class="underline hover:text-blue-700"
             href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
-            >in the source</a
+            aria-label="Link to source code">in the source</a
           >.
         </p>
       </div>
