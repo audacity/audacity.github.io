@@ -8,12 +8,16 @@ function DownloadMuseHubButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
+  function handleButtonClick() {
+    _paq.push(["trackDownload", "Button", "Click", "Download MuseHub button"]);
+  }
+
   function renderButton(href) {
     return (
       <a
+        onClick={() => handleButtonClick()}
         className="flex flex-1 flex-col py-3 items-center rounded justify-center border-2 bg-white border-gray-300 text-blue-700 hover:bg-gray-100 text-center"
         href={href}
-     
       >
         <p className="text-blue-700 font-semibold">
           Audacity + free effects & samples

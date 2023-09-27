@@ -9,10 +9,13 @@ function DownloadButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
+  function handleButtonClick() {
+    _paq.push(['trackDownload', 'Button', 'Click', 'Download Audacity button']);
+  }
 
   function renderButton(href) {
     return (
-      <a className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3" href={href}>
+      <a onClick={() => handleButtonClick()}className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3" href={href}>
           <div className="flex gap-2 items-center">
             <span className="icon icon-import text-white"></span>
             <p className="button-text font-semibold text-white"> Download Audacity {releaseData.version}</p>
