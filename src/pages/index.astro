@@ -2,9 +2,9 @@
 import BlogPosts from "../components/homepage/BlogPosts.astro";
 import DownloadBanner from "../components/homepage/DownloadBanner.astro";
 import HeroBanner from "../components/homepage/HeroBanner.astro";
-import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
+import ReleaseVideo from "../components/homepage/ReleaseVideo";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ShareYourSounds from "../components/homepage/ShareYourSounds.astro";
+import ShareYourSounds from "../components/homepage/ShareYourSounds";
 import FeatureCards from "../components/homepage/FeatureCards.astro";
 import FAQ from "../components/homepage/FAQ.astro";
 import RecordAnything from "../components/homepage/RecordAnything.astro";
@@ -12,11 +12,11 @@ import RecordAnything from "../components/homepage/RecordAnything.astro";
 
 <BaseLayout title="Audacity | Home">
   <HeroBanner />
-  <ReleaseVideo />
+  <ReleaseVideo client:load/>
   <RecordAnything />
-  <ShareYourSounds />
+  <ShareYourSounds client:load/>
   <FeatureCards />
   <BlogPosts />
   <DownloadBanner />
   <FAQ />
-</BaseLayout>
+</BaseLayout>../components/homepage/ReleaseVideo.jsx../components/homepage/ShareYourSounds.jsx
