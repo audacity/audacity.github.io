@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VideoPlaceholder from "../../assets/img/audacity-placeholder.png";
+import VideoPlaceholder from "../../assets/img/audacity-placeholder.webp";
 
 function ReleaseVideo() {
   const [isClicked, setIsClicked] = useState(false);

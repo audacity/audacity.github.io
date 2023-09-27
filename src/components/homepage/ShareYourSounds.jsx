@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
-import VideoPlaceholder from '../../assets/img/audiocom-placeholder.png'
+import VideoPlaceholder from '../../assets/img/audiocom-placeholder.webp'
 
 function ShareYourSounds() {
   const [isClicked, setIsClicked] = useState(false);
@@ -10,7 +10,7 @@ function ShareYourSounds() {
   }
 
   return (
-    <section class="bg-[url('../assets/img/audio-background.jpg')] bg-cover">
+    <section class="bg-[url('../assets/img/audiocom-background.webp')] bg-cover">
       <div class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid gap-12 lg:grid-cols-12">
         <div class="flex flex-col gap-8 lg:col-span-6 lg:col-start-7 lg:py-12">
           <img src={AudioDotComLogo.src} class="w-20" alt="audio.com" />
