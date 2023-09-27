@@ -7,7 +7,7 @@ const blogCollection = defineCollection({
   schema: ({image}) => z.object({
     title: z.string(),
     description: z.string(),
-    author: z.enum(["Dawson Custons-Cole", "Leo Wattenberg"]),
+    author: z.enum(["Dawson Custons-Cole", "Leo Wattenberg", "Martin Keary", "Audacity Team"]),
     cover: image(),
     coverAlt: z.string(),
     publishDate: z.date(),
