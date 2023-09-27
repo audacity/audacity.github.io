@@ -7,17 +7,24 @@ function CookieConsent() {
       className="bg-white sticky bottom-0 w-full border-t-2 hide"
     >
       <div className="flex flex-col  bg-white  hide max-w-screen-lg xl:max-w-screen-xl mx-auto">
-        <p className="privacy-banner-heading">We value your privacy</p>
+        <p className="font-semibold text-xl">Your privacy matters</p>
         <div className="mt-2 flex flex-col md:flex-row md:justify-between">
           <p>
-            We use a privacy preserving first-party analytics service if you
-            click "accept". Otherwise, only necessary cookies are used.
-            <a href="/cookie-policy" className="hyperlink" aria-label="Read cookie policy">Read cookie policy</a>
+            We use cookies solely for analytics with Matomo. No third-party
+            tracking. By clicking 'Accept', you allow us to track your visits.
+            Choose 'Reject' if you'd prefer not to be tracked. 
+            <a
+              href="/cookie-policy"
+              className="hyperlink ml-2"
+              aria-label="Read cookie policy"
+            >
+              Read cookie policy
+            </a>
           </p>
-          <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0">
+          <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0 ml-12">
             <a
               id="reject"
-              className="flex h-12 w-full md:w-fit justify-center items-center border border-blue-700 px-3 rounded-md  text-blue-700"
+              className="flex h-12 w-full md:w-fit justify-center items-center border-2 border-gray-300 px-8 rounded-md  text-gray-700 hover:bg-gray-100"
               href="#"
               aria-label="reject"
             >
@@ -25,7 +32,7 @@ function CookieConsent() {
             </a>
             <a
               id="accept"
-              className="flex h-12 w-full md:w-fit justify-center items-center px-3 rounded-md bg-blue-700 text-white"
+              className="flex h-12 w-full md:w-fit justify-center items-center px-8 rounded-md bg-blue-700 text-white hover:bg-blue-600"
               href="#"
               aria-label="accept"
             >
