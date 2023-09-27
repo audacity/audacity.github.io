@@ -7,7 +7,7 @@ function FeatureCard(props) {
   return (
     <div className="h-full col-span-12 sm:col-span-6 xl:col-span-3 p-4 md:p-6 border drop-shadow-sm md:drop-shadow-lg bg-white rounded-lg flex flex-col md:gap-2">
       <span className={`icon icon-medium text-blue-700 ${icon}`}></span>
-      <p class="text-lg font-semibold">{title}</p>
+      <p className="text-lg font-semibold">{title}</p>
       <p className="">{description}</p>
     </div>
   );
