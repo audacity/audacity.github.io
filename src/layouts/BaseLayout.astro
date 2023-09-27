@@ -34,6 +34,7 @@ const { title } = Astro.props;
 
     <title>{title}</title>
     <ViewTransitions />
+    <script src="../assets/js/matomoTracking.js"></script>
   </head>
   <main>
     <body class="flex flex-col h-screen">
@@ -45,7 +46,7 @@ const { title } = Astro.props;
       <Footer />
       <CookieConsent />
 
-      <script src="../assets/js/matomoTracking.js"></script>
+    
       <script src="../assets/js/cookieConsent.js"></script>
     </body>
   </main>
