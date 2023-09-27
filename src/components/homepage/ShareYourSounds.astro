@@ -24,12 +24,15 @@ import { YouTube } from "astro-lazy-youtube-embed";
     </div>
 
     <div class="lg:col-start-1 lg:col-span-6 lg:row-start-1 items-center flex">
-      <YouTube
-        class="rounded"
-        thumbnailRes="maxres"
-        title="15 Reasons Why You Should Use Audio.com"
-        videoId="-rBOZ9Bi4rk"
-      />
+      <iframe
+        class="w-full aspect-video rounded-md shadow-xl"
+        loading="lazy"
+        src="https://www.youtube-nocookie.com/embed/-rBOZ9Bi4rk"
+        title="Introducing Audio.com"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      >
+      </iframe>
     </div>
   </div>
 </section>
