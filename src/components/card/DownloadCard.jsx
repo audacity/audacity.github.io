@@ -4,12 +4,14 @@ function DownloadCard(props) {
   const { OS, title, downloadURL, buttonText, downloadType, checksum } = props;
 
   function handleButtonClick() {
-    _paq.push([
-      "trackEvent",
-      "Button",
-      "Download",
-      `${OS + " " + downloadType}`,
-    ]);
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "Button",
+        "Download",
+        `${OS + " " + downloadType}`,
+      ]);
+    }
   }
 
   return (
