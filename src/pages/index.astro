@@ -12,9 +12,9 @@ import RecordAnything from "../components/homepage/RecordAnything.astro";
 
 <BaseLayout title="Audacity | Home">
   <HeroBanner />
-  <ReleaseVideo client:load/>
+  <ReleaseVideo client:only/>
   <RecordAnything />
-  <ShareYourSounds client:load/>
+  <ShareYourSounds client:only/>
   <FeatureCards />
   <BlogPosts />
   <DownloadBanner />

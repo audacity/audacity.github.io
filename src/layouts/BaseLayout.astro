@@ -41,7 +41,7 @@ const { title } = Astro.props;
       <a class="skip-to-content" href="#main" aria-label="Skip to content"
         >Skip to content</a
       >
-      <NavigationReact client:load />
+      <NavigationReact client:only />
       <div class="mt-14 flex-1"><slot /></div>
       <Footer />
       <CookieConsent />
