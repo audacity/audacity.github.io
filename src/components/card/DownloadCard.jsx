@@ -1,14 +1,14 @@
 import React from "react";
 
 function DownloadCard(props) {
-  const { title, downloadURL, buttonText, downloadType, checksum } = props;
+  const { OS, title, downloadURL, buttonText, downloadType, checksum } = props;
 
   function handleButtonClick() {
     _paq.push([
       "trackEvent",
       "Button",
       "Click",
-      `${title + " " + downloadType}`,
+      `${OS + " " + downloadType}`,
     ]);
   }
 
