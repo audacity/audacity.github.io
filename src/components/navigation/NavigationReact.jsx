@@ -5,8 +5,14 @@ import AudacityLogo from "../../assets/img/Audacity_Logo.png";
 import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
 
-function NavigationReact() {
+function NavigationReact(props) {
+  const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
+
+  function getUrlPath(url) {
+    const parts = url.split("/");
+    return "/" + parts[parts.length - 1];
+  }
 
   const navLinks = [
     { href: "/download", linkText: "Downloads", target: "" },
@@ -34,7 +40,11 @@ function NavigationReact() {
         href={navLink.href}
         target={navLink.target}
         key={index}
-        className="font-regular text-gray-800 hover:text-blue-700"
+        className={
+          getUrlPath(currentURL) === navLink.href
+            ? "font-regular text-blue-700"
+            : "font-regular text-gray-800 hover:text-blue-700"
+        }
       >
         {navLink.linkText}
       </a>
@@ -46,10 +56,14 @@ function NavigationReact() {
       <div className="flex max-w-screen-xl mx-auto h-14 px-4 xl:px-0 items-center">
         <div className="flex-1">
           <a className="flex w-fit items-center gap-1 lg:gap-2" href="/">
-            <img className="w-5 lg:w-6 h-full" src={AudacityLogo.src} alt="A yellow and orange waveform between the ears of a set of blue headphones" />
-            <brand className="signika text-blue-700 lg:text-lg font-medium lg:leading-none">
+            <img
+              className="w-5 lg:w-6 h-full"
+              src={AudacityLogo.src}
+              alt="A yellow and orange waveform between the ears of a set of blue headphones"
+            />
+            <p className="signika text-blue-700 lg:text-lg font-medium lg:leading-none">
               Audacity
-            </brand>
+            </p>
           </a>
         </div>
 
