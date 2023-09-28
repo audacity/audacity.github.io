@@ -59,7 +59,7 @@ You can download Audacity via the Muse Hub. If you already have Audacity, you ca
 
 
 ### How do I install Audacity or update to the latest version?
-[Learn how to install Audacity](https://support.audacityteam.org/basics/downloading-and-installing-audacity) on Windows, macOS and Linux here: https://support.audacityteam.org/basics/downloading-and-installing-audacity
+You can learn how to install Audacity on Windows, macOS and Linux on our [support page](https://support.audacityteam.org/basics/downloading-and-installing-audacity).
 
 
 ### Is Audacity safe to download?
