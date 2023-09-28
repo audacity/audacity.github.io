@@ -17,7 +17,7 @@ function DownloadButton() {
   function renderButton(href) {
     return (
       <a
-        onClick={href !== "/download" && handleButtonClick()}
+        onClick={href !== "/download" && handleButtonClick}
         className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3"
         href={href}
       >
