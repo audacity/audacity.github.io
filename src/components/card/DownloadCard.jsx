@@ -8,7 +8,7 @@ function DownloadCard(props) {
       "trackEvent",
       "Button",
       "Click",
-      `${OS + " " + downloadType}`,
+      `${title + " " + downloadType}`,
     ]);
   }
 
