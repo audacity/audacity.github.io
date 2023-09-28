@@ -36,12 +36,12 @@ const { title } = Astro.props;
     <ViewTransitions />
     <script src="../assets/js/matomoTracking.js"></script>
   </head>
-  <main>
-    <body class="flex flex-col h-screen">
+  <main class="flex flex-col h-screen"> 
+    <body>
       <a class="skip-to-content" href="#main" aria-label="Skip to content"
         >Skip to content</a
       >
-      <NavigationReact client:only />
+      <NavigationReact client:only currentURL={Astro.request.url} />
       <div class="mt-14 flex-1"><slot /></div>
       <Footer />
       <CookieConsent />
