@@ -10,34 +10,35 @@ function DownloadButton() {
   }, []);
 
   function handleButtonClick() {
-    _paq.push(['trackEvent', 'Button', 'Download', 'Download Audacity button']);
+    console.log("Event sent to Matomo")
+    _paq.push(["trackEvent", "Button", "Download", "Download Audacity button"]);
   }
 
   function renderButton(href) {
     return (
-      <a onClick={() => handleButtonClick()}className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3" href={href}>
-          <div className="flex gap-2 items-center">
-            <span className="icon icon-import text-white"></span>
-            <p className="button-text font-semibold text-white"> Download Audacity {releaseData.version}</p>
-          </div>
-          <p className="button-caption text-white">Installs with no extras</p>
+      <a
+        onClick={href !== "/download" && handleButtonClick()}
+        className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3"
+        href={href}
+      >
+        <div className="flex gap-2 items-center">
+          <span className="icon icon-import text-white"></span>
+          <p className="button-text font-semibold text-white">
+            Download Audacity {releaseData.version}
+          </p>
+        </div>
+        <p className="button-caption text-white">Installs with no extras</p>
       </a>
     );
   }
 
   switch (browserOS) {
     case "OS X":
-      return renderButton(
-        releaseData.mac[0].browser_download_url
-      );
+      return renderButton(releaseData.mac[0].browser_download_url);
     case "Windows":
-      return renderButton(
-        releaseData.win[0].browser_download_url
-      );
+      return renderButton(releaseData.win[0].browser_download_url);
     case "Linux":
-      return renderButton(
-        releaseData.lin[0].browser_download_url
-      );
+      return renderButton(releaseData.lin[0].browser_download_url);
     default:
       return renderButton("/download");
   }
