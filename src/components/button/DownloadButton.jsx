@@ -9,15 +9,26 @@ function DownloadButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
-  function handleButtonClick() {
-    console.log("Event sent to Matomo")
-    _paq.push(["trackEvent", "Button", "Download", "Download Audacity button"]);
+  function handleButtonClick(href) {
+    if (href !== "/download") {
+      console.log(href, "Event sent to Matomo");
+      if (typeof _paq !== "undefined") {
+        _paq.push([
+          "trackEvent",
+          "Button",
+          "Download",
+          "Download Audacity button",
+        ]);
+      }
+    } else {
+      console.log(href, "No event sent");
+    }
   }
 
   function renderButton(href) {
     return (
       <a
-        onClick={href !== "/download" && handleButtonClick}
+        onClick={() => handleButtonClick(href)}
         className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3"
         href={href}
       >

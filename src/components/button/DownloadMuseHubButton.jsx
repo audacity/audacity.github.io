@@ -8,14 +8,26 @@ function DownloadMuseHubButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
-  function handleButtonClick() {
-    _paq.push(["trackEvent", "Button", "Download", "Download MuseHub button"]);
+  function handleButtonClick(href) {
+    if (href !== "https://www.musehub.com/") {
+      console.log(href, "Event sent to Matomo");
+      if (typeof _paq !== "undefined") {
+        _paq.push([
+          "trackEvent",
+          "Button",
+          "Download",
+          "Download MuseHub button",
+        ]);
+      }
+    } else {
+      console.log(href, "No event sent");
+    }
   }
 
   function renderButton(href) {
     return (
       <a
-        onClick={() => handleButtonClick()}
+        onClick={() => handleButtonClick(href)}
         className="flex flex-1 flex-col py-3 items-center rounded justify-center border-2 bg-white border-gray-300 text-blue-700 hover:bg-gray-100 text-center"
         href={href}
       >
@@ -41,7 +53,7 @@ function DownloadMuseHubButton() {
         "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.deb"
       );
     default:
-      return renderButton("/download", "Download Audacity");
+      return renderButton("https://www.musehub.com/");
   }
 }
 
