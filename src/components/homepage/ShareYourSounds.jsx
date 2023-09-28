@@ -11,8 +11,8 @@ function ShareYourSounds() {
 
   return (
     <section className="bg-[url('../assets/img/audiocom-background.webp')] bg-cover">
-      <div className="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid gap-12 lg:grid-cols-12">
-        <div className="flex flex-col gap-8 lg:col-span-6 lg:col-start-7 lg:py-12">
+      <div className="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid grid-cols-12 gap-y-12 md:gap-12">
+        <div className="col-span-12 md:col-span-6 md:col-start-7 flex flex-col gap-8 lg:py-12">
           <img src={AudioDotComLogo.src} className="w-20" alt="audio.com" />
           <div>
             <h2 className="text-white">Get free web space for your audio files</h2>
@@ -32,7 +32,7 @@ function ShareYourSounds() {
           </a>
         </div>
 
-        <div className="lg:col-start-1 lg:col-span-6 lg:row-start-1 items-center flex">
+        <div className="col-span-12 md:col-start-1 md:col-span-6 md:row-start-1 items-center flex">
           {isClicked ? (
             <iframe
               className="w-full aspect-video rounded-md shadow-xl"
