@@ -9,7 +9,7 @@ function DownloadMuseHubButton() {
   }, []);
 
   function handleButtonClick() {
-    _paq.push(["trackEvent", "Button", "Click", "Download MuseHub button"]);
+    _paq.push(["trackEvent", "Button", "Download", "Download MuseHub button"]);
   }
 
   function renderButton(href) {

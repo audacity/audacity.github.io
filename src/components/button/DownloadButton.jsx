@@ -10,7 +10,7 @@ function DownloadButton() {
   }, []);
 
   function handleButtonClick() {
-    _paq.push(['trackEvent', 'Button', 'Click', 'Download Audacity button']);
+    _paq.push(['trackEvent', 'Button', 'Download', 'Download Audacity button']);
   }
 
   function renderButton(href) {
