@@ -46,7 +46,7 @@ const { title, OS, version, releaseData, iconName, iconColor } = Astro.props;
           return (
             <DownloadCard
               client:load
-              OS={item.OS}
+              OS={OS}
               title={item.name}
               checksum={item.checksum}
               downloadURL={item.browser_download_url}
