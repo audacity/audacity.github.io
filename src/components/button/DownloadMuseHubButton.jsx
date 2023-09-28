@@ -10,7 +10,6 @@ function DownloadMuseHubButton() {
 
   function handleButtonClick(href) {
     if (href !== "https://www.musehub.com/") {
-      console.log(href, "Event sent to Matomo");
       if (typeof _paq !== "undefined") {
         _paq.push([
           "trackEvent",

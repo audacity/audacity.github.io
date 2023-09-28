@@ -11,7 +11,6 @@ function DownloadButton() {
 
   function handleButtonClick(href) {
     if (href !== "/download") {
-      console.log(href, "Event sent to Matomo");
       if (typeof _paq !== "undefined") {
         _paq.push([
           "trackEvent",
