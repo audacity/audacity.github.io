@@ -17,8 +17,8 @@ function ShareYourSounds() {
           <div>
             <h2 className="text-white">Get free web space for your audio files</h2>
             <p className="text-gray-300 mt-4">
-              Host and share your audio instantly using our sister service
-              <a className="dark-hyperlink" href="https://audio.com">
+              Host and share your audio instantly using our sister service 
+              <a className="dark-hyperlink ml-1" href="https://audio.com">
                 audio.com
               </a>
               .
