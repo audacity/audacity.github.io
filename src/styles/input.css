@@ -105,12 +105,15 @@
         padding: 2rem;
         background-color: #fff;
         opacity: 1;
-        transition: opacity .35s ease;
+        transition: bottom .5s ease;
 
         &.hide{
-            opacity: 0;
-            display:none;
+           bottom:-412px;
         }
+
+   
     }
+
+    
     
 }

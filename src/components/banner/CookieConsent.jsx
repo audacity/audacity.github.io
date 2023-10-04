@@ -21,7 +21,7 @@ function CookieConsent() {
               Read cookie policy
             </a>
           </p>
-          <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0 ml-12">
+          <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0 md:ml-12">
             <a
               id="reject"
               className="flex h-12 w-full md:w-fit justify-center items-center border-2 border-gray-300 px-8 rounded-md  text-gray-700 hover:bg-gray-100"
