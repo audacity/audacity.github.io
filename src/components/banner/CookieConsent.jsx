@@ -15,7 +15,7 @@ function CookieConsent() {
             Choose 'Reject' if you'd prefer not to be tracked. 
             <a
               href="/cookie-policy"
-              className="hyperlink ml-2"
+              className="hyperlink ml-1"
               aria-label="Read cookie policy"
             >
               Read cookie policy
