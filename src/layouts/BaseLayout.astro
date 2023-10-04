@@ -33,10 +33,9 @@ const { title } = Astro.props;
     />
 
     <title>{title}</title>
-    <!-- <ViewTransitions /> -->
     <script src="../assets/js/matomoTracking.js"></script>
   </head>
-  <main class="flex flex-col h-screen"> 
+  <main class="flex flex-col h-screen">
     <body>
       <a class="skip-to-content" href="#main" aria-label="Skip to content"
         >Skip to content</a
@@ -44,10 +43,10 @@ const { title } = Astro.props;
       <NavigationReact client:only currentURL={Astro.request.url} />
       <div class="mt-14 flex-1"><slot /></div>
       <Footer />
-      <CookieConsent client:load/>
+      <CookieConsent client:load />
 
-    
       <script src="../assets/js/cookieConsent.js"></script>
     </body>
   </main>
+
 </html>
