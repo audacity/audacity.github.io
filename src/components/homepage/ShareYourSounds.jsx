@@ -25,7 +25,7 @@ function ShareYourSounds() {
             </p>
           </div>
           <a
-            href="https://audio.com"
+            href="https://audio.com/auth/sign-up"
             className="px-4 py-2 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
           >
             Join for free
