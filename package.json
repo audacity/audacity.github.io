@@ -11,6 +11,7 @@
 	},
 	"dependencies": {
 		"@astrojs/react": "^3.0.2",
+		"@astrojs/sitemap": "^3.0.0",
 		"@astrojs/tailwind": "^5.0.0",
 		"@fontsource-variable/signika": "^5.0.8",
 		"@fontsource/twinkle-star": "^5.0.8",
