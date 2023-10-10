@@ -1,8 +1,8 @@
 # About this repo
 
-This is the source of audacityteam.org (or will be soon, anyway). It uses [Astro](https://docs.astro.build/en/getting-started/).
+This is the source of https://www.audacityteam.org. It uses [Astro](https://docs.astro.build/en/getting-started/).
 
-To build and test this code locally, first install dependencies via `npm install`, then `npm run dev` to spin up a dev server. 
+To build and test this code locally, first install dependencies via `npm install`, then `npm run build` to build content and `npm run dev` to spin up a dev server. 
 
 ## Translation
 
