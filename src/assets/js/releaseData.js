@@ -75,7 +75,7 @@ export const releaseData = {
     },
     {
       name: "Source code",
-      browser_download_url: "https://github.com/audacity/audacity/archive/refs/tags/Audacity-3.3.3.tar.gz",
+      browser_download_url: "https://github.com/audacity/audacity/releases/download/Audacity-3.3.3/audacity-sources-3.3.3.tar.gz",
       checksum: "3d9ff1fc6a0ecd6591f19445c77c80774d364b268da652760829cf3598e08071",
       type: ".tar.gz"
     }
