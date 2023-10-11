@@ -31,7 +31,8 @@ On our Website we use only first party cookies, which means that all your cookie
 |Cookie|Duration|Description|Type
 |------|--------|-----------|---------|
 |`audacity-consent`|1 year|Stores your cookie preferences|Necessary| 
-|`__cf_bm`|30 min|Cloudflare Bot Management - to distinguish between humans and bots|Necessary|
+|`__cf_bm`|30 min|[Cloudflare Bot Management](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/#__cf_bm-cookie-for-cloudflare-bot-products)|Necessary|
+|`cf_clearance`|30 min|[Cloudflare challenge clear proof](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/#additional-cookies-used-by-the-challenge-platform)|Necessary|
 
 
 ## How can I control cookies?

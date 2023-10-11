@@ -10,7 +10,7 @@ draft: false
 
 Hello everyone!
 
-This is a quick note to let you know we updated our website. Audacity itself will get a new look soon-ish as well, though that is a herculean task which is better measured in years than weeks.
+This is a quick note to let you know we updated our website. Audacity itself will get a new look soon-ish as well, though that is a Herculean task which is better measured in years than weeks.
 
 This new website no longer uses Wordpress, opting for a much more lightweight static site generator instead. Additionally, things have been slimmed down a bit. Old posts got [archived](https://archive.org/details/posts.audacity.WordPress.2023-09-11) and the page structure has been consolidated. If you encounter any issues or have suggestions for this website in particular, feel free to leave a comment in [our forum](https://forum.audacityteam.org/t/a-new-audacityteam-org-website/86606). 
 
