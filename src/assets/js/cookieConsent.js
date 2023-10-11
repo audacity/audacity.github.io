@@ -48,12 +48,16 @@ window.onload = () => {
   const rejectBtn = document.getElementById("reject");
 
   const acceptCookie = (event) => {
+    event.preventDefault();
+
     saveAcceptToStorage(storageType);
     consentPopup.classList.add("hide");
     applyMatomoTrackingCode();
   };
 
   const rejectCookie = (event) => {
+    event.preventDefault();
+
     saveRejectToStorage(storageType);
     consentPopup.classList.add("hide");
   };
