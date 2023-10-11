@@ -80,15 +80,9 @@ const { version, src } = releaseData;
             <div class="flex flex-col gap-2">
               <!-- TODO - Ensure accordions are inclueded in the tab hierarchy -->
               <ChecksumAccordion
-                title=".zip"
+                title={src[0].type}
                 downloadUrl={src[0].browser_download_url}
                 checksum={src[0].checksum}
-                client:load
-              />
-              <ChecksumAccordion
-                title=".tar.gz"
-                downloadUrl={src[1].browser_download_url}
-                checksum={src[1].checksum}
                 client:load
               />
             </div>
