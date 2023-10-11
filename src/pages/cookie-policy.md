@@ -3,7 +3,7 @@ layout: "../layouts/PageLayout.astro"
 title: Audacity | Cookie Policy
 ---
 
-Last updated: 26. September 2023
+Last updated: 11. October 2023
 ## About this Policy
 
 This Cookie Policy (“**Policy”**) explains how we use cookies and other similar technologies to recognise you when you visit our website https://www.audacityteam.org (“**Website”**). It explains what these technologies are and why we use them, as well as your rights to control our use of them.
