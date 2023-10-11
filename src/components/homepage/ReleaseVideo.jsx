@@ -14,7 +14,7 @@ function ReleaseVideo() {
       <div className="grid grid-cols-12 max-w-screen-xl mx-auto py-12 gap-y-4">
         <div className="flex flex-col gap-4 justify-center row-start-2 md:row-start-1 col-start-2 col-span-10 md:col-start-2 md:col-span-4">
           <h2 className="text-white">
-            Produce music. Produce podcasts. Take total control of your sound
+            Produce music. Produce podcasts. Take total control of your sound.
           </h2>
           <a
             href="https://support.audacityteam.org/additional-resources/changelog"

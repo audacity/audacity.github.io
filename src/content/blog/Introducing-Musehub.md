@@ -26,6 +26,6 @@ Muse Hub allows anyone to download:
 
 * Muse Group apps: including Audacity, MuseScore4 and Tonebridge. 
 * Elements: free looping sound clips. Drop them easily into your Audacity performances or podcasts.
-* Muse FX: effects plug-ins including reverb, delay, compress and more, for fine-tuning your MuseScore 4 or Audacity projects.
+* Muse FX: effects plugins including reverb, delay, compress and more, for fine-tuning your MuseScore 4 or Audacity projects.
 * Muse Sounds: premium collections of sampled instruments, including keys, strings, brass, woodwind, percussion, choirs and electronics. Hear your MuseScore 4 or StaffPad compositions played back in astonishing detail with these moving — and completely free — preset packs.
 * Much more on the way: Muse Hub is expanding. Look out for more creative apps and sounds in the future.

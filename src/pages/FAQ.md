@@ -23,7 +23,7 @@ Here are a few of the most common ways Audacity is used every day:
 ### Is Audacity open source?
 Audacity is proudly open source. This means its source code remains open to anyone to view or modify. Audacity is licensed under the GNU General Public License. Details can be found [here](https://github.com/audacity/audacity/blob/master/LICENSE.txt). 
 
-A dedicated worldwide community of passionate audio lovers have collaborated to make Audacity the well-loved software it is today. Many third-party plug-ins have also been developed for Audacity thanks to its open source nature.
+A dedicated worldwide community of passionate audio lovers have collaborated to make Audacity the well-loved software it is today. Many third-party plugins have also been developed for Audacity thanks to its open source nature.
 
 ---
 
@@ -54,7 +54,7 @@ The [Muse Hub](https://www.musehub.com/) is a gateway to creativity for any audi
 
 - **Muse Sounds:** premium collections of sampled instruments, including keys, strings, brass, woodwind, percussion, choirs and electronics. Hear your music played back in astonishing detail with these moving — and completely free — preset packs.
 - **Elements:** free looping sound clips. Drop them easily into your Audacity performances or podcasts.
-- **Muse FX:** effects plug-ins including reverb, delay, compress and more, for fine-tuning your Audacity projects.
+- **Muse FX:** effects plugins including reverb, delay, compress and more, for fine-tuning your Audacity projects.
 You can download Audacity via the Muse Hub. If you already have Audacity, you can download the Muse Hub and access the free extras [here](https://www.musehub.com/).
 
 
@@ -83,7 +83,7 @@ In the app, every audio creator can:
 - Reduce or isolate vocals in stereo tracks.
 - Add impact with distortion, echo, reverb and more effects.
 - Import, export and convert files in every popular audio format, including mp3, m4a, AIFF, FLAC, WAV and more. You can even combine clips from multiple formats into the same project.
-- Take your editing to the next level with an extensive selection of third-party effects plug-ins, designed by the passionate Audacity, open-source community.
+- Take your editing to the next level with an extensive selection of third-party effects plugins, designed by the passionate Audacity, open-source community.
 - Visualize and analyze your audio clips in Spectrogram view.
 - Upload and share your files online to [audio.com](https://audio.com/), instantly.
 
