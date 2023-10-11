@@ -24,23 +24,14 @@ function ReleaseVideo() {
           </a>
         </div>
         <div className="flex align-middle col-start-2 col-span-10 md:col-start-7 md:col-span-5">
-          {isClicked ? (
             <iframe
               className="w-full aspect-video rounded-md shadow-xl"
               loading="lazy"
-              src="https://www.youtube-nocookie.com/embed/DTRnDNR9LR8?autoplay=1"
+              src="https://www.youtube-nocookie.com/embed/DTRnDNR9LR8"
               title="Audacity 3.2 - Real-Time Effects and Free Cloud Sharing"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
-          ) : (
-            <img
-              src={VideoPlaceholder.src}
-              alt="YouTube thumbnail"
-              className="w-full aspect-video rounded-md shadow-xl"
-              onClick={() => handleVideoClick()}
-            />
-          )}
         </div>
       </div>
     </section>
