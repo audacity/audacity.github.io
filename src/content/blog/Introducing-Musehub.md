@@ -4,7 +4,7 @@ author: Audacity Team
 description: Muse Hub is your gateway to creativity.
 cover: "./a-new-blog.jpg"
 coverAlt: "A picture of Audacity 3.3"
-publishDate: 2025-09-26
+publishDate: 2023-09-26
 draft: false
 ---
 
