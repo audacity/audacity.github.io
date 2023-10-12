@@ -33,6 +33,7 @@ function ShareYourSounds() {
         </div>
 
         <div className="col-span-12 md:col-start-1 md:col-span-6 md:row-start-1 items-center flex">
+          {isClicked ? (
             <iframe
               className="w-full aspect-video rounded-md shadow-xl"
               loading="lazy"
@@ -41,6 +42,14 @@ function ShareYourSounds() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
+          ) : (
+            <img
+              src={VideoPlaceholder.src}
+              alt="YouTube thumbnail"
+              className="w-full aspect-video rounded-md shadow-xl"
+              onClick={() => handleVideoClick()}
+            />
+          )}
         </div>
       </div>
     </section>
