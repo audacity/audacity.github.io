@@ -3,7 +3,7 @@ layout: "../layouts/PageLayout.astro"
 title: Audacity | Cookie Policy
 ---
 
-Last updated: 11. October 2023
+Last updated: 13. October 2023
 ## About this Policy
 
 This Cookie Policy (“**Policy”**) explains how we use cookies and other similar technologies to recognise you when you visit our website https://www.audacityteam.org (“**Website”**). It explains what these technologies are and why we use them, as well as your rights to control our use of them.
@@ -33,6 +33,7 @@ On our Website we use only first party cookies, which means that all your cookie
 |`audacity-consent`|1 year|Stores your cookie preferences|Necessary| 
 |`__cf_bm`|30 min|[Cloudflare Bot Management](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/#__cf_bm-cookie-for-cloudflare-bot-products)|Necessary|
 |`cf_clearance`|30 min|[Cloudflare challenge clear proof](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/#additional-cookies-used-by-the-challenge-platform)|Necessary|
+|Cookies starting with:<br>`_pk...`, `mtm...`|Varies|Matomo cookies. [Details...](https://matomo.org/faq/general/faq_146/)|Analytics|
 
 
 ## How can I control cookies?

@@ -22,9 +22,6 @@ const saveAcceptToStorage = () =>
 const saveRejectToStorage = () =>
   storageType.setItem(consentPropertyName, false);
 const applyMatomoTrackingCode = () => {
-  console.log(
-    "audacity-consent cookie created, running Matomo tracking code..."
-  );
   var _paq = (window._paq = window._paq || []);
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(["trackPageView"]);
@@ -42,6 +39,21 @@ const applyMatomoTrackingCode = () => {
   })();
 };
 
+const applyMatomoTrackingCodeWithoutCookies = () => {
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["disableCookies"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://matomo.audacityteam.org/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+};
+
 window.onload = () => {
   const consentPopup = document.getElementById("consent-popup");
   const acceptBtn = document.getElementById("accept");
@@ -56,6 +68,7 @@ window.onload = () => {
   const rejectCookie = (event) => {
     saveRejectToStorage(storageType);
     consentPopup.classList.add("hide");
+    applyMatomoTrackingCodeWithoutCookies();
   };
 
   acceptBtn.addEventListener("click", acceptCookie);
