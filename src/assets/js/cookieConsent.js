@@ -28,6 +28,8 @@ window.onload = () => {
   const rejectBtn = document.getElementById("reject");
 
   const acceptCookie = (event) => {
+    event.preventDefault();
+
     saveAcceptToStorage(storageType);
     consentPopup.classList.add("hide");
     if (typeof _paq !== "undefined") {
@@ -36,6 +38,8 @@ window.onload = () => {
   };
 
   const rejectCookie = (event) => {
+    event.preventDefault();
+
     saveRejectToStorage(storageType);
     consentPopup.classList.add("hide");
   };
