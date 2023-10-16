@@ -3,7 +3,7 @@ title: Introducing Muse Hub
 author: Audacity Team
 description: Muse Hub is your gateway to creativity.
 cover: "./introducing-musehub.webp"
-coverAlt: "A picture of Audacity 3.3"
+coverAlt: "Muse Hub. Creativity. For everyone."
 publishDate: 2023-09-26
 draft: false
 ---
