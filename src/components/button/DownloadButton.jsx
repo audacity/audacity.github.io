@@ -28,7 +28,7 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex flex-1 flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3"
+        className="flex flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3 w-full sm:w-72"
         href={href}
       >
         <div className="flex gap-2 items-center">
