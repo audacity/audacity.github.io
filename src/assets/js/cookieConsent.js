@@ -21,38 +21,6 @@ const saveAcceptToStorage = () =>
   storageType.setItem(consentPropertyName, true);
 const saveRejectToStorage = () =>
   storageType.setItem(consentPropertyName, false);
-const applyMatomoTrackingCode = () => {
-  var _paq = (window._paq = window._paq || []);
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(["trackPageView"]);
-  _paq.push(["enableLinkTracking"]);
-  (function () {
-    var u = "https://matomo.audacityteam.org/";
-    _paq.push(["setTrackerUrl", u + "matomo.php"]);
-    _paq.push(["setSiteId", "2"]);
-    var d = document,
-      g = d.createElement("script"),
-      s = d.getElementsByTagName("script")[0];
-    g.async = true;
-    g.src = u + "matomo.js";
-    s.parentNode.insertBefore(g, s);
-  })();
-};
-
-// const applyMatomoTrackingCodeWithoutCookies = () => {
-//   var _paq = window._paq = window._paq || [];
-//   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-//   _paq.push(["disableCookies"]);
-//   _paq.push(['trackPageView']);
-//   _paq.push(['enableLinkTracking']);
-//   (function() {
-//     var u="https://matomo.audacityteam.org/";
-//     _paq.push(['setTrackerUrl', u+'matomo.php']);
-//     _paq.push(['setSiteId', '2']);
-//     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-//     g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-//   })();
-// };
 
 window.onload = () => {
   const consentPopup = document.getElementById("consent-popup");
@@ -62,13 +30,14 @@ window.onload = () => {
   const acceptCookie = (event) => {
     saveAcceptToStorage(storageType);
     consentPopup.classList.add("hide");
-    applyMatomoTrackingCode();
+    if (typeof _paq !== "undefined") {
+      _paq.push(["setCookieConsentGiven"]);
+    }
   };
 
   const rejectCookie = (event) => {
     saveRejectToStorage(storageType);
     consentPopup.classList.add("hide");
-    // applyMatomoTrackingCodeWithoutCookies();
   };
 
   acceptBtn.addEventListener("click", acceptCookie);
