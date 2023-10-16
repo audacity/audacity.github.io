@@ -1,5 +1,5 @@
 ---
-title: Introducing Musehub
+title: Introducing Muse Hub
 author: Audacity Team
 description: Muse Hub is your gateway to creativity.
 cover: "./introducing-musehub.webp"
