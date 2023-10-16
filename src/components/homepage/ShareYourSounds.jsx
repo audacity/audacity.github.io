@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
-import VideoPlaceholder from '../../assets/img/audiocom-placeholder.webp'
+import VideoPlaceholder from "../../assets/img/audiocom-placeholder.webp";
 
 function ShareYourSounds() {
   const [isClicked, setIsClicked] = useState(false);
@@ -15,9 +15,11 @@ function ShareYourSounds() {
         <div className="col-span-12 md:col-span-6 md:col-start-7 flex flex-col gap-8 lg:py-12">
           <img src={AudioDotComLogo.src} className="w-20" alt="audio.com" />
           <div>
-            <h2 className="text-white">Get free web space for your audio files</h2>
+            <h2 className="text-white">
+              Get free web space for your audio files
+            </h2>
             <p className="text-gray-300 mt-4">
-              Host and share your audio instantly using our sister service 
+              Host and share your audio instantly using our sister service
               <a className="dark-hyperlink ml-1" href="https://audio.com">
                 audio.com
               </a>
@@ -44,10 +46,12 @@ function ShareYourSounds() {
             ></iframe>
           ) : (
             <img
+              tabIndex="0"
               src={VideoPlaceholder.src}
               alt="YouTube thumbnail"
               className="w-full aspect-video rounded-md shadow-xl"
               onClick={() => handleVideoClick()}
+              onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
             />
           )}
         </div>
