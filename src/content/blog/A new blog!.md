@@ -8,7 +8,7 @@ publishDate: 2023-09-12
 draft: true
 ---
 
-![A picture of Audacity's 'Snap-to' dropdown](./beats-and-bars.png)
+![A picture of Audacity's 'Snap-to' dropdown](./audacity-3.3.webp)
 A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms - reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development.
 
 By and large Audacity 3.3 is a quiet update, with most of the work being done under the hood. Some noteworthy changes:
