@@ -12,7 +12,7 @@ function ReleaseVideo() {
   return (
     <section className="bg-gray-900">
       <div className="grid grid-cols-12 max-w-screen-xl mx-6 sm:mx-16 xl:mx-auto py-8 sm:py-12 md:py-12 gap-6 md:gap-12">
-        <div className="flex justify-center flex-col col-span-12 md:col-span-6 gap-4">
+        <div className="flex justify-center flex-col col-span-12 md:col-span-6 lg:col-span-5 gap-4">
           <h2 className="text-white">
             Produce music. Produce podcasts. Take total control of your sound.
           </h2>
@@ -23,7 +23,7 @@ function ReleaseVideo() {
             <p className="dark-hyperlink">More about our new release</p>
           </a>
         </div>
-        <div className="flex row-start-1 col-span-12 md:col-span-6 md:col-start-7">
+        <div className="flex row-start-1 col-span-12 md:col-span-6 md:col-start-7 lg:col-span-7 lg:col-start-6">
           {isClicked ? (
             <iframe
               className="w-full aspect-video rounded-md shadow-xl"
