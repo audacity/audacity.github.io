@@ -4,19 +4,10 @@ import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 ---
 
 <section class="bg-gray-100 pt-10 pb-12">
-  <div
-    class="max-w-screen-sm md:max-w-screen-lg mx-auto grid grid-cols-12 gap-y-6"
-  >
-    <div
-      class="flex flex-col gap-2 col-start-2 col-span-10 items-center text-center"
-    >
-      <h2>Audacity is free, forever</h2>
-    </div>
-
-    <div
-      class="flex flex-col md:flex-row gap-4 col-start-2 col-span-10 sm:col-start-4 sm:col-span-6 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8"
-    >
-      <DownloadButton client:only primary />
+  <div class="max-w-screen md:max-w-screen-lg mx-6 lg:mx-auto text-center">
+    <h2>Audacity is free, forever</h2>
+    <div class="flex flex-col sm:flex-row gap-4 mt-4 justify-center">
+      <DownloadButton client:only />
       <DownloadMuseHubButton client:only />
     </div>
   </div>
