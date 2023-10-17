@@ -135,12 +135,12 @@ The Audacity app only collects data relevant to error reporting (such as device 
 
 The Audacity team will take all the necessary steps to keep your data protected. It is fully GDPR compliant.
 
-Read Audacity's privacy policy in full [here](/desktop-privacy-policy/). The cookie policy for this website can be found [here](/cookie-policy/).
+Read Audacity's privacy policy in full [here](/desktop-privacy-notice/). The cookie policy for this website can be found [here](/cookie-policy/).
 
 ### Is Audacity spyware?
 No. Audacity is entirely safe to use and doesn't store personal information. Audacity only collects data relevant to error reporting (such as device information) and software updates.
 
-The Audacity team is fully GDPR compliant. Read Audacity's privacy policy in full [here](/desktop-privacy-policy/).
+The Audacity team is fully GDPR compliant. Read Audacity's privacy policy in full [here](/desktop-privacy-notice/).
 
 ### I've shared my Audacity project on Audio.com. What are my legal rights regarding my project?
 If you are the sole creator of the audio project, the intellectual property rights and mechanical copyright is retained by you. Similar to other UGC (User Generated Content) platforms, by using [audio.com](https://audio.com/) you grant a license to host and show your work. You are also free to distribute your work on other platforms, if you wish. For more details read the full [Terms & Conditions](https://audio.com/legal/terms-of-use.pdf). 
