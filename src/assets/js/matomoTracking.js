@@ -11,7 +11,6 @@ _paq.push(["enableLinkTracking"]);
 
 // Tell Matomo to wait for cookie consent
 _paq.push(['requireCookieConsent']);
-console.log('waiting for cookie consent...');
 (function () {
   var u = "https://matomo.audacityteam.org/";
   _paq.push(["setTrackerUrl", u + "matomo.php"]);
