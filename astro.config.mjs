@@ -36,6 +36,8 @@ export default defineConfig({
     '/gitbook-access': "https://app.gitbook.com/invite/-MhmG2mhIIHTtQPuHV_k/acNI2LAF6LtdJW06t4Hc",
     "/about": "/FAQ#team--news",
     "/about/desktop-privacy-notice/": "/desktop-privacy-notice/",
+    "/about/desktop-privacy-policy/": "/desktop-privacy-notice/",
+    "/desktop-privacy-policy/": "/desktop-privacy-notice/",
     "/about/license/": "https://github.com/audacity/audacity/blob/master/LICENSE.txt",
     "/about/citations-screenshots-and-permissions/": "https://github.com/audacity/audacity/blob/master/LICENSE.txt",
     "/about/credits/": "https://github.com/audacity/audacity/graphs/contributors",
