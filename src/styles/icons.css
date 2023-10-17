@@ -3,6 +3,7 @@
     src: url('/fonts/MusescoreIcon.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 .icon {
