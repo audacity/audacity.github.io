@@ -16,7 +16,7 @@ function OperatingSystemCard(props) {
           </svg>
         );
 
-      case "Mac OS":
+      case "macOS":
         return (
           <svg
             className="w-4 fill-gray-400"
