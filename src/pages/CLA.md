@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/PageLayout.astro"
-title: Audacity | Contributor License Agreement
+title: Audacity ® | Contributor License Agreement
 ---
 # Contributor License Agreement
 

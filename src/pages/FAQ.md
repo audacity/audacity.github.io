@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/PageLayout.astro"
-title: Audacity | FAQ
+title: Audacity ® | Frequently Asked Questions
 ---
 
 ## About Audacity
