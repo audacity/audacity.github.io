@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import HamburgerMenu from "./HamburgerMenu";
-import AudacityLogo from "../../assets/img/Audacity_Logo.png";
+import AudacityLogo from "../../assets/img/Audacity_Logo.svg";
 import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
 
