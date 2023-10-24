@@ -57,7 +57,7 @@ function NavigationReact(props) {
         <div className="flex-1">
           <a className="flex w-fit items-center gap-1 lg:gap-2" href="/">
             <img
-              className="w-5 lg:w-6 h-full -mt-0.5"
+              className="w-5 lg:w-6 h-full"
               src={AudacityLogo.src}
               alt="A yellow and orange waveform between the ears of a set of blue headphones"
             />
