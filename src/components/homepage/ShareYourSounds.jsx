@@ -39,7 +39,7 @@ function ShareYourSounds() {
             <iframe
               className="w-full aspect-video rounded-md shadow-xl"
               loading="lazy"
-              src="https://www.youtube-nocookie.com/embed/-rBOZ9Bi4rk"
+              src="https://www.youtube-nocookie.com/embed/-rBOZ9Bi4rk?autoplay=1"
               title="Introducing Audio.com"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
