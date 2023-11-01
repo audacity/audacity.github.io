@@ -12,9 +12,9 @@ import RecordAnything from "../components/homepage/RecordAnything.astro";
 
 <BaseLayout title="Audacity ® | Free, open source, cross-platform audio software for multi-track recording and editing.">
   <HeroBanner />
-  <ReleaseVideo client:only/>
+  <ReleaseVideo client:load/>
   <RecordAnything />
-  <ShareYourSounds client:only/>
+  <ShareYourSounds client:load/>
   <FeatureCards />
   <BlogPosts />
   <DownloadBanner />

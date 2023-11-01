@@ -45,7 +45,7 @@ const { title, OS, version, releaseData, iconName, iconColor } = Astro.props;
         releaseData.map((item) => {
           return (
             <DownloadCard
-              client:only
+              client:load
               OS={OS}
               title={item.name}
               checksum={item.checksum}
