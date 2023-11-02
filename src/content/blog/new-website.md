@@ -1,7 +1,7 @@
 ---
 title: Our new website
 author: Leo Wattenberg
-description: We've been working on a new website Audacity and here it is! We were struggling to keep on top of the admin side of Wordpress and so decided to move to Astro.js to make things a little more lightweight.
+description: We've been working on a new website Audacity and here it is!
 cover: "./our-new-website.webp"
 coverAlt: "Astro.js"
 publishDate: 2023-10-11
