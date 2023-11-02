@@ -158,8 +158,8 @@ Current team members are:
 * Project manager: Yana Larina
 * Developers: Matthieu Hodgkinson, Paul Licameli, K. Soze, Vitaly Sverchinsky, Dmitry Vedenko
 * Designers: Dilson's Pickles, Leo Wattenberg 
-* Testers: Sergey Lapysh
-* Borrowed from other muse projects: Peter Jonas, Anita Sudan, Jessica Williamson
+* Testers: Sergey Lapysh, Antons Činakovs
+* Borrowed from other Muse projects: Peter Jonas, Jessica Williamson
 
 Code contributors can be found on Github in the [commit history](https://github.com/audacity/audacity/commits/master) and [graphs](https://github.com/audacity/audacity/graphs/contributors), [contributors to the manual](https://manual.audacityteam.org/man/credits.html), [contributors to the forum](https://forum.audacityteam.org/u?order=post_count&period=all) and [contributors to the support site](https://support.audacityteam.org/community/contributing/credits-and-license) can be found on the respective pages.
 
