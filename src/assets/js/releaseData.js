@@ -62,7 +62,7 @@ export const releaseData = {
       name: "AppImage",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.4.0/audacity-linux-3.4.0-x64.AppImage",
-      checksum: "ff378fa1bb42efe29191c68a3f7642653e7c1f41e8ebf57e49cc0df0ea60eb23",
+      checksum: "00e11500723051958fb079cc4ffc351a64d267e61fa34177b19c401bcf84a5c5",
       type: ".AppImage"
     },
   ],
