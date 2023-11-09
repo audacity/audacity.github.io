@@ -14,7 +14,7 @@ export const releaseData = {
       browser_download_url:
       "https://github.com/audacity/audacity/releases/download/Audacity-3.4.1/audacity-win-3.4.1-64bit.zip",
       checksum:
-      "4e0572ca5888216e979d4fe92e9d16df42a9f581afa7511fcbc4b8202f6dc2f1",
+      "980d2ba7fa50c69e9b85a4a80918dd5bf645e55a6cf898b56a6c11604953669d",
       type: ".zip",
     },
     {
@@ -30,7 +30,7 @@ export const releaseData = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.4.1/audacity-win-3.4.1-32bit.zip",
       checksum:
-        "0c6f994c0eb2d5644d6a67e3fa53fb21fa7775bcffd1f62d0f9a56aa78722515",
+        "b4222108a8e0c5f06c8251ccd85de720d77ca8f7c43d020eb261096e771f6cb4",
       type: ".zip",
     },
   ],
