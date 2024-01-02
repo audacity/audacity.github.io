@@ -48,6 +48,10 @@ function DownloadButton() {
     case "Windows":
       return renderButton(releaseData.win[0].browser_download_url);
     case "Linux":
+    case "Ubuntu":
+    case "Debian":
+    case "Red Hat":
+    case "SuSE":
       return renderButton(releaseData.lin[0].browser_download_url);
     default:
       return renderButton("/download");

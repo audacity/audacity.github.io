@@ -48,6 +48,10 @@ function DownloadMuseHubButton() {
         "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.exe"
       );
     case "Linux":
+    case "Ubuntu":
+    case "Debian":
+    case "Red Hat":
+    case "SuSE":
       return; // Musehub not relevant on Linux yet
     default:
       return renderButton("https://www.musehub.com/");
