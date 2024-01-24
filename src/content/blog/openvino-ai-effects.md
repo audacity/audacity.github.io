@@ -1,7 +1,7 @@
 ---
 title: Introducing OpenVINO AI effects for Audacity
 author: Leo Wattenberg
-description:  A lot of our work has been focused on getting Audacity ready for a version 4. As such, a lot of under-the-hood work has been happening - in technical terms - reducing dependency on wxWidgets, library extractions and general refactoring. This work will continue for the next few releases in parallel with feature development. 
+description: Intel has built a suite of AI tools for Audacity, useful for spoken word audio and music alike. These AI features run 100% locally on your PC.
 cover: "./openvino-logo-purple-black.png"
 coverAlt: "OpenVINO logo"
 publishDate: 2024-01-02
