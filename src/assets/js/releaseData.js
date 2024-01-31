@@ -33,6 +33,14 @@ export const releaseData = {
         "9b9fceae802e76f5c91b42074331094c1fb90b9f519bee196f40aeb1ee863ce5",
       type: ".zip",
     },
+    {
+      name: "Muse Hub installer",
+      browser_download_url:
+        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.exe",
+      checksum:
+        "0f9765f58fc4389dcd7541172a4454c0f646dbec174e828a64abc9aa19de4990",
+      type: ".exe",
+    },
   ],
   mac: [
     {
@@ -54,6 +62,13 @@ export const releaseData = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.4.2/audacity-macOS-3.4.2-x86_64.dmg",
       checksum: "70400941a153815f803ab436d23c08f29dbb80f7777ab21134663539727307b7",
+      type: ".dmg",
+    },
+    {
+      name: "Muse Hub installer",
+      browser_download_url:
+        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.dmg",
+      checksum: "e01052ec3042f5c8e193f0f671d7eb9bc90b47d01d1fef8c6b6c1b306b1df25d",
       type: ".dmg",
     },
   ],

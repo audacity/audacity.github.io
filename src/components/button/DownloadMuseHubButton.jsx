@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
+import { releaseData } from "../../assets/js/releaseData";
 
 function DownloadMuseHubButton() {
   const [browserOS, setBrowserOS] = useState("");
@@ -41,11 +42,11 @@ function DownloadMuseHubButton() {
   switch (browserOS) {
     case "OS X":
       return renderButton(
-        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.dmg"
+        releaseData.mac[3].browser_download_url
       );
     case "Windows":
       return renderButton(
-        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.exe"
+        releaseData.win[4].browser_download_url
       );
     case "Linux":
     case "Ubuntu":
