@@ -16,7 +16,7 @@ function DownloadMuseHubButton() {
           "trackEvent",
           "Button",
           "Download",
-          "Download MuseHub button",
+          "Download Muse Hub button",
         ]);
       }
     } else {
