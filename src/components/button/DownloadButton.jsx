@@ -16,7 +16,7 @@ function DownloadButton() {
           "trackEvent",
           "Button",
           "Download",
-          "Download Audacity button",
+          `Download Audacity button ${platform.os.family}`,
         ]);
       }
     } else {

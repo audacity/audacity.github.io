@@ -16,7 +16,7 @@ function DownloadMuseHubButton() {
           "trackEvent",
           "Button",
           "Download",
-          "Download Muse Hub button",
+          `Download Muse Hub button ${platform.os.family}`,
         ]);
       }
     } else {
