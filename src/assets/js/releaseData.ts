@@ -48,14 +48,6 @@ export const audacityReleases: ReleaseDirectory = {
         "9b9fceae802e76f5c91b42074331094c1fb90b9f519bee196f40aeb1ee863ce5",
       type: ".zip",
     },
-    {
-      name: "Muse Hub installer",
-      browser_download_url:
-        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.exe",
-      checksum:
-        "0f9765f58fc4389dcd7541172a4454c0f646dbec174e828a64abc9aa19de4990",
-      type: ".exe",
-    },
   ],
   mac: [
     {
@@ -82,14 +74,6 @@ export const audacityReleases: ReleaseDirectory = {
         "70400941a153815f803ab436d23c08f29dbb80f7777ab21134663539727307b7",
       type: ".dmg",
     },
-    {
-      name: "Muse Hub installer",
-      browser_download_url:
-        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.dmg",
-      checksum:
-        "e01052ec3042f5c8e193f0f671d7eb9bc90b47d01d1fef8c6b6c1b306b1df25d",
-      type: ".dmg",
-    },
   ],
   lin: [
     {
@@ -109,6 +93,32 @@ export const audacityReleases: ReleaseDirectory = {
       checksum:
         "f28dd718d2c5a2aa9f207b8351443a90c1f02b65378ca94bcc7febda42635e48",
       type: ".tar.gz",
+    },
+  ],
+};
+
+type MuseHubReleaseInfo = Pick<ReleaseInfo, "name" | "browser_download_url" | "type">;
+
+type MuseHubReleaseDirectory = {
+  win: MuseHubReleaseInfo[];
+  mac: MuseHubReleaseInfo[];
+};
+
+export const museHubReleases: MuseHubReleaseDirectory = {
+  win: [
+    {
+      name: "Muse Hub installer",
+      browser_download_url:
+        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.exe",
+      type: ".exe",
+    },
+  ],
+  mac: [
+    {
+      name: "Muse Hub installer",
+      browser_download_url:
+        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.dmg",
+      type: ".dmg",
     },
   ],
 };
