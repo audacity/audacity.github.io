@@ -4,19 +4,21 @@ import DownloadCard from '../components/card/DownloadCard'
 import IconLinkCard from "../components/card/IconLinkCard";
 import { Icon } from "astro-icon";
 import "../styles/icons.css";
+import type { ReleaseInfo } from "../assets/js/releaseData";
 
 export interface Props {
   title: string;
+  description: string;
   OS: string;
   version: string;
-  releaseData: object;
+  releaseData: ReleaseInfo[];
   iconName: string;
   iconColor: string;
 }
-const { title, OS, version, releaseData, iconName, iconColor } = Astro.props;
+const { title, description, OS, version, releaseData, iconName, iconColor } = Astro.props;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={description}>
   <main class="max-w-screen-md mx-auto">
     <section id="main" class="py-12">
       <div class="flex flex-col gap-4 col-start-2 col-span-10 items-center">

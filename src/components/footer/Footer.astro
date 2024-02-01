@@ -120,7 +120,9 @@ import "../../styles/fonts.css";
 </footer>
 
 <script>
-  document.querySelector("#copyright").textContent = new Date()
+  const elem = document.querySelector("#copyright");
+  if (elem)
+    elem.textContent = new Date()
     .getFullYear()
     .toString();
 </script>
