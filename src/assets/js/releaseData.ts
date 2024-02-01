@@ -13,7 +13,7 @@ type ReleaseDirectory = {
   src: ReleaseInfo[];
 };
 
-export const releaseData: ReleaseDirectory = {
+export const audacityReleases: ReleaseDirectory = {
   version: "3.4.2",
   win: [
     {

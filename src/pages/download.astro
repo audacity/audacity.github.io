@@ -2,10 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import OperatingSystemCard from "../components/card/OperatingSystemCard";
 import "../styles/icons.css";
-import { releaseData } from "../assets/js/releaseData";
+import { audacityReleases } from "../assets/js/releaseData";
 import ChecksumAccordion from "../components/accordion/ChecksumAccordion";
 
-const { version, src } = releaseData;
+const { version, src } = audacityReleases;
 ---
 
 <BaseLayout title="Audacity ® | Downloads" description="Download Audacity for Windows, macOS and Linux">

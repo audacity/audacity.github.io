@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
-import { releaseData } from "../../assets/js/releaseData";
+import { audacityReleases } from "../../assets/js/releaseData";
 
 function DownloadButton() {
   const [browserOS, setBrowserOS] = useState("");
@@ -34,7 +34,7 @@ function DownloadButton() {
         <div className="flex gap-2 items-center">
           <span className="icon icon-import text-white"></span>
           <p className="button-text font-semibold text-white">
-            Download Audacity {releaseData.version}
+            Download Audacity {audacityReleases.version}
           </p>
         </div>
         <p className="button-caption text-white">Installs with no extras</p>
@@ -44,15 +44,15 @@ function DownloadButton() {
 
   switch (browserOS) {
     case "OS X":
-      return renderButton(releaseData.mac[0].browser_download_url);
+      return renderButton(audacityReleases.mac[0].browser_download_url);
     case "Windows":
-      return renderButton(releaseData.win[0].browser_download_url);
+      return renderButton(audacityReleases.win[0].browser_download_url);
     case "Linux":
     case "Ubuntu":
     case "Debian":
     case "Red Hat":
     case "SuSE":
-      return renderButton(releaseData.lin[0].browser_download_url);
+      return renderButton(audacityReleases.lin[0].browser_download_url);
     default:
       return renderButton("/download");
   }

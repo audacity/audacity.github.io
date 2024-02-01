@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
-import { releaseData } from "../../assets/js/releaseData";
+import { audacityReleases } from "../../assets/js/releaseData";
 
 function DownloadMuseHubButton() {
   const [browserOS, setBrowserOS] = useState("");
@@ -42,11 +42,11 @@ function DownloadMuseHubButton() {
   switch (browserOS) {
     case "OS X":
       return renderButton(
-        releaseData.mac[3].browser_download_url
+        audacityReleases.mac[3].browser_download_url
       );
     case "Windows":
       return renderButton(
-        releaseData.win[4].browser_download_url
+        audacityReleases.win[4].browser_download_url
       );
     case "Linux":
     case "Ubuntu":
