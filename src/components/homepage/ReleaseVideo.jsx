@@ -6,7 +6,14 @@ function ReleaseVideo() {
 
   function handleVideoClick() {
     setIsClicked(true);
-    console.log("video clicked");
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "Video embed",
+        "Watch release video",
+        "Audacity release video",
+      ]);
+    }
   }
 
   return (
@@ -31,7 +38,7 @@ function ReleaseVideo() {
               src="https://www.youtube-nocookie.com/embed/xgdYuSHdkso?autoplay=1"
               title="Audacity 3.2 - Real-Time Effects and Free Cloud Sharing"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
           ) : (
             <img

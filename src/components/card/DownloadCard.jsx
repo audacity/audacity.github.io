@@ -7,8 +7,8 @@ function DownloadCard(props) {
     if (typeof _paq !== "undefined") {
       _paq.push([
         "trackEvent",
-        "Button",
-        "Download",
+        "Download Button",
+        "Download Audacity",
         `${OS + " " + title + " " + downloadType}`,
       ]);
     }

@@ -51,6 +51,17 @@ function NavigationReact(props) {
     );
   }
 
+  function handleButtonClick() {
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "CTA Button",
+        "audio.com CTA",
+        "audio.com navbar CTA",
+      ]);
+    }
+  }
+
   return (
     <nav className="fixed left-0 right-0 top-0 border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl ">
       <div className="flex max-w-screen-xl mx-auto h-14 px-4 xl:px-0 items-center">
@@ -76,7 +87,12 @@ function NavigationReact(props) {
         <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
           <p className="text-base">Free audio hosting</p>
           <a href="https://audio.com/auth/sign-up" target="_blank">
-            <button className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white">
+            <button
+              onClick={() => {
+                handleButtonClick();
+              }}
+              className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white"
+            >
               Sign up
             </button>
           </a>

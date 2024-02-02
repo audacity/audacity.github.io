@@ -14,8 +14,8 @@ function DownloadMuseHubButton() {
       if (typeof _paq !== "undefined") {
         _paq.push([
           "trackEvent",
-          "Button",
-          "Download",
+          "Download Button",
+          "Download Muse Hub",
           `Download Muse Hub button ${platform.os.family}`,
         ]);
       }

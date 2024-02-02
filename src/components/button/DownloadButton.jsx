@@ -14,8 +14,8 @@ function DownloadButton() {
       if (typeof _paq !== "undefined") {
         _paq.push([
           "trackEvent",
-          "Button",
-          "Download",
+          "Download Button",
+          "Download Audacity",
           `Download Audacity button ${platform.os.family}`,
         ]);
       }
