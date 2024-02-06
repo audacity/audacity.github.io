@@ -23,7 +23,6 @@ export default defineConfig({
   redirects: {
     '/3.1.0-video': "https://www.youtube.com/watch?v=HpA138b-J9s",
     '/3.2.0-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
-    "/3.4.0-video": "https://youtu.be/xgdYuSHdkso",
     '/realtime-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
     '/errors': "https://support.audacityteam.org/troubleshooting/error-codes",
     '/nightly': "https://nightly.link/audacity/audacity/workflows/build/master",
