@@ -71,7 +71,7 @@ function ShareYourSounds() {
               tabIndex="0"
               src={VideoPlaceholder.src}
               alt="YouTube thumbnail"
-              className="w-full aspect-video rounded-md shadow-xl"
+              className="w-full aspect-video rounded-md shadow-xl cursor-pointer"
               onClick={() => handleVideoClick()}
               onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
             />
