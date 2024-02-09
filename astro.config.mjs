@@ -65,6 +65,7 @@ export default defineConfig({
     "/community/translators/": "https://support.audacityteam.org/community/contributing/translating",
     "/copyright/": "https://github.com/audacity/audacity/blob/master/LICENSE.txt",
     "/Setup-Exit-Codes/": "https://support.audacityteam.org/troubleshooting/error-codes/installation-exit-codes",
-    "/cla": "/CLA"
+    "/cla": "/CLA",
+    "/)" : "/"
   }
 });
