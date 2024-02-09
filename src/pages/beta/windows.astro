@@ -1,0 +1,49 @@
+---
+import { betaReleases } from "../../assets/js/releaseData";
+import "../../styles/icons.css";
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
+import Explanation from "../../components/beta/Explanation.astro";
+
+const { win, version } = betaReleases;
+---
+
+<DownloadPageLayout
+  title="Audacity ® | Download for Windows"
+  OS="Windows"
+  description="Download Audacity for Windows"
+  version={version}
+  releaseData={win}
+  iconName="windows"
+  iconColor="text-blue-700"
+>
+  <Explanation />
+  <h3>About these downloads</h3>
+
+  <h4 class="mt-4 md:mt-8">System requirements</h4>
+  <p class="mt-2">
+    Audacity is tested on Windows 10 & Windows 11, and may also work on Windows
+    8.1, 7 and Vista. Both 64-bit and 32-bit versions are available. Audacity
+    has no specific CPU or GPU requirements and should be able to run on any
+    notebook or PC that can run aforementioned operating systems.
+  </p><p class="mt-2">
+    <strong>Note:</strong> Audacity requires fast, uninterrupted access to a hard
+    drive or SSD to operate. Network storage, consumer-grade external hard drives
+    or USB thumbdrives may be unreliable.
+  </p>
+  <h4 class="mt-4 md:mt-8">Older versions of Audacity</h4>
+  <p class="mt-2">
+    You can <a
+      class="hyperlink"
+      href="https://www.fosshub.com/Audacity-old.html"
+      >download older versions of Audacity</a
+    > on Fosshub.
+  </p>
+  <p class="mt-2">
+    The last tested compatible versions for relevant operating systems are:
+    <ul class="list">
+      <li>Windows 7, Vista: Audacity 2.3.3</li>
+      <li>Windows 2000, XP; no SSE2: Audacity 2.0.6</li>
+      <li>Windows 98, ME: Audacity 2.0.0</li>
+    </ul>
+  </p>
+</DownloadPageLayout>

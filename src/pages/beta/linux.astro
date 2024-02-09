@@ -1,0 +1,50 @@
+---
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
+import { betaReleases } from "../../assets/js/releaseData";
+import Explanation from "../../components/beta/Explanation.astro";
+
+const { lin, version } = betaReleases;
+---
+
+<DownloadPageLayout
+  title="Audacity ® | Download for Linux"
+  description="Download Audacity for Linux"
+  OS="Linux"
+  version={version}
+  releaseData={lin}
+  iconName="linux"
+  iconColor="text-gray-900"
+>
+  <Explanation />
+  <h3>About these downloads</h3>
+  <h4 class="mt-4 md:mt-8">System requirements</h4>
+  <p class="mt-2">
+    Audacity is tested on Ubuntu 22.04 and should work on most major
+    distributions. Audacity has no specific CPU or GPU requirements and should
+    be able to run on any amd64-based computer. The <a
+      class="hyperlink"
+      href="https://github.com/AppImage/AppImageKit/wiki/FUSE"
+      >AppImage requires FUSE 2</a
+    > to run.
+  </p><p class="mt-2">
+    <strong>Note:</strong> Audacity requires fast, uninterrupted access to a hard
+    drive or SSD to operate. Network storage, consumer-grade external hard drives
+    or USB thumbdrives may be unreliable.
+  </p>
+
+  <h4 class="mt-4 md:mt-8">Other versions of Audacity</h4>
+  <p class="mt-2">
+    You can <a
+      class="hyperlink"
+      href="https://www.fosshub.com/Audacity-old.html"
+      >download older versions of Audacity</a
+    > on Fosshub.</p><p class="mt-2">
+    Note that prior to Audacity 3.0.3, the Audacity team did not release any binaries
+    themselves.
+  </p>
+  <p class="mt-2">
+    In addition to our releases, the Linux community has alternative releases
+    (such as debs, rpms or flatpacks) available which may have
+    distribution-specific patches applied to them.
+  </p>
+</DownloadPageLayout>

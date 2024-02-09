@@ -1,0 +1,115 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import OperatingSystemCard from "../components/card/OperatingSystemCard";
+import "../styles/icons.css";
+import { betaReleases } from "../assets/js/releaseData";
+import ChecksumAccordion from "../components/accordion/ChecksumAccordion";
+import Explanation from "../components/beta/Explanation.astro";
+
+const { version, src } = betaReleases;
+---
+
+<BaseLayout
+  title="Audacity Beta downloads"
+  description="Test the latest Audacity Beta for Windows, macOS and Linux"
+>
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-12 py-12 gap-y-12">
+      <div class="col-start-2 col-span-10 sm:text-center">
+        <h1>Audacity Betas</h1>
+        <div
+          class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
+        >
+          <p>Version: {version}</p>
+          <p class="hidden sm:block">|</p>
+          <a
+            class="hyperlink"
+            href="https://support.audacityteam.org/additional-resources/changelog"
+            target="_blank">View changelog</a
+          >
+        </div>
+      </div>
+
+      <Explanation />
+
+      <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
+        <h2 class="text-sm uppercase font-normal text-gray-600">
+          Download for
+        </h2>
+        <div class="flex flex-col gap-4 mt-2">
+          <OperatingSystemCard
+            title="Windows"
+            description="32 & 64 bit betas"
+            targetURL="/beta/windows"
+          />
+          <OperatingSystemCard
+            title="macOS"
+            description="Universal Binary betas"
+            targetURL="/beta/mac"
+          />
+          <OperatingSystemCard
+            title="Linux"
+            description="64 bit appimage betas"
+            targetURL="/beta/linux"
+          />
+        </div>
+      </section>
+      <aside class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
+        <h2 class="text-sm uppercase font-normal text-gray-600">
+          Additional resources
+        </h2>
+        <div class="flex flex-col gap-6 mt-2">
+          <div>
+            <h3 class="additional-resource-heading">Offline manual</h3>
+            <div class="gap-2">
+              <a
+                class="hyperlink"
+                href="https://github.com/audacity/audacity-manual/releases"
+                >Download Audacity manual</a
+              >
+              <span class="align-middle icon icon-share text-blue-600"></span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="additional-resource-heading">FFmpeg library</h3>
+            <div class="gap-2">
+              <a
+                href="https://support.audacityteam.org/basics/installing-ffmpeg"
+                class="hyperlink">FFmpeg import/export library</a
+              >
+              <span class="align-middle icon icon-share text-blue-600"></span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="additional-resource-heading">Source code</h3>
+            <div class="flex flex-col gap-2">
+              <!-- TODO - Ensure accordions are inclueded in the tab hierarchy -->
+              <ChecksumAccordion
+                title={src[0].type}
+                downloadUrl={src[0].browser_download_url}
+                checksum={src[0].checksum}
+                client:load
+              />
+            </div>
+          </div>
+
+          <div>
+            <h3 class="additional-resource-heading">
+              Older versions of Audacity
+            </h3>
+            <div class="gap-2">
+              <a
+                href="https://www.fosshub.com/Audacity-old.html"
+                target="_blank"
+                class="hyperlink">Download older versions from Fosshub</a
+              >
+              <span class="align-middle icon icon-share text-blue-600"></span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</BaseLayout>

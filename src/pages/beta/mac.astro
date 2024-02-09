@@ -1,0 +1,50 @@
+---
+import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
+import { betaReleases } from "../../assets/js/releaseData";
+import Explanation from "../../components/beta/Explanation.astro";
+
+const { mac, version } = betaReleases;
+---
+
+<DownloadPageLayout
+  title="Audacity ® | Download for Mac OS"
+  description="Download Audacity for macOS and OS X"
+  OS="macOS"
+  version={version}
+  releaseData={mac}
+  iconName="apple"
+  iconColor="text-gray-600"
+>
+<Explanation />
+  <h3>About these downloads</h3>
+  <h4 class="mt-4 md:mt-8">System requirements</h4>
+  <p class="mt-2">
+    Audacity is tested on macOS 12 & 13, and may also work on any OS X version
+    released after and including OS X 10.9 Mavericks. Both Intel (x86_64) and
+    Apple Silicon (ARM 64) versions are available, as well as a universal
+    binary. There are no specific CPU or GPU requirements.</p>
+    <p class="mt-2">
+    Mac OS X 10.13 and earlier don't support the universal dmg. Use the Intel-only dmg instead.</p>
+    <p class="mt-2">
+    <strong>Note:</strong> Audacity requires fast, uninterrupted access to a hard
+    drive or SSD to operate. Network storage, consumer-grade external hard drives
+    or USB thumbdrives may be unreliable.
+  </p>
+
+  <h4 class="mt-4 md:mt-8">Older versions of Audacity</h4>
+  <p class="mt-2">
+    You can <a
+      class="hyperlink"
+      href="https://www.fosshub.com/Audacity-old.html"
+      >download older versions of Audacity</a
+    > on Fosshub.
+  </p>
+  <p class="mt-2">
+    The last tested compatible versions for relevant operating systems are:
+    <ul class="list">
+      <li>OS X 10.6-10.8: Audacity 2.2.2</li>
+      <li>OS X 10.5: Audacity 2.1.1 (Intel), Audacity 2.0.6 (PPC)</li>
+      <li>OS X 10.4: Audacity 2.0.6</li>
+    </ul>
+  </p>
+</DownloadPageLayout>
