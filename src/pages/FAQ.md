@@ -108,9 +108,9 @@ Yes! In fact, Audacity is the world's most popular software for recording and pr
 For more information on how to use specific Audacity features, check out the [Audacity manual](https://manual.audacityteam.org/).
 
 ### Is Audacity a DAW?
-Yes. Audacity is a DAW just like GarageBand, FL Studio, Ableton Live, Logic Pro and others. Many musicians use Audacity to record and produce their tracks.
+Audacity is blurring the line between audio editor and DAW. It's capable of much more than a mere audio editor (for example, non-destructive editing and realtime effects), but it also is lacking some key features which DAWs traditionally have (MIDI editing and virtual instruments).
 
-The Audacity team is always looking for new ways to improve the experience for musicians and music producers, so look out for new features in future updates.
+The gap towards being a full DAW is being rapidly closed, with each release bringing new features that make Audacity increasingly capable, while remaining simple to use.
 
 ### I'm just getting started with Audacity. Are there any free tutorials available?
 We have a beginner tutorial series available on https://support.audacityteam.org/, beginning with [installing Audacity](https://support.audacityteam.org/basics/downloading-and-installing-audacity) and [FFmpeg](https://support.audacityteam.org/basics/installing-ffmpeg), [recording your voice](https://support.audacityteam.org/basics/recording-your-voice-and-microphone), [recording desktop audio](https://support.audacityteam.org/basics/recording-desktop-audio), [editing audio](https://support.audacityteam.org/basics/audacity-editing),  [saving and exporting projects](https://support.audacityteam.org/basics/saving-and-exporting-projects) and more!
