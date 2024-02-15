@@ -86,3 +86,7 @@
 .icon-cycle:before {
     content: "\F358"
 } 
+
+.icon-times:before {
+    content: "\EF14"
+}
