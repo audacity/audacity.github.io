@@ -35,7 +35,9 @@ const {
     <script src="../assets/js/matomoTracking.js"></script>
     <script>
       window.addEventListener("load", function () {
-        const closeButton = document.getElementById("close");
+        const closeButton = document.getElementById("close-button");
+        const joinButton = document.getElementById("join-button");
+        const betaFooterLink = document.getElementById("beta-link");
         const betaBanner = document.getElementById("beta-banner");
 
         if(localStorage.getItem("dismissBanner") === "true"){
@@ -59,6 +61,8 @@ const {
         }
 
         closeButton?.addEventListener("click", dismissBanner);
+        joinButton?.addEventListener("click", dismissBanner);
+        betaFooterLink?.addEventListener("click", dismissBanner);
       });
     </script>
   </head>
