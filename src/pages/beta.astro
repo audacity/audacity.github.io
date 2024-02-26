@@ -21,8 +21,8 @@ const { win, mac, lin } = betaReleases;
               We are looking for feedback on our new features in this release.
               In particular:
             </p>
-            <h2 class="my-2 font-semibold">Cloud project saving</h2>
-            <p>
+            <h4 class="mt-8">Cloud project saving</h4>
+            <p class="mt-2">
               We've introduced a new cloud-saving feature that allows you to
               save your Audacity projects to <a
                 href="https://audio.com"
@@ -38,75 +38,82 @@ const { win, mac, lin } = betaReleases;
           </div>
         </div>
 
-        <div class="pt-6">
-          <h2>Submit your feedback!</h2>
-          <div class="mt-2">
-            <p>
-              We're always eager to hear what you have to say, but it's
-              especially important we hear from you during this early phase.
-              Please let us know what you think, using the following places:
-            </p>
-            <ul class="list-disc py-2">
-              <li class="hyperlink">
-                <a
-                  href="https://forum.audacityteam.org/c/feedback-and-discussion-forum/alpha-pre-release/21"
-                  >Audacity Forum</a
-                >
-              </li>
-              <li class="hyperlink">
-                <a href="https://discord.gg/u9u5XvjFHr">Audio.com Discord</a>
-              </li>
-              <li class="hyperlink">
-                <a href="https://discord.gg/audacity">Audacity Discord</a>
-              </li>
-              <li class="hyperlink">
-                <a href="https://github.com/audacity/audacity/issues">
-                  Github issues (for concrete and reproducible bugs)
-                </a>
-              </li>
-            </ul>
-            <p class="pt-2">
-              And with all that out of the way: <strong>Happy testing!</strong>
-            </p>
-          </div>
+        <div class="pt-12">
+          <h2 class="mt-4">Submit your feedback!</h2>
+          <p class="mt-4">
+            We're always eager to hear what you have to say, but it's especially
+            important we hear from you during this early phase. Please let us
+            know what you think, using the following places:
+          </p>
+          <ul class="py-2 list-none">
+            <li class="hyperlink">
+              <a
+                href="https://forum.audacityteam.org/c/feedback-and-discussion-forum/alpha-pre-release/21"
+                >Audacity Forum</a
+              >
+            </li>
+            <li class="hyperlink">
+              <a href="https://discord.gg/u9u5XvjFHr">Audio.com Discord</a>
+            </li>
+            <li class="hyperlink">
+              <a href="https://discord.gg/audacity">Audacity Discord</a>
+            </li>
+            <li class="hyperlink">
+              <a href="https://github.com/audacity/audacity/issues">
+                Github issues (for concrete and reproducible bugs)
+              </a>
+            </li>
+          </ul>
+          <p class="pt-2">
+            And with all that out of the way: <strong>Happy testing!</strong>
+          </p>
         </div>
 
-        <div class="pt-6">
+        <div class="pt-16">
           <h2>Addtional features</h2>
-          <h3 class="py-2 font-semibold">Automatic loop detection</h3>
-          <p>
-            Audacity can now automatically detect the tempo of imported loops,
-            and adjust them to be in tempo.
-          </p>
-          <p class="pt-2">
-            Tempo detection is done via both audio analysis and metadata
-            checking. If you want to prepare your loop for automatic tempo
-            detection without relying on audio analysis, both acidizer tempo
-            tags or simply writing "123 bpm" anywhere into the filename work. <a
-              class="hyperlink"
-              href="#">Learn More...</a
-            >
-          </p>
-          <h3 class="py-2 font-semibold">Pitch shifting</h3>
-          <p>
-            You now can non-destructively change the pitch of a clip by
-            selecting a clip and pressing <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd
-              >↓</kbd
-            >. Alternatively, you can click on the overflow menu (...) and
-            select "Pitch and speed...". When changing the pitch this way, an
-            arrow in the UI indicates how much you've shifted it. <a
-              class="hyperlink"
-              href="#">Learn More...</a
-            >
-          </p>
-          <h3 class="py-2 font-semibold">And even more!</h3>
-          <p>
-            Audacity 3.5 has received many more updates and improvements. You
-            can read all of them in the <a
-              href="https://support.audacityteam.org/additional-resources/changelog/audacity-3.5"
-              class="hyperlink">changelog</a
-            >.
-          </p>
+
+          <div class="flex flex-col gap-8">
+            <div>
+              <h4 class="mt-6">Automatic loop detection</h4>
+              <p class="mt-2">
+                Audacity can now automatically detect the tempo of imported
+                loops, and adjust them to be in tempo.
+              </p>
+              <p class="mt-2">
+                Tempo detection is done via both audio analysis and metadata
+                checking. If you want to prepare your loop for automatic tempo
+                detection without relying on audio analysis, both acidizer tempo
+                tags or simply writing "123 bpm" anywhere into the filename
+                work. <a class="hyperlink" href="#">Learn More...</a>
+              </p>
+            </div>
+
+            <div>
+              <h4>Pitch shifting</h4>
+              <p class="mt-2">
+                You now can non-destructively change the pitch of a clip by
+                selecting a clip and pressing <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd
+                  >↓</kbd
+                >. Alternatively, you can click on the overflow menu (...) and
+                select "Pitch and speed...". When changing the pitch this way,
+                an arrow in the UI indicates how much you've shifted it. <a
+                  class="hyperlink"
+                  href="#">Learn More...</a
+                >
+              </p>
+              </div>
+              <div>
+                <h4>And even more!</h4>
+                <p class="mt-2">
+                  Audacity 3.5 has received many more updates and improvements.
+                  You can read all of them in the <a
+                    href="https://support.audacityteam.org/additional-resources/changelog/audacity-3.5"
+                    class="hyperlink">changelog</a
+                  >.
+                </p>
+              </div>
+       
+          </div>
         </div>
       </section>
 
@@ -118,7 +125,9 @@ const { win, mac, lin } = betaReleases;
         </h2>
         <div class="flex flex-col gap-6 mt-2">
           <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Download Beta for Windows</h3>
+            <h3 class="additional-resource-heading">
+              Download Beta for Windows
+            </h3>
             <div class="mt-2">
               <SplitDownloadButton OS="Windows" releaseData={win} client:load />
             </div>
@@ -135,7 +144,6 @@ const { win, mac, lin } = betaReleases;
             <h3 class="additional-resource-heading">Download Beta for Linux</h3>
             <div class="mt-2">
               <SplitDownloadButton OS="Linux" releaseData={lin} client:load />
-              
             </div>
           </div>
         </div>
