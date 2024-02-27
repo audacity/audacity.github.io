@@ -22,22 +22,46 @@ function SplitDownloadButton(props) {
     };
   }, [isOpen]);
 
-  function handleButtonClick() {
+  function handleDownloadButtonClick(item) {
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "Download beta Button",
+        "Download beta",
+        `Download beta button ${OS + " " + item.name}`,
+      ]);
+    }
+  }
+
+  function handleDropdownButtonClick(releaseData) {
     setIsOpen(!isOpen);
+  }
+
+  function handleDropdownDownloadButtonClick(item) {
+    console.log(OS + " " + item.name);
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "Download beta Button",
+        "Download beta",
+        `Download beta button ${OS + " " + item.name}`,
+      ]);
+    }
   }
 
   return (
     <div className="relative" ref={dropdownRef}>
       <div className="flex items-center justify-center w-fit rounded-md text-white">
         <a
+          onClick={() => handleDownloadButtonClick(releaseData[0])}
           href={releaseData[0].browser_download_url}
           className="flex items-center gap-3  h-10 pl-4 pr-3 rounded-l-md rounded-bl-md bg-blue-700 hover:bg-blue-600"
         >
-          <img src={"src/assets/img/" + OS + ".svg"} class="w-4 fill-white" />
+          <img src={"src/assets/img/" + OS + ".svg"} className="w-4 fill-white" />
           {OS}
         </a>
         <button
-          onClick={() => handleButtonClick()}
+          onClick={() => handleDropdownButtonClick()}
           className={`flex h-10 w-10 justify-center items-center ${
             isOpen ? `bg-blue-800` : `bg-blue-700 hover:bg-blue-600`
           } rounded-r-md`}
@@ -52,6 +76,7 @@ function SplitDownloadButton(props) {
           <div className="flex flex-col">
             {releaseData.map((item, index) => (
               <a
+                onClick={() => handleDropdownDownloadButtonClick(item)}
                 href={item.browser_download_url}
                 className="py-2 px-4 hover:bg-slate-200"
                 key={index}
