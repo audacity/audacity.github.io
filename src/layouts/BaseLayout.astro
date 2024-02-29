@@ -33,38 +33,6 @@ const {
 
     <title>{title}</title>
     <script src="../assets/js/matomoTracking.js"></script>
-    <script>
-      window.addEventListener("load", function () {
-        const closeButton = document.getElementById("close-button");
-        const joinButton = document.getElementById("join-button");
-        const betaFooterLink = document.getElementById("beta-link");
-        const betaBanner = document.getElementById("beta-banner");
-
-        if(localStorage.getItem("dismissBanner") === "true"){
-          betaBanner?.classList.add("hidden");
-          betaBanner?.classList.remove("flex");
-        }
-
-        if(localStorage.getItem("dismissBanner") !== "true"){
-          betaBanner?.classList.remove("hidden");
-          betaBanner?.classList.add("flex");
-
-        }
-
-        function dismissBanner() {
-          console.log("Banner has been dismissed");
-          localStorage.setItem("dismissBanner", "true")
-          betaBanner?.classList.add("hidden");
-          betaBanner?.classList.remove("flex");
-
-          console.log(betaBanner?.classList);
-        }
-
-        closeButton?.addEventListener("click", dismissBanner);
-        joinButton?.addEventListener("click", dismissBanner);
-        betaFooterLink?.addEventListener("click", dismissBanner);
-      });
-    </script>
   </head>
   <main class="flex flex-col h-screen">
     <body>
@@ -73,7 +41,7 @@ const {
       >
       <header class="sticky left-0 right-0 top-0">
         <NavigationReact client:load currentURL={Astro.request.url} />
-        <BetaBanner />
+        <BetaBanner client:load url={Astro.request.url}/>
       </header>
 
       <div class="flex-1">
