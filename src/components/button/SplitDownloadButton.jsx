@@ -38,7 +38,6 @@ function SplitDownloadButton(props) {
   }
 
   function handleDropdownDownloadButtonClick(item) {
-    console.log(OS + " " + item.name);
     if (typeof _paq !== "undefined") {
       _paq.push([
         "trackEvent",

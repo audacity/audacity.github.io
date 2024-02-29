@@ -19,8 +19,6 @@ function DownloadMuseHubButton() {
           `Download Muse Hub button ${platform.os.family}`,
         ]);
       }
-    } else {
-      console.log(href, "No event sent");
     }
   }
 
