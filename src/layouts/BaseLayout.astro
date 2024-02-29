@@ -39,7 +39,7 @@ const {
       <a class="skip-to-content" href="#main" aria-label="Skip to content"
         >Skip to content</a
       >
-      <header class="sticky left-0 right-0 top-0">
+      <header class="z-50 sticky left-0 right-0 top-0">
         <NavigationReact client:load currentURL={Astro.request.url} />
         <BetaBanner client:load url={Astro.request.url}/>
       </header>

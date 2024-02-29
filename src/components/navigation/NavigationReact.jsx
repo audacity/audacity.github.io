@@ -63,7 +63,7 @@ function NavigationReact(props) {
   }
 
   return (
-    <nav className="border-b-2 z-50 filter bg-white bg-opacity-90 backdrop-blur-xl ">
+    <nav className="border-b-2 z-3 filter bg-white bg-opacity-90 backdrop-blur-xl ">
       <div className="flex max-w-screen-xl mx-auto h-14 px-4 xl:px-0 items-center">
         <div className="flex-1">
           <a className="flex w-fit items-center gap-1 lg:gap-2" href="/">
