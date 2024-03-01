@@ -1,5 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import winLogo from "../../assets/img/Windows.svg"
+import macLogo from "../../assets/img/macOS.svg"
+import linLogo from "../../assets/img/Linux.svg"
+
+function useLogo(OS) {
+  switch(OS){
+    case "Windows":
+      return winLogo.src
+    case "Linux":
+      return linLogo.src
+    case "macOS":
+      return macLogo.src
+    default:
+      return ""
+  }
+
+}
+
 function SplitDownloadButton(props) {
   const { OS, releaseData } = props;
 
@@ -56,7 +74,7 @@ function SplitDownloadButton(props) {
           href={releaseData[0].browser_download_url}
           className="flex items-center gap-3  h-10 pl-4 pr-3 rounded-l-md rounded-bl-md bg-blue-700 hover:bg-blue-600"
         >
-          <img src={"src/assets/img/" + OS + ".svg"} className="w-4 fill-white" />
+          <img src={useLogo(OS)} className="w-4 fill-white" />
           {OS}
         </a>
         <button
