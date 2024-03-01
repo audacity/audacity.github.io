@@ -97,6 +97,90 @@ export const audacityReleases: ReleaseDirectory = {
   ],
 };
 
+export const betaReleases: ReleaseDirectory = {
+  version: "3.5.0 beta",
+  win: [
+    {
+      name: "64 bit installer (recommended)",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x64.exe",
+      checksum:
+        "01b18448d75538bbfc24969afc367a768eb8e90e4338b5f560c0be204e111110",
+      type: ".exe",
+    },
+    {
+      name: "64 bit zip file",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x64.zip",
+      checksum:
+        "606c62898bb150d2215fd9c097f95b2c6b5a80922c20e1fca5422c0a90340bde",
+      type: ".zip",
+    },
+    {
+      name: "32 bit installer",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x32.exe",
+      checksum:
+        "b0e3f5fc023a1c536f3f6e55ec01909e923e0e62658cdb7cf9937a1b4697cfd5",
+      type: ".exe",
+    },
+    {
+      name: "32 bit zip file",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x32.zip",
+      checksum:
+        "1f0ffd3dd4e14f69b5974de49d727e674a040ffd5209dec1b9d407455ce3e648",
+      type: ".zip",
+    },
+  ],
+  mac: [
+    {
+      name: "Universal dmg (recommended)",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-macOS-3.5.0-beta-universal.dmg",
+      checksum:
+        "867db06577acb062437bad2cee335156b573107aafab2558e479a1c67b885c6c",
+      type: ".dmg",
+    },
+    {
+      name: "ARM 64 dmg (Apple Silicon)",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-macOS-3.5.0-beta-arm64.dmg",
+      checksum:
+        "4ab091de65d16fa32a157b978410512cb1ba26f498ee9e5bf88e2d0bc4a86b9c",
+      type: ".dmg",
+    },
+    {
+      name: "x86_64 dmg (Intel)",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-macOS-3.5.0-beta-x86_64.dmg",
+      checksum:
+        "eff5fa3d91e1768b41a16361ba3b5ac811f4db3b24e84378c65b06757078b946",
+      type: ".dmg",
+    },
+  ],
+  lin: [
+    {
+      name: "AppImage",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-linux-3.5.0-beta-x64.AppImage",
+      checksum:
+        "e4f253224859a9709145a71430813af5bcb4112587366505aa8a55855cc6de3e",
+      type: ".AppImage",
+    },
+  ],
+  src: [
+    {
+      name: "Source code",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-sources-3.5.0-beta.tar.gz",
+      checksum:
+        "11d3bcc44a33c0f156c80c384cf04d874c613eb8ebdda067b749e8513b9dfab2",
+      type: ".tar.gz",
+    },
+  ],
+};
+
 type MuseHubReleaseInfo = Pick<ReleaseInfo, "name" | "browser_download_url" | "type">;
 
 type MuseHubReleaseDirectory = {

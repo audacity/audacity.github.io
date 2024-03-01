@@ -22,7 +22,7 @@ const saveAcceptToStorage = () =>
 const saveRejectToStorage = () =>
   storageType.setItem(consentPropertyName, false);
 
-window.onload = () => {
+window.addEventListener("load", function () {
   const consentPopup = document.getElementById("consent-popup");
   const acceptBtn = document.getElementById("accept");
   const rejectBtn = document.getElementById("reject");
@@ -52,4 +52,4 @@ window.onload = () => {
       consentPopup.classList.remove("hide");
     }, 2000);
   }
-};
+});

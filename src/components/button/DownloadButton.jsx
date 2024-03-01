@@ -19,9 +19,7 @@ function DownloadButton() {
           `Download Audacity button ${platform.os.family}`,
         ]);
       }
-    } else {
-      console.log(href, "No event sent");
-    }
+    } 
   }
 
   function renderButton(href) {
