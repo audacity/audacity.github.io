@@ -103,7 +103,7 @@ export const betaReleases: ReleaseDirectory = {
     {
       name: "64 bit installer (recommended)",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-32bit.exe",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-64bit.exe",
       checksum:
         "86b6097166bf705483084cb681f40e8bf26ff06b50e993add60da120fe2c2a8b",
       type: ".exe",
