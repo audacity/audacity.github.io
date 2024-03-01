@@ -103,33 +103,33 @@ export const betaReleases: ReleaseDirectory = {
     {
       name: "64 bit installer (recommended)",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x64.exe",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-32bit.exe",
       checksum:
-        "01b18448d75538bbfc24969afc367a768eb8e90e4338b5f560c0be204e111110",
+        "86b6097166bf705483084cb681f40e8bf26ff06b50e993add60da120fe2c2a8b",
       type: ".exe",
     },
     {
       name: "64 bit zip file",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x64.zip",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-64bit.zip",
       checksum:
-        "606c62898bb150d2215fd9c097f95b2c6b5a80922c20e1fca5422c0a90340bde",
+        "d583e6c2b07bde74821e30b1871a082f85c1edff6888d27688b1cd21d989a4a2",
       type: ".zip",
     },
     {
       name: "32 bit installer",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x32.exe",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-32bit.exe",
       checksum:
-        "b0e3f5fc023a1c536f3f6e55ec01909e923e0e62658cdb7cf9937a1b4697cfd5",
+        "ee5d7aa386c477ed2bc47f75e71e953ef43b51f8dcbc39dc8aa1c0dce1f34726",
       type: ".exe",
     },
     {
       name: "32 bit zip file",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-x32.zip",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-win-3.5.0-beta-32bit.zip",
       checksum:
-        "1f0ffd3dd4e14f69b5974de49d727e674a040ffd5209dec1b9d407455ce3e648",
+        "6ef854c940948a37f56b00948ca12d995b8a3bd60f26e760e66562c894a2bed7",
       type: ".zip",
     },
   ],
@@ -139,7 +139,7 @@ export const betaReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-macOS-3.5.0-beta-universal.dmg",
       checksum:
-        "867db06577acb062437bad2cee335156b573107aafab2558e479a1c67b885c6c",
+        "dfdb5ad4bf97c4a50005b596fbc6f4e48109d4bdc9fe113b35779af3db47fe62",
       type: ".dmg",
     },
     {
@@ -147,7 +147,7 @@ export const betaReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-macOS-3.5.0-beta-arm64.dmg",
       checksum:
-        "4ab091de65d16fa32a157b978410512cb1ba26f498ee9e5bf88e2d0bc4a86b9c",
+        "413effbca18f010a419f950b9978343c51596aaac89ca7faa02c97a799eb9925",
       type: ".dmg",
     },
     {
@@ -155,7 +155,7 @@ export const betaReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-macOS-3.5.0-beta-x86_64.dmg",
       checksum:
-        "eff5fa3d91e1768b41a16361ba3b5ac811f4db3b24e84378c65b06757078b946",
+        "09bc739411cf23ed3eb92e084021a2c34dd6386c3cb74c32b326e595e3d064b2",
       type: ".dmg",
     },
   ],
@@ -165,7 +165,7 @@ export const betaReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-linux-3.5.0-beta-x64.AppImage",
       checksum:
-        "e4f253224859a9709145a71430813af5bcb4112587366505aa8a55855cc6de3e",
+        "4bc6c5def987b62b7f28fc7f45875c55c523e0509f9082eafbeda976d6f1dcd8",
       type: ".AppImage",
     },
   ],
@@ -175,7 +175,7 @@ export const betaReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.0-beta/audacity-sources-3.5.0-beta.tar.gz",
       checksum:
-        "11d3bcc44a33c0f156c80c384cf04d874c613eb8ebdda067b749e8513b9dfab2",
+        "0c2a107c30387e7c9f8c3a659aeceed7fc866e75bf71b801895a0b7e646cae3f",
       type: ".tar.gz",
     },
   ],

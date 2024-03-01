@@ -5,7 +5,7 @@ function BetaBanner(url) {
   if (url.url.endsWith("/beta/") || url.url.endsWith("/beta") ) {
     return null;
   } else
-    return null /*(
+    return (
       <div
         id="beta-banner"
         className="flex items-center justify-center min-h-24 bg-orange-400 gap-4 flex-wrap"
@@ -26,7 +26,7 @@ function BetaBanner(url) {
           Join the beta
         </a>
       </div>
-    );*/
+    );
 }
 
 export default BetaBanner;
