@@ -2,7 +2,7 @@ import React from "react";
 import "../../styles/icons.css";
 
 function BetaBanner(url) {
-  if (url.url.endsWith("/beta")) {
+  if (url.url.endsWith("/beta/") || url.url.endsWith("/beta") ) {
     return null;
   } else
     return (
