@@ -2,6 +2,9 @@ import React from "react";
 import "../../styles/icons.css";
 
 function BetaBanner(url) {
+  //no beta at the moment
+  return null; 
+
   function handleButtonClick() {
     if (typeof _paq !== "undefined") {
       _paq.push([
