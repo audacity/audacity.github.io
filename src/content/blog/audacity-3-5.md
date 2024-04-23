@@ -38,3 +38,5 @@ There have been many other changes for this release.
 
 A more detailed overview of these changes can be found in our [changelog](https://support.audacityteam.org/additional-resources/changelog/audacity-3.5). 
 You can download Audacity on [audacityteam.org/download](/download).
+
+The [Intel OpenVINO plugin](https://github.com/intel/openvino-plugins-ai-audacity/releases/tag/v3.5.0-R2) also has been updated for version 3.5. 
