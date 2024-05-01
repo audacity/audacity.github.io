@@ -1,7 +1,7 @@
 import React from "react";
 
 function DownloadCard(props) {
-  const { OS, title, downloadURL, buttonText, downloadType, checksum } = props;
+  const { OS, title, downloadURL, downloadType, checksum } = props;
 
   function handleButtonClick() {
     if (typeof _paq !== "undefined") {
@@ -25,7 +25,7 @@ function DownloadCard(props) {
           href={downloadURL}
           className="flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
         >
-          {`${buttonText}` + `${downloadType}`}
+          Download
         </a>
       </div>
 

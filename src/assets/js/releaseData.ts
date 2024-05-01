@@ -17,7 +17,7 @@ export const audacityReleases: ReleaseDirectory = {
   version: "3.5.1",
   win: [
     {
-      name: "64 bit installer (recommended)",
+      name: "64 bit installer",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.1/audacity-win-3.5.1-64bit.exe",
       checksum:
@@ -51,7 +51,7 @@ export const audacityReleases: ReleaseDirectory = {
   ],
   mac: [
     {
-      name: "Universal dmg (recommended)",
+      name: "Universal dmg",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.5.1/audacity-macOS-3.5.1-universal.dmg",
       checksum:
@@ -181,7 +181,7 @@ export const betaReleases: ReleaseDirectory = {
   ],
 };
 
-type MuseHubReleaseInfo = Pick<ReleaseInfo, "name" | "browser_download_url" | "type">;
+export type MuseHubReleaseInfo = Pick<ReleaseInfo, "name" | "browser_download_url" | "type">;
 
 type MuseHubReleaseDirectory = {
   win: MuseHubReleaseInfo[];

@@ -1,6 +1,6 @@
 ---
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
-import { audacityReleases } from "../../assets/js/releaseData";
+import { audacityReleases, museHubReleases } from "../../assets/js/releaseData";
 
 const { mac, version } = audacityReleases;
 ---
@@ -11,6 +11,7 @@ const { mac, version } = audacityReleases;
   OS="macOS"
   version={version}
   releaseData={mac}
+  museHubReleaseData={museHubReleases.mac}
   iconName="apple"
   iconColor="text-gray-600"
 >
