@@ -26,10 +26,10 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="underline text-blue-700 hover:text-blue-600"
+        className="flex gap-3 text-blue-700 font-semibold hover:text-blue-600 rounded-md border-2 border-gray-300 px-4 py-2"
         href={href}
-      >
-        Download without Muse Hub
+      > <span className="icon icon-import text-blue-700"></span> 
+        <p>Download without Muse Hub</p>
       </a>
     );
   }
