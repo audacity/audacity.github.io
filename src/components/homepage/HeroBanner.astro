@@ -16,13 +16,13 @@ import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
       </h1>
 
       <div class="flex flex-col md:w-fit gap-4 items-center md:items-start">
-        <DownloadMuseHubButton />
+        <DownloadMuseHubButton client:load />
         <noscript>
-          <DownloadMuseHubButton />
+          <DownloadMuseHubButton client:load />
         </noscript>
-        <DownloadButton />
+        <DownloadButton client:load />
         <noscript>
-          <DownloadButton />
+          <DownloadButton client:load />
         </noscript>
       </div>
     </div>

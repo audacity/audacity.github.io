@@ -8,6 +8,7 @@ function DownloadMuseHubButton() {
 
   useEffect(() => {
     setBrowserOS(platform.os.family);
+    
   }, []);
 
   function handleButtonClick(href) {
@@ -24,6 +25,7 @@ function DownloadMuseHubButton() {
   }
 
   function renderButton(href) {
+  
     return (
       <a
         onClick={() => handleButtonClick(href)}
