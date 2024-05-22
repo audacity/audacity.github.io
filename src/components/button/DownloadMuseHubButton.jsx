@@ -27,13 +27,12 @@ function DownloadMuseHubButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex items-center p-4 gap-3 rounded-md justify-center bg-blue-700 hover:bg-blue-600 w-fit"
+        className="flex py-3 px-4 gap-3 rounded-md justify-center bg-blue-700 hover:bg-blue-600 w-fit"
         href={href}
       >
         <span className="icon icon-import text-white"></span>
         <p className="text-white font-semibold">
-          Download Audacity {audacityReleases.version} for {platform.os.family}<br />
-          <span className="font-light text-sm">via Muse Hub </span>
+          Download Audacity {audacityReleases.version}
         </p>
       </a>
     );
