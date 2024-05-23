@@ -50,7 +50,7 @@ function DownloadMuseHubButton() {
     case "Debian":
     case "Red Hat":
     case "SuSE":
-      return; // Musehub not relevant on Linux yet
+      return renderButton(audacityReleases.lin[0].browser_download_url); // appimage on Linux
     default:
       return renderButton("https://www.musehub.com/");
   }
