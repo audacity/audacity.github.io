@@ -44,7 +44,7 @@ function DownloadButton() {
     case "Debian":
     case "Red Hat":
     case "SuSE":
-      return renderButton(audacityReleases.lin[0].browser_download_url);
+      return; //primary button is Linux downlaod already 
     default:
       return renderButton("/download");
   }
