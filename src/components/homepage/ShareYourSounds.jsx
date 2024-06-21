@@ -34,22 +34,18 @@ function ShareYourSounds() {
         <div className="col-span-12 md:col-span-6 md:col-start-7 flex flex-col gap-8 lg:py-12">
           <img src={AudioDotComLogo.src} className="w-20" alt="audio.com" />
           <div>
-            <h2 className="text-white">
-              Get free web space for your audio files
-            </h2>
+            <h2 className="text-white">Level up your Audacity</h2>
             <p className="text-gray-300 mt-4">
-              Host and share your audio instantly using our sister service
-              <a className="dark-hyperlink ml-1" href="https://audio.com">
-                audio.com
-              </a>
-              .
+              Audio.com, the online companion to Audacity, lets you collaborate
+              on projects, create versioned backups, and easily share and
+              publish your work.
             </p>
           </div>
           <a
             onClick={() => {
               handleButtonClick();
             }}
-            href="https://audio.com/auth/sign-up"
+            href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=Block_button"
             className="px-4 py-2 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
           >
             Join for free

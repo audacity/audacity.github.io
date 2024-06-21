@@ -85,8 +85,8 @@ function NavigationReact(props) {
         </div>
 
         <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
-          <p className="text-base">Free audio hosting</p>
-          <a href="https://audio.com/auth/sign-up" target="_blank">
+          <p className="text-base">Audacity Cloud saving</p>
+          <a href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=Nav_button" target="_blank">
             <button
               onClick={() => {
                 handleButtonClick();
