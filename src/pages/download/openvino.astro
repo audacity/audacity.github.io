@@ -43,7 +43,28 @@ import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton
           </p>
         </a>
       </div>
-    {version === audaversion ? "" : <b>Warning: The OpenVINO plugins are not yet compatible with the latest Audacity version</b>}
+      { /*display a warning when openvino and Audacity are different versions*/
+        version === audaversion ? (
+          ""
+        ) : (
+          <b>
+            Warning: The OpenVINO plugins are not yet compatible with the latest
+            Audacity version
+          </b>
+        )
+      }
+    </div>
+    <div class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40">
+      <h2>Installation instructions</h2>
+      <ol>
+        <li>Download and run the installer.</li>
+        <li>In the installer, select the effects and models you'd like to use.</li>
+        <li>Launch Audacity.</li>
+        <li>Go to Preferences → Modules.</li>
+        <li>Enable mod-openvino.</li>
+        <li>Save the preferences.</li>
+        <li>Restart Audacity.</li>
+      </ol>
     </div>
   </section>
 </BaseLayout>
