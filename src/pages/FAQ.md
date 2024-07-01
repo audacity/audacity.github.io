@@ -80,10 +80,10 @@ In the app, every audio creator can:
 - Reduce background static with noise reduction tools.
 - Adjust tempo without altering pitch or vice versa.
 - Alter frequencies with equalizers, high and low-pass filters and more.
-- Reduce or isolate vocals in stereo tracks.
 - Add impact with distortion, echo, reverb and more effects.
 - Import, export and convert files in every popular audio format, including mp3, m4a, AIFF, FLAC, WAV and more. You can even combine clips from multiple formats into the same project.
 - Take your editing to the next level with an extensive selection of third-party effects plugins, designed by the passionate Audacity, open-source community.
+- Collaborate and backup projects with Cloud saving.
 - Visualize and analyze your audio clips in Spectrogram view.
 - Upload and share your files online to [audio.com](https://audio.com/), instantly.
 
