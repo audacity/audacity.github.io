@@ -1,0 +1,70 @@
+---
+import {
+  openvinoReleases,
+  audacityReleases,
+} from "../../assets/js/releaseData";
+import "../../styles/icons.css";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const { win, version, revision } = openvinoReleases;
+const audaversion = audacityReleases.version;
+
+import DownloadButton from "../../components/button/DownloadButton";
+import Audacity_Logo from "../../assets/img/Audacity_Logo.svg";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+---
+
+<BaseLayout>
+  <section id="main">
+    <div
+      class="flex flex-col items-center py-8 md:pt-10 md:pb-12 lg:pt-16 lg:pb-20 xl:pt-20 xl:pb-24 mx-6"
+    >
+      <img
+        alt="A yellow and orange waveform between the ears of a set of blue headphones"
+        class="w-12 md:w-16"
+        src={Audacity_Logo.src}
+      />
+      <h1 class="leading-tight max-w-2xl text-center mt-2">
+        Get AI effects for Audacity
+      </h1>
+      <div class="flex w-full sm:w-fit flex-col gap-2 sm:flex-row mt-8">
+        <a
+          class="flex flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3 w-full sm:w-96"
+          href={win[0].browser_download_url}
+        >
+          <div class="flex gap-2 items-center">
+            <span class="icon icon-import text-white"></span>
+            <p class="button-text font-semibold text-white">
+              Download OpenVINO AI Plugins
+            </p>
+          </div>
+          <p class="button-caption text-white">
+            Revision {revision} for Audacity {version}
+          </p>
+        </a>
+      </div>
+      { /*display a warning when openvino and Audacity are different versions*/
+        version === audaversion ? (
+          ""
+        ) : (
+          <b>
+            Warning: The OpenVINO plugins are not yet compatible with the latest
+            Audacity version
+          </b>
+        )
+      }
+    </div>
+    <div class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40">
+      <h2>Installation instructions</h2>
+      <ol>
+        <li>Download and run the installer.</li>
+        <li>In the installer, select the effects and models you'd like to use.</li>
+        <li>Launch Audacity.</li>
+        <li>Go to Preferences → Modules.</li>
+        <li>Enable mod-openvino.</li>
+        <li>Save the preferences.</li>
+        <li>Restart Audacity.</li>
+      </ol>
+    </div>
+  </section>
+</BaseLayout>
