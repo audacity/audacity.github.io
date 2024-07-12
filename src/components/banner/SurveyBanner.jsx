@@ -2,6 +2,8 @@ import React from "react";
 import "../../styles/icons.css";
 
 function SurveyBanner(url) {
+  //no survey going on at the moment
+  return null;
 
   function handleButtonClick() {
     if (typeof _paq !== "undefined") {
