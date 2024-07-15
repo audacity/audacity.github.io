@@ -8,11 +8,13 @@ function DownloadMuseHubButton() {
 
   useEffect(() => {
     setBrowserOS(platform.os.family);
-    
   }, []);
 
   function handleButtonClick(href) {
-    if (href !== "https://www.musehub.com/") {
+    if (
+      href !== "https://www.musehub.com/" &&
+      href !== audacityReleases.lin[0].browser_download_url
+    ) {
       if (typeof _paq !== "undefined") {
         _paq.push([
           "trackEvent",
@@ -21,11 +23,17 @@ function DownloadMuseHubButton() {
           `Download Muse Hub button ${platform.os.family}`,
         ]);
       }
+    } else if (href === audacityReleases.lin[0].browser_download_url) {
+      _paq.push([
+        "trackEvent",
+        "Download Button",
+        "Download Audacity",
+        `Download Audacity button ${platform.os.family}`,
+      ]);
     }
   }
 
   function renderButton(href) {
-  
     return (
       <a
         onClick={() => handleButtonClick(href)}
