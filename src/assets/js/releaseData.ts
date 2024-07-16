@@ -14,7 +14,7 @@ type ReleaseDirectory = {
 };
 
 export const audacityReleases: ReleaseDirectory = {
-  version: "3.5.1",
+  version: "3.6.0",
   win: [
     {
       name: "64 bit installer (recommended)",
@@ -193,7 +193,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.exe",
+        "https://muse-cdn.com/Muse_Hub_Preview.exe",
       type: ".exe",
     },
   ],
@@ -201,7 +201,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://pub-c7a32e5b5d834ec9aeef400105452a42.r2.dev/Muse_Hub.dmg",
+        "https://muse-cdn.com/Muse_Hub_Preview.dmg",
       type: ".dmg",
     },
   ],
