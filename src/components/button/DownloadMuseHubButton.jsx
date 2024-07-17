@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
+import { audacityReleases } from "../../assets/js/releaseData";
 import { museHubReleases } from "../../assets/js/releaseData";
 
 function DownloadMuseHubButton() {
@@ -10,7 +11,10 @@ function DownloadMuseHubButton() {
   }, []);
 
   function handleButtonClick(href) {
-    if (href !== "https://www.musehub.com/") {
+    if (
+      href !== "https://www.musehub.com/" &&
+      href !== audacityReleases.lin[0].browser_download_url
+    ) {
       if (typeof _paq !== "undefined") {
         _paq.push([
           "trackEvent",
@@ -19,6 +23,13 @@ function DownloadMuseHubButton() {
           `Download Muse Hub button ${platform.os.family}`,
         ]);
       }
+    } else if (href === audacityReleases.lin[0].browser_download_url) {
+      _paq.push([
+        "trackEvent",
+        "Download Button",
+        "Download Audacity",
+        `Download Audacity button ${platform.os.family}`,
+      ]);
     }
   }
 
@@ -26,32 +37,28 @@ function DownloadMuseHubButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex flex-col py-3 items-center rounded-md justify-center border-2 bg-white border-gray-300 text-blue-700 hover:bg-gray-100 text-center w-full sm:w-72"
+        className="flex py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
         href={href}
       >
-        <p className="text-blue-700 font-semibold">
-          Audacity + free effects & samples
+        <span className="icon icon-import"></span>
+        <p className="font-semibold">
+          Download Audacity {audacityReleases.version}
         </p>
-        <p className="text-gray-700">Requires the Muse Hub installer</p>
       </a>
     );
   }
 
   switch (browserOS) {
     case "OS X":
-      return renderButton(
-        museHubReleases.mac[0].browser_download_url
-      );
+      return renderButton(museHubReleases.mac[0].browser_download_url);
     case "Windows":
-      return renderButton(
-        museHubReleases.win[0].browser_download_url
-      );
+      return renderButton(museHubReleases.win[0].browser_download_url);
     case "Linux":
     case "Ubuntu":
     case "Debian":
     case "Red Hat":
     case "SuSE":
-      return; // Musehub not relevant on Linux yet
+      return renderButton(audacityReleases.lin[0].browser_download_url); // appimage on Linux
     default:
       return renderButton("https://www.musehub.com/");
   }

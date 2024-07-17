@@ -1,17 +1,17 @@
 ---
-import { audacityReleases } from "../../assets/js/releaseData";
+import { audacityReleases, museHubReleases } from "../../assets/js/releaseData";
 import "../../styles/icons.css";
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
 
-const { win, version } = audacityReleases;
 ---
 
 <DownloadPageLayout
   title="Audacity ® | Download for Windows"
   OS="Windows"
   description="Download Audacity for Windows"
-  version={version}
-  releaseData={win}
+  version={audacityReleases.version}
+  releaseData={audacityReleases.win}
+  museHubReleaseData={museHubReleases.win}
   iconName="windows"
   iconColor="text-blue-700"
 >

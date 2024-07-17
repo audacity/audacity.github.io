@@ -1,10 +1,14 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import DownloadCard from '../components/card/DownloadCard'
+import DownloadCard from "../components/card/DownloadCard";
 import IconLinkCard from "../components/card/IconLinkCard";
 import { Icon } from "astro-icon";
 import "../styles/icons.css";
-import type { ReleaseInfo } from "../assets/js/releaseData";
+import {
+  museHubReleases,
+  type ReleaseInfo,
+  type MuseHubReleaseInfo,
+} from "../assets/js/releaseData";
 
 export interface Props {
   title: string;
@@ -12,10 +16,20 @@ export interface Props {
   OS: string;
   version: string;
   releaseData: ReleaseInfo[];
+  museHubReleaseData: MuseHubReleaseInfo[];
   iconName: string;
   iconColor: string;
 }
-const { title, description, OS, version, releaseData, iconName, iconColor } = Astro.props;
+const {
+  title,
+  description,
+  OS,
+  version,
+  releaseData,
+  museHubReleaseData,
+  iconName,
+  iconColor,
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -42,22 +56,49 @@ const { title, description, OS, version, releaseData, iconName, iconColor } = As
       </div>
     </section>
 
-    <section class="mx-4 sm:mx-12 flex flex-col gap-4">
-      {
-        releaseData.map((item) => {
-          return (
-            <DownloadCard
-              client:load
-              OS={OS}
-              title={item.name}
-              checksum={item.checksum}
-              downloadURL={item.browser_download_url}
-              buttonText="Download "
-              downloadType={item.type}
-            />
-          );
-        })
-      }
+    {
+      OS !== "Linux" && (
+        <section class="mx-4 sm:mx-12 mb-14">
+          <div class="border border-bg-200 rounded-md p-6">
+            <div class="flex flex-col sm:flex-row gap-2 justify-between items-center">
+              <div class="flex-col gap-2">
+                <h2 class="text-xl font-semibold">
+                  Audacity
+                </h2>
+                <p>Via the Muse Hub installer (recommended)</p>
+              </div>
+
+              <a
+                href={museHubReleaseData[0].browser_download_url}
+                class="flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-blue-700 hover:bg-blue-600 text-base text-white rounded"
+              >
+                Download
+              </a>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="mx-4 sm:mx-12 flex flex-col">
+      {OS !== "Linux" && <h5>Download without Musehub</h5>}
+
+      <div class="flex flex-col gap-4 mt-6">
+        {
+          releaseData.map((item) => {
+            return (
+              <DownloadCard
+                client:load
+                OS={OS}
+                title={item.name}
+                checksum={item.checksum}
+                downloadURL={item.browser_download_url}
+                downloadType={item.type}
+              />
+            );
+          })
+        }
+      </div>
     </section>
 
     <section class="py-12 mx-4 sm:mx-12">

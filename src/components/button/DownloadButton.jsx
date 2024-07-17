@@ -19,23 +19,17 @@ function DownloadButton() {
           `Download Audacity button ${platform.os.family}`,
         ]);
       }
-    } 
+    }
   }
 
   function renderButton(href) {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3 w-full sm:w-72"
+        className="text-white hover:underline"
         href={href}
       >
-        <div className="flex gap-2 items-center">
-          <span className="icon icon-import text-white"></span>
-          <p className="button-text font-semibold text-white">
-            Download Audacity {audacityReleases.version}
-          </p>
-        </div>
-        <p className="button-caption text-white">Installs with no extras</p>
+        Download without Muse Hub
       </a>
     );
   }
@@ -50,7 +44,7 @@ function DownloadButton() {
     case "Debian":
     case "Red Hat":
     case "SuSE":
-      return renderButton(audacityReleases.lin[0].browser_download_url);
+      return; //primary button is Linux downlaod already 
     default:
       return renderButton("/download");
   }

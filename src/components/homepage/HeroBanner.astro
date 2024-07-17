@@ -1,23 +1,38 @@
 ---
 import DownloadButton from "../button/DownloadButton";
-import Audacity_Logo from "../../assets/img/Audacity_Logo.svg";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 ---
 
-<section id="main">
-  <div class="flex flex-col items-center py-8 md:pt-10 md:pb-12 lg:pt-16 lg:pb-20 xl:pt-20 xl:pb-24 mx-6">
-    <img alt="A yellow and orange waveform between the ears of a set of blue headphones" class="w-12 md:w-16" src={Audacity_Logo.src} />
-    <h1 class="leading-tight max-w-2xl text-center mt-2">
-      Audacity is the world's most popular audio editing and recording app
-    </h1>
+<section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+  <div
+    class="grid grid-cols-12 max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-8 md:py-16 sm:py-12 gap-6 md:gap-0"
+  >
     <div
-      class="flex w-full sm:w-fit flex-col gap-2 sm:flex-row mt-8"
+      class="col-span-12 mx-2 md:mx-0 text-center md:text-left md:col-span-5 flex flex-col gap-4 md:gap-8 justify-center"
     >
-      <DownloadButton client:load/>
-      <DownloadMuseHubButton client:load />
-      <noscript>
-        <DownloadButton/>
-    </noscript>
+      <h1 class="leading-tight mt-2 text-white">
+        Audacity is the world's most popular audio editing and recording app
+      </h1>
+
+      <div class="flex flex-col md:w-fit gap-4 items-center md:items-start">
+        <DownloadMuseHubButton client:load />
+        <noscript>
+          <DownloadMuseHubButton client:load />
+        </noscript>
+        <DownloadButton client:load />
+        <noscript>
+          <DownloadButton client:load />
+        </noscript>
+      </div>
+    </div>
+    <div
+      class="col-span-12 md:col-start-7 md:col-span-7 flex items-center justify-center mx-4"
+    >
+      <img
+        alt="A laptop showing the Audacity application"
+        src={AudacityMockUp.src}
+      />
     </div>
   </div>
 </section>
