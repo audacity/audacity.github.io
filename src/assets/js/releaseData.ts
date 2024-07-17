@@ -193,7 +193,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://muse-cdn.com/Muse_Hub_Preview.exe",
+        "https://muse-cdn.com/Muse_Hub.exe",
       type: ".exe",
     },
   ],
@@ -201,7 +201,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://muse-cdn.com/Muse_Hub_Preview.dmg",
+        "https://muse-cdn.com/Muse_Hub.dmg",
       type: ".dmg",
     },
   ],
