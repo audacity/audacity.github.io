@@ -156,7 +156,7 @@ Current team members are:
 
 * Product owner: Martin Keary
 * Project manager: Yana Larina
-* Developers: Matthieu Hodgkinson, Vitaly Sverchinsky
+* Developers: Matthieu Hodgkinson, Vitaly Sverchinsky, Grzegorz Wojciechowski
 * Designers: Dilson's Pickles, Leo Wattenberg 
 * Testers: Sergey Lapysh, Antons Činakovs
 * Borrowed from other Muse projects: Peter Jonas, Jessica Williamson
