@@ -68,6 +68,7 @@ export default defineConfig({
     "/copyright/": "https://github.com/audacity/audacity/blob/master/LICENSE.txt",
     "/Setup-Exit-Codes/": "https://support.audacityteam.org/troubleshooting/error-codes/installation-exit-codes",
     "/cla": "/CLA",
-    "/)" : "/"
+    "/)" : "/",
+    "/changelog": "https://support.audacityteam.org/additional-resources/changelog"
   }
 });
