@@ -27,6 +27,10 @@
     content: "\F359"
 }
 
+.icon-cloud:before {
+    content: "\F435"
+}
+
 .icon-export:before {
     content: "\EF24"
 }
@@ -89,4 +93,16 @@
 
 .icon-times:before {
     content: "\EF14"
+}
+
+.icon-pen:before {
+    content: "\EF63"
+}
+
+.icon-note:before {
+    content: "\F360"
+}
+
+.icon-globe:before {
+    content: "\F3B6"
 }

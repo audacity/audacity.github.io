@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import JoinAudioDotComButton from "../components/button/JoinAudioDotComButton";
+import AudioDotComCard from "../components/card/AudioDotComCard";
+import "../styles/icons.css";
+import recordMemos from "../assets/img/record-memos.webp";
+import recordPodcast from "../assets/img/record-podcast.webp";
+import voiceOver from "../assets/img/voice-over.webp";
+import FeatureCard from "../components/card/FeatureCard";
+---
+
+<BaseLayout title="Audacity ® | post-download">
+  <section>
+    <div class="text-center bg-blue-700 py-4">
+      <p class="text-lg text-white">Thank you for downloading Audacity!</p>
+    </div>
+  </section>
+
+  <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
+    <div class="py-12 flex flex-col items-center">
+      <div class="text-center">
+        <h1>
+          Sign up to Audacity's cloud saving platform and access your
+          projects from anywhere!
+        </h1>
+        <div class="mt-8"><JoinAudioDotComButton /></div>
+      </div>
+
+      <div class="grid grid-cols-6 sm:grid-cols-12 w-full gap-4 m-16">
+        <FeatureCard
+        icon="icon-cloud"
+        title="Secure cloud storage"
+        description="Keep your projects safe and accessible with cloud storage. Access your work anywhere and never lose a file."
+      />
+      <FeatureCard
+        icon="icon-note"
+        title="Share your creations"
+        description="Upload and share your audio from Audacity with just a few clicks. Quick, easy, and built for creators."
+      />
+      <FeatureCard
+        icon="icon-pen"
+        title="Transcribe your audio"
+        description="Turn your audio into searchable text, making it easier to organize, search, and share across different platforms."
+      />
+      <FeatureCard
+        icon="icon-globe"
+        title="Explore new sounds"
+        description="Collaborate with other creators, find new inspiration, and discover sounds to enhance and elevate your projects."
+      />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

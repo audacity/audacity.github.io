@@ -12,6 +12,10 @@ function DownloadCard(props) {
         `${OS + " " + title + " " + downloadType}`,
       ]);
     }
+
+    setTimeout(() => {
+      window.location.href = "/post-download";
+    }, 2000);
   }
 
   return (

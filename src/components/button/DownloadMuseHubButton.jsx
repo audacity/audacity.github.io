@@ -31,6 +31,10 @@ function DownloadMuseHubButton() {
         `Download Audacity button ${platform.os.family}`,
       ]);
     }
+
+    setTimeout(() => {
+      window.location.href = "post-download";
+    }, 2000);
   }
 
   function renderButton(href) {
