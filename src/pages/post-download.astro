@@ -1,11 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import JoinAudioDotComButton from "../components/button/JoinAudioDotComButton";
-import AudioDotComCard from "../components/card/AudioDotComCard";
 import "../styles/icons.css";
-import recordMemos from "../assets/img/record-memos.webp";
-import recordPodcast from "../assets/img/record-podcast.webp";
-import voiceOver from "../assets/img/voice-over.webp";
 import FeatureCard from "../components/card/FeatureCard";
 ---
 
@@ -17,13 +13,13 @@ import FeatureCard from "../components/card/FeatureCard";
   </section>
 
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
-    <div class="py-12 flex flex-col items-center">
+    <div class="py-8 sm:py-12 flex flex-col items-center">
       <div class="text-center">
         <h1>
           Sign up to Audacity's cloud saving platform and access your
           projects from anywhere!
         </h1>
-        <div class="mt-8"><JoinAudioDotComButton /></div>
+        <div class="mt-12"><JoinAudioDotComButton /></div>
       </div>
 
       <div class="grid grid-cols-6 sm:grid-cols-12 w-full gap-4 m-16">
@@ -40,7 +36,7 @@ import FeatureCard from "../components/card/FeatureCard";
       <FeatureCard
         icon="icon-pen"
         title="Transcribe your audio"
-        description="Turn your audio into searchable text, making it easier to organize, search, and share across different platforms."
+        description="Free automatic AI transcription for your podcasts or voice overs, providing fast and accurate text for easy editing and content creation."
       />
       <FeatureCard
         icon="icon-globe"
