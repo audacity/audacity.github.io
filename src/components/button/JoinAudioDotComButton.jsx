@@ -18,7 +18,7 @@ function JoinAudioDotComButton() {
               handleButtonClick();
             }}
             href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=Block_button"
-            className="px-4 py-2 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
+            className="px-6 py-4 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
           >
             Join for free
           </a>
