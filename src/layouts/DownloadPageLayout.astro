@@ -2,7 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import DownloadCard from "../components/card/DownloadCard";
 import IconLinkCard from "../components/card/IconLinkCard";
-import AudacityInstallerButton from "../components/button/AudacityInstallerButton";
+import PlatformDownloadMuseHubButton from "../components/button/PlatformDownloadMuseHubButton";
 import { Icon } from "astro-icon";
 import "../styles/icons.css";
 import {
@@ -69,7 +69,11 @@ const {
                 <p>via Muse Hub</p>
               </div>
 
-              <AudacityInstallerButton client:load museHubReleaseData={museHubReleaseData} />
+              <PlatformDownloadMuseHubButton
+                client:load
+                museHubReleaseData={museHubReleaseData}
+                OS={OS}
+              />
             </div>
           </div>
         </section>

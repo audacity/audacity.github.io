@@ -1,13 +1,23 @@
 import React from "react";
 
-function AudacityInstallerButton(props) {
+function PlatformDownloadMuseHubButton(props) {
   const { museHubReleaseData } = props;
+
   function onClickButtonHandler() {
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "Download Button",
+        "Download Muse Hub",
+        `Download Muse Hub button ${OS}`,
+      ]);
+    }
+
     setTimeout(() => {
-        window.location.href = "/post-download";
-      }, 2000);
+      window.location.href = "/post-download";
+    }, 2000);
   }
-  
+
   return (
     <a
       onClick={onClickButtonHandler}
@@ -19,4 +29,4 @@ function AudacityInstallerButton(props) {
   );
 }
 
-export default AudacityInstallerButton;
+export default PlatformDownloadMuseHubButton;
