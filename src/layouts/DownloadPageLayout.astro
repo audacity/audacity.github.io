@@ -59,7 +59,7 @@ const {
 
     {
       OS !== "Linux" && (
-        <section class="mx-4 sm:mx-12 mb-14">
+        <section class="mx-4 sm:mx-12 mb-4">
           <div class="border border-bg-200 rounded-md p-6">
             <div class="flex flex-col sm:flex-row gap-2 justify-between items-center">
               <div class="flex-col gap-2">
@@ -81,9 +81,9 @@ const {
     }
 
     <section class="mx-4 sm:mx-12 flex flex-col">
-      {OS !== "Linux" && <h5>Other downloads</h5>}
+      {false && OS !== "Linux" && <h5>Other downloads</h5>}
 
-      <div class="flex flex-col gap-4 mt-6">
+      <div class="flex flex-col gap-4">
         {
           releaseData.map((item) => {
             return (
