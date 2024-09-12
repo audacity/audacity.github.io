@@ -20,6 +20,10 @@ function DownloadButton() {
         ]);
       }
     }
+
+    setTimeout(() => {
+      window.location.href = "download-success";
+    }, 2000);
   }
 
   function renderButton(href) {
@@ -44,7 +48,7 @@ function DownloadButton() {
     case "Debian":
     case "Red Hat":
     case "SuSE":
-      return; //primary button is Linux downlaod already 
+      return; //primary button is Linux download already
     default:
       return renderButton("/download");
   }

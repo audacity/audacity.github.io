@@ -20,7 +20,7 @@ function DownloadMuseHubButton() {
           "trackEvent",
           "Download Button",
           "Download Muse Hub",
-          `Download Muse Hub button ${platform.os.family}`,
+          `Download Muse Hub button ${browserOS}`,
         ]);
       }
     } else if (href === audacityReleases.lin[0].browser_download_url) {
@@ -28,9 +28,13 @@ function DownloadMuseHubButton() {
         "trackEvent",
         "Download Button",
         "Download Audacity",
-        `Download Audacity button ${platform.os.family}`,
+        `Download Audacity button ${browserOS}`,
       ]);
     }
+
+    setTimeout(() => {
+      window.location.href = "post-download";
+    }, 2000);
   }
 
   function renderButton(href) {
