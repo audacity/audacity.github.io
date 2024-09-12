@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
 import VideoPlaceholder from "../../assets/img/audiocom-placeholder.webp";
+import JoinAudioDotComButton from "../button/JoinAudioDotComButton";
 
 function ShareYourSounds() {
   const [isClicked, setIsClicked] = useState(false);
@@ -41,15 +42,11 @@ function ShareYourSounds() {
               publish your work.
             </p>
           </div>
-          <a
-            onClick={() => {
-              handleButtonClick();
-            }}
+
+          <JoinAudioDotComButton
             href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=Block_button"
-            className="px-4 py-2 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
-          >
-            Join for free
-          </a>
+            matomoEventName="audio.com block CTA"
+          />
         </div>
 
         <div className="col-span-12 md:col-start-1 md:col-span-6 md:row-start-1 items-center flex">

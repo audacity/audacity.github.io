@@ -16,33 +16,39 @@ import FeatureCard from "../components/card/FeatureCard";
     <div class="py-8 sm:py-12 flex flex-col items-center">
       <div class="text-center">
         <h1>
-          Sign up to Audacity's cloud saving platform and access your
-          projects from anywhere!
+          Sign up to Audacity's cloud saving platform and access your projects
+          from anywhere!
         </h1>
-        <div class="mt-12"><JoinAudioDotComButton /></div>
+        <div class="mt-12">
+          <JoinAudioDotComButton
+            href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=post_download_button"
+            matomoEventAction="post-download CTA"
+            large
+          />
+        </div>
       </div>
 
       <div class="grid grid-cols-6 sm:grid-cols-12 w-full gap-4 m-16">
         <FeatureCard
-        icon="icon-cloud"
-        title="Secure cloud storage"
-        description="Keep your projects safe and accessible with cloud storage. Access your work anywhere and never lose a file."
-      />
-      <FeatureCard
-        icon="icon-note"
-        title="Share your creations"
-        description="Upload and share your audio from Audacity with just a few clicks. Quick, easy, and built for creators."
-      />
-      <FeatureCard
-        icon="icon-pen"
-        title="Transcribe your audio"
-        description="Free AI-powered transcription for your podcasts or voice overs, delivering fast and precise text for effortless editing."
-      />
-      <FeatureCard
-        icon="icon-globe"
-        title="Explore new sounds"
-        description="Collaborate with other creators, find new inspiration, and discover sounds to enhance and elevate your projects."
-      />
+          icon="icon-cloud"
+          title="Secure cloud storage"
+          description="Keep your projects safe and accessible with cloud storage. Access your work anywhere and never lose a file."
+        />
+        <FeatureCard
+          icon="icon-note"
+          title="Share your creations"
+          description="Upload and share your audio from Audacity with just a few clicks. Quick, easy, and built for creators."
+        />
+        <FeatureCard
+          icon="icon-pen"
+          title="Transcribe your audio"
+          description="Free AI-powered transcription for your podcasts or voice overs, delivering fast and precise text for effortless editing."
+        />
+        <FeatureCard
+          icon="icon-globe"
+          title="Explore new sounds"
+          description="Collaborate with other creators, find new inspiration, and discover sounds to enhance and elevate your projects."
+        />
       </div>
     </div>
   </section>

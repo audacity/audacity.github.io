@@ -1,24 +1,22 @@
 import React from "react";
 
-function handleButtonClick() {
+function handleButtonClick(eventName) {
   if (typeof _paq !== "undefined") {
-    _paq.push([
-      "trackEvent",
-      "CTA Button",
-      "audio.com CTA",
-      "audio.com block CTA",
-    ]);
+    _paq.push(["trackEvent", "CTA Button", "audio.com CTA", `${eventName}`]);
   }
 }
 
-function JoinAudioDotComButton() {
+function JoinAudioDotComButton(props) {
+  const { href, matomoEventName, large } = props;
   return (
     <a
       onClick={() => {
-        handleButtonClick();
+        handleButtonClick(matomoEventName);
       }}
-      href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=Block_button"
-      className="px-6 py-4 bg-blue-700 w-fit text-white rounded hover:bg-blue-600"
+      href={href}
+      className={` ${
+        large ? "py-4 px-6" : "py-2 px-4"
+      } bg-blue-700 w-fit text-white rounded hover:bg-blue-600`}
     >
       Join for free
     </a>
