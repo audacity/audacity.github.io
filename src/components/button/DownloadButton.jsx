@@ -22,7 +22,7 @@ function DownloadButton() {
     }
 
     setTimeout(() => {
-      window.location.href = "download-success";
+      window.location.href = "post-download";
     }, 2000);
   }
 
