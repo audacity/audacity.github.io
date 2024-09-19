@@ -14,38 +14,38 @@ type ReleaseDirectory = {
 };
 
 export const audacityReleases: ReleaseDirectory = {
-  version: "3.6.3",
+  version: "3.6.4",
   win: [
     {
       name: "64 bit installer",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-win-3.6.3-64bit.exe",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-win-3.6.4-64bit.exe",
       checksum:
-        "3753bdef30d8c7d12820e1af091c010737e45289c65ac82a8d4d154ddb6eb4a7",
+        "b11b3a96639d78ed295ca8a426da628dea951a965bfbce170708de5d4a93a75d",
       type: ".exe",
     },
     {
       name: "64 bit zip file",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-win-3.6.3-64bit.zip",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-win-3.6.4-64bit.zip",
       checksum:
-        "f965c74333cfb93ec3d05569c23b0e2ee300b6aa93a04c5109dcf05ccd6b8fb1",
+        "89bcc815209556f50464e6466b7c5e5c93b1e6c2bc60bdbf3b310b320590f84c",
       type: ".zip",
     },
     {
       name: "32 bit installer",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-win-3.6.3-32bit.exe",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-win-3.6.4-32bit.exe",
       checksum:
-        "2f9d888f5c7ba5b651e4485c624835eadc45c88dd47c03ed72d48b41d9f5e7b3",
+        "dcc10df1e55d2db753a2d4e29fb7fad7018352a035fa72ce91b052e8ec317c38",
       type: ".exe",
     },
     {
       name: "32 bit zip file",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-win-3.6.3-32bit.zip",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-win-3.6.4-32bit.zip",
       checksum:
-        "5cf5dc993565b5ff850dea29ea82b17f2a0c22bd1d2f28771596ce67f8753580",
+        "8efca7e77788957fb70ad8b1ba88720eed8a24ca2db30640ee9d48ffa1834047",
       type: ".zip",
     },
   ],
@@ -53,25 +53,25 @@ export const audacityReleases: ReleaseDirectory = {
     {
       name: "Universal dmg",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-macOS-3.6.3-universal.dmg",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-macOS-3.6.4-universal.dmg",
       checksum:
-        "bdf0f1f5f16a4624ff0d7a5624f00d7a5e6b5bf4b96b35d2c7d5be6a761b2a5e",
+        "32018deee267b823c7de289478ef29df9815706e2409e2026d08f9532a656044",
       type: ".dmg",
     },
     {
       name: "ARM 64 dmg (Apple Silicon)",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-macOS-3.6.3-arm64.dmg",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-macOS-3.6.4-arm64.dmg",
       checksum:
-        "504a56ab039376b9b7d765211f87e64538ad5ad47fcd78ce5b241ae8e010b29b",
+        "d00e89394a69f610bda86276fbdf90ca0fab37f433e6a3c4ef3128b23e09be30",
       type: ".dmg",
     },
     {
       name: "x86_64 dmg (Intel)",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-macOS-3.6.3-x86_64.dmg",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-macOS-3.6.4-x86_64.dmg",
       checksum:
-        "f6b19c1930d4173add2cd987dc0ef5961f894929bb2e61757f6d06dbbda6c770",
+        "afab4f232c9dfedced418208a77ea781869d05e1109e98d1bd727662a350347a",
       type: ".dmg",
     },
   ],
@@ -79,9 +79,9 @@ export const audacityReleases: ReleaseDirectory = {
     {
       name: "AppImage",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-linux-3.6.3-x64.AppImage",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-linux-3.6.4-x64.AppImage",
       checksum:
-        "8b0a6e8ffa00cbf39003aa29fa63f67b1767ebcfa26b244829832e55a95aade7",
+        "d00e89394a69f610bda86276fbdf90ca0fab37f433e6a3c4ef3128b23e09be30",
       type: ".AppImage",
     },
   ],
@@ -89,9 +89,9 @@ export const audacityReleases: ReleaseDirectory = {
     {
       name: "Source code",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.3/audacity-sources-3.6.3.tar.gz",
+        "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-sources-3.6.4.tar.gz",
       checksum:
-        "d3601aadc1d315f32d9857ddbf1edc5c99b3997a798a32a5d3cd4c54b789babc",
+        "8e8c184d9304e961deee7c1621d475ab529f2d550f236c59f43940a842721ac3",
       type: ".tar.gz",
     },
   ],
