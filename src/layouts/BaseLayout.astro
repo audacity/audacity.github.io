@@ -5,6 +5,7 @@ import CookieConsent from "../components/banner/CookieConsent";
 import "../styles/input.css";
 import BetaBanner from "../components/banner/BetaBanner";
 import SurveyBanner from "../components/banner/SurveyBanner";
+import PromoBanner from "../components/banner/PromoBanner";
 
 export interface Props {
   title: string;
@@ -44,6 +45,7 @@ const {
         <NavigationReact client:load currentURL={Astro.request.url} />
         <BetaBanner client:load url={Astro.request.url}/>
         <SurveyBanner client:load url={Astro.request.url}/>
+        <PromoBanner client:load url={Astro.request.url}/>
       </header>
 
       <div class="flex-1">
