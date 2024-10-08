@@ -63,7 +63,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.6.4/audacity-macOS-3.6.4-arm64.dmg",
       checksum:
-        "d00e89394a69f610bda86276fbdf90ca0fab37f433e6a3c4ef3128b23e09be30",
+        "8d1aa3f7529e3e112aaf649385ae7ce7506a05955782f54743d09440cec14bfe",
       type: ".dmg",
     },
     {
