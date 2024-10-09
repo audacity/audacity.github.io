@@ -26,6 +26,7 @@ export default defineConfig({
     "/3.4.0-video": "https://www.youtube.com/watch?v=xgdYuSHdkso",
     "/3.5.0-video": "https://www.youtube.com/watch?v=qEAZv_o0HuQ",
     "/3.6.0-video": "https://www.youtube.com/watch?v=f5TXPUOFH6A",
+    "/3.7.0-video": "https://www.youtube.com/@audacity",
     '/realtime-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
     '/errors': "https://support.audacityteam.org/troubleshooting/error-codes",
     '/nightly': "https://nightly.link/audacity/audacity/workflows/build/master",
