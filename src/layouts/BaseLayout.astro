@@ -6,6 +6,7 @@ import "../styles/input.css";
 import BetaBanner from "../components/banner/BetaBanner";
 import SurveyBanner from "../components/banner/SurveyBanner";
 import PromoBanner from "../components/banner/PromoBanner";
+import useBrowserOS from "../hooks/useDetectOS";
 
 export interface Props {
   title: string;
@@ -15,6 +16,7 @@ const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
   description = "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity. Download now!",
 } = Astro.props;
+
 ---
 
 <!doctype html>
@@ -45,7 +47,7 @@ const {
         <NavigationReact client:load currentURL={Astro.request.url} />
         <BetaBanner client:load url={Astro.request.url}/>
         <SurveyBanner client:load url={Astro.request.url}/>
-        <PromoBanner client:load url={Astro.request.url}/>
+        <PromoBanner client:load/>
       </header>
 
       <div class="flex-1">
