@@ -13,7 +13,7 @@
 
 
     h3 {
-        @apply text-lg md:text-2xl text-gray-700 font-semibold
+        @apply text-lg md:text-lg lg:text-2xl text-gray-700 font-semibold
     }
 
     h4 {
