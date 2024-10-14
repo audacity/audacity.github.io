@@ -17,6 +17,8 @@ const {
   description = "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity. Download now!",
 } = Astro.props;
 
+const isPostDownloadPage = Astro.request.url.includes("/post-download");
+
 ---
 
 <!doctype html>
@@ -47,7 +49,7 @@ const {
         <NavigationReact client:load currentURL={Astro.request.url} />
         <BetaBanner client:load url={Astro.request.url}/>
         <SurveyBanner client:load url={Astro.request.url}/>
-        <PromoBanner client:load/>
+        {!isPostDownloadPage && <PromoBanner client:load/> }
       </header>
 
       <div class="flex-1">
