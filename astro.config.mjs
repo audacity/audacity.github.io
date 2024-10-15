@@ -29,7 +29,7 @@ export default defineConfig({
     "/3.7.0-video": "https://www.youtube.com/@audacity",
     '/realtime-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
     '/errors': "https://support.audacityteam.org/troubleshooting/error-codes",
-    '/nightly': "https://nightly.link/audacity/audacity/workflows/build/master",
+    '/nightly': "/beta",
     '/help/faq': "https://manual.audacityteam.org/man/faq.html",
     '/download/plug-ins/': "https://plugins.audacityteam.org/",
     '/help/documentation/': "https://support.audacityteam.org/",
