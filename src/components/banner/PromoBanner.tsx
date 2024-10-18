@@ -3,9 +3,13 @@ import "../../styles/icons.css";
 import useBrowserOS from "../../hooks/useDetectOS";
 
 function PromoBanner() {
+  // no promo atm
+  return false;
+  
   const browserOS = useBrowserOS();
 
   const getHref = () => {
+
     if (browserOS === "OS X") {
       return museHubReleases.mac[0].browser_download_url;
     } else if (browserOS === "Windows") {
