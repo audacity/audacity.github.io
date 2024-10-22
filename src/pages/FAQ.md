@@ -156,10 +156,10 @@ Current team members are:
 
 * Product owner: Martin Keary
 * Project manager: Yana Larina
-* Developers: Matthieu Hodgkinson, Vitaly Sverchinsky, Grzegorz Wojciechowski
+* Developers: Matthieu Hodgkinson, Grzegorz Wojciechowski, Dmitry Makarenko
 * Designers: Dilson's Pickles, Leo Wattenberg 
 * Testers: Sergey Lapysh, Antons Činakovs
-* Borrowed from other Muse projects: Peter Jonas, Jessica Williamson
+* People from [MuseScore Studio](https://musescore.org) helping with Audacity 4 development: Jessica Williamson, Igor Korsukov, Elnur Ismailzada
 
 Code contributors can be found on Github in the [commit history](https://github.com/audacity/audacity/commits/master) and [graphs](https://github.com/audacity/audacity/graphs/contributors), [contributors to the manual](https://manual.audacityteam.org/man/credits.html), [contributors to the forum](https://forum.audacityteam.org/u?order=post_count&period=all) and [contributors to the support site](https://support.audacityteam.org/community/contributing/credits-and-license) can be found on the respective pages.
 
