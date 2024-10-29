@@ -26,7 +26,7 @@ export default defineConfig({
     "/3.4.0-video": "https://www.youtube.com/watch?v=xgdYuSHdkso",
     "/3.5.0-video": "https://www.youtube.com/watch?v=qEAZv_o0HuQ",
     "/3.6.0-video": "https://www.youtube.com/watch?v=f5TXPUOFH6A",
-    "/3.7.0-video": "https://www.youtube.com/@audacity",
+    "/3.7.0-video": "https://www.youtube.com/watch?v=f5TXPUOFH6A",
     '/realtime-video': "https://www.youtube.com/watch?v=DTRnDNR9LR8",
     '/errors': "https://support.audacityteam.org/troubleshooting/error-codes",
     '/nightly': "/beta",
@@ -75,6 +75,10 @@ export default defineConfig({
     "/au4mac": "https://nightly.link/audacity/audacity/workflows/ci_macos_au4/master",
     "/au4lin": "https://nightly.link/audacity/audacity/workflows/ci_linux_au4/master",
     "/survey": "https://po415hli6k2.typeform.com/hub-audacity",
-    "/audacitypromo": "https://musehub.com/?mtm_campaign=audacityapp&mtm_content=welcomescreen"
+    "/audacitypromo": "https://musehub.com/?mtm_campaign=audacityapp&mtm_content=welcomescreen_video",
+    "/mh-whatsnew": "https://musehub.com/?mtm_campaign=audacityapp&mtm_content=welcomescreen_btn",
+    "/mh-effectmenu":"https://musehub.com/?mtm_campaign=audacityapp&mtm_content=effectmenu",
+    "/mh-rtepanel":"https://musehub.com/?mtm_campaign=audacityapp&mtm_content=rtepanel",
+    "/mh-pluginmanager":"https://musehub.com/?mtm_campaign=audacityapp&mtm_content=pluginmanager"
   }
 });
