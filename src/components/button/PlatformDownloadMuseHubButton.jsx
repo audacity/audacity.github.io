@@ -1,4 +1,5 @@
 import React from "react";
+import useBrowserOS from "../../hooks/useDetectOS";
 
 function PlatformDownloadMuseHubButton(props) {
   const { museHubReleaseData } = props;
@@ -9,13 +10,14 @@ function PlatformDownloadMuseHubButton(props) {
         "trackEvent",
         "Download Button",
         "Download Muse Hub",
-        `Download Muse Hub button ${OS}`,
+        `Download Muse Hub button ${useBrowserOS}`,
       ]);
     }
 
     setTimeout(() => {
       window.location.href = "/post-download";
     }, 2000);
+
   }
 
   return (
