@@ -76,9 +76,9 @@ export default defineConfig({
     "/au4lin": "https://nightly.link/audacity/audacity/workflows/au4_build_linux/master",
     "/survey": "https://po415hli6k2.typeform.com/hub-audacity",
     "/audacitypromo": "https://www.youtube.com/watch?v=Lb7jx4wdXXE&mtm_campaign=audacityapp&mtm_content=welcomescreen_video",
-    "/mh-whatsnew": "https://www.musehub.com/plugin/polyspectral-mbc/44aec65e-43dc-4135-8293-c65ac7034d01?mtm_campaign=audacityapp&mtm_content=welcomescreen_btn",
-    "/mh-effectmenu":"https://musehub.com/?mtm_campaign=audacityapp&mtm_content=effectmenu",
-    "/mh-rtepanel":"https://musehub.com/?mtm_campaign=audacityapp&mtm_content=rtepanel",
-    "/mh-pluginmanager":"https://musehub.com/?mtm_campaign=audacityapp&mtm_content=pluginmanager"
+    "/mh-whatsnew": "https://musehub.com/plugins",
+    "/mh-effectmenu":"https://musehub.com/plugins?utm_source=au&utm_medium=mh-effectmenu&utm_campaign=mh_plugins",
+    "/mh-rtepanel":"https://musehub.com/plugins?utm_source=au&utm_medium=mh-rtepanel&utm_campaign=mh_plugins",
+    "/mh-pluginmanager":"https://musehub.com/plugins?utm_source=au&utm_medium=mh-pluginmanager&utm_campaign=mh_plugins"
   }
 });
