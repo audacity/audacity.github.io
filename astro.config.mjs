@@ -76,7 +76,7 @@ export default defineConfig({
     "/au4lin": "https://nightly.link/audacity/audacity/workflows/au4_build_linux/master",
     "/survey": "https://po415hli6k2.typeform.com/hub-audacity",
     "/audacitypromo": "https://www.youtube.com/watch?v=Lb7jx4wdXXE&mtm_campaign=audacityapp&mtm_content=welcomescreen_video",
-    "/mh-whatsnew": "https://musehub.com/plugins",
+    "/mh-whatsnew": "https://www.musehub.com/plugin/polyspectral-mbc?utm_source=au&utm_medium=mh-whats-new&utm_campaign=polyspectral_page",
     "/mh-effectmenu":"https://musehub.com/plugins?utm_source=au&utm_medium=mh-effectmenu&utm_campaign=mh_plugins",
     "/mh-rtepanel":"https://musehub.com/plugins?utm_source=au&utm_medium=mh-rtepanel&utm_campaign=mh_plugins",
     "/mh-pluginmanager":"https://musehub.com/plugins?utm_source=au&utm_medium=mh-pluginmanager&utm_campaign=mh_plugins"
