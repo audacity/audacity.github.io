@@ -14,7 +14,7 @@ import RecordAnything from "../components/homepage/RecordAnything.astro";
   <HeroBanner />
   <ReleaseVideo client:load/>
   <RecordAnything />
-  <ShareYourSounds client:load/>
+  {false && <ShareYourSounds client:load/> /*disabled until they get a new video*/}
   <FeatureCards />
   <BlogPosts />
   <FAQ />
