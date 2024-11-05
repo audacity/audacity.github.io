@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function FeaturedVideo(props) {
   const [isClicked, setIsClicked] = useState(false);
 
-  const { placeholderImage, videoURL, label, title, CTA, ctaText = "" } = props;
+  const { placeholderImage, videoURL, label, title, CTA, ctaText, ctaURL = "" } = props;
 
   function handleVideoClick() {
     setIsClicked(true);
@@ -22,7 +22,7 @@ function FeaturedVideo(props) {
       <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
         <h3 className="text-white content-center">{title}</h3>
         {CTA && (
-          <a className="py-3 px-2 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit">
+          <a className="py-3 px-2 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit" href={ctaURL}>
             <p className="leading-none font-semibold">{ctaText}</p>
           </a>
         )}

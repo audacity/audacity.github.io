@@ -1,15 +1,46 @@
 ---
 import ReleaseVideoPlaceholder from "../../assets/img/audacity-placeholder.webp";
-import PromoProductVideoPlaceholder from "../../assets/img/waves-denoiz-plugin.webp";
+import MbcpolyspectralPlaceholder from "../../assets/img/mbc_polyspectral-placeholder.webp";
 import FeaturedVideo from "../video/FeaturedVideo";
+
+const releaseVideo = {
+  title:"Our latest release",
+  label:"Master channel, new realtime effects & more!",
+  placeholderImage: ReleaseVideoPlaceholder,
+  videoURL:"https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1"
+}
+
+const promoVideo = {
+  title:"Multiband Compressor",
+  label:"Low-latency, transparent multiband compressor for real-time tracking and live mixing.",
+  placeholderImage: MbcpolyspectralPlaceholder,
+  videoURL:"https://www.youtube-nocookie.com/embed/Lb7jx4wdXXE?autoplay=1",
+  CTA: true, 
+  ctaText: "Get 80% off",
+  ctaURL:"https://www.musehub.com/plugin/polyspectral-mbc?utm_source=au-web&utm_medium=mh-cta&utm_campaign=polyspectral"
+}
 ---
 
-    <section class="bg-gray-900">
-      <div class="grid md:grid-cols-2 max-w-screen-2xl px-6 sm:px-12 mx-auto py-8 gap-8 ">
-        <FeaturedVideo client:load title="Our latest release" label="Master channel, new realtime effects & more!" placeholderImage={ReleaseVideoPlaceholder} videoURL="https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1"/>
-        <FeaturedVideo client:load title="Waves Denoiz Plugin" label="A new generation of noise removal that outpeforms traditional plugins." placeholderImage={PromoProductVideoPlaceholder} videoURL="https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1" CTA ctaText="Get 50% off"/>
-      </div>
-    </section>
-  
-
-
+<section class="bg-gray-900">
+  <div
+    class="grid md:grid-cols-2 max-w-screen-2xl px-6 sm:px-12 mx-auto py-8 gap-8"
+  >
+    <FeaturedVideo
+      client:load
+      title={releaseVideo.title}
+      label={releaseVideo.label}
+      placeholderImage={releaseVideo.placeholderImage}
+      videoURL={releaseVideo.videoURL}
+    />
+    <FeaturedVideo
+      client:load
+      title={promoVideo.title}
+      label={promoVideo.label}
+      placeholderImage={promoVideo.placeholderImage}
+      videoURL={promoVideo.videoURL}
+      CTA={promoVideo.CTA}
+      ctaText={promoVideo.ctaText}
+      ctaURL={promoVideo.ctaURL}
+    />
+  </div>
+</section>
