@@ -72,7 +72,7 @@ export default defineConfig({
     "/)" : "/",
     "/changelog": "https://support.audacityteam.org/additional-resources/changelog",
     "/au4win": "https://nightly.link/audacity/audacity/workflows/au4_build_windows/master",
-    "/au4mac": "https://nightly.link/audacity/audacity/workflows/au4_build_macos/",
+    "/au4mac": "https://nightly.link/audacity/audacity/workflows/au4_build_macos/master",
     "/au4lin": "https://nightly.link/audacity/audacity/workflows/au4_build_linux/master",
     "/survey": "https://po415hli6k2.typeform.com/hub-audacity",
     "/audacitypromo": "https://www.youtube.com/watch?v=Lb7jx4wdXXE&mtm_campaign=audacityapp&mtm_content=welcomescreen_video",
