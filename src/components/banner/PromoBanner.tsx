@@ -4,18 +4,16 @@ import useBrowserOS from "../../hooks/useDetectOS";
 
 function PromoBanner() {
   // no promo atm
-  return false;
-  
+  //return false;
+
   const browserOS = useBrowserOS();
 
   const getHref = () => {
-
-    if (browserOS === "OS X") {
-      return museHubReleases.mac[0].browser_download_url;
-    } else if (browserOS === "Windows") {
-      return museHubReleases.win[0].browser_download_url;
+    if (browserOS === "OS X" || browserOS === "Windows") {
+      return "https://www.musehub.com/plugin/polyspectral-mbc?utm_source=au-web-top-banner&utm_medium=mh-polyspectral&utm_campaign=polyspectral_page";
+    } else {
+      return "#"; // Default if OS is not supported
     }
-    return "#"; // Default if OS is not supported
   };
 
   // Only show the banner for supported OSes
@@ -27,7 +25,7 @@ function PromoBanner() {
         "trackEvent",
         "Promo CTA",
         "Promo CTA button",
-        "Muse hub promo CTA-Ampkit",
+        "Muse hub promo CTA-polyspectral",
       ]);
     }
   }
@@ -39,13 +37,16 @@ function PromoBanner() {
           id="promo-banner"
           className="flex flex-col lg:flex-row justify-center items-center align-start min-h-24 bg-gray-900 py-2 gap-4 lg:gap-8"
         >
-          <div className="lg:flex text-center gap-2">
-            <p className="text-lg font-bold text-yellow-300">New plugin:</p>
-            <p className="text-lg font-bold text-white">AmpKit</p>
-            <p className="text-lg text-yellow-300 font-bold">
-             – A Sophisticated Guitar Effects & Amp Modelling Suite.
+          <div className="lg:flex text-center gap-4">
+            <p className="text-lg text-yellow-300 font-bold ">
+              Limited-Time Offer:
             </p>
-            <p className="text-lg font-bold text-gray-100">Only $19.99!</p>
+            <p className="text-lg text-gray-200 font-bold">
+              Polyspectral MBC Multiband Compressor  
+            </p>
+            <p className="text-lg text-yellow-300 font-bold ">
+            80% OFF
+            </p>
           </div>
 
           <a
