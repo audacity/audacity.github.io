@@ -35,16 +35,16 @@ function PromoBanner() {
       {showBanner && (
         <div
           id="promo-banner"
-          className="flex flex-col lg:flex-row justify-center items-center align-start min-h-24 bg-gray-900 py-2 gap-4 lg:gap-8"
+          className="flex flex-col lg:flex-row justify-center items-center align-start min-h-24 bg-yellow-300 py-2 gap-4 lg:gap-8"
         >
           <div className="lg:flex text-center gap-4">
-            <p className="text-lg text-yellow-300 font-bold ">
+            <p className="text-lg text-gray-900 font-semibold ">
               Limited-Time Offer:
             </p>
-            <p className="text-lg text-gray-200 font-bold">
+            <p className="text-lg text-gray-900 font-bold">
               Polyspectral MBC Multiband Compressor  
             </p>
-            <p className="text-lg text-yellow-300 font-bold ">
+            <p className="text-lg text-gray-900 font-semibold ">
             80% OFF
             </p>
           </div>
@@ -53,7 +53,7 @@ function PromoBanner() {
             href={getHref()}
             id="promo-button"
             onClick={handleButtonClick}
-            className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-yellow-300 bg-yellow-300 rounded-md hover:bg-gray-900 hover:text-white hover:border-yellow-300"
+            className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
             Get It On MuseHub
           </a>
