@@ -38,14 +38,11 @@ function PromoBanner() {
           className="flex flex-col lg:flex-row justify-center items-center align-start min-h-24 bg-yellow-300 py-2 gap-4 lg:gap-8"
         >
           <div className="lg:flex text-center gap-4">
-            <p className="text-lg text-gray-900 font-semibold ">
-              Limited-Time Offer:
-            </p>
             <p className="text-lg text-gray-900 font-bold">
               Polyspectral MBC Multiband Compressor  
             </p>
             <p className="text-lg text-gray-900 font-semibold ">
-            80% OFF
+            Get free trial
             </p>
           </div>
 
