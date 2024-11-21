@@ -10,7 +10,7 @@ function PromoBanner() {
 
   const getHref = () => {
     if (browserOS === "OS X" || browserOS === "Windows") {
-      return "https://www.musehub.com/plugin/polyspectral-mbc?utm_source=au-web-top-banner&utm_medium=mh-polyspectral&utm_campaign=polyspectral_page";
+      return "https://acestudio.ai/?promo=musehub&utm_source=au-web&utm_medium=ace-site&utm_campaign=au-web-banner-ace-app-site";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -25,7 +25,7 @@ function PromoBanner() {
         "trackEvent",
         "Promo CTA",
         "Promo CTA button",
-        "Muse hub promo CTA-polyspectral",
+        "Ace Studio",
       ]);
     }
   }
@@ -39,10 +39,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Polyspectral MBC Multiband Compressor  
-            </p>
-            <p className="text-lg text-gray-900 font-semibold ">
-            Get free trial
+            Ace Studio - The World's No.1 AI Singing Voice Generator  
             </p>
           </div>
 
@@ -52,7 +49,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Get It On MuseHub
+            Try For Free
           </a>
         </div>
       )}
