@@ -16,13 +16,23 @@ function FeaturedVideo(props) {
       ]);
     }
   }
+  function handleCTAClick() {
+    if (typeof _paq !== "undefined") {
+      _paq.push([
+        "trackEvent",
+        "Promo CTA",
+        "Promo CTA video button",
+        "Ace Studio",
+      ]);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-2 lg:gap-4 ">
       <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
         <h3 className="text-white content-center">{title}</h3>
         {CTA && (
-          <a className="py-3 px-2 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit" href={ctaURL}>
+          <a className="py-3 px-2 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit" href={ctaURL} onclick={() => handleVideoClick()}>
             <p className="leading-none font-semibold">{ctaText}</p>
           </a>
         )}
