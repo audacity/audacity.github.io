@@ -10,7 +10,7 @@ function PromoBanner() {
 
   const getHref = () => {
     if (browserOS === "OS X" || browserOS === "Windows") {
-      return "https://acestudio.ai/?promo=musehub&utm_source=au-web&utm_medium=ace-site&utm_campaign=au-web-banner-ace-app-site";
+      return "https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -25,7 +25,7 @@ function PromoBanner() {
         "trackEvent",
         "Promo CTA",
         "Promo CTA button",
-        "Ace Studio",
+        "Ace Studio Muse Hub",
       ]);
     }
   }
