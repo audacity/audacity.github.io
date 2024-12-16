@@ -224,12 +224,12 @@ type OpenvinoReleaseDirectory = {
 };
 
 export const openvinoReleases: OpenvinoReleaseDirectory = {
-  version: "3.7.0",
-  revision: "R4.0",
+  version: "3.7.1",
+  revision: "R4.1",
   win: [
     {
       name: "OpenVino AI Plugins",
-      browser_download_url: "https://github.com/intel/openvino-plugins-ai-audacity/releases/download/v3.7.0-R4.0/audacity-win-v3.7.0-R4.0-64bit-OpenVINO-AI-Plugins.exe",
+      browser_download_url: "https://github.com/intel/openvino-plugins-ai-audacity/releases/download/v3.7.1-R4.1/audacity-win-v3.7.1-R4.1-64bit-OpenVINO-AI-Plugins.exe",
       type: ".exe"
     },
   ],
