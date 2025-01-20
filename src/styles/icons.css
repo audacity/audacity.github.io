@@ -19,6 +19,14 @@
     font-size: 24px;
 }
 
+.icon-medium-small {
+    font-size: 18px;
+}
+
+.icon-small {
+    font-size: 12px;
+}
+
 .icon-save:before {
     content: "\EF29";
 }
@@ -105,4 +113,8 @@
 
 .icon-globe:before {
     content: "\F3B6"
+}
+
+.icon-check:before {
+    content: "\EF31"
 }
