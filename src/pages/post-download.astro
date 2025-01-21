@@ -13,44 +13,49 @@ import FeatureCard from "../components/card/FeatureCard";
   </section>
 
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
-    <div class="py-8 sm:py-12 flex flex-col items-center">
+    <div class="py-8 sm:pt-12 flex flex-col items-center justify-center">
+      <img src="/src/assets/img/promo/audacity-audiocom-promo.png" alt="Audacity logo and audio.com logo overlaying in a playful manner" width="300px" height="165px"/>
       <div class="text-center">
-        <h1>
-          Sign up to Audacity's cloud saving platform and access your projects
-          from anywhere!
+        <h1 class="font-bold">
+          Audacity Cloud setup is almost complete
         </h1>
-        <div class="mt-12">
-          <JoinAudioDotComButton
-            client:load
-            href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=post_download_button"
-            matomoEventName="post-download CTA"
-            large
-          />
+      </div>
+      <div class="w-full mt-8">
+        <div class="grid grid-cols-12 items-center">
+          
+            <div class="col-span-3 bg-green-500 h-2"></div>
+            <div class="bg-green-500 h-8 w-8 rounded-full place-self-center">
+              <div class="icon icon-check icon-medium-small text-center text-white mt-1"></div>
+            </div>
+          
+          
+            <div class="col-span-3 bg-gray-300 h-2"></div>
+            <div class="bg-gray-300 h-8 w-8 rounded-full place-self-center">
+              <div class="icon icon-check icon-medium-small text-center text-white mt-1"></div>
+            </div>
+          
+          
+            <div class="col-span-3 bg-gray-300 h-2"></div>
+            <div class="bg-gray-300 h-8 w-8 rounded-full place-self-center">
+              <div class="icon icon-check icon-medium-small text-center text-white mt-1"></div>
+            </div>
+          
+        </div>
+        <div class="grid grid-cols-12 mt-2 text-center text-lg font-bold">
+          <div class="col-start-1 col-end-4">Download Audacity application</div>
+          <div class="col-start-5 col-end-8">Connect to Cloud storage</div>
+          <div class="col-start-9 col-end-12">Never lose your work in Audacity</div>
         </div>
       </div>
-
-      <div class="grid grid-cols-6 sm:grid-cols-12 w-full gap-4 m-16">
-        <FeatureCard
-          icon="icon-cloud"
-          title="Secure cloud storage"
-          description="Keep your projects safe and accessible with cloud storage. Access your work anywhere and never lose a file."
-        />
-        <FeatureCard
-          icon="icon-note"
-          title="Share your creations"
-          description="Upload and share your audio from Audacity with just a few clicks. Quick, easy, and built for creators."
-        />
-        <FeatureCard
-          icon="icon-pen"
-          title="Transcribe your audio"
-          description="Free AI-powered transcription for your podcasts or voice overs, delivering fast and precise text for effortless editing."
-        />
-        <FeatureCard
-          icon="icon-globe"
-          title="Explore new sounds"
-          description="Collaborate with other creators, find new inspiration, and discover sounds to enhance and elevate your projects."
+      <div class="mt-12">
+        <JoinAudioDotComButton
+          client:load
+          href="https://audio.com/audacity/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=post_download_button"
+          matomoEventName="post-download CTA"
+          large
         />
       </div>
+      
     </div>
   </section>
 </BaseLayout>
