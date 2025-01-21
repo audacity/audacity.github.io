@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import JoinAudioDotComButton from "../components/button/JoinAudioDotComButton";
 import "../styles/icons.css";
-import FeatureCard from "../components/card/FeatureCard";
+import logo from "../../assets/img/promo/audacity-audiocom-promo.png";
 ---
 
 <BaseLayout title="Audacity ® | post-download">
@@ -14,7 +14,7 @@ import FeatureCard from "../components/card/FeatureCard";
 
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
     <div class="py-8 sm:pt-12 flex flex-col items-center justify-center">
-      <img src="../../assets/img/promo/audacity-audiocom-promo.png" alt="Audacity logo and audio.com logo overlaying in a playful manner" width="300px" height="165px"/>
+      <img src={logo.src} alt="Audacity logo and audio.com logo overlaying in a playful manner" width="300px" height="165px"/>
       <div class="text-center">
         <h1 class="font-bold">
           Audacity Cloud setup is almost complete
