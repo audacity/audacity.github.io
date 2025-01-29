@@ -2,7 +2,14 @@ import React from "react";
 
 function handleButtonClick(eventName) {
   if (typeof _paq !== "undefined") {
-    _paq.push(["trackEvent", "CTA Button", "audio.com CTA", `${eventName}`]);
+    const branch = document.querySelector('meta[name="branch"]')?.content || "unknown";
+
+    _paq.push([
+      "trackEvent",
+      "CTA Button",
+      `audio.com CTA - ${branch}`, // Include branch in event category
+      `${eventName}`
+    ]);
   }
 }
 
