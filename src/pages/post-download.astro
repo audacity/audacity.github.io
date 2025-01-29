@@ -3,12 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import JoinAudioDotComButton from "../components/button/JoinAudioDotComButton";
 import "../styles/icons.css";
 import FeatureCard from "../components/card/FeatureCard";
+const branch = import.meta.env.BRANCH || "unknown";
 ---
 
 <BaseLayout title="Audacity ® | post-download">
   <section>
     <div class="text-center bg-blue-700 py-4">
-      <p class="text-lg text-white">Thanks for downloading Audacity!</p>
+      <p class="text-lg text-white">Branch: {branch}</p>
     </div>
   </section>
 
