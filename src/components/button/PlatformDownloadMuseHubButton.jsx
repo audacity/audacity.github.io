@@ -5,8 +5,9 @@ function PlatformDownloadMuseHubButton(props) {
   const { museHubReleaseData } = props;
   const browserOS = useBrowserOS();
   console.log("browserOS", browserOS);
-  
+
   function onClickButtonHandler() {
+    console.log("buttonhandler", browserOS);
     if (typeof _paq !== "undefined") {
       _paq.push([
         "trackEvent",
