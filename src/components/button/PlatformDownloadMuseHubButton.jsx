@@ -3,6 +3,7 @@ import useBrowserOS from "../../hooks/useDetectOS";
 
 function PlatformDownloadMuseHubButton(props) {
   const { museHubReleaseData } = props;
+  const browserOS = useBrowserOS();
 
   function onClickButtonHandler() {
     if (typeof _paq !== "undefined") {
@@ -10,7 +11,7 @@ function PlatformDownloadMuseHubButton(props) {
         "trackEvent",
         "Download Button",
         "Download Muse Hub",
-        `Download Muse Hub button ${useBrowserOS}`,
+        `Download Muse Hub button ${browserOS}`,
       ]);
     }
 

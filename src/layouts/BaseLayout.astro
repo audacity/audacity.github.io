@@ -11,10 +11,12 @@ import useBrowserOS from "../hooks/useDetectOS";
 export interface Props {
   title: string;
   description: string;
+  index: string;
 }
 const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
   description = "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity. Download now!",
+  index = "all",
 } = Astro.props;
 
 const isPostDownloadPage = Astro.request.url.includes("/post-download");
@@ -32,6 +34,7 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <meta name="robots" content={index} />
     <meta
       name="keywords"
       content="Audacity, audio editing, audio recorder, open-source, audio software, sound editing, audio mixer"
