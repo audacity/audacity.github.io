@@ -41,13 +41,12 @@ function DownloadMuseHubButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
+        className="flex py-3 px-4 gap-3 rounded-md justify-center bg-gray-900  hover:bg-yellow-400 active:bg-yellow-500 w-fit"
         href={href}
       >
-        <span className="icon icon-import"></span>
-        <p className="font-semibold">
-          Download Audacity {audacityReleases.version}
-        </p>
+       
+          <p class="text-sm font-normal xl:text-base lg:font-semibold text-white" >Download via Muse Hub</p>
+        
       </a>
     );
   }

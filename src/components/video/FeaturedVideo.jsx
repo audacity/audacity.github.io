@@ -16,12 +16,7 @@ function FeaturedVideo(props) {
   function handleVideoClick() {
     setIsClicked(true);
     if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Video embed",
-        "Watch release video",
-        title,
-      ]);
+      _paq.push(["trackEvent", "Video embed", "Watch release video", title]);
     }
   }
   function handleCTAClick() {
@@ -31,20 +26,7 @@ function FeaturedVideo(props) {
   }
 
   return (
-    <div className="flex flex-col gap-2 lg:gap-4 ">
-      <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
-        <h3 className="text-white content-center">{title}</h3>
-        {CTA && (
-          <a
-            className="py-3 px-4 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
-            href={ctaURL}
-            onClick={() => handleCTAClick()}
-          >
-            <p className="leading-none font-semibold">{ctaText}</p>
-          </a>
-        )}
-      </div>
-
+    <div className="flex flex-col">
       {isClicked ? (
         <iframe
           className="w-full aspect-video rounded-md shadow-xl"
@@ -64,7 +46,19 @@ function FeaturedVideo(props) {
           onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
         />
       )}
-      <p className="text-white">{label}</p>
+      <div class="flex flex-col mt-2">
+      <h4 className="text-white content-center">{title}</h4>
+      <p className="text-gray-200">{label}</p>
+      {CTA && (
+        <a
+          className="mt-4"
+          href={ctaURL}
+          onClick={() => handleCTAClick()}
+        >
+          <p className="leading-none underline text-yellow-300">{ctaText}</p>
+        </a>
+      )}
+      </div>
     </div>
   );
 }

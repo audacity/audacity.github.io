@@ -1,37 +1,98 @@
 ---
-import DownloadButton from "../button/DownloadButton";
+import DownloadButton from "../button/DownloadAudacityButton";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
+import FeaturedVideo from "../video/FeaturedVideo";
+import ReleaseVideoPlaceholder from "../../assets/img/audacity-placeholder.webp";
+import promoPlaceholder from "../../assets/img/promo/ace-placeholder.webp";
+import MuseHubProductShot from "../../assets/img/MuseHub-product-shot.webp";
+
+// Release videos
+const releaseVideo = {
+  title: "Our latest release",
+  label: "Master channel, new realtime effects & more!",
+  placeholderImage: ReleaseVideoPlaceholder,
+  videoURL: "https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1",
+};
+
+const promoVideo = {
+  title: "ACE Studio showcase",
+  label:
+    "Ad: Turn your lyrics into song with ACE Studio, the AI singing voice generator.",
+  placeholderImage: promoPlaceholder,
+  videoURL: "https://www.youtube-nocookie.com/embed/QTlB5UR-IEE?autoplay=1",
+  CTA: true,
+  ctaText: "Try for free",
+  ctaURL:
+    "https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio",
+};
 ---
 
-<section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+<section id="main" class="bg-slate-800">
+  <!-- Parent grid -->
   <div
-    class="grid grid-cols-12 max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-8 md:py-16 sm:py-12 gap-6 md:gap-0"
+    class="grid md:grid-cols-6 lg:grid-cols-12 p-6 gap-6 xl:py-8 xl:px-12 xl:max-w-screen-xl xl:mx-auto"
   >
+    <!-- Muse Hub container -->
     <div
-      class="col-span-12 mx-2 md:mx-0 text-center md:text-left md:col-span-5 flex flex-col gap-4 md:gap-8 justify-center"
+      class="row-start-2 md:row-start-1 col-span-12 md:col-span-2 lg:col-span-3 bg-purple-500 rounded-lg flex flex-col overflow-hidden"
     >
-      <h1 class="leading-tight mt-2 text-white">
-        Audacity is the world's most popular audio editing and recording app
-      </h1>
+      <div class="md:pt-4 lg:pt-6">
+        <img
+          alt="A laptop showing the Audacity application"
+          src={MuseHubProductShot.src}
+          class="relative md:left-4 lg:left-6 shadow-lg"
+        />
+      </div>
 
-      <div class="flex flex-col md:w-fit gap-4 items-center md:items-start">
-        <DownloadMuseHubButton client:load />
-        <noscript>
-          <DownloadMuseHubButton client:load />
-        </noscript>
-        <DownloadButton client:load />
-        <noscript>
-          <DownloadButton client:load />
-        </noscript>
+      <div class="flex flex-col grow justify-between gap-4 p-6 lg:p-6">
+        <div class="flex flex-col gap-2">
+          <h3 class="text-white">Get free effects, samples and VSTs</h3>
+          <p class="text-white">
+            Download Audacity via the Muse Hub and access 100s of free samples,
+            effects and more!
+          </p>
+        </div>
+        <DownloadMuseHubButton />
       </div>
     </div>
+
+    <!-- Audacity container -->
     <div
-      class="col-span-12 md:col-start-7 md:col-span-7 flex items-center justify-center mx-4"
+      class="col-span-12 md:col-span-4 lg:col-span-6 h-fill bg-gradient-to-r from-indigo-900 to-blue-700 rounded-lg px-8 pt-2"
     >
+      <div class="flex flex-col gap-8 no-wrap">
+        <h1 class="text-white">
+          Produce music. Produce podcasts. Take total control of your sound.
+          Audacity is free, forever.
+        </h1><DownloadButton />
+      </div>
       <img
         alt="A laptop showing the Audacity application"
         src={AudacityMockUp.src}
+      />
+    </div>
+
+    <!-- Floating videos -->
+    <div
+      class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col sm:flex-row lg:flex-col gap-6 lg:gap-8"
+    >
+      <FeaturedVideo
+        client:load
+        title={releaseVideo.title}
+        label={releaseVideo.label}
+        placeholderImage={releaseVideo.placeholderImage}
+        videoURL={releaseVideo.videoURL}
+      />
+      <FeaturedVideo
+        client:load
+        title={promoVideo.title}
+        label={promoVideo.label}
+        placeholderImage={promoVideo.placeholderImage}
+        videoURL={promoVideo.videoURL}
+        CTA={promoVideo.CTA}
+        ctaText={promoVideo.ctaText}
+        ctaURL={promoVideo.ctaURL}
       />
     </div>
   </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import platform from "platform";
 import { audacityReleases } from "../../assets/js/releaseData";
 
-function DownloadButton() {
+function DownloadAudacityButton() {
   const [browserOS, setBrowserOS] = useState("");
 
   useEffect(() => {
@@ -30,10 +30,10 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="text-white hover:underline"
+        className="flex w-fit text-slate-900 hover:underline py-3 px-4 font-semibold rounded-md bg-yellow-400"
         href={href}
       >
-        Download without Muse Hub
+        Download Audacity {audacityReleases.version}
       </a>
     );
   }
@@ -54,4 +54,4 @@ function DownloadButton() {
   }
 }
 
-export default DownloadButton;
+export default DownloadAudacityButton;
