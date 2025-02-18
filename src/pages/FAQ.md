@@ -25,6 +25,12 @@ Audacity is proudly open source. This means its source code remains open to anyo
 
 A dedicated worldwide community of passionate audio lovers have collaborated to make Audacity the well-loved software it is today. Many third-party plugins have also been developed for Audacity thanks to its open source nature.
 
+### Does Audacity cost money?
+No, Audacity is free for everyone. If you found yourself paying for Audacity, one of the following things happened: 
+
+* You signed up for additional Audacity Cloud storage, so you can [save more projects in the cloud](/cloud-saving). Contact support@audio.com to ask for a refund. 
+* You tried to download an Audacity app for iOS or Android. At the time of writing, there doesn't exist an Audacity version for these platforms, so any app you see there was not made by the Audacity team. Contact Apple or Google Play support and ask for a refund.
+
 ---
 
 ## Download & install
