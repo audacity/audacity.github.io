@@ -45,8 +45,10 @@ function DownloadMuseHubButton() {
         href={href}
       >
         <span className="icon icon-import"></span>
-        <p className="font-semibold">
-          Download Audacity {audacityReleases.version}
+        <p>
+        <span className="font-semibold">
+          Download Audacity {audacityReleases.version}</span><br/>
+        <span className="font-light text-s">via MuseHub</span>
         </p>
       </a>
     );
