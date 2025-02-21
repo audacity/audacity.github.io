@@ -44,7 +44,7 @@ function ShareYourSounds() {
           </div>
 
           <JoinAudioDotComButton
-            href="https://audio.com/auth/sign-up?mtm_campaign=audacityteamorg&mtm_content=Block_button"
+            href=" https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Block_button"
             matomoEventName="audio.com block CTA"
           />
         </div>
