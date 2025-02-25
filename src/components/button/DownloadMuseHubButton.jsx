@@ -10,6 +10,8 @@ function DownloadMuseHubButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
+  const isLinux = browserOS === "Linux" || browserOS === "Ubuntu" || browserOS === "Debian" || browserOS === "Red Hat" || browserOS === "SuSE";
+
   function handleButtonClick(href) {
     if (
       href !== "https://www.musehub.com/" &&
@@ -48,7 +50,7 @@ function DownloadMuseHubButton() {
         <p>
         <span className="font-semibold">
           Download Audacity {audacityReleases.version}</span><br/>
-        <span className="font-light text-s">via MuseHub</span>
+        {!isLinux && <span className="font-light text-s">via MuseHub</span>}
         </p>
       </a>
     );
