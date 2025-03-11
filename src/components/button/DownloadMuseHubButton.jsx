@@ -50,7 +50,7 @@ function DownloadMuseHubButton() {
         <p>
         <span className="font-semibold">
           Download Audacity {audacityReleases.version}</span><br/>
-        {!isLinux && <span className="font-light text-s">via MuseHub</span>}
+        {false && <span className="font-light text-s">via MuseHub</span>}
         </p>
       </a>
     );
