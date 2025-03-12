@@ -201,7 +201,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://muse-cdn.com/Muse_Hub.exe",
+        "https://muse-cdn.com/Audacity_Installer_via_MuseHub.exe",
       type: ".exe",
     },
   ],
@@ -209,7 +209,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://muse-cdn.com/Muse_Hub.dmg",
+        "https://muse-cdn.com/Audacity_Installer_via_MuseHub.dmg",
       type: ".dmg",
     },
   ],
@@ -224,7 +224,7 @@ type OpenvinoReleaseDirectory = {
 };
 
 export const openvinoReleases: OpenvinoReleaseDirectory = {
-  version: "3.7.1",
+  version: "3.7.2",
   revision: "R4.2",
   win: [
     {
