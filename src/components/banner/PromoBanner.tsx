@@ -4,7 +4,7 @@ import useBrowserOS from "../../hooks/useDetectOS";
 
 function PromoBanner() {
   // no promo atm
-  //return false;
+  return false;
 
   const browserOS = useBrowserOS();
 

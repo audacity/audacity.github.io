@@ -51,17 +51,6 @@ function NavigationReact(props) {
     );
   }
 
-  function handleButtonClick() {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "CTA Button",
-        "audio.com CTA",
-        "audio.com navbar CTA",
-      ]);
-    }
-  }
-
   return (
     <nav className="border-b-2 z-3 filter bg-white bg-opacity-90 backdrop-blur-xl ">
       <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-4 md:px-6">
@@ -78,24 +67,10 @@ function NavigationReact(props) {
           </a>
         </div>
 
-        <div className="lg:flex-1 justify-center hidden gap-4 sm:flex">
+        <div className="lg:flex-1 justify-end hidden gap-4 sm:flex">
           {navLinks.map((navLink, index) => {
             return renderNavLink(navLink, index);
           })}
-        </div>
-
-        <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
-          <p className="text-base hover:text-blue-700"><a href="/cloud-saving">Audacity Cloud saving</a></p>
-          <a href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Nav_button" target="_blank">
-            <button
-              onClick={() => {
-                handleButtonClick();
-              }}
-              className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white"
-            >
-              Sign up
-            </button>
-          </a>
         </div>
 
         <button
