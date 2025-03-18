@@ -4,14 +4,8 @@ export function trackEvent(category, action, name) {
 
   // check id global variable _paq has been injected by Maotomo tracking script
   if (typeof _paq !== "undefined") {
-    console.log([
-      "trackEvent",
-      category,
-      `${action} (branch: ${branch})`,
-      name,
-    ]);
+    _paq.push(["trackEvent", category, `${action} (branch: ${branch})`, name]);
   } else {
-    console.log("Failed");
+    console.log("_paq undefined, could not send Matomo event")
   }
-  //_paq.push(["trackEvent", category, action, name, value]);
 }
