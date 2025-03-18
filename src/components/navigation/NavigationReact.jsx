@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import HamburgerMenu from "./HamburgerMenu";
 import AudacityLogo from "../../assets/img/Audacity_Logo.svg";
@@ -8,6 +8,16 @@ import "../../styles/fonts.css";
 function NavigationReact(props) {
   const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
+  const [abTestVariant, setAbTestVariant] = useState("main");
+
+  useEffect(() => {
+    const variant = process.env.NETLIFY_BRANCH || "main";
+    setAbTestVariant(variant);
+
+    console.log(`Current AB test variant: ${variant}`);
+  }, []);
+
+  console.log(abTestVariant);
 
   function getUrlPath(url) {
     const parts = url.split("/");
