@@ -18,17 +18,6 @@ function ShareYourSounds() {
     }
   }
 
-  function handleButtonClick() {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "CTA Button",
-        "audio.com CTA",
-        "audio.com block CTA",
-      ]);
-    }
-  }
-
   return (
     <section className="bg-[url('../assets/img/audiocom-background.webp')] bg-cover">
       <div className="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto py-12 grid grid-cols-12 gap-y-12 md:gap-12">

@@ -1,24 +1,21 @@
 import React from "react";
 import useBrowserOS from "../../hooks/useDetectOS";
+import { trackEvent } from "../../utils/matomo";
 
 function PlatformDownloadMuseHubButton(props) {
   const { museHubReleaseData } = props;
   const browserOS = useBrowserOS();
 
   function onClickButtonHandler() {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Download Button",
-        "Download Muse Hub",
-        `Download Muse Hub button ${browserOS}`,
-      ]);
-    }
+    trackEvent([
+      "Download Button",
+      "Download Muse Hub",
+      `Download Muse Hub button ${browserOS}`,
+    ]);
 
     setTimeout(() => {
       window.location.href = "/post-download";
     }, 2000);
-
   }
 
   return (

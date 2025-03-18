@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { trackEvent } from "../../utils/matomo";
 
 function FeaturedVideo(props) {
   const [isClicked, setIsClicked] = useState(false);
@@ -15,19 +16,10 @@ function FeaturedVideo(props) {
 
   function handleVideoClick() {
     setIsClicked(true);
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Video embed",
-        "Watch release video",
-        title,
-      ]);
-    }
+    trackEvent(["Video embed", "Watch release video", title]);
   }
   function handleCTAClick() {
-    if (typeof _paq !== "undefined") {
-      _paq.push(["trackEvent", "Promo CTA", "Promo CTA video button", ctaText]);
-    }
+    trackEvent(["Promo CTA", "Promo CTA video button", ctaText]);
   }
 
   return (

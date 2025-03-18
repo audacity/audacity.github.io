@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import HamburgerMenu from "./HamburgerMenu";
 import AudacityLogo from "../../assets/img/Audacity_Logo.svg";
@@ -8,17 +8,6 @@ import "../../styles/fonts.css";
 function NavigationReact(props) {
   const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
-  const [abTestVariant, setAbTestVariant] = useState("main"); // Default to main
-
-  // Use the data attribute from the body element
-  useEffect(() => {
-    const variant = document.body.getAttribute('data-branch') || "main";
-    setAbTestVariant(variant);
-    
-    console.log(`AB test variant from body attribute: ${variant}`);
-  }, []);
-
-  console.log(abTestVariant);
 
   function getUrlPath(url) {
     const parts = url.split("/");

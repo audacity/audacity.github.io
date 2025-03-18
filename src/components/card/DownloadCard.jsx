@@ -1,17 +1,15 @@
 import React from "react";
+import { trackEvent } from "../../utils/matomo";
 
 function DownloadCard(props) {
   const { OS, title, downloadURL, downloadType, checksum } = props;
 
   function handleDownloadButtonClick() {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Download Button",
-        "Download Audacity",
-        `${OS + " " + title + " " + downloadType}`,
-      ]);
-    }
+    trackEvent([
+      "Download Button",
+      "Download Audacity",
+      `${OS + " " + title + " " + downloadType}`,
+    ]);
 
     setTimeout(() => {
       window.location.href = "/post-download";

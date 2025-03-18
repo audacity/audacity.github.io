@@ -12,12 +12,11 @@ function DownloadButton() {
   function handleButtonClick(href) {
     if (href !== "/download") {
       if (typeof _paq !== "undefined") {
-        _paq.push([
-          "trackEvent",
+        trackEvent(
           "Download Button",
-          "Download Audacity",
-          `Download Audacity button ${platform.os.family}`,
-        ]);
+          "Download Muse Hub",
+          `Download Muse Hub button ${platform.os.family}`
+        );
       }
     }
 
@@ -31,7 +30,6 @@ function DownloadButton() {
       <a
         onClick={() => handleButtonClick(href)}
         className="text-white font-semibold hover:underline"
-        href={href}
       >
         Download without Muse Hub
       </a>

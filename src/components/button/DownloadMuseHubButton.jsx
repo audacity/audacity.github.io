@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import platform from "platform";
 import { audacityReleases } from "../../assets/js/releaseData";
 import { museHubReleases } from "../../assets/js/releaseData";
+import { trackEvent } from "../../utils/matomo";
 
 function DownloadMuseHubButton() {
   const [browserOS, setBrowserOS] = useState("");
@@ -10,28 +11,29 @@ function DownloadMuseHubButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
-  const isLinux = browserOS === "Linux" || browserOS === "Ubuntu" || browserOS === "Debian" || browserOS === "Red Hat" || browserOS === "SuSE";
+  const isLinux = 
+    browserOS === "Linux" || 
+    browserOS === "Ubuntu" || 
+    browserOS === "Debian" || 
+    browserOS === "Red Hat" || 
+    browserOS === "SuSE";
 
   function handleButtonClick(href) {
     if (
       href !== "https://www.musehub.com/" &&
       href !== audacityReleases.lin[0].browser_download_url
     ) {
-      if (typeof _paq !== "undefined") {
-        _paq.push([
-          "trackEvent",
-          "Download Button",
-          "Download Muse Hub",
-          `Download Muse Hub button ${browserOS}`,
-        ]);
-      }
+      trackEvent(
+        "Download Button",
+        "Download Muse Hub",
+        `Download Muse Hub button ${browserOS}`
+      );
     } else if (href === audacityReleases.lin[0].browser_download_url) {
-      _paq.push([
-        "trackEvent",
+      trackEvent(
         "Download Button",
         "Download Audacity",
-        `Download Audacity button ${browserOS}`,
-      ]);
+        `Download Audacity button ${browserOS}`
+      );
     }
 
     setTimeout(() => {
@@ -44,13 +46,14 @@ function DownloadMuseHubButton() {
       <a
         onClick={() => handleButtonClick(href)}
         className="flex py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
-        href={href}
       >
         <span className="icon icon-import"></span>
         <p>
-        <span className="font-semibold">
-          Download Audacity {audacityReleases.version}</span><br/>
-        {false && <span className="font-light text-s">via MuseHub</span>}
+          <span className="font-semibold">
+            Download Audacity {audacityReleases.version}
+          </span>
+          <br />
+          {false && <span className="font-light text-s">via MuseHub</span>}
         </p>
       </a>
     );
