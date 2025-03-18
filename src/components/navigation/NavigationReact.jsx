@@ -14,6 +14,7 @@ function NavigationReact(props) {
     const variant = process.env.NETLIFY_BRANCH || "main";
     setAbTestVariant(variant);
 
+    console.log(process.env.NETLIFY_BRANCH);
     console.log(`Current AB test variant: ${variant}`);
   }, []);
 
