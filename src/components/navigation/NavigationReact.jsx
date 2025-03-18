@@ -9,9 +9,6 @@ function NavigationReact(props) {
   const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
 
-  const branch = import.meta.env.BRANCH;
-  console.log(branch);
-
   function getUrlPath(url) {
     const parts = url.split("/");
     return "/" + parts[parts.length - 1];
