@@ -16,6 +16,9 @@ export default defineConfig({
     applyBaseStyles: false
   }), react(), sitemap(), compressor()],
   vite: {
+    define: {
+      "import.meta.env.BRANCH": JSON.stringify(process.env.BRANCH),
+    },
     ssr: {
       noExternal: ["@datapunt/matomo-tracker-react", "@datapunt/matomo-tracker-js"]
     }

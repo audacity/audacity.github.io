@@ -9,6 +9,9 @@ function NavigationReact(props) {
   const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
 
+  const branch = import.meta.env.BRANCH;
+  console.log(branch);
+
   function getUrlPath(url) {
     const parts = url.split("/");
     return "/" + parts[parts.length - 1];
@@ -85,8 +88,13 @@ function NavigationReact(props) {
         </div>
 
         <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
-          <p className="text-base hover:text-blue-700"><a href="/cloud-saving">Audacity Cloud saving</a></p>
-          <a href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Nav_button" target="_blank">
+          <p className="text-base hover:text-blue-700">
+            <a href="/cloud-saving">Audacity Cloud saving</a>
+          </p>
+          <a
+            href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Nav_button"
+            target="_blank"
+          >
             <button
               onClick={() => {
                 handleButtonClick();
