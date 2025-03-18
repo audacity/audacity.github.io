@@ -1,6 +1,7 @@
 import { museHubReleases } from "../../assets/js/releaseData";
 import "../../styles/icons.css";
 import useBrowserOS from "../../hooks/useDetectOS";
+import { trackEvent } from "../../utils/matomo";
 
 function PromoBanner() {
   // no promo atm
@@ -20,14 +21,7 @@ function PromoBanner() {
   const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   function handleButtonClick() {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Promo CTA",
-        "Promo CTA button",
-        "Ace Studio Muse Hub",
-      ]);
-    }
+    trackEvent("Promo CTA", "Promo CTA button", "Ace Studio Muse Hub");
   }
 
   return (
@@ -39,7 +33,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-            Ace Studio - The World's No.1 AI Singing Voice Generator  
+              Ace Studio - The World's No.1 AI Singing Voice Generator
             </p>
           </div>
 

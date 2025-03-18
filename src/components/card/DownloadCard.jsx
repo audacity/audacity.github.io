@@ -5,11 +5,11 @@ function DownloadCard(props) {
   const { OS, title, downloadURL, downloadType, checksum } = props;
 
   function handleDownloadButtonClick() {
-    trackEvent([
+    trackEvent(
       "Download Button",
       "Download Audacity",
       `${OS + " " + title + " " + downloadType}`,
-    ]);
+    );
 
     setTimeout(() => {
       window.location.href = "/post-download";

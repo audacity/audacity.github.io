@@ -1,19 +1,13 @@
 import React from "react";
 import "../../styles/icons.css";
+import { trackEvent } from "../../utils/matomo";
 
 function BetaBanner(url) {
   //no beta at the moment
-  return null; 
+  return null;
 
   function handleButtonClick() {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Beta CTA",
-        "Beta CTA button",
-        "Go to Beta site",
-      ]);
-    }
+    trackEvent("Beta CTA", "Beta CTA button", "Go to Beta site");
   }
 
   if (url.url.endsWith("/beta/") || url.url.endsWith("/beta")) {
@@ -35,7 +29,9 @@ function BetaBanner(url) {
         <a
           href="/beta"
           id="join-button"
-          onClick={() => {handleButtonClick();}}
+          onClick={() => {
+            handleButtonClick();
+          }}
           className="flex text-xl h-12 my-4 justify-center items-center px-4 border-2 border-gray-900 rounded-md hover:bg-gray-900 hover:text-white"
         >
           Join the beta

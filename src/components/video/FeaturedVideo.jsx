@@ -16,10 +16,10 @@ function FeaturedVideo(props) {
 
   function handleVideoClick() {
     setIsClicked(true);
-    trackEvent(["Video embed", "Watch release video", title]);
+    trackEvent("Video embed", "Watch release video", title);
   }
   function handleCTAClick() {
-    trackEvent(["Promo CTA", "Promo CTA video button", ctaText]);
+    trackEvent("Promo CTA", "Promo CTA video button", ctaText);
   }
 
   return (

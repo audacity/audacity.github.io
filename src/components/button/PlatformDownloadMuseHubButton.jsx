@@ -7,11 +7,11 @@ function PlatformDownloadMuseHubButton(props) {
   const browserOS = useBrowserOS();
 
   function onClickButtonHandler() {
-    trackEvent([
+    trackEvent(
       "Download Button",
       "Download Muse Hub",
       `Download Muse Hub button ${browserOS}`,
-    ]);
+    );
 
     setTimeout(() => {
       window.location.href = "/post-download";
