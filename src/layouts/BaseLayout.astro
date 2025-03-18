@@ -20,7 +20,6 @@ const {
 } = Astro.props;
 
 const isPostDownloadPage = Astro.request.url.includes("/post-download");
-
 ---
 
 <!doctype html>
@@ -44,15 +43,15 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     <script src="../assets/js/matomoTracking.js"></script>
   </head>
   <main class="flex flex-col h-screen">
-    <body>
+    <body data-branch={import.meta.env.NETLIFY_CONTEXT || process.env.CONTEXT || 'main'}>
       <a class="skip-to-content" href="#main" aria-label="Skip to content"
         >Skip to content</a
       >
       <header class="z-50 sticky left-0 right-0 top-0">
         <NavigationReact client:load currentURL={Astro.request.url} />
-        <BetaBanner client:load url={Astro.request.url}/>
-        <SurveyBanner client:load url={Astro.request.url}/>
-        {!isPostDownloadPage && <PromoBanner client:load/> }
+        <BetaBanner client:load url={Astro.request.url} />
+        <SurveyBanner client:load url={Astro.request.url} />
+        {!isPostDownloadPage && <PromoBanner client:load />}
       </header>
 
       <div class="flex-1">

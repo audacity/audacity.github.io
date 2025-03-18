@@ -8,14 +8,14 @@ import "../../styles/fonts.css";
 function NavigationReact(props) {
   const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
-  const [abTestVariant, setAbTestVariant] = useState("main");
+  const [abTestVariant, setAbTestVariant] = useState("main"); // Default to main
 
+  // Use the data attribute from the body element
   useEffect(() => {
-    const variant = process.env.NETLIFY_BRANCH || "main";
+    const variant = document.body.getAttribute('data-branch') || "main";
     setAbTestVariant(variant);
-
-    console.log(process.env.NETLIFY_BRANCH);
-    console.log(`Current AB test variant: ${variant}`);
+    
+    console.log(`AB test variant from body attribute: ${variant}`);
   }, []);
 
   console.log(abTestVariant);
