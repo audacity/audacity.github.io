@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
 import { audacityReleases } from "../../assets/js/releaseData";
+import { trackEvent } from "../../utils/matomo";
 
 function DownloadButton() {
   const [browserOS, setBrowserOS] = useState("");
@@ -11,13 +12,11 @@ function DownloadButton() {
 
   function handleButtonClick(href) {
     if (href !== "/download") {
-      if (typeof _paq !== "undefined") {
         trackEvent(
           "Download Button",
           "Download Muse Hub",
           `Download Muse Hub button ${platform.os.family}`
         );
-      }
     }
 
     setTimeout(() => {
@@ -30,6 +29,7 @@ function DownloadButton() {
       <a
         onClick={() => handleButtonClick(href)}
         className="text-white font-semibold hover:underline"
+        href={href}
       >
         Download without Muse Hub
       </a>
