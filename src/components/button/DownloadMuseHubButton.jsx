@@ -11,11 +11,11 @@ function DownloadMuseHubButton() {
     setBrowserOS(platform.os.family);
   }, []);
 
-  const isLinux = 
-    browserOS === "Linux" || 
-    browserOS === "Ubuntu" || 
-    browserOS === "Debian" || 
-    browserOS === "Red Hat" || 
+  const isLinux =
+    browserOS === "Linux" ||
+    browserOS === "Ubuntu" ||
+    browserOS === "Debian" ||
+    browserOS === "Red Hat" ||
     browserOS === "SuSE";
 
   function handleButtonClick(href) {
