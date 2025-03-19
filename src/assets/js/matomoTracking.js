@@ -4,9 +4,11 @@ const getCookie = (name) => {
   if (parts.length === 2) return parts.pop().split(";").shift();
 };
 
+const branch = import.meta.env.BRANCH || "unknown-branch";
+
 var _paq = (window._paq = window._paq || []);
 /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-_paq.push(['setCustomDimension', 1, import.meta.env.BRANCH]); // ab-branch
+_paq.push(['setCustomDimension', 1, branch]); // ab-branch
 _paq.push(["trackPageView"]);
 _paq.push(["enableLinkTracking"]);
 
