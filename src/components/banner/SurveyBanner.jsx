@@ -4,7 +4,7 @@ import { trackEvent } from "../../utils/matomo";
 
 function SurveyBanner(url) {
   //no survey going on at the moment
-  return null;
+  //return null;
 
   function handleButtonClick() {
     trackEvent("Survey CTA", "Survey CTA button", "Go to Survey");
@@ -13,17 +13,16 @@ function SurveyBanner(url) {
   return (
     <div
       id="survey-banner"
-      className="flex items-center justify-center min-h-24 bg-orange-400 gap-4 flex-wrap"
+      className="flex items-center justify-center min-h-24 bg-yellow-300 gap-4 flex-wrap"
     >
       <div className="flex gap-2 flex-wrap my-4 mx-2">
         <p className="text-lg font-bold text-gray-900">3 minute survey:</p>
         <p className="text-lg text-gray-900">
-          Help us understand what sort of plugins and features you'd be
-          interested in next.
+          Help us understand what features you want in Audacity and Audio.com next
         </p>
       </div>
       <a
-        href="https://po415hli6k2.typeform.com/hub-audacity"
+        href="https://docs.google.com/forms/d/e/1FAIpQLScxH_f64JPCWt5nwqa8MTPXfmi453mqYwy1xZFPF_mx9mYkNw/viewform"
         id="survey-button"
         onClick={() => {
           handleButtonClick();
