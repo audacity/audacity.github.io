@@ -14,8 +14,8 @@ function DownloadButton() {
     if (href !== "/download") {
         trackEvent(
           "Download Button",
-          "Download Muse Hub",
-          `Download Muse Hub button ${platform.os.family}`
+          "Download Audacity",
+          `Download Audacity button ${platform.os.family}`
         );
     }
 
