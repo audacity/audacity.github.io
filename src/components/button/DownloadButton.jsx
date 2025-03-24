@@ -28,10 +28,15 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="text-white font-semibold hover:underline"
+        className="flex py-3 px-4 gap-3 rounded-md items-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
         href={href}
       >
-        Download without Muse Hub
+        <div className="flex items-center gap-4">
+        <span className="icon icon-import"></span>
+        <p className="">
+        <span className="font-semibold">Download Audacity {audacityReleases.version}</span><br />
+        <span className="font-light">Installs with no extras</span></p>
+        </div>
       </a>
     );
   }
