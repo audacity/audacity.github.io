@@ -22,11 +22,15 @@ import "../../styles/fonts.css";
         <li>
           <a
             href="https://support.audacityteam.org"
-            aria-label="External link to Help">Help</a>
+            aria-label="External link to Help">Help</a
+          >
         </li>
         <li><a href="/FAQ" aria-label="Link to FAQ">FAQ</a></li>
         <li><a href="/blog" aria-label="Link to Blog">Blog</a></li>
-        <li><a href="/cloud-saving" aria-label="Link to Cloud Saving">Cloud Saving</a></li>
+        <li>
+          <a href="/cloud-saving" aria-label="Link to Cloud Saving"
+            >Cloud Saving</a>
+        </li>
         <li>
           <a
             href="https://forum.audacityteam.org/"
@@ -45,7 +49,8 @@ import "../../styles/fonts.css";
           <a
             href="https://audio.com/"
             aria-label="External link to Audio.com"
-            target="_blank">Audio.com</a>
+            target="_blank">Audio.com</a
+          >
         </li>
       </ul>
     </div>
@@ -60,9 +65,18 @@ import "../../styles/fonts.css";
         </li>
         <li><a href="/download/mac" aria-label="Link to macOS">macOS</a></li>
         <li><a href="/download/linux" aria-label="Link to Linux">Linux</a></li>
-        <li id="beta-link"><a href="/beta" aria-label="Link to beta page">Beta</a></li>
-        <li><a href="https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub" aia-label="External link to MuseHub">MuseHub</a></li>
-        <li><a href="/download/openvino" aria-label="Link to AI plugins">AI plugins</a></li>
+        <li id="beta-link">
+          <a href="/beta" aria-label="Link to beta page">Beta</a>
+        </li>
+        <li>
+          <a
+            href="https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub"
+            aia-label="External link to MuseHub">MuseHub</a>
+        </li>
+        <li>
+          <a href="/download/openvino" aria-label="Link to AI plugins"
+            >AI plugins</a>
+        </li>
       </ul>
     </div>
 
@@ -75,25 +89,29 @@ import "../../styles/fonts.css";
           <a
             href="https://www.facebook.com/Audacity/"
             aria-label="External link to Facebook"
-            target="_blank">Facebook</a>
+            target="_blank">Facebook</a
+          >
         </li>
         <li>
           <a
             href="https://github.com/audacity"
             aria-label="External link to github"
-            target="_blank">Github</a>
+            target="_blank">Github</a
+          >
         </li>
         <li>
           <a
             href="https://discord.gg/audacity"
             aria-label="External link to discord"
-            target="_blank">Discord</a>
+            target="_blank">Discord</a
+          >
         </li>
         <li>
           <a
             href="https://www.youtube.com/c/audacity"
             aria-label="External link to Youtube"
-            target="_blank">YouTube</a>
+            target="_blank">YouTube</a
+          >
         </li>
       </ul>
     </div>
@@ -101,20 +119,24 @@ import "../../styles/fonts.css";
     <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
       <div class="border-t-[1px] border-gray-300 pt-4">
         <p class="copyright text-center">
-          Copyright &copy; <span id="copyright"></span> | Muse Group &
-          contributors. Website content licensed <a 
-            href="https://creativecommons.org/licenses/by/4.0/" 
-            class="underline hover:text-blue-700" 
+          Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
+          Website content licensed <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            class="underline hover:text-blue-700"
             rel="license"
             target="_blank"
-            aria-label="CC-by 4.0">CC-by 4.0</a>. 
-          Audacity® software is licensed under the terms of the
-          GNU General Public License, Version 3. Further information about the
-          software license, distribution and acceptable use can be found <a
+            aria-label="CC-by 4.0">CC-by 4.0</a
+          >. Audacity® software is licensed under the terms of the GNU General
+          Public License, Version 3. Further information about the software
+          license, distribution and acceptable use can be found <a
             class="underline hover:text-blue-700"
             href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
             target="_blank"
             aria-label="in the source code">in the source code</a
+          >. This site is hosted on <a
+            href="https://www.netlify.com/"
+            target="_blank"
+            class="underline hover:text-blue-700">Netlify</a
           >.
         </p>
       </div>
@@ -124,8 +146,5 @@ import "../../styles/fonts.css";
 
 <script>
   const elem = document.querySelector("#copyright");
-  if (elem)
-    elem.textContent = new Date()
-    .getFullYear()
-    .toString();
+  if (elem) elem.textContent = new Date().getFullYear().toString();
 </script>
