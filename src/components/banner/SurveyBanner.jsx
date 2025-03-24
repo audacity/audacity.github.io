@@ -4,7 +4,7 @@ import { trackEvent } from "../../utils/matomo";
 
 function SurveyBanner(url) {
   //no survey going on at the moment
-  //return null;
+  return null;
 
   function handleButtonClick() {
     trackEvent("Survey CTA", "Survey CTA button", "Go to Survey");
