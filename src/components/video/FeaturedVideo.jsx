@@ -25,14 +25,14 @@ function FeaturedVideo(props) {
   return (
     <div className="flex flex-col gap-2 lg:gap-4 ">
       <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
-        <h3 className="text-white content-center">{title}</h3>
+        <h3 className="text-slate-900 content-center">{title}</h3>
         {CTA && (
           <a
             className="py-3 px-4 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
             href={ctaURL}
             onClick={() => handleCTAClick()}
           >
-            <p className="leading-none font-semibold">{ctaText}</p>
+            <p className="text-slate-900 leading-none font-semibold">{ctaText}</p>
           </a>
         )}
       </div>
@@ -49,14 +49,14 @@ function FeaturedVideo(props) {
       ) : (
         <img
           tabIndex="0"
-          src={placeholderImage.src}
+          src={placeholderImage}
           alt="YouTube thumbnail"
           className="w-full aspect-video rounded-md shadow-xl cursor-pointer"
           onClick={() => handleVideoClick()}
           onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
         />
       )}
-      <p className="text-white">{label}</p>
+      <p className="text-slate-900">{label}</p>
     </div>
   );
 }

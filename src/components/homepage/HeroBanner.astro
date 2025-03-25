@@ -1,7 +1,8 @@
 ---
 import DownloadButton from "../button/DownloadButton";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 ---
 
 <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
@@ -29,9 +30,11 @@ import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
     <div
       class="col-span-12 md:col-start-7 md:col-span-7 flex items-center justify-center mx-4"
     >
-      <img
+      <Image
+        src={AudacityMockUp}
         alt="A laptop showing the Audacity application"
-        src={AudacityMockUp.src}
+        width={960}
+        quality={80}
       />
     </div>
   </div>

@@ -1,27 +1,44 @@
 ---
+import { getImage } from "astro:assets";
 import ReleaseVideoPlaceholder from "../../assets/img/audacity-placeholder.webp";
-import promoPlaceholder from "../../assets/img/promo/ace-placeholder.webp";
+import PromoVideoPlaceholder from "../../assets/img/promo/ace-placeholder.webp";
 import FeaturedVideo from "../video/FeaturedVideo";
+
+const releaseVideoPlaceholderImage = await getImage({
+  src: ReleaseVideoPlaceholder,
+  format: 'webp', // or whatever format you prefer
+  width: 1408,  // specify dimensions as needed
+  quality: 80,
+});
+
+const featuredVideoPlaceholderImage = await getImage({
+  src: PromoVideoPlaceholder,
+  format: 'webp', // or whatever format you prefer
+  width: 1408,  // specify dimensions as needed
+  quality: 80,
+});
 
 const releaseVideo = {
   title:"Our latest release",
   label:"Master channel, new realtime effects & more!",
-  placeholderImage: ReleaseVideoPlaceholder,
+  placeholderImage: releaseVideoPlaceholderImage.src,
   videoURL:"https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1"
 }
 
 const promoVideo = {
   title:"ACE Studio showcase",
   label:"Ad: Turn your lyrics into song with ACE Studio, the AI singing voice generator.",
-  placeholderImage: promoPlaceholder,
+  placeholderImage: featuredVideoPlaceholderImage.src,
   videoURL:"https://www.youtube-nocookie.com/embed/QTlB5UR-IEE?autoplay=1",
   CTA: true, 
   ctaText: "Try for free",
   ctaURL:"https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio"
 }
+
+
 ---
 
-<section class="bg-gray-900">
+<section class="bg-slate-100">
   <div
     class="grid md:grid-cols-2 max-w-screen-2xl px-6 sm:px-12 mx-auto py-8 gap-8"
   >
