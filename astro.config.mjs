@@ -30,5 +30,8 @@ export default defineConfig({
         "@datapunt/matomo-tracker-js",
       ],
     },
+    build: {
+      assets: 'assets', // This is the default, but good to confirm
+    },
   },
 });

@@ -2,7 +2,6 @@
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
 import CookieConsent from "../components/banner/CookieConsent";
-import "../styles/input.css";
 import BetaBanner from "../components/banner/BetaBanner";
 import SurveyBanner from "../components/banner/SurveyBanner";
 import PromoBanner from "../components/banner/PromoBanner";
@@ -28,7 +27,9 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <link href="/output.css" rel="stylesheet" />
+    <style is:global>
+      @import '../styles/input.css';
+    </style>
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="title" content={title} />
@@ -42,26 +43,26 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     <title>{title}</title>
     <script src="../assets/js/matomoTracking.js"></script>
   </head>
-  <main class="flex flex-col h-screen">
-    <body data-branch={import.meta.env.NETLIFY_CONTEXT || process.env.CONTEXT || 'main'}>
-      <a class="skip-to-content" href="#main" aria-label="Skip to content"
-        >Skip to content</a
-      >
-      <header class="z-50 sticky left-0 right-0 top-0">
-        <NavigationReact client:load currentURL={Astro.request.url} />
-        <BetaBanner client:load url={Astro.request.url} />
-        <SurveyBanner client:load url={Astro.request.url} />
-        {false && <PromoBanner client:load />}
-      </header>
-
-      <div class="flex-1">
-        <slot />
-      </div>
+  <body data-branch={import.meta.env.NETLIFY_CONTEXT || process.env.CONTEXT || 'main'}>
+    <a class="skip-to-content" href="#main" aria-label="Skip to content"
+    >Skip to content</a
+    >
+    <header class="z-50 sticky left-0 right-0 top-0">
+      <NavigationReact client:load currentURL={Astro.request.url} />
+      <BetaBanner client:load url={Astro.request.url} />
+      <SurveyBanner client:load url={Astro.request.url} />
+      {false && <PromoBanner client:load />}
+    </header>
+    
+    <main class="flex flex-col">
+    <div class="flex-1">
+      <slot />
+    </div>
+    </main>
       <Footer />
       <CookieConsent client:load />
+      <script src="../assets/js/cookieConsent.js"></script>
     </body>
-    <script src="../assets/js/cookieConsent.js"></script>
-  </main>
 
 
 </html>
