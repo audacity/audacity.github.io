@@ -26,7 +26,7 @@ function FeaturedVideo(props) {
   }
 
   return (
-    <div className="flex flex-col gap-2 lg:gap-4 ">
+    <div className="flex flex-col gap-2 lg:gap-4 w-full">
       {title && (
         <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
           <h3 className={`content-center ${textColor}`}>{title}</h3>
