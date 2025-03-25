@@ -6,15 +6,15 @@ import FeaturedVideo from "../video/FeaturedVideo";
 
 const releaseVideoPlaceholderImage = await getImage({
   src: ReleaseVideoPlaceholder,
-  format: 'webp', // or whatever format you prefer
-  width: 1408,  // specify dimensions as needed
+  format: 'webp',
+  width: 624,
   quality: 80,
 });
 
 const featuredVideoPlaceholderImage = await getImage({
   src: PromoVideoPlaceholder,
-  format: 'webp', // or whatever format you prefer
-  width: 1408,  // specify dimensions as needed
+  format: 'webp',
+  width: 624,
   quality: 80,
 });
 
@@ -22,20 +22,20 @@ const releaseVideo = {
   title:"Our latest release",
   label:"Master channel, new realtime effects & more!",
   placeholderImage: releaseVideoPlaceholderImage.src,
-  videoURL:"https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1"
+  imageAltText: "Video thumbnial: Audacity 3.6 - New effects",
+  videoURL:"https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1",
 }
 
 const promoVideo = {
   title:"ACE Studio showcase",
   label:"Ad: Turn your lyrics into song with ACE Studio, the AI singing voice generator.",
   placeholderImage: featuredVideoPlaceholderImage.src,
+  imageAltText: "Video thumbnail: What is ACE studio?",
   videoURL:"https://www.youtube-nocookie.com/embed/QTlB5UR-IEE?autoplay=1",
   CTA: true, 
   ctaText: "Try for free",
   ctaURL:"https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio"
 }
-
-
 ---
 
 <section class="bg-slate-100">
@@ -47,17 +47,21 @@ const promoVideo = {
       title={releaseVideo.title}
       label={releaseVideo.label}
       placeholderImage={releaseVideo.placeholderImage}
+      imageAltText={releaseVideo.imageAltText}
       videoURL={releaseVideo.videoURL}
+      matomoEventName={releaseVideo.title}
     />
     <FeaturedVideo
       client:load
       title={promoVideo.title}
       label={promoVideo.label}
       placeholderImage={promoVideo.placeholderImage}
+      imageAltText={promoVideo.imageAltText}
       videoURL={promoVideo.videoURL}
       CTA={promoVideo.CTA}
       ctaText={promoVideo.ctaText}
       ctaURL={promoVideo.ctaURL}
+      matomoEventName={promoVideo.title}
     />
   </div>
 </section>

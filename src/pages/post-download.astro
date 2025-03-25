@@ -3,13 +3,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import JoinAudioDotComButton from "../components/button/JoinAudioDotComButton";
 import "../styles/icons.css";
 import logo from "../assets/img/promo/audacity-audiocom-promo.png";
+import { Image } from "astro:assets";
 ---
 
 <BaseLayout title="Audacity Cloud Saving Platform" description="Sync & save projects in Audacity Cloud. Secure, automatic, and always accessible." index="all">
 
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
     <div class="flex flex-col items-center justify-center" style="height: 90vh;">
-      <img src={logo.src} alt="Audacity logo and audio.com logo overlaying in a playful manner" width="300px" height="165px"/>
+      <Image src={logo} alt="Audacity logo and audio.com logo overlaying in a playful manner" width=300 quality=80/>
       <div class="text-center">
         <h1 class="font-bold">
           Thank you for downloading Audacity!
