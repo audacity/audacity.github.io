@@ -4,119 +4,37 @@ import ReleaseVideoPlaceholder from "../../assets/img/audacity-placeholder.webp"
 import PromoVideoPlaceholder from "../../assets/img/promo/ace-placeholder.webp";
 import FeaturedVideo from "../video/FeaturedVideo";
 
-// Generate WebP format thumbnails
 const releaseVideoPlaceholderImage = await getImage({
   src: ReleaseVideoPlaceholder,
   format: 'webp',
-  width: 732,
-  height: 412, // 16:9 aspect ratio
-  quality: 75,
-});
-
-const releaseVideoPlaceholderImageMobile = await getImage({
-  src: ReleaseVideoPlaceholder,
-  format: 'webp',
-  width: 400,
-  height: 225, // Maintaining the same aspect ratio
-  quality: 75,
+  width: 624,
+  quality: 80,
 });
 
 const featuredVideoPlaceholderImage = await getImage({
   src: PromoVideoPlaceholder,
   format: 'webp',
-  width: 732,
-  height: 412,
-  quality: 75,
-});
-
-const featuredVideoPlaceholderImageMobile = await getImage({
-  src: PromoVideoPlaceholder,
-  format: 'webp',
-  width: 400,
-  height: 225,
-  quality: 75,
-});
-
-// Generate AVIF format thumbnails (superior compression)
-const releaseVideoPlaceholderImageAvif = await getImage({
-  src: ReleaseVideoPlaceholder,
-  format: 'avif',
-  width: 732,
-  height: 412,
-  quality: 70,
-});
-
-const releaseVideoPlaceholderImageMobileAvif = await getImage({
-  src: ReleaseVideoPlaceholder,
-  format: 'avif',
-  width: 400,
-  height: 225,
-  quality: 70,
-});
-
-const featuredVideoPlaceholderImageAvif = await getImage({
-  src: PromoVideoPlaceholder,
-  format: 'avif',
-  width: 732,
-  height: 412,
-  quality: 70,
-});
-
-const featuredVideoPlaceholderImageMobileAvif = await getImage({
-  src: PromoVideoPlaceholder,
-  format: 'avif',
-  width: 400,
-  height: 225,
-  quality: 70,
+  width: 624,
+  quality: 80,
 });
 
 const releaseVideo = {
-  title: "Our latest release",
-  label: "Master channel, new realtime effects & more!",
-  placeholderImages: {
-    webp: {
-      default: releaseVideoPlaceholderImage.src,
-      mobile: releaseVideoPlaceholderImageMobile.src,
-    },
-    avif: {
-      default: releaseVideoPlaceholderImageAvif.src,
-      mobile: releaseVideoPlaceholderImageMobileAvif.src,
-    }
-  },
-  imageAltText: "Video thumbnail: Audacity 3.6 - New effects",
-  videoURL: "https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1",
-  dimensions: {
-    width: 732,
-    height: 412,
-    mobileWidth: 400,
-    mobileHeight: 225
-  }
+  title:"Our latest release",
+  label:"Master channel, new realtime effects & more!",
+  placeholderImage: releaseVideoPlaceholderImage.src,
+  imageAltText: "Video thumbnial: Audacity 3.6 - New effects",
+  videoURL:"https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1",
 }
 
 const promoVideo = {
-  title: "ACE Studio showcase",
-  label: "Ad: Turn your lyrics into song with ACE Studio, the AI singing voice generator.",
-  placeholderImages: {
-    webp: {
-      default: featuredVideoPlaceholderImage.src,
-      mobile: featuredVideoPlaceholderImageMobile.src,
-    },
-    avif: {
-      default: featuredVideoPlaceholderImageAvif.src,
-      mobile: featuredVideoPlaceholderImageMobileAvif.src,
-    }
-  },
+  title:"ACE Studio showcase",
+  label:"Ad: Turn your lyrics into song with ACE Studio, the AI singing voice generator.",
+  placeholderImage: featuredVideoPlaceholderImage.src,
   imageAltText: "Video thumbnail: What is ACE studio?",
-  videoURL: "https://www.youtube-nocookie.com/embed/QTlB5UR-IEE?autoplay=1",
-  dimensions: {
-    width: 732,
-    height: 412,
-    mobileWidth: 400,
-    mobileHeight: 225
-  },
-  CTA: true,
+  videoURL:"https://www.youtube-nocookie.com/embed/QTlB5UR-IEE?autoplay=1",
+  CTA: true, 
   ctaText: "Try for free",
-  ctaURL: "https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio"
+  ctaURL:"https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio"
 }
 ---
 
@@ -128,20 +46,18 @@ const promoVideo = {
       client:load
       title={releaseVideo.title}
       label={releaseVideo.label}
-      placeholderImages={releaseVideo.placeholderImages}
+      placeholderImage={releaseVideo.placeholderImage}
       imageAltText={releaseVideo.imageAltText}
       videoURL={releaseVideo.videoURL}
-      dimensions={releaseVideo.dimensions}
       matomoEventName={releaseVideo.title}
     />
     <FeaturedVideo
       client:load
       title={promoVideo.title}
       label={promoVideo.label}
-      placeholderImages={promoVideo.placeholderImages}
+      placeholderImage={promoVideo.placeholderImage}
       imageAltText={promoVideo.imageAltText}
       videoURL={promoVideo.videoURL}
-      dimensions={promoVideo.dimensions}
       CTA={promoVideo.CTA}
       ctaText={promoVideo.ctaText}
       ctaURL={promoVideo.ctaURL}
