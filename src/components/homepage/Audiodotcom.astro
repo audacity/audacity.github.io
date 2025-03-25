@@ -1,0 +1,53 @@
+---
+import { getImage, Image } from "astro:assets";
+import FeaturedVideo from "../video/FeaturedVideo";
+import JoinAudioDotComButton from "../button/JoinAudioDotComButton";
+import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
+import VideoPlaceholder from '../../assets/img/audiocom-placeholder.webp'
+
+const releaseVideoPlaceholderImage = await getImage({
+  src: VideoPlaceholder,
+  format: "webp",
+  width: 1408,
+  quality: 80,
+});
+
+const releaseVideo = {
+  title: "Introducing Audio.com",
+  placeholderImage: releaseVideoPlaceholderImage.src,
+  videoURL: "https://www.youtube-nocookie.com/embed/ZDnQgaCoppo?autoplay=1",
+  imageAltText: "Video thumbnail: 15 reasons why you should use Audio.com"
+};
+---
+
+<section class="bg-[url('../assets/img/audiocom-background.webp')] bg-cover">
+  <div
+    class="grid md:grid-cols-2 max-w-screen-xl px-6 sm:px-12 py-12 gap-8 mx-auto"
+  >
+    <div class="flex lg:items-center col-span-2 md:col-span-1 md:col-start-1 row-start-2 md:row-start-1">
+      <FeaturedVideo
+        client:load
+        placeholderImage={releaseVideo.placeholderImage}
+        imageAltText={releaseVideo.imageAltText}
+        videoURL={releaseVideo.videoURL}
+        textColor="text-slate-50"
+        matomoEventName={releaseVideo.title}
+      />
+    </div>
+    <div class="col-span-2 md:col-span-1 md:col-start-2 md:row-start-1  flex flex-col gap-8 lg:py-12">
+      <Image src={AudioDotComLogo} class="w-20" alt="audio.com" />
+      <div>
+        <h2 class="text-white">Level up your Audacity</h2>
+        <p class="text-gray-300 mt-4">
+          Audio.com, the online companion to Audacity, lets you collaborate on
+          projects, create versioned backups, and easily share and publish your
+          work.
+        </p>
+      </div>
+
+      <JoinAudioDotComButton
+        href=" https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Block_button"
+      />
+    </div>
+  </div>
+</section>

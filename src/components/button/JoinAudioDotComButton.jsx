@@ -1,4 +1,3 @@
-import React from "react";
 import { trackEvent } from "../../utils/matomo";
 
 function handleButtonClick(eventName) {
@@ -8,11 +7,11 @@ function handleButtonClick(eventName) {
 }
 
 function JoinAudioDotComButton(props) {
-  const { href, matomoEventName, large } = props;
+  const { href, large } = props;
   return (
     <a
       onClick={() => {
-        handleButtonClick(matomoEventName);
+        handleButtonClick();
       }}
       className={` ${
         large ? "py-4 px-6" : "py-2 px-4"

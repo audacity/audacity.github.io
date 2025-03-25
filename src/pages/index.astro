@@ -3,17 +3,16 @@ import BlogPosts from "../components/homepage/BlogPosts.astro";
 import HeroBanner from "../components/homepage/HeroBanner.astro";
 import ReleaseVideo from "../components/homepage/ReleaseVideo.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ShareYourSounds from "../components/homepage/ShareYourSounds";
 import FeatureCards from "../components/homepage/FeatureCards.astro";
 import FAQ from "../components/homepage/FAQ.astro";
-import RecordAnything from "../components/homepage/RecordAnything.astro";
+import Audiodotcom from "../components/homepage/Audiodotcom.astro";
 
 ---
 
 <BaseLayout title="Audacity ® | Free Audio editor, recorder, music making and more!">
   <HeroBanner />
   <ReleaseVideo />
-  <ShareYourSounds client:load/>
+  <Audiodotcom/>
   <FeatureCards />
   <BlogPosts />
   <FAQ />
