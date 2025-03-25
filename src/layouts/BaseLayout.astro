@@ -28,7 +28,7 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <style is:global>
-      @import '../styles/input.css';
+      @import "../styles/input.css";
     </style>
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -43,9 +43,13 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     <title>{title}</title>
     <script src="../assets/js/matomoTracking.js"></script>
   </head>
-  <body data-branch={import.meta.env.NETLIFY_CONTEXT || process.env.CONTEXT || 'main'}>
+  <body
+    data-branch={import.meta.env.NETLIFY_CONTEXT ||
+      process.env.CONTEXT ||
+      "main"}
+  >
     <a class="skip-to-content" href="#main" aria-label="Skip to content"
-    >Skip to content</a
+      >Skip to content</a
     >
     <header class="z-50 sticky left-0 right-0 top-0">
       <NavigationReact client:load currentURL={Astro.request.url} />
@@ -53,16 +57,10 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
       <SurveyBanner client:load url={Astro.request.url} />
       {false && <PromoBanner client:load />}
     </header>
-    
-    <main class="flex flex-col">
-    <div class="flex-1">
-      <slot />
-    </div>
-    </main>
-      <Footer />
-      <CookieConsent client:load />
-      <script src="../assets/js/cookieConsent.js"></script>
-    </body>
 
-
+    <slot />
+    <Footer />
+    <CookieConsent client:load />
+    <script src="../assets/js/cookieConsent.js"></script>
+  </body>
 </html>
