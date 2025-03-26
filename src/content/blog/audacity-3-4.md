@@ -8,7 +8,16 @@ publishDate: 2023-11-02
 draft: false
 ---
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xgdYuSHdkso?si=xNPqJqRtzJnreHZh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 20px;">
+  <iframe
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+    src="https://www.youtube.com/embed/xgdYuSHdkso?si=xNPqJqRtzJnreHZh"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>
 
 *Watch the release video!*
 
