@@ -21,12 +21,12 @@ const maxposts = 3;
         .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
         .slice(0,maxposts)
         .map((post) => {
+          // Only pass props that match the expected Props interface
           return (
             <NEWBlogPostCard
               href={post.slug}
               title={post.data.title}
               description={post.data.description}
-              author={post.data.author}
               publishDate={post.data.publishDate}
               cover={post.data.cover}
               coverAlt={post.data.coverAlt}
