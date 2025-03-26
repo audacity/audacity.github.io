@@ -25,7 +25,6 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
                 href={post.slug}
                 title={post.data.title}
                 description={post.data.description}
-                author={post.data.author}
                 publishDate={post.data.publishDate}
                 cover={post.data.cover}
                 coverAlt={post.data.coverAlt}

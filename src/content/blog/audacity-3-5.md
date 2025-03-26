@@ -1,14 +1,24 @@
 ---
 title: Audacity 3.5
 author: Leo Wattenberg
-description:  Audacity 3.5 adds Cloud saving, automatic tempo detection and more!
+description: Audacity 3.5 adds Cloud saving, automatic tempo detection and more!
 cover: "./audacity-3.5.webp"
 coverAlt: "Audacity 3.5: Cloud saving and more"
 publishDate: 2024-04-22
 draft: false
 ---
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qEAZv_o0HuQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>  <i>Watch the release video!</i>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 20px;">
+  <iframe
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+    src="https://www.youtube.com/embed/qEAZv_o0HuQ"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</div>
+ <i>Watch the release video!</i>
 
 We are excited to announce Audacity 3.5, which adds the following features:
 
@@ -28,15 +38,15 @@ You now can non-destructively change the pitch of a clip by holding Alt and pres
 
 ## and more!
 
-There have been many other changes for this release. 
+There have been many other changes for this release.
 
-* Added the ability to export labels as subtitle files.
-* Added an option to skip plugin scanning.
-* Added an overflow menu, and speed and pitch indicators for clips.
-* Various changes to a variety of features.
-* Removed some niche features to simplify the app. This should make Audacity a bit less overwhelming to use, and also will speed up future development as fewer things need to be considered. 
+- Added the ability to export labels as subtitle files.
+- Added an option to skip plugin scanning.
+- Added an overflow menu, and speed and pitch indicators for clips.
+- Various changes to a variety of features.
+- Removed some niche features to simplify the app. This should make Audacity a bit less overwhelming to use, and also will speed up future development as fewer things need to be considered.
 
-A more detailed overview of these changes can be found in our [changelog](https://support.audacityteam.org/additional-resources/changelog/audacity-3.5). 
+A more detailed overview of these changes can be found in our [changelog](https://support.audacityteam.org/additional-resources/changelog/audacity-3.5).
 You can download Audacity on [audacityteam.org/download](/download).
 
-The [Intel OpenVINO plugin](https://github.com/intel/openvino-plugins-ai-audacity/releases/tag/v3.5.0-R2) also has been updated for version 3.5. 
+The [Intel OpenVINO plugin](https://github.com/intel/openvino-plugins-ai-audacity/releases/tag/v3.5.0-R2) also has been updated for version 3.5.
