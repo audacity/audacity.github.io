@@ -18,7 +18,7 @@ const optimizedBg = await getImage({
 const releaseVideoPlaceholderImage = await getImage({
   src: VideoPlaceholder,
   format: "webp",
-  width: 732,
+  width: 448,
   quality: 80,
 });
 
@@ -32,33 +32,36 @@ const releaseVideo = {
 
 <!-- Apply the background using inline style -->
 <section style={`background-image: url('${optimizedBg.src}'); background-size: cover;`}>
-  <div
-    class="grid md:grid-cols-2 max-w-screen-xl px-6 sm:px-12 py-12 gap-8 mx-auto"
-  >
-    <div class="flex lg:items-center col-span-2 md:col-span-1 md:col-start-1 row-start-2 md:row-start-1">
-      <FeaturedVideo
-        client:load
-        placeholderImage={releaseVideo.placeholderImage}
-        imageAltText={releaseVideo.imageAltText}
-        videoURL={releaseVideo.videoURL}
-        textColor="text-slate-50"
-        matomoEventName={releaseVideo.title}
-      />
-    </div>
-    <div class="col-span-2 md:col-span-1 md:col-start-2 md:row-start-1 flex flex-col gap-8 lg:py-12">
-      <Image src={AudioDotComLogo} class="w-20" alt="audio.com" />
-      <div>
-        <h2 class="text-white">Level up your Audacity</h2>
-        <p class="text-gray-300 mt-4">
-          Audio.com, the online companion to Audacity, lets you collaborate on
-          projects, create versioned backups, and easily share and publish your
-          work.
-        </p>
+  <div class="mx-auto px-6 xs:px-12 md:px-8 py-8 md:py-8 lg:py-12 max-w-screen-lg">
+    <div class="flex flex-col md:flex-row gap-12 md:gap-16">
+      <!-- Video Column - Order changes on mobile vs desktop -->
+      <div class="w-full md:w-1/2 order-2 md:order-1">
+        <FeaturedVideo
+          client:load
+          placeholderImage={releaseVideo.placeholderImage}
+          imageAltText={releaseVideo.imageAltText}
+          videoURL={releaseVideo.videoURL}
+          textColor="text-slate-50"
+          matomoEventName={releaseVideo.title}
+        />
       </div>
+      
+      <!-- Text Content Column -->
+      <div class="w-full md:w-1/2 order-1 md:order-2 flex flex-col gap-4 md:gap-8">
+        <Image src={AudioDotComLogo} class="w-20" alt="audio.com" />
+        <div>
+          <h2 class="text-white">Level up your Audacity</h2>
+          <p class="text-gray-300 mt-4">
+            Audio.com, the online companion to Audacity, lets you collaborate on
+            projects, create versioned backups, and easily share and publish your
+            work.
+          </p>
+        </div>
 
-      <JoinAudioDotComButton
-        href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Block_button"
-      />
+        <JoinAudioDotComButton
+          href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&utm_content=Block_button"
+        />
+      </div>
     </div>
   </div>
 </section>

@@ -21,10 +21,10 @@ const options: Intl.DateTimeFormatOptions = {
 
 <a
   href=`/blog/${href}`
-  class="col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-4 hover:opacity-90 transition-opacity duration-200"
+  class="flex flex-col gap-4 hover:opacity-90 transition-opacity duration-200"
 >
   <Image
-    width="732"
+    width="543"
     quality="80"
     class="rounded-md aspect-image"
     alt={coverAlt}
@@ -32,7 +32,7 @@ const options: Intl.DateTimeFormatOptions = {
   />
   <div class="flex flex-col gap-1">
     <small>{publishDate.toLocaleDateString("en-US", options)}</small>
-    <h3>{title}</h3>
+    <h4>{title}</h4>
   </div>
 
   <p>

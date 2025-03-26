@@ -6,37 +6,40 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 ---
 
 <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-  <div
-    class="grid grid-cols-12 max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-8 md:py-16 sm:py-12 gap-6 md:gap-0"
-  >
-    <div
-      class="col-span-12 mx-2 md:mx-0 text-center md:text-left md:col-span-5 flex flex-col gap-4 md:gap-8 justify-center"
-    >
-      <h1 class="leading-tight mt-2 text-white">
-        Audacity is the world's most popular audio editing and recording app
-      </h1>
+  <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12">
+      <!-- Left Column - Text Content -->
+      <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+        <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight">
+          Audacity is the world's most popular audio editing and recording app
+        </h1>
 
-      <div class="flex flex-col md:w-fit gap-4 items-center md:items-start">
-        <DownloadMuseHubButton client:load />
-        <noscript>
+        <div class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 md:pb-">
           <DownloadMuseHubButton client:load />
-        </noscript>
-        <DownloadButton client:load />
-        <noscript>
+          <noscript>
+            <DownloadMuseHubButton client:load />
+          </noscript>
           <DownloadButton client:load />
-        </noscript>
+          <noscript>
+            <DownloadButton client:load />
+          </noscript>
+        </div>
       </div>
-    </div>
-    <div
-      class="col-span-12 md:col-start-7 md:col-span-7 flex items-center justify-center mx-4"
-    >
-      <Image
-        src={AudacityMockUp}
-        alt="A laptop showing the Audacity application"
-        width={668}
-        quality={80}
-        loading="eager"
-      />
+
+      <!-- Right Column - Image -->
+      <div class="hidden md:block md:w-1/2">
+        <div class="relative">
+          <Image
+            src={AudacityMockUp}
+            alt="A laptop showing the Audacity application"
+            width={668}
+            quality={80}
+            loading="eager"
+            class="w-full h-auto"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
