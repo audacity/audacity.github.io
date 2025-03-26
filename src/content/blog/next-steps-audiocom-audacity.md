@@ -2,7 +2,7 @@
 title: The Next Steps for Audio.com & Audacity
 author: Audacity Team
 description: In this update, we wanted to share our future goals for Audio.com, including a focus on building a creator-first platform.
-cover: "./default.jpg"
+cover: "./default-cover.webp"
 coverAlt: "Audacity logo"
 publishDate: 2024-02-06
 draft: false

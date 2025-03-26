@@ -2,7 +2,7 @@
 title: Audacity 3.7
 author: Leo Wattenberg
 description:  "Audacity 3.7: Under Maintenance"
-cover: "./default.jpg"
+cover: "./default-cover.webp"
 coverAlt: "Audacity 3.7: Under Maintenance"
 publishDate: 2024-10-30
 draft: false
