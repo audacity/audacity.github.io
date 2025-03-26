@@ -2,7 +2,7 @@
 title: Introducing OpenVINO AI effects for Audacity
 author: Leo Wattenberg
 description: Intel has built a suite of AI tools for Audacity, useful for spoken word audio and music alike. These AI features run 100% locally on your PC.
-cover: "./openvino-logo-purple-black.png"
+cover: "./openvino-logo.webp"
 coverAlt: "OpenVINO logo"
 publishDate: 2024-01-02
 draft: false
