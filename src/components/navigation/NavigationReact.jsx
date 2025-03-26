@@ -127,18 +127,40 @@ function NavigationReact(props) {
       </div>
 
       {isHamburgerMenuOpen && (
-        <div className="flex flex-col py-2 bg-gray-50 border-y-2 absolute left-0 right-0 z-40 hamburger-menu">
+        <div className="flex flex-col py-2 bg-gray-50 border-y-2 absolute left-0 right-0 z-40 transition-opacity duration-200 ease-in-out opacity-100">
           {navLinks.map((navLink, index) => (
             <a
               key={index}
               onClick={() => handleHamburgerMenuClick()}
-              className="py-3 px-4 text-gray-800 hover:text-blue-700 hover:bg-gray-100"
+              className="py-3 px-4 text-gray-800 hover:text-blue-700 hover:bg-gray-100 transition-all duration-200 ease-in-out"
+              style={{
+                animationName: "fadeIn",
+                animationDuration: "200ms",
+                animationTimingFunction: "ease-in-out",
+                animationFillMode: "forwards",
+                animationDelay: `${index * 50}ms`,
+                opacity: 0,
+                transform: "translateX(-10px)",
+              }}
               href={navLink.href}
               target={navLink.target}
             >
               {navLink.linkText}
             </a>
           ))}
+
+          <style jsx>{`
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+                transform: translateX(-10px);
+              }
+              to {
+                opacity: 1;
+                transform: translateX(0);
+              }
+            }
+          `}</style>
         </div>
       )}
     </nav>
