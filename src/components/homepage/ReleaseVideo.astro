@@ -39,29 +39,36 @@ const promoVideo = {
 ---
 
 <section class="bg-slate-100">
-  <div
-    class="grid md:grid-cols-2 max-w-screen-lg px-6 md:px-10 lg:px-0 mx-auto py-8 gap-8 md:gap-12"
-  >
-    <FeaturedVideo
-      client:load
-      title={releaseVideo.title}
-      label={releaseVideo.label}
-      placeholderImage={releaseVideo.placeholderImage}
-      imageAltText={releaseVideo.imageAltText}
-      videoURL={releaseVideo.videoURL}
-      matomoEventName={releaseVideo.title}
-    />
-    <FeaturedVideo
-      client:load
-      title={promoVideo.title}
-      label={promoVideo.label}
-      placeholderImage={promoVideo.placeholderImage}
-      imageAltText={promoVideo.imageAltText}
-      videoURL={promoVideo.videoURL}
-      CTA={promoVideo.CTA}
-      ctaText={promoVideo.ctaText}
-      ctaURL={promoVideo.ctaURL}
-      matomoEventName={promoVideo.title}
-    />
+  <div class="mx-auto px-6 xs:px-12 md:px-8 py-6 md:py-8 lg:py-12 max-w-screen-lg">
+    <div class="flex flex-col md:flex-row gap-12 md:gap-16">
+      <!-- First Video Column -->
+      <div class="w-full md:w-1/2">
+        <FeaturedVideo
+          client:load
+          title={releaseVideo.title}
+          label={releaseVideo.label}
+          placeholderImage={releaseVideo.placeholderImage}
+          imageAltText={releaseVideo.imageAltText}
+          videoURL={releaseVideo.videoURL}
+          matomoEventName={releaseVideo.title}
+        />
+      </div>
+      
+      <!-- Second Video Column -->
+      <div class="w-full md:w-1/2">
+        <FeaturedVideo
+          client:load
+          title={promoVideo.title}
+          label={promoVideo.label}
+          placeholderImage={promoVideo.placeholderImage}
+          imageAltText={promoVideo.imageAltText}
+          videoURL={promoVideo.videoURL}
+          CTA={promoVideo.CTA}
+          ctaText={promoVideo.ctaText}
+          ctaURL={promoVideo.ctaURL}
+          matomoEventName={promoVideo.title}
+        />
+      </div>
+    </div>
   </div>
 </section>

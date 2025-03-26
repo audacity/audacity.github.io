@@ -9,13 +9,13 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
 const maxposts = 3;
 ---
 
-<section class="pt-8 pb-16 bg-slate-100">
-  <div class="max-w-screen-xl mx-6 sm:mx-12 md:mx-16 xl:mx-auto">
+<section class="py-6 md:py-8 lg:py-12 bg-slate-100">
+  <div class="mx-auto px-6 xs:px-12 md:px-16 max-w-screen-xl">
     <h2 class="text-left sm:text-center">
       New from our <a href="/blog" class="hyperlink">blog</a>
     </h2>
 
-    <div class="grid grid-cols-12 my-4 sm:my-8 md:my-12 gap-y-8 sm:gap-8 md:gap-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 md:mt-8 lg:mt-12 gap-8 md:gap-10 lg:gap-12">
       {
         publishedBlogPosts
         .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
