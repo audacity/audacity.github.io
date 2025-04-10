@@ -55,7 +55,7 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
       <NavigationReact client:load currentURL={Astro.request.url} />
       <BetaBanner client:load url={Astro.request.url} />
       <SurveyBanner client:load url={Astro.request.url} />
-      {false && <PromoBanner client:load />}
+      <PromoBanner client:load />
     </header>
 
     <slot />
