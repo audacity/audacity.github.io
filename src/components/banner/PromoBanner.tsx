@@ -11,7 +11,7 @@ function PromoBanner() {
 
   const getHref = () => {
     if (browserOS === "OS X" || browserOS === "Windows") {
-      return "https://www.musehub.com/app/sheet-music-scanner?utm_source=au-web-banner-mh-web&utm_medium=sheet-music-scanner&utm_campaign=au-web-banner-mh-web-sheet-music-scanner&utm_id=au-web-banner";
+      return "https://www.musehub.com/app/overtune-arrange?utm_source=au-web-banner-mh-web&utm_medium=overtune&utm_campaign=au-web-banner-mh-web-overtune&utm_id=au-web-banner";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -33,7 +33,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Sheet Music Scanner - Digitize any score
+              Make music in Overtune, fine-tune it in Audacity.
             </p>
           </div>
 
@@ -43,7 +43,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Get 80% off on MuseHub
+            Try for free
           </a>
         </div>
       )}
