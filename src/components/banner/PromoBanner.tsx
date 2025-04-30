@@ -33,7 +33,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Make music in Overtune, fine-tune it in Audacity.
+              Make music in Overtune, fine-tune it in Audacity
             </p>
           </div>
 
