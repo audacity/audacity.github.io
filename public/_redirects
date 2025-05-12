@@ -27,6 +27,7 @@
 # convenience redirects
 /cla	/CLA
 /)	/
+/vpat /VPAT.pdf
 
 # campaign links
 /survey	https://po415hli6k2.typeform.com/hub-audacity
