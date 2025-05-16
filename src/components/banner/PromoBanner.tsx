@@ -21,7 +21,7 @@ function PromoBanner() {
   const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   function handleButtonClick() {
-    trackEvent("Promo CTA", "Promo CTA button", "Ace Studio Muse Hub");
+    trackEvent("Promo CTA", "Promo CTA button", "Soap Muse Hub");
   }
 
   return (
