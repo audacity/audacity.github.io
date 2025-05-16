@@ -1,7 +1,7 @@
 ---
 import { getImage } from "astro:assets";
 import ReleaseVideoPlaceholder from "../../assets/img/audacity-placeholder.webp";
-import PromoVideoPlaceholder from "../../assets/img/promo/ace-placeholder.webp";
+import PromoVideoPlaceholder from "../../assets/img/promo/overtune-placeholder.webp";
 import FeaturedVideo from "../video/FeaturedVideo";
 
 const releaseVideoPlaceholderImage = await getImage({
@@ -27,14 +27,14 @@ const releaseVideo = {
 }
 
 const promoVideo = {
-  title:"ACE Studio showcase",
-  label:"Ad: Turn your lyrics into song with ACE Studio, the AI singing voice generator.",
+  title:"Overtune",
+  label:"Ad: Add this sequencer to your Audacity workflow",
   placeholderImage: featuredVideoPlaceholderImage.src,
-  imageAltText: "Video thumbnail: What is ACE studio?",
-  videoURL:"https://www.youtube-nocookie.com/embed/QTlB5UR-IEE?autoplay=1",
+  imageAltText: "Video thumbnail: Add this sequencer to your Audacity workflow",
+  videoURL:"https://www.youtube-nocookie.com/embed/Q54ejun7P1w?autoplay=1",
   CTA: true, 
-  ctaText: "Try for free",
-  ctaURL:"https://www.musehub.com/app/ace-studio?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-ace-studio"
+  ctaText: "Get for free",
+  ctaURL:"https://www.musehub.com/app/overtune-arrange?utm_source=au-web&utm_medium=mh-app-cta&utm_campaign=au-web-mh-app-overtune"
 }
 ---
 
