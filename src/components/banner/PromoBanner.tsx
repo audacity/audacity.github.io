@@ -33,7 +33,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Soap Voice Cleaner: Studio-quality sound with 3 simple controls
+              Voice Cleaner: studio-quality plugin with 3 simple controls
             </p>
           </div>
 
@@ -43,7 +43,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Get it on MuseHub
+            25% OFF on MuseHub 
           </a>
         </div>
       )}
