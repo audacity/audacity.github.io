@@ -1,10 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/icons.css";
-import { betaReleases } from "../assets/js/releaseData";
+import { betaReleases, openvinoReleases } from "../assets/js/releaseData";
 import SplitDownloadButton from "../components/button/SplitDownloadButton.jsx";
 
 const { win, mac, lin } = betaReleases;
+const { macBeta } = openvinoReleases;
 ---
 
 <BaseLayout
@@ -23,9 +24,8 @@ const { win, mac, lin } = betaReleases;
             <h4 class="mt-8">MacOS: OpenVINO AI plugins</h4>
             <p class="mt-2">
               This is the first macOS release to support the OpenVINO AI
-              plugins. You can <a href="" class="hyperlink"
-                >download the openVINO plugins for macOS here</a
-              > and, once you've launched the Audacity 3.7.4 beta, use the various
+              plugins. </p>
+              <p class="mt-2">Please install both the OpenVINO plugin beta and Audacity 3.7.4. You can use the various
               effects via Effects → OpenVINO.
             </p>
             <p class="mt-2">The following effects are available:</p>
@@ -107,6 +107,13 @@ const { win, mac, lin } = betaReleases;
               <SplitDownloadButton OS="macOS" releaseData={mac} client:load />
             </div>
           </div>
+          
+          <div class="border border-bg-200 rounded-md p-6">
+            <h3 class="additional-resource-heading">Download OpenVINO Beta for MacOS</h3>
+            <div class="mt-2">
+              <SplitDownloadButton OS="macOS" releaseData={macBeta} client:load />
+            </div>
+          </div>
 
           <div class="border border-bg-200 rounded-md p-6">
             <h3 class="additional-resource-heading">Download Beta for Linux</h3>
@@ -114,6 +121,7 @@ const { win, mac, lin } = betaReleases;
               <SplitDownloadButton OS="Linux" releaseData={lin} client:load />
             </div>
           </div>
+
         </div>
       </aside>
     </div>
