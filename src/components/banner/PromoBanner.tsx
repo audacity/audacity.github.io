@@ -13,8 +13,8 @@ function PromoBanner() {
   const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   const getHref = () => {
-    if (showBanner) {
-      return "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner";
+    if (browserOS === "OS X" || browserOS === "Windows") {
+      return "https://www.musehub.com/app/overtune-arrange?utm_source=au-web-banner-mh-web&utm_medium=overtune&utm_campaign=au-web-banner-mh-web-overtune&utm_id=au-web-banner";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -22,7 +22,7 @@ function PromoBanner() {
 
 
   function handleButtonClick() {
-    trackEvent("Promo CTA", "Promo CTA button", "Soap Muse Hub");
+    trackEvent("Promo CTA", "Promo CTA button", "Overtune Muse Hub");
   }
 
   return (
@@ -34,7 +34,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Soap Voice Cleaner: Studio-quality sound with 3 simple controls
+              Make music in Overtune, fine-tune it in Audacity
             </p>
           </div>
 
@@ -44,7 +44,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Get it on MuseHub
+            Try for free
           </a>
         </div>
       )}
