@@ -33,7 +33,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Install once. Access tons of fun and powerful plugins. 50% OFF!
+              Access tons of fun and powerful plugins for music creators. 50% OFF!
             </p>
           </div>
 
