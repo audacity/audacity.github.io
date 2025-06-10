@@ -11,7 +11,7 @@ function PromoBanner() {
 
   const getHref = () => {
     if (browserOS === "OS X" || browserOS === "Windows") {
-      return "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner";
+      return "https://www.musehub.com/plugin/playgrnd-fx?utm_source=au-web-banner-mh-web&utm_medium=playgrnd-fx&utm_campaign=au-web-banner-mh-web-playgrnd-fx&utm_id=au-web-banner";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -21,7 +21,7 @@ function PromoBanner() {
   const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   function handleButtonClick() {
-    trackEvent("Promo CTA", "Promo CTA button", "Soap Muse Hub");
+    trackEvent("Promo CTA", "Promo CTA button", "Playgrnd Muse Hub");
   }
 
   return (
@@ -33,7 +33,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Voice Cleaner: studio-quality plugin with 3 simple controls
+              Install once. Access tons of fun and powerful plugins. 50% OFF!
             </p>
           </div>
 
@@ -43,7 +43,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            25% OFF on MuseHub 
+            Get it on MuseHub 
           </a>
         </div>
       )}
