@@ -251,8 +251,18 @@ export const openvinoReleases: OpenvinoReleaseDirectory = {
   ],
   mac: [
     {
-      name: "OpenVino AI Plugins",
-      browser_download_url: "",
+      name: "OpenVino AI Plugins – Universal Binary (large)",
+      browser_download_url: "https://github.com/audacity/mod-openvino-macos/releases/download/v3.7.1-R4.2-beta-1/Audacity-OpenVINO-3.7.1-R4.2.pkg",
+      type: ".pkg",
+    },
+        {
+      name: "OpenVino AI Plugins – Intel (x64)",
+      browser_download_url: "https://github.com/audacity/mod-openvino-macos/releases/download/v3.7.1-R4.2-beta-1/Audacity-OpenVINO-3.7.1-R4.2-x86_64.pkg",
+      type: ".pkg",
+    },
+        {
+      name: "OpenVino AI Plugins – Apple Silicon (ARM64)",
+      browser_download_url: "https://github.com/audacity/mod-openvino-macos/releases/download/v3.7.1-R4.2-beta-1/Audacity-OpenVINO-3.7.1-R4.2-arm64.pkg",
       type: ".pkg",
     },
   ],
