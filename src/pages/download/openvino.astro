@@ -6,7 +6,7 @@ import {
 import "../../styles/icons.css";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const { win, version, revision } = openvinoReleases;
+const { win, mac, version, revision } = openvinoReleases;
 const audaversion = audacityReleases.version;
 
 import DownloadButton from "../../components/button/DownloadButton";
@@ -59,10 +59,6 @@ import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton
       <ol>
         <li>Download and run the installer.</li>
         <li>In the installer, select the effects and models you'd like to use.</li>
-        <li>Launch Audacity.</li>
-        <li>Go to Preferences → Modules.</li>
-        <li>Enable mod-openvino.</li>
-        <li>Save the preferences.</li>
         <li>Restart Audacity.</li>
       </ol>
       <div class="mt-12">Further information: <a href="https://forum.audacityteam.org/tag/openvino">Help forum</a> | <a href="https://github.com/intel/openvino-plugins-ai-audacity">GitHub</a></div>
