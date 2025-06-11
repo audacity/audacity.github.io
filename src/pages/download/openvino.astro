@@ -6,15 +6,19 @@ import {
 import "../../styles/icons.css";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const { win, version, revision } = openvinoReleases;
+const { win, mac, version, revision } = openvinoReleases;
 const audaversion = audacityReleases.version;
 
 import DownloadButton from "../../components/button/DownloadButton";
 import Audacity_Logo from "../../assets/img/Audacity_Logo.svg";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import SplitDownloadButton from "../../components/button/SplitDownloadButton";
 ---
 
-<BaseLayout title="Download Audacity AI Plugins" description="Enhance your editing with a variety of AI effects, such as noise reduction, music separation and more!">
+<BaseLayout
+  title="Download Audacity AI Plugins"
+  description="Enhance your editing with a variety of AI effects, such as noise reduction, music separation and more!"
+>
   <section id="main">
     <div
       class="flex flex-col items-center py-8 md:pt-10 md:pb-12 lg:pt-16 lg:pb-20 xl:pt-20 xl:pb-24 mx-6"
@@ -28,44 +32,84 @@ import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton
         Get AI effects for Audacity
       </h1>
       <div class="flex w-full sm:w-fit flex-col gap-2 sm:flex-row mt-8">
-        <a
-          class="flex flex-col justify-center bg-blue-700 hover:bg-blue-600 rounded-md items-center text-center py-3 w-full sm:w-96"
-          href={win[0].browser_download_url}
-        >
-          <div class="flex gap-2 items-center">
-            <span class="icon icon-import text-white"></span>
-            <p class="button-text font-semibold text-white">
-              Download OpenVINO AI Plugins
-            </p>
-          </div>
-          <p class="button-caption text-white">
-            Revision {revision} for Audacity {version}
-          </p>
-        </a>
+        <SplitDownloadButton
+          OS="Windows"
+          kind="OpenVINO"
+          releaseData={win}
+          client:load
+        />
+        <SplitDownloadButton
+          OS="macOS"
+          kind="OpenVINO"
+          releaseData={mac}
+          client:load
+        />
       </div>
-      { /*display a warning when openvino and Audacity are different versions*/
-        version === audaversion ? (
-          ""
-        ) : (
-          <b>
-            Warning: The OpenVINO plugins are not yet compatible with the latest
-            Audacity version
-          </b>
-        )
-      }
-    </div>
-    <div class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40">
-      <h2>Installation instructions</h2>
-      <ol>
-        <li>Download and run the installer.</li>
-        <li>In the installer, select the effects and models you'd like to use.</li>
-        <li>Launch Audacity.</li>
-        <li>Go to Preferences → Modules.</li>
-        <li>Enable mod-openvino.</li>
-        <li>Save the preferences.</li>
-        <li>Restart Audacity.</li>
-      </ol>
-      <div class="mt-12">Further information: <a href="https://forum.audacityteam.org/tag/openvino">Help forum</a> | <a href="https://github.com/intel/openvino-plugins-ai-audacity">GitHub</a></div>
+
+      <div
+        class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40"
+      >
+        {
+          /*display a warning when openvino and Audacity are different versions*/
+          version === audaversion ? (
+            ""
+          ) : (
+            <b>
+              Warning: The OpenVINO plugins are not yet compatible with the
+              latest Audacity version
+            </b>
+          )
+        }
+        <p class="mt-2">The following effects are available:</p>
+        <ul class="list-disc space-y-2 mt-2">
+          <li>
+            <dt class="font-semibold">Music separation</dt>
+            <dd class="ml-2">
+              Separate a mono or stereo track into individual stems -- Drums,
+              Bass, Vocals, & Other Instruments.
+            </dd>
+          </li>
+          <li>
+            <dt class="font-semibold">Noise suppression</dt>
+            <dd class="ml-2">
+              Reduce background noise in a recording. Works best on spoken word
+              audio.
+            </dd>
+          </li>
+          <li>
+            <dt class="font-semibold">Music generation and continuation</dt>
+            <dd class="ml-2">
+              Uses MusicGen LLM to generate snippets of music, or to generate a
+              continuation of an existing snippet of music.
+            </dd>
+          </li>
+          <li>
+            <dt class="font-semibold">Whisper transcription</dt>
+            <dd class="ml-2">
+              Transcribe audio to text using OpenAI's Whisper model. Tip: You
+              can export the resulting label track as a subtitle file via File →
+              Export other → Export labels.
+            </dd>
+          </li>
+          <li>
+            <dt class="font-semibold">Audio Super resolution</dt>
+            <dd class="ml-2">
+              Increase the sampling rate of an audio signal – in other words, it
+              upsamples audio to improve its fidelity, clarity, or compatibility
+              with high-resolution standards. Useful for older 8kHz recordings,
+              such as telephone calls.
+            </dd>
+          </li>
+        </ul>
+
+        <div class="mt-12">
+          Further information: <a
+            href="https://forum.audacityteam.org/tag/openvino">Help forum</a
+          > | <a href="https://github.com/intel/openvino-plugins-ai-audacity"
+            >GitHub</a
+          >
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

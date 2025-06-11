@@ -92,7 +92,7 @@ export const audacityReleases: ReleaseDirectory = {
         "8e5986b4fb07b6a627a5d88da03f60f75c5cbe879b08cccf75804eea9c23dcd6",
       type: ".AppImage",
     },
-        {
+    {
       name: "AppImage (Ubuntu 22.04)",
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.4/audacity-linux-3.7.4-x64-22.04.AppImage",
@@ -197,7 +197,10 @@ export const betaReleases: ReleaseDirectory = {
   ],
 };
 
-export type MuseHubReleaseInfo = Pick<ReleaseInfo, "name" | "browser_download_url" | "type">;
+export type MuseHubReleaseInfo = Pick<
+  ReleaseInfo,
+  "name" | "browser_download_url" | "type"
+>;
 
 type MuseHubReleaseDirectory = {
   win: MuseHubReleaseInfo[];
@@ -223,12 +226,16 @@ export const museHubReleases: MuseHubReleaseDirectory = {
   ],
 };
 
-type OpenVinoReleaseInfo = Pick<ReleaseInfo, "name" | "browser_download_url" | "type">;
+type OpenVinoReleaseInfo = Pick<
+  ReleaseInfo,
+  "name" | "browser_download_url" | "type"
+>;
 
 type OpenvinoReleaseDirectory = {
   version: string;
   revision: string;
   win: OpenVinoReleaseInfo[];
+  mac: OpenVinoReleaseInfo[];
 };
 
 export const openvinoReleases: OpenvinoReleaseDirectory = {
@@ -237,8 +244,26 @@ export const openvinoReleases: OpenvinoReleaseDirectory = {
   win: [
     {
       name: "OpenVino AI Plugins",
-      browser_download_url: "https://github.com/intel/openvino-plugins-ai-audacity/releases/download/v3.7.1-R4.2/audacity-win-v3.7.1-R4.2-64bit-OpenVINO-AI-Plugins.exe",
-      type: ".exe"
+      browser_download_url:
+        "https://github.com/intel/openvino-plugins-ai-audacity/releases/download/v3.7.1-R4.2/audacity-win-v3.7.1-R4.2-64bit-OpenVINO-AI-Plugins.exe",
+      type: ".exe",
     },
   ],
-}
+  mac: [
+    {
+      name: "OpenVino AI Plugins – Universal Binary (large)",
+      browser_download_url: "https://github.com/audacity/mod-openvino-macos/releases/download/v3.7.1-R4.2-beta-1/Audacity-OpenVINO-3.7.1-R4.2.pkg",
+      type: ".pkg",
+    },
+        {
+      name: "OpenVino AI Plugins – Intel (x64)",
+      browser_download_url: "https://github.com/audacity/mod-openvino-macos/releases/download/v3.7.1-R4.2-beta-1/Audacity-OpenVINO-3.7.1-R4.2-x86_64.pkg",
+      type: ".pkg",
+    },
+        {
+      name: "OpenVino AI Plugins – Apple Silicon (ARM64)",
+      browser_download_url: "https://github.com/audacity/mod-openvino-macos/releases/download/v3.7.1-R4.2-beta-1/Audacity-OpenVINO-3.7.1-R4.2-arm64.pkg",
+      type: ".pkg",
+    },
+  ],
+};

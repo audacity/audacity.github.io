@@ -18,8 +18,17 @@ function useLogo(OS) {
 
 }
 
+function getLastUrlPart(url) {
+  try {
+    const parts = new URL(url).pathname.split('/').filter(Boolean);
+    return parts.length ? parts[parts.length - 1] : "";
+  } catch {
+    return "";
+  }
+}
+
 function SplitDownloadButton(props) {
-  const { OS, releaseData } = props;
+  const { OS, kind, releaseData } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -44,26 +53,15 @@ function SplitDownloadButton(props) {
     if (typeof _paq !== "undefined") {
       _paq.push([
         "trackEvent",
-        "Download beta Button",
-        "Download beta",
-        `Download beta button ${OS + " " + item.name}`,
+        "Download Button",
+        `Download ${getLastUrlPart(url)} Button`,
+        `Download ${getLastUrlPart(url)} button ${OS + " " + item.name}`,
       ]);
     }
   }
 
   function handleDropdownButtonClick(releaseData) {
     setIsOpen(!isOpen);
-  }
-
-  function handleDropdownDownloadButtonClick(item) {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Download beta Button",
-        "Download beta",
-        `Download beta button ${OS + " " + item.name}`,
-      ]);
-    }
   }
 
   return (
@@ -75,7 +73,7 @@ function SplitDownloadButton(props) {
           className="flex items-center gap-3  h-10 pl-4 pr-3 rounded-l-md rounded-bl-md bg-blue-700 hover:bg-blue-600"
         >
           <img src={useLogo(OS)} className="w-4 fill-white" />
-          {OS}
+          Download {kind} for {OS}
         </a>
         <button
           onClick={() => handleDropdownButtonClick()}
@@ -93,7 +91,7 @@ function SplitDownloadButton(props) {
           <div className="flex flex-col">
             {releaseData.map((item, index) => (
               <a
-                onClick={() => handleDropdownDownloadButtonClick(item)}
+                onClick={() => handleDownloadButtonClick(item)}
                 href={item.browser_download_url}
                 className="py-2 px-4 hover:bg-slate-200"
                 key={index}
