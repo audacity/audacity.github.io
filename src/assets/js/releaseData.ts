@@ -21,7 +21,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.4/audacity-win-3.7.4-64bit.exe",
       checksum:
-        "6572d9c35997805a596cbdf745700f0e29f56781b7edefcb23525fea53ba6b1e",
+        "b3f16f4ba9c25abfb08d7a93cfcdc7086cf784b20e014ba4ebe68c38f1394f5c",
       type: ".exe",
     },
     {
@@ -29,7 +29,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.4/audacity-win-3.7.4-64bit.zip",
       checksum:
-        "16e5ed35373db2f6069bfea54b32da4aed07945c2289ed4dcaac591b382c23c2",
+        "80d1cba8eac4070fd394031c0c54d698e0850682e5cd9d55a3be30ef9ce6f9c6",
       type: ".zip",
     },
     {
@@ -37,7 +37,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.4/audacity-win-3.7.4-32bit.exe",
       checksum:
-        "2d362b262c6316fe7ed0fad7d676795fbb3ce04c3f36540b6a8693f95a801729",
+        "9a7d9246fbcd99b17c32db0f7f12a6687518c9904ee809cfff1b4499cb0be0cd",
       type: ".exe",
     },
     {
@@ -45,7 +45,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.4/audacity-win-3.7.4-32bit.zip",
       checksum:
-        "ba6f7e830edd3bb4aaae53ab332bc05dd272a0e4ffebe9cb36067d87e48fc4de",
+        "f328d075b951a8df6560e5fdecad0d65a097541ea2df6209eba44f6baf4b63f0",
       type: ".zip",
     },
   ],
