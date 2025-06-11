@@ -1,7 +1,7 @@
 ---
 title: OpenVINO AI Plugins are now available for macOS
 author: Leo Wattenberg
-description: "Finally, "
+description: "AI Music separation, noise suppression, music generation, transcription and super resolution is coming to macOS"
 cover: "openvino-logo.webp"
 coverAlt: "The openvino logo"
 publishDate: 2025-06-11
