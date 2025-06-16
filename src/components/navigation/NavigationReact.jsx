@@ -26,6 +26,11 @@ function NavigationReact(props) {
       linkText: "Forum",
       target: "_blank",
     },
+    {
+      href: "https://merch.audacityteam.org/",
+      linkText: "Merch",
+      target: "_blank",
+    },
   ];
 
   function handleHamburgerMenuClick() {
