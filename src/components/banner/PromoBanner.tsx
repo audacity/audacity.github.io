@@ -9,19 +9,21 @@ function PromoBanner() {
 
   const browserOS = useBrowserOS();
 
+  // Only show the banner for supported OSes
+  // const showBanner = browserOS === "OS X" || browserOS === "Windows";
+  const showBanner = true; // For merch, always show the banner
+
   const getHref = () => {
-    if (browserOS === "OS X" || browserOS === "Windows") {
-      return "https://www.musehub.com/plugin/playgrnd-fx?utm_source=au-web-banner-mh-web&utm_medium=playgrnd-fx&utm_campaign=au-web-banner-mh-web-playgrnd-fx&utm_id=au-web-banner";
+    if (showBanner) {
+      return "https://merch.audacityteam.org/?utm_source=audacitywebsite&utm_medium=promo&utm_campaign=merch";
     } else {
       return "#"; // Default if OS is not supported
     }
   };
 
-  // Only show the banner for supported OSes
-  const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   function handleButtonClick() {
-    trackEvent("Promo CTA", "Promo CTA button", "Playgrnd Muse Hub");
+    trackEvent("Promo CTA", "Promo CTA button", "Audacity merch CTA");
   }
 
   return (
@@ -33,7 +35,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              PLAYGRND FX: Install once. Access tons of fun and powerful plugins. 50% OFF!
+              Show your support for Audacity with merch! 
             </p>
           </div>
 
@@ -43,7 +45,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Get it on MuseHub 
+            Shop  merch
           </a>
         </div>
       )}
