@@ -45,7 +45,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Shop  merch
+            Shop  now
           </a>
         </div>
       )}
