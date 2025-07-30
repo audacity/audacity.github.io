@@ -10,12 +10,11 @@ function PromoBanner() {
   const browserOS = useBrowserOS();
 
   // Only show the banner for supported OSes
-  // const showBanner = browserOS === "OS X" || browserOS === "Windows";
-  const showBanner = true; // For merch, always show the banner
+  const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   const getHref = () => {
     if (showBanner) {
-      return "https://merch.audacityteam.org/?utm_source=audacitywebsite&utm_medium=promo&utm_campaign=merch";
+      return "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -23,7 +22,7 @@ function PromoBanner() {
 
 
   function handleButtonClick() {
-    trackEvent("Promo CTA", "Promo CTA button", "Audacity merch CTA");
+    trackEvent("Promo CTA", "Promo CTA button", "Soap Muse Hub");
   }
 
   return (
@@ -35,7 +34,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Show your support for Audacity with merch! 
+              Soap Voice Cleaner: Studio-quality sound with 3 simple controls
             </p>
           </div>
 
@@ -45,7 +44,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Shop  now
+            Get it on MuseHub
           </a>
         </div>
       )}
