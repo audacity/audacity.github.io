@@ -2,7 +2,6 @@
 import { audacityReleases, museHubReleases } from "../../assets/js/releaseData";
 import "../../styles/icons.css";
 import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
-
 ---
 
 <DownloadPageLayout
@@ -25,17 +24,33 @@ import DownloadPageLayout from "../../layouts/DownloadPageLayout.astro";
     notebook or PC that can run aforementioned operating systems.
   </p>
   <p class="mt-2">
-    <strong>Note:</strong> Audacity for Windows ARM64 is in beta and there are few restrictions:
-    <ul class="list">
-      <li>It requires Windows 11 or later.</li>
-      <li>It is not compatible with thirdparty plugins: VST2, VST3 and OpenVINO plugins are not supported.</li>
-      <li>It was not thoroughly tested with all features and workflows, your feedback is welcome</li>
-  </p>
-  <p class="mt-2">
     <strong>Note:</strong> Audacity requires fast, uninterrupted access to a hard
     drive or SSD to operate. Network storage, consumer-grade external hard drives
     or USB thumbdrives may be unreliable.
   </p>
+  <div class="border-yellow-400 border-2 p-4 rounded-lg mt-4">
+    <h4 class="">Windows on ARM notes</h4>
+    Audacity for Windows ARM64 (WoA) is in beta. At this time, it comes with the following
+    caveats:
+    <ul class="list">
+      <li>
+        Audacity for WoA requires Windows 11 or later. Windows RT is not
+        supported.
+      </li>
+      <li>Plugins (VST, OpenVINO, etc.) are not supported.</li>
+      <li>
+        It requires an <a
+          href="https://github.com/tordona/ffmpeg-win-arm64/releases"
+          class="hyperlink">WoA-version of FFmpeg</a
+        >, the regular installer does not work.
+      </li>
+      <li>
+        It was not thoroughly tested with all features and workflows due to a
+        lack of devices – your feedback is welcome.
+      </li>
+    </ul>
+  </div>
+
   <h4 class="mt-4 md:mt-8">Older versions of Audacity</h4>
   <p class="mt-2">
     You can <a
