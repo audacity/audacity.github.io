@@ -25,8 +25,11 @@ function DownloadCard(props) {
             handleDownloadButtonClick();
           }}
           href={downloadURL}
-          className="flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
-        >
+          className={
+            title.includes('BETA')
+              ? "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-yellow-500 hover:bg-yellow-300 text-base text-black rounded"
+              : "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
+          }>
           Download
         </a>
       </div>
