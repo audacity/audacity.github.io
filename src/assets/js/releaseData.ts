@@ -29,7 +29,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.5/audacity-win-3.7.5-64bit.zip",
       checksum:
-        "1a380f477511dc7102285198312743329409772adcfbbbebd7517ca9387ceedb",
+        "d1cab9486af0d70a2d6c5821c2381fd66955c0d1e7173dbcf6846b6fd5c672ab",
       type: ".zip",
     },
     {
@@ -45,7 +45,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.5/audacity-win-3.7.5-32bit.zip",
       checksum:
-        "61115f29c3ccf8b348eeac6b26f251186f51e4b005ac810a7fe6d85458b75914",
+        "5a426d3685272e91f7b7bd43c4d524e265e94afa2ac7ec77ae8aeaf874d117ba",
       type: ".zip",
     },
     {
@@ -61,7 +61,7 @@ export const audacityReleases: ReleaseDirectory = {
       browser_download_url:
         "https://github.com/audacity/audacity/releases/download/Audacity-3.7.5/audacity-win-3.7.5-arm64.zip",
       checksum:
-        "99dd7b5b6c1229741ff43a3d651597816b87045a47b1bd8c0d23fa18fc6bd4f0",
+        "b4795c95e725af53da9b0b7706b3b0ca8c2345d8320708784064dbd86d91a74d",
       type: ".zip",
     },
   ],
