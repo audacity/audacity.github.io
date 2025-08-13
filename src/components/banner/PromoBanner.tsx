@@ -13,7 +13,7 @@ function PromoBanner() {
   const showBanner = browserOS === "OS X" || browserOS === "Windows";
 
   const getHref = () => {
-    if (browserOS === "OS X" || browserOS === "Windows") {
+    if (showBanner) {
       return "https://www.musehub.com/app/overtune-arrange?utm_source=au-web-banner-mh-web&utm_medium=overtune&utm_campaign=au-web-banner-mh-web-overtune&utm_id=au-web-banner";
     } else {
       return "#"; // Default if OS is not supported
