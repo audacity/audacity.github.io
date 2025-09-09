@@ -14,7 +14,7 @@ function PromoBanner() {
 
   const getHref = () => {
     if (showBanner) {
-      return "https://www.musehub.com/on-sale?utm_source=audacity&utm_medium=web&utm_campaign=au-back-to-school";
+      return "https://www.musehub.com/plugin/ampknob-revc?utm_source=audacity&utm_medium=web&utm_campaign=auampknob-revc";
     } else {
       return "#"; // Default if OS is not supported
     }
@@ -22,7 +22,7 @@ function PromoBanner() {
 
 
   function handleButtonClick() {
-    trackEvent("Promo CTA", "Promo CTA button", "Back to school Muse Hub");
+    trackEvent("Promo CTA", "Promo CTA button", "Ampknob Revc Muse Hub");
   }
 
   return (
@@ -34,7 +34,7 @@ function PromoBanner() {
         >
           <div className="lg:flex text-center gap-4">
             <p className="text-lg text-gray-900 font-bold">
-              Back to school: up to 50% on select music production tools
+              Heavy guitar tone in seconds. One knob, no distractions.
             </p>
           </div>
 
@@ -44,7 +44,7 @@ function PromoBanner() {
             onClick={handleButtonClick}
             className="flex text-lg font-bold h-8 justify-center items-center px-4 border-2 border-gray-900 bg-gray-900 rounded-md hover:bg-yellow-300 text-white hover:text-gray-900 hover:border-gray-900"
           >
-            Get deals
+            Try for free
           </a>
         </div>
       )}
