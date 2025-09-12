@@ -255,7 +255,7 @@ type OpenvinoReleaseDirectory = {
 };
 
 export const openvinoReleases: OpenvinoReleaseDirectory = {
-  version: "3.7.4",
+  version: "3.7.5",
   revision: "R4.2",
   win: [
     {
