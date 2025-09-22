@@ -40,219 +40,27 @@ const { win, mac, lin } = betaReleases;
             </div>
           </div>
         </div>
-        <h2 class="mt-4">Audacity 4 pre-alphas</h2>
+        <h2 class="mt-4">Audacity 4 alpha</h2>
         <div class="flex gap-4">
           <div
             class="flex items-center justify-center w-fit rounded-md text-white my-6"
           >
-            <a href="/au4win">
+            <a href="/au4a1">
               <div
                 class="flex items-center gap-3 h-10 pl-4 pr-3 rounded-md bg-blue-700 hover:bg-blue-600"
               >
-                AU4 Windows
-              </div></a
-            >
-          </div>
-          <div
-            class="flex items-center justify-center w-fit rounded-md text-white my-6"
-          >
-            <a href="/au4mac">
-              <div
-                class="flex items-center gap-3 h-10 pl-4 pr-3 rounded-md bg-blue-700 hover:bg-blue-600"
-              >
-                AU4 macOS
-              </div></a
-            >
-          </div>
-          <div
-            class="flex items-center justify-center w-fit rounded-md text-white my-6"
-          >
-            <a href="/au4lin">
-              <div
-                class="flex items-center gap-3 h-10 pl-4 pr-3 rounded-md bg-blue-700 hover:bg-blue-600"
-              >
-                AU4 Linux
+                Go to Audacity 4 alpha 1 page
               </div></a
             >
           </div>
         </div>
         <p>
-          <strong>Audacity 4 pre-alpha versions are unfinished at this time.</strong
+          <strong
+            >The Audacity 4 alpha versions are unfinished at this time.</strong
           > This means that some buttons may not do anything yet, or placeholder
-          items be used. Things which work may go back to not working and back again
-          – these builds are extremely unstable.
-        </p>
-        <p class="py-2">
-          At present, <strong
-            >we don't accept bug reports for these builds</strong
-          >, with the exception of the following categories:
-        </p>
-        <ul class="list-disc px-6 pb-2">
-          <li>Crash reports</li><li>
-            Data loss (eg opening a project in AU4 corrupts it)
-          </li><li>Recording trouble (if it's a regression on AU3)</li>
-        </ul>
-        <p>
-          You're free to discuss and ask questions about these builds with us on
-          our <a href="/devserver" class="hyperlink">dev discord</a> though.
+          items be used. For details, check the alpha 1 page.
         </p>
       </section>
     </div>
   </main>
 </BaseLayout>
-
-<!-- no beta at the moment
-
-<BaseLayout
-  title="Audacity ® | Beta download"
-  description="Test the latest Audacity Beta for Windows, macOS and Linux"
->
-  <main id="main" class="max-w-screen-xl mx-auto">
-    <div class="grid grid-cols-12 pt-8 sm:pt-20 pb-32 gap-y-12">
-      <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
-        <div>
-          <h1>Help us test our new beta!</h1>
-          <div class="mt-6">
-            <p>
-              We are looking for feedback on our new features in this release.
-            </p>
-            <h4 class="mt-8">Cloud project saving</h4>
-            <p class="mt-2 bg-amber-200 p-4 rounded-lg -mr-8">
-              <strong
-                >For this beta, please try Cloud saving.</strong
-              > To do that, simply record some audio, then press Ctrl+S. You'll be guided from there.
-            </p>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/qEAZv_o0HuQ?si=cSkDGalD1VmC9SJK"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              class="my-4"></iframe>
-            <p class="mt-2">
-              We've introduced a new cloud-saving feature that allows you to
-              save your Audacity projects to <a
-                href="https://audio.com"
-                class="hyperlink">audio.com</a
-              >. This allows you to work from any device, share & collaborate
-              with others and restore previous versions if you lose work.
-            </p>
-          </div>
-        </div>
-
-        <div class="pt-12">
-          <h2 class="mt-4">Submit your feedback!</h2>
-          <p class="mt-4">
-            We're always eager to hear what you have to say, but it's especially
-            important we hear from you during this early phase. Please let us
-            know what you think, using the following places:
-          </p>
-          <ul class="py-2 list-none">
-            <li class="hyperlink">
-              <a
-                href="https://forum.audacityteam.org/c/feedback-and-discussion-forum/alpha-pre-release/21"
-                >Audacity Forum</a
-              >
-            </li>
-            <li class="hyperlink">
-              <a href="https://discord.gg/u9u5XvjFHr">Audio.com Discord</a>
-            </li>
-            <li class="hyperlink">
-              <a href="https://discord.gg/audacity">Audacity Discord</a>
-            </li>
-            <li class="hyperlink">
-              <a href="https://github.com/audacity/audacity/issues">
-                Github issues (for concrete and reproducible bugs)
-              </a>
-            </li>
-          </ul>
-          <p class="pt-2">
-            And with all that out of the way: <strong>Happy testing!</strong>
-          </p>
-        </div>
-
-        <div class="pt-16">
-          <h2>Addtional features</h2>
-
-          <div class="flex flex-col gap-8">
-            <div>
-              <h4 class="mt-6">Automatic loop detection</h4>
-              <p class="mt-2">
-                Audacity can now automatically detect the tempo of imported
-                loops, and adjust them to be in tempo.
-              </p>
-              <p class="mt-2">
-                Tempo detection is done via both audio analysis and metadata
-                checking. If you want to prepare your loop for automatic tempo
-                detection without relying on audio analysis, both acidizer tempo
-                tags or simply writing "123 bpm" anywhere into the filename
-                work.
-              </p>
-            </div>
-
-            <div>
-              <h4>Pitch shifting</h4>
-              <p class="mt-2">
-                You now can non-destructively change the pitch of a clip by
-                selecting a clip and pressing <kbd>Alt</kbd> + <kbd>↑</kbd> or <kbd
-                  >↓</kbd
-                >. Alternatively, you can click on the overflow menu (...) and
-                select "Pitch and speed...". When changing the pitch this way,
-                an arrow in the UI indicates how much you've shifted it. <a
-                  class="hyperlink"
-                  href="https://support.audacityteam.org/audio-editing/changing-pitch"
-                  >Learn More...</a
-                >
-              </p>
-            </div>
-            <div>
-              <h4>And even more!</h4>
-              <p class="mt-2">
-                Audacity 3.5 has received many more updates and improvements.
-                You can read all of them in the <a
-                  href="https://support.audacityteam.org/additional-resources/changelog/audacity-3.5"
-                  class="hyperlink">changelog</a
-                >.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <aside
-        class="row-start-2 sm:row-start-1 col-start-2 col-span-10 sm:col-start-8 sm:col-span-4"
-      >
-        <h2 class="text-sm uppercase font-normal text-gray-600">
-          Download links
-        </h2>
-        <div class="flex flex-col gap-6 mt-2">
-          <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">
-              Download Beta for Windows
-            </h3>
-            <div class="mt-2">
-              <SplitDownloadButton OS="Windows" releaseData={win} client:load />
-            </div>
-          </div>
-
-          <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Download Beta for macOS</h3>
-            <div class="mt-2">
-              <SplitDownloadButton OS="macOS" releaseData={mac} client:load />
-            </div>
-          </div>
-
-          <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Download Beta for Linux</h3>
-            <div class="mt-2">
-              <SplitDownloadButton OS="Linux" releaseData={lin} client:load />
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </main>
-</BaseLayout>
--->
