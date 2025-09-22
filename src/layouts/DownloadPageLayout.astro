@@ -7,9 +7,9 @@ import { Icon } from "astro-icon";
 import "../styles/icons.css";
 import {
   museHubReleases,
-  type ReleaseInfo,
-  type MuseHubReleaseInfo,
-} from "../assets/js/releaseData";
+} from "../assets/data/museHubReleases";
+import type { ReleaseInfo } from "../assets/data/audacityReleases";
+import type { MuseHubReleaseInfo } from "../assets/data/museHubReleases";
 
 export interface Props {
   title: string;
