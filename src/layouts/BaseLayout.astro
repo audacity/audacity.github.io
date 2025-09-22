@@ -18,7 +18,7 @@ const {
   index = "all",
 } = Astro.props;
 
-const isPostDownloadPage = Astro.request.url.includes("/post-download");
+const isNoAdPage = Astro.request.url.includes("/post-download") || Astro.request.url.includes("/au4a1");
 ---
 
 <!doctype html>
@@ -53,9 +53,9 @@ const isPostDownloadPage = Astro.request.url.includes("/post-download");
     >
     <header class="z-50 sticky left-0 right-0 top-0">
       <NavigationReact client:load currentURL={Astro.request.url} />
-      {!isPostDownloadPage && <BetaBanner client:load url={Astro.request.url} />}
-      {!isPostDownloadPage && <SurveyBanner client:load url={Astro.request.url} />}
-      {!isPostDownloadPage && <PromoBanner client:load />}
+      {!isNoAdPage && <BetaBanner client:load url={Astro.request.url} />}
+      {!isNoAdPage && <SurveyBanner client:load url={Astro.request.url} />}
+      {!isNoAdPage && <PromoBanner client:load />}
     </header>
 
     <slot />
