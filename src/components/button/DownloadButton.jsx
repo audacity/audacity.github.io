@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
-import { audacityReleases } from "../../assets/js/releaseData";
+import { audacityReleases } from "../../assets/data/audacityReleases";
 import { trackEvent } from "../../utils/matomo";
 
 function DownloadButton() {
