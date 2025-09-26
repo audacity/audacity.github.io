@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import platform from "platform";
-import { audacityReleases } from "../../assets/js/releaseData";
-import { museHubReleases } from "../../assets/js/releaseData";
+import { audacityReleases } from "../../assets/data/audacityReleases";
+import { museHubReleases } from "../../assets/data/museHubReleases";
 import { trackEvent } from "../../utils/matomo";
 
 function DownloadMuseHubButton() {

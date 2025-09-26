@@ -1,4 +1,4 @@
-import { museHubReleases } from "../../assets/js/releaseData";
+import { museHubReleases } from "../../assets/data/museHubReleases";
 import "../../styles/icons.css";
 import useBrowserOS from "../../hooks/useDetectOS";
 import { trackEvent } from "../../utils/matomo";
