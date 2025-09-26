@@ -17,9 +17,9 @@ const { win, mac, lin } = betaReleases;
     <div class="grid grid-cols-12 pt-8 pb-32 gap-y-12">
       <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
         <div>
-          <h1>Help us test the first Audacity&nbsp;4 alpha!</h1>
+          <h1 class="text-gray-700">Help us test the first Audacity&nbsp;4 alpha!</h1>
           <div class="mt-4">
-            <p>
+            <p class="text-gray-700">
               The first alpha version of Audacity 4 is intended as an early preview and feedback opportunity on some core interactions we have designed. 
             </p>
             <iframe
@@ -31,16 +31,16 @@ const { win, mac, lin } = betaReleases;
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
               class="my-4"></iframe>
-            <h2 class="mt-6 text-2xl">What should work</h2>
+            <h2 class="mt-6 text-2xl text-gray-700">What should work</h2>
             <p class="mt-2">We expect the following flow to work reasonably well:</p>
-            <ul class="list-disc mt-2 ml-6">
-              <li>Recording, generating and importing audio</li>
-              <li>The core editing flow of applying effects (destructive or realtime), making cuts, moving clips and such.</li>
-              <li>Exporting (without metadata)</li>
-              <li>Customization of the app (themes, and editing/moving the toolbar)</li>
+            <ul class="list-disc mt-2 ml-6 text-gray-700">
+              <li class="text-gray-700">Recording, generating and importing audio</li>
+              <li class="text-gray-700">The core editing flow of applying effects (destructive or realtime), making cuts, moving clips and such.</li>
+              <li class="text-gray-700">Exporting (without metadata)</li>
+              <li class="text-gray-700">Customization of the app (themes, and editing/moving the toolbar)</li>
             </ul>
           </div>
-          <h2 class="mt-6 text-2xl">What doesn't work yet</h2>
+          <h2 class="mt-6 text-2xl text-gray-700">What doesn't work yet</h2>
           <p class="mt-2">We haven't completed all development tasks for the full app yet. As such, a lot of features are missing, or appear disabled for the moment. We expect the following things to not work right now:</p>
           <ul class="list-disc mt-2 ml-6">
               <li>Various menu items and buttons haven't been hooked up to functionality yet, you'll see them greyed out.</li>
@@ -52,7 +52,7 @@ const { win, mac, lin } = betaReleases;
         </div>
 
         <div>
-          <h2 class="mt-4 text-2xl">Submit your feedback!</h2>
+          <h2 class="mt-4 text-2xl text-gray-700">Submit your feedback!</h2>
           <p class="mt-2">
             We're always eager to hear what you have to say, but it's especially
             important we hear from you during this early phase. Please let us
@@ -78,7 +78,7 @@ const { win, mac, lin } = betaReleases;
             And with all that out of the way: <strong>Happy testing!</strong>
           </p>
         </div>
-        <h2 class="mt-8 text-2xl">System requirements</h2>
+  <h2 class="mt-8 text-2xl text-gray-700">System requirements</h2>
         <p class="mt-2">Audacity 4 has higher system requirements than Audacity 3, mostly due to Qt's platform support. We expect Audacity 4 Alpha 1 to work on the following platforms:</p>
         <ul class="list-disc mt-2 ml-6">
               <li>
@@ -96,12 +96,12 @@ const { win, mac, lin } = betaReleases;
       <aside
         class="row-start-2 sm:row-start-1 col-start-2 col-span-10 sm:col-start-8 sm:col-span-4"
       >
-        <h2 class="text-sm uppercase font-normal text-gray-600">
+        <h2 class="text-sm uppercase font-normal text-gray-700">
           Download links
         </h2>
         <div class="flex flex-col gap-6 mt-2">
           <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">
+              <h3 class="additional-resource-heading text-gray-700">
               Audacity 4 alpha 1 for Windows
             </h3>
             <div class="mt-2">
@@ -110,14 +110,14 @@ const { win, mac, lin } = betaReleases;
           </div>
 
           <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Audacity 4 alpha 1 for macOS</h3>
+            <h3 class="additional-resource-heading text-gray-700">Audacity 4 alpha 1 for macOS</h3>
             <div class="mt-2">
               <SplitDownloadButton OS="macOS" releaseData={mac} client:load />
             </div>
           </div>
 
           <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Audacity 4 alpha 1 for Linux</h3>
+            <h3 class="additional-resource-heading text-gray-700">Audacity 4 alpha 1 for Linux</h3>
             <div class="mt-2">
               <SplitDownloadButton OS="Linux" releaseData={lin} client:load />
             </div>
