@@ -8,8 +8,6 @@ import FeaturedVideo from "../components/video/FeaturedVideo";
 const { win, mac, lin } = betaReleases;
 ---
 
-
-
 <BaseLayout
   title="Audacity 4 alpha download"
   description="Test the latest Audacity 4 alpha for Windows, macOS and Linux"
@@ -17,92 +15,102 @@ const { win, mac, lin } = betaReleases;
   <main id="main" class="max-w-screen-xl mx-auto text-gray-700">
     <div class="grid grid-cols-12 pt-8 pb-32 gap-y-12">
       <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
-        <div>
-          <h1>Help us test the first Audacity&nbsp;4 alpha!</h1>
-          <div class="mt-4">
-            <p>
-              The first alpha version of Audacity 4 is intended as an early preview and feedback opportunity on some core interactions we have designed. 
-            </p>
-            <FeaturedVideo
-              client:load
-              placeholderImage="https://i.ytimg.com/vi/qEAZv_o0HuQ/maxresdefault.jpg"
-              imageAltText="Video thumbnail: Audacity 4 alpha preview"
-              videoURL="https://www.youtube-nocookie.com/embed/qEAZv_o0HuQ?autoplay=1"
-              title="Audacity 4 alpha preview"
-              label="A quick look at the new features and changes in Audacity 4"
-            />
-            
-            <h2 class="mt-6 text-2xl">What should work</h2>
-            <p class="mt-2">We expect the following flow to work reasonably well:</p>
-            <ul class="list-disc mt-2 ml-6">
-              <li>Recording, generating and importing audio</li>
-              <li>The core editing flow of applying effects (destructive or realtime), making cuts, moving clips and such.</li>
-              <li>Exporting (without metadata)</li>
-              <li>Customization of the app (themes, and editing/moving the toolbar)</li>
-            </ul>
-          </div>
-          <h2 class="mt-6 text-2xl">What doesn't work yet</h2>
-          <p class="mt-2">We haven't completed all development tasks for the full app yet. As such, a lot of features are missing, or appear disabled for the moment. We expect the following things to not work right now:</p>
-          <ul class="list-disc mt-2 ml-6">
-              <li>Various menu items and buttons haven't been hooked up to functionality yet, you'll see them greyed out.</li>
-              <li>Various plugins – Nyquist, LADSPA and VAMP and the OpenVINO plugins  – have not been ported over yet.</li>
-              <li>Preferences from Audacity 3 are not carried over.</li>
-              <li>Some more advanced features, like envelopes, labels, spectrograms aren't available yet.</li>
-              <li>Most effects/generators/analyzers aren't available yet.</li>
-              <li>Opening multiple projects at the same time is not supported yet.</li>
-        </div>
-
-        <div>
-          <h2 class="mt-4 text-2xl">Submit your feedback!</h2>
-          <p class="mt-2">
-            We're always eager to hear what you have to say, but it's especially
-            important we hear from you during this early phase. Please let us
-            know what you think, using the following places:
+        <h1>Audacity&nbsp;4 Alpha 1</h1>
+        <div class="mt-4">
+          <p>
+            The purpose of this alpha build is to test core aspects of Audacity
+            4. You can help us refine the experience by chiming in on the
+            forums. If you experience severe issues or crashes, please file an
+            issue on GitHub.
           </p>
           <ul class="py-2 list-none">
             <li class="hyperlink">
-              <a
-                href="https://forum.audacityteam.org/c/au4/64"
-                >Audacity Forum</a
+              <a href="https://forum.audacityteam.org/c/au4/64"
+                >Audacity 4 Forum</a
               >
             </li>
-            <li class="hyperlink">
-              <a href="https://discord.gg/audacity">Audacity Discord</a>
-            </li>
             <li>
-              For concrete and reproducible bugs only: <a href="https://github.com/audacity/audacity/issues" class="hyperlink">
-                Github issues 
+              <a
+                href="https://github.com/audacity/audacity/issues"
+                class="hyperlink"
+              >
+                Github issues
               </a>
             </li>
           </ul>
-          <p class="pt-2">
-            And with all that out of the way: <strong>Happy testing!</strong>
-          </p>
-        </div>
-  <h2 class="mt-8 text-2xl">System requirements</h2>
-        <p class="mt-2">Audacity 4 has higher system requirements than Audacity 3, mostly due to Qt's platform support. We expect Audacity 4 Alpha 1 to work on the following platforms:</p>
-        <ul class="list-disc mt-2 ml-6">
-              <li>
-                Windows 10 & 11 (x64, but not ARM yet)
-              </li>
-              <li>
-                macOS 12 and later
-              </li>
-              <li>
-                Linux: Ubuntu 22.04, RedHat 8.6, openSUSE 15.6, Debian 11.6 and later
-              </li>
-        </ul>
-      </section>
 
+          <h2 class="mt-6 text-2xl">What's in the build</h2>
+
+          <ul class="list-disc mt-2 ml-6">
+            <li>Recording and playback</li>
+            <li>Editing audio</li>
+            <li>Applying effects (destructive and real-time)</li>
+            <li>Exporting audio files</li>
+            <li>
+              Configuring and re-arranging the interface (including the new
+              Workspaces feature)
+            </li>
+          </ul>
+
+          <h2 class="mt-6 text-2xl">Unimplemented features</h2>
+          <p class="mt-2">
+            Some yet-to-be finalized features might appear non-functional, or
+            have been excluded from Audacity's interface. These are features not
+            yet ready for user testing, and have been disabled.
+          </p>
+          <ul class="list-disc mt-2 ml-6">
+            <li>Nyquist, LADSPA and VAMP and the OpenVINO plugins</li>
+            <li>Preferences from Audacity 3 are not carried over</li>
+            <li>Envelopes and label tracks</li>
+            <li>Spectrogram view and the spectral editing mode</li>
+            <li>Most built-in effects, including generators and analyzers</li>
+            <li>Opening multiple projects at the same time</li>
+          </ul>
+
+          <div>
+            <h2 class="mt-4 text-2xl">Submit your feedback!</h2>
+            <p class="mt-2">
+              We're always eager to hear what you have to say, but it's
+              especially important we hear from you during this early phase.
+              Please let us know what you think, using the following places:
+            </p>
+            <ul class="py-2 list-none">
+              <li class="hyperlink">
+                <a href="https://forum.audacityteam.org/c/au4/64"
+                  >Audacity Forum</a
+                >
+              </li>
+              <li class="hyperlink">
+                <a href="https://discord.gg/audacity">Audacity Discord</a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/audacity/audacity/issues"
+                  class="hyperlink"
+                >
+                  Github issues
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <FeaturedVideo
+          client:load
+          placeholderImage="https://i.ytimg.com/vi/qEAZv_o0HuQ/maxresdefault.jpg"
+          imageAltText="Video: How we made Audacity 4"
+          videoURL="https://www.youtube-nocookie.com/embed/qEAZv_o0HuQ?autoplay=1"
+          title="Video: How we made Audacity 4"
+          label="Watch a behind-the-scenes video on the making of Audacity 4"
+          class="mt-8"
+        />
+      </section>
       <aside
         class="row-start-2 sm:row-start-1 col-start-2 col-span-10 sm:col-start-8 sm:col-span-4"
       >
-        <h2 class="text-sm uppercase font-normal">
-          Download links
-        </h2>
+        <h2 class="text-sm uppercase font-normal">Download links</h2>
         <div class="flex flex-col gap-6 mt-2">
           <div class="border border-bg-200 rounded-md p-6">
-              <h3 class="additional-resource-heading">
+            <h3 class="additional-resource-heading">
               Audacity 4 alpha 1 for Windows
             </h3>
             <div class="mt-2">
@@ -111,14 +119,18 @@ const { win, mac, lin } = betaReleases;
           </div>
 
           <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Audacity 4 alpha 1 for macOS</h3>
+            <h3 class="additional-resource-heading">
+              Audacity 4 alpha 1 for macOS
+            </h3>
             <div class="mt-2">
               <SplitDownloadButton OS="macOS" releaseData={mac} client:load />
             </div>
           </div>
 
           <div class="border border-bg-200 rounded-md p-6">
-            <h3 class="additional-resource-heading">Audacity 4 alpha 1 for Linux</h3>
+            <h3 class="additional-resource-heading">
+              Audacity 4 alpha 1 for Linux
+            </h3>
             <div class="mt-2">
               <SplitDownloadButton OS="Linux" releaseData={lin} client:load />
             </div>
@@ -126,5 +138,5 @@ const { win, mac, lin } = betaReleases;
         </div>
       </aside>
     </div>
-  </main>
-</BaseLayout>
+  </main></BaseLayout
+>
