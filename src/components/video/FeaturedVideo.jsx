@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { trackEvent } from "../../utils/matomo";
+import ytLogo from "../../assets/img/yt.svg"
 
 function FeaturedVideo(props) {
   const [isClicked, setIsClicked] = useState(false);
@@ -54,14 +55,17 @@ function FeaturedVideo(props) {
           allowFullScreen
         ></iframe>
       ) : (
+        <div className="thumbnail-container grid grid-cols-1 grid-rows-1 place-items-center [grid-template-areas:'main']">
         <img
           tabIndex="0"
           src={placeholderImage}
           alt={imageAltText}
-          className="w-full aspect-video rounded-md shadow-xl cursor-pointer"
+          className="w-full aspect-video rounded-md shadow-xl cursor-pointer [grid-area:main]"
           onClick={() => handleVideoClick()}
           onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
         />
+        <img src={ytLogo.src} alt="YouTube logo" className="yt-logo w-24 h-24 [grid-area:main] pointer-events-none" />
+        </div>
       )}
       {label && <p className={`${textColor}`}>{label}</p>}
     </div>

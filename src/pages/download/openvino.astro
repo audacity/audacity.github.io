@@ -1,13 +1,13 @@
 ---
-import {
-  openvinoReleases,
-  audacityReleases,
-} from "../../assets/js/releaseData";
+import { openvinoReleases } from "../../assets/data/openvinoReleases";
+import { audacityReleases } from "../../assets/data/audacityReleases";
 import "../../styles/icons.css";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const { win, mac, version, revision } = openvinoReleases;
 const audaversion = audacityReleases.version;
+// Determine if major.minor match between OpenVINO and Audacity
+const sameMinor = version.split('.').slice(0, 2).join('.') === audaversion.split('.').slice(0, 2).join('.');
 
 import DownloadButton from "../../components/button/DownloadButton";
 import Audacity_Logo from "../../assets/img/Audacity_Logo.svg";
@@ -51,7 +51,7 @@ import SplitDownloadButton from "../../components/button/SplitDownloadButton";
       >
         {
           /*display a warning when openvino and Audacity are different versions*/
-          version === audaversion ? (
+          sameMinor ? (
             ""
           ) : (
             <b>
