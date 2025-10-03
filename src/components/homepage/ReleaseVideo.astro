@@ -1,29 +1,13 @@
 ---
 import { getImage } from "astro:assets";
-import ReleaseVideoPlaceholder from "../../assets/img/audacity-placeholder.webp";
-import PromoVideoPlaceholder from "../../assets/img/promo/playgrnd-fx-placeholder.webp";
 import FeaturedVideo from "../video/FeaturedVideo";
 
-const releaseVideoPlaceholderImage = await getImage({
-  src: ReleaseVideoPlaceholder,
-  format: 'webp',
-  width: 448,
-  quality: 80,
-});
-
-const featuredVideoPlaceholderImage = await getImage({
-  src: PromoVideoPlaceholder,
-  format: 'webp',
-  width: 448,
-  quality: 80,
-});
-
 const releaseVideo = {
-  title:"Our latest release",
-  label:"Master channel, new realtime effects & more!",
-  placeholderImage: releaseVideoPlaceholderImage.src,
-  imageAltText: "Video thumbnail: Audacity 3.6 - New effects",
-  videoURL:"https://www.youtube-nocookie.com/embed/f5TXPUOFH6A?autoplay=1",
+  title:"How we're building Audacity 4",
+  label:"A sneak peek at our development process and new features.",
+  placeholderImage: "https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg",
+  imageAltText: "Video thumbnail: How we're building Audacity 4",
+  videoURL:"https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1",
 }
 
 const promoVideo = {
