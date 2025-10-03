@@ -22,8 +22,8 @@ export const museHubReleases: MuseHubReleaseDirectory = {
     {
       name: "Muse Hub installer",
       browser_download_url:
-        "https://muse-cdn.com/Audacity_Installer_via_MuseHub.pkg",
-      type: ".pkg",
+        "https://muse-cdn.com/Audacity_Installer_via_MuseHub.dmg",
+      type: ".dmg",
     },
   ],
 };
