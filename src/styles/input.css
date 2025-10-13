@@ -49,11 +49,11 @@
     }
 
     .footer-link-list li {
-        @apply text-gray-700 hover:text-blue-700 w-fit
+        @apply text-text-contrast hover:text-accent w-fit
     }
 
     .copyright {
-        @apply text-xs text-gray-600
+        @apply text-xs text-text-contrast
     }
 
     .sub-heading {
@@ -65,7 +65,7 @@
     }
 
     .footer-list-heading {
-        @apply font-semibold text-lg text-gray-800
+        @apply text-text-contrast
     }
 
     .privacy-banner-heading {

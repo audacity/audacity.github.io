@@ -1,3 +1,43 @@
+@font-face {
+    font-family: 'Muse Sans';
+    src: url('/fonts/MuseSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Muse Sans';
+    src: url('/fonts/MuseSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Muse Sans';
+    src: url('/fonts/MuseSans-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Muse Sans';
+    src: url('/fonts/MuseSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Muse Display Symphony';
+    src: url('/fonts/MuseDisplay-Symphony.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 .signika {
     font-family: 'Signika Variable', sans-serif
 }

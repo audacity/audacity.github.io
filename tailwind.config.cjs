@@ -1,8 +1,15 @@
+const theme = require('./src/styles/theme.cjs');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      colors: theme.colors,
+      fontFamily: theme.typography.fontFamily,
+      fontSize: theme.typography.fontSize,
+      borderRadius: theme.borderRadius,
+      boxShadow: theme.boxShadow,
       animation: {
         fadeIn: "fadeIn 0.2s ease-in-out",
         fadeInSlow: "fadeInSlow 0.3s ease-in-out forwards",

@@ -1,154 +1,203 @@
 ---
 import "../../styles/fonts.css";
+
+const links = [
+  { href: "https://support.audacityteam.org", label: "Help", external: true },
+  { href: "/FAQ", label: "FAQ" },
+  { href: "/blog", label: "Blog" },
+  { href: "/cloud-saving", label: "Cloud Saving" },
+  { href: "https://forum.audacityteam.org/", label: "Forum", external: true },
+  { href: "https://merch.audacityteam.org/", label: "Merch", external: true, badge: "NEW" },
+  { href: "https://manual.audacityteam.org/", label: "Manual", external: true },
+  { href: "https://audio.com/", label: "Audio.com", external: true },
+];
+
+const downloads = [
+  { href: "/download/windows", label: "Windows" },
+  { href: "/download/mac", label: "macOS" },
+  { href: "/download/linux", label: "Linux" },
+  { href: "/beta", label: "Beta", id: "beta-link" },
+  { href: "https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub", label: "MuseHub", external: true },
+  { href: "/download/openvino", label: "AI plugins" },
+];
+
+const social = [
+  { href: "https://www.facebook.com/Audacity/", label: "Facebook", external: true },
+  { href: "https://github.com/audacity", label: "Github", external: true },
+  { href: "https://discord.gg/audacity", label: "Discord", external: true },
+  { href: "https://www.youtube.com/c/audacity", label: "YouTube", external: true },
+];
+
+const legal = [
+  { href: "/refund-policy", label: "Refund policy" },
+  { href: "/terms", label: "Terms & conditions" },
+  { href: "/privacy-policy", label: "Privacy policy" },
+  { href: "/brand-kit", label: "Brand kit" },
+];
 ---
 
-<footer class="bg-slate-200 py-12">
-  <div class="grid grid-cols-12 max-w-screen-xl mx-auto gap-y-4">
-    <div class="col-start-2 col-span-10 lg:col-start-2 lg:col-span-3">
-      <p class="signika text-gray-900 text-lg md:text-2xl font-bold">
-        Audacity
-      </p>
-      <p class="text-base mt-1 text-gray-700">
-        Audacity is an easy-to-use, multi-track audio editor and recorder for
-        Windows, macOS, GNU/Linux and other operating systems. Audacity is free,
-        open source software.
-      </p>
-    </div>
-    <div
-      class="col-start-2 col-span-5 row-start-2 md:col-start-2 md:col-span-2 lg:col-start-6 lg:row-start-1"
-    >
-      <p class="footer-list-heading">Links</p>
-      <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
-        <li>
-          <a
-            href="https://support.audacityteam.org"
-            aria-label="External link to Help">Help</a
-          >
-        </li>
-        <li><a href="/FAQ" aria-label="Link to FAQ">FAQ</a></li>
-        <li><a href="/blog" aria-label="Link to Blog">Blog</a></li>
-        <li>
-          <a href="/cloud-saving" aria-label="Link to Cloud Saving"
-            >Cloud Saving</a>
-        </li>
-        <li>
-          <a
-            href="https://forum.audacityteam.org/"
-            aria-label="External link to Forum"
-            target="_blank">Forum</a
-          >
-        </li>
-        <li>
-            <a
-            href="https://merch.audacityteam.org/"
-            aria-label="External link to Merch"
-            target="_blank"
-            >
-            <b>Merch</b>
-            <sup class="ml-1 px-1.5 py-0.3 rounded bg-red-600 text-white text-xs font-semibold">NEW</sup>
-            </a>
-        </li>
-        <li>
-          <a
-            href="https://manual.audacityteam.org/"
-            aria-label="External link to Manual"
-            target="_blank">Manual</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://audio.com/"
-            aria-label="External link to Audio.com"
-            target="_blank">Audio.com</a
-          >
-        </li>
-      </ul>
-    </div>
-
-    <div
-      class="col-start-7 col-span-5 row-start-2 md:col-span-2 md:col-start-4 lg:col-start-8 lg:row-start-1"
-    >
-      <p class="footer-list-heading">Downloads</p>
-      <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
-        <li>
-          <a href="/download/windows" aria-label="Link to Windows">Windows</a>
-        </li>
-        <li><a href="/download/mac" aria-label="Link to macOS">macOS</a></li>
-        <li><a href="/download/linux" aria-label="Link to Linux">Linux</a></li>
-        <li id="beta-link">
-          <a href="/beta" aria-label="Link to beta page">Beta</a>
-        </li>
-        <li>
-          <a
-            href="https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub"
-            aia-label="External link to MuseHub">MuseHub</a>
-        </li>
-        <li>
-          <a href="/download/openvino" aria-label="Link to AI plugins"
-            >AI plugins</a>
-        </li>
-      </ul>
-    </div>
-
-    <div
-      class="col-start-2 col-span-5 row-start-3 md:row-start-2 md:col-start-6 md:col-span-2 lg:col-start-10 lg:row-start-1"
-    >
-      <p class="footer-list-heading">Social</p>
-      <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
-        <li>
-          <a
-            href="https://www.facebook.com/Audacity/"
-            aria-label="External link to Facebook"
-            target="_blank">Facebook</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://github.com/audacity"
-            aria-label="External link to github"
-            target="_blank">Github</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://discord.gg/audacity"
-            aria-label="External link to discord"
-            target="_blank">Discord</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://www.youtube.com/c/audacity"
-            aria-label="External link to Youtube"
-            target="_blank">YouTube</a
-          >
-        </li>
-      </ul>
-    </div>
-
-    <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
-      <div class="border-t-[1px] border-gray-300 pt-4">
-        <p class="copyright text-center">
-          Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
+<footer class="bg-background-dark py-12">
+  <div class="max-w-screen-xl mx-auto px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12">
+      <!-- Brand Column -->
+      <div class="flex flex-col justify-between">
+        <div>
+          <p class="font-symphony text-64 text-accent">Audacity</p>
+          <p class="text-12 mt-2 text-text-contrast/75">
+            Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
+          </p>
+        </div>
+        <p class="text-12 text-text-contrast/75 mt-8 lg:mt-0">
           Website content licensed <a
             href="https://creativecommons.org/licenses/by/4.0/"
-            class="underline hover:text-blue-700"
+            class="underline hover:text-accent"
             rel="license"
             target="_blank"
             aria-label="CC-by 4.0">CC-by 4.0</a
           >. Audacity® software is licensed under the terms of the GNU General
           Public License, Version 3. Further information about the software
           license, distribution and acceptable use can be found <a
-            class="underline hover:text-blue-700"
+            class="underline hover:text-accent"
             href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
             target="_blank"
             aria-label="in the source code">in the source code</a
           >. This site is powered by <a
             href="https://www.netlify.com/"
             target="_blank"
-            class="underline hover:text-blue-700">Netlify</a
+            class="underline hover:text-accent">Netlify</a
           >.
         </p>
+      </div>
+
+      <!-- Link Groups Container -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-8 lg:pt-4 border-t border-text-contrast/20 lg:border-t-[1px]">
+        <!-- Links Column -->
+        <div>
+          <p class="font-harmony text-32 text-text-contrast">links</p>
+          <ul class="mt-2 space-y-2 md:space-y-0">
+            {links.map((link) => (
+              <li class="w-fit">
+                <a
+                  href={link.href}
+                  aria-label={link.external ? `External link to ${link.label}` : `Link to ${link.label}`}
+                  target={link.external ? "_blank" : undefined}
+                  class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
+                >
+                  {link.badge ? <b>{link.label}</b> : link.label}
+                  {link.badge && (
+                    <sup class="ml-1 px-1.5 py-0.3 rounded bg-red-600 text-white text-xs font-semibold">
+                      {link.badge}
+                    </sup>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Downloads Column -->
+        <div>
+          <p class="font-harmony text-32 text-text-contrast">downloads</p>
+          <ul class="mt-2 space-y-2 md:space-y-0">
+            {downloads.map((link) => (
+              <li id={link.id} class="w-fit">
+                <a
+                  href={link.href}
+                  aria-label={link.external ? `External link to ${link.label}` : `Link to ${link.label}`}
+                  target={link.external ? "_blank" : undefined}
+                  class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Social Column -->
+        <div>
+          <p class="font-harmony text-32 text-text-contrast">social</p>
+          <ul class="mt-2 space-y-2 md:space-y-0">
+            {social.map((link) => (
+              <li class="w-fit">
+                <a
+                  href={link.href}
+                  aria-label={`External link to ${link.label}`}
+                  target="_blank"
+                  class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Legal Column -->
+        <div>
+          <p class="font-harmony text-32 text-text-contrast">plugins</p>
+          <ul class="mt-2 space-y-2 md:space-y-0">
+            {legal.map((link) => (
+              <li class="w-fit">
+                <a
+                  href={link.href}
+                  aria-label={`Link to ${link.label}`}
+                  class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Width Section -->
+    <div class="mt-12 pt-8 border-t border-text-contrast/20">
+      <div class="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12">
+        <!-- Social Icons -->
+        <div class="flex gap-4">
+          {social.map((link) => (
+            <a
+              href={link.href}
+              aria-label={`External link to ${link.label}`}
+              target="_blank"
+              class="text-accent hover:text-text-contrast transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <!-- Description Text -->
+        <div class="lg:w-1/2">
+          <p class="text-[10px] text-text-contrast/75">
+            Audacity is an easy-to-use, multi-track audio editor and recorder for Windows, macOS, GNU/Linux and other operating systems. Audacity is free, open source software.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Another Full Width Section -->
+    <div class="mt-8 pt-8 border-t border-text-contrast/20">
+      <div class="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12">
+        <!-- First Logo -->
+        <div>
+          <img src="/MuseGroup.svg" alt="Muse Group" class="h-12 opacity-50" />
+        </div>
+
+        <!-- Second, Third, and Fourth Logos -->
+        <div class="flex gap-8 justify-between">
+          <div class="flex gap-8">
+            <img src="/MuseHub.svg" alt="Muse Group" class="h-12 opacity-50" />
+            <img src="/AudioCom.svg" alt="Muse Group" class="h-12 opacity-50" />
+          </div>
+          <div class="flex flex-col items-start">
+            <img src="/Muse.svg" alt="Muse Group" class="h-8 opacity-50" />
+            <p class="text-[12px] text-text-contrast/50 mt-2">Inspire the artist. <br/> Unleash their sound.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
