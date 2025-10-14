@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import AudacityLogo from "../../assets/img/Audacity_Logo.svg";
+import AudacityIconSVG from "../inlineSVG/AudacityIconSVG";
+import AudacityWordmarkSVG from "../inlineSVG/AudacityWordmarkSVG";
+import SignUpButton from "./SignUpButton";
 import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
 
@@ -45,8 +47,8 @@ function NavigationReact(props) {
         key={index}
         className={
           getUrlPath(currentURL) === navLink.href
-            ? "font-regular text-blue-700"
-            : "font-regular text-gray-800 hover:text-blue-700"
+            ? "font-muse-sans text-16 text-accent"
+            : "font-muse-sans text-16 text-text-primary hover:text-accent"
         }
       >
         {navLink.linkText}
@@ -69,15 +71,9 @@ function NavigationReact(props) {
     <nav className="border-b-2 z-3 filter bg-white bg-opacity-90 backdrop-blur-xl">
       <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-4 md:px-6">
         <div className="flex-1">
-          <a className="flex w-fit items-center gap-1 lg:gap-2" href="/">
-            <img
-              className="w-5 lg:w-6 h-full"
-              src={AudacityLogo.src}
-              alt="A yellow and orange waveform between the ears of a set of blue headphones"
-            />
-            <p className="signika text-blue-700 lg:text-lg font-medium lg:leading-none">
-              Audacity
-            </p>
+          <a className="flex w-fit items-center gap-2" href="/">
+            <AudacityIconSVG className="h-6 fill-text-primary" />
+            <AudacityWordmarkSVG className="h-5 fill-text-primary" />
           </a>
         </div>
 
@@ -88,22 +84,10 @@ function NavigationReact(props) {
         </div>
 
         <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
-          <p className="text-base hover:text-blue-700">
-            <a href="/cloud-saving">Audacity Cloud saving</a>
-          </p>
-          <a
-            href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Nav_button"
-            target="_blank"
-          >
-            <button
-              onClick={() => {
-                handleButtonClick();
-              }}
-              className="border-2 border-blue-700 rounded-md py-0.5 px-2 text-blue-700 font-semibold hover:bg-blue-700 hover:text-white"
-            >
-              Sign up
-            </button>
+          <a href="/cloud-saving" className="font-muse-sans text-16 text-text-primary hover:text-accent">
+            Audacity Cloud saving
           </a>
+          <SignUpButton onClick={handleButtonClick} />
         </div>
 
         <button
