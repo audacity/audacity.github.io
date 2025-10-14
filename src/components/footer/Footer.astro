@@ -1,5 +1,14 @@
 ---
 import "../../styles/fonts.css";
+import MuseHubSVG from "../inlineSVG/MuseHubSVG";
+import MuseGroupSVG from '../inlineSVG/MuseGroupSVG';
+import AudioSVG from '../inlineSVG/AudioSVG';
+import MuseWordmarkSVG from '../inlineSVG/MuseWordmarkSVG';
+import FacebookSVG from '../inlineSVG/FacebookSVG';
+import InstagramSVG from '../inlineSVG/InstagramSVG';
+import TwitterSVG from '../inlineSVG/TwitterSVG';
+import YoutubeSVG from '../inlineSVG/YoutubeSVG';
+import DiscordSVG from '../inlineSVG/DiscordSVG';
 
 const links = [
   { href: "https://support.audacityteam.org", label: "Help", external: true },
@@ -23,9 +32,10 @@ const downloads = [
 
 const social = [
   { href: "https://www.facebook.com/Audacity/", label: "Facebook", external: true },
-  { href: "https://github.com/audacity", label: "Github", external: true },
-  { href: "https://discord.gg/audacity", label: "Discord", external: true },
+  { href: "https://x.com/getaudacity?lang=en", label: "X", external: true },
+  { href: "https://www.instagram.com/audacityteam/", label: "Instagram", external: true },
   { href: "https://www.youtube.com/c/audacity", label: "YouTube", external: true },
+  { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
 const legal = [
@@ -165,7 +175,12 @@ const legal = [
               target="_blank"
               class="text-accent hover:text-text-contrast transition-colors"
             >
-              {link.label}
+              {link.label === "Facebook" ? <FacebookSVG client:load /> :
+               link.label === "Instagram" ? <InstagramSVG client:load /> :
+               link.label === "X" ? <TwitterSVG client:load /> :
+               link.label === "YouTube" ? <YoutubeSVG client:load /> :
+               link.label === "Discord" ? <DiscordSVG client:load /> :
+               link.label}
             </a>
           ))}
         </div>
@@ -184,17 +199,17 @@ const legal = [
       <div class="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12">
         <!-- First Logo -->
         <div>
-          <img src="/MuseGroup.svg" alt="Muse Group" class="h-12 opacity-50" />
+               <MuseGroupSVG />
         </div>
 
         <!-- Second, Third, and Fourth Logos -->
         <div class="flex gap-8 justify-between">
           <div class="flex gap-8">
-            <img src="/MuseHub.svg" alt="Muse Group" class="h-12 opacity-50" />
-            <img src="/AudioCom.svg" alt="Muse Group" class="h-12 opacity-50" />
+            <MuseHubSVG />
+            <AudioSVG />
           </div>
           <div class="flex flex-col items-start">
-            <img src="/Muse.svg" alt="Muse Group" class="h-8 opacity-50" />
+            <MuseWordmarkSVG/>
             <p class="text-[12px] text-text-contrast/50 mt-2">Inspire the artist. <br/> Unleash their sound.</p>
           </div>
         </div>
