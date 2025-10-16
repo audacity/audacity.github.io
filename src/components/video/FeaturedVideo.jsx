@@ -33,13 +33,11 @@ function FeaturedVideo(props) {
           <h3 className={`content-center ${textColor}`}>{title}</h3>
           {CTA && (
             <a
-              className="py-3 px-4 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
+              className="py-2 px-4 rounded-full justify-center bg-accent text-white hover:opacity-90 transition-opacity w-fit font-semibold"
               href={ctaURL}
               onClick={() => handleCTAClick()}
             >
-              <p className={`text-slate-900 leading-none font-semibold`}>
-                {ctaText}
-              </p>
+              {ctaText}
             </a>
           )}
         </div>
