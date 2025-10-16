@@ -4,6 +4,7 @@ import type { PromoData } from "../../assets/data/promotions";
 import useBrowserOS from "../../hooks/useDetectOS";
 import "../../styles/icons.css";
 import { trackEvent } from "../../utils/matomo";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
   container: "bg-yellow-300",
@@ -12,14 +13,16 @@ const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
 };
 
 const BASE_CONTAINER_CLASSNAME =
-  "flex flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6";
+  "flex flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6 transition-colors duration-200";
 const BASE_MESSAGE_CLASSNAME = "text-lg font-semibold";
 const BASE_BUTTON_CLASSNAME =
   "flex h-8 justify-center items-center px-4 rounded-md font-semibold";
 
+const PLACEHOLDER_CONTAINER_CLASSNAME =
+  "flex flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6 transition-colors duration-200 opacity-0 pointer-events-none";
+
 type PromoBannerProps = {
   requestPath?: string;
-  seed?: string;
 };
 
 const STATIC_PROMOS: PromoData[] = Object.values(promoData);
@@ -62,18 +65,7 @@ const getEligiblePromos = (promos: PromoData[], os: string | null) =>
     return promo.osTargets.includes(os);
   });
 
-const normalizeSeed = (seed: string | null | undefined) =>
-  seed && seed.length > 0 ? seed : "default";
-
-const deterministicRandom = (seed: string) => {
-  let hash = 0;
-  for (let index = 0; index < seed.length; index += 1) {
-    hash = (hash * 31 + seed.charCodeAt(index)) | 0;
-  }
-  return (hash >>> 0) / 0xffffffff;
-};
-
-const selectWeightedPromo = (promos: PromoData[], seed: string) => {
+const selectWeightedPromo = (promos: PromoData[]) => {
   if (promos.length === 0) {
     return null;
   }
@@ -85,7 +77,7 @@ const selectWeightedPromo = (promos: PromoData[], seed: string) => {
     return getHighestPriorityPromo(promos);
   }
 
-  let threshold = deterministicRandom(seed) * totalWeight;
+  let threshold = Math.random() * totalWeight;
 
   for (let index = 0; index < promos.length; index += 1) {
     threshold -= weights[index];
@@ -101,18 +93,83 @@ const selectWeightedPromo = (promos: PromoData[], seed: string) => {
 const buildPromoList = (path: string | null): PromoData[] =>
   STATIC_PROMOS.filter((promo) => !isSuppressedOnPath(promo, path));
 
-const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath, seed }) => {
+const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
   const browserOS = useBrowserOS();
-  const pathName =
-    requestPath ??
-    (typeof window !== "undefined" ? window.location.pathname : null);
-  const promos = buildPromoList(pathName);
-  const eligiblePromos = getEligiblePromos(promos, browserOS);
-  const fallbackPromos = promos.filter((promo) => isPromoActive(promo));
-  const selectionPool =
-    eligiblePromos.length > 0 ? eligiblePromos : fallbackPromos;
-  const selectionSeed = normalizeSeed(seed ?? pathName ?? "default");
-  const selectedPromo = selectWeightedPromo(selectionPool, selectionSeed);
+  const [selectedPromo, setSelectedPromo] = useState<PromoData | null>(null);
+  const [isReady, setIsReady] = useState(false);
+  const hasSelected = useRef(false);
+  const [shouldReserveSpace, setShouldReserveSpace] = useState<boolean>(() => {
+    const pathForEval =
+      typeof window !== "undefined"
+        ? window.location.pathname
+        : requestPath ?? null;
+    const promos = buildPromoList(pathForEval);
+    return promos.some((promo) => isPromoActive(promo) && Boolean(promo.cta));
+  });
+
+  const initialPath = useMemo(() => {
+    if (typeof window !== "undefined") {
+      return window.location.pathname;
+    }
+    return requestPath ?? null;
+  }, [requestPath]);
+
+  useEffect(() => {
+    if (hasSelected.current) {
+      return;
+    }
+
+    const pathName =
+      typeof window !== "undefined" ? window.location.pathname : initialPath;
+
+    if (typeof window !== "undefined" && browserOS === null) {
+      return;
+    }
+
+    const promos = buildPromoList(pathName);
+
+    if (promos.length === 0) {
+      hasSelected.current = true;
+      setSelectedPromo(null);
+      setIsReady(true);
+      setShouldReserveSpace(false);
+      return;
+    }
+
+    const eligiblePromos = getEligiblePromos(promos, browserOS);
+    const fallbackPromos = promos.filter((promo) => isPromoActive(promo));
+    const selectionPool =
+      eligiblePromos.length > 0 ? eligiblePromos : fallbackPromos;
+
+    if (selectionPool.length === 0) {
+      hasSelected.current = true;
+      setSelectedPromo(null);
+      setIsReady(true);
+      setShouldReserveSpace(false);
+      return;
+    }
+
+    const promo = selectWeightedPromo(selectionPool);
+    hasSelected.current = true;
+    setSelectedPromo(promo && promo.cta ? promo : null);
+    setIsReady(true);
+    setShouldReserveSpace(true);
+  }, [browserOS, initialPath]);
+
+  if (!isReady && shouldReserveSpace) {
+    return (
+      <div className={PLACEHOLDER_CONTAINER_CLASSNAME} aria-hidden="true">
+        <div className="lg:flex text-center gap-4 flex-wrap justify-center">
+          <p className={BASE_MESSAGE_CLASSNAME}>&nbsp;</p>
+        </div>
+        <span className={BASE_BUTTON_CLASSNAME}>&nbsp;</span>
+      </div>
+    );
+  }
+
+  if (!isReady) {
+    return null;
+  }
 
   if (!selectedPromo || !selectedPromo.cta) {
     return null;
