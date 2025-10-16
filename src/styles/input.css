@@ -4,41 +4,41 @@
 
 @layer base {
     h2 {
-        @apply text-xl lg:text-3xl text-gray-800 font-semibold leading-tight
+        @apply text-20 lg:text-32 text-text-primary font-semibold leading-tight
     }
 
 
     h3 {
-        @apply text-lg md:text-lg lg:text-2xl text-gray-700 font-semibold
+        @apply text-18 md:text-18 lg:text-24 text-text-primary font-semibold
     }
 
 
     h5 {
-        @apply text-base font-semibold text-gray-700
+        @apply text-16 font-semibold text-text-primary
     }
 
     p {
-        @apply text-base text-gray-700 leading-snug
+        @apply text-16 text-text-primary leading-snug
     }
 
     label {
-        @apply text-gray-700
+        @apply text-text-primary
     }
-    
+
     .list li {
-        @apply mt-2 list-disc list-inside text-base lg:text-lg text-gray-700 leading-relaxed
+        @apply mt-2 list-disc list-inside text-16 lg:text-18 text-text-primary leading-relaxed
     }
 
     small {
-        @apply text-xs md:text-sm uppercase text-gray-700
+        @apply text-12 uppercase text-text-primary
     }
 
     .hyperlink {
-        @apply text-blue-700 underline hover:text-blue-600
+        @apply text-accent underline hover:opacity-80
     }
 
     .dark-hyperlink {
-        @apply text-blue-400 underline hover:text-blue-300
+        @apply text-accent underline hover:opacity-80
     }
 
     .footer-link-list li {
@@ -46,15 +46,15 @@
     }
 
     .copyright {
-        @apply text-xs text-text-contrast
+        @apply text-12 text-text-contrast
     }
 
     .sub-heading {
-        @apply text-base
+        @apply text-16
     }
 
     .faq-question {
-        @apply font-semibold text-lg text-gray-800
+        @apply font-semibold text-18 text-text-primary
     }
 
     .footer-list-heading {
@@ -62,23 +62,23 @@
     }
 
     .privacy-banner-heading {
-        @apply font-semibold text-2xl text-gray-800
+        @apply font-semibold text-24 text-text-primary
     }
 
     .additional-resource-heading {
-        @apply font-semibold text-lg text-gray-800
+        @apply font-semibold text-18 text-text-primary
     }
 
     .skip-to-content {
         position: fixed;
-        background-color: rgb(29 78 216 );
+        background-color: #FF3254;
         color: white;
         display: flex;
         justify-content: center;
         align-items: center;
         left: 0px;
         right: 0px;
-        top: 0px;   
+        top: 0px;
         opacity: 0;
         transition-property: top;
         transition-duration: .3s;

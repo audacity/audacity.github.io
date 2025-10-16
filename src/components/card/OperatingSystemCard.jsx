@@ -58,7 +58,7 @@ function OperatingSystemCard(props) {
     <a href={targetURL}>
       <div className="bg-white border drop-shadow-md rounded-md p-4 lg:p-6">
         {renderOSIcon(title)}
-        <p className="mt-2 font-semibold text-xl text-gray-800">{title}</p>
+        <p className="mt-2 font-semibold text-xl text-text-primary">{title}</p>
         <p>{description}</p>
       </div>
     </a>

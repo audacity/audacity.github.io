@@ -121,7 +121,7 @@ function NavigationReact(props) {
             <a
               key={index}
               onClick={() => handleHamburgerMenuClick()}
-              className="py-3 px-4 text-gray-800 hover:text-blue-700 hover:bg-gray-100 transition-all duration-200 ease-in-out"
+              className="py-3 px-4 text-text-primary hover:text-accent hover:bg-gray-100 transition-all duration-200 ease-in-out"
               style={{
                 animationName: "fadeIn",
                 animationDuration: "200ms",

@@ -6,7 +6,7 @@ function AudioDotComCard(props) {
     <div
       className="p-4 rounded-lg flex flex-col text-left justify-between border"
     >
-      <span className={`icon icon-medium ${icon} text-blue-600`}></span>
+      <span className={`icon icon-medium ${icon} text-accent`}></span>
       <div>
         <small>{title}</small>
         <p>{body}</p>
