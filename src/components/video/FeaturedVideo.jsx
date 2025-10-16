@@ -14,7 +14,7 @@ function FeaturedVideo(props) {
     CTA,
     ctaText,
     ctaURL = "",
-    textColor = "text-slate-900",
+    textColor = "text-text-primary",
     matomoEventName,
   } = props;
 
@@ -65,7 +65,7 @@ function FeaturedVideo(props) {
         <img src={ytLogo.src} alt="YouTube logo" className="yt-logo w-24 h-24 [grid-area:main] pointer-events-none" />
         </div>
       )}
-      {label && <p className={`${textColor}`}>{label}</p>}
+      {label && <p className={`text-16 leading-snug ${textColor}`}>{label}</p>}
     </div>
   );
 }
