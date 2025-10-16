@@ -1,24 +1,32 @@
 ---
+import promoData from "../assets/data/promotions";
+import CookieConsent from "../components/banner/CookieConsent";
+import PromoBanner from "../components/banner/PromoBanner";
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
-import CookieConsent from "../components/banner/CookieConsent";
-import BetaBanner from "../components/banner/BetaBanner";
-import SurveyBanner from "../components/banner/SurveyBanner";
-import PromoBanner from "../components/banner/PromoBanner";
-import useBrowserOS from "../hooks/useDetectOS";
 
 export interface Props {
   title: string;
   description?: string;
   index?: string;
+  showPromoBanner?: boolean;
 }
 const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
   description = "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity. Download now!",
   index = "all",
+  showPromoBanner = true,
 } = Astro.props;
 
-const isNoAdPage = Astro.request.url.includes("/post-download") || Astro.request.url.includes("/au4");
+const isNoAdPage =
+  Astro.request.url.includes("/post-download") ||
+  Astro.request.url.includes("/next");
+const hasActiveStaticPromo = Object.values(promoData).some((promo) => {
+  const isActive = promo.isActive ?? true;
+  return isActive && Boolean(promo.cta);
+});
+const shouldShowPromoBanner =
+  showPromoBanner && !isNoAdPage && hasActiveStaticPromo;
 ---
 
 <!doctype html>
@@ -26,7 +34,7 @@ const isNoAdPage = Astro.request.url.includes("/post-download") || Astro.request
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style is:global>
       @import "../styles/input.css";
     </style>
@@ -53,9 +61,11 @@ const isNoAdPage = Astro.request.url.includes("/post-download") || Astro.request
     >
     <header class="z-50 sticky left-0 right-0 top-0">
       <NavigationReact client:load currentURL={Astro.request.url} />
-      {!isNoAdPage && <BetaBanner client:load url={Astro.request.url} />}
-      {!isNoAdPage && <SurveyBanner client:load url={Astro.request.url} />}
-      {!isNoAdPage && <PromoBanner client:load />}
+      {
+        shouldShowPromoBanner && (
+          <PromoBanner client:load requestPath={Astro.url.pathname} />
+        )
+      }
     </header>
 
     <slot />

@@ -1,5 +1,16 @@
 ---
 import "../../styles/fonts.css";
+import {
+  hasDownloadAssets,
+  preReleaseList,
+} from "../../assets/data/audacityReleases";
+const activeDownloadCampaign = preReleaseList.find((entry) =>
+  entry.isActive && hasDownloadAssets(entry.downloads)
+) ?? null;
+const hasPreRelease = Boolean(activeDownloadCampaign);
+const activePreReleaseAriaLabel = hasPreRelease && activeDownloadCampaign
+  ? `Link to ${activeDownloadCampaign.label.toLowerCase()} page`
+  : "";
 ---
 
 <footer class="bg-slate-200 py-12">
@@ -75,9 +86,16 @@ import "../../styles/fonts.css";
         </li>
         <li><a href="/download/mac" aria-label="Link to macOS">macOS</a></li>
         <li><a href="/download/linux" aria-label="Link to Linux">Linux</a></li>
-        <li id="beta-link">
-          <a href="/beta" aria-label="Link to beta page">Beta</a>
-        </li>
+        {hasPreRelease && activeDownloadCampaign && (
+          <li id="pre-release-link">
+            <a
+              href={activeDownloadCampaign.pageHref}
+              aria-label={activePreReleaseAriaLabel}
+            >
+              {activeDownloadCampaign.label}
+            </a>
+          </li>
+        )}
         <li>
           <a
             href="https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub"
