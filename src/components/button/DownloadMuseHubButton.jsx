@@ -45,7 +45,7 @@ function DownloadMuseHubButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex items-center justify-center h-12 lg:h-16 w-70 lg:w-80 rounded-full bg-accent text-white font-semibold hover:opacity-90 transition-opacity"
+        className="flex items-center justify-center h-12 lg:h-16 w-fit lg:w-[320px] px-6 lg:px-8 rounded-full bg-accent text-white font-semibold hover:opacity-90 transition-opacity"
         href={href}
       >
         Download Audacity {audacityReleases.version}

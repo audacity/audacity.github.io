@@ -5,16 +5,24 @@ import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 ---
 
-<section id="main" class="bg-background-light min-h-[320px] lg:h-[560px] overflow-hidden">
-  <div class="mx-auto h-full max-w-screen-2xl relative">
-    <div class="flex flex-col md:flex-row h-full">
+<section id="main" class="bg-background-light py-8 md:py-12 lg:py-16">
+  <div class="mx-auto max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-xl px-6 md:px-16">
+    <div class="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-0">
       <!-- Left Column - Text Content -->
-      <div class="flex flex-col justify-center text-center md:text-left w-full px-8 py-16 lg:pl-24 xl:pl-32 lg:py-0 md:pr-8 gap-8 lg:gap-14 z-10">
-        <h1 class="font-harmony lg:text-56 xl:text-64 text-text-primary">
-          Audacity is the world's<br />most popular audio editing<br />and recording app
-        </h1>
+      <div class="flex flex-col text-center lg:text-left lg:w-2/5 gap-6 md:gap-8 lg:gap-10 xl:gap-14">
+        <div class="flex flex-col gap-0">
+          <h1 class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-primary leading-tight whitespace-nowrap">
+            Audacity is the world's
+          </h1>
+          <h1 class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-primary leading-tight whitespace-nowrap">
+            most popular audio editing
+          </h1>
+          <h1 class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-primary leading-tight whitespace-nowrap">
+            and recording app
+          </h1>
+        </div>
 
-        <div class="flex flex-col gap-4 items-center md:items-start">
+        <div class="flex flex-col gap-4 items-center lg:items-start">
           <DownloadMuseHubButton client:load />
           <noscript>
             <DownloadMuseHubButton client:load />
@@ -27,17 +35,15 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       </div>
 
       <!-- Right Column - Image -->
-      <div class="hidden md:flex md:absolute md:right-0 md:top-0 md:h-full md:w-[550px] lg:w-[750px] xl:w-[900px]">
-        <div class="flex items-center justify-center h-full w-full">
-          <Image
-            src={AudacityMockUp}
-            alt="A laptop showing the Audacity application"
-            width={1400}
-            quality={90}
-            loading="eager"
-            class="w-full h-auto max-h-full object-contain"
-          />
-        </div>
+      <div class="lg:w-3/5 flex items-center justify-center">
+        <Image
+          src={AudacityMockUp}
+          alt="A laptop showing the Audacity application"
+          width={1400}
+          quality={90}
+          loading="eager"
+          class="w-full max-w-[400px] lg:max-w-full h-auto"
+        />
       </div>
     </div>
   </div>
