@@ -74,11 +74,11 @@ const formatCampaignLinkLabel = (
         </div>
       </section>
       <aside class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
-        <div>
-          <h2 class="text-sm uppercase font-normal text-gray-600">
-            Pre-release builds
-          </h2>
-          {hasDownloadCampaigns ? (
+        {hasDownloadCampaigns && (
+          <div>
+            <h2 class="text-sm uppercase font-normal text-gray-600">
+              Pre-release builds
+            </h2>
             <div class="flex flex-col gap-6 mt-2">
               {activeDownloadEntries.map((entry) => {
                 const downloads = entry.downloads;
@@ -89,66 +89,62 @@ const formatCampaignLinkLabel = (
 
                 return (
                   <div class="flex flex-col gap-3">
-                  <h3 class="text-base font-semibold text-gray-900">
-                    {versionLabel}
-                  </h3>
-                  <p class="text-sm text-gray-700">
-                    {entry.summary}
-                  </p>
-                  <ul class="flex flex-col gap-2 text-sm">
-                    {
-                      windowsBuilds.map((build) => (
-                        <li>
-                          <a
-                            class="hyperlink"
-                            href={build.browser_download_url}
-                          >
-                            {formatCampaignLinkLabel(entry, "Windows", build.name)}
-                          </a>
-                        </li>
-                      ))
-                    }
-                    {
-                      macBuilds.map((build) => (
-                        <li>
-                          <a
-                            class="hyperlink"
-                            href={build.browser_download_url}
-                          >
-                            {formatCampaignLinkLabel(entry, "macOS", build.name)}
-                          </a>
-                        </li>
-                      ))
-                    }
-                    {
-                      linuxBuilds.map((build) => (
-                        <li>
-                          <a
-                            class="hyperlink"
-                            href={build.browser_download_url}
-                          >
-                            {formatCampaignLinkLabel(entry, "Linux", build.name)}
-                          </a>
-                        </li>
-                      ))
-                    }
-                  </ul>
-                  <div class="flex items-center gap-1">
-                    <a href={entry.pageHref} class="hyperlink text-sm">
-                      {`Learn more about ${versionLabel}`}
-                    </a>
-                    <span class="align-middle icon icon-share text-blue-600"></span>
-                  </div>
+                    <h3 class="text-base font-semibold text-gray-900">
+                      {versionLabel}
+                    </h3>
+                    <p class="text-sm text-gray-700">
+                      {entry.summary}
+                    </p>
+                    <ul class="flex flex-col gap-2 text-sm">
+                      {
+                        windowsBuilds.map((build) => (
+                          <li>
+                            <a
+                              class="hyperlink"
+                              href={build.browser_download_url}
+                            >
+                              {formatCampaignLinkLabel(entry, "Windows", build.name)}
+                            </a>
+                          </li>
+                        ))
+                      }
+                      {
+                        macBuilds.map((build) => (
+                          <li>
+                            <a
+                              class="hyperlink"
+                              href={build.browser_download_url}
+                            >
+                              {formatCampaignLinkLabel(entry, "macOS", build.name)}
+                            </a>
+                          </li>
+                        ))
+                      }
+                      {
+                        linuxBuilds.map((build) => (
+                          <li>
+                            <a
+                              class="hyperlink"
+                              href={build.browser_download_url}
+                            >
+                              {formatCampaignLinkLabel(entry, "Linux", build.name)}
+                            </a>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                    <div class="flex items-center gap-1">
+                      <a href={entry.pageHref} class="hyperlink text-sm">
+                        {`Learn more about ${versionLabel}`}
+                      </a>
+                      <span class="align-middle icon icon-share text-blue-600"></span>
+                    </div>
                   </div>
                 );
               })}
             </div>
-          ) : (
-            <p class="text-sm text-gray-700 mt-2">
-              Pre-release downloads are currently unavailable.
-            </p>
-          )}
-        </div>
+          </div>
+        )}
         <h2 class="text-sm uppercase font-normal text-gray-600 mt-10">
           Additional resources
         </h2>
@@ -179,7 +175,7 @@ const formatCampaignLinkLabel = (
           <div>
             <h3 class="additional-resource-heading">Source code</h3>
             <div class="flex flex-col gap-2">
-              <!-- TODO - Ensure accordions are inclueded in the tab hierarchy -->
+              <!-- TODO - Ensure accordions are included in the tab hierarchy -->
               {primarySourceDownload ? (
                 <ChecksumAccordion
                   title={primarySourceDownload.type}

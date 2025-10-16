@@ -2,6 +2,7 @@ export type PromoData = {
   isActive?: boolean;
   priority?: number;
   osTargets?: string[];
+  suppressOnPaths?: string[];
   message: string;
   styles?: {
     container?: string;
@@ -23,20 +24,26 @@ const promoData: Record<string, PromoData> = {
   audacity4Alpha: {
     isActive: true,
     priority: 50,
+    suppressOnPaths: ["/au4", "/download"],
     message: "Want a peek at our next big release?",
     cta: {
       text: "Try the Audacity 4 Alpha",
       link: "/au4",
     },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Audacity 4 Alpha",
+    },
     styles: {
       container: "bg-[#0f004d]",
       message: "text-gray-100",
       button: "bg-[#ff3254] hover:bg-[#ff1a3c] text-white",
-    }
+    },
   },
   voiceByAuribus: {
     isActive: true,
-    priority: 0,
+    priority: 50,
     osTargets: ["Windows", "OS X"],
     message:
       "AI powered professional vocals. Transform any track with Voice by Auribus!",

@@ -22,6 +22,14 @@ const STATIC_PROMOS: PromoData[] = Object.values(promoData);
 const isPromoActive = (promo: PromoData | null | undefined) =>
   promo?.isActive ?? true;
 
+const isSuppressedOnPath = (promo: PromoData, path: string | null) => {
+  if (!path) {
+    return false;
+  }
+  const suppressedPaths = promo.suppressOnPaths ?? [];
+  return suppressedPaths.includes(path);
+};
+
 const getHighestPriorityPromo = (promos: PromoData[]) =>
   promos.reduce<PromoData | null>((selected, current) => {
     if (!current) {
@@ -74,11 +82,13 @@ const selectWeightedPromo = (promos: PromoData[]) => {
   return promos[promos.length - 1] ?? null;
 };
 
-const buildPromoList = (): PromoData[] => STATIC_PROMOS;
+const buildPromoList = (path: string | null): PromoData[] =>
+  STATIC_PROMOS.filter((promo) => !isSuppressedOnPath(promo, path));
 
 const PromoBanner: React.FC = () => {
   const browserOS = useBrowserOS();
-  const promos = buildPromoList();
+  const pathName = typeof window !== "undefined" ? window.location.pathname : null;
+  const promos = buildPromoList(pathName);
   const eligiblePromos = getEligiblePromos(promos, browserOS);
   const fallbackPromos = promos.filter((promo) => isPromoActive(promo));
   const selectionPool =
