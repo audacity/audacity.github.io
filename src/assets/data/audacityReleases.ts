@@ -13,8 +13,6 @@ export type ReleaseDirectory = {
   src?: ReleaseInfo[];
 };
 
-export type ActivationState = "active" | "inactive";
-
 export const audacityReleases: ReleaseDirectory = {
   version: "3.7.5",
   win: [
@@ -149,7 +147,7 @@ export const hasDownloadAssets = (downloads?: ReleaseDirectory): boolean => {
 export type PreReleaseEntry = {
   id: string;
   label: string;
-  status: ActivationState;
+  isActive: boolean;
   summary: string;
   pageHref: string;
   downloads: ReleaseDirectory;
@@ -158,10 +156,10 @@ export type PreReleaseEntry = {
 export const alphaPreRelease: PreReleaseEntry = {
   id: "alpha",
   label: "Alpha",
-  status: "active",
+  isActive: true,
   summary:
     "Get an early look at the next major release. Expect unfinished features and potential bugs.",
-  pageHref: "/au4",
+  pageHref: "/next",
   downloads: {
     version: "Audacity 4 Alpha 1",
     win: [
@@ -195,9 +193,9 @@ export const alphaPreRelease: PreReleaseEntry = {
 export const betaPreRelease: PreReleaseEntry = {
   id: "beta",
   label: "Beta",
-  status: "inactive",
+  isActive: false,
   summary: "Help us test upcoming features before they ship.",
-  pageHref: "/beta",
+  pageHref: "/next",
   downloads: {
     version: "3.5.0 beta",
     win: [

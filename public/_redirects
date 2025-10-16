@@ -19,7 +19,7 @@
 /gitbook-access	https://app.gitbook.com/invite/-MhmG2mhIIHTtQPuHV_k/acNI2LAF6LtdJW06t4Hc
 /devserver	https://discord.gg/N3XKxzTrq3
 /dev	https://audacity.gitbook.io/dev/
-/nightly	/beta
+/nightly	/next
 /au4win	https://nightly.link/audacity/audacity/workflows/au4_build_windows/master
 /au4mac	https://nightly.link/audacity/audacity/workflows/au4_build_macos/master
 /au4lin	https://nightly.link/audacity/audacity/workflows/au4_build_linux/master
@@ -28,6 +28,11 @@
 /cla	/CLA
 /)	/
 /vpat /VPAT.pdf
+
+# prerelease
+/au4	/next	301
+/alpha	/next	301
+/beta	/next	301
 
 # campaign links
 /survey	https://docs.google.com/forms/d/e/1FAIpQLSd42XPhC69bKUA9kbYiTXboRLaj9Q11_BUEXTK0v0TzWJQmDQ/viewform?usp=dialog

@@ -14,7 +14,7 @@ const { version } = audacityReleases;
 const sourceDownloads = audacityReleases.src ?? [];
 const primarySourceDownload = sourceDownloads[0] ?? null;
 const activeDownloadEntries = preReleaseList.filter(
-  (entry) => entry.status === "active" && hasDownloadAssets(entry.downloads),
+  (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
 );
 const hasDownloadCampaigns = activeDownloadEntries.length > 0;
 

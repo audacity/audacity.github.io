@@ -5,7 +5,7 @@ import {
   preReleaseList,
 } from "../../assets/data/audacityReleases";
 const activeDownloadCampaign = preReleaseList.find((entry) =>
-  entry.status === "active" && hasDownloadAssets(entry.downloads)
+  entry.isActive && hasDownloadAssets(entry.downloads)
 ) ?? null;
 const hasPreRelease = Boolean(activeDownloadCampaign);
 const activePreReleaseAriaLabel = hasPreRelease && activeDownloadCampaign

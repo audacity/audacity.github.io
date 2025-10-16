@@ -24,11 +24,11 @@ const promoData: Record<string, PromoData> = {
   audacity4Alpha: {
     isActive: true,
     priority: 50,
-    suppressOnPaths: ["/au4", "/download"],
+  suppressOnPaths: ["/next", "/download"],
     message: "Want a peek at our next big release?",
     cta: {
       text: "Try the Audacity 4 Alpha",
-      link: "/au4",
+  link: "/next",
     },
     tracking: {
       category: "Promo CTA",

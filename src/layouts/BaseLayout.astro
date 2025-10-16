@@ -20,7 +20,7 @@ const {
 
 const isNoAdPage =
   Astro.request.url.includes("/post-download") ||
-  Astro.request.url.includes("/au4");
+  Astro.request.url.includes("/next");
 const hasActiveStaticPromo = Object.values(promoData).some((promo) => {
   const isActive = promo.isActive ?? true;
   return isActive && Boolean(promo.cta);
