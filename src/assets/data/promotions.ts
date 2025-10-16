@@ -20,9 +20,23 @@ export type PromoData = {
 };
 
 const promoData: Record<string, PromoData> = {
-  voiceByAuribus: {
+  audacity4Alpha: {
     isActive: true,
     priority: 50,
+    message: "Want a peek at our next big release?",
+    cta: {
+      text: "Try the Audacity 4 Alpha",
+      link: "/au4",
+    },
+    styles: {
+      container: "bg-[#0f004d]",
+      message: "text-gray-100",
+      button: "bg-[#ff3254] hover:bg-[#ff1a3c] text-white",
+    }
+  },
+  voiceByAuribus: {
+    isActive: true,
+    priority: 0,
     osTargets: ["Windows", "OS X"],
     message:
       "AI powered professional vocals. Transform any track with Voice by Auribus!",
@@ -42,6 +56,7 @@ const promoData: Record<string, PromoData> = {
     },
   },
   ampknob: {
+    isActive: false,
     osTargets: ["Windows", "OS X"],
     message: "Heavy guitar tone in seconds. One knob, no distractions.",
     styles: {
@@ -62,7 +77,6 @@ const promoData: Record<string, PromoData> = {
   },
   survey: {
     isActive: false,
-    priority: 40,
     message: "3 minute survey:\nHelp us understand what features you want next",
     styles: {
       container: "bg-yellow-300",
