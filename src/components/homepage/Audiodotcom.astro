@@ -4,7 +4,7 @@ import audiocomBackground from "../../assets/img/audiocom-background.webp";
 import { Image } from "astro:assets";
 import FeaturedVideo from "../video/FeaturedVideo";
 import JoinAudioDotComButton from "../button/JoinAudioDotComButton";
-import AudioDotComLogo from "../../assets/img/audio-dot-com.svg";
+import AudioComSVG from "../inlineSVG/AudioComSVG";
 import VideoPlaceholder from '../../assets/img/audiocom-placeholder.webp'
 
 // Optimize the background image
@@ -31,7 +31,7 @@ const releaseVideo = {
 ---
 
 <!-- Apply the background using inline style -->
-<section style={`background-image: url('${optimizedBg.src}'); background-size: cover;`}>
+<section class="bg-background-light">
   <div class="mx-auto px-6 xs:px-12 md:px-8 py-8 md:py-8 lg:py-12 max-w-screen-lg">
     <div class="flex flex-col md:flex-row gap-12 md:gap-16">
       <!-- Video Column - Order changes on mobile vs desktop -->
@@ -41,17 +41,17 @@ const releaseVideo = {
           placeholderImage={releaseVideo.placeholderImage}
           imageAltText={releaseVideo.imageAltText}
           videoURL={releaseVideo.videoURL}
-          textColor="text-slate-50"
+          textColor="text-text-primary"
           matomoEventName={releaseVideo.title}
         />
       </div>
       
       <!-- Text Content Column -->
-      <div class="w-full md:w-1/2 order-1 md:order-2 flex flex-col gap-4 md:gap-8">
-        <Image src={AudioDotComLogo} class="w-20" alt="audio.com" />
+      <div class="w-full md:w-1/2 order-1 md:order-2 flex flex-col gap-4 md:gap-8 items-center md:items-start">
+        <AudioComSVG className="h-12 text-accent" />
         <div>
-          <h2 class="text-white">Level up your Audacity</h2>
-          <p class="text-gray-300 mt-4">
+          <h2 class="text-text-primary">Level up your Audacity</h2>
+          <p class="text-text-primary mt-4">
             Audio.com, the online companion to Audacity, lets you collaborate on
             projects, create versioned backups, and easily share and publish your
             work.

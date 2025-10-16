@@ -15,7 +15,7 @@ function JoinAudioDotComButton(props) {
       }}
       className={` ${
         large ? "py-4 px-6" : "py-2 px-4"
-      } bg-blue-700 w-fit text-white rounded hover:bg-blue-600`}
+      } bg-accent w-fit text-white rounded-full hover:opacity-90 transition-opacity font-semibold`}
       href={href}
     >
       Continue
