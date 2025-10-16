@@ -5,16 +5,16 @@ import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 ---
 
-<section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-  <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12">
+<section id="main" class="bg-background-medium min-h-[320px] lg:h-[560px] overflow-hidden">
+  <div class="mx-auto h-full max-w-screen-2xl relative">
+    <div class="flex flex-col md:flex-row h-full">
       <!-- Left Column - Text Content -->
-      <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-        <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight">
-          Audacity is the world's most popular audio editing and recording app
+      <div class="flex flex-col justify-center text-center md:text-left w-full px-8 py-16 lg:pl-24 xl:pl-32 lg:py-0 md:pr-8 gap-8 lg:gap-14 z-10">
+        <h1 class="font-harmony lg:text-56 xl:text-64 text-text-primary">
+          Audacity is the world's<br />most popular audio editing<br />and recording app
         </h1>
 
-        <div class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 md:pb-">
+        <div class="flex flex-col gap-4 items-center md:items-start">
           <DownloadMuseHubButton client:load />
           <noscript>
             <DownloadMuseHubButton client:load />
@@ -27,15 +27,15 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       </div>
 
       <!-- Right Column - Image -->
-      <div class="hidden md:block md:w-1/2">
-        <div class="relative">
+      <div class="hidden md:flex md:absolute md:right-0 md:top-0 md:h-full md:w-[550px] lg:w-[750px] xl:w-[900px]">
+        <div class="flex items-center justify-center h-full w-full">
           <Image
             src={AudacityMockUp}
             alt="A laptop showing the Audacity application"
-            width={668}
-            quality={80}
+            width={1400}
+            quality={90}
             loading="eager"
-            class="w-full h-auto"
+            class="w-full h-auto max-h-full object-contain"
           />
         </div>
       </div>

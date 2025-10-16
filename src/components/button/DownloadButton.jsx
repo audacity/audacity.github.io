@@ -28,7 +28,7 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="text-white font-semibold hover:underline"
+        className="text-text-primary font-semibold hover:underline text-center w-70 lg:w-80"
         href={href}
       >
         Download without Muse Hub

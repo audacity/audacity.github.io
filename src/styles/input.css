@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-    h1 {
-        @apply text-2xl lg:text-4xl text-gray-900 font-semibold leading-tight mt-4
-    }
-
     h2 {
         @apply text-xl lg:text-3xl text-gray-800 font-semibold leading-tight
     }

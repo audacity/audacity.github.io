@@ -53,7 +53,8 @@ module.exports = {
       18: ['1.125rem', { lineHeight: '1.5' }],      // 18px
       24: ['1.5rem', { lineHeight: '1.5' }],        // 24px
       32: ['2rem', { lineHeight: '1.25' }],          // 32px
-      64: ['4rem', { lineHeight: '1.25' }],          // 64px
+      56: ['3.5rem', { lineHeight: '1' }],          // 56px
+      64: ['4rem', { lineHeight: '1' }],          // 64px
     },
   },
   // Spacing (can customize if needed)
