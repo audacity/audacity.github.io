@@ -17,6 +17,11 @@ const BASE_MESSAGE_CLASSNAME = "text-lg font-semibold";
 const BASE_BUTTON_CLASSNAME =
   "flex h-8 justify-center items-center px-4 rounded-md font-semibold";
 
+type PromoBannerProps = {
+  requestPath?: string;
+  seed?: string;
+};
+
 const STATIC_PROMOS: PromoData[] = Object.values(promoData);
 
 const isPromoActive = (promo: PromoData | null | undefined) =>
@@ -57,7 +62,18 @@ const getEligiblePromos = (promos: PromoData[], os: string | null) =>
     return promo.osTargets.includes(os);
   });
 
-const selectWeightedPromo = (promos: PromoData[]) => {
+const normalizeSeed = (seed: string | null | undefined) =>
+  seed && seed.length > 0 ? seed : "default";
+
+const deterministicRandom = (seed: string) => {
+  let hash = 0;
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (hash * 31 + seed.charCodeAt(index)) | 0;
+  }
+  return (hash >>> 0) / 0xffffffff;
+};
+
+const selectWeightedPromo = (promos: PromoData[], seed: string) => {
   if (promos.length === 0) {
     return null;
   }
@@ -69,7 +85,7 @@ const selectWeightedPromo = (promos: PromoData[]) => {
     return getHighestPriorityPromo(promos);
   }
 
-  let threshold = Math.random() * totalWeight;
+  let threshold = deterministicRandom(seed) * totalWeight;
 
   for (let index = 0; index < promos.length; index += 1) {
     threshold -= weights[index];
@@ -85,15 +101,18 @@ const selectWeightedPromo = (promos: PromoData[]) => {
 const buildPromoList = (path: string | null): PromoData[] =>
   STATIC_PROMOS.filter((promo) => !isSuppressedOnPath(promo, path));
 
-const PromoBanner: React.FC = () => {
+const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath, seed }) => {
   const browserOS = useBrowserOS();
-  const pathName = typeof window !== "undefined" ? window.location.pathname : null;
+  const pathName =
+    requestPath ??
+    (typeof window !== "undefined" ? window.location.pathname : null);
   const promos = buildPromoList(pathName);
   const eligiblePromos = getEligiblePromos(promos, browserOS);
   const fallbackPromos = promos.filter((promo) => isPromoActive(promo));
   const selectionPool =
     eligiblePromos.length > 0 ? eligiblePromos : fallbackPromos;
-  const selectedPromo = selectWeightedPromo(selectionPool);
+  const selectionSeed = normalizeSeed(seed ?? pathName ?? "default");
+  const selectedPromo = selectWeightedPromo(selectionPool, selectionSeed);
 
   if (!selectedPromo || !selectedPromo.cta) {
     return null;

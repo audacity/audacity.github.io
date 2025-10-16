@@ -61,7 +61,11 @@ const shouldShowPromoBanner =
     >
     <header class="z-50 sticky left-0 right-0 top-0">
       <NavigationReact client:load currentURL={Astro.request.url} />
-      {shouldShowPromoBanner && <PromoBanner client:only="react" />}
+      {
+        shouldShowPromoBanner && (
+          <PromoBanner client:load requestPath={Astro.url.pathname} />
+        )
+      }
     </header>
 
     <slot />
