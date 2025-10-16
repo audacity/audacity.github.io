@@ -30,7 +30,7 @@ function FeaturedVideo(props) {
     <div className="flex flex-col gap-2 lg:gap-4 w-full">
       {title && (
         <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
-          <h3 className={`content-center ${textColor}`}>{title}</h3>
+          <h3 className={`content-center text-18 lg:text-24 font-semibold ${textColor}`}>{title}</h3>
           {CTA && (
             <a
               className="py-2 px-4 rounded-full justify-center bg-accent text-white hover:opacity-90 transition-opacity w-fit font-semibold"

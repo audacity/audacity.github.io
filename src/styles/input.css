@@ -3,36 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-    h2 {
-        @apply text-20 lg:text-32 text-text-primary font-semibold leading-tight
-    }
-
-
-    h3 {
-        @apply text-18 md:text-18 lg:text-24 text-text-primary font-semibold
-    }
-
-
-    h5 {
-        @apply text-16 font-semibold text-text-primary
-    }
-
-    p {
-        @apply text-16 text-text-primary leading-snug
-    }
-
-    label {
-        @apply text-text-primary
-    }
-
-    .list li {
-        @apply mt-2 list-disc list-inside text-16 lg:text-18 text-text-primary leading-relaxed
-    }
-
-    small {
-        @apply text-12 uppercase text-text-primary
-    }
-
     .hyperlink {
         @apply text-accent underline hover:opacity-80
     }
