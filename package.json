@@ -21,6 +21,7 @@
 		"astro-compressor": "^0.4.1",
 		"astro-icon": "^0.8.1",
 		"astro-lazy-youtube-embed": "^0.5.4",
+		"classnames": "^2.5.1",
 		"platform": "^1.3.6",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
