@@ -31,11 +31,11 @@ const options: Intl.DateTimeFormatOptions = {
     src={cover}
   />
   <div class="flex flex-col gap-1">
-    <small>{publishDate.toLocaleDateString("en-US", options)}</small>
-    <h4>{title}</h4>
+    <small class="text-text-primary opacity-80">{publishDate.toLocaleDateString("en-US", options)}</small>
+    <h4 class="text-text-primary font-bold text-20">{title}</h4>
   </div>
 
-  <p>
+  <p class="text-text-primary">
     {description.length > 200 ? `${description.slice(0, 200)}...` : description}
   </p>
 </a>

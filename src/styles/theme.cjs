@@ -51,6 +51,7 @@ module.exports = {
       12: ['0.75rem', { lineHeight: '1.25' }],      // 12px
       16: ['1rem', { lineHeight: '1.5' }],          // 16px
       18: ['1.125rem', { lineHeight: '1.5' }],      // 18px
+      20: ['1.25rem', { lineHeight: '1.5' }],       // 20px
       24: ['1.5rem', { lineHeight: '1.5' }],        // 24px
       32: ['2rem', { lineHeight: '1.25' }],          // 32px
       56: ['3.5rem', { lineHeight: '1' }],          // 56px

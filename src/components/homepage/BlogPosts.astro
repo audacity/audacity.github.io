@@ -9,10 +9,10 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
 const maxposts = 3;
 ---
 
-<section class="py-6 md:py-8 lg:py-12 bg-slate-100">
+<section class="py-6 md:py-8 lg:py-12 bg-background-light">
   <div class="mx-auto px-6 xs:px-12 md:px-16 max-w-screen-xl">
-    <h2 class="text-left sm:text-center">
-      New from our <a href="/blog" class="hyperlink">blog</a>
+    <h2 class="text-left sm:text-center text-text-primary">
+      New from our <a href="/blog" class="text-accent underline hover:opacity-80">blog</a>
     </h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6 md:mt-8 lg:mt-12 gap-8 md:gap-10 lg:gap-12">
