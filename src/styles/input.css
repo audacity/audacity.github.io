@@ -48,16 +48,17 @@
         align-items: center;
         left: 0px;
         right: 0px;
-        top: 0px;
+        top: 56px;
         opacity: 0;
-        transition-property: top;
-        transition-duration: .3s;
-        height: 48px;
-        z-index: 9999;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        z-index: 40;
     }
 
     .skip-to-content:focus {
-        top: 56px;
+        transform: translateY(0);
         opacity: 1;
     }
 
