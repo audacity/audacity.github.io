@@ -1,5 +1,9 @@
 ---
 import "../../styles/fonts.css";
+import {
+  hasDownloadAssets,
+  preReleaseList,
+} from "../../assets/data/audacityReleases";
 import MuseHubSVG from "../inlineSVG/MuseHubSVG";
 import MuseGroupSVG from '../inlineSVG/MuseGroupSVG';
 import AudioSVG from '../inlineSVG/AudioSVG';
@@ -44,6 +48,14 @@ const legal = [
   { href: "/privacy-policy", label: "Privacy policy" },
   { href: "/brand-kit", label: "Brand kit" },
 ];
+
+const activeDownloadCampaign = preReleaseList.find((entry) =>
+  entry.isActive && hasDownloadAssets(entry.downloads)
+) ?? null;
+const hasPreRelease = Boolean(activeDownloadCampaign);
+const activePreReleaseAriaLabel = hasPreRelease && activeDownloadCampaign
+  ? `Link to ${activeDownloadCampaign.label.toLowerCase()} page`
+  : "";
 ---
 
 <footer class="bg-background-dark py-12">

@@ -1,0 +1,166 @@
+---
+import {
+  alphaPreRelease,
+  betaPreRelease,
+} from "../assets/data/audacityReleases";
+import SplitDownloadButton from "../components/button/SplitDownloadButton.jsx";
+import FeaturedVideo from "../components/video/FeaturedVideo";
+import AlphaDetails from "../components/next/AlphaDetails.astro";
+import BetaDetails from "../components/next/BetaDetails.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/icons.css";
+
+const pageTitle = "Audacity ® | Pre-release downloads";
+const pageDescription =
+  "Test upcoming Audacity builds for Windows, macOS, and Linux.";
+
+const releaseConfigurations = [
+  {
+    entry: betaPreRelease,
+    Details: BetaDetails,
+  },
+  {
+    entry: alphaPreRelease,
+    Details: AlphaDetails,
+  },
+];
+
+const activeConfig =
+  releaseConfigurations.find(({ entry }) => entry.isActive) ?? null;
+
+const activeRelease = activeConfig?.entry ?? null;
+const DetailsComponent = activeConfig?.Details ?? null;
+const releaseDownloads = activeRelease?.downloads ?? null;
+const releaseVersion = releaseDownloads?.version ?? "";
+const windowsDownloads = releaseDownloads?.win ?? [];
+const macDownloads = releaseDownloads?.mac ?? [];
+const linuxDownloads = releaseDownloads?.lin ?? [];
+const isAlphaRelease = activeRelease?.id === "alpha";
+
+const downloadSections = activeRelease
+  ? [
+      {
+        id: "windows",
+        title: `${releaseVersion} for Windows`,
+        os: "Windows",
+        entries: windowsDownloads,
+      },
+      {
+        id: "mac",
+        title: `${releaseVersion} for macOS`,
+        os: "macOS",
+        entries: macDownloads,
+      },
+      {
+        id: "linux",
+        title: `${releaseVersion} for Linux`,
+        os: "Linux",
+        entries: linuxDownloads,
+      },
+    ].filter((section) => section.entries.length > 0)
+  : [];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto text-gray-700">
+    <div class="grid grid-cols-12 pt-8 pb-32 gap-y-12">
+      <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
+        {
+          activeRelease ? (
+            <>
+              <h1>{releaseVersion}</h1>
+              {DetailsComponent && <DetailsComponent />}
+              {isAlphaRelease && (
+                <FeaturedVideo
+                  client:load
+                  placeholderImage="https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg"
+                  imageAltText="Video: How we made Audacity 4"
+                  videoURL="https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1"
+                  title="Video: How we made Audacity 4"
+                  label="Watch a behind-the-scenes video on the making of Audacity 4"
+                  class="mt-8"
+                />
+              )}
+            </>
+          ) : (
+            <div class="border border-yellow-300 bg-yellow-50 text-yellow-900 rounded-md p-6">
+              <h1 class="text-3xl font-semibold text-yellow-900">
+                Pre-release downloads are currently unavailable.
+              </h1>
+              <p class="mt-4">
+                Check back soon or download the latest stable version of Audacity.
+              </p>
+              <a
+                class="hyperlink inline-flex items-center gap-1 mt-4"
+                href="/download"
+              >
+                Browse stable downloads
+                <span class="align-middle icon icon-share text-blue-600" />
+              </a>
+            </div>
+          )
+        }
+      </section>
+      <aside
+        class="row-start-2 sm:row-start-1 col-start-2 col-span-10 sm:col-start-8 sm:col-span-4"
+      >
+        <h2 class="text-sm uppercase font-normal">Download links</h2>
+        {
+          activeRelease ? (
+            downloadSections.length > 0 ? (
+              <div class="flex flex-col gap-6 mt-2">
+                {downloadSections.map((section) => (
+                  <div class="border border-bg-200 rounded-md p-6">
+                    <h3 class="additional-resource-heading">
+                      {section.title}
+                    </h3>
+                    <div class="mt-2">
+                      <SplitDownloadButton
+                        OS={section.os}
+                        releaseData={section.entries}
+                        client:load
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div class="mt-4 p-4 border border-gray-200 rounded-md bg-gray-50">
+                <p class="text-sm text-gray-700">
+                  Download packages for this pre-release are not available right now.
+                </p>
+                <a
+                  class="hyperlink text-sm inline-flex items-center gap-1 mt-3"
+                  href="/download"
+                >
+                  Browse stable downloads
+                  <span class="align-middle icon icon-share text-blue-600" />
+                </a>
+              </div>
+            )
+          ) : (
+            <div class="mt-4 p-4 border border-gray-200 rounded-md bg-gray-50">
+              <p class="text-sm text-gray-700">
+                Pre-release downloads are currently unavailable.
+              </p>
+              <p class="text-sm text-gray-700 mt-1">
+                You can still download the latest stable version of Audacity.
+              </p>
+              <a
+                class="hyperlink text-sm inline-flex items-center gap-1 mt-3"
+                href="/download"
+              >
+                Browse stable downloads
+                <span class="align-middle icon icon-share text-blue-600" />
+              </a>
+            </div>
+          )
+        }
+      </aside>
+    </div>
+  </main>
+</BaseLayout>
