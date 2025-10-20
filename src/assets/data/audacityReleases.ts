@@ -156,7 +156,7 @@ export type PreReleaseEntry = {
 export const alphaPreRelease: PreReleaseEntry = {
   id: "alpha",
   label: "Alpha",
-  isActive: true,
+  isActive: false,
   summary:
     "Get an early look at the next major release. Expect unfinished features and potential bugs.",
   pageHref: "/next",
