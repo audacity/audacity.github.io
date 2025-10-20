@@ -53,6 +53,7 @@
         transition-property: top;
         transition-duration: .3s;
         height: 48px;
+        z-index: 9999;
     }
 
     .skip-to-content:focus {
