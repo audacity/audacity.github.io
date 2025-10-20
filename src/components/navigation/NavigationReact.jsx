@@ -73,7 +73,7 @@ function NavigationReact(props) {
         <div className="flex-1">
           <a className="flex w-fit items-center gap-2" href="/">
             <AudacityIconSVG className="h-5 fill-text-primary" />
-            <AudacityWordmarkSVG className="h-4 fill-text-primary" />
+            <AudacityWordmarkSVG className="h-5 fill-text-primary" />
             <span className="font-muse-sans text-14 text-text-primary">by muse group</span>
           </a>
         </div>
