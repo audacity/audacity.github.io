@@ -42,11 +42,12 @@ const social = [
   { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
-const legal = [
-  { href: "/refund-policy", label: "Refund policy" },
-  { href: "/terms", label: "Terms & conditions" },
-  { href: "/privacy-policy", label: "Privacy policy" },
-  { href: "/brand-kit", label: "Brand kit" },
+const plugins = [
+  { href: "/download/openvino", label: "OpenVino" },
+  { href: "https://musehub.com/musefx", label: "MuseFX", external: true },
+  { href: "https://www.landr.com/en/plugins/landr-fx-voice", label: "LandrFX Voice", external: true },
+  { href: "https://www.audionamix.com/soap-voice-cleaner/", label: "Soap Voice Cleaner", external: true },
+  { href: "https://www.auburnsounds.com/products/Graillon.html", label: "Graillon", external: true },
 ];
 
 const activeDownloadCampaign = preReleaseList.find((entry) =>
@@ -155,15 +156,16 @@ const activePreReleaseAriaLabel = hasPreRelease && activeDownloadCampaign
           </ul>
         </div>
 
-        <!-- Legal Column -->
+        <!-- Plugins Column -->
         <div>
           <p class="font-harmony text-32 text-text-contrast">plugins</p>
           <ul class="mt-2 space-y-2 md:space-y-0">
-            {legal.map((link) => (
+            {plugins.map((link) => (
               <li class="w-fit">
                 <a
                   href={link.href}
-                  aria-label={`Link to ${link.label}`}
+                  aria-label={link.external ? `External link to ${link.label}` : `Link to ${link.label}`}
+                  target={link.external ? "_blank" : undefined}
                   class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
                 >
                   {link.label}
