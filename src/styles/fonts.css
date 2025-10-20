@@ -38,6 +38,14 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'MuseDisplay-Harmony';
+    src: url('/fonts/MuseDisplay-Harmony.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 .signika {
     font-family: 'Signika Variable', sans-serif
 }
