@@ -22,7 +22,7 @@ export type PromoData = {
 
 const promoData: Record<string, PromoData> = {
   audacity4Alpha: {
-    isActive: false,
+    isActive: true,
     priority: 50,
   suppressOnPaths: ["/next", "/download"],
     message: "Want a peek at our next big release?",

@@ -1,0 +1,115 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FeaturedVideo from "../components/video/FeaturedVideo";
+import "../styles/icons.css";
+import {
+  hasDownloadAssets,
+  preReleaseList,
+} from "../assets/data/audacityReleases";
+
+const pageTitle = "Audacity ® | Audacity 4";
+const pageDescription = "See what's new in Audacity 4";
+
+const launchHighlights = [
+  {
+    title: "A refreshed interface",
+    description:
+      "Updated themes, clip visuals, and navigation make Audacity easier to read and quicker to learn",
+  },
+  {
+    title: "Layouts that adapt to you",
+    description:
+      "Save Workspaces, rearrange toolbars, and switch setups without digging through menus",
+  },
+  {
+    title: "Faster, more intuitive editing",
+    description: "Modern clip-based editing that feels familiar",
+  },
+];
+
+const newFromAudacity3 = [
+  "Start recording from anywhere on the timeline without moving other clips",
+  "Ripple editing shortcuts replace Sync-lock",
+  "Reduced tool switching",
+];
+
+const activeAlphaRelease =
+  preReleaseList.find(
+    (entry) =>
+      entry.id === "alpha" &&
+      entry.isActive &&
+      hasDownloadAssets(entry.downloads)
+  ) ?? null;
+const hasActiveAlpha = Boolean(activeAlphaRelease);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <main id="main" class="text-gray-700">
+    <div
+      class="max-w-screen-xl mx-auto px-6 xs:px-12 md:px-16 py-12 space-y-16"
+    >
+      <section>
+        <p class="text-sm uppercase tracking-wide text-blue-700 font-semibold">
+          Coming soon
+        </p>
+        <h1 class="mt-2">Audacity 4 is nearly here</h1>
+        <p class="mt-4 text-lg">
+          Audacity 4 brings a visual overhaul, Workspaces, and editing updates.
+        </p>
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {
+            launchHighlights.map((feature) => (
+              <div class="border border-gray-200 rounded-lg bg-white p-6 shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  {feature.title}
+                </h3>
+                <p class="mt-3 text-gray-700">{feature.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h3>New since Audacity 3</h3>
+        <ul class="mt-4 grid gap-3 list-disc pl-6">
+          {newFromAudacity3.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      {
+        hasActiveAlpha && activeAlphaRelease && (
+          <section>
+            <div class="border border-gray-200 bg-white rounded-lg p-6 md:p-8 shadow-sm">
+              <h2 class="text-sm uppercase font-normal text-gray-600">
+                Try it early
+              </h2>
+              <p class="mt-2 text-sm text-gray-700">
+                Alpha builds are available for testing.
+              </p>
+              <a
+                class="hyperlink inline-flex items-center gap-1 mt-3"
+                href={activeAlphaRelease.pageHref}
+              >
+                {`Download and try ${activeAlphaRelease.downloads.version}`}
+                <span class="align-middle icon icon-share text-blue-600" />
+              </a>
+            </div>
+          </section>
+        )
+      }
+
+      <section>
+        <FeaturedVideo
+          client:load
+          placeholderImage="https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg"
+          imageAltText="Video: How we're redesigning Audacity for the future"
+          videoURL="https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1"
+          title="How we're redesigning Audacity for the future"
+          label="Take a behind-the-scenes look at the journey that defines this release."
+          matomoEventName="Audacity 4 redesign video"
+        />
+      </section>
+    </div>
+  </main>
+</BaseLayout>

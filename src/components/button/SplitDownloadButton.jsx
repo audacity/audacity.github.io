@@ -70,10 +70,11 @@ function SplitDownloadButton(props) {
         <a
           onClick={() => handleDownloadButtonClick(releaseData[0])}
           href={releaseData[0].browser_download_url}
-          className="flex items-center gap-3  h-10 pl-4 pr-3 rounded-l-md rounded-bl-md bg-blue-700 hover:bg-blue-600"
+          aria-label={`Download ${kind} for ${OS}`}
+          className="flex items-center gap-3 h-10 pl-4 pr-3 rounded-l-md rounded-bl-md bg-blue-700 hover:bg-blue-600"
         >
           <img src={useLogo(OS)} className="w-4 fill-white" />
-          Download {kind} for {OS}
+          Download for {OS}
         </a>
         <button
           onClick={() => handleDropdownButtonClick()}

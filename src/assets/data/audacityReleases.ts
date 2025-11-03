@@ -156,33 +156,30 @@ export type PreReleaseEntry = {
 export const alphaPreRelease: PreReleaseEntry = {
   id: "alpha",
   label: "Alpha",
-  isActive: false,
+  isActive: true,
   summary:
-    "Get an early look at the next major release. Expect unfinished features and potential bugs.",
+    "Get an early look at the next major release.",
   pageHref: "/next",
   downloads: {
-    version: "Audacity 4 Alpha 1",
+    version: "Audacity 4 Alpha 2",
     win: [
       {
-        name: "64 bit",
-        browser_download_url:
-          "https://github.com/audacity/audacity/actions/runs/18406361889/artifacts/4237171895",
+        name: "64 bit zip file",
+        browser_download_url: "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0-alpha-2/AU4_253031630_Win__release-4.0.0-alpha2.zip",
         type: ".zip",
       },
     ],
     mac: [
       {
         name: "ARM 64 zip (Apple Silicon)",
-        browser_download_url:
-          "https://github.com/audacity/audacity/actions/runs/18406354692/artifacts/4237536953",
+        browser_download_url: "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0-alpha-2/AU4_253031630_Mac__release-4.0.0-alpha2.zip",
         type: ".zip",
       },
     ],
     lin: [
       {
         name: "AppImage",
-        browser_download_url:
-          "https://github.com/audacity/audacity/actions/runs/18406368664/artifacts/4237050905",
+        browser_download_url: "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0-alpha-2/AU4_253031629_Lin__release-4.0.0-alpha2.zip",
         type: ".zip",
       },
     ],
