@@ -15,7 +15,7 @@
     If you experience severe issues or crashes, please file an issue on GitHub
     (requires a free GitHub account).
   </p>
-  <ul class="py-2 list-none">
+  <ul class="mt-2 list-none">
     <li>
       <a href="https://github.com/audacity/audacity/issues" class="hyperlink">
         GitHub issues
@@ -33,107 +33,95 @@
     </li>
   </ul>
 
-  <h2 class="mt-6 text-2xl">Key areas to cover</h2>
+  <h3 class="mt-6">What's implemented</h3>
   <ul class="list-disc mt-2 ml-6">
     <li>Recording and playback reliability</li>
-    <li>Editing audio with the new clip handles and grouping</li>
+    <li>Editing audio</li>
     <li>Applying destructive and real-time effects</li>
     <li>Exporting audio files</li>
     <li>Saving and recalling custom Workspaces</li>
   </ul>
 
-  <h3 class="mt-2">Compatibility reminder ⚠️</h3>
+  <h3 class="mt-6">A note on compatibility ⚠️</h3>
   <p class="mt-2">
-    Projects saved in Audacity 4 aren't backwards compatible. Duplicate anything
-    important before opening it in this build.
+    Projects saved in Audacity 4 are not backwards compatible. We recommend you
+    make a copy of your important projects before opening them in Audacity 4.
   </p>
 
-  <h3 class="mt-6 text-xl">Notable changes since alpha-1</h3>
-  <ul class="list-disc mt-2 ml-6 space-y-1">
+  <h3 class="mt-6">Notable changes since alpha-1</h3>
+  <ul class="list-disc mt-2 ml-5">
     <li>
-      Allow track range selection using shift enter by @embarc-gabriel in
-      <a
+      Allow track range selection using Shift-Enter (<a
         href="https://github.com/audacity/audacity/pull/9600"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9600
-      </a>
+        class="hyperlink">#9600</a
+      >)
     </li>
     <li>
-      Record anywhere by @grliszas14 in
-      <a
+      Record from anywhere (<a
         href="https://github.com/audacity/audacity/pull/9540"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9540
-      </a>
+        class="hyperlink">#9540</a
+      >)
     </li>
     <li>
-      Export loop region by @grliszas14 in
-      <a
+      Export loop region (<a
         href="https://github.com/audacity/audacity/pull/9489"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9489
-      </a>
+        class="hyperlink">#9489</a
+      >)
     </li>
     <li>
-      Paste behaviour preferences by @luapmartin in
-      <a
+      Preference for paste behavior (<a
         href="https://github.com/audacity/audacity/pull/9612"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9612
-      </a>
+        class="hyperlink">#9612</a
+      >)
     </li>
     <li>
-      Add setting to configure whether clicking on ruler should trigger playback
-      by @embarc-gabriel in
-      <a
+      Preference for whether clicking on ruler should trigger playback (<a
         href="https://github.com/audacity/audacity/pull/9707"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9707
-      </a>
+        class="hyperlink">#9707</a
+      >)
     </li>
     <li>
-      Create loop region only when control key is pressed by @embarc-gabriel in
-      <a
+      Create loop region only when Control / Cmd key is pressed (<a
         href="https://github.com/audacity/audacity/pull/9712"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9712
-      </a>
+        class="hyperlink">#9712</a
+      >)
     </li>
     <li>
-      Smoother playhead by @saintmatthieu in
-      <a
+      Smoother playhead (<a
         href="https://github.com/audacity/audacity/pull/9613"
-        class="hyperlink"
-      >
-        https://github.com/audacity/audacity/pull/9613
-      </a>
+        class="hyperlink">#9613</a
+      >)
     </li>
   </ul>
 
-  <div>
-    <h2 class="mt-4 text-2xl">Share your feedback</h2>
-    <p class="mt-2">
-      We're eager to hear how Alpha 2 lands for you. Please let us know what you
-      think using the channels below:
-    </p>
-    <ul class="py-2 list-none">
-      <li class="hyperlink">
-        <a href="https://forum.audacityteam.org/c/au4/64">Audacity Forum</a>
-      </li>
-      <li class="hyperlink">
-        <a href="https://discord.gg/audacity">Audacity Discord</a>
-      </li>
-      <li>
-        <a href="https://github.com/audacity/audacity/issues" class="hyperlink">
-          GitHub issues
-        </a>
-      </li>
-    </ul>
-  </div>
+  <h3 class="mt-6">Unimplemented features</h3>
+  <p class="mt-2">
+    Some yet-to-be finalized features might appear non-functional, or have been
+    excluded from Audacity's interface. These are features not yet ready for user
+    testing, and have been disabled.
+  </p>
+  <ul class="list-disc mt-2 ml-6">
+    <li>Nyquist, LADSPA and VAMP and the OpenVINO plugins</li>
+    <li>Preferences from Audacity 3 are not carried over</li>
+    <li>Envelopes and label tracks</li>
+    <li>Spectrogram view and the spectral editing mode</li>
+    <li>Most built-in effects, including generators and analyzers</li>
+    <li>Opening multiple projects at the same time</li>
+  </ul>
+
+  <h3 class="mt-6">Share your crashes!</h3>
+  <p>If you encounter issues, please reach us at the following channels:</p>
+  <ul class="py-2 list-none">
+    <li class="hyperlink">
+      <a href="https://forum.audacityteam.org/c/au4/64">Audacity Forum</a>
+    </li>
+    <li class="hyperlink">
+      <a href="https://discord.gg/audacity">Audacity Discord</a>
+    </li>
+    <li>
+      <a href="https://github.com/audacity/audacity/issues" class="hyperlink">
+        GitHub issues
+      </a>
+    </li>
+  </ul>
 </div>
