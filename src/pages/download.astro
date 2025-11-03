@@ -1,7 +1,4 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import OperatingSystemCard from "../components/card/OperatingSystemCard";
-import "../styles/icons.css";
 import {
   audacityReleases,
   hasDownloadAssets,
@@ -9,19 +6,22 @@ import {
   type PreReleaseEntry,
 } from "../assets/data/audacityReleases";
 import ChecksumAccordion from "../components/accordion/ChecksumAccordion";
+import OperatingSystemCard from "../components/card/OperatingSystemCard";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/icons.css";
 
 const { version } = audacityReleases;
 const sourceDownloads = audacityReleases.src ?? [];
 const primarySourceDownload = sourceDownloads[0] ?? null;
 const activeDownloadEntries = preReleaseList.filter(
-  (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
+  (entry) => entry.isActive && hasDownloadAssets(entry.downloads)
 );
 const hasDownloadCampaigns = activeDownloadEntries.length > 0;
 
 const formatCampaignLinkLabel = (
   entry: PreReleaseEntry,
   platform: string,
-  buildName?: string,
+  buildName?: string
 ) =>
   `${entry.downloads.version} for ${platform}${
     buildName ? ` (${buildName})` : ""
@@ -74,77 +74,84 @@ const formatCampaignLinkLabel = (
         </div>
       </section>
       <aside class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
-        {hasDownloadCampaigns && (
-          <div>
-            <h2 class="text-sm uppercase font-normal text-gray-600">
-              Pre-release builds
-            </h2>
-            <div class="flex flex-col gap-6 mt-2">
-              {activeDownloadEntries.map((entry) => {
-                const downloads = entry.downloads;
-                const windowsBuilds = downloads.win ?? [];
-                const macBuilds = downloads.mac ?? [];
-                const linuxBuilds = downloads.lin ?? [];
-                const versionLabel = downloads.version;
+        {
+          hasDownloadCampaigns && (
+            <div>
+              <h2 class="text-sm uppercase font-normal text-gray-600">
+                Pre-release builds
+              </h2>
+              <div class="flex flex-col gap-6 mt-2">
+                {activeDownloadEntries.map((entry) => {
+                  const downloads = entry.downloads;
+                  const windowsBuilds = downloads.win ?? [];
+                  const macBuilds = downloads.mac ?? [];
+                  const linuxBuilds = downloads.lin ?? [];
+                  const versionLabel = downloads.version;
 
-                return (
-                  <div class="flex flex-col gap-3">
-                    <h3 class="text-base font-semibold text-gray-900">
-                      {versionLabel}
-                    </h3>
-                    <p class="text-sm text-gray-700">
-                      {entry.summary}
-                    </p>
-                    <ul class="flex flex-col gap-2 text-sm">
-                      {
-                        windowsBuilds.map((build) => (
+                  return (
+                    <div class="flex flex-col gap-3">
+                      <h3 class="text-base font-semibold text-gray-900">
+                        {versionLabel}
+                      </h3>
+                      <p class="text-sm text-gray-700">{entry.summary}</p>
+                      {entry.id === "alpha" && <au4alpha2 />}
+                      <ul class="flex flex-col gap-2 text-sm">
+                        {windowsBuilds.map((build) => (
                           <li>
                             <a
                               class="hyperlink"
                               href={build.browser_download_url}
                             >
-                              {formatCampaignLinkLabel(entry, "Windows", build.name)}
+                              {formatCampaignLinkLabel(
+                                entry,
+                                "Windows",
+                                build.name
+                              )}
                             </a>
                           </li>
-                        ))
-                      }
-                      {
-                        macBuilds.map((build) => (
+                        ))}
+                        {macBuilds.map((build) => (
                           <li>
                             <a
                               class="hyperlink"
                               href={build.browser_download_url}
                             >
-                              {formatCampaignLinkLabel(entry, "macOS", build.name)}
+                              {formatCampaignLinkLabel(
+                                entry,
+                                "macOS",
+                                build.name
+                              )}
                             </a>
                           </li>
-                        ))
-                      }
-                      {
-                        linuxBuilds.map((build) => (
+                        ))}
+                        {linuxBuilds.map((build) => (
                           <li>
                             <a
                               class="hyperlink"
                               href={build.browser_download_url}
                             >
-                              {formatCampaignLinkLabel(entry, "Linux", build.name)}
+                              {formatCampaignLinkLabel(
+                                entry,
+                                "Linux",
+                                build.name
+                              )}
                             </a>
                           </li>
-                        ))
-                      }
-                    </ul>
-                    <div class="flex items-center gap-1">
-                      <a href={entry.pageHref} class="hyperlink text-sm">
-                        {`Learn more about ${versionLabel}`}
-                      </a>
-                      <span class="align-middle icon icon-share text-blue-600"></span>
+                        ))}
+                      </ul>
+                      <div class="flex items-center gap-1">
+                        <a href={entry.pageHref} class="hyperlink text-sm">
+                          {`Learn more about ${versionLabel}`}
+                        </a>
+                        <span class="align-middle icon icon-share text-blue-600" />
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
         <h2 class="text-sm uppercase font-normal text-gray-600 mt-10">
           Additional resources
         </h2>
@@ -176,18 +183,20 @@ const formatCampaignLinkLabel = (
             <h3 class="additional-resource-heading">Source code</h3>
             <div class="flex flex-col gap-2">
               <!-- TODO - Ensure accordions are included in the tab hierarchy -->
-              {primarySourceDownload ? (
-                <ChecksumAccordion
-                  title={primarySourceDownload.type}
-                  downloadUrl={primarySourceDownload.browser_download_url}
-                  checksum={primarySourceDownload.checksum}
-                  client:load
-                />
-              ) : (
-                <p class="text-sm text-gray-700">
-                  Source code packages are not available right now.
-                </p>
-              )}
+              {
+                primarySourceDownload ? (
+                  <ChecksumAccordion
+                    title={primarySourceDownload.type}
+                    downloadUrl={primarySourceDownload.browser_download_url}
+                    checksum={primarySourceDownload.checksum}
+                    client:load
+                  />
+                ) : (
+                  <p class="text-sm text-gray-700">
+                    Source code packages are not available right now.
+                  </p>
+                )
+              }
             </div>
           </div>
 

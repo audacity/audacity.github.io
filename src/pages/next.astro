@@ -5,7 +5,7 @@ import {
 } from "../assets/data/audacityReleases";
 import SplitDownloadButton from "../components/button/SplitDownloadButton.jsx";
 import FeaturedVideo from "../components/video/FeaturedVideo";
-import AlphaDetails from "../components/next/AlphaDetails.astro";
+import Alpha2Details from "../components/next/Alpha2Details.astro";
 import BetaDetails from "../components/next/BetaDetails.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/icons.css";
@@ -21,7 +21,7 @@ const releaseConfigurations = [
   },
   {
     entry: alphaPreRelease,
-    Details: AlphaDetails,
+    Details: Alpha2Details,
   },
 ];
 
@@ -124,6 +124,7 @@ const downloadSections = activeRelease
                     <div class="mt-2">
                       <SplitDownloadButton
                         OS={section.os}
+                        kind={releaseVersion}
                         releaseData={section.entries}
                         client:load
                       />
