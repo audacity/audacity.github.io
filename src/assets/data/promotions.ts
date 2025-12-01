@@ -24,11 +24,11 @@ const promoData: Record<string, PromoData> = {
   audacity4Alpha: {
     isActive: true,
     priority: 50,
-  suppressOnPaths: ["/next", "/download"],
+    suppressOnPaths: ["/next", "/download"],
     message: "Want a peek at our next big release?",
     cta: {
       text: "Try the Audacity 4 Alpha",
-  link: "/next",
+      link: "/next",
     },
     tracking: {
       category: "Promo CTA",
@@ -42,7 +42,7 @@ const promoData: Record<string, PromoData> = {
     },
   },
   voiceByAuribus: {
-    isActive: true,
+    isActive: false,
     priority: 50,
     osTargets: ["Windows", "OS X"],
     message:
@@ -60,6 +60,28 @@ const promoData: Record<string, PromoData> = {
     cta: {
       text: "Get it on MuseHub",
       link: "https://www.musehub.com/plugin/auribus?utm_source=au-web&utm_medium=au-banner&utm_campaign=au-web-mh-web-auribus",
+    },
+  },
+  soapVoiceCleaner: {
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    message:
+      "Soap Voice Cleaner: Professional spoken voice in 3 simple clicks!",
+    styles: {
+      container: "bg-yellow-300",
+      message: "text-gray-900 font-bold",
+      button:
+        "font-bold border-2 border-gray-900 bg-gray-900 text-white hover:bg-yellow-300 hover:text-gray-900 hover:border-gray-900",
+    },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Soap Muse Hub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner",
     },
   },
   ampknob: {
