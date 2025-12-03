@@ -25,7 +25,9 @@ type PromoBannerProps = {
   requestPath?: string;
 };
 
-const STATIC_PROMOS: PromoData[] = Object.values(promoData);
+const STATIC_PROMOS: PromoData[] = Object.values(promoData).filter(
+  (promo) => promo.type === "banner"
+);
 
 const isPromoActive = (promo: PromoData | null | undefined) =>
   promo?.isActive ?? true;

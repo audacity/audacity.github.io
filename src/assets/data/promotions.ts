@@ -201,7 +201,7 @@ const promoData: Record<string, PromoData> = {
   },
   playgrndFxVideo: {
     type: "video",
-    isActive: true,
+    isActive: false,
     priority: 90,
     message: "Install once. Access tons of powerful plugins. Blend for infinite creativity.",
     cta: {
@@ -217,6 +217,26 @@ const promoData: Record<string, PromoData> = {
       placeholderImage: "https://i.ytimg.com/vi/UGiJCTu67Ak/maxresdefault.jpg",
       imageAltText: "Video thumbnail: PLAYGRND FX",
       videoURL: "https://www.youtube-nocookie.com/embed/UGiJCTu67Ak?autoplay=1",
+    },
+  },
+  landrFxVoiceVideo: {
+    type: "video",
+    isActive: true,
+    priority: 80,
+    message: "One knob for polished studio quality vocals",
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/landr-fx-voice?utm_source=au-web&utm_medium=au-web-video&utm_campaign=au-web-mh-web-landr-fx-voice",
+    },
+    tracking: {
+      category: "Video embed",
+      action: "Watch release video",
+      name: "LANDR FX Voice",
+    },
+    video: {
+      placeholderImage: "https://i.ytimg.com/vi/JKAvMrLpIRI/maxresdefault.jpg",
+      imageAltText: "Video thumbnail: LANDR FX Voice",
+      videoURL: "https://www.youtube-nocookie.com/embed/JKAvMrLpIRI?autoplay=1",
     },
   },
 };
