@@ -1,57 +1,29 @@
 ---
-import { getImage } from "astro:assets";
 import FeaturedVideo from "../video/FeaturedVideo";
+import promoData, { getTopPromos } from "../../assets/data/promotions";
 
-const releaseVideo = {
-  title:"How we're building Audacity 4",
-  label:"A sneak peek at our development process and new features.",
-  placeholderImage: "https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg",
-  imageAltText: "Video thumbnail: How we're building Audacity 4",
-  videoURL:"https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1",
-}
-
-const promoVideo = {
-  CTA: true, 
-  ctaText: "Get it on MuseHub",
-  ctaURL:"https://www.musehub.com/plugin/playgrnd-fx?utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-web-playgrnd-fx",
-  imageAltText: "Video thumbnail",
-  label:"Install once. Access tons of powerful plugins. Blend for infinite creativity.",
-  placeholderImage: "https://i.ytimg.com/vi/UGiJCTu67Ak/maxresdefault.jpg",
-  title:"PLAYGRND FX",
-  videoURL:"https://www.youtube-nocookie.com/embed/UGiJCTu67Ak?autoplay=1",
-}
+// Get top 2 active video promos, sorted by priority
+const videoPromos = getTopPromos(Object.values(promoData), 2, { type: "video" });
 ---
 <section class="bg-slate-100">
   <div class="mx-auto px-6 xs:px-12 md:px-8 py-6 md:py-8 lg:py-12 max-w-screen-lg">
     <div class="flex flex-col md:flex-row gap-12 md:gap-16">
-      <!-- First Video Column -->
-      <div class="w-full md:w-1/2">
-        <FeaturedVideo
-          client:load
-          title={releaseVideo.title}
-          label={releaseVideo.label}
-          placeholderImage={releaseVideo.placeholderImage}
-          imageAltText={releaseVideo.imageAltText}
-          videoURL={releaseVideo.videoURL}
-          matomoEventName={releaseVideo.title}
-        />
-      </div>
-      
-      <!-- Second Video Column -->
-      <div class="w-full md:w-1/2">
-        <FeaturedVideo
-          client:load
-          title={promoVideo.title}
-          label={promoVideo.label}
-          placeholderImage={promoVideo.placeholderImage}
-          imageAltText={promoVideo.imageAltText}
-          videoURL={promoVideo.videoURL}
-          CTA={promoVideo.CTA}
-          ctaText={promoVideo.ctaText}
-          ctaURL={promoVideo.ctaURL}
-          matomoEventName={promoVideo.title}
-        />
-      </div>
+      {videoPromos.map((promo) => (
+        <div class="w-full md:w-1/2">
+          <FeaturedVideo
+            client:load
+            title={promo.tracking?.name ?? promo.message}
+            label={promo.message}
+            placeholderImage={promo.video?.placeholderImage ?? ""}
+            imageAltText={promo.video?.imageAltText ?? ""}
+            videoURL={promo.video?.videoURL ?? ""}
+            CTA={Boolean(promo.cta)}
+            ctaText={promo.cta?.text}
+            ctaURL={promo.cta?.link}
+            matomoEventName={promo.tracking?.name ?? promo.message}
+          />
+        </div>
+      ))}
     </div>
   </div>
 </section>

@@ -1,4 +1,7 @@
+export type PromoType = "banner" | "video";
+
 export type PromoData = {
+  type?: PromoType;
   isActive?: boolean;
   priority?: number;
   osTargets?: string[];
@@ -18,10 +21,61 @@ export type PromoData = {
     text: string;
     link: string;
   };
+  // Video-specific properties
+  video?: {
+    placeholderImage: string;
+    imageAltText: string;
+    videoURL: string;
+  };
+};
+
+export type FilterOptions = {
+  type?: PromoType;
+  os?: string | null;
+  path?: string | null;
+};
+
+/** Get all promos matching the filter criteria, sorted by priority (highest first) */
+export const getFilteredPromos = (
+  promos: PromoData[],
+  options: FilterOptions = {}
+): PromoData[] => {
+  const { type, os, path } = options;
+
+  return promos
+    .filter((promo) => {
+      // Check if active
+      if (promo.isActive === false) return false;
+
+      // Check type match
+      if (type && promo.type !== type) return false;
+
+      // Check path suppression
+      if (path && promo.suppressOnPaths?.includes(path)) return false;
+
+      // Check OS targeting
+      if (promo.osTargets && promo.osTargets.length > 0) {
+        if (!os || !promo.osTargets.includes(os)) return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+};
+
+/** Get the top N promos matching the filter criteria */
+export const getTopPromos = (
+  promos: PromoData[],
+  count: number,
+  options: FilterOptions = {}
+): PromoData[] => {
+  return getFilteredPromos(promos, options).slice(0, count);
 };
 
 const promoData: Record<string, PromoData> = {
+  // === BANNER PROMOS ===
   audacity4Alpha: {
+    type: "banner",
     isActive: false,
     priority: 50,
     suppressOnPaths: ["/next", "/download"],
@@ -42,6 +96,7 @@ const promoData: Record<string, PromoData> = {
     },
   },
   voiceByAuribus: {
+    type: "banner",
     isActive: false,
     priority: 50,
     osTargets: ["Windows", "OS X"],
@@ -63,6 +118,7 @@ const promoData: Record<string, PromoData> = {
     },
   },
   soapVoiceCleaner: {
+    type: "banner",
     isActive: true,
     priority: 50,
     osTargets: ["Windows", "OS X"],
@@ -85,6 +141,7 @@ const promoData: Record<string, PromoData> = {
     },
   },
   ampknob: {
+    type: "banner",
     isActive: false,
     osTargets: ["Windows", "OS X"],
     message: "Heavy guitar tone in seconds. One knob, no distractions.",
@@ -105,6 +162,7 @@ const promoData: Record<string, PromoData> = {
     },
   },
   survey: {
+    type: "banner",
     isActive: false,
     message: "3 minute survey:\nHelp us understand what features you want next",
     styles: {
@@ -121,6 +179,44 @@ const promoData: Record<string, PromoData> = {
     cta: {
       text: "Take the survey",
       link: "https://docs.google.com/forms/d/e/1FAIpQLScxH_f64JPCWt5nwqa8MTPXfmi453mqYwy1xZFPF_mx9mYkNw/viewform",
+    },
+  },
+
+  // === VIDEO PROMOS ===
+  audacity4Video: {
+    type: "video",
+    isActive: true,
+    priority: 100,
+    message: "How we're building Audacity 4",
+    tracking: {
+      category: "Video embed",
+      action: "Watch release video",
+      name: "How we're building Audacity 4",
+    },
+    video: {
+      placeholderImage: "https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg",
+      imageAltText: "Video thumbnail: How we're building Audacity 4",
+      videoURL: "https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1",
+    },
+  },
+  playgrndFxVideo: {
+    type: "video",
+    isActive: true,
+    priority: 90,
+    message: "Install once. Access tons of powerful plugins. Blend for infinite creativity.",
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/playgrnd-fx?utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-web-playgrnd-fx",
+    },
+    tracking: {
+      category: "Video embed",
+      action: "Watch release video",
+      name: "PLAYGRND FX",
+    },
+    video: {
+      placeholderImage: "https://i.ytimg.com/vi/UGiJCTu67Ak/maxresdefault.jpg",
+      imageAltText: "Video thumbnail: PLAYGRND FX",
+      videoURL: "https://www.youtube-nocookie.com/embed/UGiJCTu67Ak?autoplay=1",
     },
   },
 };
