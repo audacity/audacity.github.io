@@ -59,7 +59,7 @@ We welcome your feedback on the accessibility of **Audacity**.
 
 If you encounter any accessibility barriers, or if you are an educational institution requiring more clarification, please let us know.
 
-* Email: support@audacityteam.org
+* Email: accessibility@audacityteam.org
 * Postal address: **Spyrou Kyprianou, 84, 4004, Limassol, Cyprus**
 
 We aim to respond to accessibility feedback within **10 business days**.
