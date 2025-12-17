@@ -18,7 +18,7 @@ The Audacity desktop application is **partially compliant** with EN 301 549 as i
 The content listed below is non-accessible in Audacity 3.7 and will be addressed with the release of Audacity 4.0 in Q2 2026
 
 1. **Application functionality is only partially accessible via keyboard** – issue will be fixed in Audacity 4.0 by Q2 2026.
-2. **Application functionality is only partially accessible to screen readers** – issue will be fixed by Q4 2025.
+2. **Application functionality is only partially accessible to screen readers** – issue will be fixed by Q2 2026.
 3. **Text sizes cannot currently be increased in-app** – issue will be fixed in Audacity 4.0 by Q2 2026.
 4. **Audacity does not expose all UI information to OS accessibility APIs** – issue will be fixed in Audacity 4.1 by Q4 2026.
 
