@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const legalPages = await Astro.glob("./*.md");
+
+const pages = legalPages.map((page) => ({
+  title: page.frontmatter.title?.replace("Audacity ® | ", "") || "Untitled",
+  url: page.url,
+}));
+---
+
+<BaseLayout title="Audacity ® | Legal">
+  <section id="main" class="pt-8 pb-16">
+    <div class="max-w-screen-lg mx-6 sm:mx-12 md:mx-16 lg:mx-32 xl:mx-auto">
+      <h1>Legal Documents</h1>
+      
+      <p class="my-6 text-lg">
+        This page contains legal documents, policies, and compliance information related to Audacity and its services.
+      </p>
+
+      <ul class="my-8 space-y-4">
+        {pages.map((page) => (
+          <li>
+            <a 
+              href={page.url} 
+              class="text-blue-700 hover:underline text-lg"
+            >
+              {page.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
