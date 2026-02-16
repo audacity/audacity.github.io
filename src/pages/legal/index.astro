@@ -1,11 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const legalPages = await Astro.glob("./*.md");
+const legalPages = import.meta.glob("./*.md", { eager: true }) as Record<
+  string,
+  { frontmatter?: { title?: string } }
+>;
 
-const pages = legalPages.map((page) => ({
-  title: page.frontmatter.title?.replace("Audacity ® | ", "") || "Untitled",
-  url: page.url,
+const pages = Object.entries(legalPages).map(([path, page]) => ({
+  title: page.frontmatter?.title?.replace("Audacity ® | ", "") || "Untitled",
+  url: `/legal/${path.replace(/^\.\/|\.md$/g, "")}`,
 }));
 ---
 
