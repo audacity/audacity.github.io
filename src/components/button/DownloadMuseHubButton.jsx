@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import platform from "platform";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { museHubReleases } from "../../assets/data/museHubReleases";
@@ -10,13 +10,6 @@ function DownloadMuseHubButton() {
   useEffect(() => {
     setBrowserOS(platform.os.family);
   }, []);
-
-  const isLinux =
-    browserOS === "Linux" ||
-    browserOS === "Ubuntu" ||
-    browserOS === "Debian" ||
-    browserOS === "Red Hat" ||
-    browserOS === "SuSE";
 
   function handleButtonClick(href) {
     if (

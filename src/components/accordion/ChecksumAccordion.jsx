@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function ChecksumAccordion(props) {
   const { title, downloadUrl, checksum } = props;
