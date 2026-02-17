@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const options = {
+const options: Intl.DateTimeFormatOptions = {
   weekday: "long",
   year: "numeric",
   month: "long",

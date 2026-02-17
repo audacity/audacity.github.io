@@ -37,7 +37,7 @@ function DownloadCard(props) {
 
       {checksum && (
         <div className="flex flex-col mt-8 border-t pt-4">
-          <label htmlFor="checksum">Checksum:</label>
+          <p className="font-medium">Checksum:</p>
           <div
             id="checksum"
             className="mt-2 p-2 bg-gray-50 border border-gray-200"

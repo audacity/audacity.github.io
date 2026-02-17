@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
+import icon from "astro-icon";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -17,6 +18,11 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
+    icon({
+      include: {
+        "fa6-brands": ["apple", "windows", "linux"],
+      },
+    }),
     sitemap(),
     compressor(),
   ],

@@ -119,7 +119,7 @@ const promoData: Record<string, PromoData> = {
   },
   soapVoiceCleaner: {
     type: "banner",
-    isActive: true,
+    isActive: false,
     priority: 50,
     osTargets: ["Windows", "OS X"],
     message:
@@ -138,6 +138,29 @@ const promoData: Record<string, PromoData> = {
     cta: {
       text: "Get it on MuseHub",
       link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner",
+    },
+  },
+  aceStudio2: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows"],
+    message:
+      "ACE Studio 2.0 is here! The all-in-one workstation for AI voices, instruments and generative tools",
+    styles: {
+      container: "bg-yellow-300",
+      message: "text-gray-900 font-bold",
+      button:
+        "font-bold border-2 border-gray-900 bg-gray-900 text-white hover:bg-yellow-300 hover:text-gray-900 hover:border-gray-900",
+    },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "ACE Studio 2.0 Muse Hub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/app/ace-studio?utm_source=au-web-banner-mh-web&utm_medium=ace-studio-2&utm_campaign=au-web-banner-mh-web-ace-studio-2&utm_id=au-web-banner",
     },
   },
   ampknob: {

@@ -1,6 +1,6 @@
 import { trackEvent } from "../../utils/matomo";
 
-function handleButtonClick(eventName) {
+function handleButtonClick() {
   if (typeof _paq !== "undefined") {
     trackEvent("CTA Button", "audio.com CTA", "audio.com block CTA")
   }

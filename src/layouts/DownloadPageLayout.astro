@@ -3,7 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import DownloadCard from "../components/card/DownloadCard";
 import IconLinkCard from "../components/card/IconLinkCard";
 import PlatformDownloadMuseHubButton from "../components/button/PlatformDownloadMuseHubButton";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
 import "../styles/icons.css";
 import {
   museHubReleases,
@@ -38,7 +38,7 @@ const {
     <section id="main" class="py-12">
       <div class="flex flex-col gap-4 col-start-2 col-span-10 items-center ">
         <div class=`h-8 w-8 ${iconColor}`>
-          <Icon pack="fa-brands" name={iconName} />
+          <Icon name={`fa6-brands:${iconName}`} />
         </div>
         <h1 class="text-center">
           Download for {`${OS}`}
