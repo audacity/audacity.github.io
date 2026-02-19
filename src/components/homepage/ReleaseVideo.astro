@@ -1,29 +1,24 @@
 ---
-import FeaturedVideo from "../video/FeaturedVideo";
-import promoData, { getTopPromos } from "../../assets/data/promotions";
+import SplitFeaturedVideo from "../video/SplitFeaturedVideo";
+import promoData, { getFilteredPromos } from "../../assets/data/promotions";
 
-// Get top 2 active video promos, sorted by priority
-const videoPromos = getTopPromos(Object.values(promoData), 2, { type: "video" });
+const videoPromos = getFilteredPromos(Object.values(promoData), {
+  type: "video",
+});
 ---
+
 <section class="bg-slate-100">
-  <div class="mx-auto px-6 xs:px-12 md:px-8 py-6 md:py-8 lg:py-12 max-w-screen-lg">
+  <div
+    class="mx-auto px-6 xs:px-12 md:px-8 py-6 md:py-8 lg:py-12 max-w-screen-lg"
+  >
     <div class="flex flex-col md:flex-row gap-12 md:gap-16">
-      {videoPromos.map((promo) => (
-        <div class="w-full md:w-1/2">
-          <FeaturedVideo
-            client:load
-            title={promo.tracking?.name ?? promo.message}
-            label={promo.message}
-            placeholderImage={promo.video?.placeholderImage ?? ""}
-            imageAltText={promo.video?.imageAltText ?? ""}
-            videoURL={promo.video?.videoURL ?? ""}
-            CTA={Boolean(promo.cta)}
-            ctaText={promo.cta?.text}
-            ctaURL={promo.cta?.link}
-            matomoEventName={promo.tracking?.name ?? promo.message}
-          />
-        </div>
-      ))}
+      <div class="w-full md:w-1/2">
+        <SplitFeaturedVideo client:load promos={videoPromos} slot="1" />
+      </div>
+
+      <div class="w-full md:w-1/2">
+        <SplitFeaturedVideo client:load promos={videoPromos} slot="2" />
+      </div>
     </div>
   </div>
 </section>

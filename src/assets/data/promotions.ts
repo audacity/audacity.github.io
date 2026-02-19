@@ -4,6 +4,7 @@ export type PromoData = {
   type?: PromoType;
   isActive?: boolean;
   priority?: number;
+  slot?: number;
   osTargets?: string[];
   suppressOnPaths?: string[];
   message: string;
@@ -29,47 +30,36 @@ export type PromoData = {
   };
 };
 
-export type FilterOptions = {
+type FilterOptions = {
   type?: PromoType;
   os?: string | null;
   path?: string | null;
 };
 
-/** Get all promos matching the filter criteria, sorted by priority (highest first) */
+/** Get all promos matching the filter criteria */
 export const getFilteredPromos = (
   promos: PromoData[],
-  options: FilterOptions = {}
+  options: FilterOptions = {},
 ): PromoData[] => {
   const { type, os, path } = options;
 
-  return promos
-    .filter((promo) => {
-      // Check if active
-      if (promo.isActive === false) return false;
+  return promos.filter((promo) => {
+    // Check if active
+    if (promo.isActive === false) return false;
 
-      // Check type match
-      if (type && promo.type !== type) return false;
+    // Check type match
+    if (type && promo.type !== type) return false;
 
-      // Check path suppression
-      if (path && promo.suppressOnPaths?.includes(path)) return false;
+    // Check path suppression
+    if (path && promo.suppressOnPaths?.includes(path)) return false;
 
-      // Check OS targeting
-      if (promo.osTargets && promo.osTargets.length > 0) {
-        if (!os || !promo.osTargets.includes(os)) return false;
-      }
+    // Check OS targeting
+    if (promo.osTargets && promo.osTargets.length > 0) {
+      if (!os || !promo.osTargets.includes(os)) return false;
+    }
 
-      return true;
-    })
-    .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-};
-
-/** Get the top N promos matching the filter criteria */
-export const getTopPromos = (
-  promos: PromoData[],
-  count: number,
-  options: FilterOptions = {}
-): PromoData[] => {
-  return getFilteredPromos(promos, options).slice(0, count);
+    return true;
+  });
 };
 
 const promoData: Record<string, PromoData> = {
@@ -166,6 +156,7 @@ const promoData: Record<string, PromoData> = {
   ampknob: {
     type: "banner",
     isActive: false,
+    priority: 50,
     osTargets: ["Windows", "OS X"],
     message: "Heavy guitar tone in seconds. One knob, no distractions.",
     styles: {
@@ -187,6 +178,7 @@ const promoData: Record<string, PromoData> = {
   survey: {
     type: "banner",
     isActive: false,
+    priority: 50,
     message: "3 minute survey:\nHelp us understand what features you want next",
     styles: {
       container: "bg-yellow-300",
@@ -209,7 +201,8 @@ const promoData: Record<string, PromoData> = {
   audacity4Video: {
     type: "video",
     isActive: true,
-    priority: 100,
+    priority: 50,
+    slot: 1,
     message: "How we're building Audacity 4",
     tracking: {
       category: "Video embed",
@@ -225,8 +218,10 @@ const promoData: Record<string, PromoData> = {
   playgrndFxVideo: {
     type: "video",
     isActive: false,
-    priority: 90,
-    message: "Install once. Access tons of powerful plugins. Blend for infinite creativity.",
+    priority: 50,
+    slot: 2,
+    message:
+      "Install once. Access tons of powerful plugins. Blend for infinite creativity.",
     cta: {
       text: "Get it on MuseHub",
       link: "https://www.musehub.com/plugin/playgrnd-fx?utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-web-playgrnd-fx",
@@ -245,7 +240,8 @@ const promoData: Record<string, PromoData> = {
   landrFxVoiceVideo: {
     type: "video",
     isActive: true,
-    priority: 80,
+    priority: 50,
+    slot: 2,
     message: "One knob for polished studio quality vocals",
     cta: {
       text: "Get it on MuseHub",
@@ -260,6 +256,28 @@ const promoData: Record<string, PromoData> = {
       placeholderImage: "https://i.ytimg.com/vi/JKAvMrLpIRI/maxresdefault.jpg",
       imageAltText: "Video thumbnail: LANDR FX Voice",
       videoURL: "https://www.youtube-nocookie.com/embed/JKAvMrLpIRI?autoplay=1",
+    },
+  },
+  overtuneVideo: {
+    type: "video",
+    isActive: true,
+    priority: 50,
+    slot: 2,
+    message:
+      "Record your vocals on top of premium beats! Polish, personalize and share with ease",
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/app/overtune-studio?utm_source=au-web&utm_medium=au-web-video&utm_campaign=au-web-mh-web-overtune-2",
+    },
+    tracking: {
+      category: "Video embed",
+      action: "Watch release video",
+      name: "Overtune",
+    },
+    video: {
+      placeholderImage: "https://i.ytimg.com/vi/IcTT_jfWgS0/hqdefault.jpg",
+      imageAltText: "Video thumbnail: Overtune",
+      videoURL: "https://www.youtube-nocookie.com/embed/IcTT_jfWgS0?autoplay=1",
     },
   },
 };

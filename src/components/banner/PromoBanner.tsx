@@ -4,6 +4,7 @@ import type { PromoData } from "../../assets/data/promotions";
 import useBrowserOS from "../../hooks/useDetectOS";
 import "../../styles/icons.css";
 import { trackEvent } from "../../utils/matomo";
+import { selectWeightedItem } from "../../utils/selectWeightedItem";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
@@ -26,7 +27,7 @@ type PromoBannerProps = {
 };
 
 const STATIC_PROMOS: PromoData[] = Object.values(promoData).filter(
-  (promo) => promo.type === "banner"
+  (promo) => promo.type === "banner",
 );
 
 const isPromoActive = (promo: PromoData | null | undefined) =>
@@ -39,19 +40,6 @@ const isSuppressedOnPath = (promo: PromoData, path: string | null) => {
   const suppressedPaths = promo.suppressOnPaths ?? [];
   return suppressedPaths.includes(path);
 };
-
-const getHighestPriorityPromo = (promos: PromoData[]) =>
-  promos.reduce<PromoData | null>((selected, current) => {
-    if (!current) {
-      return selected;
-    }
-    if (!selected) {
-      return current;
-    }
-    const currentPriority = current.priority ?? 0;
-    const selectedPriority = selected.priority ?? 0;
-    return currentPriority > selectedPriority ? current : selected;
-  }, null);
 
 const getEligiblePromos = (promos: PromoData[], os: string | null) =>
   promos.filter((promo) => {
@@ -68,28 +56,11 @@ const getEligiblePromos = (promos: PromoData[], os: string | null) =>
   });
 
 const selectWeightedPromo = (promos: PromoData[]) => {
-  if (promos.length === 0) {
-    return null;
-  }
-
-  const weights = promos.map((promo) => Math.max(promo.priority ?? 1, 0));
-  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-
-  if (totalWeight <= 0) {
-    return getHighestPriorityPromo(promos);
-  }
-
-  let threshold = Math.random() * totalWeight;
-
-  for (let index = 0; index < promos.length; index += 1) {
-    threshold -= weights[index];
-
-    if (threshold <= 0) {
-      return promos[index];
-    }
-  }
-
-  return promos[promos.length - 1] ?? null;
+  return selectWeightedItem(
+    promos,
+    (promo) => Math.max(promo.priority ?? 1, 0),
+    { fallback: "highest" },
+  );
 };
 
 const buildPromoList = (path: string | null): PromoData[] =>
@@ -104,7 +75,7 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
     const pathForEval =
       typeof window !== "undefined"
         ? window.location.pathname
-        : requestPath ?? null;
+        : (requestPath ?? null);
     const promos = buildPromoList(pathForEval);
     return promos.some((promo) => isPromoActive(promo) && Boolean(promo.cta));
   });
@@ -180,15 +151,15 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
   const { tracking, cta, message, styles } = selectedPromo;
   const containerClassName = cx(
     BASE_CONTAINER_CLASSNAME,
-    styles?.container ?? DEFAULT_PROMO_STYLES.container
+    styles?.container ?? DEFAULT_PROMO_STYLES.container,
   );
   const messageClassName = cx(
     BASE_MESSAGE_CLASSNAME,
-    styles?.message ?? DEFAULT_PROMO_STYLES.message
+    styles?.message ?? DEFAULT_PROMO_STYLES.message,
   );
   const buttonClassName = cx(
     BASE_BUTTON_CLASSNAME,
-    styles?.button ?? DEFAULT_PROMO_STYLES.button
+    styles?.button ?? DEFAULT_PROMO_STYLES.button,
   );
   const trimmedMessage = message.trim();
 
