@@ -239,7 +239,7 @@ const promoData: Record<string, PromoData> = {
   },
   landrFxVoiceVideo: {
     type: "video",
-    isActive: true,
+    isActive: false,
     priority: 50,
     slot: 2,
     message: "One knob for polished studio quality vocals",
@@ -275,9 +275,9 @@ const promoData: Record<string, PromoData> = {
       name: "Overtune",
     },
     video: {
-      placeholderImage: "https://i.ytimg.com/vi/IcTT_jfWgS0/hqdefault.jpg",
+      placeholderImage: "https://i.ytimg.com/vi/A4jPvCdbrKA/hqdefault.jpg",
       imageAltText: "Video thumbnail: Overtune",
-      videoURL: "https://www.youtube-nocookie.com/embed/IcTT_jfWgS0?autoplay=1",
+      videoURL: "https://www.youtube-nocookie.com/embed/A4jPvCdbrKA?autoplay=1",
     },
   },
 };
