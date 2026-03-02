@@ -1,7 +1,32 @@
-export type PromoType = "banner" | "video";
+export type PromoType = "banner" | "video" | "exit-popup";
+
+export type ExitPopupPolicy = {
+  sessionCap?: number;
+  dismissCooldownDays?: number;
+  minDwellMs?: number;
+};
+
+export type ExitPopupCopy = {
+  title: string;
+  body: string;
+  dismissText: string;
+};
+
+export type TrackingConfig = {
+  category: string;
+  action: string;
+  name: string;
+};
+
+export type ExitPopupConfig = {
+  routeAllowlist: string[];
+  copy: ExitPopupCopy;
+  policy?: ExitPopupPolicy;
+  impressionTracking?: TrackingConfig;
+};
 
 export type PromoData = {
-  type?: PromoType;
+  type: PromoType;
   isActive?: boolean;
   priority?: number;
   slot?: number;
@@ -13,15 +38,12 @@ export type PromoData = {
     message?: string;
     button?: string;
   };
-  tracking?: {
-    category: string;
-    action: string;
-    name: string;
-  };
+  tracking?: TrackingConfig;
   cta?: {
     text: string;
     link: string;
   };
+  exitPopup?: ExitPopupConfig;
   // Video-specific properties
   video?: {
     placeholderImage: string;
@@ -36,6 +58,9 @@ type FilterOptions = {
   path?: string | null;
 };
 
+const routeMatchesAllowlist = (path: string, allowlist: string[]) =>
+  allowlist.some((route) => path === route || path.startsWith(`${route}/`));
+
 /** Get all promos matching the filter criteria */
 export const getFilteredPromos = (
   promos: PromoData[],
@@ -49,6 +74,11 @@ export const getFilteredPromos = (
 
     // Check type match
     if (type && promo.type !== type) return false;
+
+    if (path && promo.type === "exit-popup") {
+      const allowlist = promo.exitPopup?.routeAllowlist ?? [];
+      if (!routeMatchesAllowlist(path, allowlist)) return false;
+    }
 
     // Check path suppression
     if (path && promo.suppressOnPaths?.includes(path)) return false;
@@ -278,6 +308,35 @@ const promoData: Record<string, PromoData> = {
       placeholderImage: "https://i.ytimg.com/vi/A4jPvCdbrKA/hqdefault.jpg",
       imageAltText: "Video thumbnail: Overtune",
       videoURL: "https://www.youtube-nocookie.com/embed/A4jPvCdbrKA?autoplay=1",
+    },
+  },
+  audioComExitPopup: {
+    type: "exit-popup",
+    isActive: true,
+    priority: 50,
+    message:
+      "Start with Audio.com to back up and access your projects across devices.",
+    cta: {
+      text: "Start with Audio.com",
+      link: "https://audio.com/",
+    },
+    tracking: {
+      category: "Before You Go",
+      action: "before_you_go_cta_click",
+      name: "Audio.com Prompt",
+    },
+    exitPopup: {
+      routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
+      copy: {
+        title: "Keep your audio safe in the cloud",
+        body: "Start with Audio.com to back up and access your projects across devices.",
+        dismissText: "Not now",
+      },
+      impressionTracking: {
+        category: "Before You Go",
+        action: "before_you_go_impression",
+        name: "Audio.com Prompt",
+      },
     },
   },
 };
