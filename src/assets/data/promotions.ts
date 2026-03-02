@@ -1,3 +1,5 @@
+import audioComPromoImage from "../img/promo/audacity-audiocom-promo.png";
+
 export type PromoType = "banner" | "video" | "exit-popup";
 
 export type ExitPopupPolicy = {
@@ -6,24 +8,23 @@ export type ExitPopupPolicy = {
   minDwellMs?: number;
 };
 
-export type ExitPopupCopy = {
+export type ExitPopupOptions = {
+  routeAllowlist: string[];
+  displayMode?: "toast" | "modal";
+  promoImageSrc?: string;
+  promoImageAlt?: string;
   title: string;
-  body: string;
+  body?: string;
   dismissText: string;
+  policy?: ExitPopupPolicy;
+  impressionTracking?: TrackingConfig;
+  dismissTracking?: TrackingConfig;
 };
 
 export type TrackingConfig = {
   category: string;
   action: string;
   name: string;
-};
-
-export type ExitPopupConfig = {
-  routeAllowlist: string[];
-  copy: ExitPopupCopy;
-  displayMode?: "toast" | "modal";
-  policy?: ExitPopupPolicy;
-  impressionTracking?: TrackingConfig;
 };
 
 export type PromoData = {
@@ -44,7 +45,7 @@ export type PromoData = {
     text: string;
     link: string;
   };
-  exitPopup?: ExitPopupConfig;
+  popupOptions?: ExitPopupOptions;
   // Video-specific properties
   video?: {
     placeholderImage: string;
@@ -77,7 +78,7 @@ export const getFilteredPromos = (
     if (type && promo.type !== type) return false;
 
     if (path && promo.type === "exit-popup") {
-      const allowlist = promo.exitPopup?.routeAllowlist ?? [];
+      const allowlist = promo.popupOptions?.routeAllowlist ?? [];
       if (!routeMatchesAllowlist(path, allowlist)) return false;
     }
 
@@ -92,6 +93,11 @@ export const getFilteredPromos = (
     return true;
   });
 };
+
+const AUDIO_COM_EXIT_POPUP_IMAGE_SRC =
+  typeof audioComPromoImage === "string"
+    ? audioComPromoImage
+    : audioComPromoImage.src;
 
 const promoData: Record<string, PromoData> = {
   // === BANNER PROMOS ===
@@ -316,29 +322,36 @@ const promoData: Record<string, PromoData> = {
     isActive: true,
     priority: 50,
     message:
-      "Start with Audio.com to back up and access your projects across devices.",
+      "Use Audio.com to back up your projects, and share them from anywhere!",
     cta: {
-      text: "Start with Audio.com",
+      text: "Join Audio.com",
       link: "https://audio.com/",
     },
-    tracking: {
-      category: "Exit Intent",
-      action: "exit_intent_cta_click",
-      name: "Audio.com Exit Intent Popup",
-    },
-    exitPopup: {
+    popupOptions: {
+      title: "Keep your audio safe in the cloud",
       routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
       displayMode: "modal",
-      copy: {
-        title: "Keep your audio safe in the cloud",
-        body: "Start with Audio.com to back up and access your projects across devices.",
-        dismissText: "Not now",
+      promoImageSrc: AUDIO_COM_EXIT_POPUP_IMAGE_SRC,
+      promoImageAlt: "Audio.com promotion",
+      dismissText: "Not now",
+      policy: {
+        minDwellMs: 3000,
       },
       impressionTracking: {
         category: "Exit Intent",
         action: "exit_intent_impression",
-        name: "Audio.com Exit Intent Popup",
+        name: "audio.com Exit Intent Popup",
       },
+      dismissTracking: {
+        category: "Exit Intent",
+        action: "exit_intent_dismiss",
+        name: "audio.com Exit Intent Popup",
+      },
+    },
+    tracking: {
+      category: "Exit Intent",
+      action: "exit_intent_cta_click",
+      name: "audio.com Exit Intent Popup",
     },
   },
 };

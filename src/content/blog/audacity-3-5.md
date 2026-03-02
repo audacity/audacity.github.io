@@ -24,7 +24,7 @@ We are excited to announce Audacity 3.5, which adds the following features:
 
 ## Cloud project saving
 
-We've introduced a new cloud-saving feature that allows you to save your Audacity projects to audio.com. This allows you to work from any device, share & collaborate with others and restore previous versions if something went wrong.
+We've introduced a new cloud-saving feature that allows you to save your Audacity projects to Audio.com. This allows you to work from any device, share & collaborate with others and restore previous versions if something went wrong.
 
 ## Automatic tempo detection
 
