@@ -21,6 +21,7 @@ export type TrackingConfig = {
 export type ExitPopupConfig = {
   routeAllowlist: string[];
   copy: ExitPopupCopy;
+  displayMode?: "toast" | "modal";
   policy?: ExitPopupPolicy;
   impressionTracking?: TrackingConfig;
 };
@@ -327,6 +328,7 @@ const promoData: Record<string, PromoData> = {
     },
     exitPopup: {
       routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
+      displayMode: "modal",
       copy: {
         title: "Keep your audio safe in the cloud",
         body: "Start with Audio.com to back up and access your projects across devices.",
