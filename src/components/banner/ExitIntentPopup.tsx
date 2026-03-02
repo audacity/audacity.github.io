@@ -8,7 +8,7 @@ import { trackEventIfConsented } from "../../utils/matomo";
 import { selectWeightedItem } from "../../utils/selectWeightedItem";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type BeforeYouGoPromptProps = {
+type ExitIntentPopupProps = {
   requestPath?: string;
 };
 
@@ -99,9 +99,7 @@ const selectExitPopupPromo = (promos: ExitPopupPromo[]) =>
     fallback: "random",
   });
 
-const BeforeYouGoPrompt: React.FC<BeforeYouGoPromptProps> = ({
-  requestPath,
-}) => {
+const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isDwellReady, setIsDwellReady] = useState(false);
   const [hasEngagement, setHasEngagement] = useState(false);
@@ -297,4 +295,4 @@ const BeforeYouGoPrompt: React.FC<BeforeYouGoPromptProps> = ({
   );
 };
 
-export default BeforeYouGoPrompt;
+export default ExitIntentPopup;

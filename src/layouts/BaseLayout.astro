@@ -1,7 +1,7 @@
 ---
 import promoData from "../assets/data/promotions";
 import { getFilteredPromos } from "../assets/data/promotions";
-import BeforeYouGoPrompt from "../components/banner/BeforeYouGoPrompt";
+import ExitIntentPopup from "../components/banner/ExitIntentPopup";
 import CookieConsent from "../components/banner/CookieConsent";
 import PromoBanner from "../components/banner/PromoBanner";
 import Footer from "../components/footer/Footer.astro";
@@ -36,7 +36,7 @@ const hasEligibleExitPopup =
     type: "exit-popup",
     path: currentPath,
   }).length > 0;
-const shouldEnableBeforeYouGo = hasEligibleExitPopup;
+const shouldEnableExitIntentPopup = hasEligibleExitPopup;
 ---
 
 <!doctype html>
@@ -83,8 +83,8 @@ const shouldEnableBeforeYouGo = hasEligibleExitPopup;
     <slot />
     <Footer />
     {
-      shouldEnableBeforeYouGo && (
-        <BeforeYouGoPrompt client:load requestPath={Astro.url.pathname} />
+      shouldEnableExitIntentPopup && (
+        <ExitIntentPopup client:load requestPath={Astro.url.pathname} />
       )
     }
     <CookieConsent client:load />
