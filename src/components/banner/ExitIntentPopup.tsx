@@ -7,7 +7,7 @@ import promoData, {
 import { trackEventIfConsented } from "../../utils/matomo";
 import { selectWeightedItem } from "../../utils/selectWeightedItem";
 import { getUiSemaphore } from "../../utils/uiSemaphore";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type ExitIntentPopupProps = {
   requestPath?: string;
@@ -125,13 +125,12 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
   const [isDwellReady, setIsDwellReady] = useState(false);
   const [hasEngagement, setHasEngagement] = useState(false);
   const [hasExitIntent, setHasExitIntent] = useState(false);
-  const [isAttentionOverlayLocked, setIsAttentionOverlayLocked] =
-    useState(false);
   const [selectedPromo, setSelectedPromo] = useState<ExitPopupPromo | null>(
     null,
   );
   const hasShownRef = useRef(false);
   const hasOverlayLockRef = useRef(false);
+  const dialogRef = useRef<HTMLElement | null>(null);
   const isDebugMode = isExitIntentDebugEnabled();
 
   const resolvedPath = useMemo(() => {
@@ -160,38 +159,8 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
   };
 
   useEffect(() => {
-    const semaphore = getUiSemaphore();
-    if (!semaphore) {
-      return;
-    }
-
-    const syncOverlayLock = () => {
-      const lock = semaphore.getLock(ATTENTION_OVERLAY_CHANNEL);
-      setIsAttentionOverlayLocked(
-        Boolean(lock) && lock?.owner !== EXIT_INTENT_OVERLAY_OWNER,
-      );
-    };
-
-    syncOverlayLock();
-    const unsubscribe = semaphore.subscribe((channel) => {
-      if (channel !== ATTENTION_OVERLAY_CHANNEL) {
-        return;
-      }
-      syncOverlayLock();
-    });
-
-    return () => {
-      unsubscribe();
-      releaseOverlayLock();
-    };
+    return () => releaseOverlayLock();
   }, []);
-
-  useEffect(() => {
-    if (isAttentionOverlayLocked && isVisible) {
-      releaseOverlayLock();
-      setIsVisible(false);
-    }
-  }, [isAttentionOverlayLocked, isVisible]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -223,10 +192,6 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       setIsDwellReady(true);
       setHasEngagement(true);
       setHasExitIntent(true);
-      return;
-    }
-
-    if (isAttentionOverlayLocked) {
       return;
     }
 
@@ -280,13 +245,7 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       window.removeEventListener("keydown", markEngagement);
       document.removeEventListener("mouseout", handleMouseOut);
     };
-  }, [
-    isAttentionOverlayLocked,
-    isDebugMode,
-    isRouteEligible,
-    resolvedPolicy,
-    selectedPromo,
-  ]);
+  }, [isDebugMode, isRouteEligible, resolvedPolicy, selectedPromo]);
 
   useEffect(() => {
     if (!isVisible || !selectedPromo) {
@@ -326,7 +285,6 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       !isDwellReady ||
       !hasEngagement ||
       !hasExitIntent ||
-      isAttentionOverlayLocked ||
       hasShownRef.current
     ) {
       return;
@@ -359,7 +317,6 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
     hasEngagement,
     hasExitIntent,
     isDwellReady,
-    isAttentionOverlayLocked,
     isRouteEligible,
     selectedPromo,
     trackingForImpression,
@@ -394,6 +351,36 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
     );
   };
 
+  const focusTrapRef = useCallback((node: HTMLElement | null) => {
+    dialogRef.current = node;
+    if (!node) return;
+
+    const focusable = node.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    first?.focus();
+
+    const trap = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      if (focusable.length === 0) {
+        event.preventDefault();
+        return;
+      }
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+
+    node.addEventListener("keydown", trap);
+  }, []);
+
   if (!isVisible || !selectedPromo) {
     return null;
   }
@@ -421,7 +408,9 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
           className={promoImageClassName}
         />
       )}
-      <p className="text-lg font-semibold text-gray-900">{title}</p>
+      <p id="exit-intent-title" className="text-lg font-semibold text-gray-900">
+        {title}
+      </p>
       <p className="mt-2 text-gray-700">{body}</p>
       <div className="mt-4 flex gap-2 justify-end">
         <button
@@ -446,10 +435,14 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
     return (
       <div
         className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exit-intent-title"
         onClick={() => handleDismiss("backdrop")}
-        aria-live="polite"
       >
-        <aside onClick={(event) => event.stopPropagation()}>{content}</aside>
+        <aside ref={focusTrapRef} onClick={(event) => event.stopPropagation()}>
+          {content}
+        </aside>
       </div>
     );
   }
