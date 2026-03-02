@@ -12,8 +12,8 @@ type ExitIntentPopupProps = {
   requestPath?: string;
 };
 
-const SESSION_IMPRESSION_KEY = "before_you_go_session_impressions";
-const SUPPRESS_UNTIL_KEY = "before_you_go_suppress_until";
+const SESSION_IMPRESSION_KEY = "exit_intent_session_impressions";
+const SUPPRESS_UNTIL_KEY = "exit_intent_suppress_until";
 
 const DEFAULT_POLICY: Required<ExitPopupPolicy> = {
   sessionCap: 1,

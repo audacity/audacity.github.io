@@ -321,9 +321,9 @@ const promoData: Record<string, PromoData> = {
       link: "https://audio.com/",
     },
     tracking: {
-      category: "Before You Go",
-      action: "before_you_go_cta_click",
-      name: "Audio.com Prompt",
+      category: "Exit Intent",
+      action: "exit_intent_cta_click",
+      name: "Audio.com Exit Intent Popup",
     },
     exitPopup: {
       routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
@@ -333,9 +333,9 @@ const promoData: Record<string, PromoData> = {
         dismissText: "Not now",
       },
       impressionTracking: {
-        category: "Before You Go",
-        action: "before_you_go_impression",
-        name: "Audio.com Prompt",
+        category: "Exit Intent",
+        action: "exit_intent_impression",
+        name: "Audio.com Exit Intent Popup",
       },
     },
   },
