@@ -268,12 +268,37 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       }
     };
 
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("click", markEngagement);
+    window.addEventListener("keydown", markEngagement);
+    document.addEventListener("mouseout", handleMouseOut);
+
+    return () => {
+      window.clearTimeout(dwellTimer);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("click", markEngagement);
+      window.removeEventListener("keydown", markEngagement);
+      document.removeEventListener("mouseout", handleMouseOut);
+    };
+  }, [
+    isAttentionOverlayLocked,
+    isDebugMode,
+    isRouteEligible,
+    resolvedPolicy,
+    selectedPromo,
+  ]);
+
+  useEffect(() => {
+    if (!isVisible || !selectedPromo) {
+      return;
+    }
+
     const handleEscapeDismiss = (event: KeyboardEvent) => {
-      if (!isVisible || event.key !== "Escape") {
+      if (event.key !== "Escape") {
         return;
       }
 
-      const dismissTracking = selectedPromo?.popupOptions?.dismissTracking;
+      const dismissTracking = selectedPromo.popupOptions?.dismissTracking;
       if (dismissTracking) {
         trackEventIfConsented(
           dismissTracking.category,
@@ -287,28 +312,12 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       setIsVisible(false);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("click", markEngagement);
-    window.addEventListener("keydown", markEngagement);
-    document.addEventListener("mouseout", handleMouseOut);
     window.addEventListener("keydown", handleEscapeDismiss);
 
     return () => {
-      window.clearTimeout(dwellTimer);
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("click", markEngagement);
-      window.removeEventListener("keydown", markEngagement);
-      document.removeEventListener("mouseout", handleMouseOut);
       window.removeEventListener("keydown", handleEscapeDismiss);
     };
-  }, [
-    isAttentionOverlayLocked,
-    isDebugMode,
-    isRouteEligible,
-    isVisible,
-    resolvedPolicy,
-    selectedPromo,
-  ]);
+  }, [isVisible, selectedPromo, resolvedPolicy]);
 
   useEffect(() => {
     if (
