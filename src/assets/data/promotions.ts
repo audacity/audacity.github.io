@@ -1,7 +1,34 @@
-export type PromoType = "banner" | "video";
+import audioComPromoImage from "../img/promo/audacity-audiocom-promo.png";
+
+export type PromoType = "banner" | "video" | "exit-popup";
+
+export type ExitPopupPolicy = {
+  sessionCap?: number;
+  dismissCooldownDays?: number;
+  minDwellMs?: number;
+};
+
+export type ExitPopupOptions = {
+  routeAllowlist: string[];
+  displayMode?: "toast" | "modal";
+  promoImageSrc?: string;
+  promoImageAlt?: string;
+  title: string;
+  body?: string;
+  dismissText: string;
+  policy?: ExitPopupPolicy;
+  impressionTracking?: TrackingConfig;
+  dismissTracking?: TrackingConfig;
+};
+
+export type TrackingConfig = {
+  category: string;
+  action: string;
+  name: string;
+};
 
 export type PromoData = {
-  type?: PromoType;
+  type: PromoType;
   isActive?: boolean;
   priority?: number;
   slot?: number;
@@ -13,15 +40,12 @@ export type PromoData = {
     message?: string;
     button?: string;
   };
-  tracking?: {
-    category: string;
-    action: string;
-    name: string;
-  };
+  tracking?: TrackingConfig;
   cta?: {
     text: string;
     link: string;
   };
+  popupOptions?: ExitPopupOptions;
   // Video-specific properties
   video?: {
     placeholderImage: string;
@@ -35,6 +59,9 @@ type FilterOptions = {
   os?: string | null;
   path?: string | null;
 };
+
+const routeMatchesAllowlist = (path: string, allowlist: string[]) =>
+  allowlist.some((route) => path === route || path.startsWith(`${route}/`));
 
 /** Get all promos matching the filter criteria */
 export const getFilteredPromos = (
@@ -50,6 +77,11 @@ export const getFilteredPromos = (
     // Check type match
     if (type && promo.type !== type) return false;
 
+    if (path && promo.type === "exit-popup") {
+      const allowlist = promo.popupOptions?.routeAllowlist ?? [];
+      if (!routeMatchesAllowlist(path, allowlist)) return false;
+    }
+
     // Check path suppression
     if (path && promo.suppressOnPaths?.includes(path)) return false;
 
@@ -61,6 +93,11 @@ export const getFilteredPromos = (
     return true;
   });
 };
+
+const AUDIO_COM_EXIT_POPUP_IMAGE_SRC =
+  typeof audioComPromoImage === "string"
+    ? audioComPromoImage
+    : audioComPromoImage.src;
 
 const promoData: Record<string, PromoData> = {
   // === BANNER PROMOS ===
@@ -278,6 +315,43 @@ const promoData: Record<string, PromoData> = {
       placeholderImage: "https://i.ytimg.com/vi/A4jPvCdbrKA/hqdefault.jpg",
       imageAltText: "Video thumbnail: Overtune",
       videoURL: "https://www.youtube-nocookie.com/embed/A4jPvCdbrKA?autoplay=1",
+    },
+  },
+  audioComExitPopup: {
+    type: "exit-popup",
+    isActive: true,
+    priority: 50,
+    message:
+      "Use Audio.com to back up your projects, and share them from anywhere!",
+    cta: {
+      text: "Join Audio.com",
+      link: "https://audio.com/",
+    },
+    popupOptions: {
+      title: "Keep your audio safe in the cloud",
+      routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
+      displayMode: "modal",
+      promoImageSrc: AUDIO_COM_EXIT_POPUP_IMAGE_SRC,
+      promoImageAlt: "Audio.com promotion",
+      dismissText: "Not now",
+      policy: {
+        minDwellMs: 3000,
+      },
+      impressionTracking: {
+        category: "Exit Intent",
+        action: "exit_intent_impression",
+        name: "audio.com Exit Intent Popup",
+      },
+      dismissTracking: {
+        category: "Exit Intent",
+        action: "exit_intent_dismiss",
+        name: "audio.com Exit Intent Popup",
+      },
+    },
+    tracking: {
+      category: "Exit Intent",
+      action: "exit_intent_cta_click",
+      name: "audio.com Exit Intent Popup",
     },
   },
 };

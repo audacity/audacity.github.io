@@ -1,5 +1,7 @@
 ---
 import promoData from "../assets/data/promotions";
+import { getFilteredPromos } from "../assets/data/promotions";
+import ExitIntentPopup from "../components/banner/ExitIntentPopup";
 import CookieConsent from "../components/banner/CookieConsent";
 import PromoBanner from "../components/banner/PromoBanner";
 import Footer from "../components/footer/Footer.astro";
@@ -27,6 +29,14 @@ const hasActiveStaticPromo = Object.values(promoData).some((promo) => {
 });
 const shouldShowPromoBanner =
   showPromoBanner && !isNoAdPage && hasActiveStaticPromo;
+
+const currentPath = Astro.url.pathname;
+const hasEligibleExitPopup =
+  getFilteredPromos(Object.values(promoData), {
+    type: "exit-popup",
+    path: currentPath,
+  }).length > 0;
+const shouldEnableExitIntentPopup = hasEligibleExitPopup;
 ---
 
 <!doctype html>
@@ -72,6 +82,11 @@ const shouldShowPromoBanner =
 
     <slot />
     <Footer />
+    {
+      shouldEnableExitIntentPopup && (
+        <ExitIntentPopup client:load requestPath={Astro.url.pathname} />
+      )
+    }
     <CookieConsent client:load />
     <script src="../assets/js/cookieConsent.js"></script>
   </body>

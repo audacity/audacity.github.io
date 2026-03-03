@@ -6,53 +6,68 @@ import logo from "../assets/img/promo/audacity-audiocom-promo.png";
 import { Image } from "astro:assets";
 ---
 
-<BaseLayout title="Audacity Cloud Saving Platform" description="Sync & save projects in Audacity Cloud. Secure, automatic, and always accessible." index="all">
-
+<BaseLayout
+  title="Audacity Cloud Saving Platform"
+  description="Sync & save projects in Audacity Cloud. Secure, automatic, and always accessible."
+  index="all"
+>
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
-    <div class="flex flex-col items-center justify-center" style="height: 90vh;">
-      <Image src={logo} alt="Audacity logo and audio.com logo overlaying in a playful manner" width=300 quality=80/>
+    <div
+      class="flex flex-col items-center justify-center"
+      style="height: 90vh;"
+    >
+      <Image
+        src={logo}
+        alt="Audacity logo and Audio.com logo overlaying in a playful manner"
+        width="300"
+        quality="80/"
+      />
       <div class="text-center">
-        <h1 class="font-bold">
-          Thank you for downloading Audacity!
-        </h1>
+        <h1 class="font-bold">Thank you for downloading Audacity!</h1>
         <h1 class="font-bold">You can now complete Cloud setup</h1>
       </div>
       <div class="w-full mt-8">
         <div class="grid grid-cols-12 items-center">
-          
-            <div class="col-span-3 bg-green-500 h-2"></div>
-            <div class="bg-green-500 h-8 w-8 rounded-full place-self-center">
-              <div class="icon icon-check icon-medium-small text-center text-white mt-1"></div>
+          <div class="col-span-3 bg-green-500 h-2"></div>
+          <div class="bg-green-500 h-8 w-8 rounded-full place-self-center">
+            <div
+              class="icon icon-check icon-medium-small text-center text-white mt-1"
+            >
             </div>
-          
-          
-            <div class="col-span-3 bg-gray-300 h-2"></div>
-            <div class="bg-gray-300 h-8 w-8 rounded-full place-self-center">
-              <div class="icon icon-check icon-medium-small text-center text-white mt-1"></div>
+          </div>
+
+          <div class="col-span-3 bg-gray-300 h-2"></div>
+          <div class="bg-gray-300 h-8 w-8 rounded-full place-self-center">
+            <div
+              class="icon icon-check icon-medium-small text-center text-white mt-1"
+            >
             </div>
-          
-          
-            <div class="col-span-3 bg-gray-300 h-2"></div>
-            <div class="bg-gray-300 h-8 w-8 rounded-full place-self-center">
-              <div class="icon icon-check icon-medium-small text-center text-white mt-1"></div>
+          </div>
+
+          <div class="col-span-3 bg-gray-300 h-2"></div>
+          <div class="bg-gray-300 h-8 w-8 rounded-full place-self-center">
+            <div
+              class="icon icon-check icon-medium-small text-center text-white mt-1"
+            >
             </div>
-          
+          </div>
         </div>
         <div class="grid grid-cols-12 mt-2 text-center text-lg font-bold">
           <div class="col-start-1 col-end-4">Download Audacity application</div>
           <div class="col-start-5 col-end-8">Connect to Cloud storage</div>
-          <div class="col-start-9 col-end-12">Never lose your work in Audacity</div>
+          <div class="col-start-9 col-end-12">
+            Never lose your work in Audacity
+          </div>
         </div>
       </div>
       <div class="mt-12">
         <JoinAudioDotComButton
           client:load
-          href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=post_download_buttonn"
+          href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=post_download_button"
           matomoEventName="post-download CTA"
           large
         />
       </div>
-      
     </div>
   </section>
 </BaseLayout>
