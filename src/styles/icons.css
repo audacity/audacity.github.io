@@ -1,120 +1,120 @@
 @font-face {
-    font-family: 'MusescoreIcon';
-    src: url('/fonts/MusescoreIcon.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "MusescoreIcon";
+  src: url("/fonts/MusescoreIcon.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 .icon {
-    font-family: 'MusescoreIcon', sans-serif;
-    font-size: 16px
+  font-family: "MusescoreIcon", sans-serif;
+  font-size: 16px;
 }
 
 .icon-large {
-    font-size: 36px;
+  font-size: 36px;
 }
 
 .icon-medium {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .icon-medium-small {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .icon-small {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .icon-save:before {
-    content: "\EF29";
+  content: "\EF29";
 }
 
 .icon-share:before {
-    content: "\F359"
+  content: "\F359";
 }
 
 .icon-cloud:before {
-    content: "\F435"
+  content: "\F435";
 }
 
 .icon-export:before {
-    content: "\EF24"
+  content: "\EF24";
 }
 
 .icon-import:before {
-    content: "\F357"
+  content: "\F357";
 }
 
 .icon-mixer:before {
-    content: "\EF27"
+  content: "\EF27";
 }
 
 .icon-arrow-left:before {
-    content: "\EF35"
+  content: "\EF35";
 }
 
 .icon-arrow-right:before {
-    content: "\EF34"
+  content: "\EF34";
 }
 
 .icon-monitor:before {
-    content: "\F35E"
+  content: "\F35E";
 }
 
 .icon-file:before {
-    content: "\EF22"
+  content: "\EF22";
 }
 
 .icon-plug:before {
-    content: "\F440"
+  content: "\F440";
 }
 
 .icon-waveform:before {
-    content: "\F43C"
+  content: "\F43C";
 }
 
 .icon-caret-right:before {
-    content: "\EF11"
+  content: "\EF11";
 }
 
 .icon-caret-down:before {
-    content: "\EF12"
+  content: "\EF12";
 }
 
 .icon-cloud-upload:before {
-    content: "\EF25"
+  content: "\EF25";
 }
 
 .icon-microphone:before {
-    content: "\F41B"
+  content: "\F41B";
 }
 
 .icon-waveform:before {
-    content: "\F43C"
+  content: "\F43C";
 }
 
 .icon-cycle:before {
-    content: "\F358"
-} 
+  content: "\F358";
+}
 
 .icon-times:before {
-    content: "\EF14"
+  content: "\EF14";
 }
 
 .icon-pen:before {
-    content: "\EF63"
+  content: "\EF63";
 }
 
 .icon-note:before {
-    content: "\F360"
+  content: "\F360";
 }
 
 .icon-globe:before {
-    content: "\F3B6"
+  content: "\F3B6";
 }
 
 .icon-check:before {
-    content: "\EF31"
+  content: "\EF31";
 }

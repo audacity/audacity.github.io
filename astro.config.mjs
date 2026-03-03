@@ -2,15 +2,16 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import icon from "astro-icon";
-
 import sitemap from "@astrojs/sitemap";
-
-// https://astro.build/config
 import compressor from "astro-compressor";
+import netlify from "@astrojs/netlify";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://www.audacityteam.org",
+  adapter: netlify({ imageCDN: true }),
+  image: {
+    domains: ["i.ytimg.com"],
+  },
   integrations: [
     tailwind({
       // Example: Disable injecting a basic `base.css` import on every page.
@@ -35,9 +36,6 @@ export default defineConfig({
         "@datapunt/matomo-tracker-react",
         "@datapunt/matomo-tracker-js",
       ],
-    },
-    build: {
-      assets: 'assets',
     },
   },
 });
