@@ -9,8 +9,8 @@ function PlatformDownloadMuseHubButton(props) {
   function onClickButtonHandler() {
     trackEvent(
       "Download Button",
-      "Download Muse Hub",
-      `Download Muse Hub button ${browserOS}`,
+      "Download MuseHub",
+      `Download MuseHub button ${browserOS}`,
     );
 
     setTimeout(() => {

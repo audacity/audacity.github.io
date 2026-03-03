@@ -137,7 +137,7 @@ const promoData: Record<string, PromoData> = {
     tracking: {
       category: "Promo CTA",
       action: "Promo CTA button",
-      name: "Voice by Auribus Muse Hub",
+      name: "Voice by Auribus MuseHub",
     },
     cta: {
       text: "Get it on MuseHub",
@@ -160,7 +160,7 @@ const promoData: Record<string, PromoData> = {
     tracking: {
       category: "Promo CTA",
       action: "Promo CTA button",
-      name: "Soap Muse Hub",
+      name: "Soap MuseHub",
     },
     cta: {
       text: "Get it on MuseHub",
@@ -183,7 +183,7 @@ const promoData: Record<string, PromoData> = {
     tracking: {
       category: "Promo CTA",
       action: "Promo CTA button",
-      name: "ACE Studio 2.0 Muse Hub",
+      name: "ACE Studio 2.0 MuseHub",
     },
     cta: {
       text: "Get it on MuseHub",
@@ -205,7 +205,7 @@ const promoData: Record<string, PromoData> = {
     tracking: {
       category: "Promo CTA",
       action: "Promo CTA button",
-      name: "Ampknob Revc Muse Hub",
+      name: "Ampknob Revc MuseHub",
     },
     cta: {
       text: "Try for free",

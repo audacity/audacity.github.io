@@ -58,18 +58,18 @@ There is no mobile version of Audacity available.
 
 Audacity is available to download from the [Audacity website](/).
 
-You can either download the app directly, or download Audacity through the free [Muse Hub](https://www.musehub.com/).
+You can either download the app directly, or download Audacity through the free [MuseHub](https://www.musehub.com/).
 
-If you download Audacity via the Muse Hub, you'll also get access to a free selection of sounds, loops and effects available to use in your Audacity projects.
+If you download Audacity via the MuseHub, you'll also get access to a free selection of sounds, loops and effects available to use in your Audacity projects.
 
-### Why should I download Audacity through the Muse Hub?
+### Why should I download Audacity through the MuseHub?
 
-The [Muse Hub](https://www.musehub.com/) is a gateway to creativity for any audio producer. It's packed with the best free apps, sounds and effects for composing, producing or performing. In the Muse Hub you'll find:
+The [MuseHub](https://www.musehub.com/) is a gateway to creativity for any audio producer. It's packed with the best free apps, sounds and effects for composing, producing or performing. In the MuseHub you'll find:
 
 - **Muse Sounds:** premium collections of sampled instruments, including keys, strings, brass, woodwind, percussion, choirs and electronics. Hear your music played back in astonishing detail with these moving — and completely free — preset packs.
 - **Elements:** free looping sound clips. Drop them easily into your Audacity performances or podcasts.
 - **Muse FX:** effects plugins including reverb, delay, compress and more, for fine-tuning your Audacity projects.
-  You can download Audacity via the Muse Hub. If you already have Audacity, you can download the Muse Hub and access the free extras [here](https://www.musehub.com/).
+  You can download Audacity via the MuseHub. If you already have Audacity, you can download the MuseHub and access the free extras [here](https://www.musehub.com/).
 
 ### How do I install Audacity or update to the latest version?
 

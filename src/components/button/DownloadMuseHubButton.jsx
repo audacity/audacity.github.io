@@ -18,14 +18,14 @@ function DownloadMuseHubButton() {
     ) {
       trackEvent(
         "Download Button",
-        "Download Muse Hub",
-        `Download Muse Hub button ${browserOS}`
+        "Download MuseHub",
+        `Download MuseHub button ${browserOS}`,
       );
     } else if (href === audacityReleases.lin[0].browser_download_url) {
       trackEvent(
         "Download Button",
         "Download Audacity",
-        `Download Audacity button ${browserOS}`
+        `Download Audacity button ${browserOS}`,
       );
     }
 

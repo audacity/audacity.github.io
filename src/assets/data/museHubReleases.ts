@@ -12,7 +12,7 @@ type MuseHubReleaseDirectory = {
 export const museHubReleases: MuseHubReleaseDirectory = {
   win: [
     {
-      name: "Muse Hub installer",
+      name: "MuseHub installer",
       browser_download_url:
         "https://muse-cdn.com/Audacity_Installer_via_MuseHub.exe",
       type: ".exe",
@@ -20,7 +20,7 @@ export const museHubReleases: MuseHubReleaseDirectory = {
   ],
   mac: [
     {
-      name: "Muse Hub installer",
+      name: "MuseHub installer",
       browser_download_url:
         "https://muse-cdn.com/Audacity_Installer_via_MuseHub.pkg",
       type: ".pkg",

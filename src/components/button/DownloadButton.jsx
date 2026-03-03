@@ -12,11 +12,11 @@ function DownloadButton() {
 
   function handleButtonClick(href) {
     if (href !== "/download") {
-        trackEvent(
-          "Download Button",
-          "Download Audacity",
-          `Download Audacity button ${platform.os.family}`
-        );
+      trackEvent(
+        "Download Button",
+        "Download Audacity",
+        `Download Audacity button ${platform.os.family}`,
+      );
     }
 
     setTimeout(() => {
@@ -31,7 +31,7 @@ function DownloadButton() {
         className="text-white font-semibold hover:underline"
         href={href}
       >
-        Download without Muse Hub
+        Download without MuseHub
       </a>
     );
   }

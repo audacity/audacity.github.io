@@ -5,9 +5,7 @@ import IconLinkCard from "../components/card/IconLinkCard";
 import PlatformDownloadMuseHubButton from "../components/button/PlatformDownloadMuseHubButton";
 import { Icon } from "astro-icon/components";
 import "../styles/icons.css";
-import {
-  museHubReleases,
-} from "../assets/data/museHubReleases";
+import { museHubReleases } from "../assets/data/museHubReleases";
 import type { ReleaseInfo } from "../assets/data/audacityReleases";
 import type { MuseHubReleaseInfo } from "../assets/data/museHubReleases";
 
@@ -36,7 +34,7 @@ const {
 <BaseLayout title={title} description={description}>
   <main class="max-w-screen-md mx-auto">
     <section id="main" class="py-12">
-      <div class="flex flex-col gap-4 col-start-2 col-span-10 items-center ">
+      <div class="flex flex-col gap-4 col-start-2 col-span-10 items-center">
         <div class=`h-8 w-8 ${iconColor}`>
           <Icon name={`fa6-brands:${iconName}`} />
         </div>
@@ -66,7 +64,7 @@ const {
                 <h2 class="text-xl font-semibold">
                   Audacity installer (recommended)
                 </h2>
-                <p>via Muse Hub</p>
+                <p>via MuseHub</p>
               </div>
 
               <PlatformDownloadMuseHubButton
