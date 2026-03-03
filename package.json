@@ -14,11 +14,11 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@astrojs/netlify": "^6.6.4",
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/tailwind": "^6.0.2",
     "@fontsource-variable/signika": "^5.2.8",
-    "@fontsource/twinkle-star": "^5.2.8",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "astro": "^5.17.2",
