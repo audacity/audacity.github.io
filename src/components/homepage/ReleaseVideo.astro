@@ -13,11 +13,11 @@ const videoPromos = getFilteredPromos(Object.values(promoData), {
   >
     <div class="flex flex-col md:flex-row gap-12 md:gap-16">
       <div class="w-full md:w-1/2">
-        <SplitFeaturedVideo client:load promos={videoPromos} slot="1" />
+        <SplitFeaturedVideo client:visible promos={videoPromos} slot="1" />
       </div>
 
       <div class="w-full md:w-1/2">
-        <SplitFeaturedVideo client:load promos={videoPromos} slot="2" />
+        <SplitFeaturedVideo client:visible promos={videoPromos} slot="2" />
       </div>
     </div>
   </div>
