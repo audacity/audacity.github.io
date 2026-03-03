@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Disable redundant post-processing (Astro already handles this)
+[build.processing.css]
+  bundle = false
+  minify = false
+[build.processing.js]
+  bundle = false
+  minify = false
+[build.processing.images]
+  compress = false
+
+# Allow external images through Netlify Image CDN
+[images]
+  remote_images = ["https://i\\.ytimg\\.com/.*"]
