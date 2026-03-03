@@ -328,12 +328,12 @@ const promoData: Record<string, PromoData> = {
       link: "https://audio.com/",
     },
     popupOptions: {
-      title: "Keep your audio safe in the cloud",
+      title: "Leave before setting up cloud storage?",
       routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
       displayMode: "modal",
       promoImageSrc: AUDIO_COM_EXIT_POPUP_IMAGE_SRC,
       promoImageAlt: "Audio.com promotion",
-      dismissText: "Not now",
+      dismissText: "Leave site",
       policy: {
         minDwellMs: 3000,
       },

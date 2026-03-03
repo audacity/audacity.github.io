@@ -396,11 +396,11 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
   const body = popupBody ?? selectedPromo.message;
   const promoImageClassName =
     displayMode === "toast"
-      ? "mb-3 h-[5rem] w-full rounded-md object-cover object-center"
-      : "mb-3 h-auto w-full rounded-md";
+      ? "h-[5rem] w-full rounded-md object-cover object-center"
+      : "h-auto w-full rounded-md";
 
   const content = (
-    <div className="w-[calc(100%-2rem)] max-w-md rounded-lg border border-gray-300 bg-white p-4 shadow-lg">
+    <div className="flex w-[calc(100%-2rem)] max-w-[30rem] flex-col gap-4 rounded-lg border border-gray-300 bg-white px-8 py-9 shadow-lg">
       {promoImageSrc && (
         <img
           src={promoImageSrc}
@@ -408,11 +408,16 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
           className={promoImageClassName}
         />
       )}
-      <p id="exit-intent-title" className="text-lg font-semibold text-gray-900">
-        {title}
-      </p>
-      <p className="mt-2 text-gray-700">{body}</p>
-      <div className="mt-4 flex gap-2 justify-end">
+      <div className="flex flex-col gap-2">
+        <p
+          id="exit-intent-title"
+          className="text-lg font-semibold text-gray-900"
+        >
+          {title}
+        </p>
+        <p className="text-gray-700">{body}</p>
+      </div>
+      <div className="mt-5 flex justify-end gap-2">
         <button
           type="button"
           onClick={() => handleDismiss("button")}
