@@ -348,7 +348,7 @@ const promoData: Record<string, PromoData> = {
       "Use Audio.com to back up your projects, and share them from anywhere!",
     cta: {
       text: "Join Audio.com",
-      link: "https://audio.com/",
+      link: "https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=exit-intent-popup",
     },
     popupOptions: {
       title: "Leave before setting up cloud storage?",
