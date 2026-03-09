@@ -19,7 +19,7 @@ The VPAT is a standardized document that explains how Audacity conforms to acces
 
 For questions about Audacity accessibility:
 
-- **Email:** feedback@audacityteam.org
+- **Email:** accessibility@audacityteam.org
 - **Address:** MuseCY SM Ltd., Spyrou Kyprianou, 84, 4004, Limassol, Cyprus
 
 See also: [Accessibility Statement](/legal/accessibility)
