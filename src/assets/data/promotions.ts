@@ -79,7 +79,8 @@ export const getFilteredPromos = (
 
     if (path && promo.type === "exit-popup") {
       const allowlist = promo.popupOptions?.routeAllowlist ?? [];
-      if (!routeMatchesAllowlist(path, allowlist)) return false;
+      if (allowlist.length > 0 && !routeMatchesAllowlist(path, allowlist))
+        return false;
     }
 
     // Check path suppression
@@ -352,7 +353,7 @@ const promoData: Record<string, PromoData> = {
     },
     popupOptions: {
       title: "Leave before setting up cloud storage?",
-      routeAllowlist: ["/download", "/post-download", "/cloud-saving"],
+      routeAllowlist: [],
       displayMode: "modal",
       promoImageSrc: AUDIO_COM_EXIT_POPUP_IMAGE_SRC,
       promoImageAlt: "Audio.com promotion",
