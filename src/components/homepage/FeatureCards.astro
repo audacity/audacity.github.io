@@ -4,32 +4,32 @@ import FeatureCard from "../card/FeatureCard.jsx";
 
 <section class="py-8 lg:py-12">
   <div class="mx-auto px-6 xs:px-12 md:px-16 max-w-screen-xl">
-    <div class="text-center mb-6 md:mb-8 lg:mb-12">
+    <div
+      class="text-center mb-6 md:mb-8 lg:mb-12 flex flex-col items-center gap-4"
+    >
       <h2>All you need to create</h2>
+      <p class="max-w-2xl text-lg opacity-80"></p>
     </div>
-    
+
     <!-- Feature Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 md:pb-6">
-      <FeatureCard
-        icon="icon-monitor"
-        title="Cross-platform"
-        description="Runs on all major operating systems – Windows, MacOS and Linux."
-      />
-      <FeatureCard
-        icon="icon-cycle"
-        title="Import, export, convert"
-        description="Audacity supports all major audio formats, allowing you to convert WAV to MP3, FLAC, Ogg and much more."
-      />
-      <FeatureCard
-        icon="icon-plug"
-        title="Plugin support"
-        description="Elevate your productions with a vast selection of third-party plugins, including VST3, Nyquist and more."
-      />
-      <FeatureCard
-        icon="icon-waveform"
-        title="Deep audio analysis"
-        description="Visualize frequencies in Audacity's Spectogram view or use scientific Vamp analyzers to make discoveries."
-      />
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 md:pb-6"
+    >
+      <FeatureCard icon="icon-monitor" title="Cross-platform">
+        Runs on all major operating systems – Windows, MacOS and Linux.
+      </FeatureCard>
+      <FeatureCard icon="icon-cycle" title="Import, export, convert">
+        Audacity supports all major audio formats, allowing you to convert WAV
+        to MP3, FLAC, Ogg and much more.
+      </FeatureCard>
+      <FeatureCard icon="icon-plug" title="Plugin support">
+        Elevate your productions with a vast selection of third-party plugins,
+        including VST3, Nyquist and more.
+      </FeatureCard>
+      <FeatureCard icon="icon-waveform" title="Deep audio analysis">
+        Visualize frequencies in Audacity's Spectrogram view or use scientific
+        Vamp analyzers to make discoveries.
+      </FeatureCard>
     </div>
   </div>
 </section>
