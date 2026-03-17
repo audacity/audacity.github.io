@@ -6,14 +6,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import FeatureCards from "../components/homepage/FeatureCards.astro";
 import FAQ from "../components/homepage/FAQ.astro";
 import Audiodotcom from "../components/homepage/Audiodotcom.astro";
-
 ---
 
-<BaseLayout title="Audacity ® | Free Audio editor, recorder, music making and more!">
+<BaseLayout
+  title="Audacity ® | Free Audio editor, recorder, music making and more!"
+>
   <HeroBanner />
   <ReleaseVideo />
-  <Audiodotcom/>
   <FeatureCards />
+  <Audiodotcom />
   <BlogPosts />
   <FAQ />
 </BaseLayout>
