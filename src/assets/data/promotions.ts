@@ -193,7 +193,7 @@ const promoData: Record<string, PromoData> = {
   },
   soapTranscriber: {
     type: "banner",
-    isActive: true,
+    isActive: false,
     priority: 50,
     osTargets: ["Windows", "OS X"],
     message:
@@ -212,6 +212,29 @@ const promoData: Record<string, PromoData> = {
     cta: {
       text: "Get it on MuseHub",
       link: "https://www.musehub.com/plugin/soap-transcriber?utm_source=au-web-banner-mh-web&utm_medium=soap-transcriber&utm_campaign=au-web-banner-mh-web-soap-transcriber&utm_id=au-web-banner",
+    },
+  },
+  overtuneBanner: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    message:
+      "Overtune: The beat maker for rappers and singers. Sing, polish, and share.",
+    styles: {
+      container: "bg-yellow-300",
+      message: "text-gray-900 font-bold",
+      button:
+        "font-bold border-2 border-gray-900 bg-gray-900 text-white hover:bg-yellow-300 hover:text-gray-900 hover:border-gray-900",
+    },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Overtune MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/app/overtune-studio?utm_source=au-web-banner-mh-web&utm_medium=overtune-2&utm_campaign=au-web-banner-mh-web-overtune-2r&utm_id=au-web-banner",
     },
   },
   ampknob: {
