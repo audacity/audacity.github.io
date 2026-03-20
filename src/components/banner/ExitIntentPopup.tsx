@@ -400,7 +400,28 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       : "h-auto w-full rounded-md";
 
   const content = (
-    <div className="flex w-[calc(100%-2rem)] max-w-[30rem] flex-col gap-4 rounded-lg border border-gray-300 bg-white px-8 py-9 shadow-lg">
+    <div className="relative flex w-[calc(100%-2rem)] max-w-[30rem] flex-col gap-4 rounded-lg border border-gray-300 bg-white px-8 py-9 shadow-lg">
+      <button
+        type="button"
+        aria-label={dismissText || "Close"}
+        onClick={() => handleDismiss("button")}
+        className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 focus:outline-none"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="2"
+          stroke="currentColor"
+          className="h-5 w-5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
       {promoImageSrc && (
         <img
           src={promoImageSrc}
@@ -418,13 +439,6 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
         <p className="text-gray-700">{body}</p>
       </div>
       <div className="mt-5 flex justify-end gap-2">
-        <button
-          type="button"
-          onClick={() => handleDismiss("button")}
-          className="flex h-10 items-center justify-center rounded-md border border-gray-300 px-4 font-semibold text-gray-700 hover:bg-gray-100"
-        >
-          {dismissText}
-        </button>
         <a
           href={selectedPromo.cta.link}
           onClick={handleCtaClick}
