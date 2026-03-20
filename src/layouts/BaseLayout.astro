@@ -12,12 +12,14 @@ export interface Props {
   description?: string;
   index?: string;
   showPromoBanner?: boolean;
+  canonical?: string;
 }
 const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
   description = "Audacity is the world's most popular audio editing and recording app. Edit, mix, and enhance your audio tracks with the power of Audacity. Download now!",
   index = "all",
   showPromoBanner = true,
+  canonical,
 } = Astro.props;
 
 const isNoAdPage =
@@ -55,6 +57,7 @@ const shouldEnableExitIntentPopup = hasEligibleExitPopup;
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="robots" content={index} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <meta
       name="keywords"
       content="Audacity, audio editing, audio recorder, open-source, audio software, sound editing, audio mixer"
