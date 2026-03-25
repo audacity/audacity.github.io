@@ -13,6 +13,7 @@ export interface Props {
   index?: string;
   showPromoBanner?: boolean;
   canonical?: string;
+  image?: string;
 }
 const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
@@ -20,7 +21,11 @@ const {
   index = "all",
   showPromoBanner = true,
   canonical,
+  image,
 } = Astro.props;
+
+const ogImage = image || "/apple-touch-icon.png";
+const ogUrl = canonical || Astro.url.href;
 
 const isNoAdPage =
   Astro.request.url.includes("/post-download") ||
@@ -62,6 +67,20 @@ const shouldEnableExitIntentPopup = hasEligibleExitPopup;
       name="keywords"
       content="Audacity, audio editing, audio recorder, open-source, audio software, sound editing, audio mixer"
     />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Audacity" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <title>{title}</title>
     <script src="../assets/js/matomoTracking.js"></script>

@@ -4,6 +4,7 @@ import {
   hasDownloadAssets,
   preReleaseList,
 } from "../../assets/data/audacityReleases";
+import { features } from "../../assets/data/features";
 const activeDownloadCampaign =
   preReleaseList.find(
     (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
@@ -47,10 +48,20 @@ const activePreReleaseAriaLabel =
           >
         </li>
         <li>
-          <a href="/features/change-pitch" aria-label="Link to Pitch Shifter"
-            >Pitch Shifter</a
-          >
+          <a href="/features" aria-label="Link to Features">Features</a>
         </li>
+        {
+          features.map((feature) => (
+            <li>
+              <a
+                href={`/features/${feature.slug}`}
+                aria-label={`Link to ${feature.shortTitle}`}
+              >
+                {feature.shortTitle}
+              </a>
+            </li>
+          ))
+        }
         <li>
           <a
             href="https://forum.audacityteam.org/"

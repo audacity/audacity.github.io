@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { features } from "../../assets/data/features";
+import "../../styles/icons.css";
+---
+
+<BaseLayout
+  title="Features – Audacity"
+  description="Explore Audacity's audio editing features. Learn how to pitch shift, record, mix, and more with free open-source software for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features"
+>
+  <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+    <div class="mx-auto px-4 md:px-8 py-8 md:py-12 lg:py-16 max-w-screen-lg">
+      <div class="text-center">
+        <h1
+          class="text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+        >
+          Audacity Features
+        </h1>
+        <p class="text-white text-lg opacity-90 mt-4 max-w-2xl mx-auto">
+          Learn how to get the most out of Audacity with step-by-step guides for
+          every feature.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto px-4 md:px-8 py-12 md:py-16 max-w-screen-lg">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      {
+        features.map((feature) => (
+          <a
+            href={`/features/${feature.slug}`}
+            class="group p-4 md:p-6 border drop-shadow-sm md:drop-shadow-lg bg-white rounded-lg flex flex-col gap-2 hover:border-blue-700 hover:shadow-xl transition-all duration-200"
+          >
+            <span class={`icon icon-medium text-blue-700 ${feature.icon}`} />
+            <p class="text-lg font-semibold group-hover:text-blue-700 transition-colors">
+              {feature.shortTitle}
+            </p>
+            <p class="text-gray-600">{feature.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
