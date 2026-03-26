@@ -3,6 +3,32 @@ module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      typography: {
+        feature: {
+          css: {
+            p: {
+              fontSize: "1rem",
+              lineHeight: "1.625",
+              color: "#374151",
+            },
+            li: {
+              fontSize: "1rem",
+              lineHeight: "1.625",
+              color: "#374151",
+            },
+            "@media (min-width: 1024px)": {
+              p: {
+                fontSize: "1.125rem",
+                lineHeight: "1.75",
+              },
+              li: {
+                fontSize: "1.125rem",
+                lineHeight: "1.75",
+              },
+            },
+          },
+        },
+      },
       animation: {
         fadeIn: "fadeIn 0.2s ease-in-out",
         fadeInSlow: "fadeInSlow 0.3s ease-in-out forwards",

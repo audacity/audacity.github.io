@@ -15,7 +15,7 @@ function NavigationReact(props) {
   const navLinks = [
     { href: "/download", linkText: "Downloads", target: "" },
     { href: "/FAQ", linkText: "FAQ", target: "" },
-    { href: "/blog", linkText: "Blog", target: "" },
+    { href: "/features", linkText: "Features", target: "" },
     {
       href: "https://support.audacityteam.org",
       linkText: "Help",
@@ -81,7 +81,7 @@ function NavigationReact(props) {
           </a>
         </div>
 
-        <div className="lg:flex-1 justify-center hidden gap-4 sm:flex">
+        <div className="lg:flex-1 justify-center hidden gap-4 sm:flex items-center">
           {navLinks.map((navLink, index) => {
             return renderNavLink(navLink, index);
           })}

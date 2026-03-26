@@ -30,7 +30,7 @@ function DownloadMuseHubButton() {
     }
 
     setTimeout(() => {
-      window.location.href = "post-download";
+      window.location.href = "/post-download";
     }, 2000);
   }
 

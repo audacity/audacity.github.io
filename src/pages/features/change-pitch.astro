@@ -1,0 +1,194 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Pitch Shifter – Change Audio Pitch Without Changing Speed | Audacity"
+  description="Change pitch of audio without affecting speed. Transpose songs to any key, shift by semitones or percent. Free pitch shifter for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/change-pitch"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <!-- Left Column - Text Content -->
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Pitch Shifter &ndash; Change Audio Pitch Without Changing
+              Speed
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Transpose songs to any key, shift by semitones or percent. Free
+              pitch shifter for Windows, Mac &amp; Linux.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <!-- Right Column - Image -->
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <h2>What Is Pitch Shifting?</h2>
+  <p>
+    Pitch shifting allows you to change the pitch or key of audio without
+    altering its tempo or duration. This means you can raise or lower the pitch
+    of a vocal track, an instrument, or an entire song while keeping it at the
+    exact same speed.
+  </p>
+
+  <h2>How to Change Pitch in Audacity</h2>
+  <h3>Step 1: Select Your Audio</h3>
+  <p>
+    Open your audio file in Audacity. Click and drag your mouse over the audio
+    track to select the portion you want to pitch shift. To select the entire
+    track, click the track header or press <code>Ctrl + A</code> (Windows/Linux) or
+    <code>Cmd + A</code> (Mac).
+  </p>
+
+  <h3>Step 2: Open Change Pitch</h3>
+  <p>
+    Navigate to the effects menu at the top of the screen. Look for <strong
+      >Effect > Pitch and Tempo > Change Pitch...</strong
+    > and click on it to open the effect dialog.
+  </p>
+
+  <h3>Step 3: Set Target Pitch</h3>
+  <p>
+    In the Change Pitch dialog box, choose your desired pitch. You can enter the
+    new pitch by specifying a musical note, the number of semitones, or a
+    precise percentage change.
+  </p>
+
+  <h3>Step 4: Apply</h3>
+  <p>
+    Click the <strong>Preview</strong> button to hear how the audio sounds. If you're
+    satisfied with the result, click <strong>Apply</strong> to process the track.
+  </p>
+
+  <h2>Change Pitch Settings Explained</h2>
+  <h3>Pitch From / To (Musical Notes)</h3>
+  <p>
+    This setting allows you to specify the starting note and the target note.
+    Audacity will automatically calculate the required pitch change. This is
+    especially useful for musicians transposing a song into a different key.
+  </p>
+
+  <h3>Semitones</h3>
+  <p>
+    A semitone is the smallest musical interval in Western music (e.g., from C
+    to C#). Entering a positive number (like 2) will raise the pitch by that
+    many semitones, while a negative number (like -2) will lower it.
+  </p>
+
+  <h3>Percent Change</h3>
+  <p>
+    If you prefer adjusting the pitch mathematically, you can directly enter the
+    percentage change. This is commonly used for sound design or voice
+    modulation rather than traditional musical pitch shifting.
+  </p>
+
+  <h3>Use High Quality Stretching</h3>
+  <p>
+    Check this box for a more accurate algorithm that minimizes audio artifacts
+    and preserves better audio quality, particularly for complex layers or large
+    pitch modifications. It may take slightly longer to process.
+  </p>
+
+  <h2>Common Pitch Shifting Tasks</h2>
+  <ul>
+    <li>
+      <strong>Transposing Music:</strong> Change a backing track's key to match a
+      singer's vocal range without slowing down the song.
+    </li>
+    <li>
+      <strong>Voice Modification:</strong> Deepen a voice for a podcast or video,
+      or raise it for a stylistic effect.
+    </li>
+    <li>
+      <strong>Sound Design:</strong> Modify sound effects to fit different contexts
+      in a video game or film.
+    </li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Use the <strong>High Quality Stretching</strong> option for music, vocals, and
+      any critical audio.
+    </li>
+    <li>
+      Avoid shifting pitch too drastically (more than a few semitones), as it
+      can introduce unnatural artifacts and "chipmunk" effects unless that is
+      your intended sound.
+    </li>
+    <li>
+      Always use the <strong>Preview</strong> feature before applying the effect to
+      ensure it sounds right.
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Does changing pitch affect the speed?</strong><br />
+    No, using the "Change Pitch" effect alters the notes without changing the tempo.
+    If you want to change both pitch and speed simultaneously, use the "Change Speed"
+    effect instead.
+  </p>
+  <p>
+    <strong>Is the pitch shifter free?</strong><br />
+    Yes, Audacity is completely free open-source software, and all its built-in effects
+    are free to use without restrictions.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to start pitch shifting your audio? Download Audacity for free on
+    Windows, macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>
