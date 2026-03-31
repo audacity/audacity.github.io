@@ -15,4 +15,12 @@ export const features: FeatureEntry[] = [
       "Change pitch of audio without affecting speed. Transpose songs to any key, shift by semitones or percent.",
     icon: "icon-cycle",
   },
+  {
+    slug: "noise-reduction",
+    title: "Free Noise Reduction Tool – Remove Background Noise | Audacity",
+    shortTitle: "Noise Reduction",
+    description:
+      "Remove background noise from audio for free. Eliminate hiss, hum, fan noise, and buzzing from any recording.",
+    icon: "icon-waveform",
+  },
 ];

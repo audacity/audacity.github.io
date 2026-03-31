@@ -1,0 +1,254 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Noise Reduction Tool – Remove Background Noise | Audacity"
+  description="Remove background noise from audio for free. Audacity's Noise Reduction effect eliminates hiss, hum, fan noise and buzzing. Download free for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/noise-reduction"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <!-- Left Column - Text Content -->
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Remove Background Noise from Audio &ndash; Free Noise Reduction
+              Tool
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Eliminate hiss, hum, fan noise, and buzzing from any recording.
+              Free noise reduction for Windows, Mac &amp; Linux.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <!-- Right Column - Image -->
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- Quick Start Box -->
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      How to remove background noise in Audacity:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>Select a section containing only background noise</li>
+      <li>
+        Go to <strong
+          >Effect &rarr; Noise Reduction &rarr; Get Noise Profile</strong
+        >
+      </li>
+      <li>Select the audio you want to clean</li>
+      <li>Go to <strong>Effect &rarr; Noise Reduction &rarr; OK</strong></li>
+    </ol>
+  </div>
+
+  <h2>How to Remove Background Noise in Audacity</h2>
+
+  <h3>Step 1: Get Noise Profile</h3>
+  <p>
+    Audacity needs a "noise profile" &ndash; a short sample of pure background
+    noise with no speech or music. Find a section in your recording (at least
+    0.5 seconds long) where only the unwanted noise is audible. Click and drag
+    to select it, then go to <strong
+      >Effect &gt; Noise Reduction &gt; Get Noise Profile</strong
+    >. Audacity will analyze the noise characteristics and store them for the
+    next step.
+  </p>
+
+  <h3>Step 2: Apply Noise Reduction</h3>
+  <p>
+    Now select the audio you want to clean. To process the entire track, press
+    <code>Ctrl + A</code> (Windows/Linux) or <code>Cmd + A</code> (Mac). Then open
+    <strong>Effect &gt; Noise Reduction</strong> and click <strong>OK</strong> to
+    apply reduction using the profile you just captured.
+  </p>
+
+  <h3>Step 3: Adjust Settings</h3>
+  <p>
+    Before clicking OK, fine-tune the Noise Reduction, Sensitivity, and
+    Frequency Smoothing sliders to suit your recording. Use the <strong
+      >Preview</strong
+    > button to hear the effect before committing. If the result sounds unnatural,
+    dial back the Noise Reduction value and try again.
+  </p>
+
+  <h2>Noise Reduction Settings Explained</h2>
+
+  <h3>Noise Reduction (dB)</h3>
+  <p>
+    Controls how much of the identified noise is attenuated. Higher values
+    remove more noise but can introduce audio artifacts &ndash; a warbling,
+    "watery" quality. Values between 6 and 24 dB work well for most recordings.
+    Start low and increase until the noise is no longer distracting.
+  </p>
+
+  <h3>Sensitivity</h3>
+  <p>
+    Determines how aggressively Audacity classifies parts of the signal as
+    noise. Higher values treat more of the audio as noise to remove. If voices
+    or instruments sound muffled after applying, try lowering this value.
+  </p>
+
+  <h3>Frequency Smoothing</h3>
+  <p>
+    Smooths the transition between noise-reduced and untouched frequency bands.
+    A value of 3 is a good starting point. Increasing it reduces "musical noise"
+    &ndash; the tinny or metallic artifacts that can appear at aggressive
+    reduction settings.
+  </p>
+
+  <h2>What Types of Noise Can Audacity Remove?</h2>
+  <p>
+    Audacity's Noise Reduction effect works best on <em>stationary</em> noise &ndash;
+    backgrounds that stay roughly constant throughout the recording:
+  </p>
+  <ul>
+    <li>
+      <strong>Room hiss / preamp hiss</strong> &ndash; constant low-level hiss from
+      microphones or audio interfaces
+    </li>
+    <li>
+      <strong>Fan noise</strong> &ndash; from computers, air conditioning, or ventilation
+    </li>
+    <li>
+      <strong>Electrical hum (50/60&nbsp;Hz)</strong> &ndash; caused by ground loops
+      or poor cable shielding
+    </li>
+    <li>
+      <strong>Buzzing</strong> &ndash; from fluorescent lights or other electrical
+      interference
+    </li>
+    <li>
+      <strong>Tape hiss</strong> &ndash; when digitizing old cassette or reel-to-reel
+      recordings
+    </li>
+  </ul>
+  <p>
+    For non-stationary noise such as traffic, crowd chatter, or background
+    music, other tools and techniques will typically be more effective.
+  </p>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Select a noise sample that is <strong>at least 0.5 seconds long</strong> and
+      contains no intentional audio.
+    </li>
+    <li>
+      Start with moderate settings &ndash; try <strong
+        >Noise Reduction: 12&nbsp;dB, Sensitivity: 6, Frequency Smoothing: 3</strong
+      > &ndash; and adjust from there.
+    </li>
+    <li>
+      Always use <strong>Preview</strong> before applying to compare processed and
+      original audio side-by-side.
+    </li>
+    <li>
+      If audio sounds "watery" or distorted, lower the Noise Reduction value or
+      Sensitivity.
+    </li>
+    <li>
+      Record in the quietest environment possible &ndash; noise reduction
+      improves recordings but cannot fully substitute for good recording
+      conditions.
+    </li>
+  </ul>
+
+  <h2>Alternative Noise Reduction Techniques</h2>
+  <p>
+    When the standard Noise Reduction effect is not enough, Audacity offers
+    additional tools:
+  </p>
+  <ul>
+    <li>
+      <strong>Noise Gate</strong> &ndash; Silences audio that falls below a set volume
+      threshold, useful for eliminating noise between speech or musical phrases. Found
+      under <strong>Effect &gt; Gate</strong>.
+    </li>
+    <li>
+      <strong>Spectral Editing</strong> &ndash; Switch to Spectrogram view to visually
+      identify and surgically remove specific noise frequencies. Right-click a track
+      header and select <strong>Spectrogram</strong>.
+    </li>
+    <li>
+      <strong>Equalization</strong> &ndash; Use the Filter Curve EQ to cut the frequency
+      range where noise is most prominent without affecting the rest of the audio.
+    </li>
+    <li>
+      <strong>MuseHub plugins</strong> &ndash; The MuseHub platform offers additional
+      noise reduction and audio restoration plug-ins that integrate directly with
+      Audacity.
+    </li>
+  </ul>
+
+  <!-- Why Audacity Box -->
+  <div
+    class="not-prose my-8 rounded-lg border border-green-200 bg-green-50 p-6"
+  >
+    <h3 class="mb-3 text-lg font-semibold text-green-900">
+      Why choose Audacity for noise reduction?
+    </h3>
+    <ul class="space-y-2 text-green-800">
+      <li>&#10003; 100% free and open source</li>
+      <li>&#10003; No subscription required</li>
+      <li>&#10003; Works offline</li>
+      <li>&#10003; Professional-quality results</li>
+      <li>&#10003; Windows, Mac &amp; Linux</li>
+    </ul>
+  </div>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to clean up your recordings? Download Audacity for free on Windows,
+    macOS, or Linux and start removing background noise today.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>
