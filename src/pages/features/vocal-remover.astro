@@ -1,0 +1,509 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Vocal Remover – Remove Vocals from Any Song | Audacity"
+  description="Remove vocals from any song for free with Audacity. AI-powered separation for karaoke, remixes & covers. No limits, no subscription. Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/vocal-remover"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <!-- Left Column - Text Content -->
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Remove Vocals from Any Song &ndash; Free Vocal Remover
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              AI-powered vocal separation for karaoke tracks, remixes, and
+              covers. No limits, no subscription. Windows, Mac &amp; Linux.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <!-- Right Column - Image -->
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- Quick Start Box -->
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Remove vocals from a song in 4 steps:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>Install the OpenVINO AI plugin (Windows/Linux)</li>
+      <li>
+        Import your song (<strong>File &rarr; Import &rarr; Audio</strong>)
+      </li>
+      <li>
+        Go to <strong
+          >Effect &rarr; OpenVINO AI Effects &rarr; Music Separation</strong
+        >
+      </li>
+      <li>
+        Choose <strong>"2 stem – Vocal and Instrumental"</strong> &rarr; Apply
+      </li>
+    </ol>
+  </div>
+
+  <h2>What Is Vocal Removal?</h2>
+  <p>
+    Vocal removal is the process of separating or eliminating the lead vocals
+    from a mixed audio track, leaving only the instrumental backing. The
+    resulting instrumental track can be used for karaoke, practice, remixes, or
+    any scenario where you want the music without the original singing.
+  </p>
+  <p>
+    Audacity offers three distinct approaches: an AI-powered Music Separation
+    plugin (the most accurate), a built-in Vocal Reduction and Isolation effect,
+    and a manual stereo inversion technique for center-panned vocals.
+  </p>
+
+  <h2>How to Remove Vocals in Audacity</h2>
+
+  <h3>Method 1: AI Music Separation (Recommended)</h3>
+  <p>
+    The <strong>OpenVINO AI Music Separation</strong> plugin delivers the best quality
+    results by using a deep learning model to intelligently separate stems. It is
+    available on Windows and Linux via the free OpenVINO plugin package.
+  </p>
+
+  <h4>Step 1: Install OpenVINO Plugin</h4>
+  <p>
+    Download the OpenVINO AI plugin package from the MuseHub or from the
+    <a href="https://github.com/intel/openvino-plugins-ai-audacity"
+      >OpenVINO Audacity GitHub page</a
+    >. Run the installer and restart Audacity. The plugin will appear under
+    <strong>Effect &gt; OpenVINO AI Effects</strong>.
+  </p>
+  <!-- TODO: add image openvino-music-separation-dialog.png "OpenVINO Music Separation settings in Audacity" -->
+
+  <h4>Step 2: Import Your Song</h4>
+  <p>
+    Open Audacity and go to <strong>File &gt; Import &gt; Audio</strong> (or press
+    <code>Ctrl + Shift + I</code> / <code>Cmd + Shift + I</code> on Mac). Select your
+    audio file and click <strong>Open</strong>. The track will appear as a
+    stereo waveform in the Audacity workspace.
+  </p>
+
+  <h4>Step 3: Apply Music Separation</h4>
+  <p>
+    With the track loaded, select all audio (<code>Ctrl + A</code> /
+    <code>Cmd + A</code>). Navigate to <strong
+      >Effect &gt; OpenVINO AI Effects &gt; Music Separation</strong
+    >. In the dialog, choose your desired separation mode &ndash; <em
+      >2-Stem (Vocals + Instrumental)</em
+    > for standard karaoke or <em>4-Stem</em> for full stem separation. Click
+    <strong>Apply</strong> and wait for processing to complete (typically 1–3 minutes
+    depending on song length and hardware).
+  </p>
+
+  <h4>Step 4: Export Your Tracks</h4>
+  <p>
+    Once processing finishes, Audacity will create separate tracks for each
+    stem. Mute or delete the vocal track, then export the instrumental via
+    <strong>File &gt; Export Audio</strong>. Choose your preferred format (WAV
+    for lossless quality, MP3 for smaller file size) and click <strong
+      >Save</strong
+    >.
+  </p>
+  <!-- TODO: add image vocal-removal-before-after.png "Audio waveform before and after vocal removal" -->
+
+  <h3>Method 2: Vocal Reduction and Isolation Effect</h3>
+  <p>
+    Audacity includes a built-in <strong>Vocal Reduction and Isolation</strong>
+    effect that works on all platforms &ndash; including Mac. It uses phase cancellation
+    and frequency filtering to reduce center-panned vocals. Results vary depending
+    on the recording, but it requires no extra plugins.
+  </p>
+
+  <h4>Step 1: Import Audio</h4>
+  <p>
+    Import your song via <strong>File &gt; Import &gt; Audio</strong>. The track
+    must be stereo for this method to work &ndash; if it shows as mono, this
+    method will not produce useful results.
+  </p>
+
+  <h4>Step 2: Select Track</h4>
+  <p>
+    Click on the track header to select the whole track, or press
+    <code>Ctrl + A</code> / <code>Cmd + A</code> to select everything.
+  </p>
+
+  <h4>Step 3: Apply Effect</h4>
+  <p>
+    Go to <strong>Effect &gt; Special &gt; Vocal Reduction and Isolation</strong
+    >. The dialog will open with several action modes. Choose <strong
+      >Remove Vocals</strong
+    > to subtract the center channel, or <strong>Isolate Vocals</strong> to extract
+    only the vocals.
+  </p>
+  <!-- TODO: add image vocal-reduction-isolation-dialog.png "Vocal Reduction and Isolation effect settings" -->
+
+  <h4>Step 4: Adjust Settings</h4>
+  <p>
+    Use the <strong>Strength</strong> slider to control how aggressively the center
+    channel is removed. The <strong>Low Cut</strong> and
+    <strong>High Cut</strong> frequency fields let you restrict the removal to the
+    vocal frequency range, preserving bass and high-frequency content. Click
+    <strong>Preview</strong> to audition the result, then <strong>Apply</strong>
+    when satisfied.
+  </p>
+
+  <h3>Method 3: Manual Stereo Inversion</h3>
+  <p>
+    This is a legacy technique that works by inverting one stereo channel and
+    mixing the two channels together, cancelling any audio that is identical in
+    both channels (typically center-panned vocals). It is the least reliable
+    method &ndash; it only works on vocals that are perfectly centered and can
+    remove other center-panned elements like bass and kick drum.
+  </p>
+  <ol>
+    <li>
+      Import your stereo track and click the track name &rarr; <strong
+        >Split Stereo to Mono</strong
+      > to create two separate mono tracks.
+    </li>
+    <li>
+      Select the lower (Right channel) track and go to <strong
+        >Effect &gt; Special &gt; Invert</strong
+      >.
+    </li>
+    <li>
+      Select both tracks (<code>Shift + click</code> the second track header), then
+      go to <strong>Tracks &gt; Mix &gt; Mix and Render to New Track</strong>.
+    </li>
+    <li>
+      The new mono track should have significantly reduced vocals. Export via
+      <strong>File &gt; Export Audio</strong>.
+    </li>
+  </ol>
+  <!-- TODO: add image split-stereo-to-mono.png "Split Stereo to Mono option in Audacity" -->
+  <!-- TODO: add image two-mono-tracks.png "Two mono tracks after splitting stereo" -->
+
+  <h2>Separation Modes Explained</h2>
+
+  <h3>2-Stem (Vocals + Instrumental)</h3>
+  <p>
+    The 2-stem mode produces two output tracks: one containing the isolated
+    vocals and one containing everything else (the instrumental). This is the
+    fastest option and works well for karaoke track creation, extracting
+    acapella versions, or recording new vocals over a backing track. Processing
+    time is roughly half that of 4-stem.
+  </p>
+  <!-- TODO: add image stem-separation-modes.png "2-stem and 4-stem separation options" -->
+
+  <h3>4-Stem (Vocals + Drums + Bass + Other)</h3>
+  <p>
+    The 4-stem mode separates a song into four individual components: vocals,
+    drums, bass, and everything else (guitars, keys, synths, etc.). This gives
+    you maximum creative control: reconstruct a mix without a specific
+    instrument, create drum-only practice loops, or use individual stems for DJ
+    sets and remixes. Processing takes proportionally longer and benefits from a
+    faster CPU or GPU.
+  </p>
+
+  <h2>Settings Reference</h2>
+  <p>
+    The following settings apply to the <strong
+      >Vocal Reduction and Isolation</strong
+    >
+    effect (Method 2). The OpenVINO AI plugin handles settings automatically.
+  </p>
+
+  <h3>Strength</h3>
+  <p>
+    Controls the degree of center-channel removal, from 0 (no effect) to 1
+    (maximum removal). Higher values eliminate more of the center signal,
+    including vocals, but may also reduce bass and other centered elements.
+    Start at 1.0 and reduce if the instrumental sounds thin or hollow.
+  </p>
+
+  <h3>Low Cut for Vocals</h3>
+  <p>
+    Frequencies below this threshold (in Hz) are left untouched, even if they
+    are center-panned. Setting a value of around 120&nbsp;Hz preserves the kick
+    drum and bass guitar, which are often centered in a stereo mix, giving a
+    more natural-sounding instrumental.
+  </p>
+
+  <h3>High Cut for Vocals</h3>
+  <p>
+    Frequencies above this threshold are similarly excluded from the removal
+    process. Setting this to 8000&nbsp;Hz or higher allows cymbals and air
+    frequencies to pass through unaffected. Vocals typically occupy the 200–
+    4000&nbsp;Hz range, so values above that are safe to preserve.
+  </p>
+
+  <h2>What Can You Create?</h2>
+
+  <!-- Use Cases Box -->
+  <div
+    class="not-prose my-6 rounded-lg border border-indigo-200 bg-indigo-50 p-6"
+  >
+    <h3 class="mb-3 text-lg font-semibold text-indigo-900">
+      What you can create:
+    </h3>
+    <ul class="space-y-2 text-indigo-800">
+      <li>
+        <strong>Karaoke tracks</strong> &ndash; Remove vocals to sing along to your
+        favorite songs
+      </li>
+      <li>
+        <strong>Acapella versions</strong> &ndash; Isolate vocals for use in remixes
+        or mashups
+      </li>
+      <li>
+        <strong>Practice tracks</strong> &ndash; Learn an instrument part without
+        vocals competing for attention
+      </li>
+      <li>
+        <strong>DJ stems</strong> &ndash; Separate drums, bass, and vocals for live
+        mixing and performance
+      </li>
+      <li>
+        <strong>Covers</strong> &ndash; Create a clean backing track so you can record
+        your own vocal performance
+      </li>
+    </ul>
+  </div>
+
+  <h2>Supported Audio Formats</h2>
+
+  <!-- Formats Box -->
+  <div class="not-prose my-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-gray-900">
+      Supported audio formats:
+    </h3>
+    <p class="text-gray-700 mb-2">
+      <strong>Import:</strong> MP3, WAV, FLAC, OGG, AIFF, M4A, WMA, AC3
+    </p>
+    <p class="text-gray-700">
+      <strong>Export:</strong> MP3, WAV, FLAC, OGG, AIFF
+    </p>
+    <p class="mt-3 text-sm text-gray-500">
+      For the best separation quality, use a lossless source file (WAV or FLAC)
+      rather than a compressed MP3, which may contain compression artifacts that
+      affect the AI model.
+    </p>
+  </div>
+
+  <h2>Limitations &amp; What to Expect</h2>
+
+  <!-- Limitations Box -->
+  <div
+    class="not-prose my-6 rounded-lg border border-amber-200 bg-amber-50 p-6"
+  >
+    <h3 class="mb-3 text-lg font-semibold text-amber-900">What to expect:</h3>
+    <ul class="space-y-2 text-amber-800">
+      <li>AI separation works best on studio-quality recordings</li>
+      <li>Backing vocals and reverb tails may remain partially audible</li>
+      <li>Live recordings are harder to separate cleanly</li>
+      <li>
+        Manual stereo inversion only works if vocals are center-panned in the
+        mix
+      </li>
+      <li>The OpenVINO AI plugin currently supports Windows and Linux only</li>
+    </ul>
+  </div>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Use a <strong>lossless source file</strong> (WAV or FLAC) as your input rather
+      than MP3 &ndash; MP3 compression artifacts can reduce separation quality.
+    </li>
+    <li>
+      For the AI method, a <strong>faster CPU or GPU</strong> significantly reduces
+      processing time. Enable GPU acceleration if your system supports it.
+    </li>
+    <li>
+      If residual vocals remain, try applying <strong>Noise Reduction</strong>
+      or a narrow <strong>Notch Filter</strong> at the vocal frequencies to further
+      attenuate them.
+    </li>
+    <li>
+      When using the manual inversion method, <strong>do not normalize</strong>
+      or apply any effects before splitting &ndash; both channels must be at identical
+      levels for cancellation to work correctly.
+    </li>
+    <li>
+      Use the <strong>4-stem mode</strong> if you plan to rebuild the mix &ndash;
+      having individual stems gives you far more flexibility than the 2-stem output.
+    </li>
+  </ul>
+
+  <h2>Troubleshooting</h2>
+  <p>
+    <strong>"OpenVINO AI Effects" does not appear in the Effect menu.</strong
+    ><br />
+    Ensure the OpenVINO plugin was installed and that Audacity was fully restarted
+    after installation. On Windows, check that the installer ran with administrator
+    privileges. On Linux, verify the plugin is installed to the correct Audacity plug-ins
+    directory.
+  </p>
+  <p>
+    <strong>Processing appears to hang or takes very long.</strong><br />
+    AI separation is CPU-intensive. A 3-minute song may take 5–10 minutes on older
+    hardware. Check Task Manager (Windows) or Activity Monitor (Mac) to confirm Audacity
+    is still using CPU. Avoid running other heavy applications during processing.
+  </p>
+  <p>
+    <strong>Vocals are still clearly audible after applying the effect.</strong
+    ><br />
+    For Method 2, verify the source track is stereo and that the vocals are center-panned.
+    A mono source or vocals mixed off-center will not respond well to phase cancellation.
+    Switch to the OpenVINO AI method (Windows/Linux) for better results on difficult
+    material.
+  </p>
+  <p>
+    <strong>The exported file sounds distorted or clipped.</strong><br />
+    After applying effects, open <strong>View &gt; Mixer Board</strong> and check
+    that the track gain is not above 0&nbsp;dB. Apply
+    <strong>Effect &gt; Volume and Compression &gt; Normalize</strong> to bring peaks
+    to &minus;1&nbsp;dBFS before exporting.
+  </p>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Is Audacity's vocal remover really free?</strong><br />
+    Yes, 100% free with no limits, subscriptions, or credits required. Audacity is
+    open-source software and the OpenVINO AI plugin is also free.
+  </p>
+  <p>
+    <strong>Which method gives the best results?</strong><br />
+    The OpenVINO AI Music Separation plugin provides the best quality by a wide margin.
+    If you are on Windows or Linux, use it over the manual methods whenever possible.
+  </p>
+  <p>
+    <strong>Can I remove vocals on Mac?</strong><br />
+    The OpenVINO AI plugin is currently Windows and Linux only. Mac users can use
+    the built-in <strong>Vocal Reduction and Isolation</strong> effect, though results
+    will vary depending on how the song was mixed.
+  </p>
+  <p>
+    <strong>Why are some vocals still audible after removal?</strong><br />
+    Backing vocals, reverb tails, and stereo-widened vocal effects spread sound across
+    both channels, making perfect removal impossible. AI models handle these cases
+    better than manual methods but cannot guarantee a completely clean result.
+  </p>
+  <p>
+    <strong>Can I isolate drums or bass separately?</strong><br />
+    Yes. The OpenVINO plugin offers a 4-stem mode that produces separate vocal, drum,
+    bass, and "other" stem tracks from a single audio file.
+  </p>
+  <p>
+    <strong>What audio quality should I use for best results?</strong><br />
+    Use lossless formats (WAV or FLAC) as your source material. MP3 compression introduces
+    artifacts that can negatively affect AI separation accuracy.
+  </p>
+  <p>
+    <strong>Is it legal to remove vocals from songs?</strong><br />
+    For personal, non-commercial use this is generally acceptable in most jurisdictions.
+    Commercial use of the separated audio requires permission from the copyright holder.
+    Always check the licensing terms for content you did not create.
+  </p>
+  <p>
+    <strong>How long does processing take?</strong><br />
+    AI separation typically takes 1–3 minutes per song depending on your hardware.
+    A modern CPU will process a 4-minute track in about 90 seconds; older hardware
+    may take up to 10 minutes.
+  </p>
+
+  <!-- Comparison Table -->
+  <h2>Why Choose Audacity for Vocal Removal?</h2>
+  <div
+    class="not-prose my-6 overflow-x-auto rounded-lg border border-green-200 bg-green-50"
+  >
+    <table class="w-full text-sm text-left">
+      <thead>
+        <tr class="bg-green-100">
+          <th class="px-4 py-3 font-semibold text-green-900">Feature</th>
+          <th class="px-4 py-3 font-semibold text-green-900">Audacity</th>
+          <th class="px-4 py-3 font-semibold text-green-900">Online Tools</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-green-200 text-green-800">
+        <tr>
+          <td class="px-4 py-3">Price</td>
+          <td class="px-4 py-3 font-medium">100% Free</td>
+          <td class="px-4 py-3">$7–15/month</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">File limits</td>
+          <td class="px-4 py-3 font-medium">Unlimited</td>
+          <td class="px-4 py-3">10–90 min/month</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Upload size</td>
+          <td class="px-4 py-3 font-medium">Unlimited</td>
+          <td class="px-4 py-3">200&nbsp;MB–2&nbsp;GB</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Privacy</td>
+          <td class="px-4 py-3 font-medium">Works offline</td>
+          <td class="px-4 py-3">Upload required</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Output formats</td>
+          <td class="px-4 py-3 font-medium">WAV, MP3, FLAC, OGG</td>
+          <td class="px-4 py-3">Limited</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to create karaoke tracks, isolate stems, or build the perfect remix?
+    Download Audacity for free on Windows, macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>

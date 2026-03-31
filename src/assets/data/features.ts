@@ -23,4 +23,12 @@ export const features: FeatureEntry[] = [
       "Remove background noise from audio for free. Eliminate hiss, hum, fan noise, and buzzing from any recording.",
     icon: "icon-waveform",
   },
+  {
+    slug: "vocal-remover",
+    title: "Free Vocal Remover – Remove Vocals from Any Song | Audacity",
+    shortTitle: "Vocal Remover",
+    description:
+      "Remove vocals from any song for free. AI-powered stem separation for karaoke, remixes, and covers. No limits, no subscription.",
+    icon: "icon-microphone",
+  },
 ];
