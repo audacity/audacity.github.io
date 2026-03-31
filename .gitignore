@@ -4,6 +4,9 @@ dist/
 # misc local files
 local/
 
+# skills
+.github/skills/
+
 # generated types
 .astro/
 
