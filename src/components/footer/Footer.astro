@@ -48,158 +48,162 @@ const activePreReleaseAriaLabel =
           >
         </li>
         <li>
-          <a href="/features" aria-label="Link to Features">Features</a>
-        </li>
-        {
-          features.map((feature) => (
-            <li>
-              <a
-                href={`/features/${feature.slug}`}
-                aria-label={`Link to ${feature.shortTitle}`}
-              >
-                {feature.shortTitle}
-              </a>
-            </li>
-          ))
-        }
-        <li>
-          <a
-            href="https://forum.audacityteam.org/"
-            aria-label="External link to Forum"
-            target="_blank">Forum</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://merch.audacityteam.org/"
-            aria-label="External link to Merch"
-            target="_blank"
-          >
-            <b>Merch</b>
-            <sup
-              class="ml-1 px-1.5 py-0.3 rounded bg-red-600 text-white text-xs font-semibold"
-              >NEW</sup
+          <li>
+            <a href="/features/" aria-label="Link to Features">Features</a>
+          </li>
+          {
+            features.map((feature) => (
+              <li>
+                <a
+                  href={`/features/${feature.slug}/`}
+                  aria-label={`Link to ${feature.shortTitle}`}
+                >
+                  {feature.shortTitle}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href="https://forum.audacityteam.org/"
+              aria-label="External link to Forum"
+              target="_blank">Forum</a
             >
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://manual.audacityteam.org/"
-            aria-label="External link to Manual"
-            target="_blank">Manual</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://audio.com/"
-            aria-label="External link to Audio.com"
-            target="_blank">Audio.com</a
-          >
-        </li>
-      </ul>
-    </div>
-
-    <div
-      class="col-start-7 col-span-5 row-start-2 md:col-span-2 md:col-start-4 lg:col-start-8 lg:row-start-1"
-    >
-      <p class="footer-list-heading">Downloads</p>
-      <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
-        <li>
-          <a href="/download/windows" aria-label="Link to Windows">Windows</a>
-        </li>
-        <li><a href="/download/mac" aria-label="Link to macOS">macOS</a></li>
-        <li><a href="/download/linux" aria-label="Link to Linux">Linux</a></li>
-        {
-          hasPreRelease && activeDownloadCampaign && (
-            <li id="pre-release-link">
-              <a
-                href={activeDownloadCampaign.pageHref}
-                aria-label={activePreReleaseAriaLabel}
+          </li>
+          <li>
+            <a
+              href="https://merch.audacityteam.org/"
+              aria-label="External link to Merch"
+              target="_blank"
+            >
+              <b>Merch</b>
+              <sup
+                class="ml-1 px-1.5 py-0.3 rounded bg-red-600 text-white text-xs font-semibold"
+                >NEW</sup
               >
-                {activeDownloadCampaign.label}
-              </a>
-            </li>
-          )
-        }
-        <li>
-          <a
-            href="https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub"
-            aia-label="External link to MuseHub">MuseHub</a
-          >
-        </li>
-        <li>
-          <a href="/download/openvino" aria-label="Link to AI plugins"
-            >AI plugins</a
-          >
-        </li>
-      </ul>
-    </div>
-
-    <div
-      class="col-start-2 col-span-5 row-start-3 md:row-start-2 md:col-start-6 md:col-span-2 lg:col-start-10 lg:row-start-1"
-    >
-      <p class="footer-list-heading">Social</p>
-      <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
-        <li>
-          <a
-            href="https://www.facebook.com/Audacity/"
-            aria-label="External link to Facebook"
-            target="_blank">Facebook</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://github.com/audacity"
-            aria-label="External link to github"
-            target="_blank">Github</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://discord.gg/audacity"
-            aria-label="External link to discord"
-            target="_blank">Discord</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://www.youtube.com/c/audacity"
-            aria-label="External link to Youtube"
-            target="_blank">YouTube</a
-          >
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://manual.audacityteam.org/"
+              aria-label="External link to Manual"
+              target="_blank">Manual</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://audio.com/"
+              aria-label="External link to Audio.com"
+              target="_blank">Audio.com</a
+            >
+          </li>
         </li>
       </ul>
-    </div>
 
-    <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
-      <div class="border-t-[1px] border-gray-300 pt-4">
-        <p class="copyright text-center">
-          Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
-          Website content licensed <a
-            href="https://creativecommons.org/licenses/by/4.0/"
-            class="underline hover:text-blue-700"
-            rel="license"
-            target="_blank"
-            aria-label="CC-by 4.0">CC-by 4.0</a
-          >. Audacity® software is licensed under the terms of the GNU General
-          Public License, Version 3. Further information about the software
-          license, distribution and acceptable use can be found <a
-            class="underline hover:text-blue-700"
-            href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
-            target="_blank"
-            aria-label="in the source code">in the source code</a
-          >. This site is powered by <a
-            href="https://www.netlify.com/"
-            target="_blank"
-            class="underline hover:text-blue-700">Netlify</a
-          >.
-        </p>
+      <div
+        class="col-start-7 col-span-5 row-start-2 md:col-span-2 md:col-start-4 lg:col-start-8 lg:row-start-1"
+      >
+        <p class="footer-list-heading">Downloads</p>
+        <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
+          <li>
+            <a href="/download/windows" aria-label="Link to Windows">Windows</a>
+          </li>
+          <li><a href="/download/mac" aria-label="Link to macOS">macOS</a></li>
+          <li>
+            <a href="/download/linux" aria-label="Link to Linux">Linux</a>
+          </li>
+          {
+            hasPreRelease && activeDownloadCampaign && (
+              <li id="pre-release-link">
+                <a
+                  href={activeDownloadCampaign.pageHref}
+                  aria-label={activePreReleaseAriaLabel}
+                >
+                  {activeDownloadCampaign.label}
+                </a>
+              </li>
+            )
+          }
+          <li>
+            <a
+              href="https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub"
+              aia-label="External link to MuseHub">MuseHub</a
+            >
+          </li>
+          <li>
+            <a href="/download/openvino" aria-label="Link to AI plugins"
+              >AI plugins</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="col-start-2 col-span-5 row-start-3 md:row-start-2 md:col-start-6 md:col-span-2 lg:col-start-10 lg:row-start-1"
+      >
+        <p class="footer-list-heading">Social</p>
+        <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
+          <li>
+            <a
+              href="https://www.facebook.com/Audacity/"
+              aria-label="External link to Facebook"
+              target="_blank">Facebook</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/audacity"
+              aria-label="External link to github"
+              target="_blank">Github</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://discord.gg/audacity"
+              aria-label="External link to discord"
+              target="_blank">Discord</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.youtube.com/c/audacity"
+              aria-label="External link to Youtube"
+              target="_blank">YouTube</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
+        <div class="border-t-[1px] border-gray-300 pt-4">
+          <p class="copyright text-center">
+            Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
+            Website content licensed <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              class="underline hover:text-blue-700"
+              rel="license"
+              target="_blank"
+              aria-label="CC-by 4.0">CC-by 4.0</a
+            >. Audacity® software is licensed under the terms of the GNU General
+            Public License, Version 3. Further information about the software
+            license, distribution and acceptable use can be found <a
+              class="underline hover:text-blue-700"
+              href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
+              target="_blank"
+              aria-label="in the source code">in the source code</a
+            >. This site is powered by <a
+              href="https://www.netlify.com/"
+              target="_blank"
+              class="underline hover:text-blue-700">Netlify</a
+            >.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</footer>
 
-<script>
-  const elem = document.querySelector("#copyright");
-  if (elem) elem.textContent = new Date().getFullYear().toString();
-</script>
+  <script>
+    const elem = document.querySelector("#copyright");
+    if (elem) elem.textContent = new Date().getFullYear().toString();
+  </script>
+</footer>

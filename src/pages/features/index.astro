@@ -7,7 +7,7 @@ import "../../styles/icons.css";
 <BaseLayout
   title="Features – Audacity"
   description="Explore Audacity's audio editing features. Learn how to pitch shift, record, mix, and more with free open-source software for Windows, Mac & Linux."
-  canonical="https://www.audacityteam.org/features"
+  canonical="https://www.audacityteam.org/features/"
 >
   <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
     <div class="mx-auto px-4 md:px-8 py-8 md:py-12 lg:py-16 max-w-screen-lg">
@@ -30,7 +30,7 @@ import "../../styles/icons.css";
       {
         features.map((feature) => (
           <a
-            href={`/features/${feature.slug}`}
+            href={`/features/${feature.slug}/`}
             class="group p-4 md:p-6 border drop-shadow-sm md:drop-shadow-lg bg-white rounded-lg flex flex-col gap-2 hover:border-blue-700 hover:shadow-xl transition-all duration-200"
           >
             <span class={`icon icon-medium text-blue-700 ${feature.icon}`} />
