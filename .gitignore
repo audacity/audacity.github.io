@@ -29,3 +29,6 @@ pnpm-debug.log*
 *.code-workspace
 # Local Netlify folder
 .netlify
+
+deno.lock
+.vscode/
