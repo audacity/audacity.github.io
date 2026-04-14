@@ -30,3 +30,9 @@ pnpm-debug.log*
 .DS_Store
 
 *.code-workspace
+
+# deno lock file (auto-generated)
+deno.lock
+
+# vscode machine-specific settings
+.vscode/settings.json
