@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import AudacityLogo from "../../assets/img/Audacity_Logo.svg";
+import { useExperiment } from "../../hooks/useExperiment";
 import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
 
 function NavigationReact(props) {
   const { currentURL } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
+  const { variant: navLogoVariant } = useExperiment("nav-logo");
 
   function getUrlPath(url) {
     const parts = url.split("/");
@@ -70,11 +72,13 @@ function NavigationReact(props) {
       <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-4 md:px-6">
         <div className="flex-1">
           <a className="flex w-fit items-center gap-1 lg:gap-2" href="/">
-            <img
-              className="w-5 lg:w-6 h-full"
-              src={AudacityLogo.src}
-              alt="A yellow and orange waveform between the ears of a set of blue headphones"
-            />
+            {navLogoVariant !== "text-only" && (
+              <img
+                className="w-5 lg:w-6 h-full"
+                src={AudacityLogo.src}
+                alt="A yellow and orange waveform between the ears of a set of blue headphones"
+              />
+            )}
             <p className="signika text-blue-700 lg:text-lg font-medium lg:leading-none">
               Audacity
             </p>

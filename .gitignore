@@ -34,5 +34,8 @@ pnpm-debug.log*
 # deno lock file (auto-generated)
 deno.lock
 
+# Local Netlify folder
+.netlify
+
 # vscode machine-specific settings
-.vscode/settings.json
+.vscode/
