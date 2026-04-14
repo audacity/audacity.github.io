@@ -2,7 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import DownloadCard from "../components/card/DownloadCard";
 import IconLinkCard from "../components/card/IconLinkCard";
-import PlatformDownloadMuseHubButton from "../components/button/PlatformDownloadMuseHubButton";
+import MuseHubRecommendedSection from "../components/button/MuseHubRecommendedSection";
 import { Icon } from "astro-icon/components";
 import "../styles/icons.css";
 import { museHubReleases } from "../assets/data/museHubReleases";
@@ -57,24 +57,11 @@ const {
 
     {
       OS !== "Linux" && (
-        <section class="mx-4 sm:mx-12 mb-4">
-          <div class="border border-bg-200 rounded-md p-6">
-            <div class="flex flex-col sm:flex-row gap-2 justify-between items-center">
-              <div class="flex-col gap-2">
-                <h2 class="text-xl font-semibold">
-                  Audacity installer (recommended)
-                </h2>
-                <p>via MuseHub</p>
-              </div>
-
-              <PlatformDownloadMuseHubButton
-                client:load
-                museHubReleaseData={museHubReleaseData}
-                OS={OS}
-              />
-            </div>
-          </div>
-        </section>
+        <MuseHubRecommendedSection
+          client:load
+          museHubReleaseData={museHubReleaseData}
+          OS={OS}
+        />
       )
     }
 

@@ -31,6 +31,14 @@ export const experiments: Experiment[] = [
       { name: "control", weight: 50 },
       { name: "text-only", weight: 50 },
     ],
+    enabled: false,
+  },
+  {
+    name: "musehub-download",
+    variants: [
+      { name: "control", weight: 50 },
+      { name: "direct-download", weight: 50 },
+    ],
     enabled: true,
   },
 ];

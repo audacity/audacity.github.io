@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import platform from "platform";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { trackEvent } from "../../utils/matomo";
+import { useExperiment } from "../../hooks/useExperiment";
 
 function DownloadButton() {
   const [browserOS, setBrowserOS] = useState("");
+  const { variant } = useExperiment("musehub-download");
 
   useEffect(() => {
     setBrowserOS(platform.os.family);
   }, []);
+
+  if (variant === "direct-download") {
+    return null;
+  }
 
   function handleButtonClick(href) {
     if (href !== "/download") {
