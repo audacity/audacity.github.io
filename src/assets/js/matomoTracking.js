@@ -1,3 +1,5 @@
+import { getAllAssignments, formatAssignments } from "../../utils/experiment";
+
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -8,12 +10,15 @@ const branch = import.meta.env.BRANCH || "unknown-branch";
 
 var _paq = (window._paq = window._paq || []);
 /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-_paq.push(['setCustomDimension', 1, branch]); // ab-branch
+const assignments = getAllAssignments();
+const assignmentStr = formatAssignments(assignments);
+_paq.push(["setCustomDimension", 1, assignmentStr || branch]); // ab-branch
+
 _paq.push(["trackPageView"]);
 _paq.push(["enableLinkTracking"]);
 
 // Tell Matomo to wait for cookie consent
-_paq.push(['requireCookieConsent']);
+_paq.push(["requireCookieConsent"]);
 (function () {
   var u = "https://matomo.audacityteam.org/";
   _paq.push(["setTrackerUrl", u + "matomo.php"]);
@@ -28,5 +33,4 @@ _paq.push(['requireCookieConsent']);
 
 if (getCookie("audacity_consent") === "true") {
   _paq.push(["setCookieConsentGiven"]);
-} 
-
+}

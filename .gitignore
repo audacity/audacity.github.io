@@ -27,3 +27,5 @@ pnpm-debug.log*
 .DS_Store
 
 *.code-workspace
+# Local Netlify folder
+.netlify
