@@ -160,7 +160,7 @@ export const bannerPromos: Record<string, PromoData> = {
   },
   trinityEQ: {
     type: "banner",
-    isActive: true,
+    isActive: false,
     priority: 50,
     osTargets: ["Windows", "OS X"],
     message:
@@ -179,6 +179,29 @@ export const bannerPromos: Record<string, PromoData> = {
     cta: {
       text: "Get it on MuseHub",
       link: "https://www.musehub.com/plugin/trinity-eq?utm_source=au-web-banner-mh-web&utm_medium=trinity-eq&utm_campaign=au-web-banner-mh-web-trinity-eq&utm_id=au-web-banner",
+    },
+  },
+  speakerDiarizationPro: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    message:
+      "Speaker Diarization Pro: The AI tool for splitting multi-speaker audio. Detect, separate, and export voices instantly.",
+    styles: {
+      container: "bg-yellow-300",
+      message: "text-gray-900 font-bold",
+      button:
+        "font-bold border-2 border-gray-900 bg-gray-900 text-white hover:bg-yellow-300 hover:text-gray-900 hover:border-gray-900",
+    },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Speaker Diarization Pro MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/speaker-diarization-pro?utm_source=au-web-banner-mh-web&utm_medium=speaker-diarization-pro&utm_campaign=au-web-banner-mh-web-speaker-diarization-pro&utm_id=au-web-banner",
     },
   },
   survey: {
