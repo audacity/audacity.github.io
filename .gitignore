@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# netlify local state
+.netlify/
+
 # misc local files
 local/
 
