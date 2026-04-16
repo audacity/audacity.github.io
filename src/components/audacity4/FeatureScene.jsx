@@ -1,7 +1,42 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useInView, AnimatePresence } from "framer-motion";
 
-function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = false, bgTint = false }) {
+function lerp(a, b, t) {
+  return Math.round(a + (b - a) * t);
+}
+
+function getSceneColors(sceneIndex, totalScenes) {
+  const t = totalScenes <= 1 ? 0 : sceneIndex / (totalScenes - 1);
+
+  // Background: white (248,250,252) -> dark navy (15,23,42)
+  const bgR = lerp(248, 15, t);
+  const bgG = lerp(250, 23, t);
+  const bgB = lerp(252, 42, t);
+
+  // Heading: slate-900 (15,23,42) -> white (248,250,252)
+  const hR = lerp(15, 248, t);
+  const hG = lerp(23, 250, t);
+  const hB = lerp(42, 252, t);
+
+  // Body text: slate-600 (71,85,105) -> slate-300 (203,213,225)
+  const bR = lerp(71, 203, t);
+  const bG = lerp(85, 213, t);
+  const bB = lerp(105, 225, t);
+
+  // Dots inactive: slate-300 (203,213,225) -> slate-600 (71,85,105)
+  const dR = lerp(203, 71, t);
+  const dG = lerp(213, 85, t);
+  const dB = lerp(225, 105, t);
+
+  return {
+    bg: `rgb(${bgR},${bgG},${bgB})`,
+    heading: `rgb(${hR},${hG},${hB})`,
+    body: `rgb(${bR},${bG},${bB})`,
+    dotInactive: `rgb(${dR},${dG},${dB})`,
+  };
+}
+
+function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = false, sceneIndex = 0, totalScenes = 1 }) {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const imageInView = useInView(imageRef, { once: true, margin: "-50px" });
@@ -21,7 +56,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
     return unsubscribe;
   }, [scrollYProgress, descriptions.length]);
 
-  const bgClass = bgTint ? "bg-slate-50" : "bg-white";
+  const colors = getSceneColors(sceneIndex, totalScenes);
   const sectionHeight = `${descriptions.length * 100 + 50}vh`;
 
   const imageColumn = (
@@ -54,9 +89,9 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
           className="w-full rounded-xl shadow-[0_25px_50px_rgba(0,0,0,0.12)] border border-gray-100"
           loading="lazy"
         />
-        <h2 className="text-slate-900">{title}</h2>
+        <h2 style={{ color: colors.heading }}>{title}</h2>
         {descriptions.map((desc, index) => (
-          <p key={index} className="text-lg text-slate-600 leading-relaxed">{desc}</p>
+          <p key={index} className="text-lg leading-relaxed" style={{ color: colors.body }}>{desc}</p>
         ))}
       </div>
 
@@ -71,8 +106,8 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <h2 className="text-slate-900 mb-4">{title}</h2>
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <h2 className="mb-4" style={{ color: colors.heading }}>{title}</h2>
+              <p className="text-lg leading-relaxed" style={{ color: colors.body }}>
                 {descriptions[activeIndex]}
               </p>
               {/* Progress dots */}
@@ -80,9 +115,10 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
                 {descriptions.map((_, index) => (
                   <div
                     key={index}
-                    className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                      index === activeIndex ? "bg-blue-700" : "bg-slate-300"
-                    }`}
+                    className="w-2 h-2 rounded-full transition-colors duration-300"
+                    style={{
+                      backgroundColor: index === activeIndex ? "#1d4ed8" : colors.dotInactive,
+                    }}
                   />
                 ))}
               </div>
@@ -94,7 +130,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
   );
 
   return (
-    <section ref={sectionRef} className={bgClass}>
+    <section ref={sectionRef} style={{ backgroundColor: colors.bg, transition: "background-color 0.3s ease" }}>
       <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:py-[50vh] flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
         {imageColumn}
         {textColumn}
