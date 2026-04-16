@@ -1,28 +1,28 @@
-import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-
-function ScrollTextBlock({ children }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="min-h-[50vh] flex items-center"
-    >
-      <div>{children}</div>
-    </motion.div>
-  );
-}
+import React, { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useInView, AnimatePresence } from "framer-motion";
 
 function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = false, bgTint = false }) {
+  const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const imageInView = useInView(imageRef, { once: true, margin: "-50px" });
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (v) => {
+      const stepCount = descriptions.length;
+      const index = Math.min(Math.floor(v * stepCount), stepCount - 1);
+      setActiveIndex(index);
+    });
+    return unsubscribe;
+  }, [scrollYProgress, descriptions.length]);
 
   const bgClass = bgTint ? "bg-slate-50" : "bg-white";
+  const sectionHeight = `${descriptions.length * 100}vh`;
 
   const imageColumn = (
     <div className="hidden md:flex md:w-[55%] items-start">
@@ -45,36 +45,57 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
   );
 
   const textColumn = (
-    <div className="w-full md:w-[40%] flex flex-col gap-0">
-      {descriptions.map((desc, index) => (
-        <ScrollTextBlock key={index}>
-          {index === 0 && (
+    <div className="w-full md:w-[40%]">
+      {/* Mobile: stacked layout, no sticky */}
+      <div className="md:hidden flex flex-col gap-8 py-8">
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          className="w-full rounded-xl shadow-[0_25px_50px_rgba(0,0,0,0.12)] border border-gray-100"
+          loading="lazy"
+        />
+        <h2 className="text-slate-900">{title}</h2>
+        {descriptions.map((desc, index) => (
+          <p key={index} className="text-lg text-slate-600 leading-relaxed">{desc}</p>
+        ))}
+      </div>
+
+      {/* Desktop: sticky text that crossfades */}
+      <div className="hidden md:flex sticky top-24 h-[calc(100vh-8rem)] items-center">
+        <div className="relative w-full">
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              key={activeIndex}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="md:hidden mb-8"
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <img
-                src={imageSrc}
-                alt={imageAlt}
-                className="w-full rounded-xl shadow-[0_25px_50px_rgba(0,0,0,0.12)] border border-gray-100"
-                loading="lazy"
-              />
+              <h2 className="text-slate-900 mb-4">{title}</h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                {descriptions[activeIndex]}
+              </p>
+              {/* Progress dots */}
+              <div className="flex gap-2 mt-8">
+                {descriptions.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                      index === activeIndex ? "bg-blue-700" : "bg-slate-300"
+                    }`}
+                  />
+                ))}
+              </div>
             </motion.div>
-          )}
-          {index === 0 && (
-            <h2 className="text-slate-900 mb-4">{title}</h2>
-          )}
-          <p className="text-lg text-slate-600 leading-relaxed">{desc}</p>
-        </ScrollTextBlock>
-      ))}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 
   return (
-    <section className={bgClass}>
-      <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:py-0 flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`}>
+    <section ref={sectionRef} className={bgClass}>
+      <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:py-0 flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
         {imageColumn}
         {textColumn}
       </div>
