@@ -61,7 +61,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
       </div>
 
       {/* Desktop: sticky text that crossfades */}
-      <div className="hidden md:flex sticky top-24 h-[calc(100vh-8rem)] items-center">
+      <div className="hidden md:flex sticky top-24 py-8 items-start">
         <div className="relative w-full">
           <AnimatePresence mode="wait">
             <motion.div
