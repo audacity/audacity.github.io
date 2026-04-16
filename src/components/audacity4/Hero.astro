@@ -1,0 +1,58 @@
+---
+import PlaceholderUI from "../../assets/img/audacity4/placeholder-ui.svg";
+---
+
+<section id="main" class="bg-gradient-to-b from-slate-50 to-white">
+  <div class="max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-16 md:py-24 flex flex-col items-center text-center gap-8 md:gap-12">
+    <div class="flex flex-col gap-4 max-w-2xl">
+      <h1 class="text-slate-900 leading-tight">
+        Meet Audacity 4
+      </h1>
+      <p class="text-lg md:text-xl text-slate-600">
+        A redesigned interface, powerful new editing tools, and workflows built for modern audio production.
+      </p>
+      <div class="flex justify-center mt-4">
+        <a
+          href="/download"
+          class="px-6 py-3 bg-blue-700 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+        >
+          Download Audacity 4
+        </a>
+      </div>
+    </div>
+
+    <div class="w-full max-w-4xl animate-fade-up">
+      <img
+        src={PlaceholderUI.src}
+        alt="The new Audacity 4 interface showing a redesigned toolbar, track panel, and waveform editor"
+        class="w-full rounded-xl shadow-[0_25px_50px_rgba(0,0,0,0.12)] border border-gray-100"
+        loading="eager"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-up {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
