@@ -5,34 +5,18 @@ function lerp(a, b, t) {
   return Math.round(a + (b - a) * t);
 }
 
-function getSceneColors(sceneIndex, totalScenes) {
-  const t = totalScenes <= 1 ? 0 : sceneIndex / (totalScenes - 1);
+function easeInCubic(t) {
+  return t * t * t;
+}
 
-  // Background: white (248,250,252) -> dark navy (15,23,42)
-  const bgR = lerp(248, 15, t);
-  const bgG = lerp(250, 23, t);
-  const bgB = lerp(252, 42, t);
-
-  // Heading: slate-900 (15,23,42) -> white (248,250,252)
-  const hR = lerp(15, 248, t);
-  const hG = lerp(23, 250, t);
-  const hB = lerp(42, 252, t);
-
-  // Body text: slate-600 (71,85,105) -> slate-300 (203,213,225)
-  const bR = lerp(71, 203, t);
-  const bG = lerp(85, 213, t);
-  const bB = lerp(105, 225, t);
-
-  // Dots inactive: slate-300 (203,213,225) -> slate-600 (71,85,105)
-  const dR = lerp(203, 71, t);
-  const dG = lerp(213, 85, t);
-  const dB = lerp(225, 105, t);
-
+function getColors(t) {
+  // Ease-in: stay light for longer, then darken more aggressively toward the end
+  const e = easeInCubic(t);
   return {
-    bg: `rgb(${bgR},${bgG},${bgB})`,
-    heading: `rgb(${hR},${hG},${hB})`,
-    body: `rgb(${bR},${bG},${bB})`,
-    dotInactive: `rgb(${dR},${dG},${dB})`,
+    bg: `rgb(${lerp(248, 15, e)},${lerp(250, 23, e)},${lerp(252, 42, e)})`,
+    heading: `rgb(${lerp(15, 248, e)},${lerp(23, 250, e)},${lerp(42, 252, e)})`,
+    body: `rgb(${lerp(71, 203, e)},${lerp(85, 213, e)},${lerp(105, 225, e)})`,
+    dotInactive: `rgb(${lerp(203, 71, e)},${lerp(213, 85, e)},${lerp(225, 105, e)})`,
   };
 }
 
@@ -41,6 +25,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
   const imageRef = useRef(null);
   const imageInView = useInView(imageRef, { once: true, margin: "-50px" });
   const [activeIndex, setActiveIndex] = useState(0);
+  const [colors, setColors] = useState(() => getColors(totalScenes <= 1 ? 0 : sceneIndex / (totalScenes - 1)));
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -52,11 +37,38 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
       const stepCount = descriptions.length;
       const index = Math.min(Math.floor(v * stepCount), stepCount - 1);
       setActiveIndex(index);
+
+      // Color transitions happen in the padding zones between sections.
+      // The section layout is: [50vh top pad] [content] [50vh bottom pad]
+      // Total height = (descriptions.length * 100 + 50)vh
+      // Top pad ends at ~50/(total) of scroll, bottom pad starts at ~(total-50)/total
+      const totalVh = descriptions.length * 100 + 50;
+      const topPadEnd = 50 / totalVh;
+      const bottomPadStart = (totalVh - 50) / totalVh;
+
+      const thisSceneT = totalScenes <= 1 ? 0 : sceneIndex / (totalScenes - 1);
+      const nextSceneT = totalScenes <= 1 ? 0 : Math.min((sceneIndex + 1) / (totalScenes - 1), 1);
+
+      let colorT;
+      if (v <= topPadEnd) {
+        // In top padding: transition from previous scene's color to this scene's color
+        const prevSceneT = totalScenes <= 1 ? 0 : Math.max((sceneIndex - 1) / (totalScenes - 1), 0);
+        const padProgress = v / topPadEnd;
+        colorT = prevSceneT + (thisSceneT - prevSceneT) * padProgress;
+      } else if (v >= bottomPadStart) {
+        // In bottom padding: transition from this scene's color to next scene's color
+        const padProgress = (v - bottomPadStart) / (1 - bottomPadStart);
+        colorT = thisSceneT + (nextSceneT - thisSceneT) * padProgress;
+      } else {
+        // In content area: hold this scene's color
+        colorT = thisSceneT;
+      }
+
+      setColors(getColors(Math.min(Math.max(colorT, 0), 1)));
     });
     return unsubscribe;
-  }, [scrollYProgress, descriptions.length]);
+  }, [scrollYProgress, descriptions.length, sceneIndex, totalScenes]);
 
-  const colors = getSceneColors(sceneIndex, totalScenes);
   const sectionHeight = `${descriptions.length * 100 + 50}vh`;
 
   const imageColumn = (
@@ -115,7 +127,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
                 {descriptions.map((_, index) => (
                   <div
                     key={index}
-                    className="w-2 h-2 rounded-full transition-colors duration-300"
+                    className="w-2 h-2 rounded-full"
                     style={{
                       backgroundColor: index === activeIndex ? "#1d4ed8" : colors.dotInactive,
                     }}
@@ -130,7 +142,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
   );
 
   return (
-    <section ref={sectionRef} style={{ backgroundColor: colors.bg, transition: "background-color 0.3s ease" }}>
+    <section ref={sectionRef} style={{ backgroundColor: colors.bg }}>
       <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:py-[50vh] flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
         {imageColumn}
         {textColumn}
