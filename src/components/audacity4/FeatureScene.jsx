@@ -95,7 +95,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
 
   return (
     <section ref={sectionRef} className={bgClass}>
-      <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:pt-[50vh] md:pb-0 flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
+      <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:py-[50vh] flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
         {imageColumn}
         {textColumn}
       </div>
