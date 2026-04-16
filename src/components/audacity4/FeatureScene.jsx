@@ -25,8 +25,8 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
   const sectionHeight = `${descriptions.length * 100}vh`;
 
   const imageColumn = (
-    <div className="hidden md:flex md:w-[55%] items-start">
-      <div className="sticky top-24 w-full py-8">
+    <div className="hidden md:block md:w-[55%]">
+      <div className="sticky top-[50vh] -translate-y-1/2 w-full">
         <motion.div
           ref={imageRef}
           initial={{ opacity: 0, y: 20 }}
@@ -61,7 +61,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
       </div>
 
       {/* Desktop: sticky text that crossfades */}
-      <div className="hidden md:flex sticky top-24 py-8 items-start">
+      <div className="hidden md:block sticky top-[50vh] -translate-y-1/2">
         <div className="relative w-full">
           <AnimatePresence mode="wait">
             <motion.div
