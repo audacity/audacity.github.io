@@ -7,8 +7,6 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 import compressor from "astro-compressor";
-
-// https://astro.build/config
 export default defineConfig({
   site: "https://www.audacityteam.org",
   integrations: [
