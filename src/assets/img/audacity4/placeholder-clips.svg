@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="400" rx="8" fill="#f8fafc"/>
+
+  <!-- Timeline Ruler -->
+  <rect x="0" y="0" width="800" height="24" rx="8" fill="#e2e8f0"/>
+  <rect x="0" y="16" width="800" height="8" fill="#e2e8f0"/>
+  <text x="40" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:00</text>
+  <text x="180" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:05</text>
+  <text x="320" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:10</text>
+  <text x="460" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:15</text>
+  <text x="600" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:20</text>
+  <text x="740" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:25</text>
+
+  <!-- Track 1 -->
+  <rect x="0" y="24" width="800" height="105" fill="#f8fafc"/>
+
+  <!-- Clip A — SELECTED -->
+  <rect x="30" y="34" width="180" height="80" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <!-- Selection handle left -->
+  <rect x="26" y="54" width="8" height="40" rx="4" fill="#2563eb"/>
+  <!-- Selection handle right -->
+  <rect x="206" y="54" width="8" height="40" rx="4" fill="#2563eb"/>
+  <!-- Waveform -->
+  <path d="M40,74 Q55,55 70,72 Q85,88 100,65 Q115,52 130,74 Q145,88 160,68 Q175,55 190,74 Q200,82 205,74" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+  <path d="M40,74 Q55,92 70,76 Q85,60 100,82 Q115,95 130,74 Q145,60 160,80 Q175,92 190,74 Q200,66 205,74" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+  <text x="40" y="106" font-family="system-ui, sans-serif" font-size="9" fill="#2563eb" font-weight="600">Intro</text>
+
+  <!-- Clip B — SELECTED -->
+  <rect x="230" y="34" width="200" height="80" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <rect x="226" y="54" width="8" height="40" rx="4" fill="#2563eb"/>
+  <rect x="426" y="54" width="8" height="40" rx="4" fill="#2563eb"/>
+  <path d="M240,74 Q258,50 276,72 Q294,90 312,62 Q330,48 348,74 Q366,90 384,65 Q402,50 420,74" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+  <path d="M240,74 Q258,96 276,76 Q294,56 312,84 Q330,98 348,74 Q366,56 384,82 Q402,96 420,74" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+  <text x="240" y="106" font-family="system-ui, sans-serif" font-size="9" fill="#2563eb" font-weight="600">Verse 1</text>
+
+  <!-- Clip C — unselected -->
+  <rect x="450" y="34" width="160" height="80" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <path d="M460,74 Q475,58 490,72 Q505,84 520,66 Q535,54 550,74 Q565,84 580,68 Q595,58 600,74" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <path d="M460,74 Q475,90 490,76 Q505,64 520,80 Q535,92 550,74 Q565,64 580,80 Q595,90 600,74" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <text x="460" y="106" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Chorus</text>
+
+  <!-- Track divider -->
+  <rect x="0" y="129" width="800" height="1" fill="#e2e8f0"/>
+
+  <!-- Track 2 -->
+  <rect x="0" y="130" width="800" height="105" fill="#f8fafc"/>
+
+  <!-- Clip D — unselected -->
+  <rect x="30" y="140" width="280" height="80" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <path d="M40,180 Q65,160 90,178 Q115,194 140,168 Q165,155 190,180 Q215,194 240,170 Q265,158 290,180 Q300,185 305,180" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <path d="M40,180 Q65,198 90,182 Q115,166 140,190 Q165,202 190,180 Q215,166 240,188 Q265,200 290,180 Q300,175 305,180" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <text x="40" y="212" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Guitar Rhythm</text>
+
+  <!-- Clip E — SELECTED -->
+  <rect x="330" y="140" width="220" height="80" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <rect x="326" y="160" width="8" height="40" rx="4" fill="#2563eb"/>
+  <rect x="546" y="160" width="8" height="40" rx="4" fill="#2563eb"/>
+  <path d="M340,180 Q360,158 380,178 Q400,194 420,165 Q440,152 460,180 Q480,195 500,168 Q520,155 540,180" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+  <path d="M340,180 Q360,200 380,182 Q400,164 420,192 Q440,205 460,180 Q480,164 500,190 Q520,202 540,180" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+  <text x="340" y="212" font-family="system-ui, sans-serif" font-size="9" fill="#2563eb" font-weight="600">Guitar Lead</text>
+
+  <!-- Track divider -->
+  <rect x="0" y="235" width="800" height="1" fill="#e2e8f0"/>
+
+  <!-- Track 3 -->
+  <rect x="0" y="236" width="800" height="105" fill="#f8fafc"/>
+
+  <!-- Clip F — unselected -->
+  <rect x="60" y="246" width="350" height="80" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <path d="M70,286 Q100,268 130,284 Q160,298 190,274 Q220,260 250,286 Q280,298 310,278 Q340,264 370,286 Q390,294 400,286" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <path d="M70,286 Q100,304 130,288 Q160,272 190,296 Q220,308 250,286 Q280,272 310,294 Q340,306 370,286 Q390,278 400,286" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <text x="70" y="318" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Bass Line</text>
+
+  <!-- Clip G — unselected -->
+  <rect x="430" y="246" width="180" height="80" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <path d="M440,286 Q458,270 476,284 Q494,296 512,275 Q530,264 548,286 Q566,296 584,278 Q600,268 605,286" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <path d="M440,286 Q458,302 476,288 Q494,274 512,295 Q530,306 548,286 Q566,274 584,294 Q600,304 605,286" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+  <text x="440" y="318" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Fill</text>
+
+  <!-- Selection Badge -->
+  <rect x="300" y="355" width="200" height="32" rx="16" fill="#2563eb"/>
+  <text x="400" y="376" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="white" font-weight="600">3 clips selected</text>
+
+  <!-- Label -->
+  <text x="400" y="395" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">Multi-select clips across tracks</text>
+</svg>

@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <!-- Window Chrome -->
+  <rect x="0" y="0" width="800" height="500" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <!-- Title Bar -->
+  <rect x="0" y="0" width="800" height="36" rx="10" fill="#e2e8f0"/>
+  <rect x="0" y="10" width="800" height="26" fill="#e2e8f0"/>
+  <!-- Traffic Lights -->
+  <circle cx="20" cy="18" r="6" fill="#ef4444"/>
+  <circle cx="40" cy="18" r="6" fill="#f59e0b"/>
+  <circle cx="60" cy="18" r="6" fill="#22c55e"/>
+  <!-- Title -->
+  <text x="400" y="23" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#64748b" font-weight="600">Audacity 4 — Untitled Project</text>
+
+  <!-- Toolbar -->
+  <rect x="0" y="36" width="800" height="48" fill="#e2e8f0"/>
+  <rect x="0" y="84" width="800" height="1" fill="#cbd5e1"/>
+  <!-- Transport Controls -->
+  <rect x="16" y="46" width="28" height="28" rx="4" fill="#cbd5e1"/>
+  <polygon points="24,54 24,68 36,61" fill="#64748b"/>
+  <rect x="52" y="46" width="28" height="28" rx="4" fill="#cbd5e1"/>
+  <rect x="60" y="54" width="12" height="14" rx="2" fill="#64748b"/>
+  <rect x="88" y="46" width="28" height="28" rx="4" fill="#ef4444" opacity="0.8"/>
+  <circle cx="102" cy="60" r="6" fill="white"/>
+  <!-- Tool buttons -->
+  <rect x="140" y="46" width="28" height="28" rx="4" fill="#cbd5e1"/>
+  <rect x="176" y="46" width="28" height="28" rx="4" fill="#cbd5e1"/>
+  <rect x="212" y="46" width="28" height="28" rx="4" fill="#cbd5e1"/>
+  <!-- Level Meter -->
+  <rect x="560" y="50" width="220" height="8" rx="4" fill="#1e293b"/>
+  <rect x="560" y="50" width="140" height="8" rx="4" fill="#22c55e"/>
+  <rect x="560" y="64" width="220" height="8" rx="4" fill="#1e293b"/>
+  <rect x="560" y="64" width="100" height="8" rx="4" fill="#22c55e"/>
+
+  <!-- Track Panel Sidebar -->
+  <rect x="0" y="85" width="140" height="415" fill="#e2e8f0"/>
+  <rect x="140" y="85" width="1" height="415" fill="#cbd5e1"/>
+  <!-- Track 1 Label -->
+  <rect x="8" y="95" width="124" height="100" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="70" y="120" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#334155" font-weight="600">Track 1 — Vocal</text>
+  <rect x="16" y="130" width="48" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="40" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Mono</text>
+  <rect x="70" y="130" width="20" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="80" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">M</text>
+  <rect x="94" y="130" width="20" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="104" y="142" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">S</text>
+  <!-- Volume slider -->
+  <rect x="16" y="156" width="108" height="4" rx="2" fill="#cbd5e1"/>
+  <circle cx="80" cy="158" r="6" fill="#94a3b8"/>
+
+  <!-- Track 2 Label -->
+  <rect x="8" y="205" width="124" height="100" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="70" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#334155" font-weight="600">Track 2 — Guitar</text>
+  <rect x="16" y="240" width="48" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="40" y="252" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Stereo</text>
+  <rect x="70" y="240" width="20" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="80" y="252" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">M</text>
+  <rect x="94" y="240" width="20" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="104" y="252" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">S</text>
+  <rect x="16" y="266" width="108" height="4" rx="2" fill="#cbd5e1"/>
+  <circle cx="70" cy="268" r="6" fill="#94a3b8"/>
+
+  <!-- Track 3 Label -->
+  <rect x="8" y="315" width="124" height="100" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="70" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#334155" font-weight="600">Track 3 — Bass</text>
+  <rect x="16" y="350" width="48" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="40" y="362" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">Mono</text>
+  <rect x="70" y="350" width="20" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="80" y="362" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">M</text>
+  <rect x="94" y="350" width="20" height="16" rx="3" fill="#cbd5e1"/>
+  <text x="104" y="362" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" fill="#64748b">S</text>
+  <rect x="16" y="376" width="108" height="4" rx="2" fill="#cbd5e1"/>
+  <circle cx="90" cy="378" r="6" fill="#94a3b8"/>
+
+  <!-- Timeline Ruler -->
+  <rect x="141" y="85" width="659" height="20" fill="#e2e8f0"/>
+  <rect x="141" y="105" width="659" height="1" fill="#cbd5e1"/>
+  <text x="180" y="99" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:00</text>
+  <text x="300" y="99" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:10</text>
+  <text x="420" y="99" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:20</text>
+  <text x="540" y="99" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:30</text>
+  <text x="660" y="99" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">0:40</text>
+
+  <!-- Track 1 Waveform Area -->
+  <rect x="141" y="106" width="659" height="100" fill="#f8fafc"/>
+  <!-- Clip container -->
+  <rect x="170" y="112" width="400" height="88" rx="6" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
+  <!-- Orange Waveform -->
+  <path d="M180,156 Q190,130 200,150 Q210,170 220,140 Q230,120 240,155 Q250,175 260,135 Q270,118 280,152 Q290,172 300,138 Q310,122 320,156 Q330,170 340,142 Q350,125 360,155 Q370,168 380,140 Q390,128 400,156 Q410,165 420,145 Q430,132 440,155 Q450,168 460,140 Q470,125 480,155 Q490,170 500,145 Q510,130 520,155 Q530,168 540,148 Q550,135 560,156" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.9"/>
+  <path d="M180,156 Q190,180 200,162 Q210,142 220,172 Q230,188 240,158 Q250,138 260,175 Q270,192 280,160 Q290,140 300,174 Q310,190 320,156 Q330,142 340,170 Q350,185 360,158 Q370,144 380,172 Q390,184 400,156 Q410,148 420,168 Q430,178 440,158 Q450,142 460,172 Q470,185 480,158 Q490,142 500,168 Q510,178 520,158 Q530,144 540,164 Q550,175 560,156" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.9"/>
+  <rect x="141" y="206" width="659" height="1" fill="#e2e8f0"/>
+
+  <!-- Track 2 Waveform Area -->
+  <rect x="141" y="207" width="659" height="100" fill="#f8fafc"/>
+  <!-- Clip container -->
+  <rect x="200" y="213" width="350" height="88" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <!-- Blue Waveform -->
+  <path d="M210,257 Q220,235 230,252 Q240,268 250,240 Q260,225 270,255 Q280,270 290,242 Q300,228 310,257 Q320,268 330,245 Q340,232 350,257 Q360,265 370,248 Q380,238 390,257 Q400,268 410,245 Q420,230 430,257 Q440,270 450,242 Q460,228 470,255 Q480,268 490,248 Q500,235 510,257 Q520,268 530,248 Q540,238 542,257" stroke="#3b82f6" stroke-width="2" fill="none" opacity="0.9"/>
+  <path d="M210,257 Q220,278 230,262 Q240,246 250,274 Q260,288 270,260 Q280,244 290,272 Q300,286 310,257 Q320,246 330,268 Q340,280 350,257 Q360,248 370,266 Q380,276 390,257 Q400,246 410,268 Q420,282 430,257 Q440,244 450,272 Q460,286 470,260 Q480,246 490,266 Q500,278 510,257 Q520,246 530,266 Q540,276 542,257" stroke="#3b82f6" stroke-width="2" fill="none" opacity="0.9"/>
+  <rect x="141" y="307" width="659" height="1" fill="#e2e8f0"/>
+
+  <!-- Track 3 Waveform Area -->
+  <rect x="141" y="308" width="659" height="100" fill="#f8fafc"/>
+  <!-- Clip container -->
+  <rect x="160" y="314" width="500" height="88" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+  <!-- Green Waveform -->
+  <path d="M170,358 Q185,338 200,355 Q215,368 230,342 Q245,328 260,356 Q275,370 290,345 Q305,332 320,358 Q335,368 350,348 Q365,335 380,358 Q395,368 410,345 Q425,330 440,358 Q455,372 470,345 Q485,330 500,355 Q515,368 530,348 Q545,335 560,358 Q575,370 590,345 Q605,332 620,358 Q635,368 650,350" stroke="#10b981" stroke-width="2" fill="none" opacity="0.9"/>
+  <path d="M170,358 Q185,378 200,362 Q215,348 230,375 Q245,388 260,360 Q275,346 290,372 Q305,384 320,358 Q335,348 350,368 Q365,380 380,358 Q395,348 410,372 Q425,386 440,358 Q445,344 470,372 Q485,386 500,362 Q515,348 530,368 Q545,380 560,358 Q575,346 590,372 Q605,384 620,358 Q635,348 650,366" stroke="#10b981" stroke-width="2" fill="none" opacity="0.9"/>
+  <rect x="141" y="408" width="659" height="1" fill="#e2e8f0"/>
+
+  <!-- Playhead -->
+  <line x1="380" y1="85" x2="380" y2="415" stroke="#ef4444" stroke-width="1.5" opacity="0.7"/>
+  <polygon points="375,85 385,85 380,92" fill="#ef4444" opacity="0.7"/>
+
+  <!-- Status Bar -->
+  <rect x="0" y="415" width="800" height="85" fill="#e2e8f0"/>
+  <rect x="0" y="415" width="800" height="1" fill="#cbd5e1"/>
+  <!-- Zoom controls -->
+  <text x="20" y="440" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">Zoom: 100%</text>
+  <text x="20" y="460" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">Sample Rate: 44100 Hz</text>
+  <text x="660" y="440" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">Position: 0:22.4</text>
+  <!-- Label -->
+  <text x="400" y="488" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">Audacity 4 — Redesigned Interface</text>
+</svg>
