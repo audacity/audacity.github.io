@@ -22,7 +22,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
   }, [scrollYProgress, descriptions.length]);
 
   const bgClass = bgTint ? "bg-slate-50" : "bg-white";
-  const sectionHeight = `${descriptions.length * 100}vh`;
+  const sectionHeight = `${descriptions.length * 100 + 50}vh`;
 
   const imageColumn = (
     <div className="hidden md:block md:w-[55%]">
@@ -95,7 +95,7 @@ function FeatureScene({ title, descriptions, imageSrc, imageAlt, mirrored = fals
 
   return (
     <section ref={sectionRef} className={bgClass}>
-      <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:py-0 flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
+      <div className={`max-w-screen-lg mx-6 sm:mx-16 xl:mx-auto py-12 md:pt-[50vh] md:pb-0 flex flex-col md:flex-row ${mirrored ? "md:flex-row-reverse" : ""} gap-8 md:gap-12`} style={{ minHeight: sectionHeight }}>
         {imageColumn}
         {textColumn}
       </div>
