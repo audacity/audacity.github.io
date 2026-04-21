@@ -20,64 +20,68 @@ import PlaceholderSplit from "../assets/img/audacity4/placeholder-split.svg";
   <FeatureScene
     client:load
     title="A completely redesigned interface"
+    description="Audacity 4 introduces a ground-up redesign of the entire interface. Every toolbar, panel, and menu has been rethought for clarity and speed."
     imageSrc={PlaceholderUI.src}
     imageAlt="The new Audacity 4 interface with redesigned toolbar and track layout"
-    descriptions={[
-      "Audacity 4 introduces a ground-up redesign of the entire interface. Every toolbar, panel, and menu has been rethought for clarity and speed.",
-      "The new track panel gives you a cleaner overview of your project, with streamlined controls that stay out of the way until you need them.",
-      "A modernized toolbar puts your most-used tools front and center, with logical groupings that match the way you actually work.",
-      "The result is an interface that feels familiar to long-time users but dramatically more efficient for everyone."
-    ]}
     mirrored={false}
+    bgClass="bg-white"
+    textClass="text-slate-900"
+    bodyClass="text-slate-600"
   />
 
   <FeatureScene
     client:load
     title="Select multiple clips at once"
+    description="For the first time in Audacity, you can select and manipulate multiple clips across tracks in a single action. Click, shift-click, or drag to select exactly what you need."
     imageSrc={PlaceholderClips.src}
     imageAlt="Multiple audio clips selected simultaneously across different tracks"
-    descriptions={[
-      "For the first time in Audacity, you can select and manipulate multiple clips across tracks in a single action. Click, shift-click, or drag to select exactly what you need.",
-      "Move, delete, copy, or apply effects to your entire selection at once. No more tedious one-clip-at-a-time editing."
-    ]}
     mirrored={true}
+    bgClass="bg-slate-50"
+    textClass="text-slate-900"
+    bodyClass="text-slate-600"
   />
 
   <FeatureScene
     client:load
     title="Stretch clips with a new algorithm"
+    description="Grab the edge of any clip and drag to stretch or compress it in time. The new stretching algorithm preserves audio quality even at extreme ratios."
     imageSrc={PlaceholderStretch.src}
     imageAlt="An audio clip being stretched using drag handles on its edges"
-    descriptions={[
-      "Grab the edge of any clip and drag to stretch or compress it in time. The new stretching algorithm preserves audio quality even at extreme ratios.",
-      "Whether you're time-aligning dialogue, adjusting music loops, or syncing sound effects, stretch handles make it intuitive and fast."
-    ]}
     mirrored={false}
+    bgClass="bg-slate-100"
+    textClass="text-slate-900"
+    bodyClass="text-slate-600"
   />
 
   <FeatureScene
     client:load
     title="Group clips together"
+    description="Select clips across tracks and group them into a single unit. Grouped clips move, copy, and delete together — keeping your carefully-arranged edits intact."
     imageSrc={PlaceholderGroups.src}
     imageAlt="Multiple clips grouped together with a visual bounding outline"
-    descriptions={[
-      "Select clips across tracks and group them into a single unit. Grouped clips move, copy, and delete together — keeping your carefully-arranged edits intact.",
-      "Groups are non-destructive and can be ungrouped at any time. Perfect for managing complex multi-track projects."
-    ]}
     mirrored={true}
+    bgClass="bg-slate-200"
+    textClass="text-slate-900"
+    bodyClass="text-slate-700"
   />
 
   <FeatureScene
     client:load
     title="The new Split tool"
+    description="The dedicated Split tool gives you a precise way to divide clips exactly where you need them. Combined with multi-clip selection and clip groups, it completes a powerful new editing workflow."
     imageSrc={PlaceholderSplit.src}
     imageAlt="The split tool cursor positioned over an audio clip, ready to split it"
-    descriptions={[
-      "The dedicated Split tool gives you a precise way to divide clips exactly where you need them. Click anywhere on a clip to split it at that point.",
-      "Combined with multi-clip selection and clip groups, the Split tool completes a powerful new editing workflow that puts you in full control of your audio."
-    ]}
     mirrored={false}
+    bgClass="bg-slate-300"
+    textClass="text-slate-900"
+    bodyClass="text-slate-700"
   />
 
   <CTAFooter />
 </BaseLayout>
+
+<style is:global>
+  html {
+    scroll-snap-type: y mandatory;
+  }
+</style>
