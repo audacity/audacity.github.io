@@ -14,10 +14,10 @@ const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
 };
 
 const BASE_CONTAINER_CLASSNAME =
-  "flex flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6 transition-colors duration-200";
+  "flex flex-col lg:flex-row justify-center items-center align-start px-4 py-4 gap-3 lg:gap-6 transition-colors duration-200";
 const BASE_MESSAGE_CLASSNAME = "text-lg font-semibold";
 const BASE_BUTTON_CLASSNAME =
-  "flex h-8 justify-center items-center px-4 rounded-md font-semibold";
+  "flex h-8 justify-center items-center px-4 rounded-md font-semibold whitespace-nowrap";
 
 const PLACEHOLDER_CONTAINER_CLASSNAME =
   "flex flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6 transition-colors duration-200 opacity-0 pointer-events-none";
