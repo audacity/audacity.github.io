@@ -40,19 +40,32 @@ const {
       <a class="skip-to-content" href="#main" aria-label="Skip to content"
         >Skip to content</a
       >
-      <header class="z-50 sticky left-0 right-0 top-0">
+      <header id="site-header" class="z-50 fixed left-0 right-0 top-0 transition-transform duration-300">
         <NavigationReact client:load currentURL={Astro.request.url} />
         <BetaBanner client:load url={Astro.request.url}/>
         <SurveyBanner client:load url={Astro.request.url}/>
       </header>
 
-      <div class="flex-1">
+      <div class="flex-1 pt-14">
         <slot />
       </div>
       <Footer />
       <CookieConsent client:load />
     </body>
     <script src="../assets/js/cookieConsent.js"></script>
+    <script>
+      let lastScrollY = 0;
+      const header = document.getElementById('site-header');
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY > lastScrollY && currentScrollY > 56) {
+          header.style.transform = 'translateY(-100%)';
+        } else {
+          header.style.transform = 'translateY(0)';
+        }
+        lastScrollY = currentScrollY;
+      }, { passive: true });
+    </script>
   </main>
 
 
