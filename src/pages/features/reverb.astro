@@ -1,0 +1,363 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Reverb Effect – Add Room, Hall & Cathedral | Audacity"
+  description="Add natural reverb to vocals, instruments, and podcasts. Free room, hall, plate, and cathedral reverb effect for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/reverb/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Reverb Effect &ndash; Add Room, Hall, and Cathedral Space to
+              Audio
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Add natural reverb to vocals, instruments, and podcasts. Room,
+              hall, and cathedral presets included.
+            </p>
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Add reverb in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>
+        Select the audio you want to process (add silence to the end so the
+        reverb tail has room to decay)
+      </li>
+      <li>
+        Go to <strong>Effect &rarr; Delay and Reverb &rarr; Reverb</strong>
+      </li>
+      <li>
+        Pick a factory preset (Vocal I, Medium Room, Church Hall, Cathedral) or
+        adjust Room Size, Reverberance, and Wet Gain
+      </li>
+      <li>Click Preview, fine-tune, then click Apply</li>
+    </ol>
+  </div>
+
+  <h2>What Is Reverb?</h2>
+  <p>
+    Reverb is the rapid, overlapping reflections a sound makes when it bounces
+    off walls, ceilings, and objects in a real space. It's what makes a voice
+    recorded in a bathroom sound different from the same voice recorded in a
+    cathedral. Audacity's Reverb effect, based on the freeverb algorithm,
+    simulates that sense of space on a dry recording &mdash; turning a flat
+    vocal, acoustic guitar, or podcast track into something that feels like it
+    was captured in a real room, hall, or church. Ten factory presets cover the
+    most common spaces, and ten parameters let you dial in custom reverbs from
+    tight studio booths to vast cathedrals.
+  </p>
+
+  <h2>How to Add Reverb in Audacity</h2>
+  <h3>Step 1: Select Your Audio</h3>
+  <p>
+    Select the audio you want to reverberate. Before selecting, add a few
+    seconds of silence at the end of your clip (<strong
+      >Generate &rarr; Silence</strong
+    >) so the reverb tail has room to decay instead of being cut off.
+  </p>
+
+  <h3>Step 2: Open the Reverb Effect</h3>
+  <p>
+    Go to <strong>Effect &rarr; Delay and Reverb &rarr; Reverb</strong>. In
+    older Audacity versions it lives directly under the Effect menu.
+  </p>
+
+  <h3>Step 3: Choose a Preset or Adjust Parameters</h3>
+  <p>
+    Click <strong>Manage &rarr; Factory Presets</strong> to pick from Vocal I, Vocal
+    II, Bathroom, Small Room Bright, Small Room Dark, Medium Room, Large Room, Church
+    Hall, and Cathedral. Or adjust Room Size, Reverberance, Pre-delay, and Wet/Dry
+    Gain manually.
+  </p>
+
+  <h3>Step 4: Preview and Apply</h3>
+  <p>
+    Click <strong>Preview</strong> to hear a short sample with the current settings.
+    Adjust and preview again until satisfied, then click
+    <strong>Apply</strong>.
+  </p>
+
+  <h2>Reverb Settings Explained</h2>
+  <h3>Room Size (%)</h3>
+  <p>
+    Controls the apparent size of the simulated space. 0% sounds like a closet
+    or small booth; 100% feels like a huge cathedral or auditorium. Most vocal
+    reverbs sit between 40&ndash;70%.
+  </p>
+
+  <h3>Pre-delay (ms)</h3>
+  <p>
+    The gap (0&ndash;200 ms) between the dry signal and the start of the reverb
+    tail. Short pre-delays (0&ndash;20 ms) blend reverb into the source; longer
+    pre-delays (40&ndash;100 ms) keep the vocal up front and push the reverb
+    behind it, improving clarity on busy mixes.
+  </p>
+
+  <h3>Reverberance (%)</h3>
+  <p>
+    Sets the length of the reverb tail &mdash; how long reflections continue
+    after the original sound stops. Low values (20&ndash;40%) give a quick, dry
+    ambience; high values (70&ndash;100%) produce long, washy tails suited to
+    ballads, ambient music, and cinematic sound design.
+  </p>
+
+  <h3>Damping (%)</h3>
+  <p>
+    Controls how fast high frequencies decay inside the reverb. Higher values
+    make the tail darker and more natural &mdash; similar to a room with carpet
+    and soft furniture. Lower values keep high frequencies ringing for a
+    brighter, more reflective sound.
+  </p>
+
+  <h3>Tone Low and Tone High</h3>
+  <p>
+    Two tone-shaping filters on the reverb signal. Reduce Tone Low to roll off
+    low frequencies so the tail doesn't turn boomy on bass-heavy sources. Reduce
+    Tone High to tame harsh highs. Leave both at 100% for full-range reverb.
+  </p>
+
+  <h3>Wet Gain and Dry Gain</h3>
+  <p>
+    Wet Gain sets the level of the reverb signal; Dry Gain sets the level of the
+    original. Increase Wet Gain for a more obvious, washy effect. Keep Dry Gain
+    at or below 0 dB to avoid clipping after the two signals are summed.
+  </p>
+
+  <h3>Stereo Width (%)</h3>
+  <p>
+    Stereo tracks only. Higher values spread the reverb wider across the left
+    and right channels, creating a more immersive space. Lower values keep the
+    reverb centered and focused.
+  </p>
+
+  <h3>Wet Only</h3>
+  <p>
+    When enabled, the output contains only the reverb signal with the dry source
+    removed. Useful for building a separate reverb track &mdash; duplicate the
+    original, process the copy with Wet Only, then mix the two tracks
+    independently for full control over the wet/dry balance.
+  </p>
+
+  <h2>Reverb Presets Reference</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Preset</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Room Size</th>
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >Reverberance</th
+          >
+          <th class="border border-gray-300 px-3 py-2 text-left">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Vocal I</td><td
+            class="border border-gray-300 px-3 py-2">~40%</td
+          ><td class="border border-gray-300 px-3 py-2">Medium</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Spoken word, podcasts, dry lead vocals</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Vocal II</td><td
+            class="border border-gray-300 px-3 py-2">~50%</td
+          ><td class="border border-gray-300 px-3 py-2">Medium-long</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Sung lead vocals, backing vocals</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Small Room Bright</td
+          ><td class="border border-gray-300 px-3 py-2">~25%</td><td
+            class="border border-gray-300 px-3 py-2">Short</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Drums, acoustic guitar, close rooms</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Small Room Dark</td><td
+            class="border border-gray-300 px-3 py-2">~25%</td
+          ><td class="border border-gray-300 px-3 py-2">Short</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Voiceover, dialogue, warm ambience</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Medium Room</td><td
+            class="border border-gray-300 px-3 py-2">~50%</td
+          ><td class="border border-gray-300 px-3 py-2">Medium</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Pianos, acoustic instruments</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Large Room</td><td
+            class="border border-gray-300 px-3 py-2">~70%</td
+          ><td class="border border-gray-300 px-3 py-2">Medium-long</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Live band feel, studio live rooms</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Church Hall</td><td
+            class="border border-gray-300 px-3 py-2">~80%</td
+          ><td class="border border-gray-300 px-3 py-2">Long</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Choirs, strings, organ, ballad vocals</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Cathedral</td><td
+            class="border border-gray-300 px-3 py-2">~95%</td
+          ><td class="border border-gray-300 px-3 py-2">Very long</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Ambient pads, soundscapes, cinematic pieces</td
+          ></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Vocals</strong> — Add depth to dry lead vocals with Vocal I or Vocal
+      II
+    </li>
+    <li>
+      <strong>Acoustic guitar</strong> — Small Room Bright or Medium Room for a natural
+      studio feel
+    </li>
+    <li>
+      <strong>Drums and snare</strong> — Short bright reverbs for punch, plate-style
+      for vintage character
+    </li>
+    <li>
+      <strong>Podcasts and voiceover</strong> — A touch of Small Room Dark to remove
+      the "in-the-box" feel
+    </li>
+    <li>
+      <strong>Choir and strings</strong> — Church Hall or Cathedral for sweeping,
+      cinematic space
+    </li>
+    <li>
+      <strong>Ambient music</strong> — Long Cathedral tails for pads, drones, and
+      soundscapes
+    </li>
+    <li>
+      <strong>Audio drama and film</strong> — Match dialogue to on-screen locations
+      (bathroom, hall, cathedral)
+    </li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Add a few seconds of silence to the end of the clip before applying reverb
+      so the tail is not cut off
+    </li>
+    <li>
+      Start from a factory preset and tweak rather than building from scratch
+    </li>
+    <li>
+      Keep Dry Gain at or just below 0 dB to prevent clipping when wet and dry
+      are summed
+    </li>
+    <li>
+      Duplicate the track and use Wet Only on the copy for independent reverb
+      level control
+    </li>
+    <li>
+      Roll back Tone Low on bass-heavy sources so the tail doesn't turn boomy
+    </li>
+    <li>
+      Apply Noise Reduction and compression first, then reverb last in the
+      effect chain
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Where is the Reverb effect in Audacity?</strong><br />
+    Go to <strong>Effect &rarr; Delay and Reverb &rarr; Reverb</strong>. In
+    older versions it lives directly under the Effect menu.
+  </p>
+  <p>
+    <strong>What are the best reverb settings for vocals?</strong><br />
+    Start with the Vocal I preset. For a natural lead vocal, try Room Size 40&ndash;50%,
+    Reverberance 50%, Pre-delay 20&ndash;40 ms, Wet Gain about -6 dB, and Dry Gain
+    at 0 dB.
+  </p>
+  <p>
+    <strong>What's the difference between reverb and echo?</strong><br />
+    Echo is a small number of distinct, repeated copies of the original sound with
+    clear gaps between them. Reverb is hundreds of overlapping reflections blended
+    into a smooth tail &mdash; what you hear in a real room or hall.
+  </p>
+  <p>
+    <strong>Why does my reverb sound cut off at the end?</strong><br />
+    The reverb tail extends past the original audio. Add 3&ndash;5 seconds of silence
+    after the clip (<strong>Generate &rarr; Silence</strong>) before applying
+    Reverb so the tail has room to decay.
+  </p>
+  <p>
+    <strong>What's the Wet Only option for?</strong><br />
+    Wet Only outputs just the reverb signal with no dry audio. Duplicate your track,
+    apply Reverb with Wet Only on the copy, and mix the two tracks independently for
+    full control over the wet/dry balance.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to add reverb to your audio? Download Audacity for free on Windows,
+    macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>
