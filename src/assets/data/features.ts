@@ -8,6 +8,14 @@ export interface FeatureEntry {
 
 export const features: FeatureEntry[] = [
   {
+    slug: "cut",
+    title: "Free Audio Cutter – Cut Audio Precisely | Audacity",
+    shortTitle: "Cut Audio",
+    description:
+      "Cut unwanted sections from audio. Remove mistakes, trim silence, or rearrange clips with the Cut command.",
+    icon: "icon-waveform",
+  },
+  {
     slug: "change-pitch",
     title: "Free Pitch Shifter – Change Audio Pitch Without Changing Speed",
     shortTitle: "Pitch Shifter",

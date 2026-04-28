@@ -1,0 +1,380 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Audio Cutter – Cut Audio Precisely | Audacity"
+  description="Cut unwanted sections from audio with Audacity's Cut command. Remove mistakes, trim silence, or rearrange clips. Free audio cutter for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/cut/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <!-- Left Column - Text Content -->
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Audio Cutter &ndash; Remove Sections Precisely with Audacity
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Cut unwanted sections from audio, remove mistakes, or rearrange
+              clips. Free audio cutter for Windows, Mac &amp; Linux.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <!-- Right Column - Image -->
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Cut audio in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>
+        Click and drag across the waveform to select the audio you want to
+        remove
+      </li>
+      <li>
+        Press <code class="rounded bg-blue-100 px-1">Ctrl+X</code> (Windows/Linux)
+        or <code class="rounded bg-blue-100 px-1">Cmd+X</code> (Mac), or go to <strong
+          >Edit &rarr; Cut</strong>
+      </li>
+      <li>
+        The selection is removed and remaining audio shifts left to close the
+        gap
+      </li>
+      <li>
+        Paste elsewhere with <code class="rounded bg-blue-100 px-1">Ctrl+V</code
+        > / <code class="rounded bg-blue-100 px-1">Cmd+V</code>, or leave it
+        discarded
+      </li>
+    </ol>
+  </div>
+
+  <h2>What Is the Cut Command?</h2>
+  <p>
+    Cut removes the selected audio from your track and places it on the Audacity
+    clipboard. The audio to the right of the selection automatically shifts left
+    to fill the gap, leaving a continuous waveform with no silence in place of
+    the removed section. Use Cut to delete mistakes, remove dead air, trim
+    intros, or rearrange parts of a song by pasting the cut audio into a new
+    location.
+  </p>
+
+  <h2>How to Cut Audio in Audacity</h2>
+  <h3>Step 1: Select the Audio to Remove</h3>
+  <p>
+    Click and drag across the waveform to highlight the section you want to
+    remove. For a more precise selection, zoom in with <code>Ctrl+1</code> /
+    <code>Cmd+1</code> or type exact times into the Selection Toolbar at the bottom
+    of the window.
+  </p>
+
+  <h3>Step 2: Apply the Cut Command</h3>
+  <p>
+    Press <code>Ctrl+X</code> (Windows/Linux) or <code>Cmd+X</code> (Mac). You can
+    also go to <strong>Edit &rarr; Cut</strong> from the menu bar or right-click the
+    selection and choose <strong>Cut</strong>. The command takes effect
+    immediately with no dialog box.
+  </p>
+
+  <h3>Step 3: Verify the Remaining Audio Shifts Left</h3>
+  <p>
+    After cutting, the audio to the right of the removed section shifts left to
+    close the gap. Your total track length shortens by exactly the length of the
+    cut. Play back from around the edit point to confirm the transition sounds
+    clean.
+  </p>
+
+  <h3>Step 4: Paste Elsewhere or Discard</h3>
+  <p>
+    The cut audio sits on Audacity's internal clipboard. Paste it into the same
+    track, a different track, or even a different Audacity project window with
+    <code>Ctrl+V</code> / <code>Cmd+V</code>. If you don't need the audio,
+    simply leave it — it will be discarded the next time you cut or copy
+    something.
+  </p>
+
+  <h2>Cut Command Behavior Explained</h2>
+  <h3>Keyboard Shortcut (Ctrl+X / Cmd+X)</h3>
+  <p>
+    The fastest way to cut. Press <code>Ctrl+X</code> on Windows and Linux, or
+    <code>Cmd+X</code> on Mac. You can also access Cut via the Edit menu or right-click
+    context menu. Cut has no dialog box — it acts immediately on whatever is currently
+    selected.
+  </p>
+
+  <h3>Audacity Clipboard</h3>
+  <p>
+    Cut audio is stored on Audacity's internal clipboard, separate from your
+    system clipboard. It stays there until you cut or copy again, so you can
+    paste the same selection multiple times with <code>Ctrl+V</code> /
+    <code>Cmd+V</code>.
+  </p>
+
+  <h3>Ripple Edit (Auto-Shift)</h3>
+  <p>
+    By default, Cut performs a ripple edit: audio to the right of the selection
+    shifts left to close the gap. Your total track length shrinks by exactly the
+    length of the cut selection.
+  </p>
+
+  <h3>Cut and Leave Gap</h3>
+  <p>
+    If you need to remove audio without shifting the remaining content, use
+    <strong>Edit &rarr; Remove Special &rarr; Split Cut</strong> instead. This places
+    the audio on the clipboard but leaves silence behind, preserving the original
+    timing of everything after the cut.
+  </p>
+
+  <h3>Cut Lines (Optional)</h3>
+  <p>
+    Enable cut lines in <strong>Preferences &rarr; Tracks Behaviors</strong> to show
+    a vertical marker where each cut was made. Cut lines let you restore removed audio
+    later by dragging the line, which is useful for non-destructive editing workflows.
+  </p>
+
+  <h2>Cut vs Delete vs Trim vs Split</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Command</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Shortcut</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Clipboard</th>
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >What Happens</th
+          >
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2 font-medium">Cut</td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><code>Ctrl+X</code> / <code>Cmd+X</code></td
+          >
+          <td class="border border-gray-300 px-3 py-2">Yes</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Removes selection, shifts remaining audio left, can be pasted</td
+          >
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border border-gray-300 px-3 py-2">Delete</td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><code>Ctrl+K</code> / <code>Cmd+K</code></td
+          >
+          <td class="border border-gray-300 px-3 py-2">No</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Removes selection and shifts audio left, discards without copying</td
+          >
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2">Trim Audio</td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><code>Ctrl+T</code> / <code>Cmd+T</code></td
+          >
+          <td class="border border-gray-300 px-3 py-2">No</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Keeps only the selection, removes everything outside it</td
+          >
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border border-gray-300 px-3 py-2">Split</td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><code>Ctrl+I</code> / <code>Cmd+I</code></td
+          >
+          <td class="border border-gray-300 px-3 py-2">No</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Creates clip boundaries without removing any audio</td
+          >
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2">Split Cut</td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><code>Ctrl+Alt+X</code></td
+          >
+          <td class="border border-gray-300 px-3 py-2">Yes</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Cuts to clipboard but leaves silence — following audio stays in
+            place</td
+          >
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Edit podcasts</strong> — Remove ums, coughs, and long pauses from spoken
+      recordings
+    </li>
+    <li>
+      <strong>Trim dead air</strong> — Cut silence at the start or end of a recording
+    </li>
+    <li>
+      <strong>Remove voiceover mistakes</strong> — Delete flubs and retakes without
+      exporting again
+    </li>
+    <li>
+      <strong>Rearrange song sections</strong> — Cut a chorus and paste it elsewhere
+      in the track
+    </li>
+    <li>
+      <strong>Create ringtones</strong> — Cut everything outside your chosen 30-second
+      segment
+    </li>
+    <li>
+      <strong>Remove unwanted audio</strong> — Cut out background noise, clicks, or
+      interruptions
+    </li>
+    <li>
+      <strong>Tighten interviews</strong> — Cut tangents to keep the conversation
+      on track
+    </li>
+    <li>
+      <strong>Clean up music</strong> — Remove accidental string squeaks or amp buzz
+      between phrases
+    </li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> before cutting to select
+      boundaries at sample-level precision
+    </li>
+    <li>
+      Use <strong>Preferences &rarr; Tracks Behaviors</strong> to enable cut lines
+      for non-destructive editing
+    </li>
+    <li>
+      Cut at zero-crossings (<strong>View &rarr; Zero-Crossings</strong>) to
+      avoid clicks and pops at the edit point
+    </li>
+    <li>
+      Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately to undo if you cut
+      the wrong section
+    </li>
+    <li>
+      Use Split Cut (<code>Ctrl+Alt+X</code>) instead of Cut when you need to
+      keep the timing of later audio intact
+    </li>
+    <li>
+      Apply a short fade-in or fade-out at the cut edges to smooth abrupt
+      transitions
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>What is the keyboard shortcut for Cut in Audacity?</strong><br />
+    Press <code>Ctrl+X</code> on Windows and Linux, or <code>Cmd+X</code> on Mac.
+    You can also use <strong>Edit &rarr; Cut</strong> from the menu bar, or right-click
+    the selection and choose Cut.
+  </p>
+  <p>
+    <strong>What is the difference between Cut and Delete in Audacity?</strong
+    ><br />
+    Both remove the selected audio and shift the remaining audio left, but Cut places
+    the removed audio on Audacity's clipboard so you can paste it elsewhere. Delete
+    discards the audio entirely without copying it.
+  </p>
+  <p>
+    <strong>How is Cut different from Trim?</strong><br />
+    Cut removes the selected portion and keeps everything else. Trim does the opposite
+    — it keeps only the selected portion and removes everything outside it. Use Cut
+    to remove mistakes; use Trim to isolate a single clip.
+  </p>
+  <p>
+    <strong>Why does the rest of my audio shift after I cut?</strong><br />
+    Cut performs a ripple edit by default, so audio after the selection slides left
+    to close the gap. If you want to keep timing intact and leave silence in place
+    of the cut, use <strong>Edit &rarr; Remove Special &rarr; Split Cut</strong> instead.
+  </p>
+  <p>
+    <strong
+      >Can I paste audio I cut into another track or another Audacity project?</strong
+    ><br />
+    Yes. After cutting, click the insertion point on any track (even in a different
+    Audacity project window) and press <code>Ctrl+V</code> / <code>Cmd+V</code> to
+    paste. The audio stays on Audacity's clipboard until you cut or copy something
+    else.
+  </p>
+  <p>
+    <strong
+      >How do I cut out part of a song without clicks at the edit point?</strong
+    ><br />
+    Enable <strong>View &rarr; Zero-Crossings</strong> (or press <code>Z</code>)
+    before cutting. Audacity will snap your selection to the nearest
+    zero-crossings, which removes the click or pop that often occurs at abrupt
+    waveform edges.
+  </p>
+  <p>
+    <strong>Can I undo a cut in Audacity?</strong><br />
+    Yes. Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately after cutting
+    to restore the removed audio. Audacity supports unlimited undo throughout the
+    editing session.
+  </p>
+  <p>
+    <strong>How do I cut audio precisely at the exact millisecond?</strong><br
+    />
+    Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> until you can see individual
+    samples, then drag your selection. You can also type exact start and end times
+    into the Selection toolbar at the bottom of the window for sample-accurate cuts.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to start cutting your audio? Download Audacity for free on Windows,
+    macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>
