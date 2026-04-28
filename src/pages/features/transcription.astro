@@ -1,0 +1,334 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free AI Audio Transcription – Speech to Text | Audacity"
+  description="Transcribe speech to text locally with Whisper AI. Free offline audio transcription with timestamps and subtitles for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/transcription/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free AI Audio Transcription &ndash; Convert Speech to Text Offline
+              with Whisper
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Transcribe speech to text locally with Whisper AI. No uploads, no
+              minute limits, no subscription. Free for Windows, Mac &amp; Linux.
+            </p>
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Transcribe audio in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>Install the free OpenVINO AI plugin for Audacity</li>
+      <li>Import your recording and select the track or region</li>
+      <li>
+        Go to <strong>Analyze &rarr; OpenVINO Whisper Transcription</strong>
+      </li>
+      <li>Pick a Whisper model and language, then click Apply</li>
+    </ol>
+  </div>
+
+  <h2>What Is AI Transcription?</h2>
+  <p>
+    AI transcription turns spoken audio into time-stamped written text.
+    Audacity's OpenVINO Whisper Transcription effect runs OpenAI's Whisper
+    speech-recognition model entirely on your own computer &mdash; no uploads,
+    no minute limits, no subscription. Feed it an interview, podcast, lecture,
+    or voice memo and it writes every word into a label track you can edit,
+    search, and export as SRT subtitles, VTT, or plain text. Because it runs
+    offline, your audio never leaves your machine, making it a privacy-friendly
+    alternative to cloud transcription services.
+  </p>
+
+  <h2>How to Transcribe Audio in Audacity</h2>
+  <h3>Step 1: Install the OpenVINO AI Plugin</h3>
+  <p>
+    Download and install the free OpenVINO AI plugin for Audacity from the
+    official Audacity plugins page. The plugin adds a set of AI-powered effects
+    and analysis tools, including Whisper Transcription.
+  </p>
+
+  <h3>Step 2: Import and Select Your Recording</h3>
+  <p>
+    Open your audio file with <strong>File &rarr; Open</strong>. Click and drag
+    to select the region you want to transcribe, or press <code>Ctrl+A</code> /
+    <code>Cmd+A</code> to select the whole track.
+  </p>
+
+  <h3>Step 3: Open Analyze &rarr; OpenVINO Whisper Transcription</h3>
+  <p>
+    Go to <strong>Analyze &rarr; OpenVINO Whisper Transcription</strong>. The
+    dialog opens with model selection, language, and inference device options.
+  </p>
+
+  <h3>Step 4: Choose Model, Language and Apply</h3>
+  <p>
+    Select a Whisper model size (base, small, medium, or large), set the source
+    language or leave it on auto-detect, then click <strong>Apply</strong>. The
+    transcription is written to a new label track below your audio, with each
+    phrase as a time-stamped label.
+  </p>
+
+  <h2>Transcription Settings Explained</h2>
+  <h3>Whisper Model (base / small / medium / large)</h3>
+  <p>
+    Choose the model size that trades speed for accuracy. <strong>Base</strong>
+    is fastest and works well for clean English. <strong>Small</strong> and
+    <strong>medium</strong> handle accents, noisy audio, and most non-English languages.
+    <strong>Large (v1/v2/v3)</strong> is the most accurate. A special
+    <strong>small.en-tdrz</strong> model adds experimental speaker diarization.
+  </p>
+
+  <h3>Mode (Transcribe vs Translate)</h3>
+  <p>
+    <strong>Transcribe</strong> keeps the spoken language in the output.
+    <strong>Translate</strong> converts any of Whisper's 99 supported source languages
+    into English text automatically &mdash; useful for subtitling foreign-language
+    clips without a separate translation step.
+  </p>
+
+  <h3>Source Language</h3>
+  <p>
+    Defaults to auto-detect, which samples the first seconds of audio to guess
+    the language. Pick a language manually for short clips, code-switching, or
+    when auto-detect lands on the wrong one. Whisper supports 99 languages.
+  </p>
+
+  <h3>Inference Device (CPU / GPU / NPU)</h3>
+  <p>
+    Picks which chip runs the model. CPU works everywhere. GPU is faster on
+    discrete or integrated graphics. NPU uses the neural accelerator on modern
+    Intel Core Ultra laptops. Click <em>Device Details</em> to see what Audacity detected
+    on your system.
+  </p>
+
+  <h3>Advanced Options (Initial Prompt, Max Segment Length, Beam Size)</h3>
+  <p>
+    Use <strong>Initial Prompt</strong> to steer spelling of names, jargon, or acronyms.
+    <strong>Max Segment Length</strong> controls how long each label can be &mdash;
+    shorter values help word-level editing and subtitle formatting. <strong
+      >Beam Size</strong
+    > improves accuracy at the cost of processing time.
+  </p>
+
+  <h2>Whisper Model Reference</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Model</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Best For</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Accuracy</th>
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >Typical Speed (CPU)</th
+          >
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">base</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Clean English, quick drafts</td
+          ><td class="border border-gray-300 px-3 py-2">Good</td><td
+            class="border border-gray-300 px-3 py-2"
+            >~0.3&times; audio length</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">small</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Accents, noisier audio, many languages</td
+          ><td class="border border-gray-300 px-3 py-2">Better</td><td
+            class="border border-gray-300 px-3 py-2"
+            >~0.7&times; audio length</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">small.en-tdrz</td><td
+            class="border border-gray-300 px-3 py-2"
+            >English + speaker diarization</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Better + speaker change</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >~0.7&times; audio length</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">medium</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Reliable multi-language transcription</td
+          ><td class="border border-gray-300 px-3 py-2">High</td><td
+            class="border border-gray-300 px-3 py-2"
+            >~1.5&times; audio length</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">large-v3</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Final subtitles, tough recordings</td
+          ><td class="border border-gray-300 px-3 py-2">Highest</td><td
+            class="border border-gray-300 px-3 py-2"
+            >~3&ndash;5&times; audio length</td
+          ></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Podcast show notes</strong> — Generate an accurate episode transcript
+      for blog posts and SEO
+    </li>
+    <li>
+      <strong>Subtitles &amp; captions</strong> — Export the label track as SRT or
+      VTT for YouTube and video editors
+    </li>
+    <li>
+      <strong>Interview notes</strong> — Search spoken quotes by text instead of scrubbing
+      the waveform
+    </li>
+    <li>
+      <strong>Lectures &amp; meetings</strong> — Turn recordings into searchable,
+      shareable notes
+    </li>
+    <li>
+      <strong>Accessibility</strong> — Provide text alternatives for deaf and hard-of-hearing
+      listeners
+    </li>
+    <li>
+      <strong>Translation &amp; localization</strong> — Translate foreign-language
+      clips straight into English text
+    </li>
+    <li>
+      <strong>Journalism &amp; research</strong> — Keep sensitive recordings offline
+      while still producing a text record
+    </li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Start with <strong>base</strong> or <strong>small</strong> to preview speed,
+      then re-run the final pass with a larger model
+    </li>
+    <li>
+      Clean up the recording first with AI Noise Suppression &mdash; Whisper
+      transcribes denoised speech far more accurately
+    </li>
+    <li>
+      Select only the region you want to transcribe; Whisper processes whatever
+      is selected
+    </li>
+    <li>
+      Set the source language manually for short clips; auto-detect needs a few
+      seconds of audio
+    </li>
+    <li>
+      Use <em>Initial Prompt</em> to lock in proper spelling of names, brands, or
+      technical jargon
+    </li>
+    <li>
+      On Intel Core Ultra laptops, select the NPU device &mdash; it's faster and
+      cooler than CPU for the larger models
+    </li>
+    <li>
+      Export the label track via <strong
+        >File &rarr; Export Other &rarr; Export Labels</strong
+      > (SRT, VTT, or TXT)
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Is AI transcription in Audacity really free?</strong><br />
+    Yes. Audacity is free and open source, and the OpenVINO AI plugin that powers
+    Whisper Transcription is also free. There are no minute caps, no subscriptions,
+    and no watermarks &mdash; everything runs locally on your own PC.
+  </p>
+  <p>
+    <strong>Does Audacity audio transcription work offline?</strong><br />
+    Yes. Audacity runs Whisper entirely on your local machine. Your audio and transcript
+    never leave your computer &mdash; ideal for interviews, legal recordings, and
+    anything you'd rather not upload to the cloud.
+  </p>
+  <p>
+    <strong>How accurate is Whisper transcription in Audacity?</strong><br />
+    Very accurate for clean English on the medium and large models &mdash; comparable
+    to paid cloud tools. Noisy audio, strong accents, or overlapping speakers reduce
+    accuracy; denoise first and use a larger model for best results.
+  </p>
+  <p>
+    <strong>How many languages does Audacity transcription support?</strong><br
+    />
+    Whisper supports 99 languages for transcription. In Translate mode, audio in any
+    of those languages can be converted directly into English text.
+  </p>
+  <p>
+    <strong>How do I export a transcript from Audacity as SRT or text?</strong
+    ><br />
+    Go to <strong>File &rarr; Export Other &rarr; Export Labels</strong> and pick
+    SRT, WebVTT, or plain text. SRT and VTT are ready to drop into YouTube, Premiere,
+    or DaVinci Resolve as subtitles.
+  </p>
+  <p>
+    <strong>Can Audacity identify different speakers in a recording?</strong><br
+    />
+    Yes &mdash; experimentally. Pick the <strong>small.en-tdrz</strong> model to enable
+    speaker diarization. Audacity creates two label tracks and alternates labels when
+    it detects a speaker change.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to transcribe your audio offline? Download Audacity for free on
+    Windows, macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>
