@@ -1,0 +1,344 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Audio Trimmer – Trim Start and End of Audio | Audacity"
+  description="Trim audio to keep only the part you want. Crop intros, outros, and silence in one click with Ctrl+T. Free trimmer for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/trim/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <!-- Left Column - Text Content -->
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Audio Trimmer &ndash; Keep the Selection, Delete Everything
+              Else
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Trim audio to keep only the part you want. Crop intros, outros,
+              and silence in one click with Ctrl+T.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <!-- Right Column - Image -->
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Trim audio in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>
+        Open your audio file in Audacity (<strong>File &rarr; Open</strong>)
+      </li>
+      <li>
+        Click and drag on the waveform to select the part you want to keep
+      </li>
+      <li>
+        Press <code class="rounded bg-blue-100 px-1">Ctrl+T</code> (Windows/Linux)
+        or <code class="rounded bg-blue-100 px-1">Cmd+T</code> (Mac) &mdash; or go
+        to <strong>Edit &rarr; Remove Special &rarr; Trim Audio</strong>
+      </li>
+      <li>
+        Export via <strong>File &rarr; Export Audio&hellip;</strong> (MP3, WAV, FLAC,
+        OGG)
+      </li>
+    </ol>
+  </div>
+
+  <h2>What Is Trim Audio?</h2>
+  <p>
+    Trim Audio keeps only the selected portion of your recording and removes
+    everything before and after it inside that clip. It's the opposite of Cut
+    &mdash; instead of deleting the selection, Trim deletes everything
+    <em>outside</em> it. Perfect for cropping song intros and outros, isolating a
+    single take, or cleaning up dead air at the start of a podcast.
+  </p>
+  <p>
+    Trim is non-destructive at the clip level: the audio outside your selection
+    becomes hidden, and you can drag the clip edges back out to recover it
+    later. Labels inside the selection are preserved; other clips in the same
+    track are untouched.
+  </p>
+
+  <h2>How to Trim Audio in Audacity</h2>
+  <h3>Step 1: Open Your Audio File</h3>
+  <p>
+    Launch Audacity and open your file via <strong>File &rarr; Open</strong> or drag
+    and drop it onto the Audacity window. The audio loads as a waveform in the track
+    area.
+  </p>
+
+  <h3>Step 2: Select the Part to Keep</h3>
+  <p>
+    Click and drag on the waveform to highlight the region you want to keep. For
+    precise boundaries, type exact start and end times into the Selection
+    Toolbar at the bottom of the window. Zoom in with <code>Ctrl+1</code> /
+    <code>Cmd+1</code> for sample-level accuracy.
+  </p>
+
+  <h3>Step 3: Apply Trim Audio (Ctrl+T)</h3>
+  <p>
+    Press <code>Ctrl+T</code> (Windows/Linux) or <code>Cmd+T</code> (Mac), or go to
+    <strong>Edit &rarr; Remove Special &rarr; Trim Audio</strong>. The command
+    acts immediately with no dialog. Everything outside the selection is hidden
+    from the clip.
+  </p>
+
+  <h3>Step 4: Export Your Trimmed File</h3>
+  <p>
+    Go to <strong>File &rarr; Export Audio&hellip;</strong> and choose your desired
+    format (MP3, WAV, FLAC, OGG, or others). Audacity exports only the remaining visible
+    audio, not the hidden portions outside the trim.
+  </p>
+
+  <h2>Trim Audio Settings and Options Explained</h2>
+  <h3>Selection Range</h3>
+  <p>
+    Trim Audio uses whatever you have selected in the waveform. Click and drag
+    to highlight the keep-zone, or type exact start/end times in the Selection
+    Toolbar at the bottom of the window for sample-accurate trimming.
+  </p>
+
+  <h3>Keyboard Shortcut (Ctrl+T / Cmd+T)</h3>
+  <p>
+    The fastest way to trim. <strong>Ctrl+T</strong> on Windows and Linux,
+    <strong>Cmd+T</strong> on macOS. Works instantly on the current selection &mdash;
+    no dialog box, no confirmation.
+  </p>
+
+  <h3>Multi-Track Behavior</h3>
+  <p>
+    If your selection spans multiple tracks, Trim Audio crops every selected
+    track to the same range at once. Unselected tracks are left alone. Useful
+    for trimming a stereo pair or a full multitrack session to the same
+    start/end.
+  </p>
+
+  <h3>Label and Clip Preservation</h3>
+  <p>
+    Trim Audio only affects audio inside the selection &mdash; labels in the
+    label track are kept in place. Other separate clips in the same track are
+    not removed or shifted. This is safer than Cut when working with a track
+    that contains multiple clips.
+  </p>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Crop song intros and outros</strong> — Keep only the part of the song
+      you want
+    </li>
+    <li>
+      <strong>Isolate a single take</strong> — Select the best take in a recording
+      and drop everything else
+    </li>
+    <li>
+      <strong>Trim podcast starts</strong> — Remove pre-roll chatter, coughs, and
+      mic setup noise
+    </li>
+    <li>
+      <strong>Prep audio for export</strong> — Shorten a long recording to a ringtone,
+      voice memo, or clip
+    </li>
+    <li>
+      <strong>Make ringtones</strong> — Cut a 30-second hook from a full song
+    </li>
+    <li>
+      <strong>Extract interview quotes</strong> — Keep a single sound bite from a
+      long recording
+    </li>
+    <li>
+      <strong>Clean up voiceovers</strong> — Trim before the first word and after
+      the last word
+    </li>
+  </ul>
+
+  <h2>Trim vs Cut vs Delete vs Silence Audio</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Command</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Shortcut</th>
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >What Happens to Selection</th
+          >
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >What Happens Outside</th
+          >
+          <th class="border border-gray-300 px-3 py-2 text-left">Clipboard?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2 font-medium"
+            >Trim Audio</td
+          >
+          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+T</code></td>
+          <td class="border border-gray-300 px-3 py-2">Kept</td>
+          <td class="border border-gray-300 px-3 py-2">Removed from clip</td>
+          <td class="border border-gray-300 px-3 py-2">No</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border border-gray-300 px-3 py-2">Cut</td>
+          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+X</code></td>
+          <td class="border border-gray-300 px-3 py-2">Removed</td>
+          <td class="border border-gray-300 px-3 py-2">Kept, shifted left</td>
+          <td class="border border-gray-300 px-3 py-2">Yes</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2">Delete</td>
+          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+K</code></td>
+          <td class="border border-gray-300 px-3 py-2">Removed</td>
+          <td class="border border-gray-300 px-3 py-2">Kept, shifted left</td>
+          <td class="border border-gray-300 px-3 py-2">No</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border border-gray-300 px-3 py-2">Silence Audio</td>
+          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+L</code></td>
+          <td class="border border-gray-300 px-3 py-2">Replaced with silence</td
+          >
+          <td class="border border-gray-300 px-3 py-2">Unchanged</td>
+          <td class="border border-gray-300 px-3 py-2">No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Zoom in (<code>Ctrl+1</code>) before selecting for sample-accurate trim
+      points
+    </li>
+    <li>
+      Use the Selection Toolbar to type exact start/end times when you need
+      precision
+    </li>
+    <li>
+      If you trim too aggressively, press <code>Ctrl+Z</code> to undo — or drag the
+      clip edge back out to reveal the hidden audio
+    </li>
+    <li>
+      Trim before applying effects so you process only the audio you actually
+      need (faster render)
+    </li>
+    <li>
+      For trimming silence from start and end automatically, try the Truncate
+      Silence effect instead
+    </li>
+    <li>
+      Save a copy of the project (<code>Ctrl+S</code>) before trimming a master
+      recording
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>What is the keyboard shortcut to trim audio in Audacity?</strong><br
+    />
+    <code>Ctrl+T</code> on Windows and Linux, <code>Cmd+T</code> on macOS. You can
+    also find it under <strong
+      >Edit &rarr; Remove Special &rarr; Trim Audio</strong
+    >.
+  </p>
+  <p>
+    <strong>What's the difference between Trim and Cut in Audacity?</strong><br
+    />
+    Trim keeps the selection and deletes everything outside it. Cut does the opposite
+    &mdash; it removes the selection and copies it to the clipboard so you can paste
+    it elsewhere.
+  </p>
+  <p>
+    <strong>Does Trim Audio delete the audio permanently?</strong><br />
+    No. The audio outside your selection is hidden, not destroyed. You can drag the
+    clip edges outward to recover it, or press <code>Ctrl+Z</code> to undo the trim.
+  </p>
+  <p>
+    <strong>How do I trim only the beginning and end of a file?</strong><br />
+    Select the middle portion you want to keep &mdash; from just after the intro to
+    just before the outro &mdash; and press <code>Ctrl+T</code>. Everything
+    before and after that selection is removed from the clip.
+  </p>
+  <p>
+    <strong>Can I trim multiple tracks at once?</strong><br />
+    Yes. If your selection spans multiple tracks, Trim Audio crops each selected track
+    to the same range. Tracks outside the selection are untouched.
+  </p>
+  <p>
+    <strong>Why does Trim Audio delete other clips in my track?</strong><br />
+    This happens when your selection overlaps or touches a clip boundary. Shrink the
+    selection so it sits fully inside a single clip, then trim again.
+  </p>
+  <p>
+    <strong>How do I trim audio to an exact length?</strong><br />
+    Use the Selection Toolbar at the bottom of the Audacity window. Type the exact
+    start and end time (or start time + length) in the fields, then press <code
+      >Ctrl+T</code
+    >.
+  </p>
+  <p>
+    <strong>How do I export the trimmed audio as MP3 or WAV?</strong><br />
+    After trimming, go to <strong>File &rarr; Export Audio&hellip;</strong> and choose
+    MP3, WAV, FLAC, OGG, or another format. Audacity exports only the remaining audio,
+    not the hidden portion.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to trim your audio? Download Audacity for free on Windows, macOS, or
+    Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>

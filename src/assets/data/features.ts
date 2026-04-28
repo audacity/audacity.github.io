@@ -24,6 +24,14 @@ export const features: FeatureEntry[] = [
     icon: "icon-cycle",
   },
   {
+    slug: "trim",
+    title: "Free Audio Trimmer – Trim Start and End of Audio | Audacity",
+    shortTitle: "Trim Audio",
+    description:
+      "Trim audio to keep only the part you want. Crop intros, outros, and silence in one click with Ctrl+T.",
+    icon: "icon-waveform",
+  },
+  {
     slug: "change-pitch",
     title: "Free Pitch Shifter – Change Audio Pitch Without Changing Speed",
     shortTitle: "Pitch Shifter",
