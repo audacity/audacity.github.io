@@ -1,0 +1,355 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Reverse Audio Effect – Play Sound Backwards | Audacity"
+  description="Reverse audio in Audacity in one click. Play selections backwards for drops, reverse reverb, backmasking, and sound design. Free for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/reverse/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <!-- Left Column - Text Content -->
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Reverse Audio in Audacity &ndash; Play Any Selection Backwards
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Reverse audio in one click. Play selections backwards for drops,
+              reverse reverb, backmasking, and sound design.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <!-- Right Column - Image -->
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Reverse audio in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>Import or record the audio you want to play backwards</li>
+      <li>
+        Click-and-drag to select the region (or press <code
+          class="rounded bg-blue-100 px-1">Ctrl+A</code
+        > / <code class="rounded bg-blue-100 px-1">Cmd+A</code> for the whole track)
+      </li>
+      <li>Go to <strong>Effect &rarr; Reverse</strong></li>
+      <li>
+        Press <code class="rounded bg-blue-100 px-1">Space</code> to preview, then
+        <strong>File &rarr; Export Audio</strong> to save
+      </li>
+    </ol>
+  </div>
+
+  <h2>What Is the Reverse Effect?</h2>
+  <p>
+    Reverse is an Audacity effect that flips the selected audio in time &mdash;
+    the last sample becomes the first, so the end of the selection plays first
+    and the beginning plays last. It is the same idea as spinning a tape or
+    vinyl record backwards, but done on a digital waveform. Reverse takes no
+    parameters and applies instantly to whatever you have selected, from a
+    single click to an entire multi-track project. It is one of the most widely
+    used creative effects in music production, used for cymbal swells into
+    drops, reverse reverb tails, backmasking, and atmospheric sound design.
+  </p>
+
+  <h2>How to Reverse Audio in Audacity</h2>
+  <h3>Step 1: Import or Record Your Audio</h3>
+  <p>
+    Open your audio file with <strong>File &rarr; Open</strong> or record directly
+    into Audacity. Any audio format Audacity supports can be reversed, including MP3,
+    WAV, FLAC, and OGG.
+  </p>
+
+  <h3>Step 2: Select the Region You Want to Reverse</h3>
+  <p>
+    Click and drag across the waveform to select the portion you want to play
+    backwards. To reverse the entire track, press <code>Ctrl+A</code> /
+    <code>Cmd+A</code>. You can also select across multiple tracks to reverse
+    them all in the same time range simultaneously.
+  </p>
+
+  <h3>Step 3: Open Effect &rarr; Reverse</h3>
+  <p>
+    Navigate to <strong>Effect &rarr; Reverse</strong> in the menu bar. The effect
+    applies instantly with no dialog box. The selected audio is immediately flipped
+    in time.
+  </p>
+
+  <h3>Step 4: Preview and Export the Reversed Audio</h3>
+  <p>
+    Press <code>Space</code> to play back from the selection point and hear the reversed
+    audio. When satisfied, export with <strong
+      >File &rarr; Export Audio&hellip;</strong
+    > and choose your desired format (MP3, WAV, FLAC, OGG).
+  </p>
+
+  <h2>Reverse Effect Settings Explained</h2>
+  <h3>No Parameters (Applies Instantly)</h3>
+  <p>
+    Reverse has no dialog, sliders, or options. When you choose
+    <strong>Effect &rarr; Reverse</strong>, Audacity rewrites the selected
+    samples in reverse order and the edit is complete. There is nothing to tune
+    &mdash; the output is a perfect, bit-identical mirror of the input, so
+    reversing twice returns the original audio with no quality loss.
+  </p>
+
+  <h3>Works on Any Selection Length</h3>
+  <p>
+    The effect works on anything from a single sample to hours of audio. You can
+    reverse a short transient (a snare hit, a consonant, a click), a musical
+    phrase, or an entire song. Very long selections show a progress dialog while
+    processing; short ones apply instantly.
+  </p>
+
+  <h3>Behavior with Multiple and Time-Stretched Tracks</h3>
+  <p>
+    Audacity can reverse several tracks at once &mdash; selecting across tracks
+    reverses each track inside the time range. Associated Label Tracks in a
+    Sync-Locked group are reversed together with the audio. Time-stretched clips
+    have their speed change rendered first, and if your selection lies inside a
+    stretched clip, Audacity will split the clip before reversing. Note Tracks
+    (MIDI) cannot be reversed because they represent notation, not audio
+    samples.
+  </p>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Reverse cymbal swells</strong> — Flip a crash or ride to build into
+      a drop or chorus
+    </li>
+    <li>
+      <strong>Reverse reverb tails</strong> — Reverse a vocal, add reverb, reverse
+      again for a pre-echo swell leading into the word
+    </li>
+    <li>
+      <strong>Backmasking &amp; hidden messages</strong> — Embed a phrase that only
+      plays forward when the track is reversed
+    </li>
+    <li>
+      <strong>Cinematic risers &amp; transitions</strong> — Reverse tonal hits, piano
+      notes, or synth pads for trailer-style builds
+    </li>
+    <li>
+      <strong>Creative sound design</strong> — Reverse footsteps, doors, and Foley
+      for alien or supernatural effects in film and games
+    </li>
+    <li>
+      <strong>Reverse speech &amp; vocals</strong> — Add mystery or otherworldly atmosphere
+      to spoken word, chants, or lead lines
+    </li>
+    <li>
+      <strong>Obscure profanity</strong> — Reverse a short word to mask it in a radio
+      or podcast edit without a hard silence
+    </li>
+    <li>
+      <strong>Find new melodic ideas</strong> — Reverse a loop or chord progression
+      to discover a fresh motif to sample
+    </li>
+  </ul>
+
+  <h2>Reverse vs. Invert in Audacity</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Effect</th>
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >What It Flips</th
+          >
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >Audible Result</th
+          >
+          <th class="border border-gray-300 px-3 py-2 text-left">Parameters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2 font-medium">Reverse</td>
+          <td class="border border-gray-300 px-3 py-2">Sample order in time</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Audio plays backwards — end first, start last</td
+          >
+          <td class="border border-gray-300 px-3 py-2">None</td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td class="border border-gray-300 px-3 py-2">Invert</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Signal polarity (phase)</td
+          >
+          <td class="border border-gray-300 px-3 py-2"
+            >Sounds identical on its own; cancels when mixed with the unflipped
+            copy</td
+          >
+          <td class="border border-gray-300 px-3 py-2">None</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 px-3 py-2">Repeat</td>
+          <td class="border border-gray-300 px-3 py-2"
+            >Copies the selection N times</td
+          >
+          <td class="border border-gray-300 px-3 py-2"
+            >Used with Reverse for forward-then-backward loops and palindromes</td
+          >
+          <td class="border border-gray-300 px-3 py-2">Number of times</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Place selection boundaries on transients (e.g. at the start of a cymbal
+      hit) so the reversed swell rises straight into the downbeat
+    </li>
+    <li>
+      Duplicate the track first (<code>Ctrl+D</code> / <code>Cmd+D</code>) so
+      you can A/B the reversed version against the original
+    </li>
+    <li>
+      For reverse reverb: reverse the source, add Reverb, then reverse again —
+      the reverb tail turns into a swell leading into the note
+    </li>
+    <li>
+      Reversing twice in a row restores the audio exactly — Reverse is lossless
+      and bit-identical
+    </li>
+    <li>
+      Combine with Repeat to build forward-then-backward palindrome loops,
+      perfect for ambient beds
+    </li>
+    <li>
+      To reverse stereo tracks symmetrically, select across both channels so the
+      left/right imaging is preserved
+    </li>
+    <li>
+      Use short fades at the reversed boundary (<strong
+        >Effect &rarr; Fade In / Fade Out</strong
+      >) to prevent clicks at the new edit points
+    </li>
+    <li>
+      If the menu item is greyed out, you have not made a selection or you are
+      on a Note (MIDI) track, which cannot be reversed
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>How do I reverse audio in Audacity?</strong><br />
+    Select the audio you want to play backwards (click-drag, or <code
+      >Ctrl+A</code
+    >
+    / <code>Cmd+A</code> for the whole track) and choose <strong
+      >Effect &rarr; Reverse</strong
+    >. The effect applies instantly. Press <code>Space</code> to preview, then use
+    <strong>File &rarr; Export Audio</strong> to save.
+  </p>
+  <p>
+    <strong>Does the Reverse effect have any settings?</strong><br />
+    No. Reverse takes no parameters — there is no dialog, no sliders, and no options.
+    It simply flips the selected samples in time. Reversing the same selection twice
+    returns the original audio with zero quality loss.
+  </p>
+  <p>
+    <strong>Can I reverse only part of a song?</strong><br />
+    Yes. Click-and-drag in the waveform to select the region you want to reverse,
+    then choose <strong>Effect &rarr; Reverse</strong>. Only the selected
+    samples are flipped; everything outside the selection stays untouched.
+  </p>
+  <p>
+    <strong>Can I reverse multiple tracks at once?</strong><br />
+    Yes. Select a time range across several tracks and apply <strong
+      >Effect &rarr; Reverse</strong
+    >. Every selected track is reversed inside that time range. Associated Label
+    Tracks in a Sync-Locked group are reversed with the audio.
+  </p>
+  <p>
+    <strong
+      >What is the difference between Reverse and Invert in Audacity?</strong
+    ><br />
+    Reverse flips the audio in time — it literally plays backwards. Invert flips the
+    waveform's polarity (phase) but leaves the sample order unchanged; by itself an
+    inverted track sounds identical, and it is used to cancel audio when mixed against
+    the original.
+  </p>
+  <p>
+    <strong>Does reversing audio reduce quality?</strong><br />
+    No. Reverse is a lossless, sample-accurate operation &mdash; Audacity rewrites
+    the samples in the opposite order without resampling or re-encoding. Applying
+    Reverse twice yields audio that is bit-identical to the source.
+  </p>
+  <p>
+    <strong>How do I make a reverse reverb effect?</strong><br />
+    Duplicate the track, apply <strong>Effect &rarr; Reverse</strong> to the copy,
+    add
+    <strong>Effect &rarr; Reverb</strong>, then apply <strong
+      >Effect &rarr; Reverse</strong
+    >
+    once more. The reverb tail now rises backwards into the start of each note.
+  </p>
+  <p>
+    <strong>Why is the Reverse menu item greyed out?</strong><br />
+    Reverse needs an active audio selection. If nothing is selected, or your cursor
+    is on a Note (MIDI) track, the menu entry is disabled. Click inside an audio track,
+    make a selection, and the option becomes available.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to experiment with reverse audio? Download Audacity for free on
+    Windows, macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>

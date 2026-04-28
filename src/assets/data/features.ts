@@ -16,6 +16,14 @@ export const features: FeatureEntry[] = [
     icon: "icon-waveform",
   },
   {
+    slug: "reverse",
+    title: "Reverse Audio Effect – Play Sound Backwards | Audacity",
+    shortTitle: "Reverse Audio",
+    description:
+      "Reverse audio in one click. Play selections backwards for drops, reverse reverb, backmasking, and sound design.",
+    icon: "icon-cycle",
+  },
+  {
     slug: "change-pitch",
     title: "Free Pitch Shifter – Change Audio Pitch Without Changing Speed",
     shortTitle: "Pitch Shifter",
