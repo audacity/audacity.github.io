@@ -184,6 +184,8 @@ export const bannerPromos: Record<string, PromoData> = {
   speakerDiarizationPro: {
     type: "banner",
     isActive: true,
+    startDate: "2026-04-14",
+    endDate: "2026-04-28",
     priority: 50,
     osTargets: ["Windows", "OS X"],
     message:

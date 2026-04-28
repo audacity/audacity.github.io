@@ -1,5 +1,5 @@
 import cx from "classnames";
-import promoData from "../../assets/data/promotions";
+import promoData, { isPromoDateActive } from "../../assets/data/promotions";
 import type { PromoData } from "../../assets/data/promotions";
 import useBrowserOS from "../../hooks/useDetectOS";
 import "../../styles/icons.css";
@@ -31,7 +31,7 @@ const STATIC_PROMOS: PromoData[] = Object.values(promoData).filter(
 );
 
 const isPromoActive = (promo: PromoData | null | undefined) =>
-  promo?.isActive ?? true;
+  promo != null && (promo.isActive ?? true) && isPromoDateActive(promo);
 
 const isSuppressedOnPath = (promo: PromoData, path: string | null) => {
   if (!path) {

@@ -28,6 +28,10 @@ export type TrackingConfig = {
 export type PromoData = {
   type: PromoType;
   isActive?: boolean;
+  /** ISO date string (YYYY-MM-DD). Promo is inactive before this date. */
+  startDate?: string;
+  /** ISO date string (YYYY-MM-DD). Promo is inactive after this date (inclusive). */
+  endDate?: string;
   priority?: number;
   slot?: number;
   osTargets?: string[];
@@ -60,6 +64,14 @@ export type FilterOptions = {
 
 const routeMatchesAllowlist = (path: string, allowlist: string[]) =>
   allowlist.some((route) => path === route || path.startsWith(`${route}/`));
+
+/** Returns false if today is outside the promo's startDate/endDate window. */
+export const isPromoDateActive = (promo: PromoData): boolean => {
+  const today = new Date().toISOString().slice(0, 10);
+  if (promo.startDate && today < promo.startDate) return false;
+  if (promo.endDate && today > promo.endDate) return false;
+  return true;
+};
 
 /** Get all promos matching the filter criteria */
 export const getFilteredPromos = (

@@ -1,5 +1,6 @@
 import promoData, {
   getFilteredPromos,
+  isPromoDateActive,
   type ExitPopupPolicy,
   type PromoData,
   type TrackingConfig,
@@ -170,7 +171,9 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
     const eligiblePopups = getFilteredPromos(Object.values(promoData), {
       type: "exit-popup",
       path: resolvedPath,
-    }).filter(isExitPopupPromo);
+    })
+      .filter(isPromoDateActive)
+      .filter(isExitPopupPromo);
 
     releaseOverlayLock();
     setSelectedPromo(selectExitPopupPromo(eligiblePopups));
