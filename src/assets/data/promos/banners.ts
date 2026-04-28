@@ -181,6 +181,31 @@ export const bannerPromos: Record<string, PromoData> = {
       link: "https://www.musehub.com/plugin/trinity-eq?utm_source=au-web-banner-mh-web&utm_medium=trinity-eq&utm_campaign=au-web-banner-mh-web-trinity-eq&utm_id=au-web-banner",
     },
   },
+  audacityExplained: {
+    type: "banner",
+    isActive: true,
+    startDate: "2026-04-29",
+    endDate: "2026-05-13",
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    message:
+      "Audacity Explained®: The complete guide to Audacity. Record, edit, and produce audio with ease.",
+    styles: {
+      container: "bg-yellow-300",
+      message: "text-gray-900 font-bold",
+      button:
+        "font-bold border-2 border-gray-900 bg-gray-900 text-white hover:bg-yellow-300 hover:text-gray-900 hover:border-gray-900",
+    },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Audacity Explained MuseHub",
+    },
+    cta: {
+      text: "Learn more",
+      link: "https://www.musehub.com/course/audacity-explained?utm_source=au-web-banner&utm_medium=audacity-explained",
+    },
+  },
   speakerDiarizationPro: {
     type: "banner",
     isActive: true,
