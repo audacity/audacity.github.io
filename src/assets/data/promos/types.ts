@@ -66,8 +66,10 @@ const routeMatchesAllowlist = (path: string, allowlist: string[]) =>
   allowlist.some((route) => path === route || path.startsWith(`${route}/`));
 
 /** Returns false if today is outside the promo's startDate/endDate window. */
-export const isPromoDateActive = (promo: PromoData): boolean => {
-  const today = new Date().toISOString().slice(0, 10);
+export const isPromoDateActive = (
+  promo: PromoData,
+  today = new Date().toISOString().slice(0, 10),
+): boolean => {
   if (promo.startDate && today < promo.startDate) return false;
   if (promo.endDate && today > promo.endDate) return false;
   return true;
