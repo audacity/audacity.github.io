@@ -1,0 +1,402 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Free Distortion Effect – Fuzz, Overdrive, Grit | Audacity"
+  description="Add distortion, overdrive, fuzz and clipping to guitar, vocals and sound design. 11 distortion types. Free effect for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/distortion/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Distortion Effect &ndash; Add Grit, Fuzz and Overdrive to Any
+              Audio
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              11 distortion types: hard clipping, soft overdrive, fuzz, cubic
+              curve, leveller and more. Free for Windows, Mac &amp; Linux.
+            </p>
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Add distortion in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>
+        Select the audio you want to distort (a clip, a region, or the whole
+        track)
+      </li>
+      <li>
+        Go to <strong
+          >Effect &rarr; Distortion and Modulation &rarr; Distortion</strong>
+      </li>
+      <li>
+        Choose a Distortion type (e.g. Hard Clipping, Soft Overdrive, Cubic
+        Curve) and tweak Drive, Threshold, and Make-up Gain
+      </li>
+      <li>Click Preview, then Apply</li>
+    </ol>
+  </div>
+
+  <h2>What Is the Distortion Effect?</h2>
+  <p>
+    Distortion is a waveshaper that deliberately deforms the shape of an audio
+    waveform, adding new harmonics and producing the crunchy, gritty, buzzy, or
+    growling tone heard on electric guitars, rock vocals, lo-fi beats, and
+    sci-fi sound design. Audacity's built-in Distortion effect is an 11-in-one
+    processor that covers the whole distortion family in a single dialog &mdash;
+    from subtle tube-style overdrive and tape-like saturation to hard clipping,
+    fuzz, rectification, and vintage Leveller emulations. It works on any
+    selection, is fully previewable, and is free on Windows, macOS, and Linux.
+  </p>
+
+  <h2>How to Add Distortion in Audacity</h2>
+  <h3>Step 1: Select the Audio to Distort</h3>
+  <p>
+    Click and drag to select a clip, region, or press <code>Ctrl+A</code> /
+    <code>Cmd+A</code> for the whole track. Consider duplicating the track first so
+    you can compare the original against the distorted version.
+  </p>
+
+  <h3>
+    Step 2: Open Effect &rarr; Distortion and Modulation &rarr; Distortion
+  </h3>
+  <p>
+    Navigate to <strong
+      >Effect &rarr; Distortion and Modulation &rarr; Distortion</strong
+    >. The dialog opens with a Distortion type selector and the parameters that
+    apply to the selected type.
+  </p>
+
+  <h3>Step 3: Choose a Distortion Type and Adjust Parameters</h3>
+  <p>
+    Pick a type from the drop-down menu, then adjust the type-specific controls
+    (Clipping level, Drive, Hardness, Make-up Gain, etc.). Use
+    <strong>Manage &rarr; Factory Presets</strong> for ready-made tones like Fuzz
+    Box, Blues Drive, and Walkie-Talkie.
+  </p>
+
+  <h3>Step 4: Preview and Apply</h3>
+  <p>
+    Click <strong>Preview</strong> to hear the effect on a short sample. Adjust and
+    preview again until satisfied, then click <strong>Apply</strong>.
+  </p>
+
+  <h2>Distortion Types Explained</h2>
+  <h3>Hard Clipping and Soft Clipping</h3>
+  <p>
+    <strong>Hard Clipping</strong> cuts the waveform at a fixed threshold, producing
+    an aggressive, buzzy fuzz tone with strong odd harmonics. Controls: Clipping level
+    (-100 to 0 dB), Drive (0&ndash;100), and Make-up Gain.
+    <strong>Soft Clipping</strong> progressively reduces gain above the threshold,
+    rounding the peaks for a warmer, tube-amp style grit. Controls: Threshold, Hardness
+    (0&ndash;100), and Make-up Gain.
+  </p>
+
+  <h3>Soft, Medium and Hard Overdrive</h3>
+  <p>
+    Three smooth-curve shapers modelled on classic overdrive pedals. Soft
+    Overdrive adds gentle warmth. Medium Overdrive is a blues-style crunch. Hard
+    Overdrive is a rock rhythm tone. All three use Distortion amount
+    (0&ndash;100) and Output level (0&ndash;100).
+  </p>
+
+  <h3>Cubic Curve (Odd Harmonics) and Even Harmonics</h3>
+  <p>
+    <strong>Cubic Curve</strong> generates odd-numbered harmonics (3rd, 5th, 7th&hellip;)
+    for a classic valve-amp sound, with a Repeat processing control (0&ndash;5) for
+    extra intensity. <strong>Even Harmonics</strong> produces brighter, more musical
+    tube-style colour with a Harmonic brightness control and a DC blocking filter
+    to tame low-end rumble.
+  </p>
+
+  <h3>Expand and Compress</h3>
+  <p>
+    An S-shaped curve that pushes low-level signals further down and pulls
+    medium-level signals up. Useful as a creative dynamics effect on drum loops
+    and sound design.
+  </p>
+
+  <h3>Leveller, Rectifier and Hard Limiter</h3>
+  <p>
+    <strong>Leveller</strong> flattens dynamics in discrete steps &mdash; great for
+    lo-fi and radio-voice effects. <strong>Rectifier Distortion</strong>
+    progressively produces a half-wave then full-wave rectified signal for a ring-mod-style
+    octave-up character. <strong>Hard Limiter 1413</strong> lets you set a dB limit
+    and mix the clipped signal against the restored overshoot for controlled, colourful
+    clipping.
+  </p>
+
+  <h2>Distortion Parameters Reference</h2>
+  <h3>Clipping Level / Threshold (dB)</h3>
+  <p>
+    Sets the amplitude above which the waveform is cut (Hard Clipping) or
+    squeezed (Soft Clipping, Hard Limiter). Range: -100 to 0 dB. Lower values
+    clip more of the signal and produce heavier distortion; values near 0 dB
+    only clip the loudest peaks.
+  </p>
+
+  <h3>Drive and Hardness</h3>
+  <p>
+    <strong>Drive</strong> (0&ndash;100) boosts the signal before the clipping stage
+    &mdash; more drive means more distortion at the same threshold.
+    <strong>Hardness</strong> (Soft Clipping only, 0&ndash;100) controls how sharp
+    the clipping knee is; 0 is very smooth, 100 behaves almost like hard clipping.
+  </p>
+
+  <h3>Make-up Gain and Output Level</h3>
+  <p>
+    Clipping usually reduces perceived loudness. <strong>Make-up Gain</strong>
+    (clipping types) and <strong>Output level</strong> (overdrive and harmonic types)
+    restore the final volume after processing. Keep an eye on the waveform to avoid
+    exceeding 0 dB.
+  </p>
+
+  <h3>DC Blocking Filter and Repeat Processing</h3>
+  <p>
+    <strong>DC blocking filter</strong> removes the DC offset that asymmetric waveshaping
+    can introduce &mdash; leave it on unless you are deliberately creating broken
+    signals. <strong>Repeat processing</strong> (Cubic Curve) re-applies the algorithm
+    0&ndash;5 times for thicker, more saturated tones.
+  </p>
+
+  <h2>Distortion Types Comparison Table</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Type</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Character</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Hard Clipping</td><td
+            class="border border-gray-300 px-3 py-2">Aggressive, buzzy, fuzz</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Fuzz guitar, glitch FX, extreme vocals</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Soft Clipping</td><td
+            class="border border-gray-300 px-3 py-2">Warm, tube-style</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Classic rock guitar, vocal warmth</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Soft Overdrive</td><td
+            class="border border-gray-300 px-3 py-2">Gentle, clean-boost</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Subtle grit, bass, keys</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Medium Overdrive</td><td
+            class="border border-gray-300 px-3 py-2">Blues crunch</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Blues / classic rock rhythm</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Hard Overdrive</td><td
+            class="border border-gray-300 px-3 py-2">Rock rhythm</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Rock and alt rock tones</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2"
+            >Cubic Curve (Odd Harmonics)</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Valve-amp, odd harmonics</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Guitar solos, vocal character</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Even Harmonics</td><td
+            class="border border-gray-300 px-3 py-2">Bright, musical colour</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Tape-style warmth, mastering colour</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Leveller</td><td
+            class="border border-gray-300 px-3 py-2">Stepped lo-fi</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Radio voice, lo-fi hip-hop, walkie-talkie</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Rectifier</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Half-/full-wave, octave-up</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Experimental, ring-mod style</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Hard Limiter 1413</td
+          ><td class="border border-gray-300 px-3 py-2">Controlled clipping</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Mix bus glue, loudness, mastering grit</td
+          ></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Distorted guitar</strong> — Cubic Curve or Hard Overdrive on clean DI
+      guitar tracks
+    </li>
+    <li>
+      <strong>Rock / scream vocals</strong> — Soft Clipping at -12 dB with moderate
+      Drive
+    </li>
+    <li>
+      <strong>Lo-fi hip-hop</strong> — Leveller for stepped, vintage-sounding vocals
+      and samples
+    </li>
+    <li>
+      <strong>Fuzz bass</strong> — Hard Clipping with low threshold and high Make-up
+      Gain
+    </li>
+    <li>
+      <strong>Glitch / sound design</strong> — Rectifier and Hard Clipping for extreme,
+      broken textures
+    </li>
+    <li>
+      <strong>Walkie-talkie / radio voice</strong> — Leveller plus a band-pass EQ
+      for telephone realism
+    </li>
+    <li>
+      <strong>Tape saturation</strong> — Even Harmonics with low Distortion and DC
+      filter on
+    </li>
+    <li>
+      <strong>Mastering colour</strong> — Hard Limiter 1413 at -3 dB with partial
+      Residue level for gentle glue
+    </li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Always work on a duplicate track &mdash; Distortion is destructive once
+      applied
+    </li>
+    <li>Use Preview to audition each Distortion type before committing</li>
+    <li>
+      Input signals above 0 dB are always hard clipped regardless of chosen type
+      &mdash; lower the clip with Amplify first if needed
+    </li>
+    <li>
+      Follow Distortion with an EQ (low-cut at 80&ndash;120 Hz, presence boost
+      at 2&ndash;4 kHz) to shape the final tone
+    </li>
+    <li>
+      Use the factory presets (Fuzz Box, Walkie-Talkie, Blues Drive) as starting
+      points and tweak from there
+    </li>
+    <li>
+      Combine small amounts from two types (e.g. Soft Clipping + Even Harmonics)
+      by applying them sequentially for richer harmonics
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Where is the Distortion effect located in Audacity?</strong><br />
+    Go to <strong
+      >Effect &rarr; Distortion and Modulation &rarr; Distortion</strong
+    >. The dialog offers 11 types in a drop-down menu plus sliders for
+    type-specific parameters.
+  </p>
+  <p>
+    <strong>What distortion types does Audacity support?</strong><br />
+    Hard Clipping, Soft Clipping, Soft Overdrive, Medium Overdrive, Hard Overdrive,
+    Cubic Curve (Odd Harmonics), Even Harmonics, Expand and Compress, Leveller, Rectifier
+    Distortion, and Hard Limiter 1413 &mdash; 11 types in total.
+  </p>
+  <p>
+    <strong
+      >What is the difference between overdrive, distortion and fuzz?</strong
+    ><br />
+    Overdrive is mild, tube-style saturation (Soft or Medium Overdrive). Distortion
+    is heavier, more compressed (Cubic Curve or Hard Overdrive). Fuzz is extreme,
+    square-wave-like clipping (Hard Clipping with low threshold and high Drive).
+  </p>
+  <p>
+    <strong>How do I make a guitar sound distorted in Audacity?</strong><br />
+    Record a clean DI guitar, select the track, and open the Distortion effect. For
+    a classic rock tone try Cubic Curve with Distortion amount ~50 and Repeat processing
+    1. For heavier tones try Hard Clipping at -20 dB with Drive 50. Follow with EQ
+    for cabinet-style shaping.
+  </p>
+  <p>
+    <strong>Why does my audio sound quieter after applying distortion?</strong
+    ><br />
+    Clipping and waveshaping reduce peaks. Raise Make-up Gain (for clipping types)
+    or Output level (for overdrive types) to compensate.
+  </p>
+  <p>
+    <strong>Can Audacity remove distortion from a recording?</strong><br />
+    Not fully &mdash; once a signal has been clipped, lost information cannot be recovered.
+    Audacity's Clip Fix effect can smooth short, mild clipped peaks, but for severe
+    distortion a dedicated declipping tool or a fresh recording is needed.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to add some grit and character to your audio? Download Audacity for
+    free on Windows, macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>
