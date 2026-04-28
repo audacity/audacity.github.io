@@ -1,0 +1,350 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+---
+
+<FeaturePageLayout
+  title="Split Audio into Clips – Free Split Tool | Audacity"
+  description="Split audio into separate clips at the cursor with Audacity. Use Ctrl+I to divide recordings for editing or export. Free for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/split/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Split Audio into Separate Clips with Audacity
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Split audio into independent clips at the cursor with
+              <code class="bg-white/20 rounded px-1">Ctrl+I</code>.
+              Non-destructive — no audio removed, just new clip boundaries.
+            </p>
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Split audio in 4 steps:
+    </h3>
+    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+      <li>
+        Click the waveform at the point where you want to split, or drag to
+        select a region
+      </li>
+      <li>
+        Press <code class="rounded bg-blue-100 px-1">Ctrl+I</code> (Windows/Linux)
+        or <code class="rounded bg-blue-100 px-1">Cmd+I</code> (Mac), or go to <strong
+          >Edit &rarr; Audio Clips &rarr; Split</strong>
+      </li>
+      <li>Audacity creates clip boundaries without removing any audio</li>
+      <li>
+        Drag each clip to move it, or use Export Multiple to save clips as
+        separate files
+      </li>
+    </ol>
+  </div>
+
+  <h2>What Is the Split Command?</h2>
+  <p>
+    Split divides a single audio clip into two or more independent clips at the
+    cursor position or at the boundaries of your selection. No audio is removed
+    &mdash; the waveform stays identical, but each new clip can now be moved,
+    cut, copied, or exported on its own. Split is the non-destructive way to
+    break a long recording into manageable pieces for editing, rearranging, or
+    exporting as separate files.
+  </p>
+
+  <h2>How to Split Audio in Audacity</h2>
+  <h3>Step 1: Click the Cursor or Make a Selection</h3>
+  <p>
+    Click the waveform at the exact point you want to divide, or click and drag
+    to select a region. Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> for
+    sample-level accuracy, and press <code>Z</code> to snap to zero-crossings to avoid
+    clicks.
+  </p>
+
+  <h3>Step 2: Open Edit &rarr; Audio Clips &rarr; Split</h3>
+  <p>
+    Press <code>Ctrl+I</code> (Windows/Linux) or <code>Cmd+I</code> (Mac), or navigate
+    to <strong>Edit &rarr; Audio Clips &rarr; Split</strong>. If you clicked a
+    single point, one boundary is created. If you selected a region, two
+    boundaries are created at the selection edges.
+  </p>
+
+  <h3>Step 3: Confirm the New Clip Boundaries</h3>
+  <p>
+    After splitting, you'll see a small gap between the new clips in the
+    waveform. Each clip has its own drag handle at the top. Use <code
+      >Alt+,</code
+    > and
+    <code>Alt+.</code> to jump between clip boundaries and inspect the split points.
+  </p>
+
+  <h3>Step 4: Move, Export, or Edit the Clips</h3>
+  <p>
+    Drag a clip's header to slide it left or right on the timeline. To export
+    clips as separate files, use <strong
+      >File &rarr; Export &rarr; Export Multiple</strong
+    >
+    and split by labels or track names.
+  </p>
+
+  <h2>Split Command Variants Explained</h2>
+  <h3>Split (Ctrl+I / Cmd+I)</h3>
+  <p>
+    The default Split command. Place the cursor where you want to divide and
+    press
+    <code>Ctrl+I</code>. No audio is removed. Also available under
+    <strong>Edit &rarr; Audio Clips &rarr; Split</strong>.
+  </p>
+
+  <h3>Split New</h3>
+  <p>
+    Moves the selected audio onto a brand-new track, leaving silence on the
+    original track. Useful for isolating a vocal line, drum fill, or sound
+    effect so you can process it independently. Found under <strong
+      >Edit &rarr; Audio Clips &rarr; Split New</strong
+    >.
+  </p>
+
+  <h3>Split Cut (Ctrl+Alt+X)</h3>
+  <p>
+    Cuts the selected audio to the Audacity clipboard and leaves silence in its
+    place. Unlike regular Cut, the remaining audio does not ripple left &mdash;
+    the timing of everything after the selection stays intact.
+  </p>
+
+  <h3>Split Delete (Ctrl+Alt+K)</h3>
+  <p>
+    Deletes the selected audio and leaves silence behind, without saving
+    anything to the clipboard. Use Split Delete when you want to erase a cough
+    or click but keep every other element locked to its current timeline
+    position.
+  </p>
+
+  <h3>Detach at Silences (Ctrl+Alt+J)</h3>
+  <p>
+    Automatically splits a clip at every region of absolute silence inside your
+    selection, creating clip boundaries on both sides of each gap. Perfect for
+    carving up long voice recordings where pauses already mark the natural break
+    points.
+  </p>
+
+  <h2>Split vs Cut vs Trim vs Join</h2>
+  <div class="not-prose overflow-x-auto my-6">
+    <table class="w-full text-sm border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-3 py-2 text-left">Command</th>
+          <th class="border border-gray-300 px-3 py-2 text-left">Shortcut</th>
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >Removes Audio?</th
+          >
+          <th class="border border-gray-300 px-3 py-2 text-left"
+            >What Happens</th
+          >
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          ><td class="border border-gray-300 px-3 py-2 font-medium">Split</td
+          ><td class="border border-gray-300 px-3 py-2"><code>Ctrl+I</code></td
+          ><td class="border border-gray-300 px-3 py-2">No</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Creates clip boundaries — audio stays in place</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Split New</td><td
+            class="border border-gray-300 px-3 py-2">&mdash;</td
+          ><td class="border border-gray-300 px-3 py-2">No</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Moves selection to a new track, leaves silence on original</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Split Cut</td><td
+            class="border border-gray-300 px-3 py-2"><code>Ctrl+Alt+X</code></td
+          ><td class="border border-gray-300 px-3 py-2">Yes (to clipboard)</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Cuts to clipboard, leaves silence — no ripple shift</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Split Delete</td><td
+            class="border border-gray-300 px-3 py-2"><code>Ctrl+Alt+K</code></td
+          ><td class="border border-gray-300 px-3 py-2">Yes</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Deletes selection, leaves silence — no clipboard, no ripple</td
+          ></tr
+        >
+        <tr
+          ><td class="border border-gray-300 px-3 py-2">Cut</td><td
+            class="border border-gray-300 px-3 py-2"><code>Ctrl+X</code></td
+          ><td class="border border-gray-300 px-3 py-2">Yes (to clipboard)</td
+          ><td class="border border-gray-300 px-3 py-2"
+            >Removes selection and shifts remaining audio left</td
+          ></tr
+        >
+        <tr class="bg-gray-50"
+          ><td class="border border-gray-300 px-3 py-2">Join</td><td
+            class="border border-gray-300 px-3 py-2"><code>Ctrl+J</code></td
+          ><td class="border border-gray-300 px-3 py-2">No</td><td
+            class="border border-gray-300 px-3 py-2"
+            >Merges adjacent clips back into a single continuous clip</td
+          ></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>
+      <strong>Break up long recordings</strong> — Split a two-hour interview or lecture
+      into per-topic clips
+    </li>
+    <li>
+      <strong>Prep for Export Multiple</strong> — Combine Split with labels to save
+      each clip as its own MP3 or WAV
+    </li>
+    <li>
+      <strong>Non-destructive rearrangement</strong> — Split a song into sections,
+      then slide them into a new order
+    </li>
+    <li>
+      <strong>Build a playlist from one recording</strong> — Turn a DJ set or live
+      concert into individual track files
+    </li>
+    <li>
+      <strong>Isolate takes and outtakes</strong> — Split around flubs so you can
+      mute or delete them without touching surrounding audio
+    </li>
+    <li>
+      <strong>Prepare podcast segments</strong> — Split an episode into intro, interview,
+      and outro for easy reordering
+    </li>
+    <li>
+      <strong>Create audiobook chapters</strong> — Split a narration at each chapter
+      break and export the clips with chapter names
+    </li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Zoom in with <code>Ctrl+1</code> to place the split point at sample-level accuracy
+    </li>
+    <li>
+      Press <code>Z</code> to snap to zero-crossings before splitting, to avoid clicks
+      where clips meet
+    </li>
+    <li>
+      Use <code>Alt+,</code> and <code>Alt+.</code> to jump between clip boundaries
+      after splitting
+    </li>
+    <li>
+      Combine Split with Export Multiple and label tracks to batch-export clips
+      as separate files
+    </li>
+    <li>
+      Use <strong>Edit &rarr; Audio Clips &rarr; Join</strong> (<code
+        >Ctrl+J</code
+      >) to undo a split
+    </li>
+    <li>
+      For long recordings with natural pauses, try Detach at Silences instead of
+      splitting manually
+    </li>
+    <li>
+      Save your project (.aup3) before batch-splitting so you can revert if a
+      boundary lands wrong
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>What is the keyboard shortcut for Split in Audacity?</strong><br />
+    Press <code>Ctrl+I</code> on Windows and Linux, or <code>Cmd+I</code> on Mac.
+    You can also reach it from <strong
+      >Edit &rarr; Audio Clips &rarr; Split</strong
+    >.
+  </p>
+  <p>
+    <strong>What is the difference between Split and Cut in Audacity?</strong
+    ><br />
+    Split creates clip boundaries without removing any audio. Cut physically removes
+    the selected audio to the clipboard and shifts remaining audio left to close the
+    gap.
+  </p>
+  <p>
+    <strong>How do I split a long recording into separate files?</strong><br />
+    Press <code>Ctrl+I</code> at each break point, then use <strong
+      >File &rarr; Export &rarr; Export Multiple</strong
+    > to save each clip as its own file.
+  </p>
+  <p>
+    <strong>Can I undo a split in Audacity?</strong><br />
+    Yes. Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately, or select across
+    the clip boundary and choose <strong
+      >Edit &rarr; Audio Clips &rarr; Join</strong
+    >
+    to merge the clips back.
+  </p>
+  <p>
+    <strong>How do I split audio at silent gaps automatically?</strong><br />
+    Select the portion you want to process, then use <strong
+      >Edit &rarr; Audio Clips &rarr; Detach at Silences</strong
+    > (<code>Ctrl+Alt+J</code>).
+  </p>
+  <p>
+    <strong>Why do my split clips sound clicky when I move them?</strong><br />
+    Splits at non-zero sample values produce a tiny pop. Enable
+    <strong>View &rarr; Zero-Crossings</strong> (press <code>Z</code>) before
+    splitting so the cursor snaps to the nearest zero-crossing.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to split and rearrange your audio? Download Audacity for free on
+    Windows, macOS, or Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>

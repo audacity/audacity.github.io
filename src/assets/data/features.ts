@@ -32,6 +32,46 @@ export const features: FeatureEntry[] = [
     icon: "icon-waveform",
   },
   {
+    slug: "split",
+    title: "Split Audio into Clips – Free Split Tool | Audacity",
+    shortTitle: "Split Audio",
+    description:
+      "Split audio into separate clips at the cursor. Non-destructive — no audio removed, just new clip boundaries.",
+    icon: "icon-waveform",
+  },
+  {
+    slug: "reverb",
+    title: "Free Reverb Effect – Add Room, Hall & Cathedral | Audacity",
+    shortTitle: "Reverb",
+    description:
+      "Add natural reverb to vocals, instruments, and podcasts. Room, hall, and cathedral presets included.",
+    icon: "icon-cycle",
+  },
+  {
+    slug: "transcription",
+    title: "Free AI Audio Transcription – Speech to Text | Audacity",
+    shortTitle: "AI Transcription",
+    description:
+      "Transcribe speech to text locally with Whisper AI. No uploads, no minute limits, no subscription.",
+    icon: "icon-waveform",
+  },
+  {
+    slug: "delete",
+    title: "Free Audio Delete Tool – Remove Sections Fast | Audacity",
+    shortTitle: "Delete Audio",
+    description:
+      "Delete unwanted sections without touching your clipboard. Remove mistakes, strip intros, and clean recordings.",
+    icon: "icon-waveform",
+  },
+  {
+    slug: "distortion",
+    title: "Free Distortion Effect – Fuzz, Overdrive, Grit | Audacity",
+    shortTitle: "Distortion",
+    description:
+      "Add distortion, overdrive, fuzz and clipping to guitar, vocals and sound design. 11 distortion types.",
+    icon: "icon-cycle",
+  },
+  {
     slug: "change-pitch",
     title: "Free Pitch Shifter – Change Audio Pitch Without Changing Speed",
     shortTitle: "Pitch Shifter",
