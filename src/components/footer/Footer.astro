@@ -18,7 +18,7 @@ const activePreReleaseAriaLabel =
 
 <footer class="bg-slate-200 py-12">
   <div class="grid grid-cols-12 max-w-screen-xl mx-auto gap-y-4">
-    <div class="col-start-2 col-span-10 lg:col-start-2 lg:col-span-3">
+    <div class="col-start-2 col-span-10">
       <p class="signika text-gray-900 text-lg md:text-2xl font-bold">
         Audacity
       </p>
@@ -29,39 +29,25 @@ const activePreReleaseAriaLabel =
       </p>
     </div>
     <div
-      class="col-start-2 col-span-10 row-start-2 md:col-start-2 md:col-span-3 lg:col-start-6 lg:col-span-2 lg:row-start-1"
+      class="col-start-2 col-span-10 grid grid-cols-1 md:grid-cols-4 gap-y-4"
     >
-      <p class="footer-list-heading">Links</p>
-      <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
-        <li>
-          <a
-            href="https://support.audacityteam.org"
-            aria-label="External link to Help">Help</a
-          >
-        </li>
-        <li><a href="/FAQ" aria-label="Link to FAQ">FAQ</a></li>
-        <li><a href="/blog" aria-label="Link to Blog">Blog</a></li>
-        <li><a href="/legal" aria-label="Link to Legal">Legal</a></li>
-        <li>
-          <a href="/cloud-saving" aria-label="Link to Cloud Saving"
-            >Cloud Saving</a
-          >
-        </li>
+      <div>
+        <p class="footer-list-heading">Links</p>
+        <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
           <li>
-            <a href="/features/" aria-label="Link to Features">Features</a>
+            <a
+              href="https://support.audacityteam.org"
+              aria-label="External link to Help">Help</a
+            >
           </li>
-          {
-            features.map((feature) => (
-              <li>
-                <a
-                  href={`/features/${feature.slug}/`}
-                  aria-label={`Link to ${feature.shortTitle}`}
-                >
-                  {feature.shortTitle}
-                </a>
-              </li>
-            ))
-          }
+          <li><a href="/FAQ" aria-label="Link to FAQ">FAQ</a></li>
+          <li><a href="/blog" aria-label="Link to Blog">Blog</a></li>
+          <li><a href="/legal" aria-label="Link to Legal">Legal</a></li>
+          <li>
+            <a href="/cloud-saving" aria-label="Link to Cloud Saving"
+              >Cloud Saving</a
+            >
+          </li>
           <li>
             <a
               href="https://forum.audacityteam.org/"
@@ -96,11 +82,28 @@ const activePreReleaseAriaLabel =
               target="_blank">Audio.com</a
             >
           </li>
-      </ul>
-    </div>
-    <div
-        class="col-start-2 col-span-10 row-start-3 md:col-span-3 md:col-start-5 md:row-start-2 lg:col-start-8 lg:col-span-2 lg:row-start-1"
-      >
+        </ul>
+      </div>
+      <div>
+        <p class="footer-list-heading">Features</p>
+        <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
+          {
+            features
+              .filter((f) => f.showInFooter)
+              .map((feature) => (
+                <li>
+                  <a
+                    href={`/features/${feature.slug}/`}
+                    aria-label={`Link to ${feature.shortTitle}`}
+                  >
+                    {feature.shortTitle}
+                  </a>
+                </li>
+              ))
+          }
+        </ul>
+      </div>
+      <div>
         <p class="footer-list-heading">Downloads</p>
         <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
           <li>
@@ -136,9 +139,7 @@ const activePreReleaseAriaLabel =
         </ul>
       </div>
 
-      <div
-        class="col-start-2 col-span-10 row-start-4 md:row-start-2 md:col-start-8 md:col-span-3 lg:col-start-10 lg:col-span-2 lg:row-start-1"
-      >
+      <div>
         <p class="footer-list-heading">Social</p>
         <ul class="mt-2 footer-link-list space-y-2 md:space-y-0">
           <li>
@@ -171,31 +172,32 @@ const activePreReleaseAriaLabel =
           </li>
         </ul>
       </div>
+    </div>
 
-      <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
-        <div class="border-t-[1px] border-gray-300 pt-4">
-          <p class="copyright text-center">
-            Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
-            Website content licensed <a
-              href="https://creativecommons.org/licenses/by/4.0/"
-              class="underline hover:text-blue-700"
-              rel="license"
-              target="_blank"
-              aria-label="CC-by 4.0">CC-by 4.0</a
-            >. Audacity® software is licensed under the terms of the GNU General
-            Public License, Version 3. Further information about the software
-            license, distribution and acceptable use can be found <a
-              class="underline hover:text-blue-700"
-              href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
-              target="_blank"
-              aria-label="in the source code">in the source code</a
-            >. This site is powered by <a
-              href="https://www.netlify.com/"
-              target="_blank"
-              class="underline hover:text-blue-700">Netlify</a
-            >.
-          </p>
-        </div>
+    <div class="col-start-2 col-span-10 mt-4 lg:mt-12">
+      <div class="border-t-[1px] border-gray-300 pt-4">
+        <p class="copyright text-center">
+          Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
+          Website content licensed <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            class="underline hover:text-blue-700"
+            rel="license"
+            target="_blank"
+            aria-label="CC-by 4.0">CC-by 4.0</a
+          >. Audacity® software is licensed under the terms of the GNU General
+          Public License, Version 3. Further information about the software
+          license, distribution and acceptable use can be found <a
+            class="underline hover:text-blue-700"
+            href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
+            target="_blank"
+            aria-label="in the source code">in the source code</a
+          >. This site is powered by <a
+            href="https://www.netlify.com/"
+            target="_blank"
+            class="underline hover:text-blue-700">Netlify</a
+          >.
+        </p>
+      </div>
     </div>
   </div>
 

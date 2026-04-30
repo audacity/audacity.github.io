@@ -4,6 +4,7 @@ export interface FeatureEntry {
   shortTitle: string;
   description: string;
   icon: string;
+  showInFooter?: boolean;
 }
 
 export const features: FeatureEntry[] = [
@@ -72,12 +73,31 @@ export const features: FeatureEntry[] = [
     icon: "icon-cycle",
   },
   {
+    slug: "compressor",
+    title: "Free Audio Compressor – Control Dynamic Range | Audacity",
+    shortTitle: "Compressor",
+    description:
+      "Compress audio to even out volume levels. Reduce peaks and boost quiet parts for a polished, consistent sound.",
+    icon: "icon-waveform",
+    showInFooter: true,
+  },
+  {
+    slug: "speed-changer",
+    title: "Free Audio Speed Changer – Change Speed and Pitch | Audacity",
+    shortTitle: "Speed Changer",
+    description:
+      "Change the speed of audio while keeping pitch intact, or adjust both together. Simple controls, instant results.",
+    icon: "icon-cycle",
+    showInFooter: true,
+  },
+  {
     slug: "change-pitch",
     title: "Free Pitch Shifter – Change Audio Pitch Without Changing Speed",
-    shortTitle: "Pitch Shifter",
+    shortTitle: "Pitch Changer",
     description:
       "Change pitch of audio without affecting speed. Transpose songs to any key, shift by semitones or percent.",
     icon: "icon-cycle",
+    showInFooter: true,
   },
   {
     slug: "noise-reduction",
@@ -86,6 +106,7 @@ export const features: FeatureEntry[] = [
     description:
       "Remove background noise from audio for free. Eliminate hiss, hum, fan noise, and buzzing from any recording.",
     icon: "icon-waveform",
+    showInFooter: true,
   },
   {
     slug: "vocal-remover",
@@ -94,5 +115,6 @@ export const features: FeatureEntry[] = [
     description:
       "Remove vocals from any song for free. AI-powered stem separation for karaoke, remixes, and covers. No limits, no subscription.",
     icon: "icon-microphone",
+    showInFooter: true,
   },
 ];
