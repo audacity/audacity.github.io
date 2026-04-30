@@ -83,6 +83,28 @@ const shouldEnableExitIntentPopup = hasEligibleExitPopup;
     <meta name="twitter:image" content={ogImage} />
 
     <title>{title}</title>
+    <script is:inline>
+      /* Runs synchronously before paint — sets data-os on <html> so CSS can
+         show the right shortcut variant with no flash. Reads localStorage for
+         manual override; falls back to platform sniffing. */
+      (function () {
+        var os;
+        try {
+          os = localStorage.getItem("audacity-os");
+        } catch (e) {}
+        if (!os) {
+          var ua =
+            typeof navigator !== "undefined"
+              ? (navigator.userAgentData && navigator.userAgentData.platform) ||
+                navigator.platform ||
+                navigator.userAgent ||
+                ""
+              : "";
+          os = /mac|iphone|ipad/i.test(ua) ? "mac" : "win";
+        }
+        document.documentElement.setAttribute("data-os", os);
+      })();
+    </script>
     <script src="../assets/js/matomoTracking.js"></script>
   </head>
   <body

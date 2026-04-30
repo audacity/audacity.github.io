@@ -1,0 +1,70 @@
+---
+// No props — reads and writes html[data-os] and localStorage.
+---
+
+<div
+  class="not-prose mb-6 flex items-center justify-end gap-2"
+  id="os-toggle-wrapper"
+>
+  <span id="os-toggle-label" class="text-xs text-gray-400">Shortcuts for:</span>
+  <div
+    role="group"
+    aria-labelledby="os-toggle-label"
+    class="inline-flex rounded-full border border-gray-200 bg-gray-100 p-0.5"
+  >
+    <button
+      id="os-toggle-win"
+      type="button"
+      class="rounded-full px-3 py-1 text-xs font-medium transition-all"
+      aria-pressed="false"
+    >
+      Windows
+    </button>
+    <button
+      id="os-toggle-mac"
+      type="button"
+      class="rounded-full px-3 py-1 text-xs font-medium transition-all"
+      aria-pressed="false"
+    >
+      Mac
+    </button>
+  </div>
+</div>
+
+<script>
+  function initOsToggle() {
+    const html = document.documentElement;
+    const winBtn = document.getElementById("os-toggle-win")!;
+    const macBtn = document.getElementById("os-toggle-mac")!;
+
+    function applyOS(os: string) {
+      html.setAttribute("data-os", os);
+      try {
+        localStorage.setItem("audacity-os", os);
+      } catch (_) {}
+
+      const isWin = os === "win";
+      winBtn.setAttribute("aria-pressed", String(isWin));
+      macBtn.setAttribute("aria-pressed", String(!isWin));
+
+      // Active pill: white bg + shadow; inactive: transparent
+      winBtn.classList.toggle("bg-white", isWin);
+      winBtn.classList.toggle("shadow-sm", isWin);
+      winBtn.classList.toggle("text-gray-900", isWin);
+      winBtn.classList.toggle("text-gray-500", !isWin);
+
+      macBtn.classList.toggle("bg-white", !isWin);
+      macBtn.classList.toggle("shadow-sm", !isWin);
+      macBtn.classList.toggle("text-gray-900", !isWin);
+      macBtn.classList.toggle("text-gray-500", isWin);
+    }
+
+    // Sync with whatever the inline detection script already set.
+    applyOS(html.getAttribute("data-os") ?? "win");
+
+    winBtn.addEventListener("click", () => applyOS("win"));
+    macBtn.addEventListener("click", () => applyOS("mac"));
+  }
+
+  initOsToggle();
+</script>

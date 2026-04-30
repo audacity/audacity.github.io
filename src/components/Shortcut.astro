@@ -1,0 +1,81 @@
+---
+/**
+ * Renders a keyboard shortcut with OS-aware display.
+ *
+ * Pass the Windows form of the shortcut (e.g. keys="Ctrl+T"). The Mac variant
+ * is auto-derived (Ctrl→⌘, Alt→⌥, Shift→⇧). Supply `mac` to override when
+ * the shortcut genuinely differs rather than just swapping the modifier.
+ *
+ * CSS in input.css shows only the variant that matches html[data-os], set by
+ * the inline detection script in BaseLayout before first paint.
+ */
+interface Props {
+  keys: string; // Windows shortcut, e.g. "Ctrl+T" or "Ctrl+Shift+I"
+  mac?: string; // Explicit Mac override (if auto-derivation is wrong)
+  variant?: "default" | "hero"; // "hero" = inverted style for dark backgrounds
+}
+
+const { keys, mac, variant = "default" } = Astro.props;
+
+const MAC_SYMBOLS: Record<string, string> = {
+  Ctrl: "⌘",
+  Alt: "⌥",
+  Shift: "⇧",
+};
+
+const MAC_ARIA_NAMES: Record<string, string> = {
+  Ctrl: "Command",
+  Alt: "Option",
+  Shift: "Shift",
+};
+
+// Normalise spacing around + so "Ctrl + T" and "Ctrl+T" both work.
+const normalise = (s: string) => s.replace(/\s*\+\s*/g, "+");
+
+const winKeys = normalise(keys).split("+");
+
+const macKeys = mac
+  ? normalise(mac)
+      .split("+")
+      .map((k) => MAC_SYMBOLS[k] ?? k)
+  : winKeys.map((k) => MAC_SYMBOLS[k] ?? k);
+
+const winAriaLabel = winKeys.join("+");
+const macAriaLabel = (mac ? normalise(mac).split("+") : winKeys)
+  .map((k) => MAC_ARIA_NAMES[k] ?? k)
+  .join("+");
+
+const kbdClass =
+  variant === "hero"
+    ? "inline-block rounded border border-white/30 bg-white/20 px-1.5 py-0.5 font-mono text-xs font-medium leading-none text-white not-italic"
+    : "inline-block rounded border border-gray-300 border-b-2 bg-gray-100 px-1.5 py-0.5 font-mono text-xs font-medium leading-none text-gray-800 not-italic";
+
+const sepClass =
+  variant === "hero"
+    ? "mx-px select-none text-white/50 text-xs"
+    : "mx-px select-none text-gray-400 text-xs";
+---
+
+<span class="shortcut whitespace-nowrap">
+  {/* Windows / Linux variant */}
+  <span class="shortcut-win" role="group" aria-label={winAriaLabel}>
+    {
+      winKeys.map((key, i) => (
+        <Fragment>
+          {i > 0 && (
+            <span aria-hidden="true" class={sepClass}>
+              +
+            </span>
+          )}
+          <kbd class={kbdClass}>{key}</kbd>
+        </Fragment>
+      ))
+    }
+  </span>
+  {
+    /* macOS variant — modifier glyphs run together without separator (Mac convention) */
+  }
+  <span class="shortcut-mac" role="group" aria-label={macAriaLabel}>
+    {macKeys.map((key) => <kbd class={kbdClass}>{key}</kbd>)}
+  </span>
+</span>

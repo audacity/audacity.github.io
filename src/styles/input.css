@@ -3,113 +3,124 @@
 @tailwind utilities;
 
 @layer base {
-    h1 {
-        @apply text-2xl lg:text-4xl text-gray-900 font-semibold leading-tight mt-4
-    }
+  h1 {
+    @apply text-2xl lg:text-4xl text-gray-900 font-semibold leading-tight mt-4;
+  }
 
-    h2 {
-        @apply text-xl lg:text-3xl text-gray-800 font-semibold leading-tight
-    }
+  h2 {
+    @apply text-xl lg:text-3xl text-gray-800 font-semibold leading-tight;
+  }
 
+  h3 {
+    @apply text-lg md:text-lg lg:text-2xl text-gray-700 font-semibold;
+  }
 
-    h3 {
-        @apply text-lg md:text-lg lg:text-2xl text-gray-700 font-semibold
-    }
+  h4 {
+    @apply text-base md:text-xl text-gray-700 font-bold xl:leading-snug;
+  }
 
-    h4 {
-        @apply text-base md:text-xl text-gray-700 font-bold xl:leading-snug
-    }
+  h5 {
+    @apply text-base font-semibold text-gray-700;
+  }
 
-    h5 {
-        @apply text-base font-semibold text-gray-700
-    }
+  p {
+    @apply text-base text-gray-700 leading-snug;
+  }
 
-    p {
-        @apply text-base text-gray-700 leading-snug
-    }
+  label {
+    @apply text-gray-700;
+  }
 
-    label {
-        @apply text-gray-700
-    }
-    
-    .list li {
-        @apply mt-2 list-disc list-inside text-base lg:text-lg text-gray-700 leading-relaxed
-    }
+  .list li {
+    @apply mt-2 list-disc list-inside text-base lg:text-lg text-gray-700 leading-relaxed;
+  }
 
-    small {
-        @apply text-xs md:text-sm uppercase text-gray-700
-    }
+  small {
+    @apply text-xs md:text-sm uppercase text-gray-700;
+  }
 
-    .hyperlink {
-        @apply text-blue-700 underline hover:text-blue-600
-    }
+  .hyperlink {
+    @apply text-blue-700 underline hover:text-blue-600;
+  }
 
-    .dark-hyperlink {
-        @apply text-blue-400 underline hover:text-blue-300
-    }
+  .dark-hyperlink {
+    @apply text-blue-400 underline hover:text-blue-300;
+  }
 
-    .footer-link-list li {
-        @apply text-gray-700 hover:text-blue-700 w-fit
-    }
+  .footer-link-list li {
+    @apply text-gray-700 hover:text-blue-700 w-fit;
+  }
 
-    .copyright {
-        @apply text-xs text-gray-600
-    }
+  .copyright {
+    @apply text-xs text-gray-600;
+  }
 
-    .sub-heading {
-        @apply text-base
-    }
+  .sub-heading {
+    @apply text-base;
+  }
 
-    .faq-question {
-        @apply font-semibold text-lg text-gray-800
-    }
+  .faq-question {
+    @apply font-semibold text-lg text-gray-800;
+  }
 
-    .footer-list-heading {
-        @apply font-semibold text-lg text-gray-800
-    }
+  .footer-list-heading {
+    @apply font-semibold text-lg text-gray-800;
+  }
 
-    .privacy-banner-heading {
-        @apply font-semibold text-2xl text-gray-800
-    }
+  .privacy-banner-heading {
+    @apply font-semibold text-2xl text-gray-800;
+  }
 
-    .additional-resource-heading {
-        @apply font-semibold text-lg text-gray-800
-    }
+  .additional-resource-heading {
+    @apply font-semibold text-lg text-gray-800;
+  }
 
-    .skip-to-content {
-        position: fixed;
-        background-color: rgb(29 78 216 );
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        left: 0px;
-        right: 0px;
-        top: 0px;   
-        opacity: 0;
-        transition-property: top;
-        transition-duration: .3s;
-        height: 48px;
-    }
+  /* OS-aware keyboard shortcut visibility.
+       The inline script in BaseLayout sets data-os on <html> before first paint.
+       Default (no JS): Windows shortcuts shown, Mac hidden. */
+  .shortcut-mac {
+    display: none;
+  }
+  html[data-os="mac"] .shortcut-mac {
+    display: inline;
+  }
+  html[data-os="mac"] .shortcut-win {
+    display: none;
+  }
 
-    .skip-to-content:focus {
-        top: 56px;
-        opacity: 1;
-    }
+  .skip-to-content {
+    position: fixed;
+    background-color: rgb(29 78 216);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    opacity: 0;
+    transition-property: top;
+    transition-duration: 0.3s;
+    height: 48px;
+  }
 
-    #consent-popup {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 2rem;
-        background-color: #fff;
-        opacity: 1;
-        transition: bottom .5s ease;
+  .skip-to-content:focus {
+    top: 56px;
+    opacity: 1;
+  }
 
-        &.hide{
-           bottom:-412px;
-        }
-   
+  #consent-popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background-color: #fff;
+    opacity: 1;
+    transition: bottom 0.5s ease;
+
+    &.hide {
+      bottom: -412px;
     }
+  }
 }

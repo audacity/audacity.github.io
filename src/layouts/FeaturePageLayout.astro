@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import OsToggle from "../components/OsToggle.astro";
 
 export interface Props {
   title: string;
@@ -21,6 +22,7 @@ const { title, description, canonical, image } = Astro.props;
   <article
     class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue prose-feature lg:prose-lg max-w-screen-md"
   >
+    <OsToggle />
     <slot />
   </article>
 </BaseLayout>
