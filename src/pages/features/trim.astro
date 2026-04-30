@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -74,9 +75,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         Click and drag on the waveform to select the part you want to keep
       </li>
       <li>
-        Press <code class="rounded bg-blue-100 px-1">Ctrl+T</code> (Windows/Linux)
-        or <code class="rounded bg-blue-100 px-1">Cmd+T</code> (Mac) &mdash; or go
-        to <strong>Edit &rarr; Remove Special &rarr; Trim Audio</strong>
+        Press <Shortcut keys="Ctrl+T" /> &mdash; or go to
+        <strong>Edit &rarr; Remove Special &rarr; Trim Audio</strong>
       </li>
       <li>
         Export via <strong>File &rarr; Export Audio&hellip;</strong> (MP3, WAV, FLAC,
@@ -112,13 +112,13 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <p>
     Click and drag on the waveform to highlight the region you want to keep. For
     precise boundaries, type exact start and end times into the Selection
-    Toolbar at the bottom of the window. Zoom in with <code>Ctrl+1</code> /
-    <code>Cmd+1</code> for sample-level accuracy.
+    Toolbar at the bottom of the window. Zoom in with <Shortcut keys="Ctrl+1" /> for
+    sample-level accuracy.
   </p>
 
   <h3>Step 3: Apply Trim Audio (Ctrl+T)</h3>
   <p>
-    Press <code>Ctrl+T</code> (Windows/Linux) or <code>Cmd+T</code> (Mac), or go to
+    Press <Shortcut keys="Ctrl+T" />, or go to
     <strong>Edit &rarr; Remove Special &rarr; Trim Audio</strong>. The command
     acts immediately with no dialog. Everything outside the selection is hidden
     from the clip.
@@ -141,9 +141,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 
   <h3>Keyboard Shortcut (Ctrl+T / Cmd+T)</h3>
   <p>
-    The fastest way to trim. <strong>Ctrl+T</strong> on Windows and Linux,
-    <strong>Cmd+T</strong> on macOS. Works instantly on the current selection &mdash;
-    no dialog box, no confirmation.
+    The fastest way to trim. Press <Shortcut keys="Ctrl+T" /> and the command acts
+    immediately on the current selection &mdash; no dialog box, no confirmation.
   </p>
 
   <h3>Multi-Track Behavior</h3>
@@ -214,28 +213,36 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
           <td class="border border-gray-300 px-3 py-2 font-medium"
             >Trim Audio</td
           >
-          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+T</code></td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+T" /></td
+          >
           <td class="border border-gray-300 px-3 py-2">Kept</td>
           <td class="border border-gray-300 px-3 py-2">Removed from clip</td>
           <td class="border border-gray-300 px-3 py-2">No</td>
         </tr>
         <tr class="bg-gray-50">
           <td class="border border-gray-300 px-3 py-2">Cut</td>
-          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+X</code></td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+X" /></td
+          >
           <td class="border border-gray-300 px-3 py-2">Removed</td>
           <td class="border border-gray-300 px-3 py-2">Kept, shifted left</td>
           <td class="border border-gray-300 px-3 py-2">Yes</td>
         </tr>
         <tr>
           <td class="border border-gray-300 px-3 py-2">Delete</td>
-          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+K</code></td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+K" /></td
+          >
           <td class="border border-gray-300 px-3 py-2">Removed</td>
           <td class="border border-gray-300 px-3 py-2">Kept, shifted left</td>
           <td class="border border-gray-300 px-3 py-2">No</td>
         </tr>
         <tr class="bg-gray-50">
           <td class="border border-gray-300 px-3 py-2">Silence Audio</td>
-          <td class="border border-gray-300 px-3 py-2"><code>Ctrl+L</code></td>
+          <td class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+L" /></td
+          >
           <td class="border border-gray-300 px-3 py-2">Replaced with silence</td
           >
           <td class="border border-gray-300 px-3 py-2">Unchanged</td>
@@ -248,16 +255,16 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Tips for Best Results</h2>
   <ul>
     <li>
-      Zoom in (<code>Ctrl+1</code>) before selecting for sample-accurate trim
-      points
+      Zoom in (<Shortcut keys="Ctrl+1" />) before selecting for sample-accurate
+      trim points
     </li>
     <li>
       Use the Selection Toolbar to type exact start/end times when you need
       precision
     </li>
     <li>
-      If you trim too aggressively, press <code>Ctrl+Z</code> to undo — or drag the
-      clip edge back out to reveal the hidden audio
+      If you trim too aggressively, press <Shortcut keys="Ctrl+Z" /> to undo — or
+      drag the clip edge back out to reveal the hidden audio
     </li>
     <li>
       Trim before applying effects so you process only the audio you actually
@@ -268,8 +275,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       Silence effect instead
     </li>
     <li>
-      Save a copy of the project (<code>Ctrl+S</code>) before trimming a master
-      recording
+      Save a copy of the project (<Shortcut keys="Ctrl+S" />) before trimming a
+      master recording
     </li>
   </ul>
 
@@ -277,8 +284,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <p>
     <strong>What is the keyboard shortcut to trim audio in Audacity?</strong><br
     />
-    <code>Ctrl+T</code> on Windows and Linux, <code>Cmd+T</code> on macOS. You can
-    also find it under <strong
+    <Shortcut keys="Ctrl+T" /> on Windows, Linux, and macOS (shown for your OS above).
+    You can also find it under <strong
       >Edit &rarr; Remove Special &rarr; Trim Audio</strong
     >.
   </p>
@@ -292,13 +299,14 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <p>
     <strong>Does Trim Audio delete the audio permanently?</strong><br />
     No. The audio outside your selection is hidden, not destroyed. You can drag the
-    clip edges outward to recover it, or press <code>Ctrl+Z</code> to undo the trim.
+    clip edges outward to recover it, or press <Shortcut keys="Ctrl+Z" /> to undo
+    the trim.
   </p>
   <p>
     <strong>How do I trim only the beginning and end of a file?</strong><br />
     Select the middle portion you want to keep &mdash; from just after the intro to
-    just before the outro &mdash; and press <code>Ctrl+T</code>. Everything
-    before and after that selection is removed from the clip.
+    just before the outro &mdash; and press <Shortcut keys="Ctrl+T" />.
+    Everything before and after that selection is removed from the clip.
   </p>
   <p>
     <strong>Can I trim multiple tracks at once?</strong><br />
@@ -313,9 +321,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <p>
     <strong>How do I trim audio to an exact length?</strong><br />
     Use the Selection Toolbar at the bottom of the Audacity window. Type the exact
-    start and end time (or start time + length) in the fields, then press <code
-      >Ctrl+T</code
-    >.
+    start and end time (or start time + length) in the fields, then press <Shortcut
+      keys="Ctrl+T"
+    />.
   </p>
   <p>
     <strong>How do I export the trimmed audio as MP3 or WAV?</strong><br />

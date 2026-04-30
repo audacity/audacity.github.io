@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -63,7 +64,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       </li>
       <li>
         Go to <strong
-          >Effect &rarr; Distortion and Modulation &rarr; Distortion</strong>
+          >Effect &rarr; Distortion and Modulation &rarr; Distortion</strong
+        >
       </li>
       <li>
         Choose a Distortion type (e.g. Hard Clipping, Soft Overdrive, Cubic
@@ -88,9 +90,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>How to Add Distortion in Audacity</h2>
   <h3>Step 1: Select the Audio to Distort</h3>
   <p>
-    Click and drag to select a clip, region, or press <code>Ctrl+A</code> /
-    <code>Cmd+A</code> for the whole track. Consider duplicating the track first so
-    you can compare the original against the distorted version.
+    Click and drag to select a clip, region, or press <Shortcut keys="Ctrl+A" /> for
+    the whole track. Consider duplicating the track first so you can compare the original
+    against the distorted version.
   </p>
 
   <h3>

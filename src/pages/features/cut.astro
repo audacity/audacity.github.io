@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -71,18 +72,16 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         remove
       </li>
       <li>
-        Press <code class="rounded bg-blue-100 px-1">Ctrl+X</code> (Windows/Linux)
-        or <code class="rounded bg-blue-100 px-1">Cmd+X</code> (Mac), or go to <strong
-          >Edit &rarr; Cut</strong>
+        Press <Shortcut keys="Ctrl+X" />, or go to <strong
+          >Edit &rarr; Cut</strong
+        >
       </li>
       <li>
         The selection is removed and remaining audio shifts left to close the
         gap
       </li>
       <li>
-        Paste elsewhere with <code class="rounded bg-blue-100 px-1">Ctrl+V</code
-        > / <code class="rounded bg-blue-100 px-1">Cmd+V</code>, or leave it
-        discarded
+        Paste elsewhere with <Shortcut keys="Ctrl+V" />, or leave it discarded
       </li>
     </ol>
   </div>
@@ -101,17 +100,18 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 1: Select the Audio to Remove</h3>
   <p>
     Click and drag across the waveform to highlight the section you want to
-    remove. For a more precise selection, zoom in with <code>Ctrl+1</code> /
-    <code>Cmd+1</code> or type exact times into the Selection Toolbar at the bottom
-    of the window.
+    remove. For a more precise selection, zoom in with <Shortcut
+      keys="Ctrl+1"
+    /> or type exact times into the Selection Toolbar at the bottom of the window.
   </p>
 
   <h3>Step 2: Apply the Cut Command</h3>
   <p>
-    Press <code>Ctrl+X</code> (Windows/Linux) or <code>Cmd+X</code> (Mac). You can
-    also go to <strong>Edit &rarr; Cut</strong> from the menu bar or right-click the
-    selection and choose <strong>Cut</strong>. The command takes effect
-    immediately with no dialog box.
+    Press <Shortcut keys="Ctrl+X" />. You can also go to <strong
+      >Edit &rarr; Cut</strong
+    > from the menu bar or right-click the selection and choose <strong
+      >Cut</strong
+    >. The command takes effect immediately with no dialog box.
   </p>
 
   <h3>Step 3: Verify the Remaining Audio Shifts Left</h3>
@@ -126,26 +126,23 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <p>
     The cut audio sits on Audacity's internal clipboard. Paste it into the same
     track, a different track, or even a different Audacity project window with
-    <code>Ctrl+V</code> / <code>Cmd+V</code>. If you don't need the audio,
-    simply leave it — it will be discarded the next time you cut or copy
-    something.
+    <Shortcut keys="Ctrl+V" />. If you don't need the audio, simply leave it —
+    it will be discarded the next time you cut or copy something.
   </p>
 
   <h2>Cut Command Behavior Explained</h2>
   <h3>Keyboard Shortcut (Ctrl+X / Cmd+X)</h3>
   <p>
-    The fastest way to cut. Press <code>Ctrl+X</code> on Windows and Linux, or
-    <code>Cmd+X</code> on Mac. You can also access Cut via the Edit menu or right-click
-    context menu. Cut has no dialog box — it acts immediately on whatever is currently
-    selected.
+    The fastest way to cut. Press <Shortcut keys="Ctrl+X" /> and Audacity removes
+    the selection immediately. You can also access Cut via the Edit menu or right-click
+    context menu.
   </p>
 
   <h3>Audacity Clipboard</h3>
   <p>
     Cut audio is stored on Audacity's internal clipboard, separate from your
     system clipboard. It stays there until you cut or copy again, so you can
-    paste the same selection multiple times with <code>Ctrl+V</code> /
-    <code>Cmd+V</code>.
+    paste the same selection multiple times with <Shortcut keys="Ctrl+V" />.
   </p>
 
   <h3>Ripple Edit (Auto-Shift)</h3>
@@ -187,7 +184,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr>
           <td class="border border-gray-300 px-3 py-2 font-medium">Cut</td>
           <td class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+X</code> / <code>Cmd+X</code></td
+            ><Shortcut keys="Ctrl+X" /></td
           >
           <td class="border border-gray-300 px-3 py-2">Yes</td>
           <td class="border border-gray-300 px-3 py-2"
@@ -197,7 +194,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr class="bg-gray-50">
           <td class="border border-gray-300 px-3 py-2">Delete</td>
           <td class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+K</code> / <code>Cmd+K</code></td
+            ><Shortcut keys="Ctrl+K" /></td
           >
           <td class="border border-gray-300 px-3 py-2">No</td>
           <td class="border border-gray-300 px-3 py-2"
@@ -207,7 +204,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr>
           <td class="border border-gray-300 px-3 py-2">Trim Audio</td>
           <td class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+T</code> / <code>Cmd+T</code></td
+            ><Shortcut keys="Ctrl+T" /></td
           >
           <td class="border border-gray-300 px-3 py-2">No</td>
           <td class="border border-gray-300 px-3 py-2"
@@ -217,7 +214,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr class="bg-gray-50">
           <td class="border border-gray-300 px-3 py-2">Split</td>
           <td class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+I</code> / <code>Cmd+I</code></td
+            ><Shortcut keys="Ctrl+I" /></td
           >
           <td class="border border-gray-300 px-3 py-2">No</td>
           <td class="border border-gray-300 px-3 py-2"
@@ -227,7 +224,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr>
           <td class="border border-gray-300 px-3 py-2">Split Cut</td>
           <td class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+Alt+X</code></td
+            ><Shortcut keys="Ctrl+Alt+X" /></td
           >
           <td class="border border-gray-300 px-3 py-2">Yes</td>
           <td class="border border-gray-300 px-3 py-2"
@@ -277,8 +274,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Tips for Best Results</h2>
   <ul>
     <li>
-      Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> before cutting to select
-      boundaries at sample-level precision
+      Zoom in with <Shortcut keys="Ctrl+1" /> before cutting to select boundaries
+      at sample-level precision
     </li>
     <li>
       Use <strong>Preferences &rarr; Tracks Behaviors</strong> to enable cut lines
@@ -289,12 +286,11 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       avoid clicks and pops at the edit point
     </li>
     <li>
-      Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately to undo if you cut
-      the wrong section
+      Press <Shortcut keys="Ctrl+Z" /> immediately to undo if you cut the wrong section
     </li>
     <li>
-      Use Split Cut (<code>Ctrl+Alt+X</code>) instead of Cut when you need to
-      keep the timing of later audio intact
+      Use Split Cut (<Shortcut keys="Ctrl+Alt+X" />) instead of Cut when you
+      need to keep the timing of later audio intact
     </li>
     <li>
       Apply a short fade-in or fade-out at the cut edges to smooth abrupt
@@ -305,9 +301,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Frequently Asked Questions</h2>
   <p>
     <strong>What is the keyboard shortcut for Cut in Audacity?</strong><br />
-    Press <code>Ctrl+X</code> on Windows and Linux, or <code>Cmd+X</code> on Mac.
-    You can also use <strong>Edit &rarr; Cut</strong> from the menu bar, or right-click
-    the selection and choose Cut.
+    Press <Shortcut keys="Ctrl+X" /> to cut. You can also use <strong
+      >Edit &rarr; Cut</strong
+    > from the menu bar, or right-click the selection and choose Cut.
   </p>
   <p>
     <strong>What is the difference between Cut and Delete in Audacity?</strong
@@ -333,31 +329,30 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       >Can I paste audio I cut into another track or another Audacity project?</strong
     ><br />
     Yes. After cutting, click the insertion point on any track (even in a different
-    Audacity project window) and press <code>Ctrl+V</code> / <code>Cmd+V</code> to
-    paste. The audio stays on Audacity's clipboard until you cut or copy something
-    else.
+    Audacity project window) and press <Shortcut keys="Ctrl+V" /> to paste. The audio
+    stays on Audacity's clipboard until you cut or copy something else.
   </p>
   <p>
     <strong
       >How do I cut out part of a song without clicks at the edit point?</strong
     ><br />
-    Enable <strong>View &rarr; Zero-Crossings</strong> (or press <code>Z</code>)
-    before cutting. Audacity will snap your selection to the nearest
+    Enable <strong>View &rarr; Zero-Crossings</strong> (or press <Shortcut
+      keys="Z"
+    />) before cutting. Audacity will snap your selection to the nearest
     zero-crossings, which removes the click or pop that often occurs at abrupt
     waveform edges.
   </p>
   <p>
     <strong>Can I undo a cut in Audacity?</strong><br />
-    Yes. Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately after cutting
-    to restore the removed audio. Audacity supports unlimited undo throughout the
-    editing session.
+    Yes. Press <Shortcut keys="Ctrl+Z" /> immediately after cutting to restore the
+    removed audio. Audacity supports unlimited undo throughout the editing session.
   </p>
   <p>
     <strong>How do I cut audio precisely at the exact millisecond?</strong><br
     />
-    Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> until you can see individual
-    samples, then drag your selection. You can also type exact start and end times
-    into the Selection toolbar at the bottom of the window for sample-accurate cuts.
+    Zoom in with <Shortcut keys="Ctrl+1" /> until you can see individual samples,
+    then drag your selection. You can also type exact start and end times into the
+    Selection toolbar at the bottom of the window for sample-accurate cuts.
   </p>
 
   <h2>Download Audacity Free</h2>

@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -75,8 +76,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <p>
     Open your audio file in Audacity. Click and drag your mouse over the audio
     track to select the portion you want to pitch shift. To select the entire
-    track, click the track header or press <code>Ctrl + A</code> (Windows/Linux) or
-    <code>Cmd + A</code> (Mac).
+    track, click the track header or press <Shortcut keys="Ctrl+A" />.
   </p>
 
   <h3>Step 2: Open Change Pitch</h3>

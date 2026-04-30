@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -68,13 +69,12 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
     <ol class="list-decimal space-y-2 pl-5 text-blue-800">
       <li>Import or record the audio you want to play backwards</li>
       <li>
-        Click-and-drag to select the region (or press <code
-          class="rounded bg-blue-100 px-1">Ctrl+A</code
-        > / <code class="rounded bg-blue-100 px-1">Cmd+A</code> for the whole track)
+        Click-and-drag to select the region (or press <Shortcut keys="Ctrl+A" /> for
+        the whole track)
       </li>
       <li>Go to <strong>Effect &rarr; Reverse</strong></li>
       <li>
-        Press <code class="rounded bg-blue-100 px-1">Space</code> to preview, then
+        Press <Shortcut keys="Space" /> to preview, then
         <strong>File &rarr; Export Audio</strong> to save
       </li>
     </ol>
@@ -103,9 +103,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 2: Select the Region You Want to Reverse</h3>
   <p>
     Click and drag across the waveform to select the portion you want to play
-    backwards. To reverse the entire track, press <code>Ctrl+A</code> /
-    <code>Cmd+A</code>. You can also select across multiple tracks to reverse
-    them all in the same time range simultaneously.
+    backwards. To reverse the entire track, press <Shortcut keys="Ctrl+A" />.
+    You can also select across multiple tracks to reverse them all in the same
+    time range simultaneously.
   </p>
 
   <h3>Step 3: Open Effect &rarr; Reverse</h3>
@@ -117,8 +117,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 
   <h3>Step 4: Preview and Export the Reversed Audio</h3>
   <p>
-    Press <code>Space</code> to play back from the selection point and hear the reversed
-    audio. When satisfied, export with <strong
+    Press <Shortcut keys="Space" /> to play back from the selection point and hear
+    the reversed audio. When satisfied, export with <strong
       >File &rarr; Export Audio&hellip;</strong
     > and choose your desired format (MP3, WAV, FLAC, OGG).
   </p>
@@ -244,8 +244,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       hit) so the reversed swell rises straight into the downbeat
     </li>
     <li>
-      Duplicate the track first (<code>Ctrl+D</code> / <code>Cmd+D</code>) so
-      you can A/B the reversed version against the original
+      Duplicate the track first (<Shortcut keys="Ctrl+D" />) so you can A/B the
+      reversed version against the original
     </li>
     <li>
       For reverse reverb: reverse the source, add Reverb, then reverse again —
@@ -277,12 +277,11 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Frequently Asked Questions</h2>
   <p>
     <strong>How do I reverse audio in Audacity?</strong><br />
-    Select the audio you want to play backwards (click-drag, or <code
-      >Ctrl+A</code
-    >
-    / <code>Cmd+A</code> for the whole track) and choose <strong
-      >Effect &rarr; Reverse</strong
-    >. The effect applies instantly. Press <code>Space</code> to preview, then use
+    Select the audio you want to play backwards (click-drag, or <Shortcut
+      keys="Ctrl+A"
+    /> for the whole track) and choose <strong>Effect &rarr; Reverse</strong>.
+    The effect applies instantly. Press <Shortcut keys="Space" /> to preview, then
+    use
     <strong>File &rarr; Export Audio</strong> to save.
   </p>
   <p>

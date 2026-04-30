@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -61,10 +62,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         Click and drag across the waveform to select the part you want to remove
       </li>
       <li>
-        Press <code class="rounded bg-blue-100 px-1">Ctrl+K</code> (Windows/Linux)
-        or <code class="rounded bg-blue-100 px-1">Cmd+K</code> (Mac), or tap the <code
-          class="rounded bg-blue-100 px-1">Delete</code
-        > key
+        Press <Shortcut keys="Ctrl+K" />, or tap the <Shortcut keys="Delete" /> key
       </li>
       <li>
         The selection is removed and the remaining audio shifts left to close
@@ -92,16 +90,16 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 1: Select the Audio You Want Gone</h3>
   <p>
     Click and drag across the waveform to highlight the section to remove. Zoom
-    in with <code>Ctrl+1</code> / <code>Cmd+1</code> for sample-level precision, or
-    type exact start and end times into the Selection Toolbar.
+    in with <Shortcut keys="Ctrl+1" /> for sample-level precision, or type exact start
+    and end times into the Selection Toolbar.
   </p>
 
   <h3>Step 2: Press Ctrl+K or Tap the Delete Key</h3>
   <p>
-    Press <code>Ctrl+K</code> (Windows/Linux) or <code>Cmd+K</code> (Mac), or simply
-    press the <code>Delete</code> key on your keyboard. The command acts immediately
-    with no dialog box. You can also use <strong>Edit &rarr; Delete</strong> from
-    the menu bar.
+    Press <Shortcut keys="Ctrl+K" />, or simply press the <Shortcut
+      keys="Delete"
+    /> key on your keyboard. The command acts immediately with no dialog box. You
+    can also use <strong>Edit &rarr; Delete</strong> from the menu bar.
   </p>
 
   <h3>Step 3: Watch Remaining Audio Shift Left</h3>
@@ -115,23 +113,24 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 4: Save or Keep Editing</h3>
   <p>
     The deleted audio is gone from the timeline (but can still be restored with
-    <code>Ctrl+Z</code> / <code>Cmd+Z</code> during the session). Save your project
-    with <code>Ctrl+S</code> / <code>Cmd+S</code> or continue editing.
+    <Shortcut keys="Ctrl+Z" /> during the session). Save your project with <Shortcut
+      keys="Ctrl+S"
+    /> or continue editing.
   </p>
 
   <h2>Delete Command Behavior Explained</h2>
   <h3>Keyboard Shortcut (Ctrl+K / Cmd+K)</h3>
   <p>
-    The primary shortcut for Delete is <code>Ctrl+K</code> on Windows and Linux, or
-    <code>Cmd+K</code> on Mac. You can also access it through
+    The primary shortcut for Delete is <Shortcut keys="Ctrl+K" />. You can also
+    access it through
     <strong>Edit &rarr; Delete</strong>. The command has no dialog window and
     acts immediately on whatever is currently selected.
   </p>
 
   <h3>The Delete Key (Simple Removal)</h3>
   <p>
-    Pressing the <code>Delete</code> key on your keyboard after selecting audio also
-    removes the selection. It works exactly like <strong
+    Pressing the <Shortcut keys="Delete" /> key on your keyboard after selecting audio
+    also removes the selection. It works exactly like <strong
       >Edit &rarr; Delete</strong
     >: the content disappears and following audio slides left to close the gap.
   </p>
@@ -153,11 +152,10 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 
   <h3>Undo Support</h3>
   <p>
-    Deleted audio is not gone forever inside the session. Press <code
-      >Ctrl+Z</code
-    >
-    / <code>Cmd+Z</code> immediately to restore the selection. Audacity supports unlimited
-    undo throughout your editing session.
+    Deleted audio is not gone forever inside the session. Press <Shortcut
+      keys="Ctrl+Z"
+    /> immediately to restore the selection. Audacity supports unlimited undo throughout
+    your editing session.
   </p>
 
   <h2>Delete vs Cut vs Split Delete vs Silence Audio</h2>
@@ -177,7 +175,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr
           ><td class="border border-gray-300 px-3 py-2 font-medium">Delete</td
           ><td class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+K</code> / <code>Cmd+K</code></td
+            ><Shortcut keys="Ctrl+K" /></td
           ><td class="border border-gray-300 px-3 py-2">No</td><td
             class="border border-gray-300 px-3 py-2"
             >Removes selection and shifts remaining audio left — discards
@@ -187,7 +185,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         <tr class="bg-gray-50"
           ><td class="border border-gray-300 px-3 py-2">Cut</td><td
             class="border border-gray-300 px-3 py-2"
-            ><code>Ctrl+X</code> / <code>Cmd+X</code></td
+            ><Shortcut keys="Ctrl+X" /></td
           ><td class="border border-gray-300 px-3 py-2">Yes</td><td
             class="border border-gray-300 px-3 py-2"
             >Removes selection, shifts audio left, stores content for pasting</td
@@ -195,7 +193,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr
           ><td class="border border-gray-300 px-3 py-2">Split Delete</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+Alt+K</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+Alt+K" /></td
           ><td class="border border-gray-300 px-3 py-2">No</td><td
             class="border border-gray-300 px-3 py-2"
             >Removes selection but leaves a gap — following audio stays in place</td
@@ -203,7 +202,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr class="bg-gray-50"
           ><td class="border border-gray-300 px-3 py-2">Silence Audio</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+L</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+L" /></td
           ><td class="border border-gray-300 px-3 py-2">No</td><td
             class="border border-gray-300 px-3 py-2"
             >Replaces selection with silence — track length stays the same</td
@@ -211,7 +211,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr
           ><td class="border border-gray-300 px-3 py-2">Trim Audio</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+T</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+T" /></td
           ><td class="border border-gray-300 px-3 py-2">No</td><td
             class="border border-gray-300 px-3 py-2"
             >Keeps only the selection and removes everything outside it</td
@@ -255,24 +256,23 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Tips for Best Results</h2>
   <ul>
     <li>
-      Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> before deleting to choose
-      boundaries at sample-level precision
+      Zoom in with <Shortcut keys="Ctrl+1" /> before deleting to choose boundaries
+      at sample-level precision
     </li>
     <li>
-      Enable <strong>View &rarr; Zero-Crossings</strong> (<code>Z</code>) to
-      snap the selection and avoid clicks at the edit point
+      Enable <strong>View &rarr; Zero-Crossings</strong> (<Shortcut keys="Z" />)
+      to snap the selection and avoid clicks at the edit point
     </li>
     <li>
       Use Delete when you do not need the removed audio; keep Cut for content
       you plan to paste
     </li>
     <li>
-      Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> right away if you delete the
-      wrong section
+      Press <Shortcut keys="Ctrl+Z" /> right away if you delete the wrong section
     </li>
     <li>
-      Switch to Split Delete (<code>Ctrl+Alt+K</code>) when you want to remove
-      audio without shifting later clips
+      Switch to Split Delete (<Shortcut keys="Ctrl+Alt+K" />) when you want to
+      remove audio without shifting later clips
     </li>
     <li>
       Apply a short fade-in or fade-out at the join to smooth any abrupt
@@ -283,10 +283,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Frequently Asked Questions</h2>
   <p>
     <strong>What is the keyboard shortcut for Delete in Audacity?</strong><br />
-    Press <code>Ctrl+K</code> on Windows and Linux, or <code>Cmd+K</code> on Mac.
-    The <code>Delete</code> key also works, and you can use <strong
-      >Edit &rarr; Delete</strong
-    > from the menu bar.
+    Press <Shortcut keys="Ctrl+K" /> to delete. The <Shortcut keys="Delete" /> key
+    also works, and you can use <strong>Edit &rarr; Delete</strong> from the menu
+    bar.
   </p>
   <p>
     <strong>What is the difference between Delete and Cut in Audacity?</strong
@@ -300,21 +299,21 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       >How do I delete audio without shifting the rest of the track?</strong
     ><br />
     Use Split Delete from <strong>Edit &rarr; Remove Special</strong>, or press
-    <code>Ctrl+Alt+K</code>. Split Delete removes the selection without moving
-    anything after it.
+    <Shortcut keys="Ctrl+Alt+K" />. Split Delete removes the selection without
+    moving anything after it.
   </p>
   <p>
     <strong>How is Delete different from Silence Audio?</strong><br />
-    Delete removes the selected audio and shortens the track. Silence Audio (<code
-      >Ctrl+L</code
-    >) replaces the selection with silence and keeps the track exactly the same
+    Delete removes the selected audio and shortens the track. Silence Audio (<Shortcut
+      keys="Ctrl+L"
+    />) replaces the selection with silence and keeps the track exactly the same
     length. Use Silence when timing matters; use Delete when you want that
     section gone.
   </p>
   <p>
     <strong>Can I undo a delete in Audacity?</strong><br />
-    Yes. Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately to restore the
-    removed audio. Audacity supports unlimited undo during your editing session.
+    Yes. Press <Shortcut keys="Ctrl+Z" /> immediately to restore the removed audio.
+    Audacity supports unlimited undo during your editing session.
   </p>
   <p>
     <strong>Does Delete affect the audio on my clipboard?</strong><br />

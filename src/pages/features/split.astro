@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -25,8 +26,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
             </h1>
             <p class="text-white text-lg opacity-90">
               Split audio into independent clips at the cursor with
-              <code class="bg-white/20 rounded px-1">Ctrl+I</code>.
-              Non-destructive — no audio removed, just new clip boundaries.
+              <Shortcut keys="Ctrl+I" variant="hero" />. Non-destructive — no
+              audio removed, just new clip boundaries.
             </p>
             <div
               class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
@@ -62,9 +63,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         select a region
       </li>
       <li>
-        Press <code class="rounded bg-blue-100 px-1">Ctrl+I</code> (Windows/Linux)
-        or <code class="rounded bg-blue-100 px-1">Cmd+I</code> (Mac), or go to <strong
-          >Edit &rarr; Audio Clips &rarr; Split</strong>
+        Press <Shortcut keys="Ctrl+I" />, or go to <strong
+          >Edit &rarr; Audio Clips &rarr; Split</strong
+        >
       </li>
       <li>Audacity creates clip boundaries without removing any audio</li>
       <li>
@@ -88,26 +89,26 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 1: Click the Cursor or Make a Selection</h3>
   <p>
     Click the waveform at the exact point you want to divide, or click and drag
-    to select a region. Zoom in with <code>Ctrl+1</code> / <code>Cmd+1</code> for
-    sample-level accuracy, and press <code>Z</code> to snap to zero-crossings to avoid
-    clicks.
+    to select a region. Zoom in with <Shortcut keys="Ctrl+1" /> for sample-level accuracy,
+    and press <Shortcut keys="Z" /> to snap to zero-crossings to avoid clicks.
   </p>
 
   <h3>Step 2: Open Edit &rarr; Audio Clips &rarr; Split</h3>
   <p>
-    Press <code>Ctrl+I</code> (Windows/Linux) or <code>Cmd+I</code> (Mac), or navigate
-    to <strong>Edit &rarr; Audio Clips &rarr; Split</strong>. If you clicked a
-    single point, one boundary is created. If you selected a region, two
-    boundaries are created at the selection edges.
+    Press <Shortcut keys="Ctrl+I" />, or navigate to <strong
+      >Edit &rarr; Audio Clips &rarr; Split</strong
+    >. If you clicked a single point, one boundary is created. If you selected a
+    region, two boundaries are created at the selection edges.
   </p>
 
   <h3>Step 3: Confirm the New Clip Boundaries</h3>
   <p>
     After splitting, you'll see a small gap between the new clips in the
-    waveform. Each clip has its own drag handle at the top. Use <code
-      >Alt+,</code
-    > and
-    <code>Alt+.</code> to jump between clip boundaries and inspect the split points.
+    waveform. Each clip has its own drag handle at the top. Use <Shortcut
+      keys="Alt+,"
+    /> and
+    <Shortcut keys="Alt+." /> to jump between clip boundaries and inspect the split
+    points.
   </p>
 
   <h3>Step 4: Move, Export, or Edit the Clips</h3>
@@ -123,8 +124,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Split (Ctrl+I / Cmd+I)</h3>
   <p>
     The default Split command. Place the cursor where you want to divide and
-    press
-    <code>Ctrl+I</code>. No audio is removed. Also available under
+    press <Shortcut keys="Ctrl+I" />. No audio is removed. Also available under
     <strong>Edit &rarr; Audio Clips &rarr; Split</strong>.
   </p>
 
@@ -178,7 +178,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       <tbody>
         <tr
           ><td class="border border-gray-300 px-3 py-2 font-medium">Split</td
-          ><td class="border border-gray-300 px-3 py-2"><code>Ctrl+I</code></td
+          ><td class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+I" /></td
           ><td class="border border-gray-300 px-3 py-2">No</td><td
             class="border border-gray-300 px-3 py-2"
             >Creates clip boundaries — audio stays in place</td
@@ -194,7 +195,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr
           ><td class="border border-gray-300 px-3 py-2">Split Cut</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+Alt+X</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+Alt+X" /></td
           ><td class="border border-gray-300 px-3 py-2">Yes (to clipboard)</td
           ><td class="border border-gray-300 px-3 py-2"
             >Cuts to clipboard, leaves silence — no ripple shift</td
@@ -202,7 +204,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr class="bg-gray-50"
           ><td class="border border-gray-300 px-3 py-2">Split Delete</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+Alt+K</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+Alt+K" /></td
           ><td class="border border-gray-300 px-3 py-2">Yes</td><td
             class="border border-gray-300 px-3 py-2"
             >Deletes selection, leaves silence — no clipboard, no ripple</td
@@ -210,7 +213,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr
           ><td class="border border-gray-300 px-3 py-2">Cut</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+X</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+X" /></td
           ><td class="border border-gray-300 px-3 py-2">Yes (to clipboard)</td
           ><td class="border border-gray-300 px-3 py-2"
             >Removes selection and shifts remaining audio left</td
@@ -218,7 +222,8 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
         >
         <tr class="bg-gray-50"
           ><td class="border border-gray-300 px-3 py-2">Join</td><td
-            class="border border-gray-300 px-3 py-2"><code>Ctrl+J</code></td
+            class="border border-gray-300 px-3 py-2"
+            ><Shortcut keys="Ctrl+J" /></td
           ><td class="border border-gray-300 px-3 py-2">No</td><td
             class="border border-gray-300 px-3 py-2"
             >Merges adjacent clips back into a single continuous clip</td
@@ -263,24 +268,25 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Tips for Best Results</h2>
   <ul>
     <li>
-      Zoom in with <code>Ctrl+1</code> to place the split point at sample-level accuracy
+      Zoom in with <Shortcut keys="Ctrl+1" /> to place the split point at sample-level
+      accuracy
     </li>
     <li>
-      Press <code>Z</code> to snap to zero-crossings before splitting, to avoid clicks
-      where clips meet
+      Press <Shortcut keys="Z" /> to snap to zero-crossings before splitting, to avoid
+      clicks where clips meet
     </li>
     <li>
-      Use <code>Alt+,</code> and <code>Alt+.</code> to jump between clip boundaries
-      after splitting
+      Use <Shortcut keys="Alt+," /> and <Shortcut keys="Alt+." /> to jump between
+      clip boundaries after splitting
     </li>
     <li>
       Combine Split with Export Multiple and label tracks to batch-export clips
       as separate files
     </li>
     <li>
-      Use <strong>Edit &rarr; Audio Clips &rarr; Join</strong> (<code
-        >Ctrl+J</code
-      >) to undo a split
+      Use <strong>Edit &rarr; Audio Clips &rarr; Join</strong> (<Shortcut
+        keys="Ctrl+J"
+      />) to undo a split
     </li>
     <li>
       For long recordings with natural pauses, try Detach at Silences instead of
@@ -295,8 +301,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h2>Frequently Asked Questions</h2>
   <p>
     <strong>What is the keyboard shortcut for Split in Audacity?</strong><br />
-    Press <code>Ctrl+I</code> on Windows and Linux, or <code>Cmd+I</code> on Mac.
-    You can also reach it from <strong
+    Press <Shortcut keys="Ctrl+I" /> to split. You can also reach it from <strong
       >Edit &rarr; Audio Clips &rarr; Split</strong
     >.
   </p>
@@ -309,29 +314,27 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   </p>
   <p>
     <strong>How do I split a long recording into separate files?</strong><br />
-    Press <code>Ctrl+I</code> at each break point, then use <strong
+    Press <Shortcut keys="Ctrl+I" /> at each break point, then use <strong
       >File &rarr; Export &rarr; Export Multiple</strong
     > to save each clip as its own file.
   </p>
   <p>
     <strong>Can I undo a split in Audacity?</strong><br />
-    Yes. Press <code>Ctrl+Z</code> / <code>Cmd+Z</code> immediately, or select across
-    the clip boundary and choose <strong
-      >Edit &rarr; Audio Clips &rarr; Join</strong
-    >
+    Yes. Press <Shortcut keys="Ctrl+Z" /> immediately, or select across the clip boundary
+    and choose <strong>Edit &rarr; Audio Clips &rarr; Join</strong>
     to merge the clips back.
   </p>
   <p>
     <strong>How do I split audio at silent gaps automatically?</strong><br />
     Select the portion you want to process, then use <strong
       >Edit &rarr; Audio Clips &rarr; Detach at Silences</strong
-    > (<code>Ctrl+Alt+J</code>).
+    > (<Shortcut keys="Ctrl+Alt+J" />).
   </p>
   <p>
     <strong>Why do my split clips sound clicky when I move them?</strong><br />
     Splits at non-zero sample values produce a tiny pop. Enable
-    <strong>View &rarr; Zero-Crossings</strong> (press <code>Z</code>) before
-    splitting so the cursor snaps to the nearest zero-crossing.
+    <strong>View &rarr; Zero-Crossings</strong> (press <Shortcut keys="Z" />)
+    before splitting so the cursor snaps to the nearest zero-crossing.
   </p>
 
   <h2>Download Audacity Free</h2>

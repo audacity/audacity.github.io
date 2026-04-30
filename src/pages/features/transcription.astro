@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -89,8 +90,9 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 2: Import and Select Your Recording</h3>
   <p>
     Open your audio file with <strong>File &rarr; Open</strong>. Click and drag
-    to select the region you want to transcribe, or press <code>Ctrl+A</code> /
-    <code>Cmd+A</code> to select the whole track.
+    to select the region you want to transcribe, or press <Shortcut
+      keys="Ctrl+A"
+    /> to select the whole track.
   </p>
 
   <h3>Step 3: Open Analyze &rarr; OpenVINO Whisper Transcription</h3>

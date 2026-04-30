@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -95,7 +96,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h3>Step 2: Apply Noise Reduction</h3>
   <p>
     Now select the audio you want to clean. To process the entire track, press
-    <code>Ctrl + A</code> (Windows/Linux) or <code>Cmd + A</code> (Mac). Then open
+    <Shortcut keys="Ctrl+A" />. Then open
     <strong>Effect &gt; Noise Reduction</strong> and click <strong>OK</strong> to
     apply reduction using the profile you just captured.
   </p>

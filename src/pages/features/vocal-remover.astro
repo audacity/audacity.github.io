@@ -4,6 +4,7 @@ import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
 ---
 
 <FeaturePageLayout
@@ -117,15 +118,15 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h4>Step 2: Import Your Song</h4>
   <p>
     Open Audacity and go to <strong>File &gt; Import &gt; Audio</strong> (or press
-    <code>Ctrl + Shift + I</code> / <code>Cmd + Shift + I</code> on Mac). Select your
-    audio file and click <strong>Open</strong>. The track will appear as a
-    stereo waveform in the Audacity workspace.
+    <Shortcut keys="Ctrl+Shift+I" />). Select your audio file and click <strong
+      >Open</strong
+    >. The track will appear as a stereo waveform in the Audacity workspace.
   </p>
 
   <h4>Step 3: Apply Music Separation</h4>
   <p>
-    With the track loaded, select all audio (<code>Ctrl + A</code> /
-    <code>Cmd + A</code>). Navigate to <strong
+    With the track loaded, select all audio (<Shortcut keys="Ctrl+A" />).
+    Navigate to <strong
       >Effect &gt; OpenVINO AI Effects &gt; Music Separation</strong
     >. In the dialog, choose your desired separation mode &ndash; <em
       >2-Stem (Vocals + Instrumental)</em
@@ -163,7 +164,7 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
   <h4>Step 2: Select Track</h4>
   <p>
     Click on the track header to select the whole track, or press
-    <code>Ctrl + A</code> / <code>Cmd + A</code> to select everything.
+    <Shortcut keys="Ctrl+A" /> to select everything.
   </p>
 
   <h4>Step 3: Apply Effect</h4>
