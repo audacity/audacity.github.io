@@ -67,6 +67,31 @@ export const bannerPromos: Record<string, PromoData> = {
       link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner",
     },
   },
+  soapVoiceCleanCapture: {
+    type: "banner",
+    isActive: true,
+    startDate: "2026-05-14",
+    endDate: "2026-05-28",
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    message:
+      "SOAP Voice Clean & Capture: Professional voice + AI transcription in 2 simple clicks!",
+    styles: {
+      container: "bg-yellow-300",
+      message: "text-gray-900 font-bold",
+      button:
+        "font-bold border-2 border-gray-900 bg-gray-900 text-white hover:bg-yellow-300 hover:text-gray-900 hover:border-gray-900",
+    },
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "SOAP Voice Clean & Capture MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/bundle/soap-voice-recording-bundle?utm_source=au-web-banner&utm_medium=au-banner",
+    },
+  },
   aceStudio2: {
     type: "banner",
     isActive: false,
