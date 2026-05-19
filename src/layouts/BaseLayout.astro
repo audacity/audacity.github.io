@@ -6,6 +6,7 @@ import CookieConsent from "../components/banner/CookieConsent";
 import PromoBanner from "../components/banner/PromoBanner";
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
+import { experiments } from "../assets/data/experiments";
 
 export interface Props {
   title: string;
@@ -44,6 +45,9 @@ const hasEligibleExitPopup =
     path: currentPath,
   }).length > 0;
 const shouldEnableExitIntentPopup = hasEligibleExitPopup;
+const experimentBootstrapData = experiments.filter(
+  (experiment) => experiment.enabled,
+);
 ---
 
 <!doctype html>
@@ -83,10 +87,9 @@ const shouldEnableExitIntentPopup = hasEligibleExitPopup;
     <meta name="twitter:image" content={ogImage} />
 
     <title>{title}</title>
-    <script is:inline>
-      /* Runs synchronously before paint — sets data-os on <html> so CSS can
-         show the right shortcut variant with no flash. Reads localStorage for
-         manual override; falls back to platform sniffing. */
+    <script define:vars={{ experimentBootstrapData }}>
+      /* Runs synchronously before paint so CSS can show the right OS and
+         experiment variants with no flash. */
       (function () {
         var os;
         try {
@@ -100,9 +103,86 @@ const shouldEnableExitIntentPopup = hasEligibleExitPopup;
                 navigator.userAgent ||
                 ""
               : "";
-          os = /mac|iphone|ipad/i.test(ua) ? "mac" : "win";
+          if (/mac|iphone|ipad/i.test(ua)) {
+            os = "mac";
+          } else if (/linux|ubuntu|debian|red hat|suse/i.test(ua)) {
+            os = "linux";
+          } else {
+            os = "win";
+          }
         }
         document.documentElement.setAttribute("data-os", os);
+
+        var experiments = experimentBootstrapData;
+
+        function getCookieValue(name) {
+          var cookiePrefix = name + "=";
+          var cookies = document.cookie ? document.cookie.split(";") : [];
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.indexOf(cookiePrefix) === 0) {
+              return cookie.slice(cookiePrefix.length);
+            }
+          }
+          return null;
+        }
+
+        function getForcedVariant(experimentName) {
+          var search = new URLSearchParams(window.location.search);
+          var raw = search.get("ab");
+          if (!raw) return null;
+          var segments = raw.split("|");
+          for (var i = 0; i < segments.length; i++) {
+            var pair = segments[i].split(":");
+            if (pair[0] === experimentName && pair[1]) return pair[1];
+          }
+          return null;
+        }
+
+        function hashToSlot(abId, experimentName) {
+          var input = abId + ":" + experimentName;
+          var hash = 5381;
+          for (var i = 0; i < input.length; i++) {
+            hash = ((hash << 5) + hash + input.charCodeAt(i)) | 0;
+          }
+          return Math.abs(hash) % 100;
+        }
+
+        function isValidVariant(experiment, variant) {
+          for (var i = 0; i < experiment.variants.length; i++) {
+            if (experiment.variants[i].name === variant) return true;
+          }
+          return false;
+        }
+
+        var abId = parseInt(getCookieValue("aud_ab_id"), 10);
+        for (var i = 0; i < experiments.length; i++) {
+          var experiment = experiments[i];
+          if (!experiment.enabled) continue;
+
+          var variant = getForcedVariant(experiment.name);
+          if (variant && !isValidVariant(experiment, variant)) {
+            variant = null;
+          }
+          if (!variant && Number.isFinite(abId)) {
+            var slot = hashToSlot(abId, experiment.name);
+            var cumulative = 0;
+            for (var j = 0; j < experiment.variants.length; j++) {
+              cumulative += experiment.variants[j].weight;
+              if (slot < cumulative) {
+                variant = experiment.variants[j].name;
+                break;
+              }
+            }
+          }
+
+          if (variant) {
+            document.documentElement.setAttribute(
+              "data-exp-" + experiment.name,
+              variant,
+            );
+          }
+        }
       })();
     </script>
     <script src="../assets/js/matomoTracking.js"></script>

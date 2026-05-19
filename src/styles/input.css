@@ -88,6 +88,25 @@
     display: none;
   }
 
+  .ab-variant,
+  .os-specific {
+    display: none;
+  }
+
+  html:not([data-exp-musehub-badge]) .ab-musehub-badge-control,
+  html[data-exp-musehub-badge="control"] .ab-musehub-badge-control,
+  html[data-exp-musehub-badge="badge-musehub"] .ab-musehub-badge-musehub,
+  html[data-exp-musehub-badge="badge-download"] .ab-musehub-badge-download {
+    display: contents;
+  }
+
+  html:not([data-os]) .os-win,
+  html[data-os="win"] .os-win,
+  html[data-os="mac"] .os-mac,
+  html[data-os="linux"] .os-linux {
+    display: var(--aud-os-display, inline-flex);
+  }
+
   .skip-to-content {
     position: fixed;
     background-color: rgb(29 78 216);
