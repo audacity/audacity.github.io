@@ -19,8 +19,6 @@ function MuseHubRecommendedSection({ museHubReleaseData, OS }) {
       `Download MuseHub button ${OS}`,
     );
     trackBinaryDownloadChoice({
-      experimentName: "musehub-download",
-      variant,
       os: OS,
       releaseName: museHubReleaseData[0].name,
       url: museHubReleaseData[0].browser_download_url,
