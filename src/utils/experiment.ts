@@ -23,7 +23,20 @@ export function hashToSlot(abId: number, experimentName: string): number {
   return Math.abs(hash) % 100;
 }
 
+export function getForcedVariant(experimentName: string): string | null {
+  if (typeof window === "undefined") return null;
+  const raw = new URLSearchParams(window.location.search).get("ab");
+  if (!raw) return null;
+  for (const segment of raw.split("|")) {
+    const [name, variant] = segment.split(":");
+    if (name === experimentName && variant) return variant;
+  }
+  return null;
+}
+
 export function getVariant(experiment: Experiment, abId: number): string {
+  const forced = getForcedVariant(experiment.name);
+  if (forced !== null) return forced;
   const slot = hashToSlot(abId, experiment.name);
   let cumulative = 0;
   for (const v of experiment.variants) {

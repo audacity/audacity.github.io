@@ -6,14 +6,34 @@ import { useExperiment } from "../../hooks/useExperiment";
 
 function DownloadButton() {
   const [browserOS, setBrowserOS] = useState("");
-  const { variant } = useExperiment("musehub-download");
+  const { variant } = useExperiment("musehub-badge");
 
   useEffect(() => {
     setBrowserOS(platform.os.family);
   }, []);
 
-  if (variant === "direct-download") {
-    return null;
+  const isLinux = ["Linux", "Ubuntu", "Debian", "Red Hat", "SuSE"].includes(
+    browserOS,
+  );
+  const isBadgeVariant =
+    variant === "badge-musehub" || variant === "badge-download";
+
+  if (isBadgeVariant && !isLinux) {
+    return (
+      <a
+        onClick={() =>
+          trackEvent(
+            "Download Button",
+            "Other Versions",
+            `Other versions ${browserOS}`,
+          )
+        }
+        className="text-white font-semibold hover:underline"
+        href="https://www.audacityteam.org/download/"
+      >
+        Other versions
+      </a>
+    );
   }
 
   function handleButtonClick(href) {
