@@ -1,12 +1,24 @@
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { museHubReleases } from "../../assets/data/museHubReleases";
-import { trackEvent } from "../../utils/matomo";
+import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 import badgeBWhite from "../../assets/img/musehub/musehub-badge-b-white.svg";
 import badgeCWhite from "../../assets/img/musehub/musehub-badge-c-white.svg";
 
 function DownloadMuseHubButton() {
-  function handleClick(label, os) {
-    trackEvent("Download Button", label, `${label} ${os}`);
+  function handleClick(link, variant) {
+    const os = link.osLabel;
+    trackEvent(
+      "Download Button",
+      "Download MuseHub",
+      `Download MuseHub button ${os}`,
+    );
+    trackBinaryDownloadChoice({
+      variant,
+      os,
+      releaseName: link.releaseName,
+      url: link.href,
+      source: "primary-musehub-button",
+    });
     setTimeout(() => {
       window.location.href = "/post-download";
     }, 2000);
@@ -17,23 +29,26 @@ function DownloadMuseHubButton() {
       osClass: "os-mac",
       osLabel: "OS X",
       href: museHubReleases.mac[0].browser_download_url,
+      releaseName: museHubReleases.mac[0].name,
     },
     {
       osClass: "os-win",
       osLabel: "Windows",
       href: museHubReleases.win[0].browser_download_url,
+      releaseName: museHubReleases.win[0].name,
     },
     {
       osClass: "os-linux",
       osLabel: "Linux",
       href: audacityReleases.lin[0].browser_download_url,
+      releaseName: audacityReleases.lin[0].name,
     },
   ];
 
-  const renderControlButton = (link, key) => (
+  const renderControlButton = (link, key, variant = "control") => (
     <a
       key={key}
-      onClick={() => handleClick("Download MuseHub", link.osLabel)}
+      onClick={() => handleClick(link, variant)}
       className={`os-specific ${link.osClass} py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit`}
       href={link.href}
     >
@@ -48,15 +63,15 @@ function DownloadMuseHubButton() {
     </a>
   );
 
-  const renderBadgeButton = (link, badge, label, key) => {
+  const renderBadgeButton = (link, badge, variant, key) => {
     if (link.osClass === "os-linux") {
-      return renderControlButton(link, key);
+      return renderControlButton(link, key, variant);
     }
 
     return (
       <a
         key={key}
-        onClick={() => handleClick(label, link.osLabel)}
+        onClick={() => handleClick(link, variant)}
         className={`os-specific ${link.osClass}`}
         href={link.href}
       >
@@ -72,22 +87,12 @@ function DownloadMuseHubButton() {
       </span>
       <span className="ab-variant ab-musehub-badge-musehub">
         {links.map((link) =>
-          renderBadgeButton(
-            link,
-            badgeBWhite,
-            "Download MuseHub badge-B",
-            link.osClass,
-          ),
+          renderBadgeButton(link, badgeBWhite, "badge-musehub", link.osClass),
         )}
       </span>
       <span className="ab-variant ab-musehub-badge-download">
         {links.map((link) =>
-          renderBadgeButton(
-            link,
-            badgeCWhite,
-            "Download MuseHub badge-C",
-            link.osClass,
-          ),
+          renderBadgeButton(link, badgeCWhite, "badge-download", link.osClass),
         )}
       </span>
     </>

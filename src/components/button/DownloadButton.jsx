@@ -1,13 +1,27 @@
 import { audacityReleases } from "../../assets/data/audacityReleases";
-import { trackEvent } from "../../utils/matomo";
+import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
 function DownloadButton() {
-  function handleButtonClick(href, os) {
+  function handleButtonClick(link) {
+    const { href, osLabel, releaseName } = link;
     if (href !== "/download") {
       trackEvent(
         "Download Button",
         "Download Audacity",
-        `Download Audacity button ${os}`,
+        `Download Audacity button ${osLabel}`,
+      );
+      trackBinaryDownloadChoice({
+        variant: "control",
+        os: osLabel,
+        releaseName,
+        url: href,
+        source: "primary-audacity-button",
+      });
+    } else {
+      trackEvent(
+        "Download Button",
+        "Other Versions",
+        `Other versions ${osLabel}`,
       );
     }
 
@@ -21,18 +35,20 @@ function DownloadButton() {
       osClass: "os-mac",
       osLabel: "OS X",
       href: audacityReleases.mac[0].browser_download_url,
+      releaseName: audacityReleases.mac[0].name,
     },
     {
       osClass: "os-win",
       osLabel: "Windows",
       href: audacityReleases.win[0].browser_download_url,
+      releaseName: audacityReleases.win[0].name,
     },
   ];
 
   const renderDownloadLink = (link) => (
     <a
       key={link.osClass}
-      onClick={() => handleButtonClick(link.href, link.osLabel)}
+      onClick={() => handleButtonClick(link)}
       className={`os-specific ${link.osClass} text-white font-semibold hover:underline`}
       href={link.href}
     >
