@@ -1,5 +1,5 @@
 ---
-
+import FeaturedVideo from "../video/FeaturedVideo";
 ---
 
 <div class="my-6 space-y-16">
@@ -21,71 +21,84 @@
         ></circle>
       </svg>
       <p class="text-gray-800">
-        <strong>We're putting the finishing touches on the beta.</strong>
-        Download links for Windows, macOS, and Linux will land right here, very soon.
-        We're really excited about this one, so check back shortly.
+        <strong>We're putting the finishing touches on the beta.</strong><br />
+        Download links for Windows, macOS and Linux will land on this page very soon.
       </p>
     </div>
 
     <img
-      src="/audacity-4-beta-hero.png"
+      src="/audacity-4-beta-hero.webp"
       alt="Audacity 4 beta: multitrack project view"
       class="w-full rounded-lg shadow-md"
     />
 
     <section>
       <p>
-        The purpose of the Audacity 4 beta is to put a near feature-complete
-        build of Audacity 4 in front of testers ahead of our official release.
-        We're doing it to catch bugs, gather feedback, and bring our community
-        into the development of the project that we all know and love.
+        We can't wait to get Audacity 4 into your hands. The beta is
+        feature-complete with Audacity 3, with plenty already reworked and
+        improved. Expect some bugs and quirks along the way, so keep your
+        important projects in Audacity 3 for now.
       </p>
       <p class="mt-3">
-        The beta brings back the plugins, effects, and views that were missing
-        from earlier alphas, alongside new features built specifically for
-        Audacity 4.
+        When the beta lands, we'll point you to the best places to report bugs
+        and share what you think.
       </p>
     </section>
   </div>
 
   <section>
-    <h2 class="text-2xl">Here's what's new</h2>
+    <h2 class="text-2xl">What we've been working on</h2>
     <p class="mt-2">
-      We've been hard at work adding tons of new features since alpha. These are
-      the ones we're most excited about.
+      Here are the latest features that we can't wait for you to try.
     </p>
     <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
-        <div
-          class="aspect-video bg-gray-100 border border-dashed border-gray-300 rounded-md flex items-center justify-center text-sm text-gray-500"
-        >
-          Visual placeholder:envelope editing
-        </div>
+        <img
+          src="/audacity-4-beta-envelope.webp"
+          alt="Envelope editing in Audacity 4 beta"
+          class="aspect-video w-full object-cover rounded-md"
+        />
         <h3 class="mt-3 text-base font-semibold">Envelope editing</h3>
+        <p class="text-gray-700 text-sm mt-1">
+          Draw, drag, and reshape gain envelopes across clips with the
+          redesigned envelope tool.
+        </p>
       </div>
       <div>
-        <div
-          class="aspect-video bg-gray-100 border border-dashed border-gray-300 rounded-md flex items-center justify-center text-sm text-gray-500"
-        >
-          Visual placeholder:label tracks
-        </div>
+        <img
+          src="/audacity-4-beta-labels.webp"
+          alt="Label tracks in Audacity 4 beta"
+          class="aspect-video w-full object-cover rounded-md"
+        />
         <h3 class="mt-3 text-base font-semibold">Label tracks</h3>
+        <p class="text-gray-700 text-sm mt-1">
+          Mark sections, drop chapter points, and keep your project organised as
+          you work.
+        </p>
       </div>
       <div>
-        <div
-          class="aspect-video bg-gray-100 border border-dashed border-gray-300 rounded-md flex items-center justify-center text-sm text-gray-500"
-        >
-          Visual placeholder:spectral editing
-        </div>
+        <img
+          src="/audacity-4-beta-spectrogram.webp"
+          alt="Spectral editing in Audacity 4 beta"
+          class="aspect-video w-full object-cover rounded-md"
+        />
         <h3 class="mt-3 text-base font-semibold">Spectral editing</h3>
+        <p class="text-gray-700 text-sm mt-1">
+          Select frequency regions in the spectrogram and apply effects right
+          where you need them.
+        </p>
       </div>
       <div>
-        <div
-          class="aspect-video bg-gray-100 border border-dashed border-gray-300 rounded-md flex items-center justify-center text-sm text-gray-500"
-        >
-          Visual placeholder:lead-in recording
-        </div>
-        <h3 class="mt-3 text-base font-semibold">Lead-in recording</h3>
+        <img
+          src="/audacity-4-beta-cloud-projects.webp"
+          alt="Cloud projects and audio.com in Audacity 4 beta"
+          class="aspect-video w-full object-cover rounded-md"
+        />
+        <h3 class="mt-3 text-base font-semibold">Cloud projects & audio.com</h3>
+        <p class="text-gray-700 text-sm mt-1">
+          Save projects to the cloud and upload finished audio straight to
+          audio.com.
+        </p>
       </div>
     </div>
 
@@ -97,9 +110,8 @@
             Backwards compatibility
           </h4>
           <p class="text-gray-700 text-sm mt-1">
-            Audacity 3 projects should open in Audacity 4. This is something
-            we'd especially like you to pressure-test. Open real projects of
-            yours and tell us what survives.
+            Audacity 3 projects open in Audacity 4, with your clips, tracks, and
+            labels carried across.
           </p>
         </div>
       </li>
@@ -111,134 +123,76 @@
             Multi-project sessions
           </h4>
           <p class="text-gray-700 text-sm mt-1">
-            Opening multiple projects, switching between them, copying clips
-            across.
+            Open multiple projects, switch between them, and copy clips across.
           </p>
         </div>
       </li>
       <li class="flex items-start gap-4 py-4">
-        <span class="icon icon-medium text-blue-700 icon-cloud-upload shrink-0"
+        <span class="icon icon-medium text-blue-700 icon-note shrink-0"></span>
+        <div>
+          <h4 class="text-base font-semibold text-gray-900">Metadata editor</h4>
+          <p class="text-gray-700 text-sm mt-1">
+            Set track titles, artist, album, and other tags directly inside
+            Audacity, ready for export.
+          </p>
+        </div>
+      </li>
+      <li class="flex items-start gap-4 py-4">
+        <span class="icon icon-medium text-blue-700 icon-mixer shrink-0"></span>
+        <div>
+          <h4 class="text-base font-semibold text-gray-900">Effects</h4>
+          <p class="text-gray-700 text-sm mt-1">
+            Polished effect UIs and quality-of-life improvements.
+          </p>
+        </div>
+      </li>
+      <li class="flex items-start gap-4 py-4">
+        <span class="icon icon-medium text-blue-700 icon-plug shrink-0"></span>
+        <div>
+          <h4 class="text-base font-semibold text-gray-900">Plugin support</h4>
+          <p class="text-gray-700 text-sm mt-1">
+            Nyquist, AudioUnits, and VST3 are supported across all platforms,
+            with LV2 on Linux.
+          </p>
+        </div>
+      </li>
+      <li class="flex items-start gap-4 py-4">
+        <span class="icon icon-medium text-blue-700 icon-microphone shrink-0"
         ></span>
         <div>
           <h4 class="text-base font-semibold text-gray-900">
-            Cloud projects & audio.com
+            Lead-in recording
           </h4>
           <p class="text-gray-700 text-sm mt-1">
-            Save projects to the cloud, pick them up on another machine, and
-            upload finished audio straight to audio.com. Try it end to end and
-            tell us where it creaks.
+            Previously punch and roll. Record over a section without losing what
+            comes after
           </p>
         </div>
-      </li>
-      <li class="flex items-start gap-4 py-4">
-        <span class="icon icon-medium text-blue-700 icon-pen shrink-0"></span>
-        <div>
-          <h4 class="text-base font-semibold text-gray-900">Label editor</h4>
-          <p class="text-gray-700 text-sm mt-1">
-            A new way to edit your labels: open one up, change the text, time,
-            or properties without fiddling on the timeline.
-          </p>
-        </div>
-      </li>
-      <li class="flex items-start gap-4 py-4">
-        <span class="icon icon-medium text-blue-700 icon-file shrink-0"></span>
-        <div>
-          <h4 class="text-base font-semibold text-gray-900">
-            Custom FFmpeg location
-          </h4>
-          <p class="text-gray-700 text-sm mt-1">
-            Point Audacity at an existing FFmpeg install via preferences.
-          </p>
-        </div>
-      </li>
-    </ul>
-
-    <h3 class="mt-10 text-2xl">Plus a truck load of effects</h3>
-    <p class="mt-2">
-      We've been working our way through a long list of effects... here are the
-      latest ones for you to try out:
-    </p>
-    <ul class="list-disc pl-6 mt-6 space-y-1">
-      <li>
-        <strong>Pitch and tempo</strong>:Change pitch, Paulstretch, Sliding
-        stretch
-      </li>
-      <li>
-        <strong>Distortion and modulation</strong>:Vocoder, Tremolo
-      </li>
-      <li>
-        <strong>Spectral tools</strong>:Amplify selection, Delete selection, and
-        center-frequency variants of each
-      </li>
-      <li>
-        <strong>EQ and filters</strong>:High-pass, Low-pass, Notch, and Shelf
-        filters alongside Graphic EQ
-      </li>
-      <li>
-        <strong>Fading</strong>:Adjustable fade, Crossfade clips, Crossfade
-        tracks, Studio fade out
-      </li>
-      <li>
-        <strong>Noise removal and repair</strong>:Clip fix and Noise gate join
-        Click removal, Noise reduction, and Repair
-      </li>
-      <li>
-        <strong>Volume and compression</strong>:Remove DC offset
-      </li>
-      <li>
-        <strong>Delay and reverb</strong>:Delay joins Reverb
-      </li>
-      <li>
-        <strong>Special</strong>:Truncate silence
-      </li>
-      <li>
-        <strong>Legacy</strong>:Legacy limiter, for projects that depended on it
       </li>
     </ul>
   </section>
 
   <section>
-    <h2 class="text-2xl">What's <em>not</em> coming over</h2>
+    <h2 class="text-2xl">Deprecated features</h2>
     <p class="mt-2">
-      A handful of things from Audacity 3 aren't making the jump. The honest
-      reason is time and people. We didn't have enough of either to re-implement
-      every corner of Audacity 3 on the new UI.
-    </p>
-    <ul class="list-disc pl-6 mt-6 space-y-1">
-      <li>
-        <strong>Tempo track</strong>:projects that use one won't work as
-        expected in Audacity 4.
-      </li>
-      <li><strong>LADSPA</strong> plugins</li>
-      <li><strong>LV2</strong> plugins on macOS and Windows</li>
-      <li><strong>CLAP</strong> plugins</li>
-      <li><strong>Vamp analyzers</strong></li>
-    </ul>
-    <p class="mt-3">Nyquist is in, alongside AudioUnits and VST3.</p>
-    <p class="mt-3">
-      That said, Audacity is an open source project after all. If you'd like to
-      help bring any of these back, we've collected some information
-      <a
-        href="https://support.audacityteam.org/community/contributing"
-        class="hyperlink">here</a
-      >.
+      A handful of things from Audacity 3 aren't making the jump. Tempo tracks,
+      LADSPA and Vamp analyzers. No explanation required but more copy needed.
     </p>
   </section>
 
   <section>
     <h2 class="text-2xl">While you wait</h2>
     <p class="mt-2">
-      You can take Audacity 4 Alpha 2 for a spin. It's the closest thing to the
-      beta available today.
+      A behind-the-scenes look at how we're rebuilding Audacity.
     </p>
-    <div class="mt-4">
-      <a
-        href="https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0-alpha-2"
-        class="hyperlink inline-flex items-center gap-1"
-      >
-        Try Audacity 4 Alpha 2
-        <span class="align-middle icon icon-share text-blue-600"></span>
-      </a>
+    <div class="mt-6">
+      <FeaturedVideo
+        client:load
+        placeholderImage="https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg"
+        imageAltText="Video thumbnail: How we're building Audacity 4"
+        videoURL="https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1"
+        matomoEventName="How we're building Audacity 4"
+      />
     </div>
   </section>
 </div>
