@@ -1,5 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import FeaturedVideo from "../video/FeaturedVideo";
+import heroImg from "../../assets/img/beta/audacity-4-beta-hero.webp";
+import envelopeImg from "../../assets/img/beta/audacity-4-beta-envelope.webp";
+import labelsImg from "../../assets/img/beta/audacity-4-beta-labels.webp";
+import spectrogramImg from "../../assets/img/beta/audacity-4-beta-spectrogram.webp";
+import cloudProjectsImg from "../../assets/img/beta/audacity-4-beta-cloud-projects.webp";
 ---
 
 <div class="my-6 space-y-16">
@@ -26,8 +32,8 @@ import FeaturedVideo from "../video/FeaturedVideo";
       </p>
     </div>
 
-    <img
-      src="/audacity-4-beta-hero.webp"
+    <Image
+      src={heroImg}
       alt="Audacity 4 beta: multitrack project view"
       class="w-full rounded-lg shadow-md"
     />
@@ -53,8 +59,8 @@ import FeaturedVideo from "../video/FeaturedVideo";
     </p>
     <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
-        <img
-          src="/audacity-4-beta-envelope.webp"
+        <Image
+          src={envelopeImg}
           alt="Envelope editing in Audacity 4 beta"
           class="aspect-video w-full object-cover rounded-md"
         />
@@ -65,8 +71,8 @@ import FeaturedVideo from "../video/FeaturedVideo";
         </p>
       </div>
       <div>
-        <img
-          src="/audacity-4-beta-labels.webp"
+        <Image
+          src={labelsImg}
           alt="Label tracks in Audacity 4 beta"
           class="aspect-video w-full object-cover rounded-md"
         />
@@ -77,8 +83,8 @@ import FeaturedVideo from "../video/FeaturedVideo";
         </p>
       </div>
       <div>
-        <img
-          src="/audacity-4-beta-spectrogram.webp"
+        <Image
+          src={spectrogramImg}
           alt="Spectral editing in Audacity 4 beta"
           class="aspect-video w-full object-cover rounded-md"
         />
@@ -89,8 +95,8 @@ import FeaturedVideo from "../video/FeaturedVideo";
         </p>
       </div>
       <div>
-        <img
-          src="/audacity-4-beta-cloud-projects.webp"
+        <Image
+          src={cloudProjectsImg}
           alt="Cloud projects and audio.com in Audacity 4 beta"
           class="aspect-video w-full object-cover rounded-md"
         />
