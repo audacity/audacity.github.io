@@ -36,9 +36,6 @@ const windowsDownloads = releaseDownloads?.win ?? [];
 const macDownloads = releaseDownloads?.mac ?? [];
 const linuxDownloads = releaseDownloads?.lin ?? [];
 const isAlphaRelease = activeRelease?.id === "alpha";
-const mainSectionClasses = activeRelease
-  ? "col-start-2 col-span-10 sm:col-start-2 sm:col-span-5"
-  : "col-start-2 col-span-10 sm:col-start-2 sm:col-span-10";
 
 const downloadSections = activeRelease
   ? [
@@ -62,6 +59,12 @@ const downloadSections = activeRelease
       },
     ].filter((section) => section.entries.length > 0)
   : [];
+
+const hasDownloads = downloadSections.length > 0;
+const showDownloadAside = Boolean(activeRelease) && hasDownloads;
+const mainSectionClasses = showDownloadAside
+  ? "col-start-2 col-span-10 sm:col-start-2 sm:col-span-5"
+  : "col-start-2 col-span-10 sm:col-start-3 sm:col-span-8";
 ---
 
 <BaseLayout
@@ -75,7 +78,10 @@ const downloadSections = activeRelease
         {
           activeRelease ? (
             <>
-              <h1>{releaseVersion}</h1>
+              <h1 class="text-4xl lg:text-6xl">{releaseVersion}</h1>
+              {!hasDownloads && (
+                <p class="text-2xl text-gray-600 mt-2">Coming soon</p>
+              )}
               {DetailsComponent && <DetailsComponent />}
               {isAlphaRelease && (
                 <FeaturedVideo
@@ -95,7 +101,8 @@ const downloadSections = activeRelease
                 Pre-release downloads are currently unavailable.
               </h1>
               <p class="mt-4 text-gray-700">
-                Check back soon or download the latest stable version of Audacity.
+                Check back soon or download the latest stable version of
+                Audacity.
               </p>
               <a
                 class="hyperlink inline-flex items-center gap-1 mt-4"
@@ -108,47 +115,61 @@ const downloadSections = activeRelease
           )
         }
       </section>
-      {activeRelease && (
-        <aside
-          class="row-start-2 sm:row-start-1 col-start-2 col-span-10 sm:col-start-8 sm:col-span-4"
-        >
-          <h2 class="text-sm uppercase font-normal">Download links</h2>
-          {
-            downloadSections.length > 0 ? (
-              <div class="flex flex-col gap-6 mt-2">
-                {downloadSections.map((section) => (
-                  <div class="border border-bg-200 rounded-md p-6">
-                    <h3 class="additional-resource-heading">
-                      {section.title}
-                    </h3>
-                    <div class="mt-2">
-                      <SplitDownloadButton
-                        OS={section.os}
-                        kind={releaseVersion}
-                        releaseData={section.entries}
-                        client:load
-                      />
-                    </div>
+      {
+        showDownloadAside && (
+          <aside class="row-start-2 sm:row-start-1 col-start-2 col-span-10 sm:col-start-8 sm:col-span-4">
+            <h2 class="text-sm uppercase font-normal">Download links</h2>
+            <div class="flex flex-col gap-6 mt-2">
+              {downloadSections.map((section) => (
+                <div class="border border-bg-200 rounded-md p-6">
+                  <h3 class="additional-resource-heading">{section.title}</h3>
+                  <div class="mt-2">
+                    <SplitDownloadButton
+                      OS={section.os}
+                      kind={releaseVersion}
+                      releaseData={section.entries}
+                      client:load
+                    />
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div class="mt-4 p-4 border border-gray-200 rounded-md bg-gray-50">
-                <p class="text-sm text-gray-700">
-                  Download packages for this pre-release are not available right now.
-                </p>
-                <a
-                  class="hyperlink text-sm inline-flex items-center gap-1 mt-3"
-                  href="/download"
-                >
-                  Browse stable downloads
-                  <span class="align-middle icon icon-share text-blue-600" />
-                </a>
-              </div>
-            )
-          }
-        </aside>
-      )}
+                </div>
+              ))}
+            </div>
+
+            <section class="mt-10">
+              <h2 class="text-sm uppercase font-normal">
+                Share your experience!
+              </h2>
+              <p class="mt-2 text-sm">
+                If you encounter issues, please reach us at the following
+                channels:
+              </p>
+              <ul class="mt-2 list-none space-y-1 text-sm">
+                <li>
+                  <a
+                    href="https://github.com/audacity/audacity/issues"
+                    class="hyperlink"
+                  >
+                    GitHub issues
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://forum.audacityteam.org/c/au4/64"
+                    class="hyperlink"
+                  >
+                    Audacity forum
+                  </a>
+                </li>
+                <li>
+                  <a href="https://discord.gg/audacity" class="hyperlink">
+                    Audacity Discord
+                  </a>
+                </li>
+              </ul>
+            </section>
+          </aside>
+        )
+      }
     </div>
   </main>
 </BaseLayout>
