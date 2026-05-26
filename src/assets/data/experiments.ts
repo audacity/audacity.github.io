@@ -48,7 +48,7 @@ export const experiments: Experiment[] = [
       { name: "badge-musehub", weight: 33 },
       { name: "badge-download", weight: 33 },
     ],
-    enabled: true,
+    enabled: false,
   },
 ];
 
