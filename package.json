@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "pull-campaigns": "bun run scripts/pull-campaigns.ts",
     "test": "bun test",
     "build": "astro build",
     "preview": "astro preview",
