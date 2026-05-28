@@ -25,47 +25,47 @@
   }
 </style>
 
-<pagefind-config bundle-path="/pagefind/">
-  <pagefind-modal-trigger>
-    <button
-      type="button"
-      class="w-full flex items-center gap-2 border border-gray-300 rounded-md bg-white px-3 py-2 text-sm text-gray-500 hover:border-blue-700 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
-    >
-      <svg
-        class="w-4 h-4 shrink-0"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <span class="flex-1 text-left">Search the manual…</span>
-      <kbd
-        class="hidden sm:inline-block text-[10px] font-mono border border-gray-300 rounded px-1 py-0.5 text-gray-500"
-      >
-        /
-      </kbd>
-    </button>
-  </pagefind-modal-trigger>
+<pagefind-config bundle-path="/pagefind/"></pagefind-config>
 
-  <pagefind-modal>
-    <pagefind-modal-header>
-      <pagefind-input></pagefind-input>
-      <pagefind-summary></pagefind-summary>
-    </pagefind-modal-header>
-    <pagefind-modal-body>
-      <pagefind-results></pagefind-results>
-    </pagefind-modal-body>
-    <pagefind-modal-footer>
-      <pagefind-keyboard-hints></pagefind-keyboard-hints>
-    </pagefind-modal-footer>
-  </pagefind-modal>
-</pagefind-config>
+<pagefind-modal-trigger>
+  <button
+    type="button"
+    class="w-full flex items-center gap-2 border border-gray-300 rounded-md bg-white px-3 py-2 text-sm text-gray-500 hover:border-blue-700 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+  >
+    <svg
+      class="w-4 h-4 shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <span class="flex-1 text-left">Search the manual…</span>
+    <kbd
+      class="hidden sm:inline-block text-[10px] font-mono border border-gray-300 rounded px-1 py-0.5 text-gray-500"
+    >
+      /
+    </kbd>
+  </button>
+</pagefind-modal-trigger>
+
+<pagefind-modal>
+  <pagefind-modal-header>
+    <pagefind-input></pagefind-input>
+    <pagefind-summary></pagefind-summary>
+  </pagefind-modal-header>
+  <pagefind-modal-body>
+    <pagefind-results></pagefind-results>
+  </pagefind-modal-body>
+  <pagefind-modal-footer>
+    <pagefind-keyboard-hints></pagefind-keyboard-hints>
+  </pagefind-modal-footer>
+</pagefind-modal>
 
 <script is:inline>
   // "/" opens the modal from anywhere on the manual.
