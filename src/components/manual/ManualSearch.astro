@@ -9,8 +9,10 @@
 <div id="manual-search" class="manual-search-wrapper"></div>
 
 <style is:global>
-  /* Polish on top of the default UI: shave the chrome, fit it into the
-     sidebar, and align typography with the rest of the site. */
+  /* The wrapper is the positioning context for the floating results panel. */
+  .manual-search-wrapper {
+    position: relative;
+  }
   .manual-search-wrapper .pagefind-ui__form {
     position: relative;
   }
@@ -30,8 +32,32 @@
   .manual-search-wrapper .pagefind-ui__search-clear {
     right: 0.5rem;
   }
-  .manual-search-wrapper .pagefind-ui__results-area {
-    margin-top: 0.75rem;
+
+  /* Float the results panel over the page content rather than pushing it
+     down. Sit just below the input, take a comfortable width, scroll if
+     the result list grows. */
+  .manual-search-wrapper .pagefind-ui__drawer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 0.375rem);
+    z-index: 40;
+    min-width: 22rem;
+    max-width: 32rem;
+    max-height: min(70vh, 32rem);
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem;
+  }
+  /* Hide the drawer entirely when there's nothing to show (no query) so it
+     doesn't render an empty floating box. */
+  .manual-search-wrapper .pagefind-ui__drawer.pagefind-ui__hidden {
+    display: none;
   }
   .manual-search-wrapper .pagefind-ui__result-title a {
     color: rgb(29 78 216);
