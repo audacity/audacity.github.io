@@ -1,5 +1,23 @@
 import { useState } from "react";
 
+/**
+ * @typedef {Object} Hotspot
+ * @property {number} n - Display number.
+ * @property {string} label - Human-readable name.
+ * @property {number} x - Left position as a percentage (0-100).
+ * @property {number} y - Top position as a percentage (0-100).
+ * @property {number} w - Width as a percentage (0-100).
+ * @property {number} h - Height as a percentage (0-100).
+ * @property {string} href - Destination URL when clicked.
+ */
+
+/**
+ * @param {{
+ *   src: string | { src: string },
+ *   alt: string,
+ *   hotspots?: Hotspot[]
+ * }} props
+ */
 export default function UIMap({ src, alt, hotspots = [] }) {
   const [activeId, setActiveId] = useState(null);
 
