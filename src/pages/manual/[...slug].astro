@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("manual", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout
+  title={`Audacity ® Manual | ${entry.data.title}`}
+  description={entry.data.description ?? entry.data.title}
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 pb-32">
+      <aside
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
+      >
+        <ManualSidebar currentSlug={entry.slug} />
+      </aside>
+      <article
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 prose prose-blue"
+        data-pagefind-body
+      >
+        <h1>{entry.data.title}</h1>
+        {
+          entry.data.description && (
+            <p class="lead text-lg text-gray-600">{entry.data.description}</p>
+          )
+        }
+        <Content />
+      </article>
+    </div>
+  </main>
+</BaseLayout>

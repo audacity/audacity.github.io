@@ -1,0 +1,57 @@
+---
+title: Guide to the Audacity Project Window
+description: Annotated map of the Audacity 4 project window — pressure-test for the UIMap component.
+section: Demos
+sectionOrder: 99
+order: 2
+---
+
+import UIMap from "../../../components/manual/UIMap.jsx";
+import projectWindow from "../../../assets/img/beta/audacity-4-beta-hero.webp";
+
+Hover or focus a number above the image — or a hotspot on the image itself — to see them light up together. Click to jump to the relevant manual page.
+
+<UIMap
+  client:load
+  src={projectWindow}
+  alt="Guide to the Audacity 4 Project Window"
+  hotspots={[
+    { n: 1, label: "Track header", x: 0.5, y: 6, w: 14, h: 26, href: "/manual/interface/track-header" },
+    { n: 2, label: "Audio track", x: 14.5, y: 6, w: 84, h: 22, href: "/manual/interface/audio-track" },
+    { n: 3, label: "Track meters", x: 0.5, y: 24, w: 14, h: 10, href: "/manual/interface/meters" },
+    { n: 4, label: "Clip strip", x: 14.5, y: 6, w: 84, h: 5, href: "/manual/interface/clip-strip" },
+    { n: 5, label: "Brass track", x: 0.5, y: 32, w: 14, h: 24, href: "/manual/interface/brass-track" },
+    { n: 6, label: "Synth track", x: 0.5, y: 56, w: 14, h: 22, href: "/manual/interface/synth-track" },
+    { n: 7, label: "Bass track", x: 0.5, y: 78, w: 14, h: 20, href: "/manual/interface/bass-track" },
+    { n: 8, label: "Timeline ruler", x: 14.5, y: 0, w: 84, h: 6, href: "/manual/interface/timeline" }
+  ]}
+/>
+
+## How this works
+
+The component takes a list of hotspots, each with:
+
+- **`n`** — the number shown on the image and in the legend.
+- **`label`** — the human-readable name.
+- **`x`, `y`, `w`, `h`** — position and size as percentages of the image. Stays correct at every screen size.
+- **`href`** — where the hotspot links to.
+
+Coordinates are decoupled from the image dimensions, so you can swap in a higher-resolution screenshot later without re-mapping every hotspot.
+
+## What this unlocks
+
+Every screen of Audacity 4 can get its own annotated map page:
+
+- **Project Window** (this page)
+- **Preferences dialog**
+- **Effect rack**
+- **Workspaces switcher**
+- **Audio Setup toolbar**
+
+The same component handles all of them. New page = new MDX file + new hotspot list.
+
+## Open questions
+
+- **Authoring hotspots** — right now coordinates are written by hand. Worth building a quick "pick hotspots on an image" tool? Or is hand-tuned fine for the volume we expect?
+- **Mobile** — the legend collapses to two columns on small screens. The image is still scrollable but small. Worth a different layout below a breakpoint?
+- **Linking back from manual pages** — every linked page could carry "shown on the Project Window map" as a back-reference. Worth a frontmatter field for that?

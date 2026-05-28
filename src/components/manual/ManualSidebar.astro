@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+
+const allEntries = await getCollection("manual", ({ data }) => !data.draft);
+
+const grouped = new Map<
+  string,
+  { sectionOrder: number; entries: typeof allEntries }
+>();
+
+for (const entry of allEntries) {
+  const existing = grouped.get(entry.data.section);
+  if (existing) {
+    existing.entries.push(entry);
+  } else {
+    grouped.set(entry.data.section, {
+      sectionOrder: entry.data.sectionOrder,
+      entries: [entry],
+    });
+  }
+}
+
+const sections = Array.from(grouped.entries())
+  .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
+  .map(([name, { entries }]) => ({
+    name,
+    entries: entries.sort((a, b) => a.data.order - b.data.order),
+  }));
+---
+
+<nav aria-label="Manual" class="text-sm">
+  {
+    sections.map((section) => (
+      <div class="mb-6">
+        <h3 class="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-2">
+          {section.name}
+        </h3>
+        <ul class="space-y-1">
+          {section.entries.map((entry) => {
+            const isActive = entry.slug === currentSlug;
+            return (
+              <li>
+                <a
+                  href={`/manual/${entry.slug}`}
+                  class:list={[
+                    "block py-1",
+                    isActive
+                      ? "text-blue-700 font-semibold"
+                      : "text-gray-700 hover:text-blue-700",
+                  ]}
+                >
+                  {entry.data.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))
+  }
+</nav>

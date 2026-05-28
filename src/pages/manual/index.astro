@@ -1,0 +1,127 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import ManualSearch from "../../components/manual/ManualSearch.astro";
+import UIMap from "../../components/manual/UIMap.jsx";
+import projectWindow from "../../assets/img/beta/audacity-4-beta-hero.webp";
+
+const projectHotspots = [
+  {
+    n: 1,
+    label: "Track header",
+    x: 0.5,
+    y: 6,
+    w: 14,
+    h: 26,
+    href: "/manual/interface/track-header",
+  },
+  {
+    n: 2,
+    label: "Audio track",
+    x: 14.5,
+    y: 6,
+    w: 84,
+    h: 22,
+    href: "/manual/interface/audio-track",
+  },
+  {
+    n: 3,
+    label: "Track meters",
+    x: 0.5,
+    y: 24,
+    w: 14,
+    h: 10,
+    href: "/manual/interface/meters",
+  },
+  {
+    n: 4,
+    label: "Clip strip",
+    x: 14.5,
+    y: 6,
+    w: 84,
+    h: 5,
+    href: "/manual/interface/clip-strip",
+  },
+  {
+    n: 5,
+    label: "Brass track",
+    x: 0.5,
+    y: 32,
+    w: 14,
+    h: 24,
+    href: "/manual/interface/brass-track",
+  },
+  {
+    n: 6,
+    label: "Synth track",
+    x: 0.5,
+    y: 56,
+    w: 14,
+    h: 22,
+    href: "/manual/interface/synth-track",
+  },
+  {
+    n: 7,
+    label: "Bass track",
+    x: 0.5,
+    y: 78,
+    w: 14,
+    h: 20,
+    href: "/manual/interface/bass-track",
+  },
+  {
+    n: 8,
+    label: "Timeline ruler",
+    x: 14.5,
+    y: 0,
+    w: 84,
+    h: 6,
+    href: "/manual/interface/timeline",
+  },
+];
+---
+
+<BaseLayout
+  title="Audacity ® Manual"
+  description="The official guide to Audacity 4. Search by keyword or click the UI to find what you need."
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 pb-32">
+      <aside
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
+      >
+        <ManualSidebar currentSlug="" />
+      </aside>
+
+      <article class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6">
+        <header class="mb-8">
+          <h1 class="text-4xl lg:text-5xl">Audacity Manual</h1>
+          <p class="text-lg text-gray-600 mt-2">
+            Search by keyword, or click anywhere on the project window to jump
+            to that part of the interface.
+          </p>
+        </header>
+
+        <section aria-labelledby="search-heading" class="mb-12">
+          <h2 id="search-heading" class="sr-only">Search the manual</h2>
+          <ManualSearch />
+        </section>
+
+        <section aria-labelledby="map-heading">
+          <h2 id="map-heading" class="text-2xl">Find it on the screen</h2>
+          <p class="mt-2 text-gray-700">
+            Hover or focus a number, then click to read about that part of the
+            Audacity 4 project window.
+          </p>
+          <UIMap
+            client:load
+            src={projectWindow}
+            alt="Audacity 4 project window map"
+            hotspots={projectHotspots}
+          />
+        </section>
+      </article>
+    </div>
+  </main>
+</BaseLayout>
