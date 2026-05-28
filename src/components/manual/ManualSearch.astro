@@ -33,50 +33,45 @@ const { manualOnly = true } = Astro.props;
 </div>
 
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
 
 <script is:inline define:vars={{ manualOnly }}>
   (function () {
-    var mount = document.getElementById("manual-search");
-    var fallback = document.getElementById("manual-search-fallback");
-    if (!mount) return;
+    function start() {
+      var mount = document.getElementById("manual-search");
+      var fallback = document.getElementById("manual-search-fallback");
+      if (!mount) return;
 
-    function init() {
-      if (typeof window.PagefindUI !== "function") return;
+      if (typeof window.PagefindUI !== "function") {
+        if (fallback) {
+          fallback.innerHTML =
+            '<div class="flex items-center gap-2"><span>Search is built into the production deploy. Run <code class="px-1.5 py-0.5 bg-gray-100 rounded text-xs">npm run build && npm run preview</code> to try it locally.</span></div>';
+        }
+        return;
+      }
+
       try {
-        new window.PagefindUI(
-          Object.assign(
-            {
-              element: "#manual-search",
-              showSubResults: true,
-              showImages: false,
-              excerptLength: 20,
-              resetStyles: false,
-            },
-            manualOnly ? { baseUrl: "/manual" } : {},
-          ),
-        );
+        new window.PagefindUI({
+          element: "#manual-search",
+          showSubResults: true,
+          showImages: false,
+          excerptLength: 20,
+          resetStyles: false,
+        });
         if (fallback) fallback.remove();
       } catch (err) {
-        showDevFallback();
+        console.error("[ManualSearch] PagefindUI failed to initialize:", err);
+        if (fallback) {
+          fallback.innerHTML =
+            '<div class="text-red-600">Search failed to initialize. See browser console.</div>';
+        }
       }
     }
 
-    function showDevFallback() {
-      if (!fallback) return;
-      fallback.innerHTML =
-        '<div class="flex items-center gap-2">' +
-        '<svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-        '<circle cx="11" cy="11" r="8"></circle>' +
-        '<line x1="21" y1="21" x2="16.65" y2="16.65"></line>' +
-        "</svg>" +
-        '<span>Search is built into the production deploy. In dev, run <code class="px-1.5 py-0.5 bg-gray-100 rounded text-xs">npm run build && npm run preview</code> to try it locally.</span>' +
-        "</div>";
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", start);
+    } else {
+      start();
     }
-
-    var s = document.createElement("script");
-    s.src = "/pagefind/pagefind-ui.js";
-    s.onload = init;
-    s.onerror = showDevFallback;
-    document.head.appendChild(s);
   })();
 </script>
