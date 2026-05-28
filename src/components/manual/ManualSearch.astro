@@ -1,11 +1,29 @@
 ---
-// Pagefind Component UI — uses custom elements that compose into a modal-style
-// search experience. Loads the bundle from /pagefind/ which is generated at
-// build time by `pagefind --site dist`.
+// Pagefind Component UI — composes <pagefind-*> custom elements. Bundle is
+// generated at build time by `pagefind --site dist`.
 ---
 
 <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
 <script is:inline src="/pagefind/pagefind-component-ui.js"></script>
+
+<!-- Inline display fallbacks so the elements render even before the Pagefind
+     CSS hydrates (e.g. if it's still loading or 404s during initial dev). -->
+<style is:global>
+  pagefind-config,
+  pagefind-searchbox,
+  pagefind-input,
+  pagefind-summary,
+  pagefind-results,
+  pagefind-keyboard-hints {
+    display: block;
+  }
+  pagefind-modal-trigger {
+    display: block;
+  }
+  pagefind-modal:not([open]) {
+    display: none;
+  }
+</style>
 
 <pagefind-config bundle-path="/pagefind/">
   <pagefind-modal-trigger>
@@ -50,7 +68,7 @@
 </pagefind-config>
 
 <script is:inline>
-  // Open search with "/" anywhere on the manual.
+  // "/" opens the modal from anywhere on the manual.
   document.addEventListener("keydown", (e) => {
     if (
       e.key === "/" &&
