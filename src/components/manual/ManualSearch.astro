@@ -1,86 +1,69 @@
 ---
-// Pagefind Component UI — composes <pagefind-*> custom elements. Bundle is
+// Pagefind Default UI — single input with dropdown results. Bundle is
 // generated at build time by `pagefind --site dist`.
 ---
 
-<link rel="stylesheet" href="/pagefind/pagefind-component-ui.css" />
-<script is:inline src="/pagefind/pagefind-component-ui.js"></script>
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
 
-<!-- Inline display fallbacks so the elements render even before the Pagefind
-     CSS hydrates (e.g. if it's still loading or 404s during initial dev). -->
+<div id="manual-search" class="manual-search-wrapper"></div>
+
 <style is:global>
-  pagefind-config,
-  pagefind-searchbox,
-  pagefind-input,
-  pagefind-summary,
-  pagefind-results,
-  pagefind-keyboard-hints {
-    display: block;
+  /* Polish on top of the default UI: shave the chrome, fit it into the
+     sidebar, and align typography with the rest of the site. */
+  .manual-search-wrapper .pagefind-ui__form {
+    position: relative;
   }
-  pagefind-modal-trigger {
-    display: block;
+  .manual-search-wrapper .pagefind-ui__search-input {
+    background-color: white;
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+    font-size: 0.875rem;
+    width: 100%;
   }
-  pagefind-modal:not([open]) {
-    display: none;
+  .manual-search-wrapper .pagefind-ui__search-input:focus {
+    outline: none;
+    border-color: rgb(29 78 216);
+    box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2);
+  }
+  .manual-search-wrapper .pagefind-ui__search-clear {
+    right: 0.5rem;
+  }
+  .manual-search-wrapper .pagefind-ui__results-area {
+    margin-top: 0.75rem;
+  }
+  .manual-search-wrapper .pagefind-ui__result-title a {
+    color: rgb(29 78 216);
   }
 </style>
 
-<pagefind-config bundle-path="/pagefind/"></pagefind-config>
-
-<pagefind-modal-trigger>
-  <button
-    type="button"
-    class="w-full flex items-center gap-2 border border-gray-300 rounded-md bg-white px-3 py-2 text-sm text-gray-500 hover:border-blue-700 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
-  >
-    <svg
-      class="w-4 h-4 shrink-0"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="8"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
-    <span class="flex-1 text-left">Search the manual…</span>
-    <kbd
-      class="hidden sm:inline-block text-[10px] font-mono border border-gray-300 rounded px-1 py-0.5 text-gray-500"
-    >
-      /
-    </kbd>
-  </button>
-</pagefind-modal-trigger>
-
-<pagefind-modal>
-  <pagefind-modal-header>
-    <pagefind-input></pagefind-input>
-    <pagefind-summary></pagefind-summary>
-  </pagefind-modal-header>
-  <pagefind-modal-body>
-    <pagefind-results></pagefind-results>
-  </pagefind-modal-body>
-  <pagefind-modal-footer>
-    <pagefind-keyboard-hints></pagefind-keyboard-hints>
-  </pagefind-modal-footer>
-</pagefind-modal>
-
 <script is:inline>
-  // "/" opens the modal from anywhere on the manual.
-  document.addEventListener("keydown", (e) => {
-    if (
-      e.key === "/" &&
-      !e.metaKey &&
-      !e.ctrlKey &&
-      !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName ?? "")
-    ) {
-      const trigger = document.querySelector("pagefind-modal-trigger button");
-      if (trigger) {
-        e.preventDefault();
-        trigger.click();
+  (function () {
+    function init() {
+      var mount = document.getElementById("manual-search");
+      if (!mount) return;
+      if (typeof window.PagefindUI !== "function") return;
+      try {
+        new window.PagefindUI({
+          element: "#manual-search",
+          showSubResults: true,
+          showImages: false,
+          excerptLength: 20,
+          resetStyles: false,
+          placeholder: "Search the manual…",
+        });
+      } catch (err) {
+        console.error("[ManualSearch] PagefindUI failed to initialize:", err);
+        mount.innerHTML =
+          '<div class="text-sm text-red-600">Search failed to load. See browser console.</div>';
       }
     }
-  });
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
 </script>
