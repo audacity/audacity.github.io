@@ -13,8 +13,9 @@ playwright/.cache/
 # misc local files
 local/
 
-# skills
+# skills (internal workflows — keep off public repo)
 .github/skills/
+.agents/
 
 # generated types
 .astro/
