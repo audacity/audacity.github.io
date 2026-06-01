@@ -1,5 +1,5 @@
 import React from "react";
-import { trackEvent } from "../../utils/matomo";
+import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
 function DownloadCard(props) {
   const { OS, title, downloadURL, downloadType, checksum } = props;
@@ -10,6 +10,12 @@ function DownloadCard(props) {
       "Download Audacity",
       `${OS + " " + title + " " + downloadType}`,
     );
+    trackBinaryDownloadChoice({
+      os: OS,
+      releaseName: title,
+      url: downloadURL,
+      source: "download-page-card",
+    });
 
     setTimeout(() => {
       window.location.href = "/post-download";
@@ -20,17 +26,25 @@ function DownloadCard(props) {
     <div className="border border-bg-200 rounded-md p-6">
       <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
         <h2 className="text-xl font-semibold">{title}</h2>
-        {title.includes('ARM64') && <p>No plugin support. <a href="#arm" className="hyperlink">More info</a></p>}
+        {title.includes("ARM64") && (
+          <p>
+            No plugin support.{" "}
+            <a href="#arm" className="hyperlink">
+              More info
+            </a>
+          </p>
+        )}
         <a
           onClick={() => {
             handleDownloadButtonClick();
           }}
           href={downloadURL}
           className={
-            title.includes('BETA')
+            title.includes("BETA")
               ? "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-yellow-500 hover:bg-yellow-300 text-base text-black rounded"
               : "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
-          }>
+          }
+        >
           Download
         </a>
       </div>

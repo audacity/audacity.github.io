@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "test": "bun test",
+    "pull-campaigns": "bun run scripts/pull-campaigns.ts",
+    "test": "bun test src scripts",
+    "test:e2e": "playwright test",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
@@ -16,14 +18,15 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
     "@astrojs/react": "^4.4.2",
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/sitemap": "^3.7.3",
     "@astrojs/tailwind": "^6.0.2",
+    "@dilsonspickles/components": "0.2.0",
     "@fontsource-variable/signika": "^5.2.8",
     "@fontsource/twinkle-star": "^5.2.8",
-    "@types/react": "^18.3.28",
+    "@types/react": "^18.3.29",
     "@types/react-dom": "^18.3.7",
-    "astro": "^5.17.2",
-    "astro-compressor": "^1.2.0",
+    "astro": "^5.18.2",
+    "astro-compressor": "^1.3.0",
     "astro-icon": "^1.1.5",
     "astro-lazy-youtube-embed": "^0.5.5",
     "astro-microsoft-clarity-integration": "^1.1.7",
@@ -34,21 +37,37 @@
     "tailwindcss": "^3.4.19"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.9",
     "@iconify-json/fa6-brands": "^1.2.6",
     "@pagefind/default-ui": "^1.5.2",
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/typography": "^0.5.19",
-    "@types/bun": "^1.3.9",
+    "@types/bun": "^1.3.14",
     "@types/platform": "^1.3.6",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.10",
+    "lint-staged": "^15.5.2",
     "pagefind": "^1.5.2",
-    "postcss-nesting": "13",
-    "prettier": "^3.8.1",
+    "postcss-nesting": "^13.0.2",
+    "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
     "*.{astro,cjs,css,js,json,jsx,md,mjs,ts,tsx,yaml,yml}": "prettier --write"
+  },
+  "overrides": {
+    "defu": "^6.1.7",
+    "devalue": "^5.6.4",
+    "fast-uri": "^3.1.2",
+    "h3": "^1.15.9",
+    "mdast-util-to-hast": "^13.2.1",
+    "postcss": "^8.5.10",
+    "rollup": "^4.59.0",
+    "smol-toml": "^1.6.1",
+    "svgo": "^4.0.1",
+    "tar": "^7.5.11",
+    "undici": "^7.24.0",
+    "vite": "^6.4.2",
+    "yaml": "^2.8.3"
   }
 }

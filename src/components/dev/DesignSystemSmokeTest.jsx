@@ -7,13 +7,13 @@ import {
 } from "@dilsonspickles/components";
 
 /**
- * Recreation of the Audacity 4 toolbar for the manual hub. Composed as a
- * single React tree so Astro ships one hydration island for the whole row.
+ * Smoke test for @dilsonspickles/components 0.2.0 onwards — verifying that
+ * the components render standalone without ThemeProvider or
+ * AccessibilityProfileProvider wrappers.
  */
-export default function ManualToolbarDemo() {
+export default function DesignSystemSmokeTest() {
   return (
     <Toolbar>
-      {/* Transport */}
       <ToolbarButtonGroup>
         <TransportButton icon="play" ariaLabel="Play" />
         <TransportButton icon="stop" ariaLabel="Stop" />
@@ -22,40 +22,17 @@ export default function ManualToolbarDemo() {
         <TransportButton icon="skip-forward" ariaLabel="Skip to end" />
         <TransportButton icon="loop" ariaLabel="Loop" />
       </ToolbarButtonGroup>
-
       <ToolbarDivider />
-
-      {/* Selection / tool tools */}
-      <ToolbarButtonGroup>
-        <ToolButton icon="automation" ariaLabel="Automation" />
-      </ToolbarButtonGroup>
-
-      <ToolbarDivider />
-
-      {/* Zoom */}
       <ToolbarButtonGroup>
         <ToolButton icon="zoom-in" ariaLabel="Zoom in" />
         <ToolButton icon="zoom-out" ariaLabel="Zoom out" />
-        <ToolButton icon="zoom-to-selection" ariaLabel="Zoom to selection" />
         <ToolButton icon="zoom-to-fit" ariaLabel="Zoom to fit" />
-        <ToolButton icon="zoom-toggle" ariaLabel="Zoom toggle" />
       </ToolbarButtonGroup>
-
       <ToolbarDivider />
-
-      {/* Edit */}
       <ToolbarButtonGroup>
         <ToolButton icon="cut" ariaLabel="Cut" />
         <ToolButton icon="copy" ariaLabel="Copy" />
         <ToolButton icon="paste" ariaLabel="Paste" />
-      </ToolbarButtonGroup>
-
-      <ToolbarDivider />
-
-      {/* Trim */}
-      <ToolbarButtonGroup>
-        <ToolButton icon="trim" ariaLabel="Trim" />
-        <ToolButton icon="silence" ariaLabel="Silence" />
       </ToolbarButtonGroup>
     </Toolbar>
   );

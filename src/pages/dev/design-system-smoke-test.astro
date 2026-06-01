@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DesignSystemSmokeTest from "../../components/dev/DesignSystemSmokeTest.jsx";
+import "@dilsonspickles/components/style.css";
+---
+
+<BaseLayout
+  title="Design system smoke test"
+  description="Verifying @dilsonspickles/components consumption."
+  index="none"
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto px-6 py-12 space-y-8">
+    <header>
+      <h1 class="text-3xl font-semibold">Design system smoke test</h1>
+      <p class="mt-2 text-gray-600">
+        Renders <code>Toolbar</code>, <code>TransportButton</code>, and
+        <code>ToolButton</code> from <code>@dilsonspickles/components</code> to confirm
+        the package installs and consumes correctly. Delete this route once the swap
+        is complete.
+      </p>
+    </header>
+
+    <section>
+      <h2 class="text-xl font-semibold mb-3">Toolbar</h2>
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <DesignSystemSmokeTest client:load />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

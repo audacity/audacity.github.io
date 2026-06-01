@@ -8,9 +8,8 @@ import type {
 } from "./promos/types";
 
 import { getFilteredPromos, isPromoDateActive } from "./promos/types";
-import { bannerPromos } from "./promos/banners";
-import { videoPromos } from "./promos/videos";
-import { popupPromos } from "./promos/popups";
+import { firstPartyPromos } from "./promos/firstParty";
+import { campaignBannerPromos, campaignVideoPromos } from "./promos/campaigns";
 
 export type {
   PromoType,
@@ -24,9 +23,9 @@ export type {
 export { getFilteredPromos, isPromoDateActive };
 
 const promoData: Record<string, PromoData> = {
-  ...bannerPromos,
-  ...videoPromos,
-  ...popupPromos,
+  ...firstPartyPromos,
+  ...campaignBannerPromos,
+  ...campaignVideoPromos,
 };
 
 export default promoData;

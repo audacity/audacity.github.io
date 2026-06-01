@@ -41,6 +41,15 @@ export const experiments: Experiment[] = [
     ],
     enabled: false,
   },
+  {
+    name: "musehub-badge",
+    variants: [
+      { name: "control", weight: 34 },
+      { name: "badge-musehub", weight: 33 },
+      { name: "badge-download", weight: 33 },
+    ],
+    enabled: false,
+  },
 ];
 
 export function getExperiment(name: string): Experiment | undefined {

@@ -1,5 +1,5 @@
 import { useExperiment } from "../../hooks/useExperiment";
-import { trackEvent } from "../../utils/matomo";
+import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
 function MuseHubRecommendedSection({ museHubReleaseData, OS }) {
   const { variant, isReady } = useExperiment("musehub-download");
@@ -18,6 +18,12 @@ function MuseHubRecommendedSection({ museHubReleaseData, OS }) {
       "Download MuseHub",
       `Download MuseHub button ${OS}`,
     );
+    trackBinaryDownloadChoice({
+      os: OS,
+      releaseName: museHubReleaseData[0].name,
+      url: museHubReleaseData[0].browser_download_url,
+      source: "download-page-musehub-recommendation",
+    });
 
     setTimeout(() => {
       window.location.href = "/post-download";

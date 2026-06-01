@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
+import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
-import winLogo from "../../assets/img/Windows.svg"
-import macLogo from "../../assets/img/macOS.svg"
-import linLogo from "../../assets/img/Linux.svg"
+import winLogo from "../../assets/img/Windows.svg";
+import macLogo from "../../assets/img/macOS.svg";
+import linLogo from "../../assets/img/Linux.svg";
 
 function useLogo(OS) {
-  switch(OS){
+  switch (OS) {
     case "Windows":
-      return winLogo.src
+      return winLogo.src;
     case "Linux":
-      return linLogo.src
+      return linLogo.src;
     case "macOS":
-      return macLogo.src
+      return macLogo.src;
     default:
-      return ""
+      return "";
   }
-
 }
 
 function getLastUrlPart(url) {
   try {
-    const parts = new URL(url).pathname.split('/').filter(Boolean);
+    const parts = new URL(url).pathname.split("/").filter(Boolean);
     return parts.length ? parts[parts.length - 1] : "";
   } catch {
     return "";
@@ -50,14 +50,18 @@ function SplitDownloadButton(props) {
   }, [isOpen]);
 
   function handleDownloadButtonClick(item) {
-    if (typeof _paq !== "undefined") {
-      _paq.push([
-        "trackEvent",
-        "Download Button",
-        `Download ${getLastUrlPart(url)} Button`,
-        `Download ${getLastUrlPart(url)} button ${OS + " " + item.name}`,
-      ]);
-    }
+    const fileName = getLastUrlPart(item.browser_download_url);
+    trackEvent(
+      "Download Button",
+      `Download ${fileName} Button`,
+      `Download ${fileName} button ${OS + " " + item.name}`,
+    );
+    trackBinaryDownloadChoice({
+      os: OS,
+      releaseName: item.name,
+      url: item.browser_download_url,
+      source: "split-download-button",
+    });
   }
 
   function handleDropdownButtonClick(releaseData) {
