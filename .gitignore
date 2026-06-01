@@ -6,6 +6,7 @@ dist/
 
 # misc local files
 local/
+tmp/
 
 # skills
 .github/skills/
