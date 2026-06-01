@@ -1,0 +1,294 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
+---
+
+<FeaturePageLayout
+  title="Free Audio Speed Changer – Slow Down or Speed Up Audio | Audacity"
+  description="Change audio tempo without affecting pitch. Slow down music to practice, speed up podcasts, or fit audio to exact length. Free tempo changer for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/speed-changer/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Audio Speed Changer &ndash; Slow Down or Speed Up Without
+              Pitch Change
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Slow down music for practice, speed up podcasts, or fit narration
+              to exact duration while preserving natural pitch.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Change tempo in 4 steps:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>Select the audio you want to speed up or slow down</li>
+      <li>
+        Go to <strong>Effect &rarr; Pitch and Tempo &rarr; Change Tempo</strong>
+      </li>
+      <li>Set target speed by percent, BPM, or final length</li>
+      <li>Click <strong>Apply</strong></li>
+    </ol>
+  </div>
+
+  <h2>What Is Tempo Change?</h2>
+  <p>
+    Tempo change modifies playback speed while keeping pitch constant. That
+    means voices and instruments remain in the same key, just faster or slower.
+    It is ideal for practice, transcription, and timing adjustments where
+    pitch-shifting would sound unnatural.
+  </p>
+
+  <div
+    class="not-prose my-6 rounded-lg border border-indigo-200 bg-indigo-50 p-6"
+  >
+    <p class="text-indigo-800">
+      Tempo change is perfect when you need <strong
+        >speed changes without chipmunk or deepened voices</strong
+      >. Slow a solo down to learn it note by note, or speed speech up to save
+      listening time.
+    </p>
+  </div>
+
+  <h2>How to Change Tempo in Audacity</h2>
+  <h3>Step 1: Select Your Audio</h3>
+  <p>
+    Import your file and select the target region. For full-track edits, press <Shortcut
+      keys="Ctrl+A"
+    />.
+  </p>
+
+  <h3>Step 2: Open Change Tempo</h3>
+  <p>
+    Open <strong>Effect &gt; Pitch and Tempo &gt; Change Tempo</strong>. This
+    effect is designed specifically for speed changes that preserve pitch.
+  </p>
+
+  <h3>Step 3: Set Target Speed</h3>
+  <p>
+    Choose the control mode you prefer: percent change, BPM values, or exact
+    output length. Audacity automatically links these fields, so changing one
+    updates the others.
+  </p>
+
+  <h3>Step 4: Apply</h3>
+  <p>
+    Preview the result, then click <strong>Apply</strong>. For long projects,
+    process in sections if you want to compare different settings quickly.
+  </p>
+
+  <h2>Change Tempo Settings Explained</h2>
+  <h3>Percent Change</h3>
+  <p>
+    Adjust speed as a percentage. <strong>-50%</strong> means half speed (double duration),
+    while <strong>+100%</strong>
+    means double speed (half duration).
+  </p>
+
+  <h3>Beats Per Minute (BPM)</h3>
+  <p>
+    Enter original and target BPM to match tracks musically. Audacity computes
+    the required tempo shift automatically. This is useful for remixing and beat
+    alignment.
+  </p>
+
+  <h3>Length (Seconds)</h3>
+  <p>
+    Set the exact output duration when fitting narration, ads, or cues to strict
+    timing windows. Enter the desired "to" length and let Audacity solve the
+    tempo change.
+  </p>
+
+  <h3>Use High Quality Stretching</h3>
+  <p>
+    Enable this for cleaner transients, especially on drums, piano, and
+    rhythm-heavy material. It takes longer but improves quality for harder
+    sources.
+  </p>
+
+  <div
+    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+  >
+    <table class="w-full text-sm text-left">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-3 font-semibold text-gray-900">Percent Change</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Speed</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">New Length</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 text-gray-700">
+        <tr>
+          <td class="px-4 py-3">-50%</td>
+          <td class="px-4 py-3">0.5x</td>
+          <td class="px-4 py-3">2x longer</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">-25%</td>
+          <td class="px-4 py-3">0.75x</td>
+          <td class="px-4 py-3">1.33x longer</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">0%</td>
+          <td class="px-4 py-3">1x</td>
+          <td class="px-4 py-3">Same length</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">+50%</td>
+          <td class="px-4 py-3">1.5x</td>
+          <td class="px-4 py-3">0.67x shorter</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">+100%</td>
+          <td class="px-4 py-3">2x</td>
+          <td class="px-4 py-3">0.5x shorter</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <div
+    class="not-prose my-6 rounded-lg border border-green-200 bg-green-50 p-6"
+  >
+    <h3 class="mb-3 text-lg font-semibold text-green-900">
+      Where speed changing helps most:
+    </h3>
+    <ul class="space-y-2 text-green-800">
+      <li>
+        <strong>Practice music</strong> &ndash; Slow down technical passages and solos.
+      </li>
+      <li>
+        <strong>Speech transcription</strong> &ndash; Reduce speed to catch every
+        word.
+      </li>
+      <li>
+        <strong>Podcast listening</strong> &ndash; Speed up content to 1.5x or 2x.
+      </li>
+      <li>
+        <strong>Time fitting</strong> &ndash; Fit narration to ad slots and scene
+        timing.
+      </li>
+      <li>
+        <strong>BPM matching</strong> &ndash; Align tracks for DJ and editing workflows.
+      </li>
+      <li>
+        <strong>Language learning</strong> &ndash; Slow native speech while preserving
+        tone.
+      </li>
+    </ul>
+  </div>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>Keep changes moderate (within ±50%) for the most natural result.</li>
+    <li>Enable high-quality stretching for percussion-rich material.</li>
+    <li>
+      For extreme slowdowns, use Paulstretch instead of standard tempo change.
+    </li>
+    <li>Always preview before applying to check for artifacts.</li>
+    <li>
+      For long audio, test on a short section first and then apply globally.
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Does Change Tempo affect pitch?</strong><br />No. Change Tempo is
+    specifically designed to preserve pitch while changing speed.
+  </p>
+  <p>
+    <strong
+      >What is the difference between Change Tempo and Change Speed?</strong
+    ><br />Change Tempo keeps pitch unchanged. Change Speed changes both tempo
+    and pitch together.
+  </p>
+  <p>
+    <strong>How do I slow a song to half speed?</strong><br />Set Percent Change
+    to -50%.
+  </p>
+  <p>
+    <strong>Can I speed a podcast to 1.5x?</strong><br />Yes. Set Percent Change
+    to +50%.
+  </p>
+  <p>
+    <strong>How can I hit an exact final duration?</strong><br />Use the Length
+    fields and enter the target "to" value.
+  </p>
+  <p>
+    <strong>Why does it sound distorted after large changes?</strong><br />Very
+    large shifts can introduce artifacts. Use high-quality stretching and
+    smaller adjustments where possible.
+  </p>
+  <p>
+    <strong>Is there a hard maximum tempo change?</strong><br />You can push
+    large values, but quality usually degrades as changes become extreme.
+  </p>
+  <p>
+    <strong>Can I preview speeds during playback?</strong><br />Yes, the
+    playback speed control lets you audition timing without permanently
+    processing audio.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to speed up or slow down audio with precision? Download Audacity for
+    free on Windows, macOS, and Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>

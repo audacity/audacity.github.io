@@ -1,0 +1,337 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
+---
+
+<FeaturePageLayout
+  title="Free Audio Compressor – Even Out Volume Levels | Audacity"
+  description="Compress audio and even out volume levels for free. Audacity's Compressor reduces dynamic range for podcasts, vocals, and music. Real-time preview, factory presets included."
+  canonical="https://www.audacityteam.org/features/compressor/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Audio Compressor &ndash; Even Out Volume Levels
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Reduce dynamic range for podcasts, vocals, and music. Real-time
+              preview and built-in factory presets included.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript>
+                <DownloadMuseHubButton client:load />
+              </noscript>
+              <DownloadButton client:load />
+              <noscript>
+                <DownloadButton client:load />
+              </noscript>
+            </div>
+          </div>
+
+          <div class="hidden md:block md:w-1/2">
+            <div class="relative">
+              <Image
+                src={AudacityMockUp}
+                alt="A laptop showing the Audacity application"
+                width={668}
+                quality={80}
+                loading="eager"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Compress audio in 4 steps:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>Select the audio you want to compress</li>
+      <li>
+        Go to <strong
+          >Effect &rarr; Volume and Compression &rarr; Compressor</strong>
+      </li>
+      <li>
+        Choose a factory preset (for example, <strong
+          >Voice Memos Balance</strong
+        >)
+      </li>
+      <li>Click <strong>Apply</strong> or use it as a real-time effect</li>
+    </ol>
+  </div>
+
+  <h2>What Is Audio Compression?</h2>
+  <p>
+    Audio compression automatically reduces loud peaks in your signal and can
+    then raise the overall perceived volume. The result is a more consistent
+    track where quiet phrases are easier to hear and sudden loud moments are
+    less jarring. This is why compression is one of the core tools for podcasts,
+    vocals, voiceovers, and mastering.
+  </p>
+
+  <div
+    class="not-prose my-6 rounded-lg border border-indigo-200 bg-indigo-50 p-6"
+  >
+    <h3 class="mb-2 text-lg font-semibold text-indigo-900">
+      What does a compressor do?
+    </h3>
+    <p class="text-indigo-800">
+      A compressor turns down the volume only when the audio gets too loud, then
+      optionally boosts the final level. You keep detail and intelligibility
+      while smoothing out uneven dynamics.
+    </p>
+  </div>
+
+  <h2>How to Use the Compressor in Audacity</h2>
+  <h3>Step 1: Select Your Audio</h3>
+  <p>
+    Open your file in Audacity and select the region you want to process. To
+    compress the entire track, click the track panel or press <Shortcut
+      keys="Ctrl+A"
+    />.
+  </p>
+
+  <h3>Step 2: Open the Compressor</h3>
+  <p>
+    Navigate to <strong
+      >Effect &gt; Volume and Compression &gt; Compressor</strong
+    > to open the effect window. If you use real-time effects, you can also insert
+    it in the track or master effect chain.
+  </p>
+
+  <h3>Step 3: Choose a Preset or Adjust Settings</h3>
+  <p>
+    Start with a factory preset and fine-tune as needed. Typical voice
+    compression begins with a moderate ratio and threshold that only engages on
+    louder words.
+  </p>
+
+  <h3>Step 4: Preview and Apply</h3>
+  <p>
+    Use <strong>Preview</strong> to compare behavior before committing. Then click
+    <strong>Apply</strong>. If your result feels over-compressed, reduce ratio
+    or raise threshold and try again.
+  </p>
+
+  <h2>Compressor Settings Explained</h2>
+  <h3>Threshold</h3>
+  <p>
+    The level where compression begins. Signals above threshold are reduced;
+    signals below are untouched. Lower thresholds apply compression more often.
+  </p>
+
+  <h3>Ratio</h3>
+  <p>
+    Controls how strongly peaks are reduced after crossing threshold. A 4:1
+    ratio is moderate, 8:1 is more aggressive, and 2:1 is subtle.
+  </p>
+
+  <h3>Make-up Gain</h3>
+  <p>
+    Raises output level after peaks are controlled. This helps restore loudness
+    and improves clarity of softer phrases.
+  </p>
+
+  <h3>Knee Width</h3>
+  <p>
+    Determines whether compression starts abruptly (hard knee) or gradually
+    (soft knee). A soft knee often sounds more natural on voice and acoustic
+    material.
+  </p>
+
+  <h3>Attack (Lookahead)</h3>
+  <p>
+    Attack sets how quickly compression reacts to incoming peaks. Faster attack
+    catches transients earlier; slower attack preserves initial punch.
+  </p>
+
+  <h3>Release</h3>
+  <p>
+    Release controls how quickly compression stops after the signal falls back
+    below threshold. Too fast can pump; too slow can sound flattened.
+  </p>
+
+  <div
+    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+  >
+    <table class="w-full text-sm text-left">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-3 font-semibold text-gray-900">Setting</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">What it does</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Typical value</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 text-gray-700">
+        <tr>
+          <td class="px-4 py-3">Threshold</td>
+          <td class="px-4 py-3">Level where compression starts</td>
+          <td class="px-4 py-3">-20 to -10 dB</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Ratio</td>
+          <td class="px-4 py-3">Amount of gain reduction above threshold</td>
+          <td class="px-4 py-3">2:1 to 8:1</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Make-up Gain</td>
+          <td class="px-4 py-3">Output boost after compression</td>
+          <td class="px-4 py-3">+3 to +10 dB</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Knee Width</td>
+          <td class="px-4 py-3">Soft/hard transition around threshold</td>
+          <td class="px-4 py-3">Around 6 dB (soft)</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Attack</td>
+          <td class="px-4 py-3">How fast compression engages</td>
+          <td class="px-4 py-3">10–50 ms</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-3">Release</td>
+          <td class="px-4 py-3">How fast compression recovers</td>
+          <td class="px-4 py-3">100–300 ms</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Factory Presets</h2>
+  <div
+    class="not-prose my-6 rounded-lg border border-green-200 bg-green-50 p-6"
+  >
+    <h3 class="mb-3 text-lg font-semibold text-green-900">
+      Built-in presets (Presets &amp; Settings):
+    </h3>
+    <ul class="space-y-2 text-green-800">
+      <li>
+        <strong>Voice Memos Balance</strong> &ndash; Smooths phone recordings with
+        uneven levels
+      </li>
+      <li>
+        <strong>Voice-focused presets</strong> &ndash; Useful for podcasts, narration,
+        and dialogue
+      </li>
+      <li><strong>Beefy Master</strong> &ndash; Adds density to full mixes</li>
+      <li>
+        <strong>Deep Dive Master</strong> &ndash; Subtle control with minimal tonal
+        shift
+      </li>
+      <li><strong>Great Impact</strong> &ndash; Emphasizes punch and impact</li>
+      <li>
+        <strong>Climax Impulse</strong> &ndash; Brighter attack for transient-heavy
+        sounds
+      </li>
+    </ul>
+  </div>
+
+  <h2>When to Use Compression</h2>
+  <ul>
+    <li>
+      <strong>Podcasts:</strong> Keep speech levels consistent between speakers.
+    </li>
+    <li>
+      <strong>Vocals:</strong> Prevent words from disappearing or jumping out too
+      loudly.
+    </li>
+    <li>
+      <strong>Mastering:</strong> Add controlled loudness and cohesion to a final
+      mix.
+    </li>
+    <li>
+      <strong>Audiobooks:</strong> Improve listening comfort over long sessions.
+    </li>
+    <li>
+      <strong>Video dialogue:</strong> Balance spoken voice against effects and music.
+    </li>
+    <li><strong>Live recordings:</strong> Tame unpredictable spikes.</li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>Start conservatively and compare processed vs original often.</li>
+    <li>
+      Aim for roughly 3–6 dB gain reduction on loud peaks as a safe starting
+      range.
+    </li>
+    <li>If the sound feels "squashed," reduce ratio or raise threshold.</li>
+    <li>Use make-up gain carefully to avoid clipping at output.</li>
+    <li>
+      Consider normalizing after compression if you need final loudness
+      matching.
+    </li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>What ratio should I use for vocals?</strong><br />A 3:1 to 4:1 ratio
+    is a practical starting point for natural voice control.
+  </p>
+  <p>
+    <strong>Why does my audio sound quieter after compression?</strong><br
+    />Compression lowers peaks. Add make-up gain or normalize afterward.
+  </p>
+  <p>
+    <strong>Should I compress before or after EQ?</strong><br />Most workflows
+    use EQ first, then compression, but either can work depending on the source.
+  </p>
+  <p>
+    <strong>What is attack vs release?</strong><br />Attack is how fast
+    compression starts; release is how fast it recovers after peaks.
+  </p>
+  <p>
+    <strong>Can compression make audio sound bad?</strong><br />Yes,
+    over-compression can sound lifeless. Use moderate settings and A/B compare.
+  </p>
+  <p>
+    <strong>What threshold should I set?</strong><br />Set threshold so
+    compression engages mostly on louder moments.
+  </p>
+  <p>
+    <strong>Is Audacity's compressor suitable for pro work?</strong><br />Yes,
+    Audacity's modern compressor is capable for production voice and music
+    workflows.
+  </p>
+  <p>
+    <strong>How do I compress multiple tracks at once?</strong><br />Use a
+    master effects workflow to process the mixed output in one pass.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Ready to even out your levels and improve clarity? Download Audacity for
+    free on Windows, macOS, and Linux.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript>
+      <DownloadMuseHubButton client:load />
+    </noscript>
+    <DownloadButton client:load />
+    <noscript>
+      <DownloadButton client:load />
+    </noscript>
+  </div>
+</FeaturePageLayout>
