@@ -1,0 +1,194 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
+---
+
+<FeaturePageLayout
+  title="Free Echo Effect – Add Echo to Voice & Audio | Audacity"
+  description="Add rich echo effects to voice, music and sound design. Control delay time and decay factor. Free echo effect for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/echo/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Echo Effect &ndash; Add Echo to Voice, Music and Sound Design
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Add clear repeat tails with controllable delay time and decay,
+              from tight slapback to long ambient echoes.
+            </p>
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Add echo in 4 steps:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>Select audio and add a little silence at the end</li>
+      <li>Open <strong>Effect &rarr; Delay and Reverb &rarr; Echo</strong></li>
+      <li>Set delay time and decay factor</li>
+      <li>Preview, then apply</li>
+    </ol>
+  </div>
+
+  <h2>What Is the Echo Effect?</h2>
+  <p>
+    Echo repeats your signal at a fixed interval, with each repeat quieter than
+    the previous one. In Audacity, Echo is a simple two-parameter effect that is
+    great for vocals, spoken-word impact, guitar slapback, and spacious
+    sound-design tails.
+  </p>
+
+  <h2>How to Add Echo in Audacity</h2>
+  <h3>Step 1: Select Your Audio (and Add Silence)</h3>
+  <p>
+    Select the target region, then add a few seconds of trailing silence so
+    repeats are not cut off.
+  </p>
+
+  <h3>Step 2: Open Effect &gt; Delay and Reverb &gt; Echo</h3>
+  <p>Launch Echo from Audacity's delay/reverb effects group.</p>
+
+  <h3>Step 3: Set Delay Time and Decay Factor</h3>
+  <p>
+    Use delay time to set spacing and decay factor to control how fast repeats
+    fade.
+  </p>
+
+  <h3>Step 4: Preview and Apply</h3>
+  <p>Preview first, then apply once timing and fade feel right.</p>
+
+  <h2>Echo Settings Explained</h2>
+  <h3>Delay Time (seconds)</h3>
+  <p>
+    Sets the gap between repeats. Short values create slapback; medium values
+    produce classic rhythmic echo.
+  </p>
+
+  <h3>Decay Factor</h3>
+  <p>
+    Controls loudness reduction per repeat. Values above 1 can grow each repeat
+    and clip quickly.
+  </p>
+
+  <h3>Selection Length and Trailing Silence</h3>
+  <p>
+    Echo is rendered only inside the selected length. Add silence if you want
+    full tails after the spoken/sung phrase.
+  </p>
+
+  <h3>Clipping and Output Level</h3>
+  <p>
+    Repeated summing can raise peaks. If clipping appears, lower source gain and
+    reapply.
+  </p>
+
+  <h2>Echo vs Delay vs Reverb</h2>
+  <div
+    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+  >
+    <table class="w-full text-sm text-left">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-3 font-semibold text-gray-900">Effect</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">What It Does</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Typical Use</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 text-gray-700">
+        <tr
+          ><td class="px-4 py-3">Echo</td><td class="px-4 py-3"
+            >Fixed repeats with simple controls</td
+          ><td class="px-4 py-3">Voice effects, slapback</td></tr
+        >
+        <tr
+          ><td class="px-4 py-3">Delay</td><td class="px-4 py-3"
+            >More advanced repeat patterns and options</td
+          ><td class="px-4 py-3">Rhythmic and creative delays</td></tr
+        >
+        <tr
+          ><td class="px-4 py-3">Reverb</td><td class="px-4 py-3"
+            >Diffuse room reflections</td
+          ><td class="px-4 py-3">Natural ambience</td></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>Trailer-style voice impact</li>
+    <li>Vocal ad-libs and phrase tails</li>
+    <li>Retro slapback guitar/vocals</li>
+    <li>Dub-inspired repeats</li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>
+      Start around 0.25–0.6 s delay and 0.4–0.6 decay for balanced musical
+      echoes.
+    </li>
+    <li>Add silence before applying to preserve tail endings.</li>
+    <li>Use lower input gain when testing high decay values.</li>
+    <li>Compare with Delay effect if you need more control.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Can Echo sound like reverb?</strong><br />Not exactly. Echo gives
+    distinct repeats; reverb gives dense ambience.
+  </p>
+  <p>
+    <strong>Why no audible repeats?</strong><br />Delay may be too long for the
+    selected clip or decay too low.
+  </p>
+  <p>
+    <strong>Can I sync echo to tempo?</strong><br />Yes, by converting beat
+    values to seconds and setting delay time accordingly.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>Use Audacity's free Echo effect on Windows, macOS, and Linux.</p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>

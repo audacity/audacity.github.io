@@ -1,0 +1,236 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
+---
+
+<FeaturePageLayout
+  title="Free Delay Effect – Add Echo to Audio | Audacity"
+  description="Add delay and echo to audio free. Regular, bouncing-ball and reverse delay with pitch change. Free echo effect for Windows, Mac and Linux."
+  canonical="https://www.audacityteam.org/features/delay/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Free Delay Effect &ndash; Add Echo, Slapback and Bouncing Repeats
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Build rhythmic repeats with regular, bouncing-ball, and reverse
+              delay modes, with optional pitch change per echo.
+            </p>
+
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Add delay in 4 steps:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>Select audio (voice, guitar, drum, or full mix)</li>
+      <li>Open <strong>Effect &rarr; Delay and Reverb &rarr; Delay</strong></li>
+      <li>Set delay type, delay time, and number of echoes</li>
+      <li>Click <strong>Apply</strong></li>
+    </ol>
+  </div>
+
+  <h2>What Is Delay?</h2>
+  <p>
+    Delay records your signal and replays it after a time gap to create audible
+    repeats. Short values create thickening or slapback, while longer values
+    create rhythmic echo trails. Audacity's Delay effect adds multi-echo control
+    over timing, decay, pitch behavior, repeat count, and whether the track
+    duration extends to contain the full tail.
+  </p>
+
+  <h2>How to Add Delay in Audacity</h2>
+  <h3>Step 1: Select Your Audio</h3>
+  <p>
+    Select the clip or region to process, or press <Shortcut keys="Ctrl+A" /> to target
+    the whole track.
+  </p>
+
+  <h3>Step 2: Open Effect &gt; Delay and Reverb &gt; Delay</h3>
+  <p>Open Audacity's built-in Delay effect from the effects menu.</p>
+
+  <h3>Step 3: Choose Delay Type, Time and Number of Echoes</h3>
+  <p>
+    Pick the timing pattern and tune the repeat spacing, level behavior, and
+    count to fit your rhythm and style.
+  </p>
+
+  <h3>Step 4: Apply</h3>
+  <p>
+    Preview if needed, then apply. For long tails, enable duration extension so
+    echoes are not truncated.
+  </p>
+
+  <h2>Delay Settings Explained</h2>
+  <h3>Delay Type (Regular / Bouncing Ball / Reverse Bouncing Ball)</h3>
+  <p>
+    <strong>Regular</strong> keeps spacing constant, <strong
+      >Bouncing ball</strong
+    > compresses gaps over time, and <strong>Reverse bouncing ball</strong> expands
+    them.
+  </p>
+
+  <h3>Delay Level per Echo (dB)</h3>
+  <p>
+    Negative values fade each repeat, zero holds level, and positive values can
+    quickly clip. Start around -6 dB for natural decay.
+  </p>
+
+  <h3>Delay Time (seconds)</h3>
+  <p>
+    Controls the main repeat interval: around 0.08–0.12 s for slapback, 0.25–0.5
+    s for rhythmic echo, and 1 s+ for ambient trails.
+  </p>
+
+  <h3>Pitch Change Effect</h3>
+  <p>
+    Choose whether repeats shift pitch with tempo, low-quality pitch shift, or
+    high-quality pitch shift.
+  </p>
+
+  <h3>Pitch Change per Echo (semitones)</h3>
+  <p>
+    Set transposition between repeats. Negative values create descending
+    dub-style tails; positive values create rising repeats.
+  </p>
+
+  <h3>Number of Echoes</h3>
+  <p>
+    Low values (2–4) stay clear and tight; higher values create dense,
+    reverb-like cascades.
+  </p>
+
+  <h3>Allow Duration to Change</h3>
+  <p>
+    Enable this to keep the full tail. Disable it only if you intentionally want
+    echoes cut at the current selection end.
+  </p>
+
+  <h2>Delay Time Reference Table</h2>
+  <div
+    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+  >
+    <table class="w-full text-sm text-left">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-3 font-semibold text-gray-900">Delay Time</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Character</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Typical Use</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 text-gray-700">
+        <tr
+          ><td class="px-4 py-3">0.05–0.12 s</td><td class="px-4 py-3"
+            >Slapback</td
+          ><td class="px-4 py-3">Vocals, guitars</td></tr
+        >
+        <tr
+          ><td class="px-4 py-3">0.25–0.50 s</td><td class="px-4 py-3"
+            >Rhythmic echo</td
+          ><td class="px-4 py-3">Dub, electronic patterns</td></tr
+        >
+        <tr
+          ><td class="px-4 py-3">1.0 s+</td><td class="px-4 py-3"
+            >Long ambient repeats</td
+          ><td class="px-4 py-3">Sound design, transitions</td></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Delay vs Echo vs Reverb</h2>
+  <ul>
+    <li>
+      <strong>Delay:</strong> Flexible repeat engine with timing modes and per-echo
+      pitch options.
+    </li>
+    <li>
+      <strong>Echo:</strong> Simpler fixed-interval repeats with delay time + decay
+      factor.
+    </li>
+    <li>
+      <strong>Reverb:</strong> Dense reflections for room/hall ambience, not distinct
+      repeats.
+    </li>
+  </ul>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>Vocal throws and ad-libs</li>
+    <li>Guitar slapback and rhythmic repeats</li>
+    <li>Dub-style descending echoes</li>
+    <li>Build-ups and transition effects</li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>Keep repeat level decaying to avoid clipping and clutter.</li>
+    <li>Sync delay time to track tempo for musical repeats.</li>
+    <li>Use fewer echoes in dense arrangements.</li>
+    <li>Enable duration change when long tails are important.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Can I make echoes rise or fall in pitch?</strong><br />Yes, use
+    pitch-change settings per echo.
+  </p>
+  <p>
+    <strong>Why is my delay tail cut off?</strong><br />Selection length may be
+    too short or duration extension disabled.
+  </p>
+  <p>
+    <strong>Delay or Echo for beginners?</strong><br />Echo is simpler; Delay
+    offers more creative control.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Download Audacity for free on Windows, macOS, and Linux to start building
+    custom delay effects.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>

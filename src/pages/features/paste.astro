@@ -1,0 +1,210 @@
+---
+import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
+import DownloadButton from "../../components/button/DownloadButton";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import { Image } from "astro:assets";
+import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import Shortcut from "../../components/Shortcut.astro";
+---
+
+<FeaturePageLayout
+  title="Paste Audio – Insert Clipboard Audio at Cursor | Audacity"
+  description="Paste clipboard audio at the cursor or over a selection. Assemble tracks, build loops, and move audio between projects. Free for Windows, Mac & Linux."
+  canonical="https://www.audacityteam.org/features/paste/"
+>
+  <Fragment slot="hero">
+    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
+      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
+        >
+          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
+            <h1
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
+            >
+              Paste Audio in Audacity &ndash; Insert Clipboard Audio at the
+              Cursor
+            </h1>
+            <p class="text-white text-lg opacity-90">
+              Insert copied or cut audio at a cursor point, or replace a
+              selection range in one command.
+            </p>
+            <div
+              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2"
+            >
+              <DownloadMuseHubButton client:load />
+              <noscript><DownloadMuseHubButton client:load /></noscript>
+              <DownloadButton client:load />
+              <noscript><DownloadButton client:load /></noscript>
+            </div>
+          </div>
+          <div class="hidden md:block md:w-1/2">
+            <Image
+              src={AudacityMockUp}
+              alt="A laptop showing the Audacity application"
+              width={668}
+              quality={80}
+              loading="eager"
+              class="w-full h-auto"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+      Paste audio in 4 steps:
+    </h3>
+    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+      <li>
+        Copy or cut source audio (<Shortcut keys="Ctrl+C" /> or <Shortcut
+          keys="Ctrl+X"
+        />)
+      </li>
+      <li>Place a cursor or select the destination range</li>
+      <li>Press <Shortcut keys="Ctrl+V" /> or use Edit &gt; Paste</li>
+      <li>Audacity inserts or replaces based on your selection state</li>
+    </ol>
+  </div>
+
+  <h2>What Is the Paste Command?</h2>
+  <p>
+    Paste inserts audio from Audacity's clipboard into your project. At a single
+    cursor point it inserts and shifts following audio, while with a selected
+    range it replaces that range. It is essential for assembling takes, creating
+    loops, and moving clips across tracks.
+  </p>
+
+  <h2>How to Paste Audio in Audacity</h2>
+  <h3>Step 1: Copy or Cut Audio to the Clipboard</h3>
+  <p>
+    Use Copy or Cut first so the clipboard has the content you want to insert.
+  </p>
+
+  <h3>Step 2: Place the Cursor or Make a Selection</h3>
+  <p>
+    Click once for insertion behavior, or drag a time range for replacement
+    behavior.
+  </p>
+
+  <h3>Step 3: Apply Paste (Ctrl+V / Cmd+V)</h3>
+  <p>Use keyboard or menu command to paste immediately.</p>
+
+  <h3>Step 4: Review the Result and Fine-Tune</h3>
+  <p>Check alignment and transitions, then trim, fade, or nudge as needed.</p>
+
+  <h2>Paste Behavior Explained</h2>
+  <h3>Keyboard Shortcut (Ctrl+V / Cmd+V)</h3>
+  <p>
+    Paste has no dialog. It executes instantly with current clipboard content.
+  </p>
+
+  <h3>Cursor Paste vs Selection Paste</h3>
+  <p>
+    Cursor paste inserts and ripples later material. Selection paste overwrites
+    the selected time span.
+  </p>
+
+  <h3>Editing Clips Can Move Other Clips</h3>
+  <p>
+    Track behavior settings determine whether ripple movement is allowed when
+    making room for inserted audio.
+  </p>
+
+  <h3>Pasting Between Tracks and Projects</h3>
+  <p>
+    You can paste into other tracks and even other open projects, as long as
+    track type/channel rules are respected.
+  </p>
+
+  <h3>Mono and Stereo Rules</h3>
+  <p>
+    Mono can paste into stereo; stereo cannot paste into mono. Track types must
+    match (audio to audio, labels to labels).
+  </p>
+
+  <h2>Paste vs Cut vs Copy vs Duplicate</h2>
+  <div
+    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+  >
+    <table class="w-full text-sm text-left">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-3 font-semibold text-gray-900">Command</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Shortcut</th>
+          <th class="px-4 py-3 font-semibold text-gray-900">Core Behavior</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 text-gray-700">
+        <tr
+          ><td class="px-4 py-3">Paste</td><td class="px-4 py-3"
+            >Ctrl+V / Cmd+V</td
+          ><td class="px-4 py-3">Insert or replace from clipboard</td></tr
+        >
+        <tr
+          ><td class="px-4 py-3">Copy</td><td class="px-4 py-3"
+            >Ctrl+C / Cmd+C</td
+          ><td class="px-4 py-3"
+            >Send selection to clipboard, source unchanged</td
+          ></tr
+        >
+        <tr
+          ><td class="px-4 py-3">Cut</td><td class="px-4 py-3"
+            >Ctrl+X / Cmd+X</td
+          ><td class="px-4 py-3">Send selection to clipboard and remove it</td
+          ></tr
+        >
+        <tr
+          ><td class="px-4 py-3">Duplicate</td><td class="px-4 py-3"
+            >Ctrl+D / Cmd+D</td
+          ><td class="px-4 py-3">Create copy without using clipboard</td></tr
+        >
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <ul>
+    <li>Stitching together best takes</li>
+    <li>Repositioning phrases or samples</li>
+    <li>Building repeating loops from short clips</li>
+    <li>Moving content between sessions</li>
+  </ul>
+
+  <h2>Tips for Best Results</h2>
+  <ul>
+    <li>Zoom in before pasting for frame-accurate placement.</li>
+    <li>Use fades at paste boundaries to avoid clicks.</li>
+    <li>Keep ripple behavior in mind when editing dense timelines.</li>
+  </ul>
+
+  <h2>Frequently Asked Questions</h2>
+  <p>
+    <strong>Can I paste into another project?</strong><br />Yes, if both
+    projects are open and track type/channel compatibility is valid.
+  </p>
+  <p>
+    <strong>Why is paste replacing instead of inserting?</strong><br />You
+    likely have a range selected; click once to switch to cursor insertion.
+  </p>
+  <p>
+    <strong>Does paste overwrite clipboard content?</strong><br />No, it reads
+    from clipboard but does not replace it.
+  </p>
+
+  <h2>Download Audacity Free</h2>
+  <p>
+    Download Audacity for free on Windows, macOS, and Linux to edit with full
+    clipboard workflows.
+  </p>
+  <div
+    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
+  >
+    <DownloadMuseHubButton client:load />
+    <noscript><DownloadMuseHubButton client:load /></noscript>
+    <DownloadButton client:load />
+    <noscript><DownloadButton client:load /></noscript>
+  </div>
+</FeaturePageLayout>

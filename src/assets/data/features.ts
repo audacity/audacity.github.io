@@ -117,4 +117,36 @@ export const features: FeatureEntry[] = [
     icon: "icon-microphone",
     showInFooter: true,
   },
+  {
+    slug: "delay",
+    title: "Free Delay Effect – Add Echo to Audio | Audacity",
+    shortTitle: "Delay",
+    description:
+      "Add delay and echo to audio free. Regular, bouncing-ball and reverse delay with pitch change.",
+    icon: "icon-cycle",
+  },
+  {
+    slug: "echo",
+    title: "Free Echo Effect – Add Echo to Voice & Audio | Audacity",
+    shortTitle: "Echo",
+    description:
+      "Add rich echo effects to voice, music and sound design with control over delay time and decay.",
+    icon: "icon-cycle",
+  },
+  {
+    slug: "paste",
+    title: "Paste Audio – Insert Clipboard Audio at Cursor | Audacity",
+    shortTitle: "Paste Audio",
+    description:
+      "Paste clipboard audio at the cursor or over a selection to assemble tracks and build loops.",
+    icon: "icon-file",
+  },
+  {
+    slug: "copy",
+    title: "Copy Audio – Copy Selection to Clipboard | Audacity",
+    shortTitle: "Copy Audio",
+    description:
+      "Copy selected audio to clipboard without removing it so you can reuse sections and move audio between tracks.",
+    icon: "icon-file",
+  },
 ];
