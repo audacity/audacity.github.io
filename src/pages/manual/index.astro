@@ -2,80 +2,42 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
 import UIMap from "../../components/manual/UIMap.jsx";
-import projectWindow from "../../assets/img/beta/audacity-4-beta-hero.webp";
+import ManualToolbarDemo from "../../components/manual/Toolbar/ManualToolbarDemo.jsx";
+import "../../components/manual/Icon/Icon.css";
+import "../../components/manual/Toolbar/Toolbar.css";
+import "../../components/manual/Toolbar/TransportButton.css";
+import "../../components/manual/Toolbar/ToolButton.css";
+import projectWindow from "../../assets/img/manual/Manual-UI.webp";
 
-const projectHotspots = [
+// Hotspot coordinates are percentages (0-100) of the image.
+// Add entries as we identify regions on Manual-UI.webp. Each entry needs:
+//   { n, label, x, y, w, h, href }
+const projectHotspots: Array<{
+  n: number;
+  label: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  href: string;
+}> = [
   {
     n: 1,
-    label: "Track header",
-    x: 0.5,
-    y: 6,
-    w: 14,
-    h: 26,
-    href: "/manual/interface/track-header",
+    label: "Project toolbar",
+    x: 0,
+    y: 3,
+    w: 100,
+    h: 4,
+    href: "/manual/interface/project-toolbar",
   },
   {
     n: 2,
-    label: "Audio track",
-    x: 14.5,
-    y: 6,
-    w: 84,
-    h: 22,
-    href: "/manual/interface/audio-track",
-  },
-  {
-    n: 3,
-    label: "Track meters",
-    x: 0.5,
-    y: 24,
-    w: 14,
-    h: 10,
-    href: "/manual/interface/meters",
-  },
-  {
-    n: 4,
-    label: "Clip strip",
-    x: 14.5,
-    y: 6,
-    w: 84,
+    label: "Tools toolbar",
+    x: 0,
+    y: 7,
+    w: 100,
     h: 5,
-    href: "/manual/interface/clip-strip",
-  },
-  {
-    n: 5,
-    label: "Brass track",
-    x: 0.5,
-    y: 32,
-    w: 14,
-    h: 24,
-    href: "/manual/interface/brass-track",
-  },
-  {
-    n: 6,
-    label: "Synth track",
-    x: 0.5,
-    y: 56,
-    w: 14,
-    h: 22,
-    href: "/manual/interface/synth-track",
-  },
-  {
-    n: 7,
-    label: "Bass track",
-    x: 0.5,
-    y: 78,
-    w: 14,
-    h: 20,
-    href: "/manual/interface/bass-track",
-  },
-  {
-    n: 8,
-    label: "Timeline ruler",
-    x: 14.5,
-    y: 0,
-    w: 84,
-    h: 6,
-    href: "/manual/interface/timeline",
+    href: "/manual/interface/tools-toolbar",
   },
 ];
 ---
@@ -101,6 +63,17 @@ const projectHotspots = [
             to that part of the interface.
           </p>
         </header>
+
+        <section aria-labelledby="toolbar-heading" class="mb-12">
+          <h2 id="toolbar-heading" class="text-2xl">Click an interface</h2>
+          <p class="mt-2 text-gray-700">
+            The Audacity 4 toolbar, recreated. Click a button to jump to its
+            manual page.
+          </p>
+          <div class="mt-6 border border-gray-200 rounded-lg overflow-hidden">
+            <ManualToolbarDemo client:load />
+          </div>
+        </section>
 
         <section aria-labelledby="map-heading">
           <h2 id="map-heading" class="text-2xl">Find it on the screen</h2>

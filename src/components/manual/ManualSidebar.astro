@@ -36,33 +36,25 @@ const sections = Array.from(grouped.entries())
 ---
 
 <div class="space-y-6">
-  {
-    currentSlug && (
-      <a
-        href="/manual"
-        class="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-blue-700"
-      >
-        <svg
-          class="w-3.5 h-3.5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <line x1="19" y1="12" x2="5" y2="12" />
-          <polyline points="12 19 5 12 12 5" />
-        </svg>
-        Back to manual
-      </a>
-    )
-  }
-
   <ManualSearch />
 
   <nav aria-label="Manual" class="text-sm">
+    <ul class="mb-6 space-y-1">
+      <li>
+        <a
+          href="/manual"
+          class:list={[
+            "block py-1",
+            currentSlug === ""
+              ? "text-blue-700 font-semibold"
+              : "text-gray-700 hover:text-blue-700",
+          ]}
+        >
+          Home
+        </a>
+      </li>
+    </ul>
+
     {
       sections.map((section) => (
         <div class="mb-6">

@@ -1,0 +1,184 @@
+---
+title: Installing FFmpeg
+description: FFmpeg lets you import and export additional audio file formats in Audacity.
+section: Audacity Basics
+sectionOrder: 3
+order: 1
+---
+
+import Tabs from "../../../components/manual/Tabs/Tabs.astro";
+import Tab from "../../../components/manual/Tabs/Tab.astro";
+import Callout from "../../../components/manual/Callout.astro";
+
+FFmpeg lets you import and export additional audio file formats in Audacity.
+
+Due to patent restrictions, FFmpeg cannot be distributed with Audacity itself. However, FFmpeg is required to import and export a variety of audio formats, including M4A and WMA.
+
+<Callout type="info">
+In previous versions of Audacity, LAME was required to export MP3 files. It is now included with Audacity by default on Windows and macOS. Make sure you are using the latest version of Audacity if you're getting any LAME errors.
+</Callout>
+
+You can download and install FFmpeg as follows:
+
+<Tabs>
+  <Tab label="Windows">
+
+#### Recommended installer
+
+1. Download the FFmpeg installer from [lame.buanzo.org/ffmpeg.php](https://lame.buanzo.org/ffmpeg.php). For most computers the 64-bit Windows version is correct. For a native Windows ARM build go to [github.com/tordona/ffmpeg-win-arm64](https://github.com/tordona/ffmpeg-win-arm64).
+2. Run the installer. You can ignore the "unknown publisher" warning.
+3. Read and accept the license.
+4. Select the location to install FFmpeg. By default FFmpeg will be installed into `C:\Program Files\FFmpeg for Audacity`.
+5. Finish the installation.
+6. Restart Audacity.
+
+Audacity should now automatically detect FFmpeg and allow you to use it.
+
+#### Installing using WinGet
+
+FFmpeg for Audacity is also available on WinGet:
+
+```
+winget install --id=Buanzo.FFmpegforAudacity -e
+```
+
+#### Other FFmpeg builds
+
+If you prefer a manual installation of FFmpeg you can download a ZIP file from a different source:
+
+- [github.com/BtbN/FFmpeg-Builds/releases](https://github.com/BtbN/FFmpeg-Builds/releases)
+- [gyan.dev/ffmpeg/builds/#release-builds](https://www.gyan.dev/ffmpeg/builds/#release-builds)
+- Windows ARM64: [github.com/tordona/ffmpeg-win-arm64](https://github.com/tordona/ffmpeg-win-arm64)
+- Or by compiling it from source, as described in the [FFmpeg compilation guide](https://trac.ffmpeg.org/wiki/CompilationGuide).
+
+<Callout type="info">
+
+- Not all FFmpeg versions are supported on all releases.
+  - Audacity prior to 3.1 only supports `avformat-55.dll`.
+  - Audacity 3.1 and later supports `avformat-55.dll`, `avformat-57.dll`, and `avformat-58.dll`.
+  - Audacity 3.2 and later also supports `avformat-59.dll`.
+  - Audacity 3.3 and later also supports `avformat-60.dll`.
+  - Audacity 3.5 and later also supports `avformat-61.dll`.
+  - You can check which dll is in which FFmpeg release on the [FFmpeg releases page](https://ffmpeg.org/download.html#releases).
+- Make sure you download full FFmpeg copies, not just the `avformat-*.dll`s individually. Also make sure to download or build the **shared** versions, as only those contain DLLs.
+- Different versions of FFmpeg may have different codecs enabled. In particular, AMR (narrowband) is not featured in the recommended installer.
+
+</Callout>
+
+#### Manual installation
+
+If you have installed FFmpeg from a different source, or installed it in a different location, you'll need to tell Audacity where to find it:
+
+1. Go to **Edit → Preferences → Libraries**.
+2. Click the **Locate…** button.
+3. If a success message appears, Audacity has automatically identified FFmpeg. You can click **No** as Audacity already knows where to find it. If that message doesn't appear, continue with the next steps.
+4. In the dialog window, click **Browse…** to locate the `avformat-*.dll` from the FFmpeg folder you downloaded or installed elsewhere.
+5. Once you've found it, click **Open**, then **OK**, then **OK** again to close the preferences.
+
+  </Tab>
+  <Tab label="macOS">
+
+#### Recommended installer
+
+This is a universal binary installer. It automatically matches your system architecture.
+
+1. Download FFmpeg for macOS from [lame.buanzo.org/ffmpeg.php](https://lame.buanzo.org/ffmpeg.php).
+2. When the download is finished, open the `.pkg`. You'll be guided through the installation.
+3. Click through the steps in the installer.
+   - On some Macs the process may look as though it has stalled on "Validating packages" — just be patient and wait for it to complete.
+4. Restart Audacity if it was running. Audacity should detect FFmpeg automatically.
+
+If you have problems with Audacity detecting FFmpeg, follow the manual installation steps below.
+
+#### Homebrew
+
+One way to install an FFmpeg version that matches your system architecture is using [Homebrew](https://brew.sh/). You can install it through Terminal:
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Once you have Homebrew, install FFmpeg with:
+
+```
+brew install ffmpeg
+```
+
+Audacity should now automatically detect the installation after a restart. If not, follow the manual installation steps below.
+
+#### Compiling other versions
+
+You can download or compile FFmpeg yourself, as described in the [FFmpeg macOS compilation guide](https://trac.ffmpeg.org/wiki/CompilationGuide/macOS).
+
+<Callout type="info">
+
+- Audacity 3.1 and later supports **avformat 55, 57**, and **58**. Audacity 3.2 and later also supports **avformat 59**. Audacity 3.3 and later also supports **avformat 60**.
+- Make sure to download or build the **shared** versions (with `.dylib`s) as only those can be used by Audacity.
+- Different versions of FFmpeg may have different codecs enabled. In particular, AMR (narrowband) is not featured in the recommended installer.
+
+</Callout>
+
+#### Manual installation
+
+If you have installed FFmpeg from a different source, or installed it in a different location, you'll need to tell Audacity where to find it:
+
+1. Go to **Audacity → Preferences → Libraries**.
+2. Click the **Locate…** button.
+3. If a **Success** message appears, Audacity has successfully found FFmpeg. You can click **No** as Audacity already knows where to find it. If that message doesn't appear, continue with the next steps.
+4. In the **Locate FFmpeg** dialog, click **Browse…** to locate the `avformat-*.dylib` from the FFmpeg folder you downloaded or installed elsewhere.
+5. Once you've found it, click **Open**, then **OK**, then **OK** again to close the preferences.
+
+#### Troubleshooting
+
+If you're using an Apple Silicon ("M1", "M2") system, make sure that your FFmpeg and Audacity architectures match:
+
+- arm64 (Apple Silicon) Audacity needs arm64 FFmpeg.
+- x86_64 (Intel — also known as x64 and amd64) Audacity needs x86_64 FFmpeg.
+
+Make sure you're also using the latest version of Audacity.
+
+If you're using Homebrew, a freshly released version of FFmpeg may be incompatible with Audacity for a while. You can run `brew install ffmpeg@6` to install an older version (in this case version 6, which corresponds to avformat 60).
+
+  </Tab>
+  <Tab label="Linux">
+
+On Linux you can generally install FFmpeg and LAME through the package manager. Use the relevant command in your Terminal:
+
+**Debian, Ubuntu, Pop!\_OS, Mint**
+
+```
+sudo apt install ffmpeg lame
+```
+
+**Fedora, Red Hat, CentOS**
+
+First install the [RPM Fusion repository](https://rpmfusion.org/Configuration) and check for updates, then:
+
+```
+sudo dnf install ffmpeg lame
+```
+
+**Arch, Manjaro**
+
+```
+sudo pacman -Syu ffmpeg lame
+```
+
+Once you've installed FFmpeg and LAME, restart Audacity. It will automatically try to detect them.
+
+<Callout type="warning" title="Caution">
+Audacity supports FFmpeg's libavformat in version 55 (all Audacity versions), 57 and 58 (Audacity 3.1+), 59 (Audacity 3.2+), and 60 (Audacity 3.3+). If your distribution ships with a different version, it may not get detected or may not work correctly. In that case, you may need to uninstall FFmpeg again and make a **shared build** of a supported version [from source](https://ffmpeg.org/download.html#releases).
+</Callout>
+
+#### Manual installation
+
+If your FFmpeg or LAME installation didn't get detected, you'll need to tell Audacity where to find it:
+
+1. Go to **Edit → Preferences → Libraries**.
+2. Click the **Locate…** button of the relevant library.
+3. If a **Success** message appears, Audacity has successfully found the library. You can click **No** as Audacity already knows where to find it. If that message doesn't appear, continue with the next steps.
+4. _In case of FFmpeg:_ in the **Locate FFmpeg** dialog, click **Browse…** to locate the `libavformat.so.*` from the FFmpeg folder you downloaded or installed elsewhere. _In case of LAME:_ in the **Locate LAME** dialog, click **Browse…** to locate the `libmp3lame.so` you downloaded or installed elsewhere.
+5. Once you've found it, click **Open**, then **OK**, then **OK** again to close the preferences.
+
+  </Tab>
+</Tabs>

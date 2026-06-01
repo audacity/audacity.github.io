@@ -1,0 +1,107 @@
+---
+title: Recording desktop audio
+description: Audacity can record computer audio (including sound from YouTube,
+  Spotify and more).
+section: Audacity Basics
+sectionOrder: 3
+order: 3
+---
+
+import Tabs from "../../../components/manual/Tabs/Tabs.astro";
+import Tab from "../../../components/manual/Tabs/Tab.astro";
+import Pitfalls from "../../../components/manual/Pitfalls.astro";
+import Callout from "../../../components/manual/Callout.astro";
+
+
+## 1\. Select the loopback device
+
+<Tabs>
+<Tab label="Windows">
+-   Click on **Audio Setup** and ensure **Windows WASAPI** is set as the Host.
+    
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FQWkSRbtdAaHhIwnxrdLL%252Faudacity_avgZPNDCSa.png%3Falt%3Dmedia%26token%3Dfb60d52b-aaa5-4795-86dd-8c1dcd837c4d&width=768&dpr=3&quality=100&sign=4b95ee18&sv=2)
+
+Select **Windows WASAPI in Audio Setup > Host**
+
+-   Select the output you want to use (the device you're using to listen) as the recording device. It will be marked with a (loopback) after it's name.
+    
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FqSTapFBHXvTG3a0BOHOf%252Faudacity_MnCiNlq5w1.png%3Falt%3Dmedia%26token%3D3fbd7845-8ede-4702-b7f0-b39bd6d0e3a8&width=768&dpr=3&quality=100&sign=f90a64aa&sv=2)
+
+Select the **loopback** option for the device you want to record audio from.
+
+Some sound cards also contain a loopback option called _Stereo Mix_, _What you hear_ or similar. This also will record your desktop audio.
+</Tab>
+<Tab label="macOS">
+
+<Callout type="info">
+macOS does not have built-in desktop audio recording capabilities. You'll need to download Soundflower to record desktop audio.
+</Callout>
+
+#### Soundflower
+
+<Callout type="warning" title="Caution">
+Soundflower is not compatible with Apple Silicon-based machines ("M1", "M2", …).
+</Callout>
+
+1.  Download Soundflower from [https://github.com/mattingalls/Soundflower/releases/](https://github.com/mattingalls/Soundflower/releases/) and follow the instructions provided there to install it.
+    
+2.  Open the **Audio MIDI Setup** app (found in `/Applications/Utilities`).
+    
+3.  Press the **+** button in the bottom left corner and select "**Create Multi-Output Device**".
+    
+4.  In the panel that appears to the right, select **Built-in Output** and **Soundflower (2ch)**.
+    
+5.  Press the gear button in the bottom left and select "use this device for sound output". **Note:** If you don't set an option, you won't hear anything after completing the following steps.
+    
+6.  Start Audacity
+    
+7.  Click the **Audio Setup** button and set **Soundflower (2ch)** as the recording device.
+</Tab>
+<Tab label="Linux">
+When using PulseAudio (default for Ubuntu, Linux Mint, and others):
+
+1.  Install PulseAudio Volume Control (pavucontrol). This should be in your repository already.
+    
+2.  Use the **Audio Setup** toolbar to select **ALSA** as the audio host and select **pulse** as the recording device.
+    
+    If your system uses Pulse by default, the pulse device may be called **default**.
+    
+3.  Enable the recording meter by selecting **Start Monitoring**.
+    
+    ![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2Fgithub.com%2Faudacity%2Faudacity-support%2Fblob%2Fau4%2F.gitbook%2Fassets%2Fimage%2520%282%29%2520%282%29.png&width=768&dpr=3&quality=100&sign=f066127c&sv=2)
+    
+    Click the Microphone icon to start monitoring the recording level
+    
+4.  Open **PulseAudio Volume Control** and choose the **Recording** tab.
+    
+5.  In the **Capture from** dropdown, select the "Monitor" option of the playback device used by the application you want to record from
+    
+    ![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2Fgithub.com%2Faudacity%2Faudacity-support%2Fblob%2Fau4%2F.gitbook%2Fassets%2Fimage%2520%2817%29.png&width=768&dpr=3&quality=100&sign=896cec70&sv=2)
+    
+    PulseAudio Volume Control - Select **Capture from:** Monitor of device
+    
+6.  Launch the application that you wish to record and begin playback.
+    
+7.  In the "Recording" tab of PulseAudio Volume Control, drag the volume sliders so that the recording level in Audacity's Recording Meter is to left of 0 dB (-6 dB is a good level to aim for).
+</Tab>
+</Tabs>
+
+## 2\. Check if everything is set up correctly
+
+Recording the desktop audio will record all desktop audio, including notification-pings, games, and Audacity itself (for example, other tracks in the timeline if you're using overdub). So unless you specifically want these noises, make sure to turn them off.
+
+<Pitfalls>
+
+**Don't use input monitoring** when recording desktop audio. Make sure it's off.
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FNd7Ci8casMCrYWLDTSsl%252Fimage.png%3Falt%3Dmedia%26token%3Daf4fa1a7-936a-470f-94b5-4ae21b211550&width=300&dpr=3&quality=100&sign=9e808295&sv=2)
+
+</Pitfalls>
+
+## 3\. Record
+
+Hit play to ensure audio is playing and then the record button to record your desktop audio.
+
+**Ensure audio is playing first** when recording desktop audio as although WASAPI can record a silent audio stream it can’t record when there’s no audio stream.

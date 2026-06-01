@@ -1,0 +1,55 @@
+/* TransportButton — light-grey square icon button, 28×28, used in the
+   transport cluster. Colours baked in; the source uses theme tokens we
+   don't have in this project. */
+
+.transport-button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 3px;
+  background-color: transparent;
+  color: #1f2024;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.1s ease;
+}
+
+.transport-button:hover {
+  background-color: #ececef;
+}
+
+.transport-button:active {
+  background-color: #dfdfe3;
+}
+
+.transport-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.transport-button--active {
+  background-color: #dfdfe3;
+}
+
+.transport-button--recording {
+  background-color: #d93535;
+  color: #ffffff;
+}
+
+.transport-button--recording:hover {
+  background-color: #c42d2d;
+}
+
+.transport-button:focus-visible {
+  outline: 2px solid #0066ff;
+  outline-offset: 2px;
+}
+
+.transport-button__icon {
+  line-height: 0;
+}

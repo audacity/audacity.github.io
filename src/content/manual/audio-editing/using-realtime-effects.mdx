@@ -1,0 +1,85 @@
+---
+title: Using master effects & realtime effects
+description: "You can add realtime effects using the following steps:"
+section: Audio Editing
+sectionOrder: 4
+order: 1
+---
+
+import Notes from "../../../components/manual/Notes.astro";
+import TipsAndTricks from "../../../components/manual/TipsAndTricks.astro";
+import Callout from "../../../components/manual/Callout.astro";
+
+## Adding effects to a track
+
+You can add realtime effects using the following steps:
+
+![Click the Effects button or press the E key to activate the realtime effects panel](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FIaoihysFqrJsTFRHrj7F%252Faudacity_U6xn9MIqiL.png%3Falt%3Dmedia%26token%3D77e0e89d-62d2-4475-9e9b-a0b7e0253784&width=768&dpr=3&quality=100&sign=228552b2&sv=2)
+
+1. Click the **Effects** button or press the **E** key to activate the realtime effects panel
+
+![Clck Add effect to display the list of available effects](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FXI8nv2FpVavaRMWf3ibE%252Faudacity_7WW2IhXa52.png%3Falt%3Dmedia%26token%3D651ff7e9-7c55-4b10-887d-2ecde219341d&width=768&dpr=3&quality=100&sign=9ce8f0ef&sv=2)
+
+2. Click **Add effect** to display the list of available effects
+
+![Select the effect to add to your track](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FT9E52OocLVTc8qmle8wh%252Faudacity_W9Aub4dujC.png%3Falt%3Dmedia%26token%3De85c82bd-6bb2-457f-b51d-4563f9914637&width=768&dpr=3&quality=100&sign=b76fb742&sv=2)
+
+3. Select the effect to add to your track
+
+![Example image of Audacity's compressor](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FdCZcP6N3tIq8XA5CVmET%252Faudacity_8pVejTGdEX.png%3Falt%3Dmedia%26token%3Dc3949aa4-ed6a-4cd9-bb49-5ad8c27875b1&width=768&dpr=3&quality=100&sign=4652b394&sv=2)
+
+4. Change the effect to your liking.
+
+<Notes>
+
+- Realtime effects always apply to an entire track.
+- Since these effects are calculated realtime, they won't change the source waveform.
+- Realtime effects are automatically applied to the track. You can safely close the effect window once you're done tweaking the effect.
+
+</Notes>
+
+## Adding effects to all tracks (Master effects)
+
+To add master effects, first **open the realtime effects panel** (Shortcut: `E`). At the bottom of the panel, you'll find a **Master Effects** section.
+
+Master effects are effects which are applied to the master mix (that is, after all the individual tracks in the project are mixed together, with any per-track realtime effects as well as gain and pan faders applied).
+
+<TipsAndTricks>
+
+- For music, use a little reverb on the master to make the project sound a little less "dry".
+- You can put a limiter on the master to prevent clipping. Limiters do distort the audio a little, but not as badly as clipping would.
+- You can adjust the loudness of your entire mix in this stage and do other tweaks to make the audio sound better — this is called "mastering".
+
+</TipsAndTricks>
+
+## Changing effect settings
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2Fgithub.com%2Faudacity%2Faudacity-support%2Fblob%2Fau4%2F.gitbook%2Fassets%2Feffects%2520panel%2520effect%2520focus.png&width=768&dpr=3&quality=100&sign=86fb9c1b&sv=2)
+
+You can change the effect settings by clicking on the effect's name. This will open a settings window, often with a graphical interface which looks nothing like Audacity itself. You still can interact with the main Audacity window while the effect settings are open.
+
+## Bypassing an effect
+
+![the stack bypass is the first thing in focus when opening the effects panel. pressing down nagivates to any present effects. Pressing then tab first selects the power button](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2Fgithub.com%2Faudacity%2Faudacity-support%2Fblob%2Fau4%2F.gitbook%2Fassets%2Feffects%2520bypasses.png&width=768&dpr=3&quality=100&sign=ee31f466&sv=2)
+
+You can press the blue power button next to an effect (or the entire effects stack) to bypass it, causing it to be not applied to your audio.
+
+<Callout type="tip">
+If you want to completely remove an effect from the stack, **press the triangle** next to the effect name and select "**No Effect**".
+</Callout>
+
+## Applying an effect stack to the waveform
+
+It generally is not necessary to apply the effect stack. The stack is automatically applied when [**exporting the audio**](https://support.audacityteam.org/au4/basics/saving-and-exporting-projects#exporting-audio).
+
+That said, you can apply the effect stack to the waveform by first selecting the track and then going to **Tracks > Mix > Mix and Render**.
+
+<Callout type="warning" title="Caution">
+When selecting several tracks at once, the Mix and Render option will mix all tracks together.
+</Callout>
+
+Master effects are only rendered when exporting the file.
+
+## Getting more effects
+
+While Audacity doesn't yet ship with many realtime effects, you can download plugins for it. Currently supported plugin formats are **Audio Units** (macOS only), **VST3**, **VST**, **LV2**, and **LADSPA**. You can get many of these effects via the Muse Hub, and we have collected some plugins at [plugins.audacityteam.org](https://plugins.audacityteam.org/). Once you install the plugins, they should be detected by Audacity once you restart it, if not, see the installation instructions.

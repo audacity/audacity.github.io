@@ -1,0 +1,53 @@
+/* ToolButton — light-grey square icon button used outside the transport
+   cluster. 28×28 default, 20×20 small. */
+
+.tool-button {
+  border: none;
+  border-radius: 2px;
+  background-color: transparent;
+  color: #1f2024;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.1s ease;
+}
+
+.tool-button--default {
+  width: 28px;
+  height: 28px;
+}
+
+.tool-button--small {
+  width: 20px;
+  height: 20px;
+}
+
+.tool-button:hover {
+  background-color: #ececef;
+}
+
+.tool-button:active {
+  background-color: #dfdfe3;
+}
+
+.tool-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tool-button--active {
+  background-color: #dfdfe3;
+}
+
+.tool-button:focus-visible {
+  outline: 2px solid #0066ff;
+  outline-offset: 2px;
+}
+
+.tool-button__icon {
+  line-height: 0;
+}

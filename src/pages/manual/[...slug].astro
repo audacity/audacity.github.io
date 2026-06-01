@@ -1,7 +1,11 @@
 ---
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import ManualPagination from "../../components/manual/ManualPagination.astro";
+import { getLastUpdated } from "../../utils/lastUpdated";
 
 export async function getStaticPaths() {
   const entries = await getCollection("manual", ({ data }) => !data.draft);
@@ -13,6 +17,16 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+
+const projectRoot = fileURLToPath(new URL("../../..", import.meta.url));
+const entryPath = path.join(projectRoot, "src", "content", "manual", entry.id);
+const lastUpdated = getLastUpdated(entryPath);
+const lastUpdatedLabel = lastUpdated.toLocaleDateString("en-GB", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+const lastUpdatedISO = lastUpdated.toISOString();
 ---
 
 <BaseLayout
@@ -38,6 +52,10 @@ const { Content } = await entry.render();
           )
         }
         <Content />
+        <ManualPagination currentSlug={entry.slug} />
+        <p class="not-prose mt-8 text-xs text-gray-500">
+          Last updated <time datetime={lastUpdatedISO}>{lastUpdatedLabel}</time>
+        </p>
       </article>
     </div>
   </main>
