@@ -12,6 +12,7 @@ playwright/.cache/
 
 # misc local files
 local/
+tmp/
 
 # skills (internal workflows — keep off public repo)
 .github/skills/

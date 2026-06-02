@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import UIMap from "../../components/manual/UIMap.jsx";
+import ManualToolbarDemo from "../../components/manual/Toolbar/ManualToolbarDemo.jsx";
+import "@dilsonspickles/components/style.css";
+import projectWindow from "../../assets/img/manual/Manual-UI.webp";
+
+// Hotspot coordinates are percentages (0-100) of the image.
+// Add entries as we identify regions on Manual-UI.webp. Each entry needs:
+//   { n, label, x, y, w, h, href }
+const projectHotspots: Array<{
+  n: number;
+  label: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  href: string;
+}> = [
+  {
+    n: 1,
+    label: "Project toolbar",
+    x: 0,
+    y: 3,
+    w: 100,
+    h: 4,
+    href: "/manual/interface/project-toolbar",
+  },
+  {
+    n: 2,
+    label: "Tools toolbar",
+    x: 0,
+    y: 7,
+    w: 100,
+    h: 5,
+    href: "/manual/interface/tools-toolbar",
+  },
+];
+---
+
+<BaseLayout
+  title="Audacity ® Manual"
+  description="The official guide to Audacity 4. Search by keyword or click the UI to find what you need."
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 pb-32">
+      <aside
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
+      >
+        <ManualSidebar currentSlug="" />
+      </aside>
+
+      <article class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6">
+        <header class="mb-8">
+          <h1 class="text-4xl lg:text-5xl">Audacity Manual</h1>
+          <p class="text-lg text-gray-600 mt-2">
+            Search by keyword, or click anywhere on the project window to jump
+            to that part of the interface.
+          </p>
+        </header>
+
+        <section aria-labelledby="toolbar-heading" class="mb-12">
+          <h2 id="toolbar-heading" class="text-2xl">Click an interface</h2>
+          <p class="mt-2 text-gray-700">
+            The Audacity 4 toolbar, recreated. Click a button to jump to its
+            manual page.
+          </p>
+          <div class="mt-6 border border-gray-200 rounded-lg overflow-hidden">
+            <ManualToolbarDemo client:load />
+          </div>
+        </section>
+
+        <section aria-labelledby="map-heading">
+          <h2 id="map-heading" class="text-2xl">Find it on the screen</h2>
+          <p class="mt-2 text-gray-700">
+            Hover or focus a number, then click to read about that part of the
+            Audacity 4 project window.
+          </p>
+          <UIMap
+            client:load
+            src={projectWindow}
+            alt="Audacity 4 project window map"
+            hotspots={projectHotspots}
+          />
+        </section>
+      </article>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,117 @@
+---
+import "./Tabs.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class:list={["manual-tabs", className]} data-manual-tabs>
+  <div class="manual-tabs__tablist" role="tablist"></div>
+  <slot />
+</div>
+
+<script>
+  // Wire up every <div data-manual-tabs> on the page: walks its <div
+  // data-tab-label="…"> panels, builds a row of tab buttons from them,
+  // hides all but one, and toggles on click / arrow keys. OS auto-select
+  // honours the data-os attribute set on <html> by BaseLayout.
+  function initManualTabs(root: HTMLElement) {
+    if (root.dataset.manualTabsReady === "1") return;
+    root.dataset.manualTabsReady = "1";
+
+    const panels = Array.from(
+      root.querySelectorAll<HTMLElement>(":scope > [data-tab-label]"),
+    );
+    if (panels.length === 0) return;
+
+    const tablist = root.querySelector<HTMLElement>(".manual-tabs__tablist");
+    if (!tablist) return;
+
+    const os = document.documentElement.getAttribute("data-os") ?? "";
+    const needles =
+      os === "mac"
+        ? ["macos", "mac os", "mac"]
+        : os === "win"
+          ? ["windows", "win"]
+          : [];
+
+    let activeIndex = 0;
+    if (needles.length) {
+      const i = panels.findIndex((p) => {
+        const label = (p.dataset.tabLabel ?? "").toLowerCase();
+        return needles.some((n) => label.includes(n));
+      });
+      if (i >= 0) activeIndex = i;
+    }
+
+    const buttons: HTMLButtonElement[] = panels.map((panel, i) => {
+      const label = panel.dataset.tabLabel ?? `Tab ${i + 1}`;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.role = "tab";
+      button.id = `${root.id || "manual-tab"}-tab-${i}`;
+      button.textContent = label;
+      button.className = "manual-tabs__tab";
+      button.setAttribute("aria-controls", panel.id || `manual-tabpanel-${i}`);
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", button.id);
+      tablist.appendChild(button);
+      return button;
+    });
+
+    function setActive(next: number) {
+      buttons.forEach((b, i) => {
+        const isActive = i === next;
+        b.classList.toggle("manual-tabs__tab--active", isActive);
+        b.setAttribute("aria-selected", String(isActive));
+        b.tabIndex = isActive ? 0 : -1;
+        panels[i].hidden = !isActive;
+      });
+      activeIndex = next;
+    }
+
+    buttons.forEach((b, i) => {
+      b.addEventListener("click", () => setActive(i));
+    });
+
+    tablist.addEventListener("keydown", (e) => {
+      const key = (e as KeyboardEvent).key;
+      if (key === "ArrowRight") {
+        e.preventDefault();
+        const next = (activeIndex + 1) % buttons.length;
+        setActive(next);
+        buttons[next].focus();
+      } else if (key === "ArrowLeft") {
+        e.preventDefault();
+        const next = (activeIndex - 1 + buttons.length) % buttons.length;
+        setActive(next);
+        buttons[next].focus();
+      } else if (key === "Home") {
+        e.preventDefault();
+        setActive(0);
+        buttons[0].focus();
+      } else if (key === "End") {
+        e.preventDefault();
+        setActive(buttons.length - 1);
+        buttons[buttons.length - 1].focus();
+      }
+    });
+
+    setActive(activeIndex);
+  }
+
+  function initAll() {
+    document
+      .querySelectorAll<HTMLElement>("[data-manual-tabs]")
+      .forEach(initManualTabs);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAll);
+  } else {
+    initAll();
+  }
+</script>

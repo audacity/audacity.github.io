@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
+import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 
 import sitemap from "@astrojs/sitemap";
@@ -16,6 +17,7 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
+    mdx(),
     icon({
       include: {
         "fa6-brands": ["apple", "windows", "linux"],
@@ -35,7 +37,7 @@ export default defineConfig({
       ],
     },
     build: {
-      assets: 'assets',
+      assets: "assets",
     },
   },
 });

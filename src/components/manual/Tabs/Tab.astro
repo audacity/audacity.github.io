@@ -1,0 +1,16 @@
+---
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["manual-tabs__panel", className]}
+  data-tab-label={label}
+  hidden
+>
+  <slot />
+</div>

@@ -1,0 +1,101 @@
+---
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import ManualPagination from "../../components/manual/ManualPagination.astro";
+import { getLastUpdated } from "../../utils/lastUpdated";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("manual", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Immediate children: slug starts with `${entry.slug}/` and has no further
+// nesting beyond that. Used to render an in-page "Pages in this section"
+// list on parent pages.
+const allEntries = await getCollection("manual", ({ data }) => !data.draft);
+const childPrefix = `${entry.slug}/`;
+const children = allEntries
+  .filter((e) => {
+    if (!e.slug.startsWith(childPrefix)) return false;
+    const remainder = e.slug.slice(childPrefix.length);
+    return remainder.length > 0 && !remainder.includes("/");
+  })
+  .sort((a, b) => {
+    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+    return a.slug.localeCompare(b.slug);
+  });
+
+const projectRoot = fileURLToPath(new URL("../../..", import.meta.url));
+const entryPath = path.join(projectRoot, "src", "content", "manual", entry.id);
+const lastUpdated = getLastUpdated(entryPath);
+const lastUpdatedLabel = lastUpdated.toLocaleDateString("en-GB", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+const lastUpdatedISO = lastUpdated.toISOString();
+---
+
+<BaseLayout
+  title={`Audacity ® Manual | ${entry.data.title}`}
+  description={entry.data.description ?? entry.data.title}
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 pb-32">
+      <aside
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
+      >
+        <ManualSidebar currentSlug={entry.slug} />
+      </aside>
+      <article
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 prose prose-blue"
+        data-pagefind-body
+      >
+        <h1>{entry.data.title}</h1>
+        {
+          entry.data.description && (
+            <p class="lead text-lg text-gray-600">{entry.data.description}</p>
+          )
+        }
+        <Content />
+        {
+          children.length > 0 && (
+            <ul class="not-prose mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {children.map((child) => (
+                <li>
+                  <a
+                    href={`/manual/${child.slug}`}
+                    class="block h-full p-4 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+                  >
+                    <span class="block font-semibold text-gray-900 text-base">
+                      {child.data.title}
+                    </span>
+                    {child.data.description && (
+                      <span class="block text-sm text-gray-600 mt-1">
+                        {child.data.description}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+        <ManualPagination currentSlug={entry.slug} />
+        <p class="not-prose mt-8 text-xs text-gray-500">
+          Last updated <time datetime={lastUpdatedISO}>{lastUpdatedLabel}</time>
+        </p>
+      </article>
+    </div>
+  </main>
+</BaseLayout>

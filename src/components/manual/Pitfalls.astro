@@ -1,0 +1,112 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = "Pitfalls to avoid", class: className = "" } = Astro.props;
+---
+
+<aside class:list={["pitfalls not-prose", className]}>
+  <div class="pitfalls__header">
+    <span class="pitfalls__badge" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </span>
+    <p class="pitfalls__title">{title}</p>
+  </div>
+  <div class="pitfalls__body">
+    <slot />
+  </div>
+</aside>
+
+<style is:global>
+  .pitfalls {
+    border: 1px solid rgb(220 38 38 / 0.4);
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .pitfalls__header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    background-color: rgb(220 38 38);
+    color: white;
+  }
+
+  .pitfalls__badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: white;
+    color: rgb(220 38 38);
+  }
+
+  .pitfalls__badge svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .pitfalls__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+  }
+
+  .pitfalls__body {
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: rgb(31 41 55);
+    line-height: 1.6;
+  }
+
+  .pitfalls__body > * + * {
+    margin-top: 1rem;
+  }
+
+  .pitfalls__body > :first-child {
+    margin-top: 0;
+  }
+
+  .pitfalls__body > :last-child {
+    margin-bottom: 0;
+  }
+
+  .pitfalls__body p {
+    margin: 0;
+  }
+
+  .pitfalls__body ul,
+  .pitfalls__body ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .pitfalls__body li + li {
+    margin-top: 0.25rem;
+  }
+
+  .pitfalls__body img {
+    margin: 0.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

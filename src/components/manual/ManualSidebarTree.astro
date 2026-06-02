@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface TreeNode {
+  title: string;
+  slug: string;
+  order: number;
+  children: TreeNode[];
+  entry: CollectionEntry<"manual">;
+}
+
+interface Props {
+  nodes: TreeNode[];
+  currentSlug: string;
+  depth: number;
+}
+
+const { nodes, currentSlug, depth } = Astro.props;
+---
+
+<ul
+  class:list={[
+    "manual-tree space-y-1",
+    depth > 0 && "ml-3 mt-1 border-l border-gray-200 pl-3",
+  ]}
+>
+  {
+    nodes.map((node) => {
+      const isActive = node.slug === currentSlug;
+      const isAncestor =
+        currentSlug.startsWith(node.slug + "/") && node.slug !== currentSlug;
+      const hasChildren = node.children.length > 0;
+      // Default open if this node is in the active path; otherwise collapsed.
+      // The inline script overrides this from localStorage when the page loads.
+      const initiallyOpen = isActive || isAncestor;
+      return (
+        <li
+          class="manual-tree__item"
+          data-slug={node.slug}
+          data-has-children={hasChildren ? "true" : undefined}
+          data-state={
+            hasChildren ? (initiallyOpen ? "open" : "closed") : undefined
+          }
+        >
+          <div class="flex items-center gap-1">
+            <a
+              href={`/manual/${node.slug}`}
+              class:list={[
+                "flex-1 block py-1",
+                isActive
+                  ? "text-blue-700 font-semibold"
+                  : isAncestor
+                    ? "text-blue-700"
+                    : "text-gray-700 hover:text-blue-700",
+              ]}
+            >
+              {node.title}
+            </a>
+            {hasChildren && (
+              <button
+                type="button"
+                class="manual-tree__toggle shrink-0 p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                aria-label={`Toggle ${node.title}`}
+                data-tree-toggle
+              >
+                <svg
+                  class="w-3.5 h-3.5 transition-transform"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="4 6 8 10 12 6" />
+                </svg>
+              </button>
+            )}
+          </div>
+          {hasChildren && (
+            <Astro.self
+              nodes={node.children}
+              currentSlug={currentSlug}
+              depth={depth + 1}
+            />
+          )}
+        </li>
+      );
+    })
+  }
+</ul>

@@ -1,0 +1,58 @@
+---
+title: Saving and exporting projects
+description: "There are two ways to get your work out of Audacity: Saving the
+  project, and exporting audio."
+section: Audacity Basics
+sectionOrder: 3
+order: 5
+---
+
+import Callout from "../../../components/manual/Callout.astro";
+import TipsAndTricks from "../../../components/manual/TipsAndTricks.astro";
+
+## ☁️ Saving projects to cloud
+
+<Callout type="info">
+Cloud projects have backups and versioning, ensuring you'll never lose your work, even if your computer was to fail. Additionally, you can easily share them with collaborators.
+</Callout>
+
+To save a project to the cloud, first go to **File -> Save to Cloud**. In the dialog that follows, click **Link Account**.
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2Fgithub.com%2Faudacity%2Faudacity-support%2Fblob%2Fau4%2F.gitbook%2Fassets%2Faudiocom%2520link%2520account.png&width=768&dpr=3&quality=100&sign=2ab7ced9&sv=2)
+
+Save to audio.com
+
+You will be guided through the [audio.com](https://audio.com/) signup process, and finally given an option to link your [audio.com](https://audio.com/) account to Audacity.
+
+Once you have linked your audio.com account to Audacity, simply **enter the project name** and hit **Save**. The project will now be uploaded in the background.
+
+For the first time you save, you'll be asked how often you want to generate a mixdown. The mixdown is used to preview the file on [audio.com](https://audio.com/). If you don't intend on collaborating with others, it may not be necessary to generate mixdowns. You can change your preference at any time in **Edit -> Preferences -> Cloud**.
+
+## Saving projects to the computer (.aup3)
+
+You can save projects using the **File -> Save Project -> Save Project** menu.
+
+A saved project has the most information about your project available. If you save a project, you can change [realtime effects](https://support.audacityteam.org/au4/audio-editing/using-realtime-effects) later on, or untrim clips.
+
+<Callout type="warning">
+Avoid saving active projects on external drives, USB sticks, or network storage. Audacity requires fast, uninterrupted access to your storage when recording and editing.
+</Callout>
+
+## Exporting audio (.mp3, .wav, .ogg, ...)
+
+<Callout type="info">
+You may need to [install FFMPEG](https://support.audacityteam.org/au4/basics/installing-ffmpeg) to access some of these options.
+</Callout>
+
+You can export your project into an audio file using the **File -> Export Audio...** menu item. Exported audio files can be opened with a wide variety of programs.
+
+The Export Audio Window
+
+<TipsAndTricks>
+
+- Use mono if you don't need directionality (e.g. if you're just recording your voice).
+- As an alternative to MP3, the Opus and M4A (AAC) options deliver higher quality at the same file size compared to MP3.
+- As an alternative to WAV, the FLAC and Wavpack options offer lossless compression, reducing file sizes by up to half while not losing any information.
+
+</TipsAndTricks>
+
