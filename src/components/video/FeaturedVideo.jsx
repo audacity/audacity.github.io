@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { trackEvent } from "../../utils/matomo";
-import ytLogo from "../../assets/img/yt.svg"
+import ytLogo from "../../assets/img/yt.svg";
 
 function FeaturedVideo(props) {
   const [isClicked, setIsClicked] = useState(false);
@@ -14,7 +14,7 @@ function FeaturedVideo(props) {
     CTA,
     ctaText,
     ctaURL = "",
-    textColor = "text-slate-900",
+    textColor = "text-text-primary",
     matomoEventName,
   } = props;
 
@@ -30,16 +30,18 @@ function FeaturedVideo(props) {
     <div className="flex flex-col gap-2 lg:gap-4 w-full">
       {title && (
         <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
-          <h3 className={`content-center ${textColor}`}>{title}</h3>
+          <h3
+            className={`content-center text-18 lg:text-24 font-semibold ${textColor}`}
+          >
+            {title}
+          </h3>
           {CTA && (
             <a
-              className="py-3 px-4 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit"
+              className="py-2 px-4 rounded-full justify-center bg-accent text-white hover:opacity-90 transition-opacity w-fit font-semibold"
               href={ctaURL}
               onClick={() => handleCTAClick()}
             >
-              <p className={`text-slate-900 leading-none font-semibold`}>
-                {ctaText}
-              </p>
+              {ctaText}
             </a>
           )}
         </div>
@@ -56,18 +58,22 @@ function FeaturedVideo(props) {
         ></iframe>
       ) : (
         <div className="thumbnail-container grid grid-cols-1 grid-rows-1 place-items-center [grid-template-areas:'main']">
-        <img
-          tabIndex="0"
-          src={placeholderImage}
-          alt={imageAltText}
-          className="w-full aspect-video rounded-md shadow-xl cursor-pointer [grid-area:main]"
-          onClick={() => handleVideoClick()}
-          onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
-        />
-        <img src={ytLogo.src} alt="YouTube logo" className="yt-logo w-24 h-24 [grid-area:main] pointer-events-none" />
+          <img
+            tabIndex="0"
+            src={placeholderImage}
+            alt={imageAltText}
+            className="w-full aspect-video rounded-md shadow-xl cursor-pointer [grid-area:main]"
+            onClick={() => handleVideoClick()}
+            onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
+          />
+          <img
+            src={ytLogo.src}
+            alt="YouTube logo"
+            className="yt-logo w-24 h-24 [grid-area:main] pointer-events-none"
+          />
         </div>
       )}
-      {label && <p className={`${textColor}`}>{label}</p>}
+      {label && <p className={`text-16 leading-snug ${textColor}`}>{label}</p>}
     </div>
   );
 }

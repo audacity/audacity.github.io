@@ -1,91 +1,55 @@
+import React, { useEffect, useState } from "react";
+import platform from "platform";
 import { audacityReleases } from "../../assets/data/audacityReleases";
-import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
+import { trackEvent } from "../../utils/matomo";
 
 function DownloadButton() {
-  function handleButtonClick(link) {
-    const { href, osLabel, releaseName } = link;
+  const [browserOS, setBrowserOS] = useState("");
+
+  useEffect(() => {
+    setBrowserOS(platform.os.family);
+  }, []);
+
+  function handleButtonClick(href) {
     if (href !== "/download") {
       trackEvent(
         "Download Button",
         "Download Audacity",
-        `Download Audacity button ${osLabel}`,
-      );
-      trackBinaryDownloadChoice({
-        variant: "control",
-        os: osLabel,
-        releaseName,
-        url: href,
-        source: "primary-audacity-button",
-      });
-    } else {
-      trackEvent(
-        "Download Button",
-        "Other Versions",
-        `Other versions ${osLabel}`,
+        `Download Audacity button ${platform.os.family}`,
       );
     }
 
     setTimeout(() => {
-      window.location.href = "/post-download";
+      window.location.href = "post-download";
     }, 2000);
   }
 
-  const links = [
-    {
-      osClass: "os-mac",
-      osLabel: "OS X",
-      href: audacityReleases.mac[0].browser_download_url,
-      releaseName: audacityReleases.mac[0].name,
-    },
-    {
-      osClass: "os-win",
-      osLabel: "Windows",
-      href: audacityReleases.win[0].browser_download_url,
-      releaseName: audacityReleases.win[0].name,
-    },
-  ];
+  function renderButton(href) {
+    return (
+      <a
+        onClick={() => handleButtonClick(href)}
+        className="text-text-primary font-semibold hover:underline text-center w-fit lg:w-[320px]"
+        href={href}
+      >
+        Download without Muse Hub
+      </a>
+    );
+  }
 
-  const renderDownloadLink = (link) => (
-    <a
-      key={link.osClass}
-      onClick={() => handleButtonClick(link)}
-      className={`os-specific ${link.osClass} text-white font-semibold hover:underline`}
-      href={link.href}
-    >
-      Download without MuseHub
-    </a>
-  );
-
-  const renderOtherVersionsLink = (link) => (
-    <a
-      key={link.osClass}
-      onClick={() =>
-        trackEvent(
-          "Download Button",
-          "Other Versions",
-          `Other versions ${link.osLabel}`,
-        )
-      }
-      className={`os-specific ${link.osClass} text-white font-semibold hover:underline`}
-      href="https://www.audacityteam.org/download/"
-    >
-      Other versions
-    </a>
-  );
-
-  return (
-    <>
-      <span className="ab-variant ab-musehub-badge-control">
-        {links.map(renderDownloadLink)}
-      </span>
-      <span className="ab-variant ab-musehub-badge-musehub">
-        {links.map(renderOtherVersionsLink)}
-      </span>
-      <span className="ab-variant ab-musehub-badge-download">
-        {links.map(renderOtherVersionsLink)}
-      </span>
-    </>
-  );
+  switch (browserOS) {
+    case "OS X":
+      return renderButton(audacityReleases.mac[0].browser_download_url);
+    case "Windows":
+      return renderButton(audacityReleases.win[0].browser_download_url);
+    case "Linux":
+    case "Ubuntu":
+    case "Debian":
+    case "Red Hat":
+    case "SuSE":
+      return; //primary button is Linux download already
+    default:
+      return renderButton("/download");
+  }
 }
 
 export default DownloadButton;

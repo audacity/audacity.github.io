@@ -1,102 +1,72 @@
+import React, { useEffect, useState } from "react";
+import platform from "platform";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { museHubReleases } from "../../assets/data/museHubReleases";
-import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
-import badgeBWhite from "../../assets/img/musehub/musehub-badge-b-white.svg";
-import badgeCWhite from "../../assets/img/musehub/musehub-badge-c-white.svg";
+import { trackEvent } from "../../utils/matomo";
 
 function DownloadMuseHubButton() {
-  function handleClick(link, variant) {
-    const os = link.osLabel;
-    trackEvent(
-      "Download Button",
-      "Download MuseHub",
-      `Download MuseHub button ${os}`,
-    );
-    trackBinaryDownloadChoice({
-      variant,
-      os,
-      releaseName: link.releaseName,
-      url: link.href,
-      source: "primary-musehub-button",
-    });
+  const [browserOS, setBrowserOS] = useState("");
+
+  useEffect(() => {
+    setBrowserOS(platform.os.family);
+  }, []);
+
+  const isLinux =
+    browserOS === "Linux" ||
+    browserOS === "Ubuntu" ||
+    browserOS === "Debian" ||
+    browserOS === "Red Hat" ||
+    browserOS === "SuSE";
+
+  function handleButtonClick(href) {
+    if (
+      href !== "https://www.musehub.com/" &&
+      href !== audacityReleases.lin[0].browser_download_url
+    ) {
+      trackEvent(
+        "Download Button",
+        "Download Muse Hub",
+        `Download Muse Hub button ${browserOS}`,
+      );
+    } else if (href === audacityReleases.lin[0].browser_download_url) {
+      trackEvent(
+        "Download Button",
+        "Download Audacity",
+        `Download Audacity button ${browserOS}`,
+      );
+    }
+
     setTimeout(() => {
-      window.location.href = "/post-download";
+      window.location.href = "post-download";
     }, 2000);
   }
 
-  const links = [
-    {
-      osClass: "os-mac",
-      osLabel: "OS X",
-      href: museHubReleases.mac[0].browser_download_url,
-      releaseName: museHubReleases.mac[0].name,
-    },
-    {
-      osClass: "os-win",
-      osLabel: "Windows",
-      href: museHubReleases.win[0].browser_download_url,
-      releaseName: museHubReleases.win[0].name,
-    },
-    {
-      osClass: "os-linux",
-      osLabel: "Linux",
-      href: audacityReleases.lin[0].browser_download_url,
-      releaseName: audacityReleases.lin[0].name,
-    },
-  ];
-
-  const renderControlButton = (link, key, variant = "control") => (
-    <a
-      key={key}
-      onClick={() => handleClick(link, variant)}
-      className={`os-specific ${link.osClass} py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit`}
-      href={link.href}
-    >
-      <span className="icon icon-import"></span>
-      <p>
-        <span className="font-semibold">
-          Download Audacity {audacityReleases.version}
-        </span>
-        <br />
-        {false && <span className="font-light text-s">via MuseHub</span>}
-      </p>
-    </a>
-  );
-
-  const renderBadgeButton = (link, badge, variant, key) => {
-    if (link.osClass === "os-linux") {
-      return renderControlButton(link, key, variant);
-    }
-
+  function renderButton(href) {
     return (
       <a
-        key={key}
-        onClick={() => handleClick(link, variant)}
-        className={`os-specific ${link.osClass}`}
-        href={link.href}
+        onClick={() => handleButtonClick(href)}
+        className="flex items-center justify-center h-12 lg:h-16 w-fit lg:w-[320px] px-6 lg:px-8 rounded-full bg-accent text-white font-semibold hover:opacity-90 transition-opacity"
+        href={href}
       >
-        <img src={badge.src} alt="Download on MuseHub" />
+        Download Audacity {audacityReleases.version}
       </a>
     );
-  };
+  }
 
-  return (
-    <>
-      <span className="ab-variant ab-musehub-badge-control">
-        {links.map((link) => renderControlButton(link, link.osClass))}
-      </span>
-      <span className="ab-variant ab-musehub-badge-musehub">
-        {links.map((link) =>
-          renderBadgeButton(link, badgeBWhite, "badge-musehub", link.osClass),
-        )}
-      </span>
-      <span className="ab-variant ab-musehub-badge-download">
-        {links.map((link) =>
-          renderBadgeButton(link, badgeCWhite, "badge-download", link.osClass),
-        )}
-      </span>
-    </>
-  );
+  switch (browserOS) {
+    case "OS X":
+      return renderButton(museHubReleases.mac[0].browser_download_url);
+    case "Windows":
+      return renderButton(museHubReleases.win[0].browser_download_url);
+    case "Linux":
+    case "Ubuntu":
+    case "Debian":
+    case "Red Hat":
+    case "SuSE":
+      return renderButton(audacityReleases.lin[0].browser_download_url); // appimage on Linux
+    default:
+      return renderButton("https://www.musehub.com/");
+  }
 }
 
 export default DownloadMuseHubButton;

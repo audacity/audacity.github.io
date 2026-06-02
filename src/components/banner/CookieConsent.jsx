@@ -10,7 +10,7 @@ function CookieConsent() {
           <p>
             We use cookies solely for analytics with Matomo. No third-party
             tracking. By clicking 'Accept', you allow us to track your visits.
-            Choose 'Reject' if you'd prefer not to be tracked. 
+            Choose 'Reject' if you'd prefer not to be tracked.
             <a
               href="/cookie-policy"
               className="hyperlink ml-1"
@@ -22,7 +22,7 @@ function CookieConsent() {
           <div className="flex w-full md:w-fit gap-2 mt-8 md:mt-0 md:ml-12">
             <a
               id="reject"
-              className="flex h-12 w-full md:w-fit justify-center items-center border-2 border-gray-300 px-8 rounded-md  text-gray-700 hover:bg-gray-100"
+              className="flex h-12 w-full md:w-fit justify-center items-center border-2 border-gray-300 px-8 rounded-md text-text-primary hover:bg-gray-100"
               href="#"
               aria-label="reject"
             >
@@ -30,7 +30,7 @@ function CookieConsent() {
             </a>
             <a
               id="accept"
-              className="flex h-12 w-full md:w-fit justify-center items-center px-8 rounded-md bg-blue-700 text-white hover:bg-blue-600"
+              className="flex h-12 w-full md:w-fit justify-center items-center px-8 rounded-md bg-accent text-white hover:opacity-90 transition-opacity"
               href="#"
               aria-label="accept"
             >
