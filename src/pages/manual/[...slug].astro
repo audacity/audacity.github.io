@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import ManualOnThisPage from "../../components/manual/ManualOnThisPage.astro";
 import ManualPagination from "../../components/manual/ManualPagination.astro";
 import { getLastUpdated } from "../../utils/lastUpdated";
 
@@ -16,7 +17,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 
 // Immediate children: slug starts with `${entry.slug}/` and has no further
 // nesting beyond that. Used to render an in-page "Pages in this section"
@@ -58,7 +59,7 @@ const lastUpdatedISO = lastUpdated.toISOString();
         <ManualSidebar currentSlug={entry.slug} />
       </aside>
       <article
-        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 prose prose-blue"
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-span-5 prose prose-blue"
         data-pagefind-body
       >
         <h1>{entry.data.title}</h1>
@@ -96,6 +97,18 @@ const lastUpdatedISO = lastUpdated.toISOString();
           Last updated <time datetime={lastUpdatedISO}>{lastUpdatedLabel}</time>
         </p>
       </article>
+      <aside
+        class="hidden xl:block xl:col-start-11 xl:col-span-2 sticky top-20 self-start"
+      >
+        <ManualOnThisPage headings={headings} />
+      </aside>
     </div>
   </main>
 </BaseLayout>
+
+<style is:global>
+  /* Offset anchor scrolling so headings clear the sticky site header (h-14). */
+  main .prose :is(h2, h3, h4, h5, h6)[id] {
+    scroll-margin-top: 5rem;
+  }
+</style>
