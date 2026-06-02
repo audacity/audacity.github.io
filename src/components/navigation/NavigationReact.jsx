@@ -17,15 +17,13 @@ function NavigationReact(props) {
   const navLinks = [
     { href: "/download", linkText: "Downloads", target: "" },
     { href: "/features/", linkText: "Features", target: "" },
+    { href: "/FAQ", linkText: "FAQ", target: "" },
+    { href: "/plugins", linkText: "Plugins", target: "" },
+    { href: "/blog", linkText: "Blog", target: "" },
     { href: "/help", linkText: "Help", target: "" },
     {
       href: "https://forum.audacityteam.org/",
       linkText: "Forum",
-      target: "_blank",
-    },
-    {
-      href: "https://merch.audacityteam.org/",
-      linkText: "Merch",
       target: "_blank",
     },
   ];
@@ -35,15 +33,16 @@ function NavigationReact(props) {
   }
 
   function renderNavLink(navLink, index) {
+    const isActive = getUrlPath(currentURL) === navLink.href;
     return (
       <a
         href={navLink.href}
         target={navLink.target}
         key={index}
         className={
-          getUrlPath(currentURL) === navLink.href
+          isActive
             ? "font-muse-sans text-16 text-accent"
-            : "font-muse-sans text-16 text-text-primary hover:text-accent"
+            : "font-muse-sans text-16 text-text-contrast hover:text-accent transition-colors"
         }
       >
         {navLink.linkText}
@@ -63,42 +62,35 @@ function NavigationReact(props) {
   }
 
   return (
-    <nav className="border-b-2 z-3 filter bg-white bg-opacity-90 backdrop-blur-xl">
-      <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-4 md:px-6">
-        <div className="flex-1">
-          <a className="flex w-fit items-center gap-2" href="/">
-            <AudacityIconSVG className="h-5 fill-text-primary" />
-            <AudacityWordmarkSVG className="h-5 fill-text-primary" />
-            <span className="font-muse-sans text-14 text-black opacity-80">
-              by muse group
-            </span>
-          </a>
+    <nav className="z-3 bg-background-dark">
+      <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-6 md:px-10 gap-8">
+        <a className="flex w-fit items-center gap-3 shrink-0" href="/">
+          <AudacityIconSVG className="h-7 fill-accent" />
+          <AudacityWordmarkSVG className="h-5 fill-accent" />
+        </a>
+
+        <div className="hidden sm:flex items-center gap-8">
+          {navLinks.map((navLink, index) => renderNavLink(navLink, index))}
         </div>
 
-        <div className="lg:flex-1 justify-center hidden gap-4 sm:flex items-center">
-          {navLinks.map((navLink, index) => {
-            return renderNavLink(navLink, index);
-          })}
-        </div>
-
-        <div className="hidden lg:flex flex-1 justify-end items-center gap-3">
+        <div className="hidden lg:flex flex-1 justify-end items-center gap-5">
           <a
             href="/cloud-saving"
-            className="font-muse-sans text-16 text-text-primary hover:text-accent"
+            className="font-muse-sans text-16 text-text-contrast hover:text-accent transition-colors"
           >
-            Audacity Cloud saving
+            Try Audacity Cloud
           </a>
           <SignUpButton onClick={handleButtonClick} />
         </div>
 
         <button
-          className="flex w-10 h-10 hover:bg-gray-100 active:bg-gray-200 rounded-sm justify-center items-center sm:hidden"
+          className="flex w-10 h-10 hover:bg-white/10 active:bg-white/20 rounded-sm justify-center items-center sm:hidden text-text-contrast"
           onClick={() => handleHamburgerMenuClick()}
           aria-label="Hamburger menu"
         >
           {isHamburgerMenuOpen ? (
             <svg
-              className="fill-gray-700 w-4"
+              className="fill-current w-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 512"
             >
@@ -106,7 +98,7 @@ function NavigationReact(props) {
             </svg>
           ) : (
             <svg
-              className="fill-gray-700 w-4"
+              className="fill-current w-4"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
             >
@@ -117,12 +109,12 @@ function NavigationReact(props) {
       </div>
 
       {isHamburgerMenuOpen && (
-        <div className="flex flex-col py-2 bg-gray-50 border-y-2 absolute left-0 right-0 z-40 transition-opacity duration-200 ease-in-out opacity-100">
+        <div className="flex flex-col py-2 bg-background-dark border-y border-white/10 absolute left-0 right-0 z-40 transition-opacity duration-200 ease-in-out opacity-100">
           {navLinks.map((navLink, index) => (
             <a
               key={index}
               onClick={() => handleHamburgerMenuClick()}
-              className="py-3 px-4 text-text-primary hover:text-accent hover:bg-gray-100 transition-all duration-200 ease-in-out"
+              className="py-3 px-6 font-muse-sans text-16 text-text-contrast hover:text-accent hover:bg-white/5 transition-all duration-200 ease-in-out"
               style={{
                 animationName: "fadeIn",
                 animationDuration: "200ms",
