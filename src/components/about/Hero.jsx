@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function Hero({ imageSrc = "", videoSrc = "/videos/HeroVideo.mp4" }) {
   const sectionRef = useRef(null);
