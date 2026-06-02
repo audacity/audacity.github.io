@@ -9,9 +9,9 @@ function SignUpButton({ onClick }) {
     >
       <button
         onClick={onClick}
-        className="bg-accent text-white rounded-full py-2 px-4 font-semibold hover:opacity-90 transition-opacity"
+        className="inline-flex items-center justify-center h-9 px-5 font-muse-sans text-16 font-semibold text-text-contrast border border-text-contrast rounded-full hover:bg-text-contrast hover:text-background-dark transition-colors"
       >
-        Sign up
+        Sign Up
       </button>
     </a>
   );
