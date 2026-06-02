@@ -38,6 +38,7 @@ export default defineConfig({
         "@datapunt/matomo-tracker-react",
         "@datapunt/matomo-tracker-js",
         "@dilsonspickles/components",
+        "gsap",
       ],
     },
     optimizeDeps: {
