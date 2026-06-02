@@ -1,31 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
+import { WORKSPACE_CONFIGS } from "./workspaces/workspaceConfigs.js";
+import "@dilsonspickles/components/style.css";
 
-const WORKSPACES = [
-  {
-    key: "classic",
-    name: "Classic",
-    blurb: "Placeholder copy for the Classic workspace.",
-  },
-  {
-    key: "music",
-    name: "Music",
-    blurb: "Placeholder copy for the Music workspace.",
-  },
-  {
-    key: "modern",
-    name: "Modern",
-    blurb: "Placeholder copy for the Modern workspace.",
-  },
-  {
-    key: "custom",
-    name: "Custom",
-    blurb: "Placeholder copy for the Custom workspace.",
-  },
-];
+const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
+const FADE_MS = 180;
 
 function Workspaces() {
-  const [activeKey, setActiveKey] = useState(WORKSPACES[1].key);
-  const active = WORKSPACES.find((w) => w.key === activeKey) ?? WORKSPACES[0];
+  const [activeKey, setActiveKey] = useState("music");
+  const [displayedKey, setDisplayedKey] = useState(activeKey);
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    if (displayedKey === activeKey) return;
+    setOpacity(0);
+    const t = setTimeout(() => {
+      setDisplayedKey(activeKey);
+      setOpacity(1);
+    }, FADE_MS);
+    return () => clearTimeout(t);
+  }, [activeKey, displayedKey]);
+
+  const active = WORKSPACE_CONFIGS[displayedKey] ?? WORKSPACE_CONFIGS.music;
+  const labelActive = WORKSPACE_CONFIGS[activeKey] ?? WORKSPACE_CONFIGS.music;
 
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
@@ -45,15 +42,16 @@ function Workspaces() {
           aria-label="Workspaces"
           className="mt-10 lg:mt-12 flex flex-wrap gap-3"
         >
-          {WORKSPACES.map((ws) => {
-            const isActive = activeKey === ws.key;
+          {WORKSPACE_KEYS.map((key) => {
+            const cfg = WORKSPACE_CONFIGS[key];
+            const isActive = activeKey === key;
             return (
               <button
-                key={ws.key}
+                key={key}
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                onClick={() => setActiveKey(ws.key)}
+                onClick={() => setActiveKey(key)}
                 className={
                   "px-5 py-2.5 rounded-md border font-muse-sans text-base transition-colors " +
                   (isActive
@@ -61,7 +59,7 @@ function Workspaces() {
                     : "bg-background-dark text-text-contrast border-white/15 hover:border-white/30")
                 }
               >
-                {ws.name}
+                {cfg.label}
               </button>
             );
           })}
@@ -70,12 +68,22 @@ function Workspaces() {
         <div className="mt-8 lg:mt-10 rounded-2xl border border-white/15 p-4 lg:p-6">
           <div
             role="tabpanel"
-            aria-label={`${active.name} workspace preview`}
-            className="aspect-[16/9] rounded-xl bg-white/10 flex items-center justify-center text-text-contrast/40 font-muse-sans"
+            aria-label={`${labelActive.label} workspace preview`}
+            className="aspect-[64/9] rounded-xl bg-black overflow-hidden"
+            style={{
+              opacity,
+              transition: `opacity ${FADE_MS}ms ease`,
+            }}
           >
-            {active.name} workspace preview
+            <WorkspaceCanvas key={displayedKey} config={active} />
           </div>
-          <p className="mt-4 text-text-contrast/70 text-sm lg:text-base font-muse-sans">
+          <p
+            className="mt-4 text-text-contrast/70 text-sm lg:text-base font-muse-sans"
+            style={{
+              opacity,
+              transition: `opacity ${FADE_MS}ms ease`,
+            }}
+          >
             {active.blurb}
           </p>
         </div>

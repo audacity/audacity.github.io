@@ -9,7 +9,7 @@
         "@astrojs/react": "^4.4.2",
         "@astrojs/sitemap": "^3.7.3",
         "@astrojs/tailwind": "^6.0.2",
-        "@dilsonspickles/components": "0.2.1",
+        "@dilsonspickles/components": "0.2.3",
         "@fontsource-variable/signika": "^5.2.8",
         "@fontsource/twinkle-star": "^5.2.8",
         "@types/react": "^18.3.29",
@@ -136,7 +136,7 @@
 
     "@csstools/selector-specificity": ["@csstools/selector-specificity@5.0.0", "", { "peerDependencies": { "postcss-selector-parser": "^7.0.0" } }, "sha512-PCqQV3c4CoVm3kdPhyeZ07VmBRdH2EpMFA/pd9OASpOEC3aXNGoqPDAZ80D0cLpMBxnmk0+yNhGsEx31hq7Gtw=="],
 
-    "@dilsonspickles/components": ["@dilsonspickles/components@0.2.1", "https://npm.pkg.github.com/download/@dilsonspickles/components/0.2.1/a6209916b3fb9cf44fa9a76e8c4a7028046e6085", { "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-F0H9a/Lm6OSFYs9lvwtNDwMFRVTD8QWshntEsLRL5AIFvm4ZSLXMVd4xSsK3ITfWD7rGOjvB4bRQJ/xDEN9WIA=="],
+    "@dilsonspickles/components": ["@dilsonspickles/components@0.2.3", "https://npm.pkg.github.com/download/@dilsonspickles/components/0.2.3/bb0b3ce6cf97bfeb5a8c01aa29b02509f3c5a21d", { "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-hnsNM4WRsC+AERlZBYzwqz+cDaRfXAHffJcQ+hK6Q9RNSizeVpqP+CQancs7pRU0K3E8nt3eUrGvAvZ2ZFykyA=="],
 
     "@emmetio/abbreviation": ["@emmetio/abbreviation@2.3.3", "", { "dependencies": { "@emmetio/scanner": "^1.0.4" } }, "sha512-mgv58UrU3rh4YgbE/TzgLQwJ3pFsHHhCLqY20aJq+9comytTXUDNGG/SMtSeMJdkpxgXSXunBGLD8Boka3JyVA=="],
 
