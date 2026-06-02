@@ -16,13 +16,8 @@ function NavigationReact(props) {
 
   const navLinks = [
     { href: "/download", linkText: "Downloads", target: "" },
-    { href: "/FAQ", linkText: "FAQ", target: "" },
     { href: "/features/", linkText: "Features", target: "" },
-    {
-      href: "https://support.audacityteam.org",
-      linkText: "Help",
-      target: "_blank",
-    },
+    { href: "/help", linkText: "Help", target: "" },
     {
       href: "https://forum.audacityteam.org/",
       linkText: "Forum",

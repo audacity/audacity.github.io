@@ -18,6 +18,22 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
+// Immediate children: slug starts with `${entry.slug}/` and has no further
+// nesting beyond that. Used to render an in-page "Pages in this section"
+// list on parent pages.
+const allEntries = await getCollection("manual", ({ data }) => !data.draft);
+const childPrefix = `${entry.slug}/`;
+const children = allEntries
+  .filter((e) => {
+    if (!e.slug.startsWith(childPrefix)) return false;
+    const remainder = e.slug.slice(childPrefix.length);
+    return remainder.length > 0 && !remainder.includes("/");
+  })
+  .sort((a, b) => {
+    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+    return a.slug.localeCompare(b.slug);
+  });
+
 const projectRoot = fileURLToPath(new URL("../../..", import.meta.url));
 const entryPath = path.join(projectRoot, "src", "content", "manual", entry.id);
 const lastUpdated = getLastUpdated(entryPath);
@@ -52,6 +68,29 @@ const lastUpdatedISO = lastUpdated.toISOString();
           )
         }
         <Content />
+        {
+          children.length > 0 && (
+            <ul class="not-prose mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {children.map((child) => (
+                <li>
+                  <a
+                    href={`/manual/${child.slug}`}
+                    class="block h-full p-4 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+                  >
+                    <span class="block font-semibold text-gray-900 text-base">
+                      {child.data.title}
+                    </span>
+                    {child.data.description && (
+                      <span class="block text-sm text-gray-600 mt-1">
+                        {child.data.description}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
         <ManualPagination currentSlug={entry.slug} />
         <p class="not-prose mt-8 text-xs text-gray-500">
           Last updated <time datetime={lastUpdatedISO}>{lastUpdatedLabel}</time>

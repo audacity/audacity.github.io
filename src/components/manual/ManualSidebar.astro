@@ -99,10 +99,7 @@ const sections = Array.from(grouped.entries())
 
     {
       sections.map((section) => (
-        <div class="mb-6">
-          <h3 class="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-2">
-            {section.name}
-          </h3>
+        <div class="mb-4">
           <ManualSidebarTree
             nodes={section.tree}
             currentSlug={currentSlug}
