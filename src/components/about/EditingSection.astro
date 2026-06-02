@@ -1,6 +1,7 @@
 ---
 import ClipShowcase from "./ClipShowcase.jsx";
 import MultiselectShowcase from "./MultiselectShowcase.jsx";
+import DropAndTrimShowcase from "./DropAndTrimShowcase.jsx";
 import "@dilsonspickles/components/style.css";
 
 type ClipColor =
@@ -15,7 +16,7 @@ type ClipColor =
   | "teal"
   | "classic";
 
-type ShowcaseKind = "single" | "multiselect";
+type ShowcaseKind = "single" | "multiselect" | "drop-and-trim";
 
 interface Card {
   category: string;
@@ -50,7 +51,7 @@ const cards: Card[] = [
   {
     category: "Drop and trim",
     title: "Make room without juggling tracks",
-    showcase: "single",
+    showcase: "drop-and-trim",
     clipColor: "teal",
     clipName: "Bass",
   },
@@ -87,6 +88,8 @@ const cards: Card[] = [
           <div class="mx-6 mb-6 lg:mx-8 lg:mb-8 aspect-[4/3] rounded-xl bg-black flex items-center justify-center overflow-hidden">
             {card.showcase === "multiselect" ? (
               <MultiselectShowcase client:visible />
+            ) : card.showcase === "drop-and-trim" ? (
+              <DropAndTrimShowcase client:visible />
             ) : (
               <ClipShowcase
                 client:visible
