@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/about/Hero.jsx";
+import EditingSection from "../components/about/EditingSection.astro";
+import ToolImprovements from "../components/about/ToolImprovements.jsx";
+import Workspaces from "../components/about/Workspaces.jsx";
+
+const pageTitle = "Audacity ® | About Audacity 4";
+const pageDescription =
+  "Audacity 4 is the largest release in Audacity's history. Discover what's new.";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <Hero client:load videoSrc="/videos/HeroVideo.mp4" />
+  <EditingSection />
+  <ToolImprovements client:visible />
+  <Workspaces client:visible />
+</BaseLayout>
+
+<style is:global>
+  body {
+    background-color: #000000;
+  }
+  /* Match the header to the page so the hero sits on a single black canvas.
+     Scoped to this page only via the `<style is:global>` on /about. */
+  #site-header,
+  #site-header nav {
+    background-color: #000000;
+  }
+</style>

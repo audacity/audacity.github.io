@@ -17,15 +17,8 @@ function NavigationReact(props) {
   const navLinks = [
     { href: "/download", linkText: "Downloads", target: "" },
     { href: "/features/", linkText: "Features", target: "" },
-    { href: "/FAQ", linkText: "FAQ", target: "" },
-    { href: "/plugins", linkText: "Plugins", target: "" },
-    { href: "/blog", linkText: "Blog", target: "" },
+    { href: "/about", linkText: "About", target: "" },
     { href: "/help", linkText: "Help", target: "" },
-    {
-      href: "https://forum.audacityteam.org/",
-      linkText: "Forum",
-      target: "_blank",
-    },
   ];
 
   function handleHamburgerMenuClick() {

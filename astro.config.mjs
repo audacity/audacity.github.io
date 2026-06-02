@@ -30,11 +30,18 @@ export default defineConfig({
     define: {
       "import.meta.env.BRANCH": JSON.stringify(process.env.BRANCH),
     },
+    resolve: {
+      dedupe: ["react", "react-dom"],
+    },
     ssr: {
       noExternal: [
         "@datapunt/matomo-tracker-react",
         "@datapunt/matomo-tracker-js",
+        "@dilsonspickles/components",
       ],
+    },
+    optimizeDeps: {
+      include: ["@dilsonspickles/components"],
     },
     build: {
       assets: "assets",

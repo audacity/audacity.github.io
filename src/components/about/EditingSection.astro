@@ -1,0 +1,102 @@
+---
+import ClipShowcase from "./ClipShowcase.jsx";
+import MultiselectShowcase from "./MultiselectShowcase.jsx";
+import "@dilsonspickles/components/style.css";
+
+type ClipColor =
+  | "cyan"
+  | "blue"
+  | "violet"
+  | "magenta"
+  | "red"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "teal"
+  | "classic";
+
+type ShowcaseKind = "single" | "multiselect";
+
+interface Card {
+  category: string;
+  title: string;
+  showcase: ShowcaseKind;
+  clipColor: ClipColor;
+  clipName: string;
+}
+
+const cards: Card[] = [
+  {
+    category: "Clip handles",
+    title: "Get a hold of your audio",
+    showcase: "single",
+    clipColor: "cyan",
+    clipName: "Vocals",
+  },
+  {
+    category: "Multiselect",
+    title: "Select more than one clip",
+    showcase: "multiselect",
+    clipColor: "violet",
+    clipName: "Synth",
+  },
+  {
+    category: "Clip groups",
+    title: "Group and edit together",
+    showcase: "single",
+    clipColor: "orange",
+    clipName: "Drums",
+  },
+  {
+    category: "Drop and trim",
+    title: "Make room without juggling tracks",
+    showcase: "single",
+    clipColor: "teal",
+    clipName: "Bass",
+  },
+];
+---
+
+<section class="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
+  <header class="max-w-3xl mx-auto text-center">
+    <h2
+      class="font-symphony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]"
+    >
+      A more intuitive<br />editing experience
+    </h2>
+    <p class="mt-6 text-text-contrast/70 text-base md:text-lg">
+      We've made some fundamental changes to the way you interact with audio for
+      a cleaner, more intuitive audio editing experience.
+    </p>
+  </header>
+
+  <ul
+    class="mt-16 lg:mt-24 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+  >
+    {
+      cards.map((card) => (
+        <li class="rounded-2xl border border-white/15 bg-background-dark overflow-hidden flex flex-col">
+          <div class="p-6 lg:p-8">
+            <p class="text-text-contrast/60 text-sm font-muse-sans">
+              {card.category}
+            </p>
+            <h3 class="mt-3 text-text-contrast text-2xl lg:text-3xl font-semibold leading-tight max-w-xs">
+              {card.title}
+            </h3>
+          </div>
+          <div class="mx-6 mb-6 lg:mx-8 lg:mb-8 aspect-[4/3] rounded-xl bg-black flex items-center justify-center overflow-hidden">
+            {card.showcase === "multiselect" ? (
+              <MultiselectShowcase client:visible />
+            ) : (
+              <ClipShowcase
+                client:visible
+                color={card.clipColor}
+                name={card.clipName}
+              />
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
