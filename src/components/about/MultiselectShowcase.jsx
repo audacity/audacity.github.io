@@ -74,12 +74,24 @@ function MultiselectShowcase() {
   );
 
   const [step, setStep] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!isVisible) return;
     const id = setInterval(() => {
       setStep((s) => (s + 1) % PATTERNS.length);
     }, STEP_MS);
     return () => clearInterval(id);
-  }, []);
+  }, [isVisible]);
 
   const pattern = PATTERNS[step];
   const vocalsSelected = new Set(pattern.vocals);

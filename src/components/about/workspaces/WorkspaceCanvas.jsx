@@ -377,4 +377,4 @@ function WorkspaceCanvas({ config }) {
   );
 }
 
-export default WorkspaceCanvas;
+export default React.memo(WorkspaceCanvas);

@@ -2,10 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/about/Hero.jsx";
 import EditingSection from "../components/about/EditingSection.astro";
+import LaptopShowcase from "../components/about/LaptopShowcase.jsx";
 import ToolImprovements from "../components/about/ToolImprovements.jsx";
 import Workspaces from "../components/about/Workspaces.jsx";
 
-const pageTitle = "Audacity ® | About Audacity 4";
+const pageTitle = "Audacity ® | Audacity 4";
 const pageDescription =
   "Audacity 4 is the largest release in Audacity's history. Discover what's new.";
 ---
@@ -15,8 +16,9 @@ const pageDescription =
   description={pageDescription}
   showPromoBanner={false}
 >
-  <Hero client:load videoSrc="/videos/HeroVideo.mp4" />
+  <Hero client:load />
   <EditingSection />
+  <LaptopShowcase client:visible />
   <ToolImprovements client:visible />
   <Workspaces client:visible />
 </BaseLayout>

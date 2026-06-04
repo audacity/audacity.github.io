@@ -119,12 +119,24 @@ function DropAndTrimShowcase() {
   );
 
   const [phaseIdx, setPhaseIdx] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!isVisible) return;
     const t = setTimeout(() => {
       setPhaseIdx((p) => (p + 1) % PHASES.length);
     }, PHASES[phaseIdx].duration);
     return () => clearTimeout(t);
-  }, [phaseIdx]);
+  }, [phaseIdx, isVisible]);
 
   const phaseName = PHASES[phaseIdx].name;
   const trackWidth = Math.max(320, size.width);

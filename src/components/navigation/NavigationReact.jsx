@@ -17,7 +17,7 @@ function NavigationReact(props) {
   const navLinks = [
     { href: "/download", linkText: "Downloads", target: "" },
     { href: "/features/", linkText: "Features", target: "" },
-    { href: "/about", linkText: "About", target: "" },
+    { href: "/about", linkText: "Audacity 4", target: "", badge: "New" },
     { href: "/help", linkText: "Help", target: "" },
   ];
 
@@ -33,12 +33,18 @@ function NavigationReact(props) {
         target={navLink.target}
         key={index}
         className={
-          isActive
+          "inline-flex items-center gap-2 " +
+          (isActive
             ? "font-muse-sans text-16 text-accent"
-            : "font-muse-sans text-16 text-text-contrast hover:text-accent transition-colors"
+            : "font-muse-sans text-16 text-text-contrast hover:text-accent transition-colors")
         }
       >
         {navLink.linkText}
+        {navLink.badge && (
+          <span className="inline-flex items-center justify-center rounded-full bg-accent text-background-dark text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 leading-none">
+            {navLink.badge}
+          </span>
+        )}
       </a>
     );
   }
@@ -107,7 +113,7 @@ function NavigationReact(props) {
             <a
               key={index}
               onClick={() => handleHamburgerMenuClick()}
-              className="py-3 px-6 font-muse-sans text-16 text-text-contrast hover:text-accent hover:bg-white/5 transition-all duration-200 ease-in-out"
+              className="flex items-center gap-2 py-3 px-6 font-muse-sans text-16 text-text-contrast hover:text-accent hover:bg-white/5 transition-all duration-200 ease-in-out"
               style={{
                 animationName: "fadeIn",
                 animationDuration: "200ms",
@@ -121,6 +127,11 @@ function NavigationReact(props) {
               target={navLink.target}
             >
               {navLink.linkText}
+              {navLink.badge && (
+                <span className="inline-flex items-center justify-center rounded-full bg-accent text-background-dark text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 leading-none">
+                  {navLink.badge}
+                </span>
+              )}
             </a>
           ))}
 

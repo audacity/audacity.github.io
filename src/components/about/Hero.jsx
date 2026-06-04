@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-function Hero({ imageSrc = "", videoSrc = "/videos/HeroVideo.mp4" }) {
+function Hero({ imageSrc = "" }) {
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
   const titleRef = useRef(null);
@@ -91,6 +91,13 @@ function Hero({ imageSrc = "", videoSrc = "/videos/HeroVideo.mp4" }) {
           ease: "back.out(1.8)",
         });
       }
+      // Seamlessly loop the last second before the video can `ended`. This
+      // avoids ever depending on play() resuming after end, which some
+      // browsers block — leaving the video frozen on a (possibly blank)
+      // final frame.
+      if (remaining <= 0.08) {
+        video.currentTime = Math.max(0, video.duration - 1);
+      }
     };
     video?.addEventListener("timeupdate", onTimeUpdate);
 
@@ -107,8 +114,9 @@ function Hero({ imageSrc = "", videoSrc = "/videos/HeroVideo.mp4" }) {
     >
       <video
         ref={mediaRef}
-        src={videoSrc}
         poster={imageSrc}
+        width={1920}
+        height={1200}
         autoPlay
         muted
         playsInline
@@ -121,7 +129,10 @@ function Hero({ imageSrc = "", videoSrc = "/videos/HeroVideo.mp4" }) {
         }}
         aria-label="The new Audacity 4 interface showing tracks of audio clips on a redesigned UI"
         className="block w-full max-w-4xl max-h-[44vh] md:max-h-[52vh] h-auto object-contain rounded-2xl shadow-2xl"
-      />
+      >
+        <source src="/videos/HeroVideo.webm" type="video/webm" />
+        <source src="/videos/HeroVideo.mp4" type="video/mp4" />
+      </video>
 
       <h1
         ref={titleRef}
