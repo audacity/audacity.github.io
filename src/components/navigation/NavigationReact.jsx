@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import AudacityIconSVG from "../inlineSVG/AudacityIconSVG";
-import AudacityWordmarkSVG from "../inlineSVG/AudacityWordmarkSVG";
+import AudacityLogoSVG from "../inlineSVG/AudacityLogoSVG";
 import SignUpButton from "./SignUpButton";
 import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
@@ -63,9 +62,8 @@ function NavigationReact(props) {
   return (
     <nav className="z-3 bg-background-dark">
       <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-6 md:px-10 gap-8">
-        <a className="flex w-fit items-center gap-3 shrink-0" href="/">
-          <AudacityIconSVG className="h-7 fill-accent" />
-          <AudacityWordmarkSVG className="h-5 fill-accent" />
+        <a className="flex w-fit items-center shrink-0" href="/">
+          <AudacityLogoSVG className="h-8 fill-accent" />
         </a>
 
         <div className="hidden sm:flex items-center gap-8">

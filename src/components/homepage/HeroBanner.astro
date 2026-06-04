@@ -1,11 +1,15 @@
 ---
-import DownloadButton from "../button/DownloadButton";
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import HeroSwoosh from "./HeroSwoosh.astro";
 ---
 
-<section id="main" class="bg-background-light py-8 md:py-12 lg:py-16">
+<section
+  id="main"
+  class="py-8 md:py-12 lg:py-16"
+  style="background-color: #0C013A;"
+>
   <div
     class="mx-auto max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-xl px-6 md:px-16"
   >
@@ -16,17 +20,17 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
       >
         <div class="flex flex-col gap-0">
           <h1
-            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-primary leading-tight whitespace-nowrap"
+            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
           >
-            Audacity is the world's
+            The world's most
           </h1>
           <h1
-            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-primary leading-tight whitespace-nowrap"
+            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
           >
-            most popular audio editing
+            popular audio editing
           </h1>
           <h1
-            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-primary leading-tight whitespace-nowrap"
+            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
           >
             and recording app
           </h1>
@@ -37,22 +41,30 @@ import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
           <noscript>
             <DownloadMuseHubButton client:load />
           </noscript>
-          <DownloadButton client:load />
-          <noscript>
-            <DownloadButton client:load />
-          </noscript>
+          <a
+            href="/about"
+            class="font-muse-sans text-16 text-text-contrast underline underline-offset-4 decoration-text-contrast/40 hover:text-accent hover:decoration-accent transition-colors"
+          >
+            Learn more about Audacity 4
+          </a>
         </div>
       </div>
 
       <!-- Right Column - Image -->
-      <div class="lg:w-3/5 flex items-center justify-center">
+      <div class="lg:w-3/5 flex items-center justify-center relative">
+        <div
+          class="pointer-events-none absolute inset-0 -inset-x-6 lg:-inset-x-12 -inset-y-8 lg:-inset-y-16 z-0"
+          aria-hidden="true"
+        >
+          <HeroSwoosh />
+        </div>
         <Image
           src={AudacityMockUp}
           alt="A laptop showing the Audacity application"
           width={1400}
           quality={90}
           loading="eager"
-          class="w-full max-w-[400px] lg:max-w-full h-auto"
+          class="relative z-10 w-full max-w-[400px] lg:max-w-full h-auto"
         />
       </div>
     </div>

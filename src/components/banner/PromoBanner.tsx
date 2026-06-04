@@ -8,14 +8,14 @@ import { selectWeightedItem } from "../../utils/selectWeightedItem";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
-  container: "bg-yellow-300",
-  message: "text-gray-900",
-  button: "bg-gray-100 hover:bg-white",
+  container: "bg-[#423C31]",
+  message: "text-[#FFC214]",
+  button: "bg-[#FFC214] hover:bg-[#FFD24A] text-[#0C013A]",
 };
 
 const BASE_CONTAINER_CLASSNAME =
   "flex flex-col lg:flex-row justify-center items-center align-start px-4 py-4 gap-3 lg:gap-6 transition-colors duration-200";
-const BASE_MESSAGE_CLASSNAME = "text-lg font-semibold";
+const BASE_MESSAGE_CLASSNAME = "text-lg font-normal";
 const BASE_BUTTON_CLASSNAME =
   "flex h-8 justify-center items-center px-4 rounded-md font-semibold whitespace-nowrap";
 
@@ -162,6 +162,10 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
     styles?.button ?? DEFAULT_PROMO_STYLES.button,
   );
   const trimmedMessage = message.trim();
+  const colonIdx = trimmedMessage.indexOf(":");
+  const messageLead = colonIdx > -1 ? trimmedMessage.slice(0, colonIdx) : null;
+  const messageRest =
+    colonIdx > -1 ? trimmedMessage.slice(colonIdx) : trimmedMessage;
 
   function handleButtonClick() {
     if (!tracking) return;
@@ -173,7 +177,12 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
       {
         <div id="promo-banner" className={containerClassName}>
           <div className="lg:flex text-center gap-4 flex-wrap justify-center">
-            <p className={messageClassName}>{trimmedMessage}</p>
+            <p className={messageClassName}>
+              {messageLead && (
+                <strong className="font-bold">{messageLead}</strong>
+              )}
+              {messageRest}
+            </p>
           </div>
 
           <a
