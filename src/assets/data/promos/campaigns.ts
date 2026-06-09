@@ -2,6 +2,25 @@
 import type { PromoData } from "./types";
 
 export const campaignBannerPromos: Record<string, PromoData> = {
+  "80sDreamsBundle": {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-06-11",
+    endDate: "2026-06-25",
+    message:
+      "80s Dreams Bundle: The reverb and synth duo for retro-inspired sound. Create lush ambience and vintage tones.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "80s Dreams Bundle MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/bundle/80s-dreams-bundle?utm_source=au-web-banner&utm_medium=au-banner",
+    },
+  },
   denoiser: {
     type: "banner",
     isActive: true,

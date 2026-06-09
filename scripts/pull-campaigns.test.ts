@@ -6,6 +6,7 @@ import {
   extractPromoTable,
   formatReport,
   mapRowToPromo,
+  mergeCampaignBundleAdditively,
   parseCliArgs,
   parseConfluencePageReference,
   renderCampaignModule,
@@ -219,6 +220,45 @@ describe("buildCampaignBundle", () => {
     expect(
       bundle.ignoredEntries.some((entry) => entry.includes("Oct 21 to 29")),
     ).toBe(true);
+  });
+});
+
+describe("mergeCampaignBundleAdditively", () => {
+  test("keeps existing promos and applies fresh updates", () => {
+    const merged = mergeCampaignBundleAdditively(
+      {
+        bannerPromos: {
+          legacy: {
+            type: "banner",
+            isActive: true,
+            message: "Legacy promo",
+            cta: { text: "Open", link: "https://example.com/legacy" },
+          },
+        },
+        videoPromos: {},
+      },
+      {
+        bannerPromos: {
+          denoiser: {
+            type: "banner",
+            isActive: true,
+            message: "Fresh promo",
+            cta: { text: "Open", link: "https://example.com/fresh" },
+          },
+        },
+        videoPromos: {},
+        summary: "ignored",
+        ignoredEntries: ["past-row"],
+      },
+      "2026-06-09",
+    );
+
+    expect(Object.keys(merged.bannerPromos).sort()).toEqual([
+      "denoiser",
+      "legacy",
+    ]);
+    expect(merged.summary).toContain("after additive merge");
+    expect(merged.ignoredEntries).toEqual(["past-row"]);
   });
 });
 

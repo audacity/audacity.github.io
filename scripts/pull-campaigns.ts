@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import type { PromoData } from "../src/assets/data/promos/types";
 
@@ -103,6 +104,11 @@ export type CampaignBundle = {
   videoPromos: Record<string, PromoData>;
   summary: string;
   ignoredEntries: string[];
+};
+
+type ExistingCampaignPromos = {
+  bannerPromos: Record<string, PromoData>;
+  videoPromos: Record<string, PromoData>;
 };
 
 type ClaudeCliConfig = { command: string; model?: string };
@@ -572,6 +578,48 @@ export function buildCampaignBundle(
   return { bannerPromos, videoPromos, summary, ignoredEntries };
 }
 
+export function mergeCampaignBundleAdditively(
+  existing: ExistingCampaignPromos,
+  fresh: CampaignBundle,
+  today = new Date().toISOString().slice(0, 10),
+): CampaignBundle {
+  const bannerPromos = {
+    ...existing.bannerPromos,
+    ...fresh.bannerPromos,
+  };
+  const videoPromos = {
+    ...existing.videoPromos,
+    ...fresh.videoPromos,
+  };
+  const summary = `${Object.keys(bannerPromos).length} banner + ${Object.keys(videoPromos).length} video promo(s) after additive merge as of ${today}`;
+
+  return {
+    bannerPromos,
+    videoPromos,
+    summary,
+    ignoredEntries: fresh.ignoredEntries,
+  };
+}
+
+async function loadExistingCampaignPromos(
+  outputPath: string,
+): Promise<ExistingCampaignPromos> {
+  try {
+    const moduleHref = `${pathToFileURL(outputPath).href}?t=${Date.now()}`;
+    const imported = (await import(moduleHref)) as {
+      campaignBannerPromos?: Record<string, PromoData>;
+      campaignVideoPromos?: Record<string, PromoData>;
+    };
+
+    return {
+      bannerPromos: imported.campaignBannerPromos ?? {},
+      videoPromos: imported.campaignVideoPromos ?? {},
+    };
+  } catch {
+    return { bannerPromos: {}, videoPromos: {} };
+  }
+}
+
 // ---------------------------------------------------------------------------
 // URL integrity
 // ---------------------------------------------------------------------------
@@ -845,7 +893,9 @@ export async function runPullCampaigns(
   }
 
   const timeline = resolveTimeline(rows);
-  const bundle = buildCampaignBundle(rows, timeline);
+  const freshBundle = buildCampaignBundle(rows, timeline);
+  const existingPromos = await loadExistingCampaignPromos(options.outputPath);
+  const bundle = mergeCampaignBundleAdditively(existingPromos, freshBundle);
 
   if (options.cleanCopy) {
     const backend = resolveLlmBackend(env);
