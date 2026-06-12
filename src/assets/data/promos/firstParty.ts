@@ -87,7 +87,11 @@ export const firstPartyPromos: Record<string, PromoData> = {
     },
     popupOptions: {
       title: "Leave before setting up cloud storage?",
-      routeAllowlist: [],
+      // Scoped to the 3 routes that account for ~96% of impressions (Matomo,
+      // Jun 2026): the download funnel, the post-download page, and the
+      // homepage. The long tail (features/blog/faq/legal/next) had <4% combined
+      // and was cut. Empty array = every page, so keep this list populated.
+      routeAllowlist: ["/", "/download", "/post-download"],
       displayMode: "modal",
       promoImageSrc: AUDIO_COM_EXIT_POPUP_IMAGE_SRC,
       promoImageAlt: "Audio.com promotion",
