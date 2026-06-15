@@ -5,10 +5,7 @@ title: Audacity ® | Contact Us
 
 ## Contact Us
 
-Audacity is supported by a small team, and we get a lot of mail. To reach the
-right people as quickly as possible, please use the contact option that matches
-what you need. Each mailbox below is monitored by a different team, so picking
-the right one helps us respond faster.
+To reach the right people as quickly as possible, please use the contact option that matches what you need. Each mailbox below is monitored by a different team, so pick the right one!
 
 ## Help using Audacity
 
@@ -18,6 +15,7 @@ these resources will usually get you an answer fastest:
 - **Help Center:** [support.audacityteam.org](https://support.audacityteam.org)
 - **Manual:** [manual.audacityteam.org](https://manual.audacityteam.org/)
 - **Community Forum:** [forum.audacityteam.org](https://forum.audacityteam.org/)
+- **Discord:** [discord.gg/audacity](https://discord.gg/audacity)
 
 To report a bug or request a feature, please open an issue on
 [GitHub](https://github.com/audacity/audacity/issues).
