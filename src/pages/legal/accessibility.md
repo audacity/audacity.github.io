@@ -26,26 +26,26 @@ In addition, the following accessibility issues are true for Audacity 3.7. Many 
 
 ### Level A
 
-* 1.1.1 Non-text content - partially supports
-* 1.3.1 Info and relationships - partially supports
-* 1.4.1 Use of color - partially supports
-* 2.1.1 Keyboard - partially supports
-* 2.1.2 No keyboard trap - partially supports
-* 2.5.2 Pointer Cancellation - partially supports
-* 2.5.3 Label in name - partially supports
-* 3.3.1 Error Identification - partially supports
-* 4.1.2 Name, Role, Value - partially supports
+- 1.1.1 Non-text content - partially supports
+- 1.3.1 Info and relationships - partially supports
+- 1.4.1 Use of color - partially supports
+- 2.1.1 Keyboard - partially supports
+- 2.1.2 No keyboard trap - partially supports
+- 2.5.2 Pointer Cancellation - partially supports
+- 2.5.3 Label in name - partially supports
+- 3.3.1 Error Identification - partially supports
+- 4.1.2 Name, Role, Value - partially supports
 
 ### Level AA
 
-* 1.4.4 Resize text - partially supports
-* 1.4.5 Images of text - partially supports
-* 1.4.10 Reflow - does not support
-* 1.4.11 Non-text contrast - partially supports
-* 1.4.13 Content on hover or focus - does not support
-* 2.4.7 Focus visible - partially supports
-* 3.1.2 Language of parts - does not support
-* 3.3.3 Error Suggestion - partially supports
+- 1.4.4 Resize text - partially supports
+- 1.4.5 Images of text - partially supports
+- 1.4.10 Reflow - does not support
+- 1.4.11 Non-text contrast - partially supports
+- 1.4.13 Content on hover or focus - does not support
+- 2.4.7 Focus visible - partially supports
+- 3.1.2 Language of parts - does not support
+- 3.3.3 Error Suggestion - partially supports
 
 ## Preparation of this Accessibility Statement
 
@@ -59,8 +59,8 @@ We welcome your feedback on the accessibility of **Audacity**.
 
 If you encounter any accessibility barriers, or if you are an educational institution requiring more clarification, please let us know.
 
-* Email: accessibility@audacityteam.org
-* Postal address: **Spyrou Kyprianou, 84, 4004, Limassol, Cyprus**
+- Email: [accessibility@audacityteam.org](mailto:accessibility@audacityteam.org)
+- Postal address: **Spyrou Kyprianou, 84, 4004, Limassol, Cyprus**
 
 We aim to respond to accessibility feedback within **10 business days**.
 
@@ -70,9 +70,9 @@ If you are not satisfied with our response to your feedback, you can contact the
 
 ### Deputy Ministry of Social Welfare Cyprus
 
-* Website: [https://www.gov.cy/dmsw/en/](https://www.gov.cy/dmsw/en/)
-* Phone: +357 22406610
-* Email: deputyministry@dmsw.gov.cy
+- Website: [https://www.gov.cy/dmsw/en/](https://www.gov.cy/dmsw/en/)
+- Phone: +357 22406610
+- Email: deputyministry@dmsw.gov.cy
 
 ## Additional Information
 

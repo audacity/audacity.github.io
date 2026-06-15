@@ -8,7 +8,7 @@ Last updated: 16. April 2026
 ## About this Policy
 
 This Cookie Policy (“**Policy”**) explains how we use cookies and other similar technologies to recognise you when you visit our website https://www.audacityteam.org (“**Website”**). It explains what these technologies are and why we use them, as well as your rights to control our use of them.
-Please take the time to read this Policy carefully. If you have any questions or comments, please contact us via email at privacy@audacityteam.org.
+Please take the time to read this Policy carefully. If you have any questions or comments, please contact us via email at [privacy@audacityteam.org](mailto:privacy@audacityteam.org).
 
 ## A note about your personal information
 

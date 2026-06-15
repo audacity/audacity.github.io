@@ -10,9 +10,9 @@ function CookieConsent() {
           <p>
             We use cookies solely for analytics with Matomo. No third-party
             tracking. By clicking 'Accept', you allow us to track your visits.
-            Choose 'Reject' if you'd prefer not to be tracked. 
+            Choose 'Reject' if you'd prefer not to be tracked.
             <a
-              href="/cookie-policy"
+              href="/legal/cookie-policy"
               className="hyperlink ml-1"
               aria-label="Read cookie policy"
             >

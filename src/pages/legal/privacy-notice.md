@@ -43,7 +43,7 @@ Last updated: 01 February 2025
 2. This Notice also sets out the rights that you have in relation to the information that we process about you and how you can exercise them.
 3. The Audacity Team treats compliance with its privacy obligations seriously. This is why we have developed this Notice, which describes the standards that the Audacity Team applies to protect your information.
 4. For the purposes of this Notice, MuseCY SM Ltd., a Cyprus company with an address at Spyrou Kyprianou, 84, 4004, Limassol, Cyprus (“Audacity Team“, “us“, “we“, or “our“) acts as the data controller for the personal information that is collected via the App and through the use of the App, as further outlined in section 2 (“personal information”). As a data controller, the Audacity Team makes sure that any processing of your personal information complies with applicable data protection law, and specifically with the General Data Protection Regulation (“GDPR”).
-5. Please take the time to read this Notice carefully. If you have any questions or comments, please contact us via privacy@audacityteam.org.
+5. Please take the time to read this Notice carefully. If you have any questions or comments, please contact us via [privacy@audacityteam.org](mailto:privacy@audacityteam.org).
 
 ## **2\. What information does the Audacity Team collect and why?**
 
@@ -91,9 +91,9 @@ Last updated: 01 February 2025
 
 ## **7\. Your data protection rights**
 
-1. Under the GDPR, individuals have certain data protection rights, including the right to access, correct, update or request deletion of their personal information, which you can exercise by emailing privacy@audacityteam.org. However, some of these rights only apply to the extent that the controller is able to identify the individuals whose personal information is collected. As mentioned above, the Audacity Team anonymises or discards all information that would enable us to identify you by default. For these reasons, the exercise of your GDPR rights may be limited in the default version of the App, or in some cases, might not apply.
+1. Under the GDPR, individuals have certain data protection rights, including the right to access, correct, update or request deletion of their personal information, which you can exercise by emailing [privacy@audacityteam.org](mailto:privacy@audacityteam.org). However, some of these rights only apply to the extent that the controller is able to identify the individuals whose personal information is collected. As mentioned above, the Audacity Team anonymises or discards all information that would enable us to identify you by default. For these reasons, the exercise of your GDPR rights may be limited in the default version of the App, or in some cases, might not apply.
 2. If you have a complaint or concern about how we are processing your personal information then we will endeavour to address such concern(s). If you feel we have not sufficiently addressed your complaint or concern, you have the right to complain to a data protection authority about our collection and use of your personal information. For more information, please contact your local data protection authority. (Contact details for data protection authorities in the European Economic Area, Switzerland and certain non-European countries (including the US and Canada) are available [here](https://ec.europa.eu/justice/article-29/structure/data-protection-authorities/index_en.htm).)
-3. We respond to all requests we receive at via privacy@audacityteam.org from individuals wishing to exercise their data protection rights in accordance with applicable data protection laws.
+3. We respond to all requests we receive via [privacy@audacityteam.org](mailto:privacy@audacityteam.org) from individuals wishing to exercise their data protection rights in accordance with applicable data protection laws.
 
 ## **8\. Linking to other websites**
 
@@ -107,7 +107,7 @@ Last updated: 01 February 2025
 
 ## **10\. How to contact us**
 
-1. If you have any questions or comments, or if you wish to exercise your data protection rights, please contact us via privacy@audacityteam.org.
+1. If you have any questions or comments, or if you wish to exercise your data protection rights, please contact us via [privacy@audacityteam.org](mailto:privacy@audacityteam.org).
 
 ## **11\. Additional Information for California Consumers**
 
