@@ -14,14 +14,14 @@ const { version } = audacityReleases;
 const sourceDownloads = audacityReleases.src ?? [];
 const primarySourceDownload = sourceDownloads[0] ?? null;
 const activeDownloadEntries = preReleaseList.filter(
-  (entry) => entry.isActive && hasDownloadAssets(entry.downloads)
+  (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
 );
 const hasDownloadCampaigns = activeDownloadEntries.length > 0;
 
 const formatCampaignLinkLabel = (
   entry: PreReleaseEntry,
   platform: string,
-  buildName?: string
+  buildName?: string,
 ) =>
   `${entry.downloads.version} for ${platform}${
     buildName ? ` (${buildName})` : ""
@@ -105,7 +105,7 @@ const formatCampaignLinkLabel = (
                               {formatCampaignLinkLabel(
                                 entry,
                                 "Windows",
-                                build.name
+                                build.name,
                               )}
                             </a>
                           </li>
@@ -119,7 +119,7 @@ const formatCampaignLinkLabel = (
                               {formatCampaignLinkLabel(
                                 entry,
                                 "macOS",
-                                build.name
+                                build.name,
                               )}
                             </a>
                           </li>
@@ -133,7 +133,7 @@ const formatCampaignLinkLabel = (
                               {formatCampaignLinkLabel(
                                 entry,
                                 "Linux",
-                                build.name
+                                build.name,
                               )}
                             </a>
                           </li>
@@ -206,9 +206,9 @@ const formatCampaignLinkLabel = (
             </h3>
             <div class="gap-2">
               <a
-                href="https://www.fosshub.com/Audacity-old.html"
+                href="https://github.com/audacity/audacity/releases"
                 target="_blank"
-                class="hyperlink">Download older versions from Fosshub</a
+                class="hyperlink">Download older versions from GitHub</a
               >
               <span class="align-middle icon icon-share text-blue-600"></span>
             </div>
