@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import LaptopFrame from "./LaptopFrame.jsx";
 import TourOverlay from "./TourOverlay.jsx";
 import TourPanel from "./TourPanel.jsx";
-import TourArrow from "./TourArrow.jsx";
 import MobileFallback from "./MobileFallback.jsx";
 import ScrollIndicator from "./ScrollIndicator.jsx";
 import IntroOverlay from "./IntroOverlay.jsx";
@@ -43,7 +42,6 @@ function DesktopTour() {
   const tourPanelRef = useRef(null);
   const panelRefs = useRef([]);
   const [stopIndex, setStopIndex] = useState(0);
-  const [arrowVersion, setArrowVersion] = useState(0);
   const [clipOverrides, setClipOverrides] = useState(null);
   const [renderStopId, setRenderStopId] = useState(STOPS[0].id);
   const config = WORKSPACE_CONFIGS.music;
@@ -88,10 +86,6 @@ function DesktopTour() {
       cleanup();
     };
   }, []);
-
-  useEffect(() => {
-    setArrowVersion((v) => v + 1);
-  }, [stopIndex]);
 
   useEffect(() => {
     const currentId = renderStopId;
@@ -309,15 +303,6 @@ function DesktopTour() {
           eyebrow={outroStop.eyebrow}
           heading={outroStop.heading}
         />
-
-        <div className="absolute inset-0 z-30 pointer-events-none">
-          <TourArrow
-            stage={stageRef}
-            panelRef={tourPanelRef}
-            stop={stop}
-            version={arrowVersion}
-          />
-        </div>
 
         <ScrollIndicator
           stops={STOPS.filter((s) => !s.noScrollPanel)}
