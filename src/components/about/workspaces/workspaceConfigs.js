@@ -66,7 +66,7 @@ export const WORKSPACE_CONFIGS = {
           volume: -4,
           pan: -10,
         },
-        height: 130,
+        height: 114,
         clips: [
           { id: "v1", name: "Lead vocal", start: 0.4, duration: 2.6 },
           { id: "v2", name: "Harmony", start: 3.4, duration: 2.0 },
@@ -81,7 +81,7 @@ export const WORKSPACE_CONFIGS = {
           volume: -8,
           pan: 8,
         },
-        height: 130,
+        height: 114,
         clips: [{ id: "s1", name: "Pad", start: 0.1, duration: 7.2 }],
       },
       {
@@ -91,7 +91,7 @@ export const WORKSPACE_CONFIGS = {
           trackType: "stereo",
           volume: -2,
         },
-        height: 130,
+        height: 114,
         clips: [
           { id: "d1", name: "Loop A", start: 0.1, duration: 1.6 },
           { id: "d2", name: "Loop A", start: 1.8, duration: 1.6 },

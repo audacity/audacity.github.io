@@ -31,7 +31,7 @@ const NATIVE_W = 1280;
 const NATIVE_H = 720;
 const RULER_H = 40;
 const PIXELS_PER_SECOND = 40;
-const TRACK_CONTROL_W = 268;
+const TRACK_CONTROL_W = 280;
 
 const MENU_ITEMS = [
   "File",
@@ -55,7 +55,7 @@ function useScaleToFit(ref) {
     if (!node) return;
     const ro = new ResizeObserver((entries) => {
       for (const e of entries) {
-        setScale(Math.min(1, e.contentRect.width / NATIVE_W));
+        setScale(e.contentRect.width / NATIVE_W);
       }
     });
     ro.observe(node);
@@ -235,11 +235,30 @@ function withWaveforms(tracks) {
   }));
 }
 
-function WorkspaceCanvas({ config }) {
+function WorkspaceCanvas({ config, clipOverrides }) {
   const containerRef = useRef(null);
   const scale = useScaleToFit(containerRef);
 
-  const tracks = useMemo(() => withWaveforms(config.tracks), [config]);
+  const baseTracks = useMemo(() => withWaveforms(config.tracks), [config]);
+  const tracks = useMemo(() => {
+    if (!clipOverrides) return baseTracks;
+    return baseTracks.map((t) => {
+      const clips = t.clips.map((c) =>
+        clipOverrides[c.id] ? { ...c, ...clipOverrides[c.id] } : c,
+      );
+      const hasSelected = clips.some((c) => c.selected);
+      return {
+        ...t,
+        clips,
+        isSelected: hasSelected,
+        isFocused: hasSelected,
+        controlProps: {
+          ...t.controlProps,
+          state: hasSelected ? "active" : t.controlProps?.state,
+        },
+      };
+    });
+  }, [baseTracks, clipOverrides]);
   const trackHeights = tracks.map((t) => t.height ?? 110);
   const totalTrackHeight = trackHeights.reduce((a, b) => a + b, 0);
 
@@ -249,7 +268,16 @@ function WorkspaceCanvas({ config }) {
     <ThemeProvider theme={darkTheme}>
       <style
         dangerouslySetInnerHTML={{
-          __html: ".workspace-canvas .track-control-side-panel{height:100%}",
+          __html:
+            ".workspace-canvas .track-control-side-panel{height:100%}" +
+            ".workspace-canvas .clip-header__menu-button," +
+            ".workspace-canvas .clip-header__menu-button .musescore-icon" +
+            "{color:var(--clip-header-text)}" +
+            ".workspace-canvas .clip-display__handle{z-index:9999}" +
+            ".workspace-canvas [data-clip-id]:has(.clip-display--selected)" +
+            "{z-index:9999!important}" +
+            ".workspace-canvas .time-code,.workspace-canvas .time-code *" +
+            "{--timecode-bg:#171F25;--timecode-unit-bg:#171F25}",
         }}
       />
       <div
@@ -269,7 +297,7 @@ function WorkspaceCanvas({ config }) {
             style={{
               width: NATIVE_W,
               height: NATIVE_H,
-              background: "#14151A",
+              background: "#171F25",
               color: "#fff",
               display: "flex",
               flexDirection: "column",
@@ -294,7 +322,10 @@ function WorkspaceCanvas({ config }) {
               }}
             >
               <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
-                <TrackControlSidePanel trackHeights={trackHeights}>
+                <TrackControlSidePanel
+                  trackHeights={trackHeights}
+                  focusedTrackIndex={tracks.findIndex((t) => t.isFocused)}
+                >
                   {tracks.map((t, i) => (
                     <TrackControlPanel
                       key={i}
@@ -322,7 +353,7 @@ function WorkspaceCanvas({ config }) {
                   pixelsPerSecond={PIXELS_PER_SECOND}
                   totalDuration={config.duration}
                 />
-                <div style={{ flex: 1, overflow: "hidden" }}>
+                <div style={{ flex: 1, paddingTop: 2 }}>
                   {tracks.map((t, i) => (
                     <div
                       key={i}
@@ -340,6 +371,9 @@ function WorkspaceCanvas({ config }) {
                         pixelsPerSecond={PIXELS_PER_SECOND}
                         envelopeMode={config.envelopeMode}
                         isLabelTrack={t.isLabelTrack}
+                        isSelected={t.isSelected}
+                        isFocused={t.isFocused}
+                        onClipTrimEdge={() => {}}
                       />
                     </div>
                   ))}
@@ -355,7 +389,7 @@ function WorkspaceCanvas({ config }) {
                   <PlayheadCursor
                     position={config.playheadPosition}
                     pixelsPerSecond={PIXELS_PER_SECOND}
-                    height={RULER_H + totalTrackHeight + tracks.length * 2}
+                    height={RULER_H + 2 + totalTrackHeight + tracks.length * 2}
                     showTopIcon
                   />
                 </div>

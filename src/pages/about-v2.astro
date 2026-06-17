@@ -1,0 +1,134 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/about/Hero.jsx";
+import ScrollyLaptopTour from "../components/about/ScrollyLaptopTour/ScrollyLaptopTour.jsx";
+import ToolImprovements from "../components/about/ToolImprovements.jsx";
+import Workspaces from "../components/about/Workspaces.jsx";
+import CustomisableUI from "../components/about/CustomisableUI.jsx";
+import EffectWindows from "../components/about/EffectWindows.jsx";
+import MuseHub from "../components/about/MuseHub.jsx";
+import AudioCom from "../components/about/AudioCom.jsx";
+import UnderTheHood from "../components/about/UnderTheHood.jsx";
+import Reassurance from "../components/about/Reassurance.jsx";
+import CtaSection from "../components/about/CtaSection.jsx";
+import "@dilsonspickles/components/style.css";
+
+const pageTitle = "Audacity ® | Audacity 4 (v2)";
+const pageDescription = "Scroll-driven tour of the Audacity 4 interface.";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+  index="none"
+>
+  <div class="scroll-bg-page">
+    <Hero client:idle />
+    <ScrollyLaptopTour client:visible />
+    <ToolImprovements client:visible />
+    <Workspaces client:visible />
+    <CustomisableUI />
+    <EffectWindows client:visible />
+    <MuseHub />
+    <AudioCom />
+    <UnderTheHood />
+    <Reassurance />
+    <CtaSection />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  html {
+    scroll-snap-type: y proximity;
+    --page-bg: rgb(0, 0, 0);
+  }
+  body {
+    background-color: var(--page-bg) !important;
+  }
+  #site-header,
+  #site-header nav {
+    background-color: transparent;
+  }
+  .scroll-bg-page .bg-background-dark {
+    background-color: transparent !important;
+  }
+  .scroll-bg-page > section:nth-child(n + 3),
+  .scroll-bg-page > *:nth-child(n + 3) section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  const COLORS = [
+    "rgb(0, 0, 0)", // Hero
+    "rgb(10, 13, 26)", // ScrollyLaptopTour
+    "rgb(22, 14, 28)", // ToolImprovements
+    "rgb(14, 18, 24)", // Workspaces
+    "rgb(10, 20, 26)", // CustomisableUI
+    "rgb(12, 12, 28)", // EffectWindows
+    "rgb(24, 16, 24)", // MuseHub
+    "rgb(10, 20, 30)", // AudioCom
+    "rgb(16, 14, 18)", // UnderTheHood
+    "rgb(24, 13, 13)", // Reassurance
+    "rgb(5, 5, 5)", // CtaSection
+  ];
+
+  function init() {
+    const host = document.querySelector<HTMLElement>(".scroll-bg-page");
+    if (!host) return;
+
+    const parsed: number[][] = COLORS.map((c) => {
+      const m = c.match(/\d+/g);
+      if (!m) return [0, 0, 0];
+      return [Number(m[0]), Number(m[1]), Number(m[2])];
+    });
+
+    const root = document.documentElement;
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    const clamp = (n: number, lo: number, hi: number) =>
+      Math.min(hi, Math.max(lo, n));
+
+    function tick() {
+      const max = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      const p = clamp(window.scrollY / max, 0, 1);
+      const segs = parsed.length - 1;
+      const f = p * segs;
+      const i = Math.min(segs - 1, Math.floor(f));
+      const local = clamp(f - i, 0, 1);
+      const cur = parsed[i];
+      const next = parsed[i + 1];
+      const r = Math.round(lerp(cur[0], next[0], local));
+      const g = Math.round(lerp(cur[1], next[1], local));
+      const b = Math.round(lerp(cur[2], next[2], local));
+      root.style.setProperty("--page-bg", `rgb(${r}, ${g}, ${b})`);
+    }
+
+    tick();
+    let raf: number | null = null;
+    function onScroll() {
+      if (raf !== null) return;
+      raf = requestAnimationFrame(() => {
+        tick();
+        raf = null;
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", tick);
+    window.addEventListener("load", tick);
+    const ro = new ResizeObserver(() => tick());
+    ro.observe(host);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+</script>
