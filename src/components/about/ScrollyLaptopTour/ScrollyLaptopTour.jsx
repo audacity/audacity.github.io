@@ -237,6 +237,50 @@ function DesktopTour() {
       return () => cancelAnimationFrame(raf);
     }
 
+    if (stop.id === "clip-groups") {
+      const CYCLE = 10000;
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => {
+        const t = ((now - t0) % CYCLE) / CYCLE;
+        let selected = [];
+        let focusVocals = false;
+        if (t < 0.14) {
+          // empty / approaching
+        } else if (t < 0.24) {
+          selected = ["v1"];
+          focusVocals = true;
+        } else if (t < 0.56) {
+          // v2 added (shift-click) and stays through menu interaction
+          selected = ["v1", "v2"];
+          focusVocals = true;
+        } else if (t < 0.59) {
+          // deselect about to happen
+          selected = ["v1", "v2"];
+          focusVocals = true;
+        } else if (t < 0.69) {
+          // deselected, traveling to v1
+        } else if (t < 0.96) {
+          // single-click on v1 selects both because they're grouped
+          selected = ["v1", "v2"];
+          focusVocals = true;
+        }
+
+        if (selected.length === 0) {
+          setClipOverrides(null);
+        } else {
+          const next = {};
+          for (const id of selected) {
+            next[id] = { selected: true, focused: focusVocals };
+          }
+          setClipOverrides(next);
+        }
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => cancelAnimationFrame(raf);
+    }
+
     setClipOverrides(null);
   }, [stop.id]);
 

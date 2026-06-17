@@ -71,15 +71,15 @@ export const STOPS = [
     heading: "Group clips that belong together",
     description:
       "Bind related takes into a single group so they move and edit as one. Ungroup any time — nothing is destructive.",
-    laptop: { x: "-26vw", y: "-2vh", scale: 0.971 },
-    panelSide: "right",
-    target: { x: 22, y: 24, w: 17, h: 16 },
+    laptop: { x: "26vw", y: "-2vh", scale: 0.971 },
+    panelSide: "left",
+    target: { x: 24, y: 25.83, w: 15.69, h: 15.83 },
     overlay: {
-      kind: "group",
-      clips: [
-        { x: 22, y: 24, w: 9, h: 16 },
-        { x: 32, y: 24, w: 7, h: 16 },
-      ],
+      kind: "group-demo",
+      v1: { x: 24.06, y: 25.83, w: 8.12, h: 15.83 },
+      v2: { x: 33.44, y: 25.83, w: 6.25, h: 15.83 },
+      v1Header: { x: 28.2, y: 27.4 },
+      v2Header: { x: 36.6, y: 27.4 },
     },
   },
   {
