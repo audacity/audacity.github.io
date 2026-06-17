@@ -18,7 +18,7 @@ function IntroOverlay({ visible, eyebrow, heading }) {
         >
           {eyebrow}
         </div>
-        <h2 className="font-symphony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast">
+        <h2 className="font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast">
           {heading}
         </h2>
       </div>

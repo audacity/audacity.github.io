@@ -27,7 +27,7 @@ function MobileFallback() {
               >
                 {stop.eyebrow}
               </div>
-              <h3 className="font-symphony mt-2 text-3xl leading-tight">
+              <h3 className="font-harmony mt-2 text-3xl leading-tight">
                 {stop.heading}
               </h3>
               <p className="mt-3 text-base text-text-contrast/70 leading-relaxed">

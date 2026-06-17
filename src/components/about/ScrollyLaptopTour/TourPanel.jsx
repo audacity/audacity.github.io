@@ -19,7 +19,7 @@ function TourPanel({ stop, panelRef }) {
           {stop.eyebrow}
         </div>
         <h3
-          className="font-symphony mt-3 text-4xl md:text-5xl leading-[1.05]"
+          className="font-harmony mt-3 text-4xl md:text-5xl leading-[1.05]"
           data-tour-panel-heading
         >
           {stop.heading}
