@@ -139,6 +139,7 @@ function DesktopTour() {
               duration: dur,
               fullDuration: V1_FULL,
               selected: true,
+              focused: true,
             },
           });
         } else {
@@ -164,6 +165,7 @@ function DesktopTour() {
               duration: dur,
               fullDuration: D4_FULL,
               selected: true,
+              focused: true,
               stretchFactor: sf,
             },
           });
@@ -175,28 +177,65 @@ function DesktopTour() {
     }
 
     if (stop.id === "multi-select") {
-      const CYCLE = 5000;
-      const TIMELINE = [
-        { t: 0.0, ids: [] },
-        { t: 0.1, ids: ["v1"] },
-        { t: 0.25, ids: ["v1", "v2"] },
-        { t: 0.4, ids: ["v1", "v2", "d1"] },
-        { t: 0.55, ids: ["v1", "v2", "d1", "d3"] },
-        { t: 0.95, ids: [] },
-      ];
+      const CYCLE = 7000;
+      const STARTS = { v1: 0.4, v2: 3.4, d1: 0.1, d3: 3.5 };
+      const VOCALS = new Set(["v1", "v2"]);
+      const MOVE_OFFSET = 0.35;
+      const ease = (u) =>
+        u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
       const t0 = performance.now();
       let raf;
-      let prevKey = "";
       const tick = (now) => {
         const t = ((now - t0) % CYCLE) / CYCLE;
-        let active = TIMELINE[0];
-        for (const seg of TIMELINE) if (t >= seg.t) active = seg;
-        const key = active.ids.join(",");
-        if (key !== prevKey) {
-          prevKey = key;
+        let selected = [];
+        let focusVocals = false;
+        let focusDrums = false;
+        let offset = 0;
+
+        if (t < 0.05) {
+          // empty
+        } else if (t < 0.15) {
+          selected = ["v1"];
+          focusVocals = true;
+        } else if (t < 0.28) {
+          selected = ["v1", "v2"];
+          focusVocals = true;
+        } else if (t < 0.42) {
+          selected = ["v1", "v2", "d1"];
+          focusDrums = true;
+        } else if (t < 0.58) {
+          selected = ["v1", "v2", "d1", "d3"];
+          focusDrums = true;
+        } else if (t < 0.68) {
+          selected = ["v1", "v2", "d1", "d3"];
+          focusDrums = true;
+          offset = MOVE_OFFSET * ease((t - 0.58) / 0.1);
+        } else if (t < 0.82) {
+          selected = ["v1", "v2", "d1", "d3"];
+          focusDrums = true;
+          offset = MOVE_OFFSET;
+        } else if (t < 0.92) {
+          selected = ["v1", "v2", "d1", "d3"];
+          focusDrums = true;
+          offset = MOVE_OFFSET * (1 - ease((t - 0.82) / 0.1));
+        } else if (t < 0.95) {
+          selected = ["v1", "v2", "d1", "d3"];
+          focusDrums = true;
+        }
+
+        if (selected.length === 0) {
+          setClipOverrides(null);
+        } else {
           const next = {};
-          for (const id of active.ids) next[id] = { selected: true };
-          setClipOverrides(Object.keys(next).length ? next : null);
+          for (const id of selected) {
+            const onVocals = VOCALS.has(id);
+            next[id] = {
+              selected: true,
+              focused: onVocals ? focusVocals : focusDrums,
+              start: STARTS[id] + offset,
+            };
+          }
+          setClipOverrides(next);
         }
         raf = requestAnimationFrame(tick);
       };

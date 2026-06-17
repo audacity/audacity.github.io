@@ -247,11 +247,12 @@ function WorkspaceCanvas({ config, clipOverrides }) {
         clipOverrides[c.id] ? { ...c, ...clipOverrides[c.id] } : c,
       );
       const hasSelected = clips.some((c) => c.selected);
+      const hasFocused = clips.some((c) => c.focused);
       return {
         ...t,
         clips,
         isSelected: hasSelected,
-        isFocused: hasSelected,
+        isFocused: hasFocused,
         controlProps: {
           ...t.controlProps,
           state: hasSelected ? "active" : t.controlProps?.state,

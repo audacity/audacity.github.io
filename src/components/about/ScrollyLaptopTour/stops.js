@@ -57,11 +57,12 @@ export const STOPS = [
     overlay: {
       kind: "select-demo",
       targets: [
-        { id: "v1", x: 26.3, y: 32 },
-        { id: "v2", x: 34.7, y: 32 },
-        { id: "d1", x: 23.8, y: 69 },
-        { id: "d3", x: 34.4, y: 69 },
+        { id: "v1", x: 28.2, y: 27.4 },
+        { id: "v2", x: 36.6, y: 27.4 },
+        { id: "d1", x: 25.7, y: 59.6 },
+        { id: "d3", x: 36.3, y: 59.6 },
       ],
+      moveOffsetX: 1.09,
     },
   },
   {
