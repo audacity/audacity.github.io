@@ -8,6 +8,7 @@ import IntroOverlay from "./IntroOverlay.jsx";
 import WorkspaceCanvas from "../workspaces/WorkspaceCanvas.jsx";
 import { WORKSPACE_CONFIGS } from "../workspaces/workspaceConfigs.js";
 import { STOPS } from "./stops.js";
+import { generateDecayingSineWave } from "@dilsonspickles/components";
 
 function useDesktopAnimation() {
   const [enabled, setEnabled] = useState(null);
@@ -43,6 +44,8 @@ function DesktopTour() {
   const panelRefs = useRef([]);
   const [stopIndex, setStopIndex] = useState(0);
   const [clipOverrides, setClipOverrides] = useState(null);
+  const [extraClips, setExtraClips] = useState(null);
+  const [splitFrame, setSplitFrame] = useState(null);
   const [renderStopId, setRenderStopId] = useState(STOPS[0].id);
   const [liveLidAngle, setLiveLidAngle] = useState(null);
   const config = WORKSPACE_CONFIGS.music;
@@ -285,7 +288,143 @@ function DesktopTour() {
       return () => cancelAnimationFrame(raf);
     }
 
+    if (stop.id === "split-tool" && stop.overlay?.kind === "split") {
+      const { button, clip, splitX = 0.5 } = stop.overlay;
+      const easeInOut = (u) =>
+        u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const S1_START = 0.1;
+      const S1_DURATION = 7.2;
+      const splitTime = S1_START + S1_DURATION * splitX;
+      const firstDuration = splitTime - S1_START;
+      const secondDuration = S1_START + S1_DURATION - splitTime;
+      const SYNTH_TRACK_INDEX = 1;
+      const fullWaveform = generateDecayingSineWave(S1_DURATION);
+      const splitSampleIdx = Math.floor(fullWaveform.length * splitX);
+      const firstHalfWaveform = fullWaveform.slice(0, splitSampleIdx);
+      const secondHalfWaveform = fullWaveform.slice(splitSampleIdx);
+
+      const CYCLE = 8000;
+      const parkX = 92;
+      const parkY = 86;
+      const buttonCx = button.x + button.w / 2;
+      const buttonCy = button.y + button.h / 2;
+      const splitXPct = clip.x + clip.w * splitX;
+      const clipApproachX = clip.x + clip.w * 0.15;
+      const clipMidY = clip.y + clip.h * 0.5;
+
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => {
+        const t = ((now - t0) % CYCLE) / CYCLE;
+        let cursor = "arrow";
+        let x = parkX;
+        let y = parkY;
+        let opacity = 0;
+        let clicking = false;
+        let buttonActive = false;
+        let lineX = null;
+        let split = false;
+
+        if (t < 0.04) {
+          opacity = t / 0.04;
+        } else if (t < 0.2) {
+          const p = easeInOut((t - 0.04) / 0.16);
+          x = lerp(parkX, buttonCx, p);
+          y = lerp(parkY, buttonCy, p);
+          opacity = 1;
+        } else if (t < 0.24) {
+          x = buttonCx;
+          y = buttonCy;
+          opacity = 1;
+          clicking = true;
+          buttonActive = t > 0.22;
+        } else if (t < 0.34) {
+          const p = easeInOut((t - 0.24) / 0.1);
+          x = lerp(buttonCx, clipApproachX, p);
+          y = lerp(buttonCy, clipMidY, p);
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+        } else if (t < 0.54) {
+          const p = easeInOut((t - 0.34) / 0.2);
+          x = lerp(clipApproachX, splitXPct, p);
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+          lineX = x;
+        } else if (t < 0.58) {
+          x = splitXPct;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          clicking = t < 0.56;
+          buttonActive = true;
+          lineX = splitXPct;
+          split = t > 0.56;
+        } else if (t < 0.86) {
+          x = splitXPct;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+          split = true;
+        } else if (t < 0.96) {
+          const p = (t - 0.86) / 0.1;
+          x = splitXPct;
+          y = clipMidY;
+          opacity = 1 - p;
+          cursor = "split";
+          buttonActive = t < 0.92;
+          split = t < 0.92;
+        } else {
+          opacity = 0;
+        }
+
+        setSplitFrame({
+          x,
+          y,
+          opacity,
+          cursor,
+          clicking,
+          buttonActive,
+          lineX,
+          split,
+        });
+        if (split) {
+          setClipOverrides({
+            s1: { duration: firstDuration, waveform: firstHalfWaveform },
+          });
+          setExtraClips({
+            [SYNTH_TRACK_INDEX]: [
+              {
+                id: "s1-b",
+                name: "Pad",
+                start: splitTime,
+                duration: secondDuration,
+                waveform: secondHalfWaveform,
+              },
+            ],
+          });
+        } else {
+          setClipOverrides(null);
+          setExtraClips(null);
+        }
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => {
+        cancelAnimationFrame(raf);
+        setSplitFrame(null);
+        setClipOverrides(null);
+        setExtraClips(null);
+      };
+    }
+
     setClipOverrides(null);
+    setExtraClips(null);
+    setSplitFrame(null);
   }, [stop.id]);
 
   const panelOnLeft = stop.panelSide === "left";
@@ -325,11 +464,16 @@ function DesktopTour() {
           }}
         >
           <LaptopFrame lidAngle={lidAngle} lidImmediate={lidImmediate}>
-            <WorkspaceCanvas config={config} clipOverrides={clipOverrides} />
+            <WorkspaceCanvas
+              config={config}
+              clipOverrides={clipOverrides}
+              extraClips={extraClips}
+            />
             <TourOverlay
               overlay={stop.overlay}
               targetId={stop.id}
               target={stop.target}
+              splitFrame={splitFrame}
             />
           </LaptopFrame>
         </div>

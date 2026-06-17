@@ -95,6 +95,11 @@ function renderTransportRow(config) {
           isActive={!!config.envelopeMode}
           ariaLabel="Envelope tool"
         />
+        <ToggleToolButton
+          icon="cut"
+          isActive={!!config.splitMode}
+          ariaLabel="Split tool"
+        />
         <ToolButton icon="cut" ariaLabel="Multi-clip" />
         <ToolButton icon="waveform" ariaLabel="Wave tool" />
       </ToolbarButtonGroup>
@@ -235,17 +240,19 @@ function withWaveforms(tracks) {
   }));
 }
 
-function WorkspaceCanvas({ config, clipOverrides }) {
+function WorkspaceCanvas({ config, clipOverrides, extraClips }) {
   const containerRef = useRef(null);
   const scale = useScaleToFit(containerRef);
 
   const baseTracks = useMemo(() => withWaveforms(config.tracks), [config]);
   const tracks = useMemo(() => {
-    if (!clipOverrides) return baseTracks;
-    return baseTracks.map((t) => {
-      const clips = t.clips.map((c) =>
-        clipOverrides[c.id] ? { ...c, ...clipOverrides[c.id] } : c,
+    if (!clipOverrides && !extraClips) return baseTracks;
+    return baseTracks.map((t, i) => {
+      const patched = t.clips.map((c) =>
+        clipOverrides?.[c.id] ? { ...c, ...clipOverrides[c.id] } : c,
       );
+      const extras = extraClips?.[i] ?? [];
+      const clips = [...patched, ...extras];
       const hasSelected = clips.some((c) => c.selected);
       const hasFocused = clips.some((c) => c.focused);
       return {
@@ -259,7 +266,7 @@ function WorkspaceCanvas({ config, clipOverrides }) {
         },
       };
     });
-  }, [baseTracks, clipOverrides]);
+  }, [baseTracks, clipOverrides, extraClips]);
   const trackHeights = tracks.map((t) => t.height ?? 110);
   const totalTrackHeight = trackHeights.reduce((a, b) => a + b, 0);
 

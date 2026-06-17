@@ -404,6 +404,73 @@ function SelectDemo({ targets, moveOffsetX = 0 }) {
   );
 }
 
+const SplitCursor = () => (
+  <img
+    src="/cursors/Split.png"
+    alt=""
+    aria-hidden="true"
+    width={32}
+    height={32}
+    style={{ display: "block", userSelect: "none" }}
+  />
+);
+
+function SplitDemo({ button, clip, frame }) {
+  if (!frame) return null;
+  const lineColor = "#7CC4FF";
+  const lineGlow = "0 0 8px rgba(124, 196, 255, 0.7)";
+
+  return (
+    <>
+      {frame.buttonActive && (
+        <div
+          style={rectStyle(button, {
+            border: `1.5px solid ${lineColor}`,
+            borderRadius: 4,
+            boxShadow: `inset 0 0 8px rgba(124,196,255,0.4), 0 0 12px rgba(124,196,255,0.45)`,
+            background: "rgba(124, 196, 255, 0.18)",
+            transition: "opacity 120ms ease-out",
+          })}
+        />
+      )}
+
+      {frame.lineX !== null && !frame.split && (
+        <div
+          style={{
+            position: "absolute",
+            left: `${frame.lineX}%`,
+            top: `${clip.y}%`,
+            width: 0,
+            height: `${clip.h}%`,
+            borderLeft: `1.5px solid ${lineColor}`,
+            boxShadow: lineGlow,
+            transform: "translateX(-0.75px)",
+            pointerEvents: "none",
+            zIndex: 25,
+          }}
+        />
+      )}
+
+      <div
+        style={{
+          position: "absolute",
+          left: `${frame.x}%`,
+          top: `${frame.y}%`,
+          opacity: frame.opacity,
+          transform: `translate(${frame.cursor === "split" ? "-16px, -16px" : "-3px, -2px"}) ${frame.clicking ? "scale(0.82)" : ""}`,
+          transformOrigin: frame.cursor === "split" ? "16px 16px" : "3px 3px",
+          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+          pointerEvents: "none",
+          zIndex: 30,
+        }}
+      >
+        {frame.cursor === "arrow" && <ArrowCursor />}
+        {frame.cursor === "split" && <SplitCursor />}
+      </div>
+    </>
+  );
+}
+
 function MockContextMenu({ x, y, hoverGroup }) {
   const items = [
     { key: "rename", label: "Rename clip" },
@@ -646,7 +713,7 @@ function GroupDemo({ v1, v2, v1Header, v2Header }) {
   );
 }
 
-function TourOverlay({ overlay, targetId, target }) {
+function TourOverlay({ overlay, targetId, target, splitFrame }) {
   if (!overlay && !target) return null;
   return (
     <div
@@ -684,6 +751,13 @@ function TourOverlay({ overlay, targetId, target }) {
       )}
       {overlay?.kind === "overlap" && (
         <Overlap base={overlay.base} drop={overlay.drop} />
+      )}
+      {overlay?.kind === "split" && (
+        <SplitDemo
+          button={overlay.button}
+          clip={overlay.clip}
+          frame={splitFrame}
+        />
       )}
       {target && (
         <div
