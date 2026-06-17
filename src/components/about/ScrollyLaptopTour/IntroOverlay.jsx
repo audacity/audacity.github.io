@@ -1,6 +1,38 @@
 import React from "react";
 
-function IntroOverlay({ visible, eyebrow, heading }) {
+function IntroOverlay({
+  visible,
+  eyebrow,
+  heading,
+  description,
+  compact,
+  centerHeading,
+  dimProgress = 0,
+}) {
+  const eyebrowClass = compact
+    ? "font-mono text-sm tracking-[0.2em] uppercase"
+    : "font-mono text-sm tracking-[0.3em] uppercase";
+  const headingClass = compact
+    ? "font-harmony mt-3 text-4xl md:text-5xl leading-[1.05] text-text-contrast"
+    : "font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast";
+  const dimOpacity = Math.max(0, Math.min(1, 1 - dimProgress));
+
+  const headingBlock = (
+    <div
+      className="text-center px-6 max-w-2xl"
+      style={{
+        opacity: dimOpacity,
+        transform: `translateY(${-12 * dimProgress}px)`,
+        filter: `blur(${6 * dimProgress}px)`,
+      }}
+    >
+      <div className={eyebrowClass} style={{ color: "rgba(255,255,255,0.4)" }}>
+        {eyebrow}
+      </div>
+      <h2 className={headingClass}>{heading}</h2>
+    </div>
+  );
+
   return (
     <div
       className="absolute inset-0 z-20 pointer-events-none flex flex-col items-center justify-between"
@@ -11,19 +43,24 @@ function IntroOverlay({ visible, eyebrow, heading }) {
         transition: "opacity 320ms ease-out",
       }}
     >
-      <div className="text-center px-6 max-w-3xl">
-        <div
-          className="font-mono text-sm tracking-[0.3em] uppercase"
-          style={{ color: "rgba(255,255,255,0.55)" }}
-        >
-          {eyebrow}
-        </div>
-        <h2 className="font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast">
-          {heading}
-        </h2>
-      </div>
+      {centerHeading ? (
+        <>
+          <div />
+          {headingBlock}
+        </>
+      ) : (
+        headingBlock
+      )}
 
-      <ScrollChevron />
+      {description ? (
+        <p className="text-center px-6 max-w-md text-base md:text-lg leading-relaxed text-text-contrast/70">
+          {description}
+        </p>
+      ) : (
+        <div style={{ opacity: dimOpacity }}>
+          <ScrollChevron />
+        </div>
+      )}
 
       <style>{`
         @keyframes scrolly-chevron-bob {

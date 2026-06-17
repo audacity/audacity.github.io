@@ -2,7 +2,12 @@ import React from "react";
 
 const LID_TRANSITION = "transform 760ms cubic-bezier(0.6, 0.05, 0.2, 1.05)";
 
-function LaptopFrame({ children, frameRef, lidAngle = 0 }) {
+function LaptopFrame({
+  children,
+  frameRef,
+  lidAngle = 0,
+  lidImmediate = false,
+}) {
   return (
     <div
       ref={frameRef}
@@ -27,7 +32,7 @@ function LaptopFrame({ children, frameRef, lidAngle = 0 }) {
             transformOrigin: "bottom center",
             transformStyle: "preserve-3d",
             transform: `rotateX(${lidAngle}deg)`,
-            transition: LID_TRANSITION,
+            transition: lidImmediate ? "none" : LID_TRANSITION,
             willChange: "transform",
             backfaceVisibility: "hidden",
           }}

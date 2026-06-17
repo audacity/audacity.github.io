@@ -44,6 +44,7 @@ function DesktopTour() {
   const [stopIndex, setStopIndex] = useState(0);
   const [clipOverrides, setClipOverrides] = useState(null);
   const [renderStopId, setRenderStopId] = useState(STOPS[0].id);
+  const [liveLidAngle, setLiveLidAngle] = useState(null);
   const config = WORKSPACE_CONFIGS.music;
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
@@ -76,6 +77,24 @@ function DesktopTour() {
         })
         .filter(Boolean);
 
+      const introIdx = STOPS.findIndex((s) => s.id === "intro");
+      const introPanel = panelRefs.current[introIdx];
+      const closedAngle = STOPS[introIdx]?.laptop?.lidAngle ?? -85;
+      if (introPanel) {
+        const lidTrigger = ScrollTrigger.create({
+          trigger: introPanel,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          onUpdate: (self) => {
+            setLiveLidAngle(closedAngle + -closedAngle * self.progress);
+          },
+          onLeave: () => setLiveLidAngle(null),
+          onLeaveBack: () => setLiveLidAngle(closedAngle),
+        });
+        triggers.push(lidTrigger);
+      }
+
       cleanup = () => {
         triggers.forEach((t) => t.kill());
       };
@@ -88,22 +107,7 @@ function DesktopTour() {
   }, []);
 
   useEffect(() => {
-    const currentId = renderStopId;
-    const targetId = scrolledStop.id;
-    if (currentId === targetId) return;
-    const beatPairs = [
-      ["intro", "clip-handles"],
-      ["clip-handles", "intro"],
-    ];
-    const needsBeat = beatPairs.some(
-      ([from, to]) => currentId === from && targetId === to,
-    );
-    if (needsBeat) {
-      setRenderStopId("full-ui");
-      const t = setTimeout(() => setRenderStopId(targetId), 1200);
-      return () => clearTimeout(t);
-    }
-    setRenderStopId(targetId);
+    setRenderStopId(scrolledStop.id);
   }, [scrolledStop.id]);
 
   useEffect(() => {
@@ -288,7 +292,14 @@ function DesktopTour() {
   const panelOnRight = stop.panelSide === "right";
   const isIntro = stop.panelSide === "intro";
   const isOutro = stop.panelSide === "outro";
-  const lidAngle = stop.laptop.lidAngle ?? 0;
+  const isReveal = stop.panelSide === "reveal";
+  const lidAngle = liveLidAngle ?? stop.laptop.lidAngle ?? 0;
+  const lidImmediate = liveLidAngle !== null;
+  const introClosedAngle = introStop.laptop.lidAngle ?? -85;
+  const introDim =
+    liveLidAngle === null
+      ? 0
+      : (liveLidAngle - introClosedAngle) / -introClosedAngle;
 
   const transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
 
@@ -313,7 +324,7 @@ function DesktopTour() {
             willChange: "transform",
           }}
         >
-          <LaptopFrame lidAngle={lidAngle}>
+          <LaptopFrame lidAngle={lidAngle} lidImmediate={lidImmediate}>
             <WorkspaceCanvas config={config} clipOverrides={clipOverrides} />
             <TourOverlay
               overlay={stop.overlay}
@@ -341,11 +352,20 @@ function DesktopTour() {
           visible={isIntro}
           eyebrow={introStop.eyebrow}
           heading={introStop.heading}
+          centerHeading
+          dimProgress={introDim}
         />
         <IntroOverlay
           visible={isOutro}
           eyebrow={outroStop.eyebrow}
           heading={outroStop.heading}
+        />
+        <IntroOverlay
+          visible={isReveal}
+          eyebrow={stop.eyebrow}
+          heading={stop.heading}
+          description={stop.description}
+          compact
         />
 
         <ScrollIndicator
