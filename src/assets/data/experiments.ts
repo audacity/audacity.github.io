@@ -51,21 +51,22 @@ export const experiments: Experiment[] = [
     enabled: false,
   },
   // Iteration 3 (homepage hero only): copy/messaging test after the badge arms
-  // lost in the iteration 2 badge test. All treatment arms add a descriptive
-  // line and drop the "Download without MuseHub" secondary link.
-  //   control — current hero, untouched (holdout)
-  //   a       — header "Audacity", CTA stays "Download Audacity <ver>" (text effect alone)
-  //   b       — header "Audacity", CTA "Download on MuseHub"
-  //   c       — header "Download Audacity", CTA "Download on MuseHub"
+  // lost in the iteration 2 badge test. Arm names match the Confluence/Figma
+  // A/B/C/D labels. Treatment arms (b/c/d) add a descriptive line and drop the
+  // "Download without MuseHub" secondary link.
+  //   a — original hero, untouched (holdout / "A")
+  //   b — header "Audacity", "Download Audacity <ver>" button (text effect alone)
+  //   c — header "Audacity", "download on musehub" badge
+  //   d — header "Download Audacity", "download on musehub" badge
   // Ship disabled; flip `enabled` to true to launch (requires a redeploy since
   // the enabled set is baked into the BaseLayout bootstrap script).
   {
     name: "musehub-copy",
     variants: [
-      { name: "control", weight: 25 },
       { name: "a", weight: 25 },
       { name: "b", weight: 25 },
       { name: "c", weight: 25 },
+      { name: "d", weight: 25 },
     ],
     enabled: false,
   },

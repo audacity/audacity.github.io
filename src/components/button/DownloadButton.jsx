@@ -75,11 +75,11 @@ function DownloadButton({ surface } = {}) {
   );
 
   // Homepage hero, iteration 3 copy test: keep "Download without MuseHub" in
-  // control (and when the experiment is off — the :not([data-exp]) fallback),
-  // remove it entirely in arms a/b/c.
+  // arm a (the original — and when the experiment is off, via the
+  // :not([data-exp]) fallback), remove it entirely in arms b/c/d.
   if (surface === "hero") {
     return (
-      <span className="ab-variant ab-musehub-copy-control">
+      <span className="ab-variant ab-musehub-copy-a">
         {links.map(renderDownloadLink)}
       </span>
     );

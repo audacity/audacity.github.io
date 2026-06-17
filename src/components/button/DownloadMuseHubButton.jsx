@@ -109,16 +109,12 @@ function DownloadMuseHubButton({ surface } = {}) {
     );
   };
 
-  // Homepage hero only: iteration 3 copy test. control/a keep the
-  // "Download Audacity <ver>" button; b/c use the "Download on MuseHub" button.
+  // Homepage hero only: iteration 3 copy test (arms match Confluence A/B/C/D).
+  // a (original) / b keep the "Download Audacity <ver>" button; c/d use the
+  // "download on musehub" badge.
   if (surface === "hero") {
     return (
       <>
-        <span className="ab-variant ab-musehub-copy-control">
-          {links.map((link) =>
-            renderControlButton(link, link.osClass, "control", "musehub-copy"),
-          )}
-        </span>
         <span className="ab-variant ab-musehub-copy-a">
           {links.map((link) =>
             renderControlButton(link, link.osClass, "a", "musehub-copy"),
@@ -126,12 +122,17 @@ function DownloadMuseHubButton({ surface } = {}) {
         </span>
         <span className="ab-variant ab-musehub-copy-b">
           {links.map((link) =>
-            renderMuseHubBadgeButton(link, "b", link.osClass),
+            renderControlButton(link, link.osClass, "b", "musehub-copy"),
           )}
         </span>
         <span className="ab-variant ab-musehub-copy-c">
           {links.map((link) =>
             renderMuseHubBadgeButton(link, "c", link.osClass),
+          )}
+        </span>
+        <span className="ab-variant ab-musehub-copy-d">
+          {links.map((link) =>
+            renderMuseHubBadgeButton(link, "d", link.osClass),
           )}
         </span>
       </>
