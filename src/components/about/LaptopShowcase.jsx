@@ -1,12 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
-import { WORKSPACE_CONFIGS } from "./workspaces/workspaceConfigs.js";
-import "@dilsonspickles/components/style.css";
 
 const CLOSED_ANGLE = -85;
 
 function LaptopShowcase() {
-  const config = WORKSPACE_CONFIGS.music;
   const sectionRef = useRef(null);
   const [progress, setProgress] = useState(0);
 
@@ -71,7 +67,15 @@ function LaptopShowcase() {
               }}
             >
               <div className="aspect-[16/9] rounded-lg overflow-hidden bg-black">
-                <WorkspaceCanvas config={config} />
+                <img
+                  src="/workspace-snapshots/music.webp"
+                  alt="Audacity 4 music workspace"
+                  width={1280}
+                  height={720}
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>

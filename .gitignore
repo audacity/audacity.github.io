@@ -50,3 +50,6 @@ deno.lock
 
 # vscode machine-specific settings
 .vscode/
+
+# Temp page created by scripts/snapshot-workspaces.ts
+src/pages/snapshot-tmp/

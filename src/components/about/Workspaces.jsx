@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
 import { WORKSPACE_CONFIGS } from "./workspaces/workspaceConfigs.js";
-import "@dilsonspickles/components/style.css";
 
 const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 const FADE_MS = 180;
@@ -75,7 +73,15 @@ function Workspaces() {
               transition: `opacity ${FADE_MS}ms ease`,
             }}
           >
-            <WorkspaceCanvas key={displayedKey} config={active} />
+            <img
+              src={`/workspace-snapshots/${displayedKey}.webp`}
+              alt={`${active.label} workspace preview`}
+              width={1280}
+              height={720}
+              loading="lazy"
+              decoding="async"
+              className="block w-full h-full object-cover object-top"
+            />
           </div>
           <p
             className="mt-4 text-text-contrast/70 text-sm lg:text-base font-muse-sans"

@@ -1,0 +1,43 @@
+---
+// NOTE: this file is copied into src/pages/snapshot-tmp/[key].astro at
+// runtime by scripts/snapshot-workspaces.ts. It exists outside src/pages so
+// it's never built into production. The temp copy is removed after the
+// snapshot run; see .gitignore.
+import WorkspaceCanvas from "../../components/about/workspaces/WorkspaceCanvas.jsx";
+import { WORKSPACE_CONFIGS } from "../../components/about/workspaces/workspaceConfigs.js";
+import "@dilsonspickles/components/style.css";
+
+export function getStaticPaths() {
+  return Object.keys(WORKSPACE_CONFIGS).map((key) => ({ params: { key } }));
+}
+
+const { key } = Astro.params;
+const config = (WORKSPACE_CONFIGS as Record<string, any>)[key as string];
+---
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Snapshot: {key}</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        overflow: hidden;
+      }
+      #snapshot-root {
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="snapshot-root">
+      <WorkspaceCanvas client:only="react" config={config} />
+    </div>
+  </body>
+</html>
