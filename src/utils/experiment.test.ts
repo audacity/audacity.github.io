@@ -1,6 +1,15 @@
-import { describe, expect, test } from "bun:test";
-import { hashToSlot, getVariant } from "./experiment";
+import { afterEach, describe, expect, test } from "bun:test";
+import { hashToSlot, getVariant, resolveVariant } from "./experiment";
 import type { Experiment } from "../assets/data/experiments";
+
+// resolveVariant / getVariant read window.location.search (?ab= force) and
+// document.cookie (aud_ab_id). Stub them so the force/cohort logic runs in node.
+type StubGlobals = { window: unknown; document: unknown };
+const stub = globalThis as unknown as StubGlobals;
+function setEnv(ab: string | null, abId: number | null): void {
+  stub.window = { location: { search: ab ? `?ab=${ab}` : "" } };
+  stub.document = { cookie: abId === null ? "" : `aud_ab_id=${abId}` };
+}
 
 describe("hashToSlot", () => {
   test("returns a number between 0 and 99", () => {
@@ -83,5 +92,98 @@ describe("getVariant", () => {
     const v1 = getVariant(fiftyFifty, 42);
     const v2 = getVariant(fiftyFifty, 42);
     expect(v1).toBe(v2);
+  });
+});
+
+describe("getVariant ?ab= override", () => {
+  const exp: Experiment = {
+    name: "demo",
+    variants: [
+      { name: "control", weight: 50 },
+      { name: "treatment", weight: 50 },
+    ],
+    enabled: true,
+  };
+  const origWindow = stub.window;
+  afterEach(() => {
+    stub.window = origWindow;
+  });
+
+  test("a valid forced variant wins over the hash", () => {
+    setEnv("demo:treatment", null);
+    for (let id = 0; id < 50; id++)
+      expect(getVariant(exp, id)).toBe("treatment");
+  });
+
+  test("an invalid forced variant is ignored, not returned as-is", () => {
+    setEnv("demo:bogus", null);
+    const v = getVariant(exp, 42);
+    expect(v).not.toBe("bogus");
+    expect(exp.variants.map((x) => x.name)).toContain(v);
+  });
+
+  test("a force for a different experiment is not applied", () => {
+    setEnv("other:treatment", null);
+    const v = getVariant(exp, 42);
+    expect(exp.variants.map((x) => x.name)).toContain(v);
+  });
+});
+
+describe("resolveVariant", () => {
+  const live: Experiment = {
+    name: "live",
+    variants: [
+      { name: "control", weight: 50 },
+      { name: "treatment", weight: 50 },
+    ],
+    enabled: true,
+  };
+  const dark: Experiment = { ...live, name: "dark", enabled: false };
+
+  const origWindow = stub.window;
+  const origDocument = stub.document;
+  afterEach(() => {
+    stub.window = origWindow;
+    stub.document = origDocument;
+  });
+
+  test("forces a DARK experiment via ?ab=, even with no cookie", () => {
+    setEnv("dark:treatment", null);
+    expect(resolveVariant(dark)).toBe("treatment");
+  });
+
+  test("a dark experiment stays unassigned without a force (no leakage)", () => {
+    setEnv(null, 12345);
+    expect(resolveVariant(dark)).toBeNull();
+  });
+
+  test("a force wins over the cohort assignment", () => {
+    setEnv("live:treatment", 12345);
+    expect(resolveVariant(live)).toBe("treatment");
+  });
+
+  test("an enabled experiment auto-assigns a valid arm with a cookie", () => {
+    setEnv(null, 12345);
+    const v = resolveVariant(live);
+    expect(v).not.toBeNull();
+    expect(live.variants.map((x) => x.name)).toContain(v as string);
+  });
+
+  test("an enabled experiment is null without a cookie or force", () => {
+    setEnv(null, null);
+    expect(resolveVariant(live)).toBeNull();
+  });
+
+  test("an invalid forced arm does not apply to a dark experiment", () => {
+    setEnv("dark:bogus", null);
+    expect(resolveVariant(dark)).toBeNull();
+  });
+
+  test("an invalid forced arm on an enabled experiment falls back to cohort", () => {
+    setEnv("live:bogus", 12345);
+    const v = resolveVariant(live);
+    expect(v).not.toBe("bogus");
+    expect(v).not.toBeNull();
+    expect(live.variants.map((x) => x.name)).toContain(v as string);
   });
 });

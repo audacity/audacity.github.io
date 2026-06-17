@@ -45,9 +45,10 @@ const hasEligibleExitPopup =
     path: currentPath,
   }).length > 0;
 const shouldEnableExitIntentPopup = hasEligibleExitPopup;
-const experimentBootstrapData = experiments.filter(
-  (experiment) => experiment.enabled,
-);
+// Serialize every experiment (not just enabled ones) so a ?ab=name:variant URL
+// can force-preview a dark experiment. Disabled experiments are never
+// auto-assigned to real visitors — see the bootstrap loop below.
+const experimentBootstrapData = experiments;
 ---
 
 <!doctype html>
@@ -158,13 +159,14 @@ const experimentBootstrapData = experiments.filter(
         var abId = parseInt(getCookieValue("aud_ab_id"), 10);
         for (var i = 0; i < experiments.length; i++) {
           var experiment = experiments[i];
-          if (!experiment.enabled) continue;
 
           var variant = getForcedVariant(experiment.name);
           if (variant && !isValidVariant(experiment, variant)) {
             variant = null;
           }
-          if (!variant && Number.isFinite(abId)) {
+          // A valid ?ab= force previews any experiment, enabled or not.
+          // Otherwise only enabled experiments auto-assign a cohort.
+          if (!variant && experiment.enabled && Number.isFinite(abId)) {
             var slot = hashToSlot(abId, experiment.name);
             var cumulative = 0;
             for (var j = 0; j < experiment.variants.length; j++) {
