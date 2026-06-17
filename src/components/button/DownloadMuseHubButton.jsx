@@ -3,9 +3,11 @@ import { museHubReleases } from "../../assets/data/museHubReleases";
 import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 import badgeBWhite from "../../assets/img/musehub/musehub-badge-b-white.svg";
 import badgeCWhite from "../../assets/img/musehub/musehub-badge-c-white.svg";
+import badgeDownloadOn from "../../assets/img/musehub/musehub-badge-download-on.svg";
 
-function DownloadMuseHubButton() {
-  function handleClick(link, variant) {
+/** @param {{ surface?: "hero" }} [props] */
+function DownloadMuseHubButton({ surface } = {}) {
+  function handleClick(link, variant, experimentName) {
     const os = link.osLabel;
     trackEvent(
       "Download Button",
@@ -13,6 +15,7 @@ function DownloadMuseHubButton() {
       `Download MuseHub button ${os}`,
     );
     trackBinaryDownloadChoice({
+      experimentName,
       variant,
       os,
       releaseName: link.releaseName,
@@ -45,10 +48,15 @@ function DownloadMuseHubButton() {
     },
   ];
 
-  const renderControlButton = (link, key, variant = "control") => (
+  const renderControlButton = (
+    link,
+    key,
+    variant = "control",
+    experimentName,
+  ) => (
     <a
       key={key}
-      onClick={() => handleClick(link, variant)}
+      onClick={() => handleClick(link, variant, experimentName)}
       className={`os-specific ${link.osClass} py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit`}
       href={link.href}
     >
@@ -79,6 +87,56 @@ function DownloadMuseHubButton() {
       </a>
     );
   };
+
+  // Iteration 3 (musehub-copy): the white "download on musehub" badge for arms
+  // b/c (Figma C/D). Routes to the same MuseHub installer as the control button.
+  // Linux has no MuseHub installer, so it falls back to the direct Audacity
+  // button.
+  const renderMuseHubBadgeButton = (link, variant, key) => {
+    if (link.osClass === "os-linux") {
+      return renderControlButton(link, key, variant, "musehub-copy");
+    }
+
+    return (
+      <a
+        key={key}
+        onClick={() => handleClick(link, variant, "musehub-copy")}
+        className={`os-specific ${link.osClass}`}
+        href={link.href}
+      >
+        <img src={badgeDownloadOn.src} alt="Download on MuseHub" />
+      </a>
+    );
+  };
+
+  // Homepage hero only: iteration 3 copy test. control/a keep the
+  // "Download Audacity <ver>" button; b/c use the "Download on MuseHub" button.
+  if (surface === "hero") {
+    return (
+      <>
+        <span className="ab-variant ab-musehub-copy-control">
+          {links.map((link) =>
+            renderControlButton(link, link.osClass, "control", "musehub-copy"),
+          )}
+        </span>
+        <span className="ab-variant ab-musehub-copy-a">
+          {links.map((link) =>
+            renderControlButton(link, link.osClass, "a", "musehub-copy"),
+          )}
+        </span>
+        <span className="ab-variant ab-musehub-copy-b">
+          {links.map((link) =>
+            renderMuseHubBadgeButton(link, "b", link.osClass),
+          )}
+        </span>
+        <span className="ab-variant ab-musehub-copy-c">
+          {links.map((link) =>
+            renderMuseHubBadgeButton(link, "c", link.osClass),
+          )}
+        </span>
+      </>
+    );
+  }
 
   return (
     <>

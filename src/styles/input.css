@@ -100,6 +100,15 @@
     display: contents;
   }
 
+  /* Iteration 3 copy test (hero only). Off / no cookie falls back to control. */
+  html:not([data-exp-musehub-copy]) .ab-musehub-copy-control,
+  html[data-exp-musehub-copy="control"] .ab-musehub-copy-control,
+  html[data-exp-musehub-copy="a"] .ab-musehub-copy-a,
+  html[data-exp-musehub-copy="b"] .ab-musehub-copy-b,
+  html[data-exp-musehub-copy="c"] .ab-musehub-copy-c {
+    display: contents;
+  }
+
   html:not([data-os]) .os-win,
   html[data-os="win"] .os-win,
   html[data-os="mac"] .os-mac,

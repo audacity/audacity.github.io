@@ -1,7 +1,8 @@
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
-function DownloadButton() {
+/** @param {{ surface?: "hero" }} [props] */
+function DownloadButton({ surface } = {}) {
   function handleButtonClick(link) {
     const { href, osLabel, releaseName } = link;
     if (href !== "/download") {
@@ -72,6 +73,17 @@ function DownloadButton() {
       Other versions
     </a>
   );
+
+  // Homepage hero, iteration 3 copy test: keep "Download without MuseHub" in
+  // control (and when the experiment is off — the :not([data-exp]) fallback),
+  // remove it entirely in arms a/b/c.
+  if (surface === "hero") {
+    return (
+      <span className="ab-variant ab-musehub-copy-control">
+        {links.map(renderDownloadLink)}
+      </span>
+    );
+  }
 
   return (
     <>
