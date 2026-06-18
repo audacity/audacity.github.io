@@ -257,23 +257,25 @@ function WorkspaceCanvas({
 
   const baseTracks = useMemo(() => withWaveforms(config.tracks), [config]);
   const tracks = useMemo(() => {
-    if (!clipOverrides && !extraClips) return baseTracks;
     return baseTracks.map((t, i) => {
-      const patched = t.clips.map((c) =>
-        clipOverrides?.[c.id] ? { ...c, ...clipOverrides[c.id] } : c,
-      );
+      const patched = clipOverrides
+        ? t.clips.map((c) =>
+            clipOverrides[c.id] ? { ...c, ...clipOverrides[c.id] } : c,
+          )
+        : t.clips;
       const extras = extraClips?.[i] ?? [];
       const clips = [...patched, ...extras];
       const hasSelected = clips.some((c) => c.selected);
       const hasFocused = clips.some((c) => c.focused);
+      const isActive = hasSelected || hasFocused;
       return {
         ...t,
         clips,
-        isSelected: hasSelected,
+        isSelected: isActive,
         isFocused: hasFocused,
         controlProps: {
           ...t.controlProps,
-          state: hasSelected ? "active" : t.controlProps?.state,
+          state: isActive ? "active" : t.controlProps?.state,
         },
       };
     });

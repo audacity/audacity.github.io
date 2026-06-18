@@ -183,7 +183,15 @@ export const WORKSPACE_CONFIGS = {
           pan: 0,
         },
         height: 114,
-        clips: [{ id: "s1", name: "Intro theme", start: 0.1, duration: 7.2 }],
+        clips: [
+          {
+            id: "s1",
+            name: "Intro theme",
+            start: 0.1,
+            duration: 7.2,
+            focused: true,
+          },
+        ],
       },
       {
         trackIndex: 2,
