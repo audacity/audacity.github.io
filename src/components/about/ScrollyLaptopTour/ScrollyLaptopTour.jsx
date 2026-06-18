@@ -36,6 +36,97 @@ function ScrollyLaptopTour() {
   return <DesktopTour />;
 }
 
+// Cumulative canvas-state derivation. Returns the canvas state that should be
+// applied after the given stop's edit lands. Each stop layers its edit on top
+// of every preceding stop's edit so the laptop appears to carry every change
+// the tour has made so far.
+const FULL_S1_WAVEFORM = generateDecayingSineWave(7.2);
+const SPLIT_IDX = Math.floor(FULL_S1_WAVEFORM.length * 0.5);
+const S1_FIRST_HALF = FULL_S1_WAVEFORM.slice(0, SPLIT_IDX);
+const S1_SECOND_HALF = FULL_S1_WAVEFORM.slice(SPLIT_IDX);
+
+function computeCumulativeState(stopIndex) {
+  const overrides = {};
+  const extraByTrack = {};
+  let envMode = undefined;
+
+  for (let i = 0; i <= stopIndex; i++) {
+    const id = STOPS[i]?.id;
+    if (!id) continue;
+
+    if (id === "split-tool") {
+      overrides.s1 = {
+        ...(overrides.s1 || {}),
+        duration: 3.6,
+        waveform: S1_FIRST_HALF,
+        focused: true,
+      };
+      extraByTrack[1] = [
+        {
+          id: "s1-b",
+          name: "Intro theme",
+          start: 3.7,
+          duration: 3.6,
+          waveform: S1_SECOND_HALF,
+          focused: true,
+        },
+      ];
+    }
+
+    if (id === "drop-anywhere") {
+      // s1-b drags right onto s2; s2 trims back
+      if (extraByTrack[1]?.[0]?.id === "s1-b") {
+        extraByTrack[1][0] = { ...extraByTrack[1][0], start: 8.5 };
+      }
+      overrides.s2 = { start: 11.0, duration: 3.0 };
+    }
+
+    if (id === "multi-select") {
+      // h2 + g2 selected, shifted right by 0.4s together
+      overrides.h2 = {
+        ...(overrides.h2 || {}),
+        selected: true,
+        start: 5.4,
+      };
+      overrides.g2 = {
+        ...(overrides.g2 || {}),
+        selected: true,
+        start: 8.2,
+      };
+    }
+
+    if (id === "clip-groups") {
+      overrides.h2 = {
+        ...(overrides.h2 || {}),
+        selected: true,
+      };
+      overrides.g2 = {
+        ...(overrides.g2 || {}),
+        selected: true,
+      };
+    }
+
+    if (id === "clip-envelopes") {
+      envMode = true;
+      overrides.s1 = {
+        ...(overrides.s1 || {}),
+        envelopePoints: [
+          { time: 0.72, db: 0 }, // 20% into s1's 3.6s
+          { time: 2.7, db: -25 }, // 75% into s1's 3.6s
+        ],
+      };
+    }
+  }
+
+  const hasOverrides = Object.keys(overrides).length > 0;
+  const hasExtras = Object.keys(extraByTrack).length > 0;
+  return {
+    clipOverrides: hasOverrides ? overrides : null,
+    extraClips: hasExtras ? extraByTrack : null,
+    envelopeMode: envMode,
+  };
+}
+
 function DesktopTour() {
   const sectionRef = useRef(null);
   const stageRef = useRef(null);
@@ -115,8 +206,23 @@ function DesktopTour() {
     setRenderStopId(scrolledStop.id);
   }, [scrolledStop.id]);
 
+  // Apply the cumulative state for the current stop whenever we move between
+  // stops. Per-stop animations may transiently override this during their
+  // gesture, but the canonical state is whatever the cumulative computation
+  // says — so scrolling back and forth lands on consistent canvas state.
   useEffect(() => {
-    if (stop.id === "clip-handles") {
+    const next = computeCumulativeState(stopIndex);
+    setClipOverrides(next.clipOverrides);
+    setExtraClips(next.extraClips);
+    setEnvelopeMode(next.envelopeMode);
+  }, [stopIndex]);
+
+  useEffect(() => {
+    // Legacy clip-handles branch removed; the equivalent overrides are now
+    // applied via computeCumulativeState. New stops drop-anywhere,
+    // multi-select, and clip-groups also rely on cumulative state for their
+    // canvas changes until per-gesture animations are layered in.
+    if (false && stop.id === "clip-handles") {
       const CYCLE = 8000;
       const V1_FULL = 2.6;
       const V1_TRIM = 1.6;
@@ -179,7 +285,7 @@ function DesktopTour() {
       return () => cancelAnimationFrame(raf);
     }
 
-    if (stop.id === "multi-select") {
+    if (false && stop.id === "multi-select") {
       const CYCLE = 7000;
       const STARTS = { v1: 0.4, v2: 3.4, d1: 0.1, d3: 3.5 };
       const VOCALS = new Set(["v1", "v2"]);
@@ -246,7 +352,7 @@ function DesktopTour() {
       return () => cancelAnimationFrame(raf);
     }
 
-    if (stop.id === "clip-groups") {
+    if (false && stop.id === "clip-groups") {
       const CYCLE = 10000;
       const t0 = performance.now();
       let raf;
@@ -428,8 +534,6 @@ function DesktopTour() {
       return () => {
         cancelAnimationFrame(raf);
         setSplitFrame(null);
-        setClipOverrides(null);
-        setExtraClips(null);
       };
     }
 
@@ -588,16 +692,11 @@ function DesktopTour() {
       return () => {
         cancelAnimationFrame(raf);
         setEnvelopeFrame(null);
-        setEnvelopeMode(undefined);
-        setClipOverrides(null);
       };
     }
 
-    setClipOverrides(null);
-    setExtraClips(null);
     setSplitFrame(null);
     setEnvelopeFrame(null);
-    setEnvelopeMode(undefined);
   }, [stop.id]);
 
   const panelOnLeft = stop.panelSide === "left";

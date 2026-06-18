@@ -191,6 +191,7 @@ export const WORKSPACE_CONFIGS = {
             duration: 7.2,
             focused: true,
           },
+          { id: "s2", name: "Outro music", start: 9.0, duration: 5.0 },
         ],
       },
       {
