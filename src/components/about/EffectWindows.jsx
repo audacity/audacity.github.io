@@ -67,6 +67,8 @@ function EffectWindows() {
     let velocity = BASE_VELOCITY;
     let translateX = 0;
     let setWidth = 0;
+    let visible = false;
+    let raf = null;
 
     const measure = () => {
       const total = rowRef.current?.scrollWidth || 0;
@@ -77,27 +79,35 @@ function EffectWindows() {
     const ro = new ResizeObserver(measure);
     if (rowRef.current) ro.observe(rowRef.current);
 
-    let raf;
     const tick = () => {
-      // Ease velocity back toward the baseline drift.
       velocity = velocity * 0.92 + BASE_VELOCITY * 0.08;
       translateX += velocity;
-
-      // Seamless wrap — the row contains the cards twice.
       if (setWidth > 0) {
         if (translateX <= -setWidth) translateX += setWidth;
         else if (translateX >= 0) translateX -= setWidth;
       }
-
       if (rowRef.current) {
         rowRef.current.style.transform = `translate3d(${translateX}px, 0, 0)`;
       }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+
+    // Only run the marquee when the strip is on screen.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && raf === null) {
+          raf = requestAnimationFrame(tick);
+        } else if (!visible && raf !== null) {
+          cancelAnimationFrame(raf);
+          raf = null;
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    if (stripRef.current) io.observe(stripRef.current);
 
     const handleWheel = (e) => {
-      // Only react to horizontal scroll input. Page scrolling stays free.
       if (Math.abs(e.deltaX) > 0) {
         velocity -= e.deltaX * 0.35;
       }
@@ -107,8 +117,9 @@ function EffectWindows() {
     stripEl?.addEventListener("wheel", handleWheel, { passive: true });
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf !== null) cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
       stripEl?.removeEventListener("wheel", handleWheel);
     };
   }, []);

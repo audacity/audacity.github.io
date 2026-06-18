@@ -5,6 +5,7 @@ const LID_TRANSITION = "transform 760ms cubic-bezier(0.6, 0.05, 0.2, 1.05)";
 function LaptopFrame({
   children,
   frameRef,
+  lidRef,
   lidAngle = 0,
   lidImmediate = false,
 }) {
@@ -25,6 +26,7 @@ function LaptopFrame({
         }}
       >
         <div
+          ref={lidRef}
           className="rounded-[28px] p-[21px] lg:p-[28px] shadow-[0_52px_140px_-35px_rgba(0,0,0,0.8)]"
           style={{
             background: "linear-gradient(180deg, #1f1f23 0%, #15151a 100%)",

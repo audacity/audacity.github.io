@@ -38,7 +38,6 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
 
 <style is:global>
   html {
-    scroll-snap-type: y proximity;
     --page-bg: rgb(10, 13, 26);
   }
   body {
@@ -96,12 +95,23 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     const clamp = (n: number, lo: number, hi: number) =>
       Math.min(hi, Math.max(lo, n));
 
-    function tick() {
-      const max = Math.max(
+    // Cache the document height so we don't read scrollHeight on every
+    // scroll frame (forces layout). Re-measured on resize and on observed
+    // host changes.
+    let maxScroll = Math.max(
+      1,
+      document.documentElement.scrollHeight - window.innerHeight,
+    );
+
+    function measure() {
+      maxScroll = Math.max(
         1,
         document.documentElement.scrollHeight - window.innerHeight,
       );
-      const p = clamp(window.scrollY / max, 0, 1);
+    }
+
+    function tick() {
+      const p = clamp(window.scrollY / maxScroll, 0, 1);
       const segs = parsed.length - 1;
       const f = p * segs;
       const i = Math.min(segs - 1, Math.floor(f));
@@ -114,6 +124,7 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       root.style.setProperty("--page-bg", `rgb(${r}, ${g}, ${b})`);
     }
 
+    measure();
     tick();
     let raf: number | null = null;
     function onScroll() {
@@ -124,9 +135,18 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       });
     }
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", tick);
-    window.addEventListener("load", tick);
-    const ro = new ResizeObserver(() => tick());
+    window.addEventListener("resize", () => {
+      measure();
+      tick();
+    });
+    window.addEventListener("load", () => {
+      measure();
+      tick();
+    });
+    const ro = new ResizeObserver(() => {
+      measure();
+      tick();
+    });
     ro.observe(host);
   }
 

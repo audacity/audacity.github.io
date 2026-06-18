@@ -131,6 +131,7 @@ function DesktopTour() {
   const sectionRef = useRef(null);
   const stageRef = useRef(null);
   const laptopRef = useRef(null);
+  const lidRef = useRef(null);
   const tourPanelRef = useRef(null);
   const panelRefs = useRef([]);
   const [stopIndex, setStopIndex] = useState(0);
@@ -183,10 +184,23 @@ function DesktopTour() {
           end: "bottom top",
           scrub: true,
           onUpdate: (self) => {
-            setLiveLidAngle(closedAngle + -closedAngle * self.progress);
+            // Write the lid transform straight to the DOM during scrub so
+            // scrolling doesn't trigger 60 React re-renders per second.
+            const angle = closedAngle + -closedAngle * self.progress;
+            if (lidRef.current) {
+              lidRef.current.style.transition = "none";
+              lidRef.current.style.transform = `rotateX(${angle}deg)`;
+            }
           },
-          onLeave: () => setLiveLidAngle(null),
-          onLeaveBack: () => setLiveLidAngle(closedAngle),
+          onLeave: () => {
+            // Hand control back to React for the discrete stop state.
+            if (lidRef.current) lidRef.current.style.transition = "";
+            setLiveLidAngle(null);
+          },
+          onLeaveBack: () => {
+            if (lidRef.current) lidRef.current.style.transition = "";
+            setLiveLidAngle(closedAngle);
+          },
         });
         triggers.push(lidTrigger);
       }
@@ -735,7 +749,11 @@ function DesktopTour() {
             willChange: "transform",
           }}
         >
-          <LaptopFrame lidAngle={lidAngle} lidImmediate={lidImmediate}>
+          <LaptopFrame
+            lidRef={lidRef}
+            lidAngle={lidAngle}
+            lidImmediate={lidImmediate}
+          >
             <WorkspaceCanvas
               config={config}
               clipOverrides={clipOverrides}
@@ -816,7 +834,7 @@ function DesktopTour() {
                 height: "100vh",
                 minHeight: "100vh",
                 scrollSnapAlign: "start",
-                scrollSnapStop: "always",
+                scrollSnapStop: "normal",
                 pointerEvents: "none",
               }}
               aria-label={s.heading}
