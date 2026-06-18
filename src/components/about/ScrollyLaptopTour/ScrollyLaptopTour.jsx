@@ -394,21 +394,30 @@ function DesktopTour() {
           lineX,
           split,
         });
+        const focusClip = cursor === "split" || split;
         if (split) {
           setClipOverrides({
-            s1: { duration: firstDuration, waveform: firstHalfWaveform },
+            s1: {
+              duration: firstDuration,
+              waveform: firstHalfWaveform,
+              focused: true,
+            },
           });
           setExtraClips({
             [SYNTH_TRACK_INDEX]: [
               {
                 id: "s1-b",
-                name: "Pad",
+                name: "Intro theme",
                 start: splitTime,
                 duration: secondDuration,
                 waveform: secondHalfWaveform,
+                focused: true,
               },
             ],
           });
+        } else if (focusClip) {
+          setClipOverrides({ s1: { focused: true } });
+          setExtraClips(null);
         } else {
           setClipOverrides(null);
           setExtraClips(null);
@@ -563,8 +572,13 @@ function DesktopTour() {
 
         setEnvelopeFrame({ x, y, opacity, clicking, buttonActive });
         setEnvelopeMode(envOn);
+        const focusClip = envOn && t > 0.21 && t < 0.87;
         if (envOn && points.length > 0) {
-          setClipOverrides({ s1: { envelopePoints: points } });
+          setClipOverrides({
+            s1: { envelopePoints: points, focused: true },
+          });
+        } else if (focusClip) {
+          setClipOverrides({ s1: { focused: true } });
         } else {
           setClipOverrides(null);
         }

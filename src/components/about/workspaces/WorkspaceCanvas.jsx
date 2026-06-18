@@ -25,6 +25,7 @@ import {
   generateSpeechWaveform,
   generateDecayingSineWave,
   generateSineWave,
+  CLIP_CONTENT_OFFSET,
 } from "@dilsonspickles/components";
 
 const NATIVE_W = 1280;
@@ -82,7 +83,7 @@ function renderTransportRow(config) {
       <ToolbarButtonGroup>
         <TransportButton icon="play" ariaLabel="Play" />
         <TransportButton icon="stop" ariaLabel="Stop" />
-        <TransportButton icon="record" recording ariaLabel="Record" />
+        <TransportButton icon="record" ariaLabel="Record" />
         <TransportButton icon="skip-back" ariaLabel="Skip to start" />
         <TransportButton icon="skip-forward" ariaLabel="Skip to end" />
         {showLoop && <ToggleToolButton icon="loop" ariaLabel="Loop" />}
@@ -398,6 +399,43 @@ function WorkspaceCanvas({
                       />
                     </div>
                   ))}
+                </div>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: RULER_H + 2,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    pointerEvents: "none",
+                    zIndex: 0,
+                  }}
+                  aria-hidden="true"
+                >
+                  {Array.from({
+                    length:
+                      Math.floor(
+                        (canvasW - CLIP_CONTENT_OFFSET) / PIXELS_PER_SECOND,
+                      ) + 1,
+                  }).map((_, i) => {
+                    const isMajor = i % 5 === 0;
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          position: "absolute",
+                          left:
+                            CLIP_CONTENT_OFFSET + i * PIXELS_PER_SECOND - 0.5,
+                          top: 0,
+                          bottom: 0,
+                          width: 1,
+                          background: isMajor
+                            ? "rgba(255,255,255,0.1)"
+                            : "rgba(255,255,255,0.04)",
+                        }}
+                      />
+                    );
+                  })}
                 </div>
                 <div
                   style={{
