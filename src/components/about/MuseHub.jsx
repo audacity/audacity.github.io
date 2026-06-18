@@ -1,27 +1,67 @@
 import React from "react";
 
+const PANELS = [
+  {
+    id: "effects",
+    image: "/museHub/MuseHub_effects.png",
+    eyebrow: "Get Effects",
+    title: "Browse from inside the app",
+    description:
+      "Open Get Effects and you're looking at the whole MuseHub catalogue — free and paid — without a separate window or a browser tab.",
+  },
+  {
+    id: "plugin",
+    image: "/museHub/MuseHub_plugin.png",
+    eyebrow: "One-click install",
+    title: "Pick it, install it, it's there",
+    description:
+      "Choose a plugin, install in the background, and it shows up in your effect chain the next time you reach for it. No restarts.",
+  },
+];
+
 function MuseHub() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
-      <div className="max-w-screen-xl mx-auto">
+      <div className="max-w-[1600px] mx-auto">
         <header className="max-w-3xl">
-          <h2 className="font-symphony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+          <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
             And even more from MuseHub
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Two-up: Get effects window
+            Audacity 4 ships with MuseHub built in — thousands of plugins,
+            instruments, and samples, browsed and installed without ever leaving
+            the editor.
           </p>
         </header>
 
-        <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          <div
-            className="aspect-video rounded-2xl border border-white/10 bg-white/5"
-            aria-hidden
-          />
-          <div
-            className="aspect-video rounded-2xl border border-white/10 bg-white/5"
-            aria-hidden
-          />
+        <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {PANELS.map((panel) => (
+            <article key={panel.id} className="flex flex-col">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
+                <img
+                  src={panel.image}
+                  alt={`${panel.title} — ${panel.eyebrow}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full h-auto"
+                />
+              </div>
+              <div className="mt-6">
+                <div
+                  className="font-mono text-xs tracking-[0.3em] uppercase text-text-contrast/40"
+                  aria-hidden
+                >
+                  {panel.eyebrow}
+                </div>
+                <h3 className="mt-3 font-harmony text-text-contrast text-2xl md:text-3xl leading-tight">
+                  {panel.title}
+                </h3>
+                <p className="mt-3 text-text-contrast/65 text-base leading-relaxed max-w-md">
+                  {panel.description}
+                </p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
