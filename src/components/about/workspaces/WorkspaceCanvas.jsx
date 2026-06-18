@@ -240,9 +240,19 @@ function withWaveforms(tracks) {
   }));
 }
 
-function WorkspaceCanvas({ config, clipOverrides, extraClips }) {
+function WorkspaceCanvas({
+  config,
+  clipOverrides,
+  extraClips,
+  envelopeModeOverride,
+}) {
   const containerRef = useRef(null);
   const scale = useScaleToFit(containerRef);
+
+  const effectiveEnvelopeMode =
+    envelopeModeOverride !== undefined
+      ? envelopeModeOverride
+      : !!config.envelopeMode;
 
   const baseTracks = useMemo(() => withWaveforms(config.tracks), [config]);
   const tracks = useMemo(() => {
@@ -319,7 +329,10 @@ function WorkspaceCanvas({ config, clipOverrides, extraClips }) {
               menuItems={MENU_ITEMS}
             />
             {renderProjectToolbar(config)}
-            {renderTransportRow(config)}
+            {renderTransportRow({
+              ...config,
+              envelopeMode: effectiveEnvelopeMode,
+            })}
 
             <div
               style={{
@@ -377,7 +390,7 @@ function WorkspaceCanvas({ config, clipOverrides, extraClips }) {
                         width={canvasW}
                         height={trackHeights[i]}
                         pixelsPerSecond={PIXELS_PER_SECOND}
-                        envelopeMode={config.envelopeMode}
+                        envelopeMode={effectiveEnvelopeMode}
                         isLabelTrack={t.isLabelTrack}
                         isSelected={t.isSelected}
                         isFocused={t.isFocused}

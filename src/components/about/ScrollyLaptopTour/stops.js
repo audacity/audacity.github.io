@@ -57,7 +57,11 @@ export const STOPS = [
     laptop: { x: "22vw", y: "-2vh", scale: 1.05 },
     panelSide: "left",
     target: { x: 14, y: 5, w: 8, h: 6 },
-    overlay: null,
+    overlay: {
+      kind: "envelopes",
+      button: { x: 16.17, y: 14.65, w: 2.19, h: 3.89 },
+      clip: { x: 23.12, y: 41.94, w: 22.5, h: 15.83 },
+    },
   },
   {
     id: "outro",

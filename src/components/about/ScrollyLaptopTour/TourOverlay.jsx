@@ -471,6 +471,41 @@ function SplitDemo({ button, clip, frame }) {
   );
 }
 
+function EnvelopesDemo({ button, frame }) {
+  if (!frame) return null;
+  const lineColor = "#7CC4FF";
+
+  return (
+    <>
+      {frame.buttonActive && (
+        <div
+          style={rectStyle(button, {
+            border: `1.5px solid ${lineColor}`,
+            borderRadius: 4,
+            boxShadow: `inset 0 0 8px rgba(124,196,255,0.4), 0 0 12px rgba(124,196,255,0.45)`,
+            background: "rgba(124, 196, 255, 0.18)",
+          })}
+        />
+      )}
+      <div
+        style={{
+          position: "absolute",
+          left: `${frame.x}%`,
+          top: `${frame.y}%`,
+          opacity: frame.opacity,
+          transform: `translate(-3px, -2px) ${frame.clicking ? "scale(0.82)" : ""}`,
+          transformOrigin: "3px 3px",
+          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+          pointerEvents: "none",
+          zIndex: 30,
+        }}
+      >
+        <ArrowCursor />
+      </div>
+    </>
+  );
+}
+
 function MockContextMenu({ x, y, hoverGroup }) {
   const items = [
     { key: "rename", label: "Rename clip" },
@@ -713,7 +748,7 @@ function GroupDemo({ v1, v2, v1Header, v2Header }) {
   );
 }
 
-function TourOverlay({ overlay, targetId, target, splitFrame }) {
+function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
   if (!overlay && !target) return null;
   return (
     <div
@@ -758,6 +793,9 @@ function TourOverlay({ overlay, targetId, target, splitFrame }) {
           clip={overlay.clip}
           frame={splitFrame}
         />
+      )}
+      {overlay?.kind === "envelopes" && (
+        <EnvelopesDemo button={overlay.button} frame={envelopeFrame} />
       )}
       {target && (
         <div

@@ -46,6 +46,8 @@ function DesktopTour() {
   const [clipOverrides, setClipOverrides] = useState(null);
   const [extraClips, setExtraClips] = useState(null);
   const [splitFrame, setSplitFrame] = useState(null);
+  const [envelopeMode, setEnvelopeMode] = useState(undefined);
+  const [envelopeFrame, setEnvelopeFrame] = useState(null);
   const [renderStopId, setRenderStopId] = useState(STOPS[0].id);
   const [liveLidAngle, setLiveLidAngle] = useState(null);
   const config = WORKSPACE_CONFIGS.music;
@@ -422,9 +424,166 @@ function DesktopTour() {
       };
     }
 
+    if (stop.id === "clip-envelopes" && stop.overlay?.kind === "envelopes") {
+      const { button, clip } = stop.overlay;
+      const easeInOut = (u) =>
+        u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const lerp = (a, b, t) => a + (b - a) * t;
+
+      const S1_DURATION = 7.2;
+      const CYCLE = 11000;
+      const parkX = 92;
+      const parkY = 86;
+      const buttonCx = button.x + button.w / 2;
+      const buttonCy = button.y + button.h / 2;
+      const lineY = clip.y + clip.h * 0.42;
+      const dragEndY = clip.y + clip.h * 0.85;
+      const pointATime = S1_DURATION * 0.2;
+      const pointAX = clip.x + clip.w * 0.2;
+      const pointBTime = S1_DURATION * 0.75;
+      const pointBX = clip.x + clip.w * 0.75;
+
+      const pA = { time: pointATime, db: 0 };
+      const pBLow = { time: pointBTime, db: -25 };
+
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => {
+        const t = ((now - t0) % CYCLE) / CYCLE;
+        let x = parkX;
+        let y = parkY;
+        let opacity = 0;
+        let clicking = false;
+        let buttonActive = false;
+        let envOn = false;
+        let points = [];
+
+        if (t < 0.08) {
+          // drift in + fade in at park (ease-out: decelerates into place)
+          const p = t / 0.08;
+          const ease = 1 - Math.pow(1 - p, 3);
+          x = parkX + 5 * (1 - ease);
+          y = parkY + 8 * (1 - ease);
+          opacity = ease;
+        } else if (t < 0.17) {
+          // travel to envelope button
+          const p = easeInOut((t - 0.08) / 0.09);
+          x = lerp(parkX, buttonCx, p);
+          y = lerp(parkY, buttonCy, p);
+          opacity = 1;
+        } else if (t < 0.21) {
+          // click button ON
+          x = buttonCx;
+          y = buttonCy;
+          opacity = 1;
+          clicking = t < 0.19;
+          buttonActive = t > 0.19;
+          envOn = t > 0.19;
+        } else if (t < 0.28) {
+          // travel to point A
+          const p = easeInOut((t - 0.21) / 0.07);
+          x = lerp(buttonCx, pointAX, p);
+          y = lerp(buttonCy, lineY, p);
+          opacity = 1;
+          buttonActive = true;
+          envOn = true;
+        } else if (t < 0.32) {
+          // click → add point A
+          x = pointAX;
+          y = lineY;
+          opacity = 1;
+          clicking = t < 0.3;
+          buttonActive = true;
+          envOn = true;
+          if (t > 0.3) points = [pA];
+        } else if (t < 0.41) {
+          // travel to point B position
+          const p = easeInOut((t - 0.32) / 0.09);
+          x = lerp(pointAX, pointBX, p);
+          y = lineY;
+          opacity = 1;
+          buttonActive = true;
+          envOn = true;
+          points = [pA];
+        } else if (t < 0.45) {
+          // click → add point B at 0dB
+          x = pointBX;
+          y = lineY;
+          opacity = 1;
+          clicking = t < 0.43;
+          buttonActive = true;
+          envOn = true;
+          points = [pA];
+          if (t > 0.43) points.push({ time: pointBTime, db: 0 });
+        } else if (t < 0.58) {
+          // drag point B down
+          const p = easeInOut((t - 0.45) / 0.13);
+          x = pointBX;
+          y = lerp(lineY, dragEndY, p);
+          opacity = 1;
+          buttonActive = true;
+          envOn = true;
+          points = [pA, { time: pointBTime, db: lerp(0, -25, p) }];
+        } else if (t < 0.72) {
+          // hold, admire the curve
+          x = pointBX;
+          y = dragEndY;
+          opacity = 1;
+          buttonActive = true;
+          envOn = true;
+          points = [pA, pBLow];
+        } else if (t < 0.83) {
+          // travel back to envelope button
+          const p = easeInOut((t - 0.72) / 0.11);
+          x = lerp(pointBX, buttonCx, p);
+          y = lerp(dragEndY, buttonCy, p);
+          opacity = 1;
+          buttonActive = true;
+          envOn = true;
+          points = [pA, pBLow];
+        } else if (t < 0.87) {
+          // click button OFF — mode flips, points clear
+          x = buttonCx;
+          y = buttonCy;
+          opacity = 1;
+          clicking = t < 0.85;
+          buttonActive = t < 0.85;
+          envOn = t < 0.85;
+          if (t < 0.85) points = [pA, pBLow];
+        } else if (t < 0.97) {
+          // drift away from button + fade out (ease-in: accelerates out)
+          const p = (t - 0.87) / 0.1;
+          const ease = p * p * p;
+          x = buttonCx - 5 * ease;
+          y = buttonCy - 8 * ease;
+          opacity = 1 - ease;
+        } else {
+          opacity = 0;
+        }
+
+        setEnvelopeFrame({ x, y, opacity, clicking, buttonActive });
+        setEnvelopeMode(envOn);
+        if (envOn && points.length > 0) {
+          setClipOverrides({ s1: { envelopePoints: points } });
+        } else {
+          setClipOverrides(null);
+        }
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => {
+        cancelAnimationFrame(raf);
+        setEnvelopeFrame(null);
+        setEnvelopeMode(undefined);
+        setClipOverrides(null);
+      };
+    }
+
     setClipOverrides(null);
     setExtraClips(null);
     setSplitFrame(null);
+    setEnvelopeFrame(null);
+    setEnvelopeMode(undefined);
   }, [stop.id]);
 
   const panelOnLeft = stop.panelSide === "left";
@@ -468,12 +627,14 @@ function DesktopTour() {
               config={config}
               clipOverrides={clipOverrides}
               extraClips={extraClips}
+              envelopeModeOverride={envelopeMode}
             />
             <TourOverlay
               overlay={stop.overlay}
               targetId={stop.id}
               target={stop.target}
               splitFrame={splitFrame}
+              envelopeFrame={envelopeFrame}
             />
           </LaptopFrame>
         </div>
