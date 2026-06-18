@@ -9,15 +9,18 @@ export const WORKSPACE_CONFIGS = {
   classic: {
     label: "Classic",
     blurb:
-      "The Audacity layout you already know. Streamlined tools, single-row transport, no side panels — get in, edit, get out.",
+      "As close to Audacity 3 as it gets. Cut, copy, paste right in the transport, time in seconds, no tempo to fight with.",
     duration: 24,
     playheadPosition: 14.0,
     envelopeMode: false,
     toolbar: {
       showLoop: true,
       showTrimSilence: true,
-      showBPM: true,
+      showBPM: false,
       showTimeSignature: false,
+      showCutCopyPaste: true,
+      rulerFormat: "minutes-seconds",
+      timeCodeFormat: "hh:mm:ss",
     },
     tracks: [
       {
@@ -47,7 +50,7 @@ export const WORKSPACE_CONFIGS = {
   music: {
     label: "Music",
     blurb:
-      "Built for tracking and mixing. Tempo and time signature live in the transport, so the whole project moves to the beat.",
+      "Built for tracking and mixing. Tempo and time signature live in the transport, the ruler counts in bars and beats.",
     duration: 24,
     playheadPosition: 15.4,
     envelopeMode: false,
@@ -56,6 +59,9 @@ export const WORKSPACE_CONFIGS = {
       showTrimSilence: true,
       showBPM: true,
       showTimeSignature: true,
+      showCutCopyPaste: false,
+      rulerFormat: "beats-measures",
+      timeCodeFormat: "beats:bars",
     },
     tracks: [
       {
@@ -219,7 +225,7 @@ export const WORKSPACE_CONFIGS = {
   modern: {
     label: "Modern",
     blurb:
-      "Envelopes front and centre. Fewer tracks, more room to shape each one — automation curves visible without leaving the canvas.",
+      "Envelopes front and centre, cut-copy-paste off the transport. Modern editing trusts you to drag and drop instead.",
     duration: 24,
     playheadPosition: 16.6,
     envelopeMode: true,
@@ -228,6 +234,10 @@ export const WORKSPACE_CONFIGS = {
       showTrimSilence: false,
       showBPM: false,
       showTimeSignature: false,
+      showCutCopyPaste: false,
+      showAdvancedZoom: false,
+      rulerFormat: "minutes-seconds",
+      timeCodeFormat: "hh:mm:ss",
     },
     tracks: [
       {
@@ -284,7 +294,7 @@ export const WORKSPACE_CONFIGS = {
   custom: {
     label: "Custom",
     blurb:
-      "Make it yours. Tracks, panels, and shortcuts arrange themselves around the workflow you actually use.",
+      "Start from any preset and rearrange. Add or remove any tool group, switch ruler formats, and save the result as your own workspace.",
     duration: 24,
     playheadPosition: 18.2,
     envelopeMode: false,
@@ -292,7 +302,10 @@ export const WORKSPACE_CONFIGS = {
       showLoop: true,
       showTrimSilence: true,
       showBPM: true,
-      showTimeSignature: false,
+      showTimeSignature: true,
+      showCutCopyPaste: true,
+      rulerFormat: "minutes-seconds",
+      timeCodeFormat: "hh:mm:ss",
     },
     tracks: [
       {

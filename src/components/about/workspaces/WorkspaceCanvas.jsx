@@ -68,9 +68,12 @@ function useScaleToFit(ref) {
 function renderTransportRow(config) {
   const tb = config.toolbar || {};
   const showTrimSilence = tb.showTrimSilence !== false;
-  const showBPM = tb.showBPM !== false;
+  const showBPM = !!tb.showBPM;
   const showTimeSignature = !!tb.showTimeSignature;
   const showLoop = tb.showLoop !== false;
+  const showCutCopyPaste = !!tb.showCutCopyPaste;
+  const showAdvancedZoom = tb.showAdvancedZoom !== false;
+  const timeCodeFormat = tb.timeCodeFormat || "hh:mm:ss";
 
   return (
     <Toolbar
@@ -105,13 +108,28 @@ function renderTransportRow(config) {
         <ToolButton icon="waveform" ariaLabel="Wave tool" />
       </ToolbarButtonGroup>
 
+      {showCutCopyPaste && (
+        <>
+          <ToolbarDivider />
+          <ToolbarButtonGroup>
+            <ToolButton icon="cut" ariaLabel="Cut" />
+            <ToolButton icon="copy" ariaLabel="Copy" />
+            <ToolButton icon="paste" ariaLabel="Paste" />
+          </ToolbarButtonGroup>
+        </>
+      )}
+
       <ToolbarDivider />
       <ToolbarButtonGroup>
         <ToolButton icon="zoom-in" ariaLabel="Zoom in" />
         <ToolButton icon="zoom-out" ariaLabel="Zoom out" />
         <ToolButton icon="zoom-to-fit" ariaLabel="Zoom to fit" />
-        <ToolButton icon="zoom-to-selection" ariaLabel="Zoom to selection" />
-        <ToolButton icon="zoom-toggle" ariaLabel="Zoom toggle" />
+        {showAdvancedZoom && (
+          <ToolButton icon="zoom-to-selection" ariaLabel="Zoom to selection" />
+        )}
+        {showAdvancedZoom && (
+          <ToolButton icon="zoom-toggle" ariaLabel="Zoom toggle" />
+        )}
       </ToolbarButtonGroup>
 
       {showTrimSilence && (
@@ -125,13 +143,14 @@ function renderTransportRow(config) {
       )}
 
       <ToolbarDivider />
-      <TimeCode value={config.playheadPosition} format="beats:bars" />
+      <TimeCode value={config.playheadPosition} format={timeCodeFormat} />
       {showBPM && (
         <NumberStepper defaultValue="120" placeholder="bpm" width={86} />
       )}
       {showTimeSignature && (
         <Dropdown
           value="4-4"
+          width="62px"
           options={[
             { value: "4-4", label: "4 / 4" },
             { value: "3-4", label: "3 / 4" },
@@ -154,6 +173,7 @@ function renderTransportRow(config) {
         <Checkbox checked />
         <Dropdown
           value="bar"
+          width="92px"
           options={[
             { value: "bar", label: "Bar" },
             { value: "beat", label: "Beat" },
@@ -246,6 +266,7 @@ function WorkspaceCanvas({
   clipOverrides,
   extraClips,
   envelopeModeOverride,
+  compact = false,
 }) {
   const containerRef = useRef(null);
   const scale = useScaleToFit(containerRef);
@@ -298,7 +319,16 @@ function WorkspaceCanvas({
             ".workspace-canvas [data-clip-id]:has(.clip-display--selected)" +
             "{z-index:9999!important}" +
             ".workspace-canvas .time-code,.workspace-canvas .time-code *" +
-            "{--timecode-bg:#171F25;--timecode-unit-bg:#171F25}",
+            "{--timecode-bg:#171F25;--timecode-unit-bg:#171F25}" +
+            ".workspace-canvas .dropdown__trigger{" +
+            "background-color:#2A2F38;" +
+            "border-color:rgba(255,255,255,0.08);" +
+            "color:#E4E5E7;}" +
+            ".workspace-canvas .dropdown__trigger:hover:not(.dropdown--disabled)" +
+            "{border-color:rgba(255,255,255,0.18);}" +
+            ".workspace-canvas .dropdown__menu{" +
+            "background-color:#22262F;" +
+            "border-color:rgba(255,255,255,0.08);}",
         }}
       />
       <div
@@ -326,12 +356,14 @@ function WorkspaceCanvas({
               overflow: "hidden",
             }}
           >
-            <ApplicationHeader
-              os="windows"
-              appName="Audacity"
-              menuItems={MENU_ITEMS}
-            />
-            {renderProjectToolbar(config)}
+            {!compact && (
+              <ApplicationHeader
+                os="windows"
+                appName="Audacity"
+                menuItems={MENU_ITEMS}
+              />
+            )}
+            {!compact && renderProjectToolbar(config)}
             {renderTransportRow({
               ...config,
               envelopeMode: effectiveEnvelopeMode,
@@ -376,6 +408,13 @@ function WorkspaceCanvas({
                   height={RULER_H}
                   pixelsPerSecond={PIXELS_PER_SECOND}
                   totalDuration={config.duration}
+                  timeFormat={
+                    config.toolbar?.rulerFormat === "beats-measures"
+                      ? "beats-measures"
+                      : "minutes-seconds"
+                  }
+                  bpm={120}
+                  beatsPerMeasure={4}
                 />
                 <div style={{ flex: 1, paddingTop: 2 }}>
                   {tracks.map((t, i) => (
