@@ -1,41 +1,123 @@
-import React from "react";
-import { Carousel } from "@dilsonspickles/components";
+import React, { useEffect, useRef } from "react";
 
 const EFFECTS = [
-  { id: "compressor", name: "Compressor" },
-  { id: "equalizer", name: "Equalizer" },
-  { id: "reverb", name: "Reverb" },
-  { id: "noise-reduction", name: "Noise Reduction" },
-  { id: "limiter", name: "Limiter" },
-  { id: "delay", name: "Delay" },
+  {
+    id: "compressor",
+    name: "Compressor",
+    image: "/effects/Compressor.png",
+    accentSoft: "rgba(248, 113, 113, 0.25)",
+  },
+  {
+    id: "filter-curve",
+    name: "Filter Curve",
+    image: "/effects/Filter_curve.png",
+    accentSoft: "rgba(52, 211, 153, 0.22)",
+  },
+  {
+    id: "graphic-eq",
+    name: "Graphic EQ",
+    image: "/effects/Graphic_EQ.png",
+    accentSoft: "rgba(167, 139, 250, 0.25)",
+  },
+  {
+    id: "limiter",
+    name: "Limiter",
+    image: "/effects/Limiter.png",
+    accentSoft: "rgba(251, 191, 36, 0.22)",
+  },
+  {
+    id: "reverb",
+    name: "Reverb",
+    image: "/effects/Reverb.png",
+    accentSoft: "rgba(124, 196, 255, 0.25)",
+  },
 ];
 
-function Slide({ effect }) {
+function EffectCard({ effect }) {
   return (
-    <div className="px-4 lg:px-8 py-6">
-      <div
-        className="aspect-video w-full rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center"
-        aria-hidden
-      >
-        <span className="text-text-contrast/30 font-muse-sans text-sm tracking-[0.2em] uppercase">
-          {effect.name}
-        </span>
+    <li
+      className="effect-card shrink-0 w-[min(86vw,520px)] flex flex-col items-center"
+      style={{ "--accent-soft": effect.accentSoft }}
+    >
+      <div className="relative w-full" style={{ aspectRatio: "16 / 11" }}>
+        <img
+          src={effect.image}
+          alt={`${effect.name} effect window`}
+          loading="lazy"
+          decoding="async"
+          className="effect-image"
+          draggable={false}
+        />
       </div>
       <div className="mt-6 text-center">
-        <h3 className="font-symphony text-text-contrast text-3xl md:text-4xl leading-tight">
+        <h3 className="font-harmony text-text-contrast text-2xl md:text-3xl leading-tight">
           {effect.name}
         </h3>
       </div>
-    </div>
+    </li>
   );
 }
 
 function EffectWindows() {
+  const stripRef = useRef(null);
+  const rowRef = useRef(null);
+
+  useEffect(() => {
+    const BASE_VELOCITY = -1.2; // px/frame, negative = leftward
+    let velocity = BASE_VELOCITY;
+    let translateX = 0;
+    let setWidth = 0;
+
+    const measure = () => {
+      const total = rowRef.current?.scrollWidth || 0;
+      setWidth = total / 2;
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (rowRef.current) ro.observe(rowRef.current);
+
+    let raf;
+    const tick = () => {
+      // Ease velocity back toward the baseline drift.
+      velocity = velocity * 0.92 + BASE_VELOCITY * 0.08;
+      translateX += velocity;
+
+      // Seamless wrap — the row contains the cards twice.
+      if (setWidth > 0) {
+        if (translateX <= -setWidth) translateX += setWidth;
+        else if (translateX >= 0) translateX -= setWidth;
+      }
+
+      if (rowRef.current) {
+        rowRef.current.style.transform = `translate3d(${translateX}px, 0, 0)`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const handleWheel = (e) => {
+      // Only react to horizontal scroll input. Page scrolling stays free.
+      if (Math.abs(e.deltaX) > 0) {
+        velocity -= e.deltaX * 0.35;
+      }
+    };
+
+    const stripEl = stripRef.current;
+    stripEl?.addEventListener("wheel", handleWheel, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      stripEl?.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   return (
-    <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
-      <div className="max-w-screen-xl mx-auto">
+    <section className="bg-background-dark relative">
+      <div className="max-w-screen-xl mx-auto px-6 lg:px-10 pt-24 lg:pt-32">
         <header className="max-w-3xl">
-          <h2 className="font-symphony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+          <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
             Effects, redesigned
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
@@ -44,15 +126,42 @@ function EffectWindows() {
             whole suite.
           </p>
         </header>
-
-        <div className="mt-12 lg:mt-16">
-          <Carousel showArrows showDots>
-            {EFFECTS.map((effect) => (
-              <Slide key={effect.id} effect={effect} />
-            ))}
-          </Carousel>
-        </div>
       </div>
+
+      <div
+        ref={stripRef}
+        className="mt-14 lg:mt-20 pb-24 lg:pb-32 effect-strip"
+      >
+        <ul
+          ref={rowRef}
+          className="flex items-start gap-10 lg:gap-16"
+          style={{ width: "max-content", willChange: "transform" }}
+        >
+          {EFFECTS.map((effect) => (
+            <EffectCard key={`a-${effect.id}`} effect={effect} />
+          ))}
+          {EFFECTS.map((effect) => (
+            <EffectCard key={`b-${effect.id}`} effect={effect} />
+          ))}
+        </ul>
+      </div>
+
+      <style>{`
+        .effect-strip {
+          overflow-x: clip;
+          overflow-y: visible;
+          cursor: grab;
+        }
+        .effect-image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          user-select: none;
+          filter:
+            drop-shadow(0 30px 50px rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 28px var(--accent-soft));
+        }
+      `}</style>
     </section>
   );
 }
