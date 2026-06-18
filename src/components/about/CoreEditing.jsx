@@ -3,31 +3,38 @@ import React from "react";
 const CARDS = [
   {
     id: "clip-handles",
-    eyebrow: "Trim handles",
-    title: "Trim from either edge",
+    eyebrow: "Clip handles",
+    title: "Trim or stretch, same gesture",
     description:
-      "Every clip has handles on both sides. Drag them in to trim, drag them back out to recover audio — the source is always there.",
+      "Grab a handle on either edge of a clip. Drag to trim, or hold to time-stretch — the source is always there if you change your mind.",
   },
   {
-    id: "multi-select",
-    eyebrow: "Multi-select",
-    title: "Select many, edit once",
+    id: "track-meters",
+    eyebrow: "Track meters",
+    title: "See every level at a glance",
     description:
-      "Shift-click or lasso to grab any combination of clips across any tracks. Move, fade, or process them together.",
+      "Per-track meters next to every channel and a master meter in the transport — peaks held, recents shown, calibrated to dBFS.",
   },
   {
-    id: "drop-anywhere",
-    eyebrow: "Free placement",
-    title: "Drop clips anywhere",
+    id: "labels",
+    eyebrow: "Label tracks",
+    title: "Mark up your project",
     description:
-      "Drop a clip on top of another and Audacity sorts it out. Overlaps preserve both clips so you can layer takes and pick later.",
+      "Drop labels on the timeline to mark takes, edits or sections. They travel with the audio and survive every move.",
   },
   {
-    id: "clip-groups",
-    eyebrow: "Clip groups",
-    title: "Group clips that belong together",
+    id: "looping",
+    eyebrow: "Looping",
+    title: "Loop any region, instantly",
     description:
-      "Bind related takes into a group so they move and edit as one. Ungroup any time — nothing is destructive.",
+      "Set a loop range with two clicks and iterate. The range stays visible and you can drag the edges to refine without losing your place.",
+  },
+  {
+    id: "sample-editing",
+    eyebrow: "Sample editing",
+    title: "Zoom in, edit samples directly",
+    description:
+      "No mode to enter, no setting to flip. Zoom all the way in and Audacity hands you the samples — drag them by hand and zoom back out.",
   },
 ];
 
@@ -40,16 +47,13 @@ function CoreEditing() {
             className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
             aria-hidden
           >
-            Core editing
+            Also new
           </div>
           <h2 className="mt-4 font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-            Everyday editing,
-            <br />
-            refreshed
+            The smaller things
           </h2>
           <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
-            The fundamentals you reach for every session. Faster, more direct,
-            never destructive.
+            Quieter improvements you'll notice every session.
           </p>
         </header>
       </div>
