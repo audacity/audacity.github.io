@@ -45,10 +45,28 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     top: 0;
     left: 0;
     right: 0;
+    transform: translateY(0);
+    transition:
+      transform 280ms ease,
+      background-color 240ms ease,
+      backdrop-filter 240ms ease;
+    will-change: transform;
+  }
+  #site-header[data-hidden="true"] {
+    transform: translateY(-100%);
   }
   #site-header,
   #site-header nav {
     background-color: transparent;
+    transition:
+      background-color 240ms ease,
+      backdrop-filter 240ms ease;
+  }
+  #site-header:hover nav,
+  #site-header:focus-within nav {
+    background-color: rgba(10, 13, 22, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .scroll-bg-page .bg-background-dark {
     background-color: transparent !important;
@@ -120,6 +138,44 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       root.style.setProperty("--page-bg", `rgb(${r}, ${g}, ${b})`);
     }
 
+    // Hide the site header when the user scrolls down. Show it again on
+    // scroll up, near the very top of the page, or when the cursor moves
+    // near the top edge of the viewport.
+    const header = document.getElementById("site-header");
+    let lastY = window.scrollY;
+    let scrollHidden = false;
+    let mouseAtTop = false;
+    const HIDE_AFTER = 80; // px from top before scroll-hide kicks in
+    const MOUSE_REVEAL_AT = 80; // px from top edge where the nav reappears
+    const DELTA = 6; // ignore tiny scroll jitter
+
+    function applyHeaderState() {
+      if (!header) return;
+      const shouldHide = scrollHidden && !mouseAtTop;
+      if (shouldHide) header.setAttribute("data-hidden", "true");
+      else header.removeAttribute("data-hidden");
+    }
+
+    function updateHeader() {
+      const y = window.scrollY;
+      const dy = y - lastY;
+      if (Math.abs(dy) < DELTA) return;
+      if (y < HIDE_AFTER) scrollHidden = false;
+      else if (dy > 0) scrollHidden = true;
+      else if (dy < 0) scrollHidden = false;
+      lastY = y;
+      applyHeaderState();
+    }
+
+    function onMouseMove(e: MouseEvent) {
+      const near = e.clientY < MOUSE_REVEAL_AT;
+      if (near !== mouseAtTop) {
+        mouseAtTop = near;
+        applyHeaderState();
+      }
+    }
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+
     measure();
     tick();
     let raf: number | null = null;
@@ -127,6 +183,7 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       if (raf !== null) return;
       raf = requestAnimationFrame(() => {
         tick();
+        updateHeader();
         raf = null;
       });
     }
