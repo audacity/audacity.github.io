@@ -17,6 +17,13 @@ const ITEMS = [
       "Open-standard LV2 plugins load right alongside VST3 and Audio Units — no wrappers required.",
     tag: "Plugins",
   },
+  {
+    id: "compat",
+    title: "Opens your Audacity 3 projects",
+    description:
+      "Every .aup3 file from Audacity 3 opens directly in Audacity 4 — your sessions, edits, and undo history come with you.",
+    tag: "Compatibility",
+  },
 ];
 
 function UnderTheHood() {
