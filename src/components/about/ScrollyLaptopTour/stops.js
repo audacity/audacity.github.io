@@ -80,8 +80,6 @@ export const STOPS = [
     target: null,
     overlay: {
       kind: "multi-select",
-      // Picks one host + one guest clip, shift-clicks both, drags them
-      // along the timeline together.
     },
   },
   {
@@ -94,9 +92,7 @@ export const STOPS = [
     panelSide: "left",
     target: null,
     overlay: {
-      kind: "group",
-      // The selection from #4 stays live; cursor triggers Group, then
-      // deselects, then clicks one clip — the whole group lights up.
+      kind: "clip-groups",
     },
   },
   {
