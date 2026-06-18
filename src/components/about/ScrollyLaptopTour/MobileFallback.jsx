@@ -6,7 +6,7 @@ import { WORKSPACE_CONFIGS } from "../workspaces/workspaceConfigs.js";
 import { STOPS } from "./stops.js";
 
 function MobileFallback() {
-  const config = WORKSPACE_CONFIGS.music;
+  const config = WORKSPACE_CONFIGS.podcast;
   return (
     <section className="bg-background-dark px-6 py-16">
       <div className="max-w-screen-md mx-auto flex flex-col gap-20">

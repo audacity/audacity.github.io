@@ -149,6 +149,64 @@ export const WORKSPACE_CONFIGS = {
     },
   },
 
+  podcast: {
+    label: "Podcast",
+    blurb:
+      "Voice-first projects with mono speakers, a music bed, and sound effects all on one canvas.",
+    duration: 20,
+    playheadPosition: 11.2,
+    envelopeMode: false,
+    toolbar: {
+      showLoop: true,
+      showTrimSilence: true,
+      showBPM: false,
+      showTimeSignature: false,
+    },
+    tracks: [
+      {
+        trackIndex: 0,
+        controlProps: { trackName: "Host", trackType: "mono", volume: -3 },
+        height: 114,
+        clips: [
+          { id: "h1", name: "Intro", start: 0.2, duration: 4.0 },
+          { id: "h2", name: "Question", start: 5.0, duration: 2.6 },
+          { id: "h3", name: "Follow up", start: 11.4, duration: 3.2 },
+          { id: "h4", name: "Wrap", start: 16.0, duration: 3.2 },
+        ],
+      },
+      {
+        trackIndex: 1,
+        controlProps: {
+          trackName: "Music bed",
+          trackType: "stereo",
+          volume: -10,
+          pan: 0,
+        },
+        height: 114,
+        clips: [{ id: "s1", name: "Intro theme", start: 0.1, duration: 7.2 }],
+      },
+      {
+        trackIndex: 2,
+        controlProps: { trackName: "Guest", trackType: "mono", volume: -4 },
+        height: 114,
+        clips: [
+          { id: "g1", name: "Hello", start: 4.4, duration: 0.6 },
+          { id: "g2", name: "Answer", start: 7.8, duration: 3.4 },
+          { id: "g3", name: "Story", start: 14.8, duration: 4.6 },
+        ],
+      },
+      {
+        trackIndex: 3,
+        controlProps: { trackName: "SFX", trackType: "mono", volume: -8 },
+        height: 84,
+        clips: [
+          { id: "sfx1", name: "Sting", start: 4.6, duration: 0.5 },
+          { id: "sfx2", name: "Transition", start: 11.0, duration: 0.4 },
+        ],
+      },
+    ],
+  },
+
   modern: {
     label: "Modern",
     blurb:

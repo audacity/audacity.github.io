@@ -50,7 +50,7 @@ function DesktopTour() {
   const [envelopeFrame, setEnvelopeFrame] = useState(null);
   const [renderStopId, setRenderStopId] = useState(STOPS[0].id);
   const [liveLidAngle, setLiveLidAngle] = useState(null);
-  const config = WORKSPACE_CONFIGS.music;
+  const config = WORKSPACE_CONFIGS.podcast;
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
   const introStop = STOPS.find((s) => s.panelSide === "intro") ?? STOPS[0];
