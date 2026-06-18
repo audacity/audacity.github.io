@@ -68,7 +68,7 @@ export const experiments: Experiment[] = [
       { name: "c", weight: 25 },
       { name: "d", weight: 25 },
     ],
-    enabled: false,
+    enabled: true,
   },
 ];
 
