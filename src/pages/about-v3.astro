@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ScrollyLaptopTour from "../components/about/ScrollyLaptopTour/ScrollyLaptopTour.jsx";
+import CoreEditing from "../components/about/CoreEditing.jsx";
 import ToolImprovements from "../components/about/ToolImprovements.jsx";
 import Workspaces from "../components/about/Workspaces.jsx";
 import CustomisableUI from "../components/about/CustomisableUI.jsx";
@@ -24,6 +25,7 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
 >
   <div class="scroll-bg-page">
     <ScrollyLaptopTour client:visible />
+    <CoreEditing />
     <ToolImprovements client:visible />
     <Workspaces client:visible />
     <CustomisableUI />
@@ -69,6 +71,7 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
 <script>
   const COLORS = [
     "rgb(10, 13, 26)", // ScrollyLaptopTour
+    "rgb(16, 14, 27)", // CoreEditing
     "rgb(22, 14, 28)", // ToolImprovements
     "rgb(14, 18, 24)", // Workspaces
     "rgb(10, 20, 26)", // CustomisableUI
