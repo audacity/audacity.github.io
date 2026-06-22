@@ -71,24 +71,22 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
     cascade scrubs smoothly even on 38 paths.
   */
   [data-interstitial-swoosh] svg.hero-swoosh path {
-    animation: none;
-    /* Each path's "start" is its index normalised into the early portion
-       of the scroll arc; --span is how long each path takes to fade in. */
+    /* HeroSwoosh's scoped CSS has higher specificity than this global
+       override, so we need !important to actually disable its load-time
+       fan-in + twitch animation and replace the visual props with our
+       scroll-scrubbed cascade. */
+    animation: none !important;
     --isw-start: calc((var(--i, 0) / 38) * 0.4);
     --isw-span: 0.6;
     --isw-p: max(
       0,
       min(1, calc((var(--isw-bell, 0) - var(--isw-start)) / var(--isw-span)))
     );
-    /* Mirror the original swoosh-in keyframe per-path, scrubbed by --isw-p.
-       Transform-box: fill-box rotates/scales each path around its own
-       centre. Per-path transforms here use the GPU compositor on the SVG
-       layer — vector paths aren't re-rasterized on scale. */
-    transform-box: fill-box;
-    transform-origin: center;
-    opacity: var(--isw-p);
+    transform-box: fill-box !important;
+    transform-origin: center !important;
+    opacity: var(--isw-p) !important;
     transform: scale(calc(0.5 + var(--isw-p) * 0.5))
-      rotate(calc((1 - var(--isw-p)) * -12deg));
+      rotate(calc((1 - var(--isw-p)) * -12deg)) !important;
   }
 </style>
 
