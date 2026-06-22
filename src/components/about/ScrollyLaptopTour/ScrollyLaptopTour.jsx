@@ -727,6 +727,14 @@ function DesktopTour() {
       : (liveLidAngle - introClosedAngle) / -introClosedAngle;
 
   const transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
+  // The outro's transform delta is the biggest of any stop (full-scale 1.0
+  // landing centered at 0.571); its default 720ms transition was overrunning
+  // scroll-snap deceleration and reading as judder on both forward landing
+  // and on re-entry from CoreEditing below. Shorten it so the laptop settles
+  // within the snap window.
+  const laptopTransition = isOutro
+    ? "transform 320ms cubic-bezier(0.2, 0, 0.2, 1)"
+    : "transform 720ms cubic-bezier(0.65, 0.05, 0.2, 1)";
 
   return (
     <section
@@ -745,7 +753,7 @@ function DesktopTour() {
           style={{
             transform,
             transformOrigin: "center center",
-            transition: "transform 720ms cubic-bezier(0.65, 0.05, 0.2, 1)",
+            transition: laptopTransition,
             willChange: "transform",
           }}
         >
@@ -835,11 +843,8 @@ function DesktopTour() {
                 minHeight: "100vh",
                 scrollSnapAlign: "start",
                 // Force a hard stop on each panel so a fast wheel flick can't
-                // pass over multiple stops — except on the outro, where the
-                // forced stop fights any attempt to scroll past into the next
-                // section (the laptop's big scale-down animation is still
-                // running and the snap-back reads as judder).
-                scrollSnapStop: s.panelSide === "outro" ? "normal" : "always",
+                // pass over multiple stops in a single gesture.
+                scrollSnapStop: "always",
                 pointerEvents: "none",
               }}
               aria-label={s.heading}
