@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   TrackControlPanel,
   TrackControlSidePanel,
+  TrackNew,
   TimelineRuler,
   Clip,
   LabelMarker,
@@ -79,7 +80,15 @@ function TrackMetersDemo() {
       name: "Host",
       type: "stereo",
       color: "cyan",
-      duration: 4.2,
+      clips: [
+        {
+          id: 1,
+          name: "Host",
+          start: 0.2,
+          duration: 4.2,
+          waveform: METERS_WAVEFORMS[0],
+        },
+      ],
       l: levels.a,
       r: Math.max(0, levels.a - 4),
       lp: peaks.a,
@@ -89,7 +98,15 @@ function TrackMetersDemo() {
       name: "Guest",
       type: "stereo",
       color: "violet",
-      duration: 3.6,
+      clips: [
+        {
+          id: 2,
+          name: "Guest",
+          start: 0.4,
+          duration: 3.6,
+          waveform: METERS_WAVEFORMS[1],
+        },
+      ],
       l: levels.b,
       r: Math.max(0, levels.b - 5),
       lp: peaks.b,
@@ -99,7 +116,15 @@ function TrackMetersDemo() {
       name: "Music bed",
       type: "mono",
       color: "magenta",
-      duration: 5.0,
+      clips: [
+        {
+          id: 3,
+          name: "Music bed",
+          start: 0,
+          duration: 5.0,
+          waveform: METERS_WAVEFORMS[2],
+        },
+      ],
       l: levels.c,
       r: levels.c,
       lp: peaks.c,
@@ -116,6 +141,7 @@ function TrackMetersDemo() {
   // real canvas colour) fills the empty rack space below.
   const TRACK_HEIGHT = 114;
   const SIDE_PANEL_W = 232;
+  const CANVAS_W = 800;
   const trackHeights = tracks.map(() => TRACK_HEIGHT);
   const PPS = 24;
 
@@ -154,15 +180,13 @@ function TrackMetersDemo() {
           </TrackControlSidePanel>
         </div>
 
-        {/* Canvas side: TimelineRuler matches the side panel's "Tracks
-            / Add new" header at the top, then a fixed-height lane per
-            track at the same trackHeights value, then a flex spacer to
-            fill the rest of the card — mirroring the rack column where
-            the empty space below the tracks is just unused rack
-            chrome. */}
+        {/* Canvas side — uses TrackNew (the real track lane component
+            from the design system, same as WorkspaceCanvas). Each
+            track gets a proper lane that houses its clip at full
+            track height. */}
         <div className="flex-1 flex flex-col min-w-0">
           <TimelineRuler
-            width={600}
+            width={CANVAS_W}
             height={40}
             pixelsPerSecond={PPS}
             totalDuration={20}
@@ -171,32 +195,23 @@ function TrackMetersDemo() {
           {tracks.map((t, i) => (
             <div
               key={i}
-              className="relative shrink-0"
+              className="shrink-0"
               style={{
                 height: trackHeights[i],
                 marginBottom: i < tracks.length - 1 ? 2 : 0,
-                backgroundImage:
-                  "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.04) 40px 41px)",
               }}
             >
-              <div className="absolute inset-y-2 left-3">
-                <Clip
-                  color={t.color}
-                  name={t.name}
-                  width={t.duration * PPS}
-                  height={trackHeights[i] - 16}
-                  waveformData={METERS_WAVEFORMS[i]}
-                  clipDuration={t.duration}
-                  clipFullDuration={t.duration}
-                  pixelsPerSecond={PPS}
-                  onTrimEdge={() => {}}
-                  onStretchEdge={() => {}}
-                />
-              </div>
+              <TrackNew
+                clips={t.clips}
+                trackIndex={i}
+                width={CANVAS_W}
+                height={trackHeights[i]}
+                pixelsPerSecond={PPS}
+                color={t.color}
+                onClipTrimEdge={() => {}}
+              />
             </div>
           ))}
-          {/* Flex filler: empty canvas continues below the last clip
-              row, mirroring the empty rack space in the side panel. */}
           <div className="flex-1" />
         </div>
       </div>
