@@ -727,14 +727,13 @@ function DesktopTour() {
       : (liveLidAngle - introClosedAngle) / -introClosedAngle;
 
   const transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
-  // The outro's transform delta is the biggest of any stop (full-scale 1.0
-  // landing centered at 0.571); its default 720ms transition was overrunning
-  // scroll-snap deceleration and reading as judder on both forward landing
-  // and on re-entry from CoreEditing below. Shorten it so the laptop settles
-  // within the snap window.
-  const laptopTransition = isOutro
-    ? "transform 320ms cubic-bezier(0.2, 0, 0.2, 1)"
-    : "transform 720ms cubic-bezier(0.65, 0.05, 0.2, 1)";
+  // scroll-snap-stop: always forces a hard scroll landing on each panel.
+  // The previous 720ms slow-in-out laptop transition was still mid-animation
+  // when the snap settled — read as judder on every panel except the intro
+  // (whose lid is scrubbed by scroll, not by CSS transition). Use a shorter
+  // fast-start ease so the laptop is essentially in place by the time the
+  // snap finishes.
+  const laptopTransition = "transform 360ms cubic-bezier(0.2, 0, 0.2, 1)";
 
   return (
     <section
