@@ -298,15 +298,19 @@ function TrackLane({ name = "Audio 1", children }) {
   );
 }
 
+const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(3.2, 100);
+
 function ClipHandlesDemo() {
   const t = useLoopProgress(6000);
-  const waveform = useMemo(() => generateSpeechWaveform(3.2, 100), []);
-  const PPS = 80;
+  const PPS = 40;
   const FULL_DURATION = 3.2;
-  const FULL_WIDTH = FULL_DURATION * PPS;
+  const TRACK_CONTROL_W = 280;
+  const RULER_H = 40;
+  const CANVAS_W = 760;
+  const trackHeights = [200];
 
   // Two-phase loop: 0-0.5 trim cycle, 0.5-1 stretch cycle
-  let width = FULL_WIDTH;
+  let duration = FULL_DURATION;
   let stretchFactor = 1;
   const ease = (u) => (u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2);
 
@@ -314,9 +318,9 @@ function ClipHandlesDemo() {
     // trim: full → 65% → full
     const p = t / 0.5;
     if (p < 0.5) {
-      width = FULL_WIDTH * (1 - 0.35 * ease(p * 2));
+      duration = FULL_DURATION * (1 - 0.35 * ease(p * 2));
     } else {
-      width = FULL_WIDTH * (1 - 0.35 * ease((1 - p) * 2));
+      duration = FULL_DURATION * (1 - 0.35 * ease((1 - p) * 2));
     }
   } else {
     // stretch: 1.0x → 1.4x → 1.0x
@@ -326,31 +330,84 @@ function ClipHandlesDemo() {
     } else {
       stretchFactor = 1 + 0.4 * ease((1 - p) * 2);
     }
-    width = FULL_WIDTH * stretchFactor;
+    duration = FULL_DURATION * stretchFactor;
   }
 
+  const clips = [
+    {
+      id: 1,
+      name: "Take 2",
+      start: 0,
+      duration,
+      fullDuration: FULL_DURATION,
+      stretchFactor,
+      waveform: CLIP_HANDLES_WAVEFORM,
+      selected: true,
+    },
+  ];
+
   return (
-    <TrackLane name="Vocals">
+    <ThemeProvider theme={darkTheme}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: ".clip-handles-demo .track-control-side-panel{height:100%}",
+        }}
+      />
       <div
-        className="absolute inset-0 flex items-center"
-        style={{ paddingLeft: 18 }}
+        className="clip-handles-demo absolute inset-0 bg-[#171F25] overflow-hidden"
+        style={{ display: "flex", minHeight: 0 }}
       >
-        <Clip
-          color="green"
-          name="Take 2"
-          width={width}
-          height={110}
-          waveformData={waveform}
-          selected
-          clipDuration={FULL_DURATION}
-          clipFullDuration={FULL_DURATION}
-          clipStretchFactor={stretchFactor}
-          pixelsPerSecond={PPS}
-          onTrimEdge={() => {}}
-          onStretchEdge={() => {}}
-        />
+        <div style={{ width: TRACK_CONTROL_W, flexShrink: 0, height: "100%" }}>
+          <TrackControlSidePanel trackHeights={trackHeights}>
+            <TrackControlPanel
+              trackName="Vocals"
+              trackType="stereo"
+              volume={75}
+              meterLevel={0}
+              meterLevelLeft={0}
+              meterLevelRight={0}
+              trackHeight={trackHeights[0]}
+            />
+          </TrackControlSidePanel>
+        </div>
+
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 0,
+            position: "relative",
+          }}
+        >
+          <TimelineRuler
+            width={CANVAS_W}
+            height={RULER_H}
+            pixelsPerSecond={PPS}
+            totalDuration={10}
+            timeFormat="minutes-seconds"
+          />
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            <div
+              style={{
+                position: "relative",
+                height: trackHeights[0],
+              }}
+            >
+              <TrackNew
+                clips={clips}
+                trackIndex={0}
+                width={CANVAS_W}
+                height={trackHeights[0]}
+                pixelsPerSecond={PPS}
+                color="green"
+                onClipTrimEdge={() => {}}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </TrackLane>
+    </ThemeProvider>
   );
 }
 
