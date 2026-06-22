@@ -77,7 +77,7 @@ function TrackMetersDemo() {
     {
       name: "Host",
       type: "stereo",
-      color: "blue",
+      color: "cyan",
       duration: 4.2,
       l: levels.a,
       r: Math.max(0, levels.a - 4),
@@ -87,7 +87,7 @@ function TrackMetersDemo() {
     {
       name: "Guest",
       type: "stereo",
-      color: "blue",
+      color: "violet",
       duration: 3.6,
       l: levels.b,
       r: Math.max(0, levels.b - 5),
@@ -97,7 +97,7 @@ function TrackMetersDemo() {
     {
       name: "Music bed",
       type: "mono",
-      color: "pink",
+      color: "magenta",
       duration: 5.0,
       l: levels.c,
       r: levels.c,
@@ -107,7 +107,11 @@ function TrackMetersDemo() {
   ];
 
   const trackHeights = tracks.map(() => 112);
-  const PPS = 50;
+  // Sized for the cramped canvas column inside a 420px card. Real-world
+  // PPS is much higher in WorkspaceCanvas (40); here we tuck it down to
+  // ~25 so clips fit in the lane next to the side panel without
+  // overflowing.
+  const PPS = 24;
 
   return (
     <ThemeProvider theme={darkTheme}>
