@@ -84,9 +84,7 @@ function TrackMetersDemo() {
         {
           id: 1,
           name: "Host",
-          // start in seconds; PPS=24 means ≥0.5s puts the clip ≥12px from
-          // the lane's left edge.
-          start: 0.6,
+          start: 0,
           duration: 4.2,
           waveform: METERS_WAVEFORMS[0],
         },
@@ -104,7 +102,7 @@ function TrackMetersDemo() {
         {
           id: 2,
           name: "Guest",
-          start: 0.6,
+          start: 0,
           duration: 3.6,
           waveform: METERS_WAVEFORMS[1],
         },
@@ -122,7 +120,7 @@ function TrackMetersDemo() {
         {
           id: 3,
           name: "Music bed",
-          start: 0.6,
+          start: 0,
           duration: 5.0,
           waveform: METERS_WAVEFORMS[2],
         },
