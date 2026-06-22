@@ -22,25 +22,33 @@ function useAnimatedLevels(seed = 0) {
     const t0 = performance.now();
     const tick = (now) => {
       const t = (now - t0) / 1000;
-      // Three independent quasi-rhythmic signals
+      // Three independent quasi-rhythmic signals. Wider amplitude + spikier
+      // transient term so the meters visibly bounce on transients rather
+      // than just drifting around a middle value.
+      const spike = (freq, depth) =>
+        depth * Math.pow(Math.max(0, Math.sin(t * freq + seed)), 6);
       const a =
-        50 +
-        24 * Math.sin(t * 4.2 + seed) +
-        18 * Math.sin(t * 11.3 + seed * 2) +
-        10 * Math.abs(Math.sin(t * 1.7));
+        55 +
+        28 * Math.sin(t * 4.2 + seed) +
+        14 * Math.sin(t * 11.3 + seed * 2) +
+        spike(2.3, 30);
       const b =
+        48 +
+        24 * Math.sin(t * 3.1 + seed + 1) +
+        16 * Math.sin(t * 9.0 + seed) +
+        spike(1.7, 26);
+      const c =
         42 +
-        20 * Math.sin(t * 3.1 + seed + 1) +
-        14 * Math.sin(t * 9.0 + seed) +
-        8 * Math.abs(Math.cos(t * 2.4));
-      const c = 35 + 18 * Math.sin(t * 2.6 + seed + 2) + 12 * Math.sin(t * 7.5);
+        20 * Math.sin(t * 2.6 + seed + 2) +
+        14 * Math.sin(t * 7.5) +
+        spike(1.2, 22);
       const clamp = (n) => Math.max(0, Math.min(96, n));
       const next = { a: clamp(a), b: clamp(b), c: clamp(c) };
       setLevels(next);
       setPeaks((prev) => ({
-        a: Math.max(next.a, prev.a - 0.4),
-        b: Math.max(next.b, prev.b - 0.4),
-        c: Math.max(next.c, prev.c - 0.4),
+        a: Math.max(next.a, prev.a - 0.6),
+        b: Math.max(next.b, prev.b - 0.6),
+        c: Math.max(next.c, prev.c - 0.6),
       }));
       raf = requestAnimationFrame(tick);
     };
@@ -86,22 +94,68 @@ function TrackMetersDemo() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="absolute inset-0 flex flex-col gap-px bg-[rgb(11,13,22)] py-3">
+      <div className="absolute inset-0 flex flex-col gap-px bg-[rgb(11,13,22)] overflow-hidden">
         {tracks.map((t, i) => (
-          <div
-            key={i}
-            className="flex-1 min-h-0 flex items-stretch px-3 bg-white/[0.02]"
-          >
-            <TrackControlPanel
-              trackName={t.name}
-              trackType={t.type}
-              volume={75}
-              meterLevelLeft={toDb(t.l)}
-              meterLevelRight={toDb(t.r)}
-              meterRecentPeakLeft={toDb(t.lp)}
-              meterRecentPeakRight={toDb(t.rp)}
-              trackHeight={92}
-            />
+          <div key={i} className="flex items-stretch bg-white/[0.02]">
+            <div className="shrink-0">
+              <TrackControlPanel
+                trackName={t.name}
+                trackType={t.type}
+                volume={75}
+                meterLevelLeft={toDb(t.l)}
+                meterLevelRight={toDb(t.r)}
+                meterRecentPeakLeft={toDb(t.lp)}
+                meterRecentPeakRight={toDb(t.rp)}
+                trackHeight={112}
+              />
+            </div>
+            {/* Sliver of canvas to the right — gives context that meters
+                belong to actual tracks with audio. Static cosmetic clip
+                with a fake waveform; the meters do the moving. */}
+            <div
+              className="flex-1 relative"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.05) 40px 41px)",
+              }}
+            >
+              <div
+                className="absolute inset-y-3 left-3 rounded-md"
+                style={{
+                  width: `${60 + i * 12}%`,
+                  background:
+                    i === 2
+                      ? "linear-gradient(180deg, rgba(255,150,200,0.32), rgba(255,150,200,0.12))"
+                      : "linear-gradient(180deg, rgba(150,210,255,0.32), rgba(150,210,255,0.12))",
+                  border:
+                    i === 2
+                      ? "1px solid rgba(255,150,200,0.42)"
+                      : "1px solid rgba(150,210,255,0.42)",
+                }}
+              >
+                <svg
+                  viewBox="0 0 400 80"
+                  preserveAspectRatio="none"
+                  className="absolute inset-0 w-full h-full opacity-70"
+                  aria-hidden
+                >
+                  {Array.from({ length: 80 }).map((_, j) => {
+                    const x = (j / 80) * 400;
+                    const h = 8 + (Math.sin(j * 0.5 + i) * 0.5 + 0.5) * 60;
+                    return (
+                      <rect
+                        key={j}
+                        x={x}
+                        y={40 - h / 2}
+                        width={3}
+                        height={h}
+                        fill={i === 2 ? "#ff96c8" : "#96d2ff"}
+                      />
+                    );
+                  })}
+                </svg>
+              </div>
+            </div>
           </div>
         ))}
       </div>
