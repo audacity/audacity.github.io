@@ -301,48 +301,43 @@ function TrackLane({ name = "Audio 1", children }) {
 const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(3.2, 100);
 
 function ClipHandlesDemo() {
-  const t = useLoopProgress(6000);
+  const t = useLoopProgress(8000);
   const PPS = 100;
   const FULL_DURATION = 3.2;
   const RULER_H = 40;
   const CANVAS_W = 720;
   const TRACK_H = 200;
+  // Clip pinned at the left; the right edge animates.
+  const CLIP_START = 0.4;
 
-  // Two-phase loop: 0-0.5 trim cycle, 0.5-1 stretch cycle
+  // Two-phase loop: 0-0.5 STRETCH (right edge out + back), 0.5-1 TRIM
+  // (right edge in + back).
   let duration = FULL_DURATION;
   let stretchFactor = 1;
   const ease = (u) => (u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2);
 
   if (t < 0.5) {
-    // trim: full → 65% → full
     const p = t / 0.5;
-    if (p < 0.5) {
-      duration = FULL_DURATION * (1 - 0.35 * ease(p * 2));
-    } else {
-      duration = FULL_DURATION * (1 - 0.35 * ease((1 - p) * 2));
-    }
-  } else {
-    // stretch: 1.0x → 1.4x → 1.0x
-    const p = (t - 0.5) / 0.5;
     if (p < 0.5) {
       stretchFactor = 1 + 0.4 * ease(p * 2);
     } else {
       stretchFactor = 1 + 0.4 * ease((1 - p) * 2);
     }
     duration = FULL_DURATION * stretchFactor;
+  } else {
+    const p = (t - 0.5) / 0.5;
+    if (p < 0.5) {
+      duration = FULL_DURATION * (1 - 0.35 * ease(p * 2));
+    } else {
+      duration = FULL_DURATION * (1 - 0.35 * ease((1 - p) * 2));
+    }
   }
-
-  // Anchor the clip's centre at the canvas centre so trim/stretch
-  // animates symmetrically from a fixed visual point.
-  const clipWidth = duration * PPS;
-  const startPx = Math.max(0, CANVAS_W / 2 - clipWidth / 2);
-  const start = startPx / PPS;
 
   const clips = [
     {
       id: 1,
       name: "Take 2",
-      start,
+      start: CLIP_START,
       duration,
       fullDuration: FULL_DURATION,
       stretchFactor,
@@ -351,11 +346,21 @@ function ClipHandlesDemo() {
     },
   ];
 
+  // Cursor sits on the clip's right edge — sells the gesture.
+  const cursorX = (CLIP_START + duration) * PPS;
+  const cursorY = RULER_H + 2 + TRACK_H / 2;
+  const isStretching = t < 0.5;
+
   return (
     <ThemeProvider theme={darkTheme}>
       <div
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
-        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: 0,
+          position: "relative",
+        }}
       >
         <TimelineRuler
           width={CANVAS_W}
@@ -377,6 +382,41 @@ function ClipHandlesDemo() {
             />
           </div>
         </div>
+
+        {/* Faux cursor pinned to the clip's right edge. Stretch arrow
+            when stretching, east-resize when trimming. */}
+        <svg
+          aria-hidden
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          style={{
+            position: "absolute",
+            left: cursorX,
+            top: cursorY,
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
+            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+          }}
+        >
+          {isStretching ? (
+            <path
+              d="M2 11 L7 7 L7 9 L15 9 L15 7 L20 11 L15 15 L15 13 L7 13 L7 15 Z"
+              fill="#fff"
+              stroke="#0a0a0a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            />
+          ) : (
+            <path
+              d="M11 4 L14 7 L12 7 L12 15 L14 15 L11 18 L8 15 L10 15 L10 7 L8 7 Z"
+              fill="#fff"
+              stroke="#0a0a0a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            />
+          )}
+        </svg>
       </div>
     </ThemeProvider>
   );
