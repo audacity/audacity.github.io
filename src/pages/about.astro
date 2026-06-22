@@ -57,6 +57,14 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
 <style is:global>
   html {
     --page-bg: rgb(10, 13, 26);
+    /*
+      Only the ScrollyLaptopTour's tour panels carry scroll-snap-align, so
+      proximity snapping is scoped to that section automatically — it gently
+      pulls fast wheel flicks onto the nearest tour panel instead of letting
+      the user fly through multiple stops at once, and stays out of the way
+      everywhere else on the page (no other element is a snap target).
+    */
+    scroll-snap-type: y proximity;
   }
   body {
     background-color: var(--page-bg) !important;
