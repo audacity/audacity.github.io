@@ -22,11 +22,7 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     padding: 4rem 1.5rem;
     overflow: visible;
     position: relative;
-    /*
-      Sit above adjacent sections so the bleeding swoosh paints over them.
-      contain: layout (NOT paint — paint would clip the spill to this box).
-    */
-    z-index: 5;
+    /* contain: layout — NOT paint, which would clip the spill */
     contain: layout;
   }
 
@@ -48,8 +44,13 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     margin: 0 auto;
     will-change: transform, opacity;
     transform-origin: center;
+    /* Sits behind anything with its own z-index in the parent's stack. */
+    position: relative;
+    z-index: -1;
     opacity: var(--isw-p, 0);
-    transform: rotate(calc((var(--isw-prog, 0.5) - 0.5) * 180deg))
+    /* Much gentler rotation — keep the natural orientation as the resting
+       shape, just a small wobble on enter/exit. Big scale stays. */
+    transform: rotate(calc((var(--isw-prog, 0.5) - 0.5) * 30deg))
       scale(calc(0.25 + var(--isw-p, 0) * 3.6));
   }
 </style>
