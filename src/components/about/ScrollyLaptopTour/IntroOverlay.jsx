@@ -17,10 +17,12 @@ function IntroOverlay({
     : "font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast";
   const dimOpacity = Math.max(0, Math.min(1, 1 - dimProgress));
   // Fade the text out very early in the lid-open scroll — by the time the
-  // lid is ~20% open the heading should already be gone, so it never
+  // lid is ~10% open the heading should already be gone, so it never
   // overlaps the laptop visually as the lid lifts into its final position.
-  const textDim = Math.min(1, dimProgress * 5);
-  const STAGGER = 0.35;
+  // Tightened STAGGER too so the per-character delay doesn't drag the tail
+  // of the heading on past where we want it visible.
+  const textDim = Math.min(1, dimProgress * 10);
+  const STAGGER = 0.15;
   const easeIn = (u) => u * u;
   const chars = String(heading || "").split("");
   const total = Math.max(1, chars.length);
