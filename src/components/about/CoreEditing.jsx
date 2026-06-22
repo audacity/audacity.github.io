@@ -106,31 +106,26 @@ function TrackMetersDemo() {
     },
   ];
 
-  // TrackControlPanel at its default height needs ~240px to fit name +
-  // gain + M/S + Effects — at 112 the rows silently stretched and broke
-  // alignment with the canvas. Use 'truncated' (drops the Effects button)
-  // so 112 actually renders. Pass the same height to BOTH the side panel
-  // and the canvas lanes so rows line up.
-  const TRACK_HEIGHT = 112;
+  // The design system's TrackControlPanel has fixed CSS-var heights:
+  // default 114px, truncated 82px, collapsed 44px. Previously I was
+  // setting height: 100% on the side panel which made TrackControlSidePanel
+  // stretch each row to fill the card (~240px each) and the canvas lanes
+  // fell out of alignment. Use 114 — the panel's actual default — and let
+  // the column auto-size to its content. Card background (#171F25 = the
+  // real canvas colour) fills the empty rack space below.
+  const TRACK_HEIGHT = 114;
   const SIDE_PANEL_W = 232;
   const trackHeights = tracks.map(() => TRACK_HEIGHT);
   const PPS = 24;
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <style
-        dangerouslySetInnerHTML={{
-          __html:
-            // Force the side panel chrome to extend to the bottom of the
-            // card rather than collapsing around its track-row content.
-            ".track-meters-demo .track-control-side-panel{height:100%}",
-        }}
-      />
-      <div className="track-meters-demo absolute inset-0 flex bg-[#171F25] overflow-hidden">
-        {/* Track headers, wrapped in the proper TrackControlSidePanel
-            container so they sit in the real Audacity track-rack chrome
-            and the column extends to the bottom of the canvas. */}
-        <div className="shrink-0 self-stretch" style={{ width: SIDE_PANEL_W }}>
+      <div className="track-meters-demo absolute inset-0 flex items-start bg-[#171F25] overflow-hidden">
+        {/* Track headers, sized to content so trackHeights actually takes
+            effect. The card's canvas-coloured background shows below the
+            rack — reads as empty rack space without us having to stretch
+            the panels (which was breaking alignment). */}
+        <div className="shrink-0" style={{ width: SIDE_PANEL_W }}>
           <TrackControlSidePanel trackHeights={trackHeights}>
             {tracks.map((t, i) => (
               <TrackControlPanel
@@ -138,7 +133,6 @@ function TrackMetersDemo() {
                 trackName={t.name}
                 trackType={t.type}
                 volume={75}
-                height="truncated"
                 meterLevel={t.l}
                 meterLevelLeft={t.l}
                 meterLevelRight={t.r}
@@ -154,11 +148,9 @@ function TrackMetersDemo() {
           </TrackControlSidePanel>
         </div>
 
-        {/* Canvas lanes — match the track row heights AND inter-row
-            spacing of the TrackControlSidePanel (which separates its
-            rows with a 2px gap) so the clips line up with their control
-            panels on the left. Flex column grows to fill the card. */}
-        <div className="flex-1 flex flex-col min-w-0 self-stretch">
+        {/* Canvas lanes — same per-row height as the panels so each clip
+            lines up with its track header on the left. */}
+        <div className="flex-1 flex flex-col min-w-0">
           {tracks.map((t, i) => (
             <div
               key={i}
@@ -170,10 +162,7 @@ function TrackMetersDemo() {
                   "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.04) 40px 41px)",
               }}
             >
-              <div
-                className="absolute inset-y-2 left-3"
-                style={{ width: (METERS_WAVEFORMS[i].length / 100) * PPS }}
-              >
+              <div className="absolute inset-y-2 left-3">
                 <Clip
                   color={t.color}
                   name={t.name}
@@ -189,9 +178,6 @@ function TrackMetersDemo() {
               </div>
             </div>
           ))}
-          {/* Filler so the canvas area extends to the bottom of the card
-              alongside the side panel chrome. */}
-          <div className="flex-1" />
         </div>
       </div>
     </ThemeProvider>
