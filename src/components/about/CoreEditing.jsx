@@ -782,7 +782,7 @@ function LoopingDemo() {
               // the ruler). Negative offset pushes the icon up into the
               // ruler. Icon is 17px tall; -20 puts it sitting in the
               // lower half of the 40px ruler.
-              iconTopOffset={-20}
+              iconTopOffset={-14}
             />
           </div>
         </div>
