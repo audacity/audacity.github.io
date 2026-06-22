@@ -186,10 +186,10 @@ function renderTransportRow(config) {
       <ToolButton icon="microphone" ariaLabel="Recording level" />
       <div style={{ width: 220, paddingLeft: 4 }}>
         <MasterMeter
-          levelLeft={-12}
-          levelRight={-10}
-          recentPeakLeft={-6}
-          recentPeakRight={-5}
+          levelLeft={-90}
+          levelRight={-90}
+          recentPeakLeft={-90}
+          recentPeakRight={-90}
           volume={0.8}
         />
       </div>
