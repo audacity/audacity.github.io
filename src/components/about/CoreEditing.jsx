@@ -601,73 +601,156 @@ function LabelsDemo() {
   );
 }
 
+const LOOPING_WAVEFORMS = [
+  generateSpeechWaveform(11),
+  generateSpeechWaveform(13),
+  generateSpeechWaveform(17),
+  generateSpeechWaveform(19),
+];
+
 function LoopingDemo() {
-  const t = useLoopProgress(4000);
-  const REGION_LEFT = 90;
-  const REGION_WIDTH = 200;
-  const playheadX = REGION_LEFT + REGION_WIDTH * t;
-  const waveform = useMemo(() => generateSineWave(4.0, 8), []);
+  const t = useLoopProgress(3500);
+  const PPS = 80;
+  const CANVAS_W = 720;
+  const RULER_H = 40;
+  const TRACK_H = 72;
+
+  // Loop region in seconds — sits across the Chorus area of the project.
+  const LOOP_START = 3.0;
+  const LOOP_END = 5.4;
+
+  // Playhead scrubs from LOOP_START to LOOP_END, then snaps back.
+  const playheadTime = LOOP_START + (LOOP_END - LOOP_START) * t;
+  const playheadX = playheadTime * PPS;
+
+  // Same shape as the labels project — gives the loop region something
+  // real to scrub through.
+  const TRACKS = [
+    {
+      name: "Vocals",
+      color: "cyan",
+      clips: [
+        {
+          id: 1,
+          name: "V1",
+          start: 0.2,
+          duration: 2.4,
+          waveform: LOOPING_WAVEFORMS[0],
+        },
+        {
+          id: 2,
+          name: "V2",
+          start: 3.0,
+          duration: 1.8,
+          waveform: LOOPING_WAVEFORMS[0],
+        },
+        {
+          id: 3,
+          name: "V3",
+          start: 5.2,
+          duration: 2.4,
+          waveform: LOOPING_WAVEFORMS[0],
+        },
+      ],
+    },
+    {
+      name: "Harmonies",
+      color: "violet",
+      clips: [
+        {
+          id: 10,
+          name: "H1",
+          start: 3.0,
+          duration: 1.8,
+          waveform: LOOPING_WAVEFORMS[1],
+        },
+        {
+          id: 11,
+          name: "H2",
+          start: 5.2,
+          duration: 2.4,
+          waveform: LOOPING_WAVEFORMS[1],
+        },
+      ],
+    },
+    {
+      name: "Drums",
+      color: "orange",
+      clips: [
+        {
+          id: 20,
+          name: "Loop",
+          start: 0.2,
+          duration: 7.4,
+          waveform: LOOPING_WAVEFORMS[2],
+        },
+      ],
+    },
+    {
+      name: "Music bed",
+      color: "magenta",
+      clips: [
+        {
+          id: 30,
+          name: "Pad",
+          start: 0.5,
+          duration: 6.8,
+          waveform: LOOPING_WAVEFORMS[3],
+        },
+      ],
+    },
+  ];
 
   return (
     <ThemeProvider theme={darkTheme}>
       <div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ padding: "0 28px", flexDirection: "column", gap: 16 }}
+        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
-        <div
-          style={{
-            display: "flex",
-            gap: 6,
-            alignItems: "center",
-          }}
-        >
-          <ToggleToolButton icon="loop" isActive ariaLabel="Loop" />
-          <span
-            className="font-mono text-xs tracking-[0.2em] uppercase text-text-contrast/60"
-            style={{ marginLeft: 10 }}
-          >
-            Loop on
-          </span>
-        </div>
-        <div
-          style={{
-            position: "relative",
-            width: 360,
-            height: 84,
-          }}
-        >
-          <Clip
-            color="cyan"
-            name="Take 1"
-            width={360}
-            height={84}
-            waveformData={waveform}
-            clipDuration={4.0}
-            pixelsPerSecond={90}
-            onTrimEdge={() => {}}
-          />
-          {/* Loop range overlay */}
-          <div
-            style={{
-              position: "absolute",
-              left: REGION_LEFT,
-              top: -6,
-              width: REGION_WIDTH,
-              height: 96,
-              border: "1.5px solid #FACC15",
-              borderRadius: 4,
-              background: "rgba(250, 204, 21, 0.08)",
-              pointerEvents: "none",
-            }}
-          />
-          {/* Playhead bouncing within loop */}
+        {/* TimelineRuler with the loop region drawn in — the design
+            system component renders the loop bracket natively. */}
+        <TimelineRuler
+          width={CANVAS_W}
+          height={RULER_H}
+          pixelsPerSecond={PPS}
+          totalDuration={CANVAS_W / PPS}
+          timeFormat="minutes-seconds"
+          loopRegionEnabled
+          loopRegionStart={LOOP_START}
+          loopRegionEnd={LOOP_END}
+          cursorPosition={playheadTime}
+        />
+        <div style={{ flex: 1, position: "relative", paddingTop: 2 }}>
+          {TRACKS.map((track, i) => (
+            <div
+              key={i}
+              style={{
+                position: "relative",
+                height: TRACK_H,
+                marginTop: i === 0 ? 0 : 2,
+              }}
+            >
+              <TrackNew
+                clips={track.clips}
+                trackIndex={i}
+                width={CANVAS_W}
+                height={TRACK_H}
+                pixelsPerSecond={PPS}
+                color={track.color}
+                onClipTrimEdge={() => {}}
+              />
+            </div>
+          ))}
+
+          {/* Playhead line — vertical sweep through the loop region so
+              the user sees playback cycling inside it. */}
           <div
             style={{
               position: "absolute",
               left: playheadX,
-              top: -6,
+              top: 0,
+              bottom: 0,
               width: 2,
-              height: 96,
               background: "#F87171",
               boxShadow: "0 0 8px rgba(248, 113, 113, 0.6)",
               pointerEvents: "none",
