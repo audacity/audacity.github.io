@@ -80,7 +80,15 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
       0,
       min(1, calc((var(--isw-bell, 0) - var(--isw-start)) / var(--isw-span)))
     );
+    /* Mirror the original swoosh-in keyframe per-path, scrubbed by --isw-p.
+       Transform-box: fill-box rotates/scales each path around its own
+       centre. Per-path transforms here use the GPU compositor on the SVG
+       layer — vector paths aren't re-rasterized on scale. */
+    transform-box: fill-box;
+    transform-origin: center;
     opacity: var(--isw-p);
+    transform: scale(calc(0.5 + var(--isw-p) * 0.5))
+      rotate(calc((1 - var(--isw-p)) * -12deg));
   }
 </style>
 
