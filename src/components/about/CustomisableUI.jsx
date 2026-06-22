@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useInView } from "../../hooks/useInView.js";
 import {
   Clip,
   Toolbar,
@@ -20,12 +21,13 @@ import {
   generateSineWave,
 } from "@dilsonspickles/components";
 
-function useCycleIndex(count, intervalMs) {
+function useCycleIndex(count, intervalMs, enabled = true) {
   const [i, setI] = useState(0);
   useEffect(() => {
+    if (!enabled) return;
     const t = setInterval(() => setI((n) => (n + 1) % count), intervalMs);
     return () => clearInterval(t);
-  }, [count, intervalMs]);
+  }, [count, intervalMs, enabled]);
   return i;
 }
 
@@ -39,10 +41,15 @@ const ACCENTS = [
 ];
 
 function AccentDemo() {
-  const i = useCycleIndex(ACCENTS.length, 2200);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const i = useCycleIndex(ACCENTS.length, 2200, inView);
   const accent = ACCENTS[i].value;
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 p-7">
+    <div
+      ref={rootRef}
+      className="absolute inset-0 flex flex-col items-center justify-center gap-5 p-7"
+    >
       <div
         className="px-5 py-2.5 rounded-md font-mono text-sm tracking-wide"
         style={{
@@ -146,7 +153,9 @@ const THEMED_TRACKS = [
 ];
 
 function ThemeDemo() {
-  const i = useCycleIndex(2, 3500);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const i = useCycleIndex(2, 3500, inView);
   const theme = i === 0 ? darkTheme : lightTheme;
   const themeName = i === 0 ? "Dark" : "Light";
 
@@ -184,6 +193,7 @@ function ThemeDemo() {
   return (
     <ThemeProvider theme={theme}>
       <div
+        ref={rootRef}
         className="absolute inset-0 overflow-hidden"
         style={{
           background: theme.background.surface.subtle,
@@ -398,7 +408,9 @@ const MASONRY_ROWS = [
 ];
 
 function ClipColoursDemo() {
-  const i = useCycleIndex(2, 3200);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const i = useCycleIndex(2, 3200, inView);
   const useClassic = i === 1;
 
   // One waveform per clip slot — generated once and stable across the
@@ -428,6 +440,7 @@ function ClipColoursDemo() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div
+        ref={rootRef}
         className="absolute inset-0 overflow-hidden flex flex-col items-center justify-center gap-2 p-2"
         style={{ background: darkTheme.background.canvas.default }}
       >
@@ -491,7 +504,9 @@ function ClipColoursDemo() {
 const POSITIONS = ["top", "bottom", "left", "right"];
 
 function ToolbarPositionDemo() {
-  const i = useCycleIndex(POSITIONS.length, 2200);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const i = useCycleIndex(POSITIONS.length, 2200, inView);
   const pos = POSITIONS[i];
 
   const toolbar = (orientation) => (
@@ -525,7 +540,10 @@ function ToolbarPositionDemo() {
   const isVertical = pos === "left" || pos === "right";
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-7">
+    <div
+      ref={rootRef}
+      className="absolute inset-0 flex items-center justify-center p-7"
+    >
       <div
         className="rounded-lg overflow-hidden flex"
         style={{

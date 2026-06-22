@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useInView } from "../../hooks/useInView.js";
 import {
   TrackControlPanel,
   TrackControlSidePanel,
@@ -16,11 +17,12 @@ import {
 } from "@dilsonspickles/components";
 import "@dilsonspickles/components/style.css";
 
-function useAnimatedLevels(seed = 0) {
+function useAnimatedLevels(seed = 0, enabled = true) {
   const [levels, setLevels] = useState({ a: 30, b: 25, c: 18 });
   const [peaks, setPeaks] = useState({ a: 60, b: 50, c: 40 });
 
   useEffect(() => {
+    if (!enabled) return;
     let raf;
     const t0 = performance.now();
     const tick = (now) => {
@@ -57,7 +59,7 @@ function useAnimatedLevels(seed = 0) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [seed]);
+  }, [seed, enabled]);
 
   return { levels, peaks };
 }
@@ -73,7 +75,9 @@ const METERS_WAVEFORMS = [
 ];
 
 function TrackMetersDemo() {
-  const { levels, peaks } = useAnimatedLevels();
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const { levels, peaks } = useAnimatedLevels(0, inView);
   // TrackControlPanel.meterLevel* is documented as dB but the component
   // pipes it straight into TrackMeter's `volume` (0–100 percent). Pass
   // the raw 0-96 from useAnimatedLevels so the meter inside the panel
@@ -160,6 +164,7 @@ function TrackMetersDemo() {
         }}
       />
       <div
+        ref={rootRef}
         className="track-meters-demo absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{ display: "flex", minHeight: 0 }}
       >
@@ -230,9 +235,10 @@ function TrackMetersDemo() {
   );
 }
 
-function useLoopProgress(durationMs = 5000) {
+function useLoopProgress(durationMs = 5000, enabled = true) {
   const [t, setT] = useState(0);
   useEffect(() => {
+    if (!enabled) return;
     let raf;
     const t0 = performance.now();
     const tick = (now) => {
@@ -241,7 +247,7 @@ function useLoopProgress(durationMs = 5000) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [durationMs]);
+  }, [durationMs, enabled]);
   return t;
 }
 
@@ -308,7 +314,9 @@ function TrackLane({ name = "Audio 1", children }) {
 const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(12);
 
 function ClipHandlesDemo() {
-  const t = useLoopProgress(8000);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const t = useLoopProgress(8000, inView);
   const PPS = 100;
   const FULL_DURATION = 3.2;
   const RULER_H = 40;
@@ -361,6 +369,7 @@ function ClipHandlesDemo() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div
+        ref={rootRef}
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{
           display: "flex",
@@ -437,7 +446,9 @@ const LABELS_WAVEFORMS = [
 ];
 
 function LabelsDemo() {
-  const t = useLoopProgress(8000);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const t = useLoopProgress(8000, inView);
   const PPS = 80;
   const CANVAS_W = 720;
   const LABEL_TRACK_H = 50;
@@ -536,6 +547,7 @@ function LabelsDemo() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div
+        ref={rootRef}
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
@@ -610,7 +622,9 @@ const LOOPING_WAVEFORMS = [
 ];
 
 function LoopingDemo() {
-  const t = useLoopProgress(3500);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const t = useLoopProgress(3500, inView);
   const PPS = 80;
   const CANVAS_W = 720;
   const RULER_H = 40;
@@ -701,6 +715,7 @@ function LoopingDemo() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div
+        ref={rootRef}
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
@@ -791,7 +806,9 @@ function LoopingDemo() {
 }
 
 function SampleEditingDemo() {
-  const t = useLoopProgress(4500);
+  const rootRef = useRef(null);
+  const inView = useInView(rootRef);
+  const t = useLoopProgress(4500, inView);
   const PPS = 80;
   const CANVAS_W = 720;
   const TRACK_H = 280;
@@ -894,6 +911,7 @@ function SampleEditingDemo() {
   return (
     <ThemeProvider theme={darkTheme}>
       <div
+        ref={rootRef}
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
