@@ -741,15 +741,18 @@ function LoopingDemo() {
             </div>
           ))}
 
-          {/* Loop region edge stalks — thin white verticals at the
-              loop start and end positions running from the top of the
-              card all the way down. */}
-          {[LOOP_START, LOOP_END].map((time) => (
+          {/* Loop region edge stalks — left stalk nudged 1px left so it
+              sits flush against the loop region's left bracket; right
+              stalk at the end position aligns to its right bracket. */}
+          {[
+            { time: LOOP_START, offset: -1 },
+            { time: LOOP_END, offset: 0 },
+          ].map(({ time, offset }) => (
             <div
               key={time}
               style={{
                 position: "absolute",
-                left: time * PPS,
+                left: time * PPS + offset,
                 top: -RULER_H - 2,
                 bottom: 0,
                 width: 1,
@@ -775,6 +778,7 @@ function LoopingDemo() {
               pixelsPerSecond={PPS}
               height={9999}
               showTopIcon
+              iconTopOffset={RULER_H / 2 - 16}
             />
           </div>
         </div>
