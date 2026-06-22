@@ -121,11 +121,20 @@ function TrackMetersDemo() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="track-meters-demo absolute inset-0 flex items-start bg-[#171F25] overflow-hidden">
-        {/* Track headers, sized to content so trackHeights actually takes
-            effect. The card's canvas-coloured background shows below the
-            rack — reads as empty rack space without us having to stretch
-            the panels (which was breaking alignment). */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            // Force side panel chrome to fill the card (what you asked
+            // for) AND the row containers inside it to flex evenly so the
+            // tracks distribute across the column the same way the canvas
+            // lanes do on the right.
+            ".track-meters-demo .track-control-side-panel{height:100%}" +
+            ".track-meters-demo .track-control-side-panel__list{padding-top:0}" +
+            ".track-meters-demo .track-control-side-panel__track{flex:1 1 0;min-height:0}",
+        }}
+      />
+      <div className="track-meters-demo absolute inset-0 flex bg-[#171F25] overflow-hidden">
+        {/* Track headers — rack column fills the card via the CSS above. */}
         <div className="shrink-0" style={{ width: SIDE_PANEL_W }}>
           <TrackControlSidePanel trackHeights={trackHeights}>
             {tracks.map((t, i) => (
@@ -149,10 +158,10 @@ function TrackMetersDemo() {
           </TrackControlSidePanel>
         </div>
 
-        {/* Canvas side: TimelineRuler at top matches the side panel's
-            "Tracks / Add new" header height — without this spacer the
-            canvas rows start higher than the rack rows and they fall
-            out of alignment. */}
+        {/* Canvas side: matches the rack column's vertical distribution.
+            TimelineRuler at 40px = side panel header height. Lanes use
+            flex: 1 so they share remaining height the same way the rack
+            rows do — rows line up across both sides. */}
         <div className="flex-1 flex flex-col min-w-0">
           <TimelineRuler
             width={600}
@@ -161,33 +170,36 @@ function TrackMetersDemo() {
             totalDuration={20}
             timeFormat="minutes-seconds"
           />
-          {tracks.map((t, i) => (
-            <div
-              key={i}
-              className="relative shrink-0"
-              style={{
-                height: trackHeights[i],
-                marginBottom: i < tracks.length - 1 ? 2 : 0,
-                backgroundImage:
-                  "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.04) 40px 41px)",
-              }}
-            >
-              <div className="absolute inset-y-2 left-3">
-                <Clip
-                  color={t.color}
-                  name={t.name}
-                  width={t.duration * PPS}
-                  height={trackHeights[i] - 16}
-                  waveformData={METERS_WAVEFORMS[i]}
-                  clipDuration={t.duration}
-                  clipFullDuration={t.duration}
-                  pixelsPerSecond={PPS}
-                  onTrimEdge={() => {}}
-                  onStretchEdge={() => {}}
-                />
+          <div className="flex-1 flex flex-col min-h-0">
+            {tracks.map((t, i) => (
+              <div
+                key={i}
+                className="relative"
+                style={{
+                  flex: "1 1 0",
+                  minHeight: 0,
+                  marginBottom: i < tracks.length - 1 ? 2 : 0,
+                  backgroundImage:
+                    "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.04) 40px 41px)",
+                }}
+              >
+                <div className="absolute inset-y-2 left-3">
+                  <Clip
+                    color={t.color}
+                    name={t.name}
+                    width={t.duration * PPS}
+                    height={trackHeights[i] - 16}
+                    waveformData={METERS_WAVEFORMS[i]}
+                    clipDuration={t.duration}
+                    clipFullDuration={t.duration}
+                    pixelsPerSecond={PPS}
+                    onTrimEdge={() => {}}
+                    onStretchEdge={() => {}}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </ThemeProvider>
