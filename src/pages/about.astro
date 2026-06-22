@@ -129,18 +129,20 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     background-color: rgb(28, 22, 78);
   }
   /*
-    Workspaces background: hard purple-to-navy seam at 50% (so the seam
-    crosses through the centered hero panel), then a soft fade from navy
-    to CustomisableUI's purple over the bottom 30% so the boundary into
-    the next section disappears instead of jumping.
+    Workspaces background: hard purple-to-near-black seam at 50%, so the
+    bottom half of the section (where the hero panel's lower edge sits,
+    plus the section padding below it) reads as a dramatic dark gutter
+    against the pink panel. The bottom 15% fades back up to
+    CustomisableUI's purple so the boundary into the next section
+    disappears instead of jumping.
   */
   .about-section--workspaces {
     background: linear-gradient(
       to bottom,
       rgb(28, 22, 78) 0,
       rgb(28, 22, 78) 50%,
-      rgb(20, 32, 90) 50%,
-      rgb(20, 32, 90) 70%,
+      #08090c 50%,
+      #08090c 85%,
       rgb(48, 26, 90) 100%
     );
   }
