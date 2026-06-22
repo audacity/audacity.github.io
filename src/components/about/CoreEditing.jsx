@@ -96,11 +96,19 @@ function TrackMetersDemo() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="absolute inset-0 flex bg-[#171F25] overflow-hidden">
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            // Force the side panel chrome to extend to the bottom of the
+            // card rather than collapsing around its track-row content.
+            ".track-meters-demo .track-control-side-panel{height:100%}",
+        }}
+      />
+      <div className="track-meters-demo absolute inset-0 flex bg-[#171F25] overflow-hidden">
         {/* Track headers, wrapped in the proper TrackControlSidePanel
             container so they sit in the real Audacity track-rack chrome
             and the column extends to the bottom of the canvas. */}
-        <div className="shrink-0">
+        <div className="shrink-0 self-stretch">
           <TrackControlSidePanel trackHeights={trackHeights}>
             {tracks.map((t, i) => (
               <TrackControlPanel
@@ -124,8 +132,10 @@ function TrackMetersDemo() {
         </div>
 
         {/* Canvas lanes — match the track row heights so the clips line
-            up with their control panels on the left. */}
-        <div className="flex-1 flex flex-col min-w-0">
+            up with their control panels on the left. Flex column grows
+            to fill the card; an empty filler at the bottom mirrors the
+            unused rack space below the last track. */}
+        <div className="flex-1 flex flex-col min-w-0 self-stretch">
           {tracks.map((t, i) => (
             <div
               key={i}
@@ -174,6 +184,9 @@ function TrackMetersDemo() {
               </div>
             </div>
           ))}
+          {/* Filler so the canvas area extends to the bottom of the card
+              alongside the side panel chrome. */}
+          <div className="flex-1" />
         </div>
       </div>
     </ThemeProvider>
