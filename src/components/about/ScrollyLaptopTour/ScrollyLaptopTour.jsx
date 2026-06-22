@@ -834,7 +834,11 @@ function DesktopTour() {
                 height: "100vh",
                 minHeight: "100vh",
                 scrollSnapAlign: "start",
-                scrollSnapStop: "normal",
+                // Force the scroll container to land on each panel even on
+                // fast wheel/trackpad flicks. Without this, a single big
+                // flick can pass over multiple stops; with it, each panel
+                // must be visited in turn.
+                scrollSnapStop: "always",
                 pointerEvents: "none",
               }}
               aria-label={s.heading}
