@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   TrackControlPanel,
   TrackControlSidePanel,
+  TimelineRuler,
   Clip,
   LabelMarker,
   TransportButton,
@@ -148,9 +149,18 @@ function TrackMetersDemo() {
           </TrackControlSidePanel>
         </div>
 
-        {/* Canvas lanes — same per-row height as the panels so each clip
-            lines up with its track header on the left. */}
+        {/* Canvas side: TimelineRuler at top matches the side panel's
+            "Tracks / Add new" header height — without this spacer the
+            canvas rows start higher than the rack rows and they fall
+            out of alignment. */}
         <div className="flex-1 flex flex-col min-w-0">
+          <TimelineRuler
+            width={600}
+            height={40}
+            pixelsPerSecond={PPS}
+            totalDuration={20}
+            timeFormat="minutes-seconds"
+          />
           {tracks.map((t, i) => (
             <div
               key={i}
