@@ -815,15 +815,19 @@ function DesktopTour() {
 
         <ScrollIndicator
           visible={!isIntro}
-          stops={STOPS.filter((s) => !s.noScrollPanel)}
+          stops={STOPS.filter(
+            (s) => !s.noScrollPanel && s.panelSide !== "intro",
+          )}
           activeIndex={Math.max(
             0,
-            STOPS.filter((s) => !s.noScrollPanel).findIndex(
-              (s) => s.id === scrolledStop.id,
-            ),
+            STOPS.filter(
+              (s) => !s.noScrollPanel && s.panelSide !== "intro",
+            ).findIndex((s) => s.id === scrolledStop.id),
           )}
           onJump={(i) => {
-            const visible = STOPS.filter((s) => !s.noScrollPanel);
+            const visible = STOPS.filter(
+              (s) => !s.noScrollPanel && s.panelSide !== "intro",
+            );
             const originalIdx = STOPS.findIndex((s) => s.id === visible[i].id);
             const target = panelRefs.current[originalIdx];
             if (target) {
