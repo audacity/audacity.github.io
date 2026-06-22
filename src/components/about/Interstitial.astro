@@ -73,8 +73,7 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
   [data-interstitial-swoosh] svg.hero-swoosh path {
     /* HeroSwoosh's scoped CSS has higher specificity than this global
        override, so we need !important to actually disable its load-time
-       fan-in + twitch animation and replace the visual props with our
-       scroll-scrubbed cascade. */
+       fan-in + twitch animation. */
     animation: none !important;
     --isw-start: calc((var(--i, 0) / 38) * 0.4);
     --isw-span: 0.6;
@@ -82,11 +81,13 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
       0,
       min(1, calc((var(--isw-bell, 0) - var(--isw-start)) / var(--isw-span)))
     );
-    transform-box: fill-box !important;
-    transform-origin: center !important;
+    /* Opacity-only per-path cascade. Per-path transforms (scale/rotate)
+       were the source of the lag — each path's transform update triggered
+       compositor work that didn't scale to 38 paths × every scroll frame.
+       The wrapper carries a subtle scale below so we keep some bloom feel
+       without the per-path cost. */
+    transform: none !important;
     opacity: var(--isw-p) !important;
-    transform: scale(calc(0.5 + var(--isw-p) * 0.5))
-      rotate(calc((1 - var(--isw-p)) * -12deg)) !important;
   }
 </style>
 
