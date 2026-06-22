@@ -742,9 +742,28 @@ function LoopingDemo() {
             </div>
           ))}
 
-          {/* Design system PlayheadCursor — height set huge so the
-              stalk extends past the last track to the bottom of the
-              card; the card's overflow: hidden clips the overshoot. */}
+          {/* Loop region edge stalks — thin white verticals at the
+              loop start and end positions running from the top of the
+              card all the way down. */}
+          {[LOOP_START, LOOP_END].map((time) => (
+            <div
+              key={time}
+              style={{
+                position: "absolute",
+                left: time * PPS,
+                top: -RULER_H - 2,
+                bottom: 0,
+                width: 1,
+                background: "rgba(255, 255, 255, 0.55)",
+                pointerEvents: "none",
+              }}
+            />
+          ))}
+
+          {/* Design system PlayheadCursor — no top icon (don't want
+              the stalk poking up into the ruler), big height so the
+              stalk runs to the bottom of the card; overflow:hidden
+              clips the overshoot. */}
           <div
             style={{
               position: "absolute",
@@ -757,7 +776,6 @@ function LoopingDemo() {
               position={playheadTime}
               pixelsPerSecond={PPS}
               height={9999}
-              showTopIcon
             />
           </div>
         </div>
