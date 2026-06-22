@@ -84,7 +84,9 @@ function TrackMetersDemo() {
         {
           id: 1,
           name: "Host",
-          start: 0.2,
+          // start in seconds; PPS=24 means ≥0.5s puts the clip ≥12px from
+          // the lane's left edge.
+          start: 0.6,
           duration: 4.2,
           waveform: METERS_WAVEFORMS[0],
         },
@@ -102,7 +104,7 @@ function TrackMetersDemo() {
         {
           id: 2,
           name: "Guest",
-          start: 0.4,
+          start: 0.6,
           duration: 3.6,
           waveform: METERS_WAVEFORMS[1],
         },
@@ -120,7 +122,7 @@ function TrackMetersDemo() {
         {
           id: 3,
           name: "Music bed",
-          start: 0,
+          start: 0.6,
           duration: 5.0,
           waveform: METERS_WAVEFORMS[2],
         },
@@ -147,21 +149,22 @@ function TrackMetersDemo() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <style
-        dangerouslySetInnerHTML={{
-          __html:
-            // Side panel fills the card (rack column extends to the
-            // bottom). Rows stay at their natural height — no flex
-            // stretching that creates huge gaps.
-            ".track-meters-demo .track-control-side-panel{height:100%}",
-        }}
-      />
-      <div className="track-meters-demo absolute inset-0 flex bg-[#171F25] overflow-hidden">
-        <div className="shrink-0" style={{ width: SIDE_PANEL_W }}>
-          <TrackControlSidePanel trackHeights={trackHeights}>
-            {tracks.map((t, i) => (
+      <div className="track-meters-demo absolute inset-0 flex flex-col bg-[#171F25] overflow-hidden">
+        {/* Per-track row: control panel + lane in the SAME flex row, so
+            they're guaranteed to share a baseline. No TrackControlSidePanel
+            wrapper that auto-grows the width or pushes content with its
+            built-in "Tracks / Add new" header. */}
+        {tracks.map((t, i) => (
+          <div
+            key={i}
+            className="flex shrink-0"
+            style={{
+              height: trackHeights[i],
+              marginBottom: i < tracks.length - 1 ? 2 : 0,
+            }}
+          >
+            <div className="shrink-0" style={{ width: SIDE_PANEL_W }}>
               <TrackControlPanel
-                key={i}
                 trackName={t.name}
                 trackType={t.type}
                 volume={75}
@@ -176,31 +179,8 @@ function TrackMetersDemo() {
                 meterMaxPeakRight={Math.min(96, t.rp + 4)}
                 trackHeight={trackHeights[i]}
               />
-            ))}
-          </TrackControlSidePanel>
-        </div>
-
-        {/* Canvas side — uses TrackNew (the real track lane component
-            from the design system, same as WorkspaceCanvas). Each
-            track gets a proper lane that houses its clip at full
-            track height. */}
-        <div className="flex-1 flex flex-col min-w-0">
-          <TimelineRuler
-            width={CANVAS_W}
-            height={40}
-            pixelsPerSecond={PPS}
-            totalDuration={20}
-            timeFormat="minutes-seconds"
-          />
-          {tracks.map((t, i) => (
-            <div
-              key={i}
-              className="shrink-0"
-              style={{
-                height: trackHeights[i],
-                marginBottom: i < tracks.length - 1 ? 2 : 0,
-              }}
-            >
+            </div>
+            <div className="flex-1 min-w-0">
               <TrackNew
                 clips={t.clips}
                 trackIndex={i}
@@ -211,9 +191,10 @@ function TrackMetersDemo() {
                 onClipTrimEdge={() => {}}
               />
             </div>
-          ))}
-          <div className="flex-1" />
-        </div>
+          </div>
+        ))}
+        {/* Empty rack / canvas space extends to the bottom of the card. */}
+        <div className="flex-1" />
       </div>
     </ThemeProvider>
   );
