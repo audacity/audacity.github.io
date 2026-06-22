@@ -778,7 +778,7 @@ function LoopingDemo() {
               pixelsPerSecond={PPS}
               height={9999}
               showTopIcon
-              iconTopOffset={RULER_H / 2 - 16}
+              iconTopOffset={28}
             />
           </div>
         </div>
