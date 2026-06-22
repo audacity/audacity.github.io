@@ -134,37 +134,28 @@ function TrackMetersDemo() {
     },
   ];
 
-  // The design system's TrackControlPanel has fixed CSS-var heights:
-  // default 114px, truncated 82px, collapsed 44px. Previously I was
-  // setting height: 100% on the side panel which made TrackControlSidePanel
-  // stretch each row to fill the card (~240px each) and the canvas lanes
-  // fell out of alignment. Use 114 — the panel's actual default — and let
-  // the column auto-size to its content. Card background (#171F25 = the
-  // real canvas colour) fills the empty rack space below.
-  const TRACK_HEIGHT = 114;
-  const SIDE_PANEL_W = 232;
-  const CANVAS_W = 800;
-  const trackHeights = tracks.map(() => TRACK_HEIGHT);
-  const PPS = 24;
+  // Replicating WorkspaceCanvas's track-area layout EXACTLY — it has
+  // worked for the laptop tour the whole time, no reason to reinvent.
+  // Side panel column: 280px wide (matches WorkspaceCanvas's
+  // TRACK_CONTROL_W). Each track uses TrackNew inside a fixed-height
+  // wrapper that aligns 1:1 with the TrackControlSidePanel row.
+  const TRACK_CONTROL_W = 280;
+  const RULER_H = 40;
+  const CANVAS_W = 760;
+  const trackHeights = tracks.map(() => 110);
+  const PPS = 28;
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="track-meters-demo absolute inset-0 flex flex-col bg-[#171F25] overflow-hidden">
-        {/* Per-track row: control panel + lane in the SAME flex row, so
-            they're guaranteed to share a baseline. No TrackControlSidePanel
-            wrapper that auto-grows the width or pushes content with its
-            built-in "Tracks / Add new" header. */}
-        {tracks.map((t, i) => (
-          <div
-            key={i}
-            className="flex shrink-0"
-            style={{
-              height: trackHeights[i],
-              marginBottom: i < tracks.length - 1 ? 2 : 0,
-            }}
-          >
-            <div className="shrink-0" style={{ width: SIDE_PANEL_W }}>
+      <div
+        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        style={{ display: "flex", minHeight: 0 }}
+      >
+        <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
+          <TrackControlSidePanel trackHeights={trackHeights}>
+            {tracks.map((t, i) => (
               <TrackControlPanel
+                key={i}
                 trackName={t.name}
                 trackType={t.type}
                 volume={75}
@@ -179,22 +170,49 @@ function TrackMetersDemo() {
                 meterMaxPeakRight={Math.min(96, t.rp + 4)}
                 trackHeight={trackHeights[i]}
               />
-            </div>
-            <div className="flex-1 min-w-0">
-              <TrackNew
-                clips={t.clips}
-                trackIndex={i}
-                width={CANVAS_W}
-                height={trackHeights[i]}
-                pixelsPerSecond={PPS}
-                color={t.color}
-                onClipTrimEdge={() => {}}
-              />
-            </div>
+            ))}
+          </TrackControlSidePanel>
+        </div>
+
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 0,
+            position: "relative",
+          }}
+        >
+          <TimelineRuler
+            width={CANVAS_W}
+            height={RULER_H}
+            pixelsPerSecond={PPS}
+            totalDuration={20}
+            timeFormat="minutes-seconds"
+          />
+          <div style={{ flex: 1, paddingTop: 2 }}>
+            {tracks.map((t, i) => (
+              <div
+                key={i}
+                style={{
+                  position: "relative",
+                  height: trackHeights[i],
+                  marginBottom: 2,
+                }}
+              >
+                <TrackNew
+                  clips={t.clips}
+                  trackIndex={i}
+                  width={CANVAS_W}
+                  height={trackHeights[i]}
+                  pixelsPerSecond={PPS}
+                  color={t.color}
+                  onClipTrimEdge={() => {}}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-        {/* Empty rack / canvas space extends to the bottom of the card. */}
-        <div className="flex-1" />
+        </div>
       </div>
     </ThemeProvider>
   );
