@@ -112,10 +112,10 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     background-color: rgb(28, 22, 78);
   }
   /*
-    Workspaces background snaps from CoreEditing's purple to its own navy at
-    50%, so the seam crosses through the centered hero panel (the panel's
-    internal gradient covers the seam; it stays visible only in the page
-    background flanking the panel).
+    Workspaces background: hard purple-to-navy seam at 50% (so the seam
+    crosses through the centered hero panel), then a soft fade from navy
+    to CustomisableUI's purple over the bottom 30% so the boundary into
+    the next section disappears instead of jumping.
   */
   .about-section--workspaces {
     background: linear-gradient(
@@ -123,7 +123,8 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       rgb(28, 22, 78) 0,
       rgb(28, 22, 78) 50%,
       rgb(20, 32, 90) 50%,
-      rgb(20, 32, 90) 100%
+      rgb(20, 32, 90) 70%,
+      rgb(48, 26, 90) 100%
     );
   }
   .about-section--customisable-ui {
