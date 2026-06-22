@@ -778,7 +778,11 @@ function LoopingDemo() {
               pixelsPerSecond={PPS}
               height={9999}
               showTopIcon
-              iconTopOffset={28}
+              // PlayheadCursor sits at top:0 of the tracks area (below
+              // the ruler). Negative offset pushes the icon up into the
+              // ruler. Icon is 17px tall; -20 puts it sitting in the
+              // lower half of the 40px ruler.
+              iconTopOffset={-20}
             />
           </div>
         </div>
