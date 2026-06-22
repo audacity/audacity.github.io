@@ -2,10 +2,10 @@
 import HeroSwoosh from "../homepage/HeroSwoosh.astro";
 ---
 
-<section class="about-interstitial">
+<section class="about-interstitial" data-interstitial>
   <div class="about-interstitial__inner">
     <slot>
-      <div class="about-interstitial__swoosh">
+      <div class="about-interstitial__swoosh" data-interstitial-swoosh>
         <HeroSwoosh />
       </div>
     </slot>
@@ -20,6 +20,11 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     align-items: center;
     justify-content: center;
     padding: 4rem 1.5rem;
+    overflow: visible;
+    position: relative;
+    z-index: 5;
+    /* Scope paint work so the bleeding swoosh doesn't trash adjacent paint layers. */
+    contain: layout paint;
   }
 
   .about-interstitial__inner {
@@ -27,10 +32,82 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     text-align: center;
   }
 
+  /*
+    The swoosh wrapper carries the scroll-driven motion as a SINGLE transform
+    on the whole SVG (not per-path). The HeroSwoosh's own path animations are
+    disabled by the global override below, so the only work the browser does
+    each frame is one transform/opacity update per visible interstitial.
+  */
   .about-interstitial__swoosh {
     width: 100%;
-    max-width: 360px;
+    max-width: 420px;
     aspect-ratio: 669 / 554;
     margin: 0 auto;
+    will-change: transform, opacity;
+    transform-origin: center;
+    opacity: var(--isw-p, 0);
+    transform: rotate(calc((var(--isw-prog, 0.5) - 0.5) * 180deg))
+      scale(calc(0.25 + var(--isw-p, 0) * 3.6));
   }
 </style>
+
+<style is:global>
+  /*
+    Disable the HeroSwoosh's load-time fan-in + twitch animations when it's
+    embedded inside an interstitial — the wrapper transform drives the motion
+    here, and the per-path animations would otherwise burn CPU continuously.
+  */
+  [data-interstitial-swoosh] svg.hero-swoosh path {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+</style>
+
+<script>
+  /*
+    For each interstitial: as it crosses the viewport, set --isw-prog (raw
+    0–1 progress) and --isw-p (bell-curve 0→1→0). The wrapper transform
+    uses these to drive a big rotation + scale that bleeds the fan out past
+    the band's edges at peak. Updates are skipped for any interstitial
+    further than one viewport from the current scroll.
+  */
+  const els = document.querySelectorAll<HTMLElement>("[data-interstitial]");
+  if (els.length) {
+    const targets = Array.from(els)
+      .map((el) => ({
+        el,
+        swoosh: el.querySelector<HTMLElement>("[data-interstitial-swoosh]"),
+      }))
+      .filter(
+        (t): t is { el: HTMLElement; swoosh: HTMLElement } => t.swoosh !== null,
+      );
+
+    function update() {
+      const vh = window.innerHeight;
+      for (const { el, swoosh } of targets) {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < -vh || rect.top > vh * 2) continue;
+        const total = vh + rect.height;
+        const traveled = vh - rect.top;
+        const prog = Math.max(0, Math.min(1, traveled / total));
+        const bell = 1 - Math.abs(prog * 2 - 1);
+        swoosh.style.setProperty("--isw-prog", String(prog));
+        swoosh.style.setProperty("--isw-p", String(bell));
+      }
+    }
+
+    let raf: number | null = null;
+    function onScroll() {
+      if (raf !== null) return;
+      raf = requestAnimationFrame(() => {
+        update();
+        raf = null;
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+  }
+</script>
