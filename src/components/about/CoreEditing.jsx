@@ -1034,7 +1034,7 @@ function CoreEditing() {
               className="snap-start shrink-0 w-[min(82vw,420px)] flex flex-col"
             >
               <div
-                className="flex-1 min-h-0 rounded-2xl border border-white/10 bg-[rgb(20,16,56)] relative overflow-hidden"
+                className="flex-1 min-h-0 rounded-2xl border border-white/10 bg-[rgb(20,16,56)] relative overflow-hidden pointer-events-none"
                 aria-hidden
               >
                 {card.Demo ? (
