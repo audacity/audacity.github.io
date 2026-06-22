@@ -22,9 +22,12 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     padding: 4rem 1.5rem;
     overflow: visible;
     position: relative;
+    /*
+      Sit above adjacent sections so the bleeding swoosh paints over them.
+      contain: layout (NOT paint — paint would clip the spill to this box).
+    */
     z-index: 5;
-    /* Scope paint work so the bleeding swoosh doesn't trash adjacent paint layers. */
-    contain: layout paint;
+    contain: layout;
   }
 
   .about-interstitial__inner {
