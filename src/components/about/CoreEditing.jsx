@@ -365,7 +365,6 @@ function ClipHandlesDemo() {
           display: "flex",
           flexDirection: "column",
           minHeight: 0,
-          position: "relative",
         }}
       >
         <TimelineRuler
