@@ -162,6 +162,13 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   .about-section--cta {
     background-color: rgb(8, 6, 28);
   }
+  /*
+    Drop the footer's own dark backdrop on this page so it reads as a
+    continuation of the CTA section — same colour, no seam.
+  */
+  body:has(.about-section--cta) footer.bg-background-dark {
+    background-color: rgb(8, 6, 28);
+  }
 </style>
 
 <script>
