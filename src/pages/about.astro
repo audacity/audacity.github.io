@@ -111,8 +111,20 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   .about-section--core-editing {
     background-color: rgb(28, 22, 78);
   }
+  /*
+    Workspaces background snaps from CoreEditing's purple to its own navy at
+    50%, so the seam crosses through the centered hero panel (the panel's
+    internal gradient covers the seam; it stays visible only in the page
+    background flanking the panel).
+  */
   .about-section--workspaces {
-    background-color: rgb(20, 32, 90);
+    background: linear-gradient(
+      to bottom,
+      rgb(28, 22, 78) 0,
+      rgb(28, 22, 78) 50%,
+      rgb(20, 32, 90) 50%,
+      rgb(20, 32, 90) 100%
+    );
   }
   .about-section--customisable-ui {
     background-color: rgb(48, 26, 90);
