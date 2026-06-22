@@ -32,7 +32,7 @@ function Workspaces() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 pt-24 lg:pt-32 pb-40 lg:pb-56">
       <div
-        className="max-w-screen-xl mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-[1440px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
         <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">
