@@ -1,8 +1,19 @@
 ---
 import HeroSwoosh from "../homepage/HeroSwoosh.astro";
+
+interface Props {
+  from?: string;
+  to?: string;
+}
+
+const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
 ---
 
-<section class="about-interstitial" data-interstitial>
+<section
+  class="about-interstitial"
+  data-interstitial
+  style={`background: linear-gradient(to bottom, ${from} 0%, ${to} 100%);`}
+>
   <div class="about-interstitial__inner">
     <slot>
       <div class="about-interstitial__swoosh" data-interstitial-swoosh>
@@ -14,8 +25,10 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
 
 <style>
   .about-interstitial {
-    background-color: rgb(2, 2, 4);
-    min-height: 40vh;
+    /* Background set inline as a gradient between adjacent sections — no
+       black band, just a smooth handoff with the swoosh blooming in the
+       middle. */
+    min-height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
