@@ -44,7 +44,7 @@ export const STOPS = [
     heading: "Split clips where it counts",
     description:
       "Drop the split tool anywhere on a clip and Audacity cuts cleanly on the sample. Two clips, no mess, undo at any time.",
-    laptop: { x: "33vw", y: "-2vh", scale: 1.0 },
+    laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -60,7 +60,7 @@ export const STOPS = [
     heading: "Drop a clip onto another",
     description:
       "Remember 'there is not enough room available to paste the selection'? Gone. Drag a clip onto another and it makes room. Pull the handle back and the audio's still there.",
-    laptop: { x: "33vw", y: "-2vh", scale: 1.0 },
+    laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -75,7 +75,7 @@ export const STOPS = [
     heading: "Select many, move once",
     description:
       "Shift-click or lasso to grab any clips across any tracks, then move, trim or fade them as one. Obvious in hindsight. Strange to go back.",
-    laptop: { x: "27vw", y: "0vh", scale: 0.85 },
+    laptop: { x: "22vw", y: "0vh", scale: 0.85 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -88,7 +88,7 @@ export const STOPS = [
     heading: "Group what belongs together",
     description:
       "Bind related takes into a group and they move and edit as one. Permanent, until you ungroup. Nothing destructive about it.",
-    laptop: { x: "27vw", y: "0vh", scale: 0.85 },
+    laptop: { x: "22vw", y: "0vh", scale: 0.85 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -101,7 +101,7 @@ export const STOPS = [
     heading: "Shape volume right on the clip",
     description:
       "Flip on the envelope tool and drop nodes straight on the clip. Curves live with the audio. Move the clip, copy the clip, the shape comes with it.",
-    laptop: { x: "33vw", y: "-2vh", scale: 1.0 },
+    laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     panelSide: "left",
     target: null,
     overlay: {

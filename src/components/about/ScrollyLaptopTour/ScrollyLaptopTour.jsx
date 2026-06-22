@@ -780,7 +780,9 @@ function DesktopTour() {
         <div
           className="absolute top-1/2 z-20 px-8 lg:px-12 max-w-[380px]"
           style={{
-            [panelOnRight ? "right" : "left"]: 0,
+            // Inset the panel from the viewport edge so it clears the scroll
+            // indicators (which now live at left: max(2vw, 24px)).
+            [panelOnRight ? "right" : "left"]: "max(72px, 5vw)",
             transform: "translateY(-50%)",
             opacity: panelOnLeft || panelOnRight ? 1 : 0,
             transition: "opacity 280ms ease-out",
