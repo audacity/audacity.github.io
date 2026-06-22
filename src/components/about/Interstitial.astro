@@ -41,12 +41,6 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
     text-align: center;
   }
 
-  /*
-    Absolutely positioned + centered. Visibility is driven by per-path
-    opacity that scrubs off the wrapper's --isw-bell value, which the
-    script below ties to scroll position. Wrapper transform is fixed —
-    per-frame scale changes here would force a 38-path SVG re-raster.
-  */
   .about-interstitial__swoosh {
     position: absolute;
     top: 50%;
@@ -61,80 +55,54 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
 
 <style is:global>
   /*
-    Per-path scroll-scrubbed cascade. The HeroSwoosh's CSS keyframe
-    animations are disabled here — visibility comes from each path
-    computing its own local progress (--p) from the wrapper's --isw-bell
-    (0 → 1 → 0 across the scroll arc) and its own index (--i, 0–37).
-
-    Opacity-only: opacity is a compositor property and doesn't trigger
-    SVG re-rasterization the way per-path scale/rotate would, so the
-    cascade scrubs smoothly even on 38 paths.
+    Disable HeroSwoosh's load-time animations in the interstitial and
+    replace with a paused version of swoosh-in. !important is needed
+    because HeroSwoosh's scoped styles have higher specificity than
+    this global rule. Each path's per-path stagger comes from --delay,
+    set inline by HeroSwoosh.
   */
   [data-interstitial-swoosh] svg.hero-swoosh path {
-    /* HeroSwoosh's scoped CSS has higher specificity than this global
-       override, so we need !important to actually disable its load-time
-       fan-in + twitch animation. */
-    animation: none !important;
-    --isw-start: calc((var(--i, 0) / 38) * 0.4);
-    --isw-span: 0.6;
-    --isw-p: max(
-      0,
-      min(1, calc((var(--isw-bell, 0) - var(--isw-start)) / var(--isw-span)))
-    );
-    /* Opacity-only per-path cascade. Per-path transforms (scale/rotate)
-       were the source of the lag — each path's transform update triggered
-       compositor work that didn't scale to 38 paths × every scroll frame.
-       The wrapper carries a subtle scale below so we keep some bloom feel
-       without the per-path cost. */
-    transform: none !important;
-    opacity: var(--isw-p) !important;
+    animation: swoosh-in 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay)
+      forwards !important;
+    animation-play-state: paused !important;
+  }
+  /*
+    When the wrapper picks up .has-entered (set by the IntersectionObserver
+    below the first time the interstitial reaches the viewport), every
+    path's animation un-pauses and plays at its natural pace — staggered
+    by --delay, GPU-composited, not bound to scroll velocity.
+  */
+  [data-interstitial-swoosh].has-entered svg.hero-swoosh path {
+    animation-play-state: running !important;
   }
 </style>
 
 <script>
   /*
-    Tie the cascade to scroll position. For each interstitial we set
-    --isw-bell on the swoosh wrapper: 0 at the edges of the scroll arc
-    (interstitial just entering / just leaving the viewport), 1 at the
-    middle. Per-path CSS picks that up and staggers each path's
-    opacity off its --i index. Viewport-culled so off-screen
-    interstitials don't run updates.
+    Scroll-triggered entrance (not scroll-scrubbed). When an interstitial
+    first enters the viewport, add .has-entered to its swoosh wrapper —
+    each path's CSS animation un-pauses and plays its natural 900ms +
+    stagger. Sticky: once entered, the cascade doesn't replay.
   */
-  const els = document.querySelectorAll<HTMLElement>("[data-interstitial]");
-  if (els.length) {
-    const targets = Array.from(els)
-      .map((el) => ({
-        el,
-        swoosh: el.querySelector<HTMLElement>("[data-interstitial-swoosh]"),
-      }))
-      .filter(
-        (t): t is { el: HTMLElement; swoosh: HTMLElement } => t.swoosh !== null,
-      );
-
-    function update() {
-      const vh = window.innerHeight;
-      for (const { el, swoosh } of targets) {
-        const rect = el.getBoundingClientRect();
-        if (rect.bottom < -vh || rect.top > vh * 2) continue;
-        const total = vh + rect.height;
-        const traveled = vh - rect.top;
-        const prog = Math.max(0, Math.min(1, traveled / total));
-        const bell = 1 - Math.abs(prog * 2 - 1);
-        swoosh.style.setProperty("--isw-bell", String(bell));
-      }
-    }
-
-    let raf: number | null = null;
-    function onScroll() {
-      if (raf !== null) return;
-      raf = requestAnimationFrame(() => {
-        update();
-        raf = null;
-      });
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    update();
+  const swooshes = document.querySelectorAll<HTMLElement>(
+    "[data-interstitial-swoosh]",
+  );
+  if (swooshes.length && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("has-entered");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" },
+    );
+    swooshes.forEach((el) => io.observe(el));
+  } else {
+    // No IntersectionObserver — show immediately so the swoosh is at least
+    // present (entrance won't trigger, but the graphic isn't missing).
+    swooshes.forEach((el) => el.classList.add("has-entered"));
   }
 </script>
