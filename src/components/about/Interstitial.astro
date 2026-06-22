@@ -22,7 +22,14 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     padding: 4rem 1.5rem;
     overflow: visible;
     position: relative;
-    /* contain: layout — NOT paint, which would clip the spill */
+    /*
+      z-index: 1 so the interstitial (and its bleeding swoosh) composites
+      ABOVE all adjacent section backgrounds in the root stacking context.
+      Section content has z-index: 2 (set in about.astro), keeping text
+      above the spill. contain: layout — NOT paint, which would clip the
+      spill.
+    */
+    z-index: 1;
     contain: layout;
   }
 

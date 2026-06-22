@@ -98,17 +98,20 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   }
 
   /*
-    Elevate every about-section's content above the normal-flow layer that
-    interstitials (and their bleeding swoosh) composite into. The interstitial
-    paints in document order between sections, so without this rule the
-    swoosh's spill would paint OVER adjacent section text. With z-index: 1
-    on the section's root child, text and imagery sit above the swoosh layer
-    while the section's own background (on the about-section wrapper) stays
-    below the spill — exactly the desired sandwich.
+    Three-layer sandwich for the chapter-break swoosh spill:
+      Layer 1 (step 4 in the root stacking context): about-section wrappers
+        — these carry the section's background colour. No explicit z-index.
+      Layer 2 (z-index: 1): the .about-interstitial sections (see Interstitial
+        .astro). Painting at step 5 puts the bleeding swoosh ABOVE every
+        section's background (otherwise the next section's bg would clip
+        the downward bleed in DOM order).
+      Layer 3 (z-index: 2): each section's CONTENT (this rule). Text and
+        imagery sit above the swoosh layer so they remain readable when the
+        spill enters their territory.
   */
   .about-section > * {
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   .scroll-bg-page > .about-section:nth-child(n + 2),
