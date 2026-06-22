@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
-  TrackMeter,
   TrackControlPanel,
   Clip,
   LabelMarker,
@@ -61,10 +60,10 @@ function useAnimatedLevels(seed = 0) {
 
 function TrackMetersDemo() {
   const { levels, peaks } = useAnimatedLevels();
-  // useAnimatedLevels speaks in a 0-96 dial; TrackControlPanel meters want
-  // dB. Map linearly into a useful playback range (-48 dB silence-ish → 0 dB
-  // hot) so the meter bar lives in its expressive zone.
-  const toDb = (v) => -48 + (Math.max(0, Math.min(96, v)) / 96) * 48;
+  // TrackControlPanel.meterLevel* is documented as dB but the component
+  // pipes it straight into TrackMeter's `volume` (0–100 percent). Pass
+  // the raw 0-96 from useAnimatedLevels so the meter inside the panel
+  // actually bounces.
   const tracks = [
     {
       name: "Host",
@@ -102,43 +101,22 @@ function TrackMetersDemo() {
                 trackName={t.name}
                 trackType={t.type}
                 volume={75}
-                meterLevelLeft={toDb(t.l)}
-                meterLevelRight={toDb(t.r)}
-                meterRecentPeakLeft={toDb(t.lp)}
-                meterRecentPeakRight={toDb(t.rp)}
+                meterLevel={t.l}
+                meterLevelLeft={t.l}
+                meterLevelRight={t.r}
+                meterRecentPeak={t.lp}
+                meterRecentPeakLeft={t.lp}
+                meterRecentPeakRight={t.rp}
+                meterMaxPeak={Math.min(96, t.lp + 4)}
+                meterMaxPeakLeft={Math.min(96, t.lp + 4)}
+                meterMaxPeakRight={Math.min(96, t.rp + 4)}
                 trackHeight={112}
               />
             </div>
 
-            {/* Prominent meter — the bouncing bars ARE the demo, so we
-                surface a full-height TrackMeter right next to the
-                control panel where it can't be missed. */}
-            <div
-              className="shrink-0 flex items-stretch py-2 pl-1 pr-2"
-              aria-hidden
-            >
-              <TrackMeter
-                variant={t.type === "mono" ? "mono" : "stereo"}
-                volume={t.l}
-                recentPeak={t.lp}
-                maxPeak={Math.min(96, t.lp + 4)}
-              />
-              {t.type !== "mono" && (
-                <>
-                  <div style={{ width: 2 }} />
-                  <TrackMeter
-                    variant="stereo"
-                    volume={t.r}
-                    recentPeak={t.rp}
-                    maxPeak={Math.min(96, t.rp + 4)}
-                  />
-                </>
-              )}
-            </div>
-
             {/* Sliver of canvas to the right — gives the meters context
                 as actual tracks with audio. Static cosmetic clip + fake
-                waveform; the meters do the moving. */}
+                waveform; the meters inside the panels do the moving. */}
             <div
               className="flex-1 relative"
               style={{
