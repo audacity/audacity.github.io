@@ -146,6 +146,62 @@ function useLoopProgress(durationMs = 5000) {
   return t;
 }
 
+/*
+  Wraps a demo in a simplified track-on-canvas chrome: a ruler/track-name
+  bar at the top, a track head on the left, and a gridded lane area where
+  the demo content lives — so the animation reads as something happening
+  inside Audacity, not floating on a card.
+*/
+function TrackLane({ name = "Audio 1", children }) {
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <div className="absolute inset-0 flex flex-col bg-[rgb(11,13,22)]">
+        {/* Ruler bar */}
+        <div
+          className="h-5 shrink-0 border-b border-white/[0.06]"
+          style={{
+            background:
+              "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.12) 40px 41px)",
+          }}
+        />
+
+        {/* Track row: head + lane */}
+        <div className="flex-1 flex min-h-0">
+          {/* Track head */}
+          <div className="w-[120px] shrink-0 border-r border-white/[0.06] bg-white/[0.02] px-3 py-3 flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-text-contrast/55">
+                {name}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded bg-white/[0.06]" />
+              <span className="w-5 h-5 rounded bg-white/[0.06]" />
+            </div>
+            <div className="h-[3px] rounded bg-white/[0.06] mt-1">
+              <div
+                className="h-full rounded bg-white/30"
+                style={{ width: "70%" }}
+              />
+            </div>
+          </div>
+
+          {/* Lane */}
+          <div
+            className="flex-1 relative"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.05) 40px 41px)",
+            }}
+          >
+            {children}
+          </div>
+        </div>
+      </div>
+    </ThemeProvider>
+  );
+}
+
 function ClipHandlesDemo() {
   const t = useLoopProgress(6000);
   const waveform = useMemo(() => generateSpeechWaveform(3.2, 100), []);
@@ -178,37 +234,27 @@ function ClipHandlesDemo() {
   }
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <TrackLane name="Vocals">
       <div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ padding: "0 28px" }}
+        className="absolute inset-0 flex items-center"
+        style={{ paddingLeft: 18 }}
       >
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: 110,
-          }}
-        >
-          <Clip
-            color="green"
-            name="Take 2"
-            width={width}
-            height={110}
-            waveformData={waveform}
-            selected
-            clipDuration={FULL_DURATION}
-            clipFullDuration={FULL_DURATION}
-            clipStretchFactor={stretchFactor}
-            pixelsPerSecond={PPS}
-            onTrimEdge={() => {}}
-            onStretchEdge={() => {}}
-          />
-        </div>
+        <Clip
+          color="green"
+          name="Take 2"
+          width={width}
+          height={110}
+          waveformData={waveform}
+          selected
+          clipDuration={FULL_DURATION}
+          clipFullDuration={FULL_DURATION}
+          clipStretchFactor={stretchFactor}
+          pixelsPerSecond={PPS}
+          onTrimEdge={() => {}}
+          onStretchEdge={() => {}}
+        />
       </div>
-    </ThemeProvider>
+    </TrackLane>
   );
 }
 
