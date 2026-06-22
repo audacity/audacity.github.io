@@ -1,11 +1,16 @@
 import React from "react";
 
-function ScrollIndicator({ stops, activeIndex, onJump }) {
+function ScrollIndicator({ stops, activeIndex, onJump, visible = true }) {
   return (
     <nav
       aria-label="Tour progress"
       className="absolute z-40 top-1/2 -translate-y-1/2 flex flex-col items-center gap-3"
-      style={{ right: "max(2vw, 24px)" }}
+      style={{
+        left: "max(2vw, 24px)",
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? "auto" : "none",
+        transition: "opacity 240ms ease-out",
+      }}
     >
       {stops.map((s, i) => {
         const active = i === activeIndex;

@@ -812,6 +812,7 @@ function DesktopTour() {
         />
 
         <ScrollIndicator
+          visible={!isIntro}
           stops={STOPS.filter((s) => !s.noScrollPanel)}
           activeIndex={Math.max(
             0,
