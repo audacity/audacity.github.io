@@ -1,9 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Clip,
+  Toolbar,
+  ToolbarButtonGroup,
+  ToolbarDivider,
+  TransportButton,
+  ToolButton,
+  TrackNew,
+  TrackControlPanel,
+  TrackControlSidePanel,
+  TimelineRuler,
+  PlayheadCursor,
+  MasterMeter,
   ThemeProvider,
   darkTheme,
+  lightTheme,
   generateSpeechWaveform,
+  generateDecayingSineWave,
+  generateSineWave,
 } from "@dilsonspickles/components";
 
 function useCycleIndex(count, intervalMs) {
@@ -94,192 +108,379 @@ function AccentDemo() {
 }
 
 // ── Theme change ───────────────────────────────────────────────────────────
-const THEMES = [
+// Real workspace, two themes. Wraps the actual design-system primitives in
+// ThemeProvider and lets the components repaint themselves — same UI you
+// see in the laptop tour, just flipped between dark and light.
+
+const THEMED_TRACKS = [
   {
-    name: "Dark",
-    bg: "#171F25",
-    panel: "#1F2A33",
-    text: "#E4E5E7",
-    muted: "#7C8590",
-    track: "#1A242C",
-    accent: "#7CC4FF",
-    wave: "#7CC4FF",
+    name: "Voice",
+    type: "mono",
+    color: "blue",
+    clips: [
+      { id: "tv1", name: "Take 1", start: 0.4, duration: 4.2 },
+      { id: "tv2", name: "Take 2", start: 5.2, duration: 3.8 },
+    ],
   },
   {
-    name: "Light",
-    bg: "#F4F4F6",
-    panel: "#FFFFFF",
-    text: "#181A1F",
-    muted: "#6B7280",
-    track: "#E8EAEE",
-    accent: "#5B6BCC",
-    wave: "#5B6BCC",
+    name: "Music",
+    type: "stereo",
+    color: "violet",
+    clips: [{ id: "tm1", name: "Bed", start: 0.2, duration: 16 }],
+  },
+  {
+    name: "Ambient",
+    type: "mono",
+    color: "green",
+    clips: [{ id: "ta1", name: "Room tone", start: 1.0, duration: 14 }],
+  },
+  {
+    name: "FX",
+    type: "mono",
+    color: "orange",
+    clips: [
+      { id: "tf1", name: "Hit", start: 3.2, duration: 2.6 },
+      { id: "tf2", name: "Sweep", start: 6.8, duration: 4.4 },
+    ],
   },
 ];
 
 function ThemeDemo() {
-  const i = useCycleIndex(THEMES.length, 3000);
-  const th = THEMES[i];
+  const i = useCycleIndex(2, 3500);
+  const theme = i === 0 ? darkTheme : lightTheme;
+  const themeName = i === 0 ? "Dark" : "Light";
+
+  // Stable waveforms — same shape across theme flips so only the colours
+  // change. Big seeds give the dense peak pattern TrackNew expects.
+  const waveforms = useMemo(
+    () => [
+      generateSpeechWaveform(11),
+      generateSpeechWaveform(13),
+      generateSpeechWaveform(17),
+      generateSpeechWaveform(19),
+    ],
+    [],
+  );
+
+  const tracks = useMemo(
+    () =>
+      THEMED_TRACKS.map((t, ti) => ({
+        ...t,
+        clips: t.clips.map((c) => ({ ...c, waveform: waveforms[ti] })),
+      })),
+    [waveforms],
+  );
+
+  const TRACK_CONTROL_W = 240;
+  const CANVAS_W = 720;
+  const RULER_H = 32;
+  const TRACK_H = 78;
+  const PPS = 36;
+
+  const trackHeights = tracks.map(() => TRACK_H);
+  const totalTracksH =
+    trackHeights.reduce((a, b) => a + b, 0) + tracks.length * 2;
+
   return (
-    <div
-      className="absolute inset-0 flex items-center justify-center p-7"
-      style={{ transition: "background 480ms ease", background: th.bg }}
-    >
+    <ThemeProvider theme={theme}>
       <div
-        className="w-full max-w-[320px] rounded-lg overflow-hidden"
+        className="absolute inset-0 overflow-hidden"
         style={{
-          background: th.panel,
-          boxShadow: "0 12px 30px rgba(0,0,0,0.25)",
+          background: theme.background.surface.subtle,
           transition: "background 480ms ease",
         }}
       >
-        {/* Transport strip */}
         <div
-          className="flex items-center gap-2 px-3 py-2"
           style={{
-            background: th.panel,
-            borderBottom: `1px solid ${th.muted}33`,
-            transition: "background 480ms ease, border-color 480ms ease",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: TRACK_CONTROL_W + CANVAS_W + 40,
+            // Slightly taller than the card so it clips at the bottom too,
+            // reading as a window onto a larger workspace.
+            height: 60 + RULER_H + totalTracksH + 20,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <div
-            className="w-4 h-4 rounded-full"
-            style={{
-              background: th.accent,
-              transition: "background 480ms ease",
-            }}
-          />
-          <div
-            className="w-4 h-4 rounded-sm"
-            style={{
-              background: th.muted,
-              transition: "background 480ms ease",
-            }}
-          />
-          <div
-            className="ml-auto font-mono text-[10px]"
-            style={{ color: th.text, transition: "color 480ms ease" }}
+          <Toolbar
+            rightContent={
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  paddingRight: 8,
+                }}
+              >
+                <ToolButton icon="microphone" ariaLabel="Recording level" />
+                <div style={{ width: 160 }}>
+                  <MasterMeter
+                    levelLeft={-12}
+                    levelRight={-14}
+                    recentPeakLeft={-8}
+                    recentPeakRight={-10}
+                    volume={0.8}
+                  />
+                </div>
+              </div>
+            }
           >
-            00:00:14
+            <ToolbarButtonGroup>
+              <TransportButton icon="play" ariaLabel="Play" />
+              <TransportButton icon="stop" ariaLabel="Stop" />
+              <TransportButton icon="record" ariaLabel="Record" />
+              <TransportButton icon="skip-back" ariaLabel="Skip to start" />
+              <TransportButton icon="skip-forward" ariaLabel="Skip to end" />
+            </ToolbarButtonGroup>
+            <ToolbarDivider />
+            <ToolbarButtonGroup>
+              <ToolButton icon="cut" ariaLabel="Cut" />
+              <ToolButton icon="copy" ariaLabel="Copy" />
+              <ToolButton icon="paste" ariaLabel="Paste" />
+            </ToolbarButtonGroup>
+            <ToolbarDivider />
+            <ToolbarButtonGroup>
+              <ToolButton icon="zoom-in" ariaLabel="Zoom in" />
+              <ToolButton icon="zoom-out" ariaLabel="Zoom out" />
+              <ToolButton icon="zoom-to-fit" ariaLabel="Zoom to fit" />
+            </ToolbarButtonGroup>
+          </Toolbar>
+
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              minHeight: 0,
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
+              <TrackControlSidePanel trackHeights={trackHeights}>
+                {tracks.map((t, idx) => (
+                  <TrackControlPanel
+                    key={idx}
+                    trackName={t.name}
+                    trackType={t.type}
+                    volume={75}
+                    meterLevelLeft={48 - idx * 4}
+                    meterLevelRight={44 - idx * 4}
+                    meterRecentPeakLeft={62 - idx * 4}
+                    meterRecentPeakRight={58 - idx * 4}
+                    trackHeight={TRACK_H}
+                  />
+                ))}
+              </TrackControlSidePanel>
+            </div>
+
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                minWidth: 0,
+                position: "relative",
+              }}
+            >
+              <TimelineRuler
+                width={CANVAS_W}
+                height={RULER_H}
+                pixelsPerSecond={PPS}
+                totalDuration={CANVAS_W / PPS}
+                timeFormat="minutes-seconds"
+              />
+              <div style={{ flex: 1, paddingTop: 2 }}>
+                {tracks.map((t, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      position: "relative",
+                      height: TRACK_H,
+                      marginBottom: 2,
+                    }}
+                  >
+                    <TrackNew
+                      clips={t.clips}
+                      trackIndex={idx}
+                      width={CANVAS_W}
+                      height={TRACK_H}
+                      pixelsPerSecond={PPS}
+                      color={t.color}
+                      onClipTrimEdge={() => {}}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  pointerEvents: "none",
+                }}
+              >
+                <PlayheadCursor
+                  position={5.4}
+                  pixelsPerSecond={PPS}
+                  height={RULER_H + totalTracksH}
+                  showTopIcon
+                />
+              </div>
+            </div>
           </div>
         </div>
-        {/* Tracks */}
-        {[0, 1].map((row) => (
-          <div
-            key={row}
-            className="flex items-stretch"
-            style={{
-              borderBottom: row === 0 ? `1px solid ${th.muted}22` : "none",
-              transition: "border-color 480ms ease",
-            }}
-          >
-            <div
-              className="px-3 py-2 text-[10px] font-mono"
-              style={{
-                width: 64,
-                background: th.track,
-                color: th.text,
-                transition: "background 480ms ease, color 480ms ease",
-              }}
-            >
-              Track {row + 1}
-            </div>
-            <div
-              className="flex-1 relative py-3"
-              style={{
-                background: th.bg,
-                transition: "background 480ms ease",
-              }}
-            >
-              <svg
-                viewBox="0 0 120 20"
-                preserveAspectRatio="none"
-                style={{ width: "100%", height: 20 }}
-              >
-                <path
-                  d="M0 10 Q 10 4 20 10 T 40 10 T 60 10 T 80 10 T 100 10 T 120 10"
-                  fill="none"
-                  stroke={th.wave}
-                  strokeWidth="1.4"
-                  opacity={0.7}
-                  style={{ transition: "stroke 480ms ease" }}
-                />
-              </svg>
-            </div>
-          </div>
-        ))}
+
+        {/* Theme name pill — small badge so you know which mode you're
+            seeing while it cycles. */}
+        <div
+          style={{
+            position: "absolute",
+            left: 14,
+            bottom: 12,
+            padding: "5px 12px",
+            fontFamily: "ui-monospace, monospace",
+            fontSize: 10,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: theme.foreground.text.primary,
+            background: theme.background.surface.elevated,
+            border: `1px solid ${theme.border.onElevated}`,
+            borderRadius: 999,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+          }}
+        >
+          {themeName}
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
 // ── Clip colours ───────────────────────────────────────────────────────────
-const CLIP_COLORS = [
+// Masonry of clips alternating between the design system's named palette
+// (cyan/blue/violet/magenta/red/orange/yellow/green/teal) and the "classic"
+// preset — the Audacity-3-style single-blue look the design system ships.
+const CLIP_PALETTE = [
+  "cyan",
   "blue",
-  "green",
   "violet",
+  "magenta",
   "red",
   "orange",
   "yellow",
-  "cyan",
-  "pink",
-  "gray",
+  "green",
+  "teal",
+];
+
+const MASONRY_ROWS = [
+  [
+    { w: 215, name: "VO take 1" },
+    { w: 175, name: "VO take 2" },
+    { w: 265, name: "Music bed" },
+    { w: 125, name: "FX" },
+  ],
+  [
+    { w: 315, name: "Drums" },
+    { w: 165, name: "Bass" },
+    { w: 275, name: "Synth" },
+  ],
+  [
+    { w: 175, name: "Lead" },
+    { w: 140, name: "Pad" },
+    { w: 215, name: "Hi-hat" },
+    { w: 225, name: "Verse" },
+  ],
+  [
+    { w: 250, name: "Chorus" },
+    { w: 300, name: "Bridge" },
+    { w: 215, name: "Outro" },
+  ],
 ];
 
 function ClipColoursDemo() {
-  const i = useCycleIndex(CLIP_COLORS.length, 1600);
-  const waveforms = React.useMemo(
-    () => [
-      generateSpeechWaveform(2.8, 100),
-      generateSpeechWaveform(2.8, 110),
-      generateSpeechWaveform(2.8, 120),
-    ],
-    [],
+  const i = useCycleIndex(2, 3200);
+  const useClassic = i === 1;
+
+  // One waveform per clip slot — generated once and stable across the
+  // colour flip. samplesPerSecond bumped to ~900 so each clip reads as a
+  // dense, "solid" peak block rather than a sparse line, and we rotate
+  // between three generators (speech / decaying-sine / sine) so adjacent
+  // clips look genuinely different rather than minor reshuffles.
+  const flatClips = useMemo(() => MASONRY_ROWS.flatMap((row) => row), []);
+  const waveforms = useMemo(
+    () =>
+      flatClips.map((c, idx) => {
+        const duration = Math.max(0.8, c.w / 60);
+        const sps = 900;
+        const kind = idx % 3;
+        if (kind === 0) return generateSpeechWaveform(duration, sps);
+        if (kind === 1) return generateDecayingSineWave(duration, sps);
+        const freq = 90 + ((idx * 37) % 220);
+        return generateSineWave(duration, freq, sps);
+      }),
+    [flatClips],
   );
+
+  const CLIP_H = 86;
+  const PPS = 60;
+  let clipIdx = -1;
+
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="absolute inset-0 flex items-center justify-center gap-3 p-7">
-        <div style={{ filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.45))" }}>
-          <Clip
-            color="blue"
-            name="Take 1"
-            width={130}
-            height={92}
-            waveformData={waveforms[0]}
-            clipDuration={2.8}
-            pixelsPerSecond={46}
-            onTrimEdge={() => {}}
-          />
-        </div>
+      <div
+        className="absolute inset-0 overflow-hidden flex flex-col items-center justify-center gap-2 p-2"
+        style={{ background: darkTheme.background.canvas.default }}
+      >
+        {MASONRY_ROWS.map((row, ri) => (
+          <div key={ri} style={{ display: "flex", gap: 6 }}>
+            {row.map((c) => {
+              clipIdx += 1;
+              const color = useClassic
+                ? "classic"
+                : CLIP_PALETTE[clipIdx % CLIP_PALETTE.length];
+              const duration = c.w / PPS;
+              return (
+                <div
+                  key={`${ri}-${c.name}`}
+                  style={{
+                    transition: "filter 320ms ease",
+                    filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.35))",
+                  }}
+                >
+                  <Clip
+                    color={color}
+                    name={c.name}
+                    width={c.w}
+                    height={CLIP_H}
+                    waveformData={waveforms[clipIdx]}
+                    clipDuration={duration}
+                    pixelsPerSecond={PPS}
+                    onTrimEdge={() => {}}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ))}
+
+        {/* Mode label — tiny pill so the alternation is legible at a glance. */}
         <div
           style={{
-            filter: "drop-shadow(0 14px 22px rgba(0,0,0,0.55))",
-            transition: "transform 240ms ease",
+            position: "absolute",
+            left: 14,
+            bottom: 12,
+            padding: "5px 12px",
+            fontFamily: "ui-monospace, monospace",
+            fontSize: 10,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "#fff",
+            background: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.16)",
+            borderRadius: 999,
           }}
         >
-          <Clip
-            color={CLIP_COLORS[i]}
-            name="Take 2"
-            width={130}
-            height={92}
-            waveformData={waveforms[1]}
-            clipDuration={2.8}
-            pixelsPerSecond={46}
-            selected
-            onTrimEdge={() => {}}
-          />
-        </div>
-        <div style={{ filter: "drop-shadow(0 10px 18px rgba(0,0,0,0.45))" }}>
-          <Clip
-            color="green"
-            name="Take 3"
-            width={130}
-            height={92}
-            waveformData={waveforms[2]}
-            clipDuration={2.8}
-            pixelsPerSecond={46}
-            onTrimEdge={() => {}}
-          />
+          {useClassic ? "Classic" : "Palette"}
         </div>
       </div>
     </ThemeProvider>
@@ -430,7 +631,7 @@ const CARDS = [
 function CustomisableUI() {
   return (
     <section className="bg-background-dark customisable-section px-6 lg:px-10">
-      <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col">
+      <div className="max-w-[1400px] mx-auto w-full h-full flex flex-col">
         <header className="max-w-3xl shrink-0">
           <h2 className="font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
             Fully customisable UI
