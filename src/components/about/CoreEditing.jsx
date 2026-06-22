@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
   TrackMeter,
+  TrackControlPanel,
   Clip,
   LabelMarker,
   TransportButton,
@@ -52,80 +53,57 @@ function useAnimatedLevels(seed = 0) {
 
 function TrackMetersDemo() {
   const { levels, peaks } = useAnimatedLevels();
+  // useAnimatedLevels speaks in a 0-96 dial; TrackControlPanel meters want
+  // dB. Map linearly into a useful playback range (-48 dB silence-ish → 0 dB
+  // hot) so the meter bar lives in its expressive zone.
+  const toDb = (v) => -48 + (Math.max(0, Math.min(96, v)) / 96) * 48;
+  const tracks = [
+    {
+      name: "Host",
+      type: "stereo",
+      l: levels.a,
+      r: Math.max(0, levels.a - 4),
+      lp: peaks.a,
+      rp: Math.max(0, peaks.a - 3),
+    },
+    {
+      name: "Guest",
+      type: "stereo",
+      l: levels.b,
+      r: Math.max(0, levels.b - 5),
+      lp: peaks.b,
+      rp: Math.max(0, peaks.b - 4),
+    },
+    {
+      name: "Music bed",
+      type: "mono",
+      l: levels.c,
+      r: levels.c,
+      lp: peaks.c,
+      rp: peaks.c,
+    },
+  ];
+
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="absolute inset-0 flex items-center justify-center gap-8 p-7">
-        <div className="flex flex-col items-center gap-3">
+      <div className="absolute inset-0 flex flex-col gap-px bg-[rgb(11,13,22)] py-3">
+        {tracks.map((t, i) => (
           <div
-            style={{
-              height: 220,
-              display: "flex",
-              alignItems: "stretch",
-            }}
+            key={i}
+            className="flex-1 min-h-0 flex items-stretch px-3 bg-white/[0.02]"
           >
-            <TrackMeter
-              variant="stereo"
-              volume={levels.a}
-              recentPeak={peaks.a}
-              maxPeak={Math.min(96, peaks.a + 6)}
-            />
-            <div style={{ width: 2 }} />
-            <TrackMeter
-              variant="stereo"
-              volume={Math.max(0, levels.a - 6)}
-              recentPeak={Math.max(0, peaks.a - 4)}
-              maxPeak={Math.min(96, peaks.a + 4)}
+            <TrackControlPanel
+              trackName={t.name}
+              trackType={t.type}
+              volume={75}
+              meterLevelLeft={toDb(t.l)}
+              meterLevelRight={toDb(t.r)}
+              meterRecentPeakLeft={toDb(t.lp)}
+              meterRecentPeakRight={toDb(t.rp)}
+              trackHeight={92}
             />
           </div>
-          <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-contrast/45">
-            Host
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <div
-            style={{
-              height: 220,
-              display: "flex",
-              alignItems: "stretch",
-            }}
-          >
-            <TrackMeter
-              variant="stereo"
-              volume={levels.b}
-              recentPeak={peaks.b}
-              maxPeak={Math.min(96, peaks.b + 6)}
-            />
-            <div style={{ width: 2 }} />
-            <TrackMeter
-              variant="stereo"
-              volume={Math.max(0, levels.b - 4)}
-              recentPeak={Math.max(0, peaks.b - 3)}
-              maxPeak={Math.min(96, peaks.b + 4)}
-            />
-          </div>
-          <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-contrast/45">
-            Guest
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <div
-            style={{
-              height: 220,
-              display: "flex",
-              alignItems: "stretch",
-            }}
-          >
-            <TrackMeter
-              variant="mono"
-              volume={levels.c}
-              recentPeak={peaks.c}
-              maxPeak={Math.min(96, peaks.c + 6)}
-            />
-          </div>
-          <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-contrast/45">
-            Music
-          </span>
-        </div>
+        ))}
       </div>
     </ThemeProvider>
   );
