@@ -616,86 +616,83 @@ function LoopingDemo() {
   const RULER_H = 40;
   const TRACK_H = 72;
 
-  // Loop region in seconds — sits across the Chorus area of the project.
-  const LOOP_START = 3.0;
-  const LOOP_END = 5.4;
+  // Loop region in seconds — brackets a single beat-loop cell so the
+  // repeated clip pattern reads visually as "loopable".
+  const LOOP_START = 2.0;
+  const LOOP_END = 4.0;
 
   // Playhead scrubs from LOOP_START to LOOP_END, then snaps back.
   const playheadTime = LOOP_START + (LOOP_END - LOOP_START) * t;
 
-  // Same shape as the labels project — gives the loop region something
-  // real to scrub through.
+  // Beat-making project — short repeating clips form a visually
+  // distinctive pattern from the labels demo's sparse, varied
+  // arrangement. Different track names, fewer tracks (3 instead of 4),
+  // different colour palette.
   const TRACKS = [
     {
-      name: "Vocals",
-      color: "cyan",
+      name: "Kick & Snare",
+      color: "yellow",
       clips: [
         {
           id: 1,
-          name: "V1",
-          start: 0.2,
-          duration: 2.4,
+          name: "Bar 1",
+          start: 0,
+          duration: 2.0,
           waveform: LOOPING_WAVEFORMS[0],
         },
         {
           id: 2,
-          name: "V2",
-          start: 3.0,
-          duration: 1.8,
+          name: "Bar 2",
+          start: 2.0,
+          duration: 2.0,
           waveform: LOOPING_WAVEFORMS[0],
         },
         {
           id: 3,
-          name: "V3",
-          start: 5.2,
-          duration: 2.4,
+          name: "Bar 3",
+          start: 4.0,
+          duration: 2.0,
+          waveform: LOOPING_WAVEFORMS[0],
+        },
+        {
+          id: 4,
+          name: "Bar 4",
+          start: 6.0,
+          duration: 2.0,
           waveform: LOOPING_WAVEFORMS[0],
         },
       ],
     },
     {
-      name: "Harmonies",
-      color: "violet",
+      name: "Bass",
+      color: "teal",
       clips: [
         {
           id: 10,
-          name: "H1",
-          start: 3.0,
-          duration: 1.8,
-          waveform: LOOPING_WAVEFORMS[1],
-        },
-        {
-          id: 11,
-          name: "H2",
-          start: 5.2,
-          duration: 2.4,
+          name: "Bassline",
+          start: 0.5,
+          duration: 7.0,
           waveform: LOOPING_WAVEFORMS[1],
         },
       ],
     },
     {
-      name: "Drums",
-      color: "orange",
+      name: "Synth lead",
+      color: "red",
       clips: [
         {
           id: 20,
-          name: "Loop",
-          start: 0.2,
-          duration: 7.4,
+          name: "Hook",
+          start: 2.0,
+          duration: 2.0,
           waveform: LOOPING_WAVEFORMS[2],
         },
-      ],
-    },
-    {
-      name: "Music bed",
-      color: "magenta",
-      clips: [
         {
-          id: 30,
-          name: "Pad",
-          start: 0.5,
-          duration: 6.8,
-          waveform: LOOPING_WAVEFORMS[3],
+          id: 21,
+          name: "Hook",
+          start: 4.4,
+          duration: 1.4,
+          waveform: LOOPING_WAVEFORMS[2],
         },
       ],
     },
