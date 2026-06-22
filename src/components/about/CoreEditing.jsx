@@ -718,7 +718,6 @@ function LoopingDemo() {
           loopRegionEnabled
           loopRegionStart={LOOP_START}
           loopRegionEnd={LOOP_END}
-          cursorPosition={playheadTime}
         />
         <div style={{ flex: 1, position: "relative", paddingTop: 2 }}>
           {TRACKS.map((track, i) => (
@@ -760,8 +759,7 @@ function LoopingDemo() {
             />
           ))}
 
-          {/* Design system PlayheadCursor — no top icon (don't want
-              the stalk poking up into the ruler), big height so the
+          {/* Design system PlayheadCursor — icon in the ruler stays,
               stalk runs to the bottom of the card; overflow:hidden
               clips the overshoot. */}
           <div
@@ -776,6 +774,7 @@ function LoopingDemo() {
               position={playheadTime}
               pixelsPerSecond={PPS}
               height={9999}
+              showTopIcon
             />
           </div>
         </div>
