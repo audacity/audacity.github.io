@@ -746,7 +746,7 @@ function LoopingDemo() {
               right stalk at the end position. Both lifted above the
               clips with a high z-index. */}
           {[
-            { time: LOOP_START, offset: 2 },
+            { time: LOOP_START, offset: 10 },
             { time: LOOP_END, offset: 0 },
           ].map(({ time, offset }) => (
             <div
