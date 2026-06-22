@@ -778,7 +778,7 @@ function DesktopTour() {
         </div>
 
         <div
-          className="absolute top-1/2 z-20 px-8 lg:px-16 max-w-[320px]"
+          className="absolute top-1/2 z-20 px-8 lg:px-12 max-w-[380px]"
           style={{
             [panelOnRight ? "right" : "left"]: 0,
             transform: "translateY(-50%)",
