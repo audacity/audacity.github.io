@@ -97,6 +97,20 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     position: relative;
   }
 
+  /*
+    Elevate every about-section's content above the normal-flow layer that
+    interstitials (and their bleeding swoosh) composite into. The interstitial
+    paints in document order between sections, so without this rule the
+    swoosh's spill would paint OVER adjacent section text. With z-index: 1
+    on the section's root child, text and imagery sit above the swoosh layer
+    while the section's own background (on the about-section wrapper) stays
+    below the spill — exactly the desired sandwich.
+  */
+  .about-section > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .scroll-bg-page > .about-section:nth-child(n + 2),
   .scroll-bg-page > .about-section:nth-child(n + 2) section {
     min-height: 100vh;
