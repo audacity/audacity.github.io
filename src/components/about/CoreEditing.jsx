@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
   TrackControlPanel,
+  TrackControlSidePanel,
   Clip,
   LabelMarker,
   TransportButton,
@@ -91,13 +92,19 @@ function TrackMetersDemo() {
     },
   ];
 
+  const trackHeights = tracks.map(() => 112);
+
   return (
     <ThemeProvider theme={darkTheme}>
-      <div className="absolute inset-0 flex flex-col gap-px bg-[rgb(11,13,22)] overflow-hidden">
-        {tracks.map((t, i) => (
-          <div key={i} className="flex items-stretch bg-white/[0.02]">
-            <div className="shrink-0">
+      <div className="absolute inset-0 flex bg-[#171F25] overflow-hidden">
+        {/* Track headers, wrapped in the proper TrackControlSidePanel
+            container so they sit in the real Audacity track-rack chrome
+            and the column extends to the bottom of the canvas. */}
+        <div className="shrink-0">
+          <TrackControlSidePanel trackHeights={trackHeights}>
+            {tracks.map((t, i) => (
               <TrackControlPanel
+                key={i}
                 trackName={t.name}
                 trackType={t.type}
                 volume={75}
@@ -110,18 +117,23 @@ function TrackMetersDemo() {
                 meterMaxPeak={Math.min(96, t.lp + 4)}
                 meterMaxPeakLeft={Math.min(96, t.lp + 4)}
                 meterMaxPeakRight={Math.min(96, t.rp + 4)}
-                trackHeight={112}
+                trackHeight={trackHeights[i]}
               />
-            </div>
+            ))}
+          </TrackControlSidePanel>
+        </div>
 
-            {/* Sliver of canvas to the right — gives the meters context
-                as actual tracks with audio. Static cosmetic clip + fake
-                waveform; the meters inside the panels do the moving. */}
+        {/* Canvas lanes — match the track row heights so the clips line
+            up with their control panels on the left. */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {tracks.map((t, i) => (
             <div
-              className="flex-1 relative"
+              key={i}
+              className="relative shrink-0"
               style={{
+                height: trackHeights[i],
                 backgroundImage:
-                  "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.05) 40px 41px)",
+                  "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.04) 40px 41px)",
               }}
             >
               <div
@@ -161,8 +173,8 @@ function TrackMetersDemo() {
                 </svg>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </ThemeProvider>
   );
