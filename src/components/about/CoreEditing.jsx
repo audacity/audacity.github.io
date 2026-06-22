@@ -59,6 +59,14 @@ function useAnimatedLevels(seed = 0) {
   return { levels, peaks };
 }
 
+// Per-track waveforms for the meters demo — generated once so the clips
+// look consistent and aren't regenerated every render.
+const METERS_WAVEFORMS = [
+  generateSpeechWaveform(4.2, 102),
+  generateSpeechWaveform(3.6, 207),
+  generateSpeechWaveform(5.0, 314),
+];
+
 function TrackMetersDemo() {
   const { levels, peaks } = useAnimatedLevels();
   // TrackControlPanel.meterLevel* is documented as dB but the component
@@ -69,6 +77,8 @@ function TrackMetersDemo() {
     {
       name: "Host",
       type: "stereo",
+      color: "blue",
+      duration: 4.2,
       l: levels.a,
       r: Math.max(0, levels.a - 4),
       lp: peaks.a,
@@ -77,6 +87,8 @@ function TrackMetersDemo() {
     {
       name: "Guest",
       type: "stereo",
+      color: "blue",
+      duration: 3.6,
       l: levels.b,
       r: Math.max(0, levels.b - 5),
       lp: peaks.b,
@@ -85,6 +97,8 @@ function TrackMetersDemo() {
     {
       name: "Music bed",
       type: "mono",
+      color: "pink",
+      duration: 5.0,
       l: levels.c,
       r: levels.c,
       lp: peaks.c,
@@ -93,6 +107,7 @@ function TrackMetersDemo() {
   ];
 
   const trackHeights = tracks.map(() => 112);
+  const PPS = 50;
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -131,10 +146,10 @@ function TrackMetersDemo() {
           </TrackControlSidePanel>
         </div>
 
-        {/* Canvas lanes — match the track row heights so the clips line
-            up with their control panels on the left. Flex column grows
-            to fill the card; an empty filler at the bottom mirrors the
-            unused rack space below the last track. */}
+        {/* Canvas lanes — match the track row heights AND inter-row
+            spacing of the TrackControlSidePanel (which separates its
+            rows with a 2px gap) so the clips line up with their control
+            panels on the left. Flex column grows to fill the card. */}
         <div className="flex-1 flex flex-col min-w-0 self-stretch">
           {tracks.map((t, i) => (
             <div
@@ -142,45 +157,27 @@ function TrackMetersDemo() {
               className="relative shrink-0"
               style={{
                 height: trackHeights[i],
+                marginBottom: i < tracks.length - 1 ? 2 : 0,
                 backgroundImage:
                   "repeating-linear-gradient(90deg, transparent 0 40px, rgba(255,255,255,0.04) 40px 41px)",
               }}
             >
               <div
-                className="absolute inset-y-3 left-3 rounded-md"
-                style={{
-                  width: `${60 + i * 12}%`,
-                  background:
-                    i === 2
-                      ? "linear-gradient(180deg, rgba(255,150,200,0.32), rgba(255,150,200,0.12))"
-                      : "linear-gradient(180deg, rgba(150,210,255,0.32), rgba(150,210,255,0.12))",
-                  border:
-                    i === 2
-                      ? "1px solid rgba(255,150,200,0.42)"
-                      : "1px solid rgba(150,210,255,0.42)",
-                }}
+                className="absolute inset-y-2 left-3"
+                style={{ width: (METERS_WAVEFORMS[i].length / 100) * PPS }}
               >
-                <svg
-                  viewBox="0 0 400 80"
-                  preserveAspectRatio="none"
-                  className="absolute inset-0 w-full h-full opacity-70"
-                  aria-hidden
-                >
-                  {Array.from({ length: 80 }).map((_, j) => {
-                    const x = (j / 80) * 400;
-                    const h = 8 + (Math.sin(j * 0.5 + i) * 0.5 + 0.5) * 60;
-                    return (
-                      <rect
-                        key={j}
-                        x={x}
-                        y={40 - h / 2}
-                        width={3}
-                        height={h}
-                        fill={i === 2 ? "#ff96c8" : "#96d2ff"}
-                      />
-                    );
-                  })}
-                </svg>
+                <Clip
+                  color={t.color}
+                  name={t.name}
+                  width={t.duration * PPS}
+                  height={trackHeights[i] - 16}
+                  waveformData={METERS_WAVEFORMS[i]}
+                  clipDuration={t.duration}
+                  clipFullDuration={t.duration}
+                  pixelsPerSecond={PPS}
+                  onTrimEdge={() => {}}
+                  onStretchEdge={() => {}}
+                />
               </div>
             </div>
           ))}
