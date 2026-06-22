@@ -62,11 +62,13 @@ function useAnimatedLevels(seed = 0) {
 }
 
 // Per-track waveforms for the meters demo — generated once so the clips
-// look consistent and aren't regenerated every render.
+// look consistent and aren't regenerated every render. Single-integer
+// seed so the function returns a long/dense sample array that TrackNew
+// renders as proper waveform peaks (not sparse dots).
 const METERS_WAVEFORMS = [
-  generateSpeechWaveform(4.2, 102),
-  generateSpeechWaveform(3.6, 207),
-  generateSpeechWaveform(5.0, 314),
+  generateSpeechWaveform(11),
+  generateSpeechWaveform(13),
+  generateSpeechWaveform(17),
 ];
 
 function TrackMetersDemo() {
@@ -298,7 +300,11 @@ function TrackLane({ name = "Audio 1", children }) {
   );
 }
 
-const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(3.2, 100);
+// Match WorkspaceCanvas's calling convention — pass a single integer
+// "seed" so the function generates a long, dense waveform. Calling with
+// (3.2, 100) only produces ~320 samples which TrackNew renders as sparse
+// dots; a longer waveform gives the clip a proper dense peak pattern.
+const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(12);
 
 function ClipHandlesDemo() {
   const t = useLoopProgress(8000);
