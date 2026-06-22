@@ -427,32 +427,108 @@ function ClipHandlesDemo() {
   );
 }
 
-const LABELS_AUDIO_WAVEFORM = generateSpeechWaveform(15);
+// A handful of waveforms reused across the demo's tracks.
+const LABELS_WAVEFORMS = [
+  generateSpeechWaveform(11),
+  generateSpeechWaveform(13),
+  generateSpeechWaveform(17),
+  generateSpeechWaveform(19),
+];
 
 function LabelsDemo() {
   const t = useLoopProgress(8000);
-  const PPS = 100;
+  const PPS = 80;
   const CANVAS_W = 720;
   const LABEL_TRACK_H = 50;
-  const AUDIO_TRACK_H = 160;
+  const AUDIO_TRACK_H = 78;
 
-  // Mix of point and region labels — render with LabelMarker (the design
-  // system's actual label component), positioned over time across a label
-  // track strip. Each appears once the loop reaches its `at` threshold.
+  // Labels mark a song structure — point markers for hits, a region for
+  // the chorus. Each appears once the loop reaches its threshold.
   const LABELS = [
-    { id: 1, text: "Intro", type: "point", at: 0.05, x: 40 },
-    { id: 2, text: "Hook", type: "point", at: 0.2, x: 180 },
-    { id: 3, text: "Chorus", type: "region", at: 0.4, x: 300, width: 140 },
-    { id: 4, text: "Verse", type: "point", at: 0.65, x: 540 },
+    { id: 1, text: "Intro", type: "point", at: 0.05, x: 20 },
+    { id: 2, text: "Verse 1", type: "point", at: 0.15, x: 130 },
+    { id: 3, text: "Chorus", type: "region", at: 0.32, x: 240, width: 140 },
+    { id: 4, text: "Verse 2", type: "point", at: 0.5, x: 410 },
+    { id: 5, text: "Bridge", type: "point", at: 0.62, x: 520 },
+    { id: 6, text: "Outro", type: "point", at: 0.78, x: 620 },
   ];
 
-  const audioClips = [
+  // Multi-track project — vocals, harmonies, drums, music bed — each
+  // with multiple clips at different positions, so the labels feel like
+  // they're annotating an actual session in progress.
+  const TRACKS = [
     {
-      id: 100,
-      name: "Take 1",
-      start: 0.2,
-      duration: 6.4,
-      waveform: LABELS_AUDIO_WAVEFORM,
+      name: "Vocals",
+      color: "cyan",
+      clips: [
+        {
+          id: 1,
+          name: "V1",
+          start: 0.2,
+          duration: 2.4,
+          waveform: LABELS_WAVEFORMS[0],
+        },
+        {
+          id: 2,
+          name: "V2",
+          start: 3.0,
+          duration: 1.8,
+          waveform: LABELS_WAVEFORMS[0],
+        },
+        {
+          id: 3,
+          name: "V3",
+          start: 5.2,
+          duration: 2.4,
+          waveform: LABELS_WAVEFORMS[0],
+        },
+      ],
+    },
+    {
+      name: "Harmonies",
+      color: "violet",
+      clips: [
+        {
+          id: 10,
+          name: "H1",
+          start: 3.0,
+          duration: 1.8,
+          waveform: LABELS_WAVEFORMS[1],
+        },
+        {
+          id: 11,
+          name: "H2",
+          start: 5.2,
+          duration: 2.4,
+          waveform: LABELS_WAVEFORMS[1],
+        },
+      ],
+    },
+    {
+      name: "Drums",
+      color: "orange",
+      clips: [
+        {
+          id: 20,
+          name: "Loop",
+          start: 0.2,
+          duration: 7.4,
+          waveform: LABELS_WAVEFORMS[2],
+        },
+      ],
+    },
+    {
+      name: "Music bed",
+      color: "magenta",
+      clips: [
+        {
+          id: 30,
+          name: "Pad",
+          start: 0.5,
+          duration: 6.8,
+          waveform: LABELS_WAVEFORMS[3],
+        },
+      ],
     },
   ];
 
@@ -463,7 +539,7 @@ function LabelsDemo() {
         style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
         <div style={{ flex: 1, paddingTop: 8 }}>
-          {/* Label track strip — hosts the LabelMarker components. */}
+          {/* Label track strip — LabelMarker components reveal one-by-one. */}
           <div
             style={{
               position: "relative",
@@ -497,24 +573,28 @@ function LabelsDemo() {
             })}
           </div>
 
-          {/* Audio track with the clip beneath the labels. */}
-          <div
-            style={{
-              position: "relative",
-              height: AUDIO_TRACK_H,
-              marginTop: 2,
-            }}
-          >
-            <TrackNew
-              clips={audioClips}
-              trackIndex={0}
-              width={CANVAS_W}
-              height={AUDIO_TRACK_H}
-              pixelsPerSecond={PPS}
-              color="blue"
-              onClipTrimEdge={() => {}}
-            />
-          </div>
+          {/* Multi-track session — gives the labels a real project to
+              annotate, not just a single clip. */}
+          {TRACKS.map((track, i) => (
+            <div
+              key={i}
+              style={{
+                position: "relative",
+                height: AUDIO_TRACK_H,
+                marginTop: 2,
+              }}
+            >
+              <TrackNew
+                clips={track.clips}
+                trackIndex={i}
+                width={CANVAS_W}
+                height={AUDIO_TRACK_H}
+                pixelsPerSecond={PPS}
+                color={track.color}
+                onClipTrimEdge={() => {}}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </ThemeProvider>
