@@ -106,11 +106,14 @@ function TrackMetersDemo() {
     },
   ];
 
-  const trackHeights = tracks.map(() => 112);
-  // Sized for the cramped canvas column inside a 420px card. Real-world
-  // PPS is much higher in WorkspaceCanvas (40); here we tuck it down to
-  // ~25 so clips fit in the lane next to the side panel without
-  // overflowing.
+  // TrackControlPanel at its default height needs ~240px to fit name +
+  // gain + M/S + Effects — at 112 the rows silently stretched and broke
+  // alignment with the canvas. Use 'truncated' (drops the Effects button)
+  // so 112 actually renders. Pass the same height to BOTH the side panel
+  // and the canvas lanes so rows line up.
+  const TRACK_HEIGHT = 112;
+  const SIDE_PANEL_W = 232;
+  const trackHeights = tracks.map(() => TRACK_HEIGHT);
   const PPS = 24;
 
   return (
@@ -127,7 +130,7 @@ function TrackMetersDemo() {
         {/* Track headers, wrapped in the proper TrackControlSidePanel
             container so they sit in the real Audacity track-rack chrome
             and the column extends to the bottom of the canvas. */}
-        <div className="shrink-0 self-stretch">
+        <div className="shrink-0 self-stretch" style={{ width: SIDE_PANEL_W }}>
           <TrackControlSidePanel trackHeights={trackHeights}>
             {tracks.map((t, i) => (
               <TrackControlPanel
@@ -135,6 +138,7 @@ function TrackMetersDemo() {
                 trackName={t.name}
                 trackType={t.type}
                 volume={75}
+                height="truncated"
                 meterLevel={t.l}
                 meterLevelLeft={t.l}
                 meterLevelRight={t.r}
