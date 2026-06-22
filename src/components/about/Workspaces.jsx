@@ -83,7 +83,7 @@ function Workspaces() {
             ScrollyLaptopTour.
           */}
           <div
-            className="mt-9 lg:mt-10 mx-4 sm:mx-6 h-[340px] sm:h-[380px] lg:h-[420px] overflow-hidden rounded-t-2xl border border-white/20 border-b-0 bg-black shadow-[0_28px_60px_rgba(0,0,0,0.55)]"
+            className="mt-9 lg:mt-10 mx-4 sm:mx-6 h-[340px] sm:h-[380px] lg:h-[420px] overflow-hidden rounded-t-2xl border border-white/20 border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)]"
             role="tabpanel"
             aria-label={`${active.label} workspace preview`}
           >
