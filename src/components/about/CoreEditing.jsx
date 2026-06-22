@@ -433,23 +433,18 @@ function LabelsDemo() {
   const t = useLoopProgress(8000);
   const PPS = 100;
   const CANVAS_W = 720;
-  const LABEL_TRACK_H = 60;
+  const LABEL_TRACK_H = 50;
   const AUDIO_TRACK_H = 160;
 
-  // Labels appear at scroll-progress thresholds. Use clip.duration === 0
-  // for point labels, > 0 for region labels.
-  const LABEL_DEFS = [
-    { id: 1, name: "Intro", at: 0.05, start: 0.4, duration: 0 },
-    { id: 2, name: "Hook", at: 0.2, start: 1.6, duration: 0 },
-    { id: 3, name: "Chorus", at: 0.4, start: 3.0, duration: 1.2 },
-    { id: 4, name: "Verse", at: 0.65, start: 5.0, duration: 0 },
+  // Mix of point and region labels — render with LabelMarker (the design
+  // system's actual label component), positioned over time across a label
+  // track strip. Each appears once the loop reaches its `at` threshold.
+  const LABELS = [
+    { id: 1, text: "Intro", type: "point", at: 0.05, x: 40 },
+    { id: 2, text: "Hook", type: "point", at: 0.2, x: 180 },
+    { id: 3, text: "Chorus", type: "region", at: 0.4, x: 300, width: 140 },
+    { id: 4, text: "Verse", type: "point", at: 0.65, x: 540 },
   ];
-  const labelClips = LABEL_DEFS.filter((l) => t >= l.at).map((l) => ({
-    id: l.id,
-    name: l.name,
-    start: l.start,
-    duration: l.duration,
-  }));
 
   const audioClips = [
     {
@@ -468,17 +463,41 @@ function LabelsDemo() {
         style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
         <div style={{ flex: 1, paddingTop: 8 }}>
-          <div style={{ position: "relative", height: LABEL_TRACK_H }}>
-            <TrackNew
-              clips={labelClips}
-              trackIndex={0}
-              width={CANVAS_W}
-              height={LABEL_TRACK_H}
-              pixelsPerSecond={PPS}
-              isLabelTrack
-              onClipTrimEdge={() => {}}
-            />
+          {/* Label track strip — hosts the LabelMarker components. */}
+          <div
+            style={{
+              position: "relative",
+              height: LABEL_TRACK_H,
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            {LABELS.map((l) => {
+              const ageT = Math.min(1, Math.max(0, (t - l.at) / 0.05));
+              if (ageT <= 0) return null;
+              return (
+                <div
+                  key={l.id}
+                  style={{
+                    position: "absolute",
+                    left: l.x,
+                    bottom: 0,
+                    opacity: ageT,
+                    transform: `translateY(${(1 - ageT) * 8}px)`,
+                    transition: "opacity 120ms ease-out",
+                  }}
+                >
+                  <LabelMarker
+                    text={l.text}
+                    type={l.type}
+                    width={l.width}
+                    stalkHeight={LABEL_TRACK_H - 14}
+                  />
+                </div>
+              );
+            })}
           </div>
+
+          {/* Audio track with the clip beneath the labels. */}
           <div
             style={{
               position: "relative",
@@ -488,7 +507,7 @@ function LabelsDemo() {
           >
             <TrackNew
               clips={audioClips}
-              trackIndex={1}
+              trackIndex={0}
               width={CANVAS_W}
               height={AUDIO_TRACK_H}
               pixelsPerSecond={PPS}
