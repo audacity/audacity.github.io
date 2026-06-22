@@ -16,11 +16,10 @@ function IntroOverlay({
     ? "font-harmony mt-3 text-4xl md:text-5xl leading-[1.05] text-text-contrast"
     : "font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast";
   const dimOpacity = Math.max(0, Math.min(1, 1 - dimProgress));
-  // Run the heading and eyebrow fade on a very accelerated dim curve so the
-  // text is essentially gone by the time the lid is a third of the way open —
-  // the heading currently sits at the laptop's eventual position so it needs
-  // to clear out fast.
-  const textDim = Math.min(1, dimProgress * 3);
+  // Fade the text out very early in the lid-open scroll — by the time the
+  // lid is ~20% open the heading should already be gone, so it never
+  // overlaps the laptop visually as the lid lifts into its final position.
+  const textDim = Math.min(1, dimProgress * 5);
   const STAGGER = 0.35;
   const easeIn = (u) => u * u;
   const chars = String(heading || "").split("");
