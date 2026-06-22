@@ -427,62 +427,75 @@ function ClipHandlesDemo() {
   );
 }
 
+const LABELS_AUDIO_WAVEFORM = generateSpeechWaveform(15);
+
 function LabelsDemo() {
   const t = useLoopProgress(8000);
-  const labels = [
-    { text: "Intro", at: 0.05, type: "point", x: 24 },
-    { text: "Hook", at: 0.18, type: "point", x: 130 },
-    { text: "Chorus", at: 0.32, type: "region", x: 200, w: 90 },
-    { text: "Verse", at: 0.5, type: "point", x: 320 },
+  const PPS = 100;
+  const CANVAS_W = 720;
+  const LABEL_TRACK_H = 60;
+  const AUDIO_TRACK_H = 160;
+
+  // Labels appear at scroll-progress thresholds. Use clip.duration === 0
+  // for point labels, > 0 for region labels.
+  const LABEL_DEFS = [
+    { id: 1, name: "Intro", at: 0.05, start: 0.4, duration: 0 },
+    { id: 2, name: "Hook", at: 0.2, start: 1.6, duration: 0 },
+    { id: 3, name: "Chorus", at: 0.4, start: 3.0, duration: 1.2 },
+    { id: 4, name: "Verse", at: 0.65, start: 5.0, duration: 0 },
   ];
-  const visible = labels.filter((l) => t >= l.at);
+  const labelClips = LABEL_DEFS.filter((l) => t >= l.at).map((l) => ({
+    id: l.id,
+    name: l.name,
+    start: l.start,
+    duration: l.duration,
+  }));
+
+  const audioClips = [
+    {
+      id: 100,
+      name: "Take 1",
+      start: 0.2,
+      duration: 6.4,
+      waveform: LABELS_AUDIO_WAVEFORM,
+    },
+  ];
 
   return (
     <ThemeProvider theme={darkTheme}>
       <div
-        className="absolute inset-0 flex items-center"
-        style={{ padding: "0 28px" }}
+        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            height: 80,
-          }}
-        >
+        <div style={{ flex: 1, paddingTop: 8 }}>
+          <div style={{ position: "relative", height: LABEL_TRACK_H }}>
+            <TrackNew
+              clips={labelClips}
+              trackIndex={0}
+              width={CANVAS_W}
+              height={LABEL_TRACK_H}
+              pixelsPerSecond={PPS}
+              isLabelTrack
+              onClipTrimEdge={() => {}}
+            />
+          </div>
           <div
             style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: "50%",
-              height: 1,
-              background: "rgba(255,255,255,0.15)",
+              position: "relative",
+              height: AUDIO_TRACK_H,
+              marginTop: 2,
             }}
-          />
-          {visible.map((l, i) => {
-            const ageT = Math.min(1, (t - l.at) / 0.05);
-            return (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  left: l.x,
-                  top: "50%",
-                  transform: `translateY(-50%) scale(${0.6 + 0.4 * ageT})`,
-                  opacity: ageT,
-                  transition: "opacity 120ms ease-out",
-                }}
-              >
-                <LabelMarker
-                  text={l.text}
-                  type={l.type}
-                  width={l.w}
-                  stalkHeight={26}
-                />
-              </div>
-            );
-          })}
+          >
+            <TrackNew
+              clips={audioClips}
+              trackIndex={1}
+              width={CANVAS_W}
+              height={AUDIO_TRACK_H}
+              pixelsPerSecond={PPS}
+              color="blue"
+              onClipTrimEdge={() => {}}
+            />
+          </div>
         </div>
       </div>
     </ThemeProvider>
