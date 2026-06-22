@@ -109,9 +109,36 @@ function TrackMetersDemo() {
                 trackHeight={112}
               />
             </div>
-            {/* Sliver of canvas to the right — gives context that meters
-                belong to actual tracks with audio. Static cosmetic clip
-                with a fake waveform; the meters do the moving. */}
+
+            {/* Prominent meter — the bouncing bars ARE the demo, so we
+                surface a full-height TrackMeter right next to the
+                control panel where it can't be missed. */}
+            <div
+              className="shrink-0 flex items-stretch py-2 pl-1 pr-2"
+              aria-hidden
+            >
+              <TrackMeter
+                variant={t.type === "mono" ? "mono" : "stereo"}
+                volume={t.l}
+                recentPeak={t.lp}
+                maxPeak={Math.min(96, t.lp + 4)}
+              />
+              {t.type !== "mono" && (
+                <>
+                  <div style={{ width: 2 }} />
+                  <TrackMeter
+                    variant="stereo"
+                    volume={t.r}
+                    recentPeak={t.rp}
+                    maxPeak={Math.min(96, t.rp + 4)}
+                  />
+                </>
+              )}
+            </div>
+
+            {/* Sliver of canvas to the right — gives the meters context
+                as actual tracks with audio. Static cosmetic clip + fake
+                waveform; the meters do the moving. */}
             <div
               className="flex-1 relative"
               style={{
