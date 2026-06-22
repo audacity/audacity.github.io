@@ -132,9 +132,8 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     Workspaces background: hard purple-to-near-black seam at 50%, so the
     bottom half of the section (where the hero panel's lower edge sits,
     plus the section padding below it) reads as a dramatic dark gutter
-    against the pink panel. The bottom 15% fades back up to
-    CustomisableUI's purple so the boundary into the next section
-    disappears instead of jumping.
+    against the pink panel. Stays near-black all the way down so it
+    hands off seamlessly to CustomisableUI's dark-top gradient.
   */
   .about-section--workspaces {
     background: linear-gradient(
@@ -142,12 +141,21 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       rgb(28, 22, 78) 0,
       rgb(28, 22, 78) 50%,
       #08090c 50%,
-      #08090c 85%,
-      rgb(48, 26, 90) 100%
+      #08090c 100%
     );
   }
+  /*
+    Customisable UI background: continues the dark gutter at the top
+    (matching Workspaces' bottom), then gradients up into the purple so
+    the section opens dark and warms toward AudioCom below it.
+  */
   .about-section--customisable-ui {
-    background-color: rgb(48, 26, 90);
+    background: linear-gradient(
+      to bottom,
+      #08090c 0%,
+      #1c1442 35%,
+      rgb(48, 26, 90) 100%
+    );
   }
   .about-section--audiocom {
     background-color: rgb(28, 30, 108);
