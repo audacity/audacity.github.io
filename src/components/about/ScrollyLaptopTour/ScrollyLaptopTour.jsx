@@ -838,12 +838,12 @@ function DesktopTour() {
               ref={(el) => (panelRefs.current[i] = el)}
               data-panel-index={i}
               style={{
-                height: "100vh",
-                minHeight: "100vh",
-                scrollSnapAlign: "start",
-                // Force a hard stop on each panel so a fast wheel flick can't
-                // pass over multiple stops in a single gesture.
-                scrollSnapStop: "always",
+                // Taller panels make it harder to fly past multiple stops in
+                // a single wheel/trackpad gesture, without needing global
+                // CSS scroll-snap (which was making the rest of the page
+                // judder in sections with continuous animations).
+                height: "130vh",
+                minHeight: "130vh",
                 pointerEvents: "none",
               }}
               aria-label={s.heading}
