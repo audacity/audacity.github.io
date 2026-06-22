@@ -142,16 +142,27 @@ function TrackMetersDemo() {
   const TRACK_CONTROL_W = 280;
   const RULER_H = 40;
   const CANVAS_W = 760;
-  const trackHeights = tracks.map(() => 110);
+  // Taller tracks so the meter inside each TrackControlPanel takes a
+  // proper share of the row — these meters are the centre-stage element
+  // of this card.
+  const trackHeights = tracks.map(() => 200);
   const PPS = 28;
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            // Rack column fills the example container all the way down,
+            // without forcing rows to stretch.
+            ".track-meters-demo .track-control-side-panel{height:100%}",
+        }}
+      />
       <div
-        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        className="track-meters-demo absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{ display: "flex", minHeight: 0 }}
       >
-        <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
+        <div style={{ width: TRACK_CONTROL_W, flexShrink: 0, height: "100%" }}>
           <TrackControlSidePanel trackHeights={trackHeights}>
             {tracks.map((t, i) => (
               <TrackControlPanel
