@@ -196,8 +196,10 @@ function ThemeDemo() {
         ref={rootRef}
         className="absolute inset-0 overflow-hidden"
         style={{
-          background: theme.background.surface.subtle,
-          transition: "background 480ms ease",
+          // Near-black backdrop so the seam at the bottom of the
+          // workspace container reads as a hard, dramatic cut — same
+          // colour in both light and dark mode.
+          background: "#08090C",
         }}
       >
         <div
@@ -211,6 +213,8 @@ function ThemeDemo() {
             height: 60 + RULER_H + totalTracksH + 20,
             display: "flex",
             flexDirection: "column",
+            background: theme.background.surface.subtle,
+            transition: "background 480ms ease",
           }}
         >
           <Toolbar
