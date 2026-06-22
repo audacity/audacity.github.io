@@ -1,0 +1,36 @@
+---
+// Full-bleed chapter break between /about sections.
+// Renders a near-pure-black band with a slot for future graphic content.
+// For now, falls back to a muted "Chapter" kicker when no slot content is provided.
+---
+
+<section class="about-interstitial">
+  <div class="about-interstitial__inner">
+    <slot>
+      <span class="about-interstitial__kicker">Chapter</span>
+    </slot>
+  </div>
+</section>
+
+<style>
+  .about-interstitial {
+    background-color: rgb(2, 2, 4);
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+  }
+
+  .about-interstitial__inner {
+    max-width: 60ch;
+    text-align: center;
+  }
+
+  .about-interstitial__kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+  }
+</style>
