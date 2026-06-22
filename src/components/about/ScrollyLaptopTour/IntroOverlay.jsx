@@ -16,6 +16,10 @@ function IntroOverlay({
     ? "font-harmony mt-3 text-4xl md:text-5xl leading-[1.05] text-text-contrast"
     : "font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast";
   const dimOpacity = Math.max(0, Math.min(1, 1 - dimProgress));
+  // Run the heading and eyebrow fade on an accelerated dim curve so the text
+  // is gone shortly after the lid starts opening, instead of lingering until
+  // the lid is all the way up.
+  const textDim = Math.min(1, dimProgress * 1.7);
   const STAGGER = 0.35;
   const easeIn = (u) => u * u;
   const chars = String(heading || "").split("");
@@ -25,17 +29,17 @@ function IntroOverlay({
     <div
       className="text-center px-6 max-w-2xl"
       style={{
-        transform: `translateY(${-24 * dimProgress}px)`,
+        transform: `translateY(${-24 * textDim}px)`,
       }}
     >
       <div
         className={eyebrowClass}
         style={{
           color: "rgba(255,255,255,0.4)",
-          opacity: Math.max(0, 1 - dimProgress * 1.6),
-          transform: `translateY(${-18 * dimProgress}px)`,
-          filter: `blur(${5 * dimProgress}px)`,
-          letterSpacing: `${0.2 + 0.15 * dimProgress}em`,
+          opacity: Math.max(0, 1 - textDim * 1.6),
+          transform: `translateY(${-18 * textDim}px)`,
+          filter: `blur(${5 * textDim}px)`,
+          letterSpacing: `${0.2 + 0.15 * textDim}em`,
           transition: "opacity 120ms linear",
         }}
       >
@@ -49,7 +53,7 @@ function IntroOverlay({
         {chars.map((c, i) => {
           const delay = (i / total) * STAGGER;
           const denom = Math.max(0.001, 1 - STAGGER);
-          const raw = (dimProgress - delay) / denom;
+          const raw = (textDim - delay) / denom;
           const cp = Math.max(0, Math.min(1, raw));
           const eased = easeIn(cp);
           return (
