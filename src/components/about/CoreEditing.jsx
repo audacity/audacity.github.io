@@ -742,8 +742,9 @@ function LoopingDemo() {
             </div>
           ))}
 
-          {/* Design system PlayheadCursor — proper playhead chrome,
-              not a hand-rolled red line. */}
+          {/* Design system PlayheadCursor — height set huge so the
+              stalk extends past the last track to the bottom of the
+              card; the card's overflow: hidden clips the overshoot. */}
           <div
             style={{
               position: "absolute",
@@ -755,7 +756,7 @@ function LoopingDemo() {
             <PlayheadCursor
               position={playheadTime}
               pixelsPerSecond={PPS}
-              height={TRACKS.length * TRACK_H + (TRACKS.length - 1) * 2}
+              height={9999}
               showTopIcon
             />
           </div>
