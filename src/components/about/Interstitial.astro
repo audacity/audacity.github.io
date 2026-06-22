@@ -56,25 +56,29 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
     on the whole SVG (not per-path). The HeroSwoosh's own path animations are
     disabled by the global override below, so the only work the browser does
     each frame is one transform/opacity update per visible interstitial.
+
+    Positioned absolutely in the TOP-RIGHT of the interstitial so the fan's
+    natural pivot (which sits near the top-right of its viewBox) anchors at
+    the corner and the blades spread down and to the left across the
+    transition zone. The wrapper is sized in vw so it scales with the page
+    instead of needing a multiplier transform to look big.
   */
   .about-interstitial__swoosh {
-    width: 100%;
-    max-width: 420px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(80vw, 1400px);
     aspect-ratio: 669 / 554;
-    margin: 0 auto;
     will-change: transform, opacity;
-    transform-origin: center;
-    /* Sits behind anything with its own z-index in the parent's stack. */
-    position: relative;
+    transform-origin: top right;
     z-index: -1;
     opacity: var(--isw-p, 0);
     /*
-      The fan is BIG throughout — opacity does the heavy lifting for in/out.
-      Scale only nudges between 3.4 and 3.85 across the arc so the user
-      doesn't watch it grow from nothing.
+      Base size already does the heavy lifting — opacity is the in/out
+      motion, and scale only breathes between 0.95 and 1.1 across the arc
+      so the fan settles into place without growing dramatically.
     */
-    transform: rotate(calc((var(--isw-prog, 0.5) - 0.5) * 16deg))
-      scale(calc(2.9 + var(--isw-p, 0) * 0.95));
+    transform: scale(calc(0.95 + var(--isw-p, 0) * 0.15));
   }
 </style>
 
