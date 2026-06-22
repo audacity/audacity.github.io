@@ -70,16 +70,17 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
     left: 50%;
     width: min(80vw, 1400px);
     aspect-ratio: 669 / 554;
-    will-change: transform, opacity;
+    /*
+      translate3d (not plain translate) promotes the swoosh to its own GPU
+      composite layer so opacity changes are cheap. Scale is FIXED here —
+      a per-frame scale change forces the SVG to re-rasterize at the new
+      size every frame, which was the dominant source of scroll lag.
+    */
+    will-change: opacity;
     transform-origin: center;
+    transform: translate3d(-50%, -50%, 0) scale(1.05);
     z-index: -1;
     opacity: var(--isw-p, 0);
-    /*
-      Base size already dominates the viewport — opacity drives the in/out,
-      scale only breathes between 0.95 and 1.1 across the arc.
-      translate(-50%, -50%) centers the wrapper on its own pivot.
-    */
-    transform: translate(-50%, -50%) scale(calc(0.95 + var(--isw-p, 0) * 0.15));
   }
 </style>
 
