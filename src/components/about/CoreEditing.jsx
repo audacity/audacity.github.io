@@ -794,82 +794,163 @@ function LoopingDemo() {
 }
 
 function SampleEditingDemo() {
-  const t = useLoopProgress(5000);
-  // 24 sample dots arranged across; one of them gets dragged up and back
-  const SAMPLE_COUNT = 24;
-  const dragIdx = 14;
-  const targetT = Math.sin(t * Math.PI * 2) * 0.5 + 0.5; // 0→1→0
-  // baseline values
-  const samples = Array.from({ length: SAMPLE_COUNT }, (_, i) => {
-    if (i === dragIdx) {
-      return -0.35 - targetT * 0.4; // dragged sample moves up
+  const t = useLoopProgress(4500);
+  const PPS = 80;
+  const CANVAS_W = 720;
+  const TRACK_H = 280;
+  // Clip name to mimic the real Audacity screenshot the user shared.
+  const CLIP_NAME = "TL_Juicy_Drum_Snare_2_84bpm";
+
+  // Stereo sample stems. Each channel has its own baseline (top half &
+  // bottom half of the clip body). A handful of sample points; one is
+  // animated being dragged up to demonstrate sample-level editing.
+  const SAMPLE_COUNT = 14;
+  const DRAG_IDX = 6;
+  const dragOffset = Math.sin(t * Math.PI * 2) * 0.5 + 0.5; // 0→1→0
+  function sampleAt(i, channelSeed) {
+    return (
+      Math.sin(i * 0.7 + channelSeed) * 0.22 +
+      Math.cos(i * 0.41 + channelSeed) * 0.15
+    );
+  }
+
+  const clips = [
+    {
+      id: 1,
+      name: CLIP_NAME,
+      start: 0,
+      duration: CANVAS_W / PPS,
+    },
+  ];
+
+  // The clip's body starts ~24px below the clip top (header height) and
+  // ends ~6px above the bottom. Calculate the SVG overlay bounds to
+  // match — keeps the sample dots inside the clip body, not over the
+  // header text.
+  const CLIP_HEADER_H = 24;
+  const CLIP_PAD_BOTTOM = 6;
+  const CLIP_BODY_TOP = CLIP_HEADER_H + 6;
+  const CLIP_BODY_BOTTOM = TRACK_H - CLIP_PAD_BOTTOM;
+  const CLIP_BODY_H = CLIP_BODY_BOTTOM - CLIP_BODY_TOP;
+  // Two channels stacked: top half upper baseline, bottom half lower.
+  const TOP_MID = CLIP_BODY_TOP + CLIP_BODY_H * 0.25;
+  const BOT_MID = CLIP_BODY_TOP + CLIP_BODY_H * 0.75;
+  const CLIP_LEFT_PAD = 16;
+  const CLIP_RIGHT_PAD = 16;
+  const usableW = CANVAS_W - CLIP_LEFT_PAD - CLIP_RIGHT_PAD;
+
+  function renderChannel(midY, channelSeed) {
+    const stems = [];
+    const dots = [];
+    for (let i = 0; i < SAMPLE_COUNT; i++) {
+      const x = CLIP_LEFT_PAD + ((i + 0.5) * usableW) / SAMPLE_COUNT;
+      let v = sampleAt(i, channelSeed);
+      if (i === DRAG_IDX && channelSeed === 0) {
+        // Drag this one upward (negative direction) on the top channel.
+        v = -0.35 - dragOffset * 0.55;
+      }
+      const y = midY + v * (CLIP_BODY_H * 0.18);
+      stems.push(
+        <line
+          key={`s${channelSeed}-${i}`}
+          x1={x}
+          y1={midY}
+          x2={x}
+          y2={y}
+          stroke="rgba(8,8,12,0.9)"
+          strokeWidth={1.2}
+        />,
+      );
+      const isDragged = i === DRAG_IDX && channelSeed === 0;
+      dots.push(
+        <circle
+          key={`d${channelSeed}-${i}`}
+          cx={x}
+          cy={y}
+          r={isDragged ? 4 : 2.5}
+          fill={isDragged ? "#fff" : "rgba(8,8,12,0.95)"}
+          stroke={isDragged ? "#fff" : "none"}
+          strokeWidth={isDragged ? 1.5 : 0}
+        />,
+      );
     }
-    return Math.sin(i * 0.55) * 0.28 + Math.cos(i * 0.31) * 0.12;
-  });
+    return (
+      <g>
+        <line
+          x1={CLIP_LEFT_PAD}
+          y1={midY}
+          x2={CANVAS_W - CLIP_RIGHT_PAD}
+          y2={midY}
+          stroke="rgba(8,8,12,0.45)"
+          strokeWidth={1}
+        />
+        {stems}
+        {dots}
+      </g>
+    );
+  }
+
+  // Cursor sits on the dragged sample so it reads as the user editing.
+  const cursorX = CLIP_LEFT_PAD + ((DRAG_IDX + 0.5) * usableW) / SAMPLE_COUNT;
+  const cursorY = TOP_MID + (-0.35 - dragOffset * 0.55) * (CLIP_BODY_H * 0.18);
 
   return (
     <ThemeProvider theme={darkTheme}>
       <div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ padding: "0 28px" }}
+        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
-        <div
-          style={{
-            position: "relative",
-            width: 340,
-            height: 200,
-            background: "linear-gradient(180deg, #0f1419 0%, #0a0d12 100%)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: 8,
-            overflow: "hidden",
-          }}
-        >
-          {/* zero line */}
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: "50%",
-              height: 1,
-              background: "rgba(255,255,255,0.15)",
-            }}
-          />
-          {/* sample dots and connecting line */}
-          <svg
-            width={340}
-            height={200}
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <polyline
-              points={samples
-                .map(
-                  (s, i) =>
-                    `${(i + 0.5) * (340 / SAMPLE_COUNT)},${100 + s * 80}`,
-                )
-                .join(" ")}
-              fill="none"
-              stroke="#7CC4FF"
-              strokeWidth="1.5"
-              opacity="0.6"
+        <div style={{ flex: 1, paddingTop: 8, position: "relative" }}>
+          <div style={{ position: "relative", height: TRACK_H }}>
+            <TrackNew
+              clips={clips}
+              trackIndex={0}
+              width={CANVAS_W}
+              height={TRACK_H}
+              pixelsPerSecond={PPS}
+              color="cyan"
+              onClipTrimEdge={() => {}}
             />
-            {samples.map((s, i) => {
-              const x = (i + 0.5) * (340 / SAMPLE_COUNT);
-              const y = 100 + s * 80;
-              const isDragged = i === dragIdx;
-              return (
-                <circle
-                  key={i}
-                  cx={x}
-                  cy={y}
-                  r={isDragged ? 5 : 3.5}
-                  fill={isDragged ? "#FBBF24" : "#7CC4FF"}
-                  stroke={isDragged ? "#FBBF24" : "none"}
-                  strokeWidth={isDragged ? 2 : 0}
-                />
-              );
-            })}
-          </svg>
+            {/* Sample-editing overlay — sits on top of the clip body
+                and renders the zoomed-in sample stems for both
+                channels. Pointer-events: none so it doesn't catch
+                interactions. */}
+            <svg
+              width={CANVAS_W}
+              height={TRACK_H}
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+              }}
+            >
+              {renderChannel(TOP_MID, 0)}
+              {renderChannel(BOT_MID, 1.7)}
+            </svg>
+            {/* Cursor over the dragged sample */}
+            <svg
+              aria-hidden
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              style={{
+                position: "absolute",
+                left: cursorX,
+                top: cursorY,
+                transform: "translate(-50%, -50%)",
+                pointerEvents: "none",
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+              }}
+            >
+              <path
+                d="M11 2 L14 5 L12 5 L12 11 L18 11 L18 9 L21 12 L18 15 L18 13 L12 13 L12 19 L14 19 L11 22 L8 19 L10 19 L10 13 L4 13 L4 15 L1 12 L4 9 L4 11 L10 11 L10 5 L8 5 Z"
+                fill="#fff"
+                stroke="#0a0a0a"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </ThemeProvider>
