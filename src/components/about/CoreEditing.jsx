@@ -302,12 +302,11 @@ const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(3.2, 100);
 
 function ClipHandlesDemo() {
   const t = useLoopProgress(6000);
-  const PPS = 40;
+  const PPS = 100;
   const FULL_DURATION = 3.2;
-  const TRACK_CONTROL_W = 280;
   const RULER_H = 40;
-  const CANVAS_W = 760;
-  const trackHeights = [200];
+  const CANVAS_W = 720;
+  const TRACK_H = 200;
 
   // Two-phase loop: 0-0.5 trim cycle, 0.5-1 stretch cycle
   let duration = FULL_DURATION;
@@ -333,11 +332,17 @@ function ClipHandlesDemo() {
     duration = FULL_DURATION * stretchFactor;
   }
 
+  // Anchor the clip's centre at the canvas centre so trim/stretch
+  // animates symmetrically from a fixed visual point.
+  const clipWidth = duration * PPS;
+  const startPx = Math.max(0, CANVAS_W / 2 - clipWidth / 2);
+  const start = startPx / PPS;
+
   const clips = [
     {
       id: 1,
       name: "Take 2",
-      start: 0,
+      start,
       duration,
       fullDuration: FULL_DURATION,
       stretchFactor,
@@ -348,62 +353,28 @@ function ClipHandlesDemo() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: ".clip-handles-demo .track-control-side-panel{height:100%}",
-        }}
-      />
       <div
-        className="clip-handles-demo absolute inset-0 bg-[#171F25] overflow-hidden"
-        style={{ display: "flex", minHeight: 0 }}
+        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
-        <div style={{ width: TRACK_CONTROL_W, flexShrink: 0, height: "100%" }}>
-          <TrackControlSidePanel trackHeights={trackHeights}>
-            <TrackControlPanel
-              trackName="Vocals"
-              trackType="stereo"
-              volume={75}
-              meterLevel={0}
-              meterLevelLeft={0}
-              meterLevelRight={0}
-              trackHeight={trackHeights[0]}
+        <TimelineRuler
+          width={CANVAS_W}
+          height={RULER_H}
+          pixelsPerSecond={PPS}
+          totalDuration={CANVAS_W / PPS}
+          timeFormat="minutes-seconds"
+        />
+        <div style={{ flex: 1, paddingTop: 2 }}>
+          <div style={{ position: "relative", height: TRACK_H }}>
+            <TrackNew
+              clips={clips}
+              trackIndex={0}
+              width={CANVAS_W}
+              height={TRACK_H}
+              pixelsPerSecond={PPS}
+              color="green"
+              onClipTrimEdge={() => {}}
             />
-          </TrackControlSidePanel>
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            minWidth: 0,
-            position: "relative",
-          }}
-        >
-          <TimelineRuler
-            width={CANVAS_W}
-            height={RULER_H}
-            pixelsPerSecond={PPS}
-            totalDuration={10}
-            timeFormat="minutes-seconds"
-          />
-          <div style={{ flex: 1, paddingTop: 2 }}>
-            <div
-              style={{
-                position: "relative",
-                height: trackHeights[0],
-              }}
-            >
-              <TrackNew
-                clips={clips}
-                trackIndex={0}
-                width={CANVAS_W}
-                height={trackHeights[0]}
-                pixelsPerSecond={PPS}
-                color="green"
-                onClipTrimEdge={() => {}}
-              />
-            </div>
           </div>
         </div>
       </div>
