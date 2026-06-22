@@ -4,6 +4,7 @@ import {
   TrackControlSidePanel,
   TrackNew,
   TimelineRuler,
+  PlayheadCursor,
   Clip,
   LabelMarker,
   TransportButton,
@@ -621,7 +622,6 @@ function LoopingDemo() {
 
   // Playhead scrubs from LOOP_START to LOOP_END, then snaps back.
   const playheadTime = LOOP_START + (LOOP_END - LOOP_START) * t;
-  const playheadX = playheadTime * PPS;
 
   // Same shape as the labels project — gives the loop region something
   // real to scrub through.
@@ -742,20 +742,23 @@ function LoopingDemo() {
             </div>
           ))}
 
-          {/* Playhead line — vertical sweep through the loop region so
-              the user sees playback cycling inside it. */}
+          {/* Design system PlayheadCursor — proper playhead chrome,
+              not a hand-rolled red line. */}
           <div
             style={{
               position: "absolute",
-              left: playheadX,
               top: 0,
-              bottom: 0,
-              width: 2,
-              background: "#F87171",
-              boxShadow: "0 0 8px rgba(248, 113, 113, 0.6)",
+              left: 0,
               pointerEvents: "none",
             }}
-          />
+          >
+            <PlayheadCursor
+              position={playheadTime}
+              pixelsPerSecond={PPS}
+              height={TRACKS.length * TRACK_H + (TRACKS.length - 1) * 2}
+              showTopIcon
+            />
+          </div>
         </div>
       </div>
     </ThemeProvider>
