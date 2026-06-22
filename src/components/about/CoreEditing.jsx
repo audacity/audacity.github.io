@@ -741,23 +741,20 @@ function LoopingDemo() {
             </div>
           ))}
 
-          {/* Loop region edge stalks — left stalk nudged 1px left so it
-              sits flush against the loop region's left bracket; right
-              stalk at the end position aligns to its right bracket. */}
-          {[
-            { time: LOOP_START, offset: -1 },
-            { time: LOOP_END, offset: 0 },
-          ].map(({ time, offset }) => (
+          {/* Loop region edge stalks — flush against the loop region's
+              brackets, lifted above the clips with a high z-index. */}
+          {[LOOP_START, LOOP_END].map((time) => (
             <div
               key={time}
               style={{
                 position: "absolute",
-                left: time * PPS + offset,
+                left: time * PPS,
                 top: -RULER_H - 2,
                 bottom: 0,
                 width: 1,
-                background: "rgba(255, 255, 255, 0.55)",
+                background: "rgba(255, 255, 255, 0.85)",
                 pointerEvents: "none",
+                zIndex: 10,
               }}
             />
           ))}
