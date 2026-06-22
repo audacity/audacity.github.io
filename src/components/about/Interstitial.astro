@@ -57,28 +57,29 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
     disabled by the global override below, so the only work the browser does
     each frame is one transform/opacity update per visible interstitial.
 
-    Positioned absolutely in the TOP-RIGHT of the interstitial so the fan's
-    natural pivot (which sits near the top-right of its viewBox) anchors at
-    the corner and the blades spread down and to the left across the
-    transition zone. The wrapper is sized in vw so it scales with the page
-    instead of needing a multiplier transform to look big.
+    Absolutely positioned and centered in the interstitial so it sits as a
+    big balanced graphic across the transition zone. position: absolute is
+    required for z-index: -1 to actually apply — it pushes the swoosh
+    behind the interstitial's in-flow content in this stacking context,
+    and the section content above/below (z-index: 2 set in about.astro)
+    keeps text painting over the swoosh in the root stacking context.
   */
   .about-interstitial__swoosh {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 50%;
+    left: 50%;
     width: min(80vw, 1400px);
     aspect-ratio: 669 / 554;
     will-change: transform, opacity;
-    transform-origin: top right;
+    transform-origin: center;
     z-index: -1;
     opacity: var(--isw-p, 0);
     /*
-      Base size already does the heavy lifting — opacity is the in/out
-      motion, and scale only breathes between 0.95 and 1.1 across the arc
-      so the fan settles into place without growing dramatically.
+      Base size already dominates the viewport — opacity drives the in/out,
+      scale only breathes between 0.95 and 1.1 across the arc.
+      translate(-50%, -50%) centers the wrapper on its own pivot.
     */
-    transform: scale(calc(0.95 + var(--isw-p, 0) * 0.15));
+    transform: translate(-50%, -50%) scale(calc(0.95 + var(--isw-p, 0) * 0.15));
   }
 </style>
 
