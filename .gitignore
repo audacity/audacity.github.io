@@ -53,3 +53,4 @@ deno.lock
 
 # Temp page created by scripts/snapshot-workspaces.ts
 src/pages/snapshot-tmp/
+.superpowers/
