@@ -9,6 +9,7 @@ import MuseHub from "../components/about/MuseHub.jsx";
 import AudioCom from "../components/about/AudioCom.jsx";
 import UnderTheHood from "../components/about/UnderTheHood.jsx";
 import CtaSection from "../components/about/CtaSection.jsx";
+import Interstitial from "../components/about/Interstitial.astro";
 import "@dilsonspickles/components/style.css";
 
 const pageTitle = "Audacity ® | Audacity 4";
@@ -21,15 +22,35 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   showPromoBanner={false}
 >
   <div class="scroll-bg-page">
-    <ScrollyLaptopTour client:visible />
-    <CoreEditing client:visible />
-    <Workspaces client:visible />
-    <CustomisableUI client:visible />
-    <AudioCom />
-    <EffectWindows client:visible />
-    <MuseHub />
-    <UnderTheHood />
-    <CtaSection />
+    <div class="about-section about-section--scrolly">
+      <ScrollyLaptopTour client:visible />
+    </div>
+    <div class="about-section about-section--core-editing">
+      <CoreEditing client:visible />
+    </div>
+    <div class="about-section about-section--workspaces">
+      <Workspaces client:visible />
+    </div>
+    <div class="about-section about-section--customisable-ui">
+      <CustomisableUI client:visible />
+    </div>
+    <div class="about-section about-section--audiocom">
+      <AudioCom />
+    </div>
+    <Interstitial />
+    <div class="about-section about-section--effect-windows">
+      <EffectWindows client:visible />
+    </div>
+    <div class="about-section about-section--musehub">
+      <MuseHub />
+    </div>
+    <div class="about-section about-section--under-the-hood">
+      <UnderTheHood />
+    </div>
+    <Interstitial />
+    <div class="about-section about-section--cta">
+      <CtaSection />
+    </div>
   </div>
 </BaseLayout>
 
@@ -71,72 +92,52 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   .scroll-bg-page .bg-background-dark {
     background-color: transparent !important;
   }
-  .scroll-bg-page > section:nth-child(n + 2),
-  .scroll-bg-page > *:nth-child(n + 2) section {
+
+  .about-section {
+    position: relative;
+  }
+
+  .scroll-bg-page > .about-section:nth-child(n + 2),
+  .scroll-bg-page > .about-section:nth-child(n + 2) section {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
+  .about-section--scrolly {
+    background-color: rgb(8, 11, 32);
+  }
+  .about-section--core-editing {
+    background-color: rgb(28, 18, 46);
+  }
+  .about-section--workspaces {
+    background-color: rgb(10, 28, 38);
+  }
+  .about-section--customisable-ui {
+    background-color: rgb(8, 40, 50);
+  }
+  .about-section--audiocom {
+    background-color: rgb(14, 22, 54);
+  }
+  .about-section--effect-windows {
+    background-color: rgb(34, 14, 38);
+  }
+  .about-section--musehub {
+    background-color: rgb(52, 24, 30);
+  }
+  .about-section--under-the-hood {
+    background-color: rgb(20, 16, 22);
+  }
+  .about-section--cta {
+    background-color: rgb(2, 2, 4);
+  }
 </style>
 
 <script>
-  const COLORS = [
-    "rgb(10, 13, 26)", // ScrollyLaptopTour
-    "rgb(16, 14, 27)", // CoreEditing
-    "rgb(14, 18, 24)", // Workspaces
-    "rgb(10, 20, 26)", // CustomisableUI
-    "rgb(10, 20, 30)", // AudioCom
-    "rgb(12, 12, 28)", // EffectWindows
-    "rgb(24, 16, 24)", // MuseHub
-    "rgb(16, 14, 18)", // UnderTheHood
-    "rgb(5, 5, 5)", // CtaSection
-  ];
-
   function init() {
     const host = document.querySelector<HTMLElement>(".scroll-bg-page");
     if (!host) return;
-
-    const root = document.documentElement;
-
-    const parsed: number[][] = COLORS.map((c) => {
-      const m = c.match(/\d+/g);
-      if (!m) return [0, 0, 0];
-      return [Number(m[0]), Number(m[1]), Number(m[2])];
-    });
-
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-    const clamp = (n: number, lo: number, hi: number) =>
-      Math.min(hi, Math.max(lo, n));
-
-    // Cache the document height so we don't read scrollHeight on every
-    // scroll frame (forces layout). Re-measured on resize and on observed
-    // host changes.
-    let maxScroll = Math.max(
-      1,
-      document.documentElement.scrollHeight - window.innerHeight,
-    );
-
-    function measure() {
-      maxScroll = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
-    }
-
-    function tick() {
-      const p = clamp(window.scrollY / maxScroll, 0, 1);
-      const segs = parsed.length - 1;
-      const f = p * segs;
-      const i = Math.min(segs - 1, Math.floor(f));
-      const local = clamp(f - i, 0, 1);
-      const cur = parsed[i];
-      const next = parsed[i + 1];
-      const r = Math.round(lerp(cur[0], next[0], local));
-      const g = Math.round(lerp(cur[1], next[1], local));
-      const b = Math.round(lerp(cur[2], next[2], local));
-      root.style.setProperty("--page-bg", `rgb(${r}, ${g}, ${b})`);
-    }
 
     // Hide the site header when the user scrolls down. Show it again on
     // scroll up, near the very top of the page, or when the cursor moves
@@ -176,31 +177,15 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     }
     window.addEventListener("mousemove", onMouseMove, { passive: true });
 
-    measure();
-    tick();
     let raf: number | null = null;
     function onScroll() {
       if (raf !== null) return;
       raf = requestAnimationFrame(() => {
-        tick();
         updateHeader();
         raf = null;
       });
     }
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", () => {
-      measure();
-      tick();
-    });
-    window.addEventListener("load", () => {
-      measure();
-      tick();
-    });
-    const ro = new ResizeObserver(() => {
-      measure();
-      tick();
-    });
-    ro.observe(host);
   }
 
   if (document.readyState === "loading") {
