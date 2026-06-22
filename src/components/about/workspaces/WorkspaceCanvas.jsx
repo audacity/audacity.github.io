@@ -397,6 +397,11 @@ function WorkspaceCanvas({
                       trackHeight={trackHeights[i]}
                       meterLevelLeft={t.controlProps?.meterLevelLeft ?? -18}
                       meterLevelRight={t.controlProps?.meterLevelRight ?? -20}
+                      // The design-system volume prop is a 0–100 percent
+                      // (default 75 = unity / 0dB). Workspace configs were
+                      // written with dB values, which render as far-left.
+                      // Park every demo slider at 0dB for the marketing view.
+                      volume={75}
                     />
                   ))}
                 </TrackControlSidePanel>
