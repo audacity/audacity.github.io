@@ -371,7 +371,7 @@ function WorkspaceCanvas({
                 menuItems={MENU_ITEMS}
               />
             )}
-            {!compact && renderProjectToolbar(config)}
+            {renderProjectToolbar(config)}
             {renderTransportRow({
               ...config,
               envelopeMode: effectiveEnvelopeMode,
