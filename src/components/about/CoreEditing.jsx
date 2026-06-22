@@ -744,7 +744,7 @@ function LoopingDemo() {
               clips with a high z-index. */}
           {[
             { time: LOOP_START, offset: 10 },
-            { time: LOOP_END, offset: 0 },
+            { time: LOOP_END, offset: -10 },
           ].map(({ time, offset }) => (
             <div
               key={time}
