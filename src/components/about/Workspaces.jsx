@@ -76,30 +76,19 @@ function Workspaces() {
           </div>
 
           {/*
-            Mockup window — short fixed height that clips the canvas. The
-            WorkspaceCanvas inside renders at its natural 16:9 aspect, which
-            is taller than the window, so only the top portion (the toolbar
-            area that actually changes between workspaces) shows. The window
-            itself butts against the panel's bottom edge — the panel's
-            overflow:hidden + rounded corners do the final clip.
+            Mockup window — taller fixed height that clips the canvas.
+            compact={false} makes WorkspaceCanvas render its built-in
+            ApplicationHeader (Windows menu bar) instead of our custom
+            macOS chrome — matches the same faux app frame used in the
+            ScrollyLaptopTour.
           */}
           <div
-            className="mt-9 lg:mt-10 mx-4 sm:mx-6 h-[232px] sm:h-[252px] lg:h-[272px] overflow-hidden rounded-t-2xl border border-white/20 border-b-0 bg-black shadow-[0_28px_60px_rgba(0,0,0,0.55)]"
+            className="mt-9 lg:mt-10 mx-4 sm:mx-6 h-[340px] sm:h-[380px] lg:h-[420px] overflow-hidden rounded-t-2xl border border-white/20 border-b-0 bg-black shadow-[0_28px_60px_rgba(0,0,0,0.55)]"
             role="tabpanel"
             aria-label={`${active.label} workspace preview`}
           >
-            <div className="relative flex items-center h-8 px-3 bg-black/60 border-b border-white/10">
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-[#ff5f57]/85" />
-                <span className="w-3 h-3 rounded-full bg-[#febc2e]/85" />
-                <span className="w-3 h-3 rounded-full bg-[#28c840]/85" />
-              </div>
-              <span className="absolute inset-x-0 text-center text-[11px] font-mono tracking-[0.08em] text-text-contrast/60 pointer-events-none">
-                Audacity — Untitled Project
-              </span>
-            </div>
             <div className="aspect-[16/9]">
-              <WorkspaceCanvas config={previewConfig} compact />
+              <WorkspaceCanvas config={previewConfig} compact={false} />
             </div>
           </div>
         </div>
