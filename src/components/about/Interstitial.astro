@@ -55,10 +55,13 @@ import HeroSwoosh from "../homepage/HeroSwoosh.astro";
     position: relative;
     z-index: -1;
     opacity: var(--isw-p, 0);
-    /* Much gentler rotation — keep the natural orientation as the resting
-       shape, just a small wobble on enter/exit. Big scale stays. */
+    /*
+      The fan is BIG throughout — opacity does the heavy lifting for in/out.
+      Scale only nudges between 3.4 and 3.85 across the arc so the user
+      doesn't watch it grow from nothing.
+    */
     transform: rotate(calc((var(--isw-prog, 0.5) - 0.5) * 30deg))
-      scale(calc(0.25 + var(--isw-p, 0) * 3.6));
+      scale(calc(3.4 + var(--isw-p, 0) * 0.45));
   }
 </style>
 
