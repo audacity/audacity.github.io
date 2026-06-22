@@ -276,7 +276,15 @@ function WorkspaceCanvas({
       ? envelopeModeOverride
       : !!config.envelopeMode;
 
-  const baseTracks = useMemo(() => withWaveforms(config.tracks), [config]);
+  // Key the waveform generation on the tracks array itself, not the whole
+  // config object. Workspace switches give us a new config wrapper around the
+  // same tracks reference (only the toolbar/envelopeMode differ), so this
+  // memo now stays stable across switches — waveforms don't re-render, only
+  // the toolbar above does.
+  const baseTracks = useMemo(
+    () => withWaveforms(config.tracks),
+    [config.tracks],
+  );
   const tracks = useMemo(() => {
     return baseTracks.map((t, i) => {
       const patched = clipOverrides

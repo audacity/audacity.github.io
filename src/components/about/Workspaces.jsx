@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { WORKSPACE_CONFIGS } from "./workspaces/workspaceConfigs.js";
 import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
 
 const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
-const FADE_MS = 180;
 
 // Radial gradient inside the hero panel: magenta highlight top-right that
 // fades through deep purple to brand navy at the bottom — echoes the section's
@@ -13,21 +12,7 @@ const HERO_PANEL_GRADIENT =
 
 function Workspaces() {
   const [activeKey, setActiveKey] = useState("music");
-  const [displayedKey, setDisplayedKey] = useState(activeKey);
-  const [opacity, setOpacity] = useState(1);
-
-  useEffect(() => {
-    if (displayedKey === activeKey) return;
-    setOpacity(0);
-    const t = setTimeout(() => {
-      setDisplayedKey(activeKey);
-      setOpacity(1);
-    }, FADE_MS);
-    return () => clearTimeout(t);
-  }, [activeKey, displayedKey]);
-
-  const active = WORKSPACE_CONFIGS[displayedKey] ?? WORKSPACE_CONFIGS.music;
-  const labelActive = WORKSPACE_CONFIGS[activeKey] ?? WORKSPACE_CONFIGS.music;
+  const active = WORKSPACE_CONFIGS[activeKey] ?? WORKSPACE_CONFIGS.music;
   // Workspaces are toolbar/UI presets — the underlying project (tracks,
   // clips, mixer) stays the same. We borrow the podcast project as the
   // demo content and only let the active workspace's toolbar/envelope
@@ -47,7 +32,7 @@ function Workspaces() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 pt-24 lg:pt-32 pb-40 lg:pb-56">
       <div
-        className="max-w-screen-xl mx-auto rounded-[32px] border border-white/10 overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-screen-xl mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
         <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">
@@ -101,11 +86,7 @@ function Workspaces() {
           <div
             className="mt-9 lg:mt-10 mx-4 sm:mx-6 h-[232px] sm:h-[252px] lg:h-[272px] overflow-hidden rounded-t-2xl border border-white/20 border-b-0 bg-black shadow-[0_28px_60px_rgba(0,0,0,0.55)]"
             role="tabpanel"
-            aria-label={`${labelActive.label} workspace preview`}
-            style={{
-              opacity,
-              transition: `opacity ${FADE_MS}ms ease`,
-            }}
+            aria-label={`${active.label} workspace preview`}
           >
             <div className="relative flex items-center h-8 px-3 bg-black/60 border-b border-white/10">
               <div className="flex items-center gap-1.5">
