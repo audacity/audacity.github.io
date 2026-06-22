@@ -22,7 +22,7 @@ const PANELS = [
 function AudioCom() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-screen-xl mx-auto">
         <header className="max-w-3xl">
           <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
             Save to the cloud, share to the world.
