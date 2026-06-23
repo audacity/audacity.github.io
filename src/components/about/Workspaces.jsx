@@ -8,20 +8,24 @@ const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 // tab strip, panel padding, section padding). Subtracted from viewport
 // height when sizing the mockup so it always fits without clipping.
 const RESERVED_VERTICAL = 380;
-// Horizontal slack: section padding + hero-panel padding either side.
-const RESERVED_HORIZONTAL = 96;
-// Absolute cap so we don't blow up the workspace on ultra-wide displays.
-const MAX_MOCKUP_W = 1280;
+// Hero panel max-width — anything beyond this leaves the panel's content
+// area and the centred mockup would visually float.
+const PANEL_MAX_W = 1440;
 
 function useMockupSize() {
-  const [size, setSize] = useState({ width: 1056, height: 594 });
+  const [size, setSize] = useState({ width: 1248, height: 702 });
   useEffect(() => {
     if (typeof window === "undefined") return;
     const update = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
+      // Mirror the section + hero-panel padding stack so the mockup can
+      // fill the *actual* panel content area rather than a rough offset.
+      const sectionPx = vw >= 1024 ? 80 : 48;
+      const panelPx = vw >= 1024 ? 96 : vw >= 640 ? 80 : 48;
+      const panelContentW = Math.min(vw - sectionPx, PANEL_MAX_W) - panelPx;
       const maxH = Math.max(240, Math.min(vh * 0.6, vh - RESERVED_VERTICAL));
-      const maxW = Math.min(vw - RESERVED_HORIZONTAL, MAX_MOCKUP_W);
+      const maxW = Math.max(260, panelContentW);
       const ratio = 16 / 9;
       let width = maxH * ratio;
       let height = maxH;
