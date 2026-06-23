@@ -7,20 +7,20 @@ const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 // Vertical real-estate the rest of the section eats (heading, lede,
 // tab strip, panel padding, section padding). Subtracted from viewport
 // height when sizing the mockup so it always fits without clipping.
-const RESERVED_VERTICAL = 480;
+const RESERVED_VERTICAL = 380;
 // Horizontal slack: section padding + hero-panel padding either side.
 const RESERVED_HORIZONTAL = 96;
 // Absolute cap so we don't blow up the workspace on ultra-wide displays.
-const MAX_MOCKUP_W = 880;
+const MAX_MOCKUP_W = 1280;
 
 function useMockupSize() {
-  const [size, setSize] = useState({ width: MAX_MOCKUP_W, height: 495 });
+  const [size, setSize] = useState({ width: 1056, height: 594 });
   useEffect(() => {
     if (typeof window === "undefined") return;
     const update = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const maxH = Math.max(200, Math.min(vh * 0.5, vh - RESERVED_VERTICAL));
+      const maxH = Math.max(240, Math.min(vh * 0.6, vh - RESERVED_VERTICAL));
       const maxW = Math.min(vw - RESERVED_HORIZONTAL, MAX_MOCKUP_W);
       const ratio = 16 / 9;
       let width = maxH * ratio;
