@@ -8,9 +8,9 @@ const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 // tab strip, panel padding, section padding). Subtracted from viewport
 // height when sizing the mockup so it always fits without clipping.
 const RESERVED_VERTICAL = 380;
-// Hero panel max-width — anything beyond this leaves the panel's content
-// area and the centred mockup would visually float.
-const PANEL_MAX_W = 1440;
+// Hero panel max-width — kept in sync with the Tailwind max-w on the
+// panel below, so the mockup can fill the full panel content area.
+const PANEL_MAX_W = 1800;
 
 function useMockupSize() {
   const [size, setSize] = useState({ width: 1248, height: 702 });
@@ -24,7 +24,7 @@ function useMockupSize() {
       const sectionPx = vw >= 1024 ? 80 : 48;
       const panelPx = vw >= 1024 ? 96 : vw >= 640 ? 80 : 48;
       const panelContentW = Math.min(vw - sectionPx, PANEL_MAX_W) - panelPx;
-      const maxH = Math.max(240, Math.min(vh * 0.6, vh - RESERVED_VERTICAL));
+      const maxH = Math.max(240, Math.min(vh * 0.65, vh - RESERVED_VERTICAL));
       const maxW = Math.max(260, panelContentW);
       const ratio = 16 / 9;
       let width = maxH * ratio;
@@ -71,7 +71,7 @@ function Workspaces() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-16 lg:py-20">
       <div
-        className="max-w-[1440px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-[1800px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
         <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">
