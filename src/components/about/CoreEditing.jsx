@@ -1021,15 +1021,36 @@ const CARDS = [
   },
 ];
 
+// Time each card spends in the spotlight before autoplay advances. Long
+// enough to watch the demo loop through once or twice on most cards.
+const CYCLE_MS = 6500;
+
 function CoreEditing() {
-  // Only one demo animates at a time. Hover sets active on hover-capable
-  // devices; touch devices toggle on tap. Keeps the wall of motion from
-  // stealing attention from whichever card the visitor is reading.
+  // Only one demo animates at a time. Autoplay walks the row card-by-card;
+  // hover (or tap on touch) pauses the rotation on whichever card is
+  // engaged so the visitor can dwell on it.
   const canHover = useHoverCapable();
-  const [activeId, setActiveId] = useState(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const sectionRef = useRef(null);
+  const sectionInView = useInView(sectionRef);
+
+  // Autoplay: when the section is on-screen and nothing is engaged,
+  // schedule the next advance. Re-runs on every active change so the new
+  // card gets its own full CYCLE_MS window.
+  useEffect(() => {
+    if (paused || !sectionInView) return;
+    const t = setTimeout(() => {
+      setActiveIdx((i) => (i + 1) % CARDS.length);
+    }, CYCLE_MS);
+    return () => clearTimeout(t);
+  }, [paused, sectionInView, activeIdx]);
 
   return (
-    <section className="bg-background-dark core-editing-section">
+    <section
+      ref={sectionRef}
+      className="bg-background-dark core-editing-section"
+    >
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 shrink-0">
         <header className="max-w-3xl">
           <div
@@ -1055,19 +1076,27 @@ function CoreEditing() {
             scrollPaddingLeft: "calc((100vw - min(100vw, 80rem)) / 2 + 1.5rem)",
           }}
         >
-          {CARDS.map((card) => {
-            const isActive = activeId === card.id;
+          {CARDS.map((card, idx) => {
+            const isActive = idx === activeIdx;
             const handlePointerEnter = (e) => {
-              if (canHover && e.pointerType !== "touch") setActiveId(card.id);
+              if (canHover && e.pointerType !== "touch") {
+                setActiveIdx(idx);
+                setPaused(true);
+              }
             };
             const handlePointerLeave = (e) => {
               if (canHover && e.pointerType !== "touch") {
-                setActiveId((cur) => (cur === card.id ? null : cur));
+                setPaused(false);
               }
             };
             const handleClick = () => {
-              if (!canHover) {
-                setActiveId((cur) => (cur === card.id ? null : card.id));
+              if (canHover) return;
+              if (paused && isActive) {
+                // Already focused — second tap releases the row.
+                setPaused(false);
+              } else {
+                setActiveIdx(idx);
+                setPaused(true);
               }
             };
             return (
@@ -1096,6 +1125,23 @@ function CoreEditing() {
                       </div>
                     </div>
                   )}
+
+                  {/* Progress bar — only mounted on the active card.
+                      key={activeIdx} restarts the CSS animation on each
+                      advance; animation-play-state pauses it during
+                      hover/tap holds so the visual matches the timer. */}
+                  <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/[0.06]">
+                    {isActive && (
+                      <div
+                        key={`progress-${activeIdx}`}
+                        className="h-full bg-white/55 origin-left"
+                        style={{
+                          animation: `coreEditingProgress ${CYCLE_MS}ms linear forwards`,
+                          animationPlayState: paused ? "paused" : "running",
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
                 <div className="mt-5 px-1 shrink-0 card-text-block">
                   <h3 className="font-harmony text-text-contrast text-xl md:text-2xl leading-[1.1]">
@@ -1140,6 +1186,10 @@ function CoreEditing() {
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { scrollbar-width: none; }
+        @keyframes coreEditingProgress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
       `}</style>
     </section>
   );
