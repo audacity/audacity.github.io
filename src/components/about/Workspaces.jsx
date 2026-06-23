@@ -5,12 +5,14 @@ import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
 const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 
 // Vertical real-estate the rest of the section eats (heading, lede,
-// tab strip, panel padding, section padding). Subtracted from viewport
-// height when sizing the mockup so it always fits without clipping.
-const RESERVED_VERTICAL = 380;
+// tab strip, panel padding, section padding). Smaller value than the
+// "true" reserved height — content below the mockup is allowed to
+// overflow the viewport on shorter screens so the mockup itself can
+// stay generous.
+const RESERVED_VERTICAL = 240;
 // Hero panel max-width — kept in sync with the Tailwind max-w on the
 // panel below, so the mockup can fill the full panel content area.
-const PANEL_MAX_W = 1800;
+const PANEL_MAX_W = 2200;
 
 function useMockupSize() {
   const [size, setSize] = useState({ width: 1248, height: 702 });
@@ -24,7 +26,7 @@ function useMockupSize() {
       const sectionPx = vw >= 1024 ? 80 : 48;
       const panelPx = vw >= 1024 ? 96 : vw >= 640 ? 80 : 48;
       const panelContentW = Math.min(vw - sectionPx, PANEL_MAX_W) - panelPx;
-      const maxH = Math.max(240, Math.min(vh * 0.65, vh - RESERVED_VERTICAL));
+      const maxH = Math.max(240, Math.min(vh * 0.75, vh - RESERVED_VERTICAL));
       const maxW = Math.max(260, panelContentW);
       const ratio = 16 / 9;
       let width = maxH * ratio;
@@ -71,7 +73,7 @@ function Workspaces() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-16 lg:py-20">
       <div
-        className="max-w-[1800px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-[2200px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
         <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">
