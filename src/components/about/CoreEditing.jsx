@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "../../hooks/useInView.js";
+import { useHoverCapable } from "../../hooks/useHoverCapable.js";
 import {
   TrackControlPanel,
   TrackControlSidePanel,
@@ -74,10 +75,10 @@ const METERS_WAVEFORMS = [
   generateSpeechWaveform(17),
 ];
 
-function TrackMetersDemo() {
+function TrackMetersDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const { levels, peaks } = useAnimatedLevels(0, inView);
+  const { levels, peaks } = useAnimatedLevels(0, inView && isActive);
   // TrackControlPanel.meterLevel* is documented as dB but the component
   // pipes it straight into TrackMeter's `volume` (0–100 percent). Pass
   // the raw 0-96 from useAnimatedLevels so the meter inside the panel
@@ -313,10 +314,10 @@ function TrackLane({ name = "Audio 1", children }) {
 // dots; a longer waveform gives the clip a proper dense peak pattern.
 const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(12);
 
-function ClipHandlesDemo() {
+function ClipHandlesDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const t = useLoopProgress(8000, inView);
+  const t = useLoopProgress(8000, inView && isActive);
   const PPS = 100;
   const FULL_DURATION = 3.2;
   const RULER_H = 40;
@@ -445,10 +446,10 @@ const LABELS_WAVEFORMS = [
   generateSpeechWaveform(19),
 ];
 
-function LabelsDemo() {
+function LabelsDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const t = useLoopProgress(8000, inView);
+  const t = useLoopProgress(8000, inView && isActive);
   const PPS = 80;
   const CANVAS_W = 720;
   const LABEL_TRACK_H = 50;
@@ -561,7 +562,12 @@ function LabelsDemo() {
             }}
           >
             {LABELS.map((l) => {
-              const ageT = Math.min(1, Math.max(0, (t - l.at) / 0.05));
+              // While the demo is at rest (hover-to-play), keep every
+              // label visible so the card reads as a finished, annotated
+              // session rather than an empty label track.
+              const ageT = isActive
+                ? Math.min(1, Math.max(0, (t - l.at) / 0.05))
+                : 1;
               if (ageT <= 0) return null;
               return (
                 <div
@@ -621,10 +627,10 @@ const LOOPING_WAVEFORMS = [
   generateSpeechWaveform(19),
 ];
 
-function LoopingDemo() {
+function LoopingDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const t = useLoopProgress(3500, inView);
+  const t = useLoopProgress(3500, inView && isActive);
   const PPS = 80;
   const CANVAS_W = 720;
   const RULER_H = 40;
@@ -805,10 +811,10 @@ function LoopingDemo() {
   );
 }
 
-function SampleEditingDemo() {
+function SampleEditingDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const t = useLoopProgress(4500, inView);
+  const t = useLoopProgress(4500, inView && isActive);
   const PPS = 80;
   const CANVAS_W = 720;
   const TRACK_H = 280;
@@ -1016,6 +1022,12 @@ const CARDS = [
 ];
 
 function CoreEditing() {
+  // Only one demo animates at a time. Hover sets active on hover-capable
+  // devices; touch devices toggle on tap. Keeps the wall of motion from
+  // stealing attention from whichever card the visitor is reading.
+  const canHover = useHoverCapable();
+  const [activeId, setActiveId] = useState(null);
+
   return (
     <section className="bg-background-dark core-editing-section">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 shrink-0">
@@ -1043,35 +1055,59 @@ function CoreEditing() {
             scrollPaddingLeft: "calc((100vw - min(100vw, 80rem)) / 2 + 1.5rem)",
           }}
         >
-          {CARDS.map((card) => (
-            <li
-              key={card.id}
-              className="snap-start shrink-0 w-[min(82vw,420px)] flex flex-col"
-            >
-              <div
-                className="flex-1 min-h-0 rounded-2xl border border-white/10 bg-[rgb(20,16,56)] relative overflow-hidden pointer-events-none"
-                aria-hidden
+          {CARDS.map((card) => {
+            const isActive = activeId === card.id;
+            const handlePointerEnter = (e) => {
+              if (canHover && e.pointerType !== "touch") setActiveId(card.id);
+            };
+            const handlePointerLeave = (e) => {
+              if (canHover && e.pointerType !== "touch") {
+                setActiveId((cur) => (cur === card.id ? null : cur));
+              }
+            };
+            const handleClick = () => {
+              if (!canHover) {
+                setActiveId((cur) => (cur === card.id ? null : card.id));
+              }
+            };
+            return (
+              <li
+                key={card.id}
+                className="snap-start shrink-0 w-[min(82vw,420px)] flex flex-col"
               >
-                {card.Demo ? (
-                  <card.Demo />
-                ) : (
-                  <div className="absolute inset-0 flex items-end p-7">
-                    <div className="font-mono text-xs tracking-[0.2em] uppercase text-text-contrast/50">
-                      {card.eyebrow}
+                <div
+                  className={
+                    "flex-1 min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden cursor-pointer transition-[border-color,box-shadow] duration-300 " +
+                    (isActive
+                      ? "border-white/30 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+                      : "border-white/10")
+                  }
+                  onPointerEnter={handlePointerEnter}
+                  onPointerLeave={handlePointerLeave}
+                  onClick={handleClick}
+                  aria-hidden
+                >
+                  {card.Demo ? (
+                    <card.Demo isActive={isActive} />
+                  ) : (
+                    <div className="absolute inset-0 flex items-end p-7">
+                      <div className="font-mono text-xs tracking-[0.2em] uppercase text-text-contrast/50">
+                        {card.eyebrow}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-              <div className="mt-5 px-1 shrink-0 card-text-block">
-                <h3 className="font-harmony text-text-contrast text-xl md:text-2xl leading-[1.1]">
-                  {card.title}
-                </h3>
-                <p className="mt-2 text-text-contrast/65 text-sm md:text-base leading-relaxed">
-                  {card.description}
-                </p>
-              </div>
-            </li>
-          ))}
+                  )}
+                </div>
+                <div className="mt-5 px-1 shrink-0 card-text-block">
+                  <h3 className="font-harmony text-text-contrast text-xl md:text-2xl leading-[1.1]">
+                    {card.title}
+                  </h3>
+                  <p className="mt-2 text-text-contrast/65 text-sm md:text-base leading-relaxed">
+                    {card.description}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
           <li
             aria-hidden
             className="shrink-0 w-6 lg:w-10"
