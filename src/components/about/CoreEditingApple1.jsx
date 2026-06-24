@@ -61,6 +61,12 @@ function CoreEditingApple1() {
   };
 
   const cardW = Math.max(360, viewportW * ACTIVE_RATIO);
+  // Derive height from width so we can set both explicitly — relying
+  // on aspectRatio alone failed in some flex contexts and the
+  // absolutely-positioned demo contents (clips, playheads) ended up
+  // being measured against a 0-height card and painted at the page
+  // top.
+  const cardH = (cardW * 9) / 16;
   // Translate the row so the active card's centre lands at the
   // viewport's centre.
   const trackX = viewportW / 2 - cardW / 2 - activeIdx * (cardW + GAP);
@@ -183,6 +189,7 @@ function CoreEditingApple1() {
                 aria-label={`Show ${c.title}`}
                 style={{
                   width: cardW,
+                  height: cardH,
                   aspectRatio: "16/9",
                   transform: `scale(${isActive ? 1 : INACTIVE_SCALE})`,
                   opacity: isActive ? 1 : 0.35,
