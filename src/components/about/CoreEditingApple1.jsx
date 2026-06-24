@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { CARDS } from "./CoreEditing.jsx";
 import { useInView } from "../../hooks/useInView.js";
 
-// Apple Logic Pro pattern #1 — filmstrip with focus:
-// All cards laid out side-by-side; the active one centers and pops to
-// full size + full opacity, the others sit smaller and dimmed on
-// either side. User still sees there's a row of stuff, but only one
-// thing demands attention at a time.
+// Apple Logic Pro pattern #1 — filmstrip with focus, rebuilt on native
+// CSS scroll-snap. The viewport is a horizontally-scrollable container;
+// each card has scroll-snap-align:center so the browser handles
+// momentum + snapping. Active card is tracked via IntersectionObserver
+// so we can dim/scale neighbours, autoplay can advance, dots can
+// indicate position, etc.
 const CYCLE_MS = 6500;
 
-// Active card consumes 64% of the viewport width; non-active ones sit
+// Active card consumes ~64% of the viewport width; non-active ones sit
 // at 92% scale so they read as background context.
 const ACTIVE_RATIO = 0.64;
 const INACTIVE_SCALE = 0.92;
@@ -19,26 +20,13 @@ function CoreEditingApple1() {
   const sectionRef = useRef(null);
   const sectionInView = useInView(sectionRef);
   const viewportRef = useRef(null);
+  const cardRefs = useRef([]);
   const [activeIdx, setActiveIdx] = useState(0);
   const [paused, setPaused] = useState(false);
   const [viewportW, setViewportW] = useState(1000);
-  // Pointer drag — mouse, touch and pen all funnel through Pointer
-  // Events so the same gesture works on desktop and mobile.
-  const dragState = useRef({
-    active: false,
-    startX: 0,
-    pointerId: null,
-    maxDelta: 0,
-  });
-  // Set true when the user has dragged far enough that the next click
-  // should be suppressed (so the gesture doesn't also promote whatever
-  // card was under the pointer at release).
-  const wasDragged = useRef(false);
-  const [dragOffset, setDragOffset] = useState(0);
-  const [dragging, setDragging] = useState(false);
+  const programmaticScrollRef = useRef(false);
 
-  // Measure the viewport so we can compute card width + translate
-  // distances precisely.
+  // Measure viewport for card sizing.
   useEffect(() => {
     if (!viewportRef.current) return;
     const ro = new ResizeObserver((entries) => {
@@ -48,73 +36,66 @@ function CoreEditingApple1() {
     return () => ro.disconnect();
   }, []);
 
+  // Track which card is currently centered in the viewport.
   useEffect(() => {
-    if (paused || !sectionInView || dragging) return;
+    if (!viewportRef.current) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Pick whichever card has the highest visible ratio.
+        let best = { idx: activeIdx, ratio: 0 };
+        for (const e of entries) {
+          const idx = Number(e.target.dataset.cardIdx);
+          if (e.intersectionRatio > best.ratio) {
+            best = { idx, ratio: e.intersectionRatio };
+          }
+        }
+        if (best.ratio > 0 && best.idx !== activeIdx) {
+          setActiveIdx(best.idx);
+          if (!programmaticScrollRef.current) {
+            // User-driven scroll → pause autoplay so they can dwell.
+            setPaused(true);
+          }
+        }
+      },
+      {
+        root: viewportRef.current,
+        threshold: [0.4, 0.6, 0.8, 1.0],
+      },
+    );
+    cardRefs.current.forEach((el) => el && io.observe(el));
+    return () => io.disconnect();
+  }, [activeIdx]);
+
+  // Autoplay: scroll to next card every CYCLE_MS.
+  useEffect(() => {
+    if (paused || !sectionInView) return;
     const t = setTimeout(() => {
-      setActiveIdx((i) => (i + 1) % CARDS.length);
+      const nextIdx = (activeIdx + 1) % CARDS.length;
+      scrollToIdx(nextIdx);
     }, CYCLE_MS);
     return () => clearTimeout(t);
-  }, [paused, sectionInView, activeIdx, dragging]);
+  }, [paused, sectionInView, activeIdx]);
 
-  const advance = (delta) => {
-    setActiveIdx((i) => (i + delta + CARDS.length) % CARDS.length);
+  const scrollToIdx = (idx) => {
+    const target = cardRefs.current[idx];
+    const viewport = viewportRef.current;
+    if (!target || !viewport) return;
+    programmaticScrollRef.current = true;
+    // smooth-scroll the target into view, centered.
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+    // Reset the programmatic flag once the scroll has settled.
+    setTimeout(() => {
+      programmaticScrollRef.current = false;
+    }, 600);
   };
 
   const cardW = Math.max(360, viewportW * ACTIVE_RATIO);
-  // Derive height from width so we can set both explicitly — relying
-  // on aspectRatio alone failed in some flex contexts and the
-  // absolutely-positioned demo contents (clips, playheads) ended up
-  // being measured against a 0-height card and painted at the page
-  // top.
   const cardH = (cardW * 9) / 16;
-  // Translate the row so the active card's centre lands at the
-  // viewport's centre.
-  const trackX = viewportW / 2 - cardW / 2 - activeIdx * (cardW + GAP);
-
-  const onPointerDown = (e) => {
-    // Left mouse button only; let touch/pen through.
-    if (e.pointerType === "mouse" && e.button !== 0) return;
-    dragState.current = {
-      active: true,
-      startX: e.clientX,
-      pointerId: e.pointerId,
-      maxDelta: 0,
-    };
-    wasDragged.current = false;
-    setDragging(true);
-    setPaused(true);
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-
-  const onPointerMove = (e) => {
-    if (!dragState.current.active) return;
-    const dx = e.clientX - dragState.current.startX;
-    dragState.current.maxDelta = Math.max(
-      dragState.current.maxDelta,
-      Math.abs(dx),
-    );
-    if (dragState.current.maxDelta > 5) wasDragged.current = true;
-    setDragOffset(dx);
-  };
-
-  const endDrag = (e) => {
-    if (!dragState.current.active) return;
-    const dx = e.clientX - dragState.current.startX;
-    dragState.current.active = false;
-    try {
-      e.currentTarget.releasePointerCapture(dragState.current.pointerId);
-    } catch {}
-    // Snap: anything past ~25% of a card-width advances one position;
-    // bigger drags can jump multiple cards.
-    const cardSlot = cardW + GAP;
-    const steps =
-      Math.abs(dx) > cardSlot * 0.25
-        ? Math.round(-dx / cardSlot) || (dx < 0 ? 1 : -1)
-        : 0;
-    if (steps !== 0) advance(steps);
-    setDragOffset(0);
-    setDragging(false);
-  };
+  const sidePad = Math.max(0, (viewportW - cardW) / 2);
 
   return (
     <section
@@ -139,37 +120,31 @@ function CoreEditingApple1() {
         </header>
       </div>
 
-      {/* Filmstrip viewport — full bleed so the offscreen neighbours
-          can peek in past the section's normal padding. */}
+      {/* Native horizontally-scrolling filmstrip with scroll-snap. */}
       <div
         ref={viewportRef}
-        className="mt-10 lg:mt-14 relative overflow-hidden select-none"
+        className="mt-10 lg:mt-14 overflow-x-auto overflow-y-hidden scrollbar-hide"
         style={{
-          height: viewportW * ACTIVE_RATIO * (9 / 16) + 32,
-          cursor: dragging ? "grabbing" : "grab",
-          touchAction: "pan-y",
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          // Padding pushes the first and last cards' snap points to
+          // the centre of the viewport.
+          paddingLeft: sidePad,
+          paddingRight: sidePad,
+          // Visible height accommodates the card + a touch of padding.
+          height: cardH + 32,
         }}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
       >
         <div
-          className="absolute top-0 left-0"
           style={{
             display: "flex",
             flexDirection: "row",
             flexWrap: "nowrap",
             alignItems: "center",
-            // Force the row to sum-of-children width so flex-nowrap
-            // actually keeps the cards on a single line.
-            width: "max-content",
             gap: GAP,
-            transform: `translateX(${trackX + dragOffset}px)`,
-            transition: dragging
-              ? "none"
-              : "transform 520ms cubic-bezier(0.4, 0, 0.2, 1)",
             height: "100%",
+            // sum-of-children width keeps cards on one line.
+            width: "max-content",
           }}
         >
           {CARDS.map((c, idx) => {
@@ -178,51 +153,34 @@ function CoreEditingApple1() {
             return (
               <button
                 key={c.id}
+                ref={(el) => (cardRefs.current[idx] = el)}
+                data-card-idx={idx}
                 type="button"
-                onClick={() => {
-                  // Suppress click that follows a drag — otherwise
-                  // releasing on a neighbour after a drag would also
-                  // promote it.
-                  if (wasDragged.current) {
-                    wasDragged.current = false;
-                    return;
-                  }
-                  setActiveIdx(idx);
-                  setPaused(true);
-                }}
+                onClick={() => scrollToIdx(idx)}
                 className="rounded-2xl border border-white/10 bg-[rgb(20,16,56)] overflow-hidden relative text-left"
                 aria-label={`Show ${c.title}`}
                 style={{
-                  // Explicit + flex-shrink:0 instead of Tailwind classes
-                  // — belt-and-braces against any flex-context that
-                  // would otherwise wrap or shrink the cards.
                   flexShrink: 0,
                   flexGrow: 0,
                   flexBasis: "auto",
                   width: cardW,
                   height: cardH,
+                  scrollSnapAlign: "center",
                   transform: `scale(${isActive ? 1 : INACTIVE_SCALE})`,
                   opacity: isActive ? 1 : 0.35,
                   filter: isActive ? "none" : "saturate(0.7)",
                   cursor: isActive ? "default" : "pointer",
                   transition:
-                    "transform 520ms cubic-bezier(0.4, 0, 0.2, 1), opacity 520ms ease, filter 520ms ease",
+                    "transform 380ms ease, opacity 380ms ease, filter 380ms ease",
                   boxShadow: isActive
                     ? "0 30px 60px rgba(0,0,0,0.55)"
                     : "0 12px 24px rgba(0,0,0,0.35)",
                 }}
               >
-                {/* Only render the Demo for the active card. Inactive
-                    cards stay as flat tiles with just the overlay text
-                    — eliminates any chance of demo-internal positioned
-                    elements (playhead stalks at height: 9999, loop
-                    region edge bars, SVG cursors) escaping a card
-                    whose layout box hasn't settled yet. */}
+                {/* Only the active card mounts its Demo — keeps any
+                    positioned demo internals (playhead stalks etc.)
+                    from rendering in inactive cards. */}
                 {isActive && <Demo isActive />}
-                {/* Bottom-left text overlay — Apple-style. z-index lifts
-                    it above demo-internal positioned elements like
-                    LoopingDemo's loop-region edge stalks (z-index 10)
-                    that otherwise paint over the gradient. */}
                 <div
                   className="absolute inset-x-0 bottom-0 px-6 lg:px-8 pb-5 lg:pb-6 pt-14 pointer-events-none"
                   style={{
@@ -247,8 +205,7 @@ function CoreEditingApple1() {
         </div>
       </div>
 
-      {/* Caption — single line of description for the active card,
-          re-keyed on activeIdx so it cross-fades on each advance. */}
+      {/* Caption */}
       <div className="mt-6 px-6 lg:px-10 min-h-[3.5rem] flex items-start justify-center">
         <p
           key={`caption-${activeIdx}`}
@@ -270,8 +227,8 @@ function CoreEditingApple1() {
                 type="button"
                 aria-label={`Show ${c.title}`}
                 onClick={() => {
-                  setActiveIdx(idx);
                   setPaused(true);
+                  scrollToIdx(idx);
                 }}
                 className="relative h-2 rounded-full overflow-hidden transition-all"
                 style={{
@@ -325,6 +282,8 @@ function CoreEditingApple1() {
           from { opacity: 0; transform: translateY(4px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { scrollbar-width: none; }
       `}</style>
     </section>
   );
