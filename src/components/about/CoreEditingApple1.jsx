@@ -219,8 +219,20 @@ function CoreEditingApple1() {
         </div>
       </div>
 
+      {/* Caption — single line of description for the active card,
+          re-keyed on activeIdx so it cross-fades on each advance. */}
+      <div className="mt-6 px-6 lg:px-10 min-h-[3.5rem] flex items-start justify-center">
+        <p
+          key={`caption-${activeIdx}`}
+          className="text-text-contrast/70 text-base md:text-lg text-center max-w-2xl"
+          style={{ animation: "coreEditingCaptionIn 480ms ease" }}
+        >
+          {CARDS[activeIdx].description}
+        </p>
+      </div>
+
       {/* Controls — dots + play toggle. */}
-      <div className="mt-7 flex items-center justify-center gap-3 px-6">
+      <div className="mt-2 flex items-center justify-center gap-3 px-6">
         <div className="flex items-center gap-1.5">
           {CARDS.map((c, idx) => {
             const isActive = idx === activeIdx;
@@ -280,6 +292,10 @@ function CoreEditingApple1() {
         @keyframes coreEditingDotFill {
           from { transform: scaleX(0); }
           to { transform: scaleX(1); }
+        }
+        @keyframes coreEditingCaptionIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </section>
