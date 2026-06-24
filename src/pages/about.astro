@@ -60,6 +60,14 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   }
   body {
     background-color: var(--page-bg) !important;
+    /*
+      Belt-and-braces clip on horizontal overflow. Something inside
+      the page is wider than the viewport on some sizes (likely a
+      demo's fixed-width inner container that's escaping its
+      overflow-hidden ancestor). Killing the right-scroll at the body
+      so the page stays single-column-scrolling while we hunt it.
+    */
+    overflow-x: hidden;
   }
   #site-header {
     position: fixed !important;
