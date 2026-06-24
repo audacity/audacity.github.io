@@ -14,9 +14,11 @@ import { useInView } from "../../hooks/useInView.js";
 // step or shadowed by inline-style timing — the .cef-* classes are
 // unique to this component and live in the <style> block below.
 const CYCLE_MS = 6500;
-const ACTIVE_RATIO = 0.62;
-const INACTIVE_SCALE = 0.92;
-const GAP = 24;
+// Active card width as a fraction of viewport. Smaller value = more of
+// the neighbouring cards peeks in on either side.
+const ACTIVE_RATIO = 0.48;
+const INACTIVE_SCALE = 0.96;
+const GAP = 28;
 
 function CoreEditingFilmstrip() {
   const sectionRef = useRef(null);
@@ -94,10 +96,6 @@ function CoreEditingFilmstrip() {
           Also
         </div>
         <h2 className="cef-title">Hundreds of smaller things</h2>
-        <p className="cef-lede">
-          We've touched almost every corner of the app. Here are a few you'll
-          run into in your first session.
-        </p>
       </header>
 
       <div ref={viewportRef} className="cef-viewport">
@@ -257,16 +255,14 @@ function CoreEditingFilmstrip() {
           flex: 0 0 auto !important;
           scroll-snap-align: center;
           transform: scale(${INACTIVE_SCALE});
-          opacity: 0.4;
-          filter: saturate(0.7);
-          transition: transform 380ms ease, opacity 380ms ease, filter 380ms ease;
+          opacity: 0.78;
+          transition: transform 380ms ease, opacity 380ms ease;
           margin: 0;
           padding: 0;
         }
         .cef-card--active {
           transform: scale(1);
           opacity: 1;
-          filter: none;
         }
         .cef-card__btn {
           display: block;
