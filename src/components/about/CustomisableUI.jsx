@@ -106,9 +106,40 @@ function AccentDemo({ isActive = true }) {
           transition: "background 480ms ease",
         }}
       >
-        {/* Onboarding-style picker — the active swatch advances each
-            cycle so the colour flip reads as a deliberate choice rather
-            than an unexplained flicker. */}
+        {/* Centerpiece: the real TrackControlPanel — pan knob + volume
+            slider + mute/solo toggles all live here and all pick up the
+            accent through the CSS overrides above. Wrapped in a
+            perspective container with a soft Y/X rotation so the panel
+            reads as a 3D object floating in the card. The wrapper
+            width matches the design system's hardcoded 268px so the
+            meter strip reaches the right edge with no gap. */}
+        <div style={{ perspective: "1400px" }}>
+          <div
+            className="rounded-lg border border-white/[0.10] overflow-hidden shadow-[0_28px_50px_rgba(0,0,0,0.55)]"
+            style={{
+              width: 268,
+              transform: "rotateY(-16deg) rotateX(6deg)",
+              transformOrigin: "center center",
+            }}
+          >
+            <TrackControlPanel
+              trackName="Music bed"
+              trackType="stereo"
+              volume={72}
+              pan={-60}
+              isSolo
+              meterLevelLeft={48}
+              meterLevelRight={44}
+              meterRecentPeakLeft={62}
+              meterRecentPeakRight={58}
+              trackHeight={120}
+            />
+          </div>
+        </div>
+
+        {/* Onboarding-style picker — sits below the panel so the panel
+            reads as the focus and the swatches as the control feeding
+            into it. */}
         <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm">
           {ACCENTS.map((a, idx) => {
             const isPicked = idx === i;
@@ -131,35 +162,6 @@ function AccentDemo({ isActive = true }) {
               />
             );
           })}
-        </div>
-
-        {/* Centerpiece: the real TrackControlPanel — pan knob + volume
-            slider + mute/solo toggles all live here and all pick up the
-            accent through the CSS overrides above. Wrapped in a
-            perspective container with a soft Y/X rotation so the panel
-            reads as a 3D object floating in the card. */}
-        <div style={{ perspective: "1400px" }}>
-          <div
-            className="rounded-lg border border-white/[0.10] overflow-hidden shadow-[0_28px_50px_rgba(0,0,0,0.55)]"
-            style={{
-              width: 280,
-              transform: "rotateY(-16deg) rotateX(6deg)",
-              transformOrigin: "center center",
-            }}
-          >
-            <TrackControlPanel
-              trackName="Music bed"
-              trackType="stereo"
-              volume={72}
-              pan={-60}
-              isSolo
-              meterLevelLeft={48}
-              meterLevelRight={44}
-              meterRecentPeakLeft={62}
-              meterRecentPeakRight={58}
-              trackHeight={120}
-            />
-          </div>
         </div>
 
         {/* Accent name pinned bottom-left, coloured by the active swatch. */}
