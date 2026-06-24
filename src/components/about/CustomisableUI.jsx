@@ -2,17 +2,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "../../hooks/useInView.js";
 import {
   Clip,
-  Toolbar,
-  ToolbarButtonGroup,
-  ToolbarDivider,
-  TransportButton,
-  ToolButton,
+  TransportToolbar,
   TrackNew,
   TrackControlPanel,
   TrackControlSidePanel,
   TimelineRuler,
   PlayheadCursor,
-  MasterMeter,
   ThemeProvider,
   darkTheme,
   lightTheme,
@@ -20,6 +15,8 @@ import {
   generateDecayingSineWave,
   generateSineWave,
 } from "@dilsonspickles/components";
+
+const NOOP = () => {};
 
 function useCycleIndex(count, intervalMs, enabled = true) {
   const [i, setI] = useState(0);
@@ -246,6 +243,13 @@ function ThemeDemo() {
   const theme = i === 0 ? darkTheme : lightTheme;
   const themeName = i === 0 ? "Dark" : "Light";
 
+  // Loop region state for the TransportToolbar — has to be controlled,
+  // so we park it in local state even though nothing here actually
+  // interacts with it.
+  const [loopEnabled, setLoopEnabled] = useState(false);
+  const [loopStart, setLoopStart] = useState(null);
+  const [loopEnd, setLoopEnd] = useState(null);
+
   // Stable waveforms — same shape across theme flips so only the colours
   // change. Big seeds give the dense peak pattern TrackNew expects.
   const waveforms = useMemo(
@@ -304,49 +308,48 @@ function ThemeDemo() {
             transition: "background 480ms ease",
           }}
         >
-          <Toolbar
-            rightContent={
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  paddingRight: 8,
-                }}
-              >
-                <ToolButton icon="microphone" ariaLabel="Recording level" />
-                <div style={{ width: 160 }}>
-                  <MasterMeter
-                    levelLeft={-12}
-                    levelRight={-14}
-                    recentPeakLeft={-8}
-                    recentPeakRight={-10}
-                    volume={0.8}
-                  />
-                </div>
-              </div>
-            }
-          >
-            <ToolbarButtonGroup>
-              <TransportButton icon="play" ariaLabel="Play" />
-              <TransportButton icon="stop" ariaLabel="Stop" />
-              <TransportButton icon="record" ariaLabel="Record" />
-              <TransportButton icon="skip-back" ariaLabel="Skip to start" />
-              <TransportButton icon="skip-forward" ariaLabel="Skip to end" />
-            </ToolbarButtonGroup>
-            <ToolbarDivider />
-            <ToolbarButtonGroup>
-              <ToolButton icon="cut" ariaLabel="Cut" />
-              <ToolButton icon="copy" ariaLabel="Copy" />
-              <ToolButton icon="paste" ariaLabel="Paste" />
-            </ToolbarButtonGroup>
-            <ToolbarDivider />
-            <ToolbarButtonGroup>
-              <ToolButton icon="zoom-in" ariaLabel="Zoom in" />
-              <ToolButton icon="zoom-out" ariaLabel="Zoom out" />
-              <ToolButton icon="zoom-to-fit" ariaLabel="Zoom to fit" />
-            </ToolbarButtonGroup>
-          </Toolbar>
+          <TransportToolbar
+            activeMenuItem="project"
+            workspace="classic"
+            isPlaying={false}
+            isRecording={false}
+            onPlay={NOOP}
+            onStop={NOOP}
+            onRecord={NOOP}
+            snapEnabled
+            snapMode="musical"
+            loopRegionEnabled={loopEnabled}
+            loopRegionStart={loopStart}
+            loopRegionEnd={loopEnd}
+            setLoopRegionEnabled={setLoopEnabled}
+            setLoopRegionStart={setLoopStart}
+            setLoopRegionEnd={setLoopEnd}
+            timeSelection={null}
+            bpm={120}
+            beatsPerMeasure={4}
+            noteValue={4}
+            envelopeMode={false}
+            spectrogramMode={false}
+            onToggleEnvelope={NOOP}
+            onToggleSpectrogram={NOOP}
+            onZoomIn={NOOP}
+            onZoomOut={NOOP}
+            onZoomToSelection={NOOP}
+            onZoomToFitProject={NOOP}
+            onZoomToggle={NOOP}
+            currentTime={5.4}
+            timeCodeFormat="hh:mm:ss"
+            onTimeCodeChange={NOOP}
+            onTimeCodeFormatChange={NOOP}
+            onShareClick={NOOP}
+            onExportAudioClick={NOOP}
+            onExportLoopRegionClick={NOOP}
+            masterLevelLeft={-12}
+            masterLevelRight={-14}
+            masterRecentPeakLeft={-8}
+            masterRecentPeakRight={-10}
+            masterVolume={0.8}
+          />
 
           <div
             style={{
