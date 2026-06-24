@@ -202,9 +202,13 @@ function CoreEditingApple1() {
                     : "0 12px 24px rgba(0,0,0,0.35)",
                 }}
               >
-                {/* Only the active demo gets isActive=true, so inactive
-                    cards stay at rest and don't burn CPU. */}
-                <Demo isActive={isActive} />
+                {/* Only render the Demo for the active card. Inactive
+                    cards stay as flat tiles with just the overlay text
+                    — eliminates any chance of demo-internal positioned
+                    elements (playhead stalks at height: 9999, loop
+                    region edge bars, SVG cursors) escaping a card
+                    whose layout box hasn't settled yet. */}
+                {isActive && <Demo isActive />}
                 {/* Bottom-left text overlay — Apple-style. z-index lifts
                     it above demo-internal positioned elements like
                     LoopingDemo's loop-region edge stalks (z-index 10)
