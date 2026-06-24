@@ -433,8 +433,13 @@ function ThemeDemo() {
               </div>
               <div
                 style={{
+                  // Wrapper at the lane top (just below the ruler) so
+                  // the stalk doesn't paint behind the time labels in
+                  // the top half of the ruler — only the head/icon
+                  // sits in the ruler, drawn upwards via a negative
+                  // iconTopOffset.
                   position: "absolute",
-                  top: 0,
+                  top: RULER_H,
                   left: 0,
                   pointerEvents: "none",
                 }}
@@ -442,12 +447,11 @@ function ThemeDemo() {
                 <PlayheadCursor
                   position={5.4}
                   pixelsPerSecond={PPS}
-                  height={RULER_H + totalTracksH}
+                  height={totalTracksH}
                   showTopIcon
-                  // Wrapper sits at the column top (ruler top). 17px
-                  // icon centered in the bottom half of a 40px ruler
-                  // lands at top=21.5; round to 22.
-                  iconTopOffset={22}
+                  // Wrapper at ruler bottom → -19 lands the icon at
+                  // ruler y=21, in the bottom half.
+                  iconTopOffset={-19}
                 />
               </div>
             </div>

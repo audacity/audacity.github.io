@@ -421,8 +421,13 @@ function WorkspaceCanvas({
                 </div>
                 <div
                   style={{
+                    // Wrapper at the lane top (just below the ruler) so
+                    // the stalk doesn't paint behind the time labels in
+                    // the top half of the ruler. The icon is then
+                    // rendered upwards into the ruler via a negative
+                    // iconTopOffset.
                     position: "absolute",
-                    top: 0,
+                    top: RULER_H,
                     left: 0,
                     pointerEvents: "none",
                   }}
@@ -430,13 +435,12 @@ function WorkspaceCanvas({
                   <PlayheadCursor
                     position={config.playheadPosition}
                     pixelsPerSecond={PIXELS_PER_SECOND}
-                    height={RULER_H + 2 + totalTrackHeight + tracks.length * 2}
+                    height={2 + totalTrackHeight + tracks.length * 2}
                     showTopIcon
-                    // Wrapper sits at the column top (ruler top). The
-                    // 17px icon centered in the bottom half of a 40px
-                    // ruler lands at top=21.5, so 22 ≈ "sits in the
-                    // bottom half of the timeline ruler".
-                    iconTopOffset={22}
+                    // Icon needs to land in the bottom half of the 40px
+                    // ruler. Wrapper is at ruler bottom, so offset -19
+                    // puts the icon top at ruler y=21.
+                    iconTopOffset={-19}
                   />
                 </div>
               </div>
