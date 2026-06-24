@@ -432,6 +432,11 @@ function WorkspaceCanvas({
                     pixelsPerSecond={PIXELS_PER_SECOND}
                     height={RULER_H + 2 + totalTrackHeight + tracks.length * 2}
                     showTopIcon
+                    // Wrapper sits at the column top (ruler top). The
+                    // 17px icon centered in the bottom half of a 40px
+                    // ruler lands at top=21.5, so 22 ≈ "sits in the
+                    // bottom half of the timeline ruler".
+                    iconTopOffset={22}
                   />
                 </div>
               </div>

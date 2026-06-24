@@ -798,11 +798,11 @@ function LoopingDemo({ isActive = true }) {
               pixelsPerSecond={PPS}
               height={9999}
               showTopIcon
-              // PlayheadCursor sits at top:0 of the tracks area (below
-              // the ruler). Negative offset pushes the icon up into the
-              // ruler. Icon is 17px tall; -20 puts it sitting in the
-              // lower half of the 40px ruler.
-              iconTopOffset={-14}
+              // Wrapper sits at the tracks-lane top (below the ruler).
+              // Need to push the 17px icon up so it lands centered in
+              // the bottom half of the 40px ruler: ruler y = 40 + offset
+              // → 40 - 19 = 21 ≈ icon top in the bottom half.
+              iconTopOffset={-19}
             />
           </div>
         </div>

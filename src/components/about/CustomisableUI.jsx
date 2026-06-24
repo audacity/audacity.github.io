@@ -444,6 +444,10 @@ function ThemeDemo() {
                   pixelsPerSecond={PPS}
                   height={RULER_H + totalTracksH}
                   showTopIcon
+                  // Wrapper sits at the column top (ruler top). 17px
+                  // icon centered in the bottom half of a 40px ruler
+                  // lands at top=21.5; round to 22.
+                  iconTopOffset={22}
                 />
               </div>
             </div>
