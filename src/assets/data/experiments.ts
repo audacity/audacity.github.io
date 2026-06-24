@@ -58,8 +58,9 @@ export const experiments: Experiment[] = [
   //   b — header "Audacity", "Download Audacity <ver>" button (text effect alone)
   //   c — header "Audacity", "download on musehub" badge
   //   d — header "Download Audacity", "download on musehub" badge
-  // Ship disabled; flip `enabled` to true to launch (requires a redeploy since
-  // the enabled set is baked into the BaseLayout bootstrap script).
+  // Disabled after the June 2026 run. Re-enable only for a new, separately
+  // reported experiment (requires a redeploy since the enabled set is baked
+  // into the BaseLayout bootstrap script).
   {
     name: "musehub-copy",
     variants: [
@@ -68,7 +69,7 @@ export const experiments: Experiment[] = [
       { name: "c", weight: 25 },
       { name: "d", weight: 25 },
     ],
-    enabled: true,
+    enabled: false,
   },
 ];
 
