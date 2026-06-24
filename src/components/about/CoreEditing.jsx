@@ -1243,7 +1243,7 @@ function SampleEditingDemo({ isActive = true }) {
   );
 }
 
-export const CARDS = [
+const CARDS = [
   {
     id: "clip-handles",
     eyebrow: "Clip handles",
