@@ -95,9 +95,24 @@ function AccentDemo({ isActive = true }) {
           ) !important;
         }
         .accent-demo-card .toggle-button--active { background: var(--accent) !important; }
+        /*
+          Meters: volume fill picks up the accent at full strength, RMS
+          sits inside at reduced opacity so it reads as a denser core.
+          The clipping modifier keeps its own red — never override it,
+          it's a safety signal not a brand colour.
+        */
+        .accent-demo-card .track-meter__volume:not(.track-meter__volume--clipping) {
+          background: var(--accent) !important;
+        }
+        .accent-demo-card .track-meter__rms {
+          background: var(--accent) !important;
+          opacity: 0.55;
+        }
         .accent-demo-card .slider__fill,
         .accent-demo-card .knob__value-sweep,
-        .accent-demo-card .toggle-button--active {
+        .accent-demo-card .toggle-button--active,
+        .accent-demo-card .track-meter__volume,
+        .accent-demo-card .track-meter__rms {
           transition: background 360ms ease;
         }
       `}</style>
