@@ -3,10 +3,10 @@ import { CARDS } from "./CoreEditing.jsx";
 import { useInView } from "../../hooks/useInView.js";
 
 // Apple Logic Pro pattern #1 — "Get to Know Logic Pro":
-// Big horizontal feature carousel. One large card visible at a time
-// (one demo running at a time), big hero canvas + headline below.
-// Tab indicators along the bottom for jump-navigation; autoplay walks
-// the row; swipe on touch.
+// Single card at a time with the demo as a hero, headline overlaid
+// bottom-left, slim dot indicators + a play/pause toggle underneath.
+// Card sized smaller than Apple's full-bleed treatment so it sits
+// inside the page rather than dominating it.
 const CYCLE_MS = 6500;
 
 function CoreEditingApple1() {
@@ -61,68 +61,110 @@ function CoreEditingApple1() {
             Hundreds of smaller things
           </h2>
           <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
-            One big card at a time, autoplay walks the row, tabs along the
-            bottom jump to any feature.
+            Single card with the demo as a hero, headline overlaid; slim dots +
+            a play toggle below. Smaller than Apple's full-bleed so it sits
+            inside the page rather than swallowing it.
           </p>
         </header>
 
-        <div
-          className="mt-10 lg:mt-12 rounded-3xl border border-white/10 bg-[rgb(20,16,56)] overflow-hidden relative"
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          {/* Demo canvas — takes up the full card area. */}
+        <div className="mt-10 lg:mt-12 max-w-4xl mx-auto">
+          {/* Hero card — demo + bottom-left text overlay. */}
           <div
-            className="relative w-full"
-            style={{ aspectRatio: "16/9", minHeight: 360 }}
+            className="rounded-2xl border border-white/10 bg-[rgb(20,16,56)] overflow-hidden relative"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+            style={{ aspectRatio: "16/9" }}
           >
-            {/* Only render the active demo, so only one animation runs
-                at a time across the whole section. */}
+            {/* Only the active demo renders, so only one animation is
+                running across the whole section. */}
             <Demo isActive />
-          </div>
-
-          {/* Headline + description under the hero. */}
-          <div className="px-8 py-7 lg:px-10 lg:py-9 border-t border-white/10">
+            {/* Bottom gradient + text overlay (Apple's pattern). */}
             <div
-              className="font-mono text-[10px] tracking-[0.3em] uppercase text-text-contrast/45"
-              aria-hidden
+              className="absolute inset-x-0 bottom-0 px-6 lg:px-9 pb-6 lg:pb-7 pt-16 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 55%, transparent 100%)",
+              }}
             >
-              {card.eyebrow}
-            </div>
-            <h3 className="mt-3 font-harmony text-text-contrast text-2xl md:text-3xl leading-tight">
-              {card.title}
-            </h3>
-            <p className="mt-3 text-text-contrast/70 text-base md:text-lg max-w-3xl">
-              {card.description}
-            </p>
-          </div>
-        </div>
-
-        {/* Tab indicators */}
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
-          {CARDS.map((c, idx) => {
-            const isActive = idx === activeIdx;
-            return (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => {
-                  setActiveIdx(idx);
-                  setPaused(true);
-                }}
-                className={
-                  "px-4 py-2 rounded-full text-xs font-mono tracking-[0.18em] uppercase transition-all " +
-                  (isActive
-                    ? "bg-text-contrast text-background-dark"
-                    : "bg-white/[0.05] text-text-contrast/65 border border-white/15 hover:border-white/35")
-                }
+              <div
+                className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/75"
+                aria-hidden
               >
-                {c.eyebrow}
-              </button>
-            );
-          })}
+                {card.eyebrow}
+              </div>
+              <h3 className="mt-2 font-harmony text-white text-2xl md:text-3xl lg:text-4xl leading-tight max-w-xl">
+                {card.title}
+              </h3>
+            </div>
+          </div>
+
+          {/* Controls — dots + play toggle, Apple-style. */}
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <div className="flex items-center gap-1.5">
+              {CARDS.map((c, idx) => {
+                const isActive = idx === activeIdx;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    aria-label={`Show ${c.title}`}
+                    onClick={() => {
+                      setActiveIdx(idx);
+                      setPaused(true);
+                    }}
+                    className="group relative h-2.5 transition-all rounded-full overflow-hidden"
+                    style={{
+                      width: isActive ? 28 : 8,
+                      background: isActive
+                        ? "rgba(255,255,255,0.18)"
+                        : "rgba(255,255,255,0.22)",
+                    }}
+                  >
+                    {isActive && (
+                      <div
+                        key={`p-${activeIdx}-${paused}`}
+                        className="absolute inset-y-0 left-0 bg-white/85 rounded-full"
+                        style={{
+                          width: "100%",
+                          transform: "scaleX(0)",
+                          transformOrigin: "left",
+                          animation: paused
+                            ? "none"
+                            : `coreEditingDotFill ${CYCLE_MS}ms linear forwards`,
+                        }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              aria-label={paused ? "Resume autoplay" : "Pause autoplay"}
+              onClick={() => setPaused((p) => !p)}
+              className="ml-2 w-8 h-8 rounded-full bg-white/[0.08] hover:bg-white/[0.16] border border-white/15 flex items-center justify-center transition-colors"
+            >
+              {paused ? (
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                  <path d="M0 0 L10 6 L0 12 Z" fill="white" />
+                </svg>
+              ) : (
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                  <rect x="0" y="0" width="3" height="12" fill="white" />
+                  <rect x="7" y="0" width="3" height="12" fill="white" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes coreEditingDotFill {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+      `}</style>
     </section>
   );
 }
