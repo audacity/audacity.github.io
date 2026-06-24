@@ -285,10 +285,9 @@ function ThemeDemo() {
   const RULER_H = 40;
   const TRACK_H = 110;
   const PPS = 36;
-  // TransportToolbar is taller than the old hand-rolled row (two rows
-  // tall in the dense layout) — budget for it so the lane doesn't get
-  // clipped before the last track has rendered.
-  const TOOLBAR_H_BUDGET = 110;
+  // Single-row TransportToolbar at our forced 1500px width is ~52px.
+  // Leave a touch of padding for the project tabs / header above it.
+  const TOOLBAR_H_BUDGET = 64;
 
   const trackHeights = tracks.map(() => TRACK_H);
   const totalTracksH =
@@ -311,7 +310,11 @@ function ThemeDemo() {
             position: "absolute",
             top: 0,
             left: 0,
-            width: TRACK_CONTROL_W + CANVAS_W + 40,
+            // Wide enough that the TransportToolbar's responsive wrap
+            // never kicks in — the card is overflow-hidden so the
+            // toolbar's right edge is clipped anyway, but it stays on
+            // one row and reads as "an aperture into a bigger UI".
+            width: 1500,
             // Slightly taller than the card so it clips at the bottom too,
             // reading as a window onto a larger workspace.
             height: TOOLBAR_H_BUDGET + RULER_H + totalTracksH + 20,
