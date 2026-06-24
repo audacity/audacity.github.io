@@ -50,25 +50,15 @@ const ACCENTS = [
   { name: "Amber", value: "#FBBF24" },
 ];
 
-// Each design-system control that picks up the accent reads its own CSS
-// variable. Set them together at the wrapper so a single value change
-// repaints every control. Each entry has a base alpha (used for tints
-// like focus rings and hover states).
+// Each design-system control sets its own colour CSS vars inline on its
+// root element from the theme, so wrapper-scoped --slider-fill-bg etc.
+// are shadowed. Instead we publish a single --accent custom property
+// here and target the inner BEM classes with !important rules below so
+// every accent-bearing surface flips in lockstep.
 function accentVars(accent) {
   return {
-    "--accent-color": accent,
-    "--slider-fill-bg": accent,
-    "--slider-handle-border": accent,
-    "--radio-pip": accent,
-    "--knob-gauge": accent,
-    "--knob-indicator": accent,
-    "--button-bg-idle": accent,
-    "--button-bg-hover": accent,
-    "--button-bg-active": accent,
-    "--toggle-btn-bg-active": accent,
-    "--focus-color": accent,
-    "--focus-ring-color": `${accent}55`,
-    "--focus-border-color": accent,
+    "--accent": accent,
+    "--accent-soft": `${accent}55`,
   };
 }
 
@@ -80,9 +70,41 @@ function AccentDemo({ isActive = true }) {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <style>{`
+        /*
+          Beat the design-system components' inline-styled CSS vars by
+          targeting their inner BEM classes directly. !important is the
+          escape hatch — these rules only live inside the accent demo
+          card so they can't leak into the rest of the page.
+        */
+        .accent-demo-card .slider__fill { background: var(--accent) !important; }
+        .accent-demo-card .slider__handle { border-color: var(--accent) !important; }
+        .accent-demo-card .radio__pip { background: var(--accent) !important; }
+        .accent-demo-card .knob__gauge {
+          background: conic-gradient(
+            from 225deg,
+            var(--accent) 0deg,
+            var(--accent) 270deg,
+            transparent 270deg
+          ) !important;
+        }
+        .accent-demo-card .knob__indicator { background: var(--accent) !important; }
+        .accent-demo-card .button--primary { background: var(--accent) !important; }
+        .accent-demo-card .button--primary:hover { background: var(--accent) !important; filter: brightness(1.08); }
+        .accent-demo-card .toggle-button--active { background: var(--accent) !important; }
+        .accent-demo-card .slider__fill,
+        .accent-demo-card .slider__handle,
+        .accent-demo-card .radio__pip,
+        .accent-demo-card .knob__gauge,
+        .accent-demo-card .knob__indicator,
+        .accent-demo-card .button--primary,
+        .accent-demo-card .toggle-button--active {
+          transition: background 360ms ease, border-color 360ms ease;
+        }
+      `}</style>
       <div
         ref={rootRef}
-        className="absolute inset-0 flex flex-col items-center justify-center gap-7 p-7"
+        className="accent-demo-card absolute inset-0 flex flex-col items-center justify-center gap-7 p-7"
         style={{
           ...accentVars(accent),
           transition: "background-color 360ms ease",
