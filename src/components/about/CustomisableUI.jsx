@@ -400,6 +400,10 @@ function ThemeDemo() {
                 flexDirection: "column",
                 minWidth: 0,
                 position: "relative",
+                // The audio canvas stays dark even in light mode —
+                // theme.background.canvas.default carries that token
+                // straight from the design system (#252837).
+                background: theme.background.canvas.default,
               }}
             >
               <TimelineRuler
