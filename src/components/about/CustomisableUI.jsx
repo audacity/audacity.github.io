@@ -668,225 +668,299 @@ function ClipColoursDemo() {
 }
 
 // ── Toolbar positioning ────────────────────────────────────────────────────
-const TOOLBAR_POSITION_TRACKS = [
-  {
-    name: "Voice",
-    type: "mono",
-    color: "blue",
-    clips: [
-      { id: "tp1", name: "Take 1", start: 0.4, duration: 4.2 },
-      { id: "tp2", name: "Take 2", start: 5.2, duration: 3.8 },
-    ],
-  },
-  {
-    name: "Music",
-    type: "stereo",
-    color: "violet",
-    clips: [{ id: "tp3", name: "Bed", start: 0.2, duration: 16 }],
-  },
+// Layout demo: diagrammatic wireframe of the workspace regions, cycling
+// the toolbar between top/bottom and the master meter between
+// horizontal (inside the toolbar) and vertical (parked beside the
+// tracks). Intentionally no real components — gives the section its
+// one bit of editorial/schematic visual variety so it doesn't read as
+// "four screenshots of the same workspace".
+const LAYOUT_STATES = [
+  { id: "top-horiz", toolbar: "top", meter: "horizontal" },
+  { id: "bottom-horiz", toolbar: "bottom", meter: "horizontal" },
+  { id: "bottom-vert", toolbar: "bottom", meter: "vertical" },
+  { id: "top-vert", toolbar: "top", meter: "vertical" },
 ];
+
+const WIREFRAME_LINE = "rgba(255,255,255,0.14)";
+const WIREFRAME_FILL = "rgba(255,255,255,0.04)";
+const WIREFRAME_FILL_STRONG = "rgba(255,255,255,0.07)";
+const WIREFRAME_LABEL = "rgba(255,255,255,0.55)";
+
+function WireframeRegion({ label, style, accent, children }) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        background: accent ? WIREFRAME_FILL_STRONG : WIREFRAME_FILL,
+        border: `1px solid ${WIREFRAME_LINE}`,
+        borderRadius: 4,
+        transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
+        ...style,
+      }}
+    >
+      {label && (
+        <div
+          style={{
+            position: "absolute",
+            top: 6,
+            left: 8,
+            fontFamily: "ui-monospace, monospace",
+            fontSize: 9,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: WIREFRAME_LABEL,
+            pointerEvents: "none",
+          }}
+          aria-hidden
+        >
+          {label}
+        </div>
+      )}
+      {children}
+    </div>
+  );
+}
+
+function MeterFill({ vertical }) {
+  // Green→yellow→red gradient so the meter region reads as a level
+  // indicator even at low opacity.
+  const gradient = vertical
+    ? "linear-gradient(to top, rgba(74,222,128,0.7), rgba(250,204,21,0.7) 70%, rgba(248,113,113,0.7))"
+    : "linear-gradient(to right, rgba(74,222,128,0.7), rgba(250,204,21,0.7) 70%, rgba(248,113,113,0.7))";
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 6,
+        borderRadius: 3,
+        background: gradient,
+        transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
+        opacity: 0.65,
+      }}
+      aria-hidden
+    />
+  );
+}
 
 function ToolbarPositionDemo() {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(2, 3200, inView);
-  const pos = i === 0 ? "top" : "bottom";
+  const i = useCycleIndex(LAYOUT_STATES.length, 2600, inView);
+  const state = LAYOUT_STATES[i];
 
-  const [loopEnabled, setLoopEnabled] = useState(false);
-  const [loopStart, setLoopStart] = useState(null);
-  const [loopEnd, setLoopEnd] = useState(null);
+  // Diagram lives in a fixed coordinate space so the regions can
+  // animate cleanly between layouts. Inner padding gives the regions
+  // some breathing room inside the card.
+  const W = 520;
+  const H = 320;
+  const PAD = 18;
+  const GAP = 6;
+  const TOOLBAR_H = 32;
+  const SIDEBAR_W = 96;
+  const METER_VERTICAL_W = 28;
+  const METER_HORIZONTAL_W = 140;
 
-  const waveforms = useMemo(
-    () => [generateSpeechWaveform(11), generateSpeechWaveform(17)],
-    [],
-  );
-  const tracks = useMemo(
-    () =>
-      TOOLBAR_POSITION_TRACKS.map((t, ti) => ({
-        ...t,
-        clips: t.clips.map((c) => ({ ...c, waveform: waveforms[ti] })),
-      })),
-    [waveforms],
-  );
+  // Inner coordinate space (after padding).
+  const innerW = W - PAD * 2;
+  const innerH = H - PAD * 2;
 
-  const TRACK_CONTROL_W = 280;
-  const CANVAS_W = 720;
-  const RULER_H = 40;
-  const TRACK_H = 110;
-  const PPS = 36;
-  const TOOLBAR_H_BUDGET = 64;
-  const trackHeights = tracks.map(() => TRACK_H);
-  const totalTracksH =
-    trackHeights.reduce((a, b) => a + b, 0) + tracks.length * 2;
+  // Toolbar Y position.
+  const toolbarTop = state.toolbar === "top" ? PAD : PAD + innerH - TOOLBAR_H;
+  // Body (sidebar + tracks + maybe vertical meter) sits in the
+  // remaining vertical space.
+  const bodyTop = state.toolbar === "top" ? PAD + TOOLBAR_H + GAP : PAD;
+  const bodyH = innerH - TOOLBAR_H - GAP;
 
-  const toolbar = (
-    <TransportToolbar
-      activeMenuItem="project"
-      workspace="classic"
-      isPlaying={false}
-      isRecording={false}
-      onPlay={NOOP}
-      onStop={NOOP}
-      onRecord={NOOP}
-      snapEnabled
-      snapMode="musical"
-      loopRegionEnabled={loopEnabled}
-      loopRegionStart={loopStart}
-      loopRegionEnd={loopEnd}
-      setLoopRegionEnabled={setLoopEnabled}
-      setLoopRegionStart={setLoopStart}
-      setLoopRegionEnd={setLoopEnd}
-      timeSelection={null}
-      bpm={120}
-      beatsPerMeasure={4}
-      noteValue={4}
-      envelopeMode={false}
-      spectrogramMode={false}
-      onToggleEnvelope={NOOP}
-      onToggleSpectrogram={NOOP}
-      onZoomIn={NOOP}
-      onZoomOut={NOOP}
-      onZoomToSelection={NOOP}
-      onZoomToFitProject={NOOP}
-      onZoomToggle={NOOP}
-      currentTime={5.4}
-      timeCodeFormat="hh:mm:ss"
-      onTimeCodeChange={NOOP}
-      onTimeCodeFormatChange={NOOP}
-      onShareClick={NOOP}
-      onExportAudioClick={NOOP}
-      onExportLoopRegionClick={NOOP}
-      masterLevelLeft={-12}
-      masterLevelRight={-14}
-      masterRecentPeakLeft={-8}
-      masterRecentPeakRight={-10}
-      masterVolume={0.8}
-    />
-  );
+  // Tracks region right edge depends on whether the meter is parked
+  // beside it (vertical) or inside the toolbar (horizontal).
+  const tracksRight =
+    state.meter === "vertical"
+      ? PAD + innerW - METER_VERTICAL_W - GAP
+      : PAD + innerW;
+  const tracksLeft = PAD + SIDEBAR_W + GAP;
+  const tracksW = tracksRight - tracksLeft;
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <div
+      ref={rootRef}
+      className="absolute inset-0 overflow-hidden flex items-center justify-center"
+      style={{ background: "#08090C" }}
+    >
       <div
-        ref={rootRef}
-        className="absolute inset-0 overflow-hidden"
-        style={{ background: "#08090C" }}
+        style={{
+          position: "relative",
+          width: W,
+          height: H,
+        }}
       >
+        {/* Toolbar — slides between top and bottom. */}
+        <WireframeRegion
+          label="Transport"
+          accent
+          style={{
+            top: toolbarTop,
+            left: PAD,
+            width: innerW,
+            height: TOOLBAR_H,
+          }}
+        >
+          {/* Small filled "control" tiles inside the toolbar so it
+              reads as the transport area, not just an empty box. */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 70,
+              transform: "translateY(-50%)",
+              display: "flex",
+              gap: 4,
+            }}
+            aria-hidden
+          >
+            {[0, 1, 2, 3].map((n) => (
+              <div
+                key={n}
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 2,
+                  background: WIREFRAME_LINE,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Horizontal meter lives INSIDE the toolbar; only visible
+              when state.meter === 'horizontal'. */}
+          <div
+            style={{
+              position: "absolute",
+              top: 6,
+              right: 8,
+              bottom: 6,
+              width: METER_HORIZONTAL_W,
+              borderRadius: 3,
+              background: WIREFRAME_FILL,
+              border: `1px solid ${WIREFRAME_LINE}`,
+              opacity: state.meter === "horizontal" ? 1 : 0,
+              transform:
+                state.meter === "horizontal"
+                  ? "translateX(0)"
+                  : "translateX(20px)",
+              transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
+              pointerEvents: "none",
+            }}
+            aria-hidden
+          >
+            <MeterFill vertical={false} />
+          </div>
+        </WireframeRegion>
+
+        {/* Sidebar */}
+        <WireframeRegion
+          label="Tracks"
+          style={{
+            top: bodyTop,
+            left: PAD,
+            width: SIDEBAR_W,
+            height: bodyH,
+          }}
+        />
+
+        {/* Tracks lane — shrinks when meter is vertical to leave room
+            for the meter on its right. */}
+        <WireframeRegion
+          label="Canvas"
+          style={{
+            top: bodyTop,
+            left: tracksLeft,
+            width: tracksW,
+            height: bodyH,
+          }}
+        >
+          {/* Faux ruler + track rows inside the canvas region so it
+              reads as audio, not an empty box. */}
+          <div
+            style={{
+              position: "absolute",
+              top: 24,
+              left: 8,
+              right: 8,
+              height: 1,
+              background: WIREFRAME_LINE,
+              opacity: 0.5,
+            }}
+          />
+          {[0, 1].map((n) => (
+            <div
+              key={n}
+              style={{
+                position: "absolute",
+                top: 38 + n * 28,
+                left: 14,
+                right: 14,
+                height: 18,
+                borderRadius: 2,
+                background: WIREFRAME_FILL,
+                border: `1px solid ${WIREFRAME_LINE}`,
+              }}
+            />
+          ))}
+        </WireframeRegion>
+
+        {/* Vertical meter — slides in from the right when active. */}
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            // Match ThemeDemo so the TransportToolbar never wraps.
-            width: 1500,
-            height: TOOLBAR_H_BUDGET + RULER_H + totalTracksH + 20,
-            display: "flex",
-            // flexDirection flips between column and column-reverse to
-            // snap the toolbar between top and bottom positions.
-            flexDirection: pos === "top" ? "column" : "column-reverse",
-            background: darkTheme.background.surface.subtle,
-          }}
-        >
-          {toolbar}
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              minHeight: 0,
-              overflow: "hidden",
-            }}
-          >
-            <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
-              <TrackControlSidePanel trackHeights={trackHeights}>
-                {tracks.map((t, idx) => (
-                  <TrackControlPanel
-                    key={idx}
-                    trackName={t.name}
-                    trackType={t.type}
-                    volume={75}
-                    meterLevelLeft={48 - idx * 4}
-                    meterLevelRight={44 - idx * 4}
-                    meterRecentPeakLeft={62 - idx * 4}
-                    meterRecentPeakRight={58 - idx * 4}
-                    trackHeight={TRACK_H}
-                  />
-                ))}
-              </TrackControlSidePanel>
-            </div>
-
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                minWidth: 0,
-                position: "relative",
-                background: darkTheme.background.canvas.default,
-              }}
-            >
-              <TimelineRuler
-                width={CANVAS_W}
-                height={RULER_H}
-                pixelsPerSecond={PPS}
-                totalDuration={CANVAS_W / PPS}
-                timeFormat="minutes-seconds"
-              />
-              <div style={{ flex: 1, paddingTop: 2 }}>
-                {tracks.map((t, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      position: "relative",
-                      height: TRACK_H,
-                      marginBottom: 2,
-                    }}
-                  >
-                    <TrackNew
-                      clips={t.clips}
-                      trackIndex={idx}
-                      width={CANVAS_W}
-                      height={TRACK_H}
-                      pixelsPerSecond={PPS}
-                      color={t.color}
-                      onClipTrimEdge={() => {}}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  top: RULER_H,
-                  left: 0,
-                  pointerEvents: "none",
-                }}
-              >
-                <PlayheadCursor
-                  position={5.4}
-                  pixelsPerSecond={PPS}
-                  height={9999}
-                  showTopIcon
-                  iconTopOffset={-14}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Position label */}
-        <div
-          className="absolute left-4 bottom-3 font-mono text-[10px] tracking-[0.22em] uppercase text-white/85"
-          style={{
-            padding: "5px 12px",
-            background: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.16)",
-            borderRadius: 999,
+            top: bodyTop,
+            left: PAD + innerW - METER_VERTICAL_W,
+            width: METER_VERTICAL_W,
+            height: bodyH,
+            borderRadius: 4,
+            background: WIREFRAME_FILL_STRONG,
+            border: `1px solid ${WIREFRAME_LINE}`,
+            opacity: state.meter === "vertical" ? 1 : 0,
+            transform:
+              state.meter === "vertical" ? "translateX(0)" : "translateX(20px)",
+            transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
+            pointerEvents: "none",
           }}
           aria-hidden
         >
-          Toolbar · {pos === "top" ? "Top" : "Bottom"}
+          <MeterFill vertical />
+          <div
+            style={{
+              position: "absolute",
+              bottom: -16,
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontFamily: "ui-monospace, monospace",
+              fontSize: 9,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: WIREFRAME_LABEL,
+              whiteSpace: "nowrap",
+            }}
+          >
+            Meter
+          </div>
         </div>
       </div>
-    </ThemeProvider>
+
+      {/* State label */}
+      <div
+        className="absolute left-4 bottom-3 font-mono text-[10px] tracking-[0.22em] uppercase text-white/85"
+        style={{
+          padding: "5px 12px",
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.16)",
+          borderRadius: 999,
+        }}
+        aria-hidden
+      >
+        Transport · {state.toolbar} · Meter · {state.meter}
+      </div>
+    </div>
   );
 }
 
@@ -910,10 +984,10 @@ const CARDS = [
     Demo: ClipColoursDemo,
   },
   {
-    id: "toolbar",
-    title: "Toolbar position",
+    id: "layout",
+    title: "Layout",
     description:
-      "Park the transport up top, or move it down to the bottom — whichever sits closer to your hands.",
+      "Park the transport above or below the canvas, and stand the master meter up vertically — same controls, your shape.",
     Demo: ToolbarPositionDemo,
   },
 ];
