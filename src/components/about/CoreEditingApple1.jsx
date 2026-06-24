@@ -22,7 +22,20 @@ function CoreEditingApple1() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [paused, setPaused] = useState(false);
   const [viewportW, setViewportW] = useState(1000);
-  const touchStartX = useRef(null);
+  // Pointer drag — mouse, touch and pen all funnel through Pointer
+  // Events so the same gesture works on desktop and mobile.
+  const dragState = useRef({
+    active: false,
+    startX: 0,
+    pointerId: null,
+    maxDelta: 0,
+  });
+  // Set true when the user has dragged far enough that the next click
+  // should be suppressed (so the gesture doesn't also promote whatever
+  // card was under the pointer at release).
+  const wasDragged = useRef(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
   // Measure the viewport so we can compute card width + translate
   // distances precisely.
@@ -36,34 +49,66 @@ function CoreEditingApple1() {
   }, []);
 
   useEffect(() => {
-    if (paused || !sectionInView) return;
+    if (paused || !sectionInView || dragging) return;
     const t = setTimeout(() => {
       setActiveIdx((i) => (i + 1) % CARDS.length);
     }, CYCLE_MS);
     return () => clearTimeout(t);
-  }, [paused, sectionInView, activeIdx]);
+  }, [paused, sectionInView, activeIdx, dragging]);
 
   const advance = (delta) => {
     setActiveIdx((i) => (i + delta + CARDS.length) % CARDS.length);
-  };
-
-  const onTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const onTouchEnd = (e) => {
-    if (touchStartX.current == null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 50) {
-      advance(dx < 0 ? 1 : -1);
-      setPaused(true);
-    }
-    touchStartX.current = null;
   };
 
   const cardW = Math.max(360, viewportW * ACTIVE_RATIO);
   // Translate the row so the active card's centre lands at the
   // viewport's centre.
   const trackX = viewportW / 2 - cardW / 2 - activeIdx * (cardW + GAP);
+
+  const onPointerDown = (e) => {
+    // Left mouse button only; let touch/pen through.
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragState.current = {
+      active: true,
+      startX: e.clientX,
+      pointerId: e.pointerId,
+      maxDelta: 0,
+    };
+    wasDragged.current = false;
+    setDragging(true);
+    setPaused(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e) => {
+    if (!dragState.current.active) return;
+    const dx = e.clientX - dragState.current.startX;
+    dragState.current.maxDelta = Math.max(
+      dragState.current.maxDelta,
+      Math.abs(dx),
+    );
+    if (dragState.current.maxDelta > 5) wasDragged.current = true;
+    setDragOffset(dx);
+  };
+
+  const endDrag = (e) => {
+    if (!dragState.current.active) return;
+    const dx = e.clientX - dragState.current.startX;
+    dragState.current.active = false;
+    try {
+      e.currentTarget.releasePointerCapture(dragState.current.pointerId);
+    } catch {}
+    // Snap: anything past ~25% of a card-width advances one position;
+    // bigger drags can jump multiple cards.
+    const cardSlot = cardW + GAP;
+    const steps =
+      Math.abs(dx) > cardSlot * 0.25
+        ? Math.round(-dx / cardSlot) || (dx < 0 ? 1 : -1)
+        : 0;
+    if (steps !== 0) advance(steps);
+    setDragOffset(0);
+    setDragging(false);
+  };
 
   return (
     <section ref={sectionRef} className="bg-background-dark py-24 lg:py-32">
@@ -89,17 +134,27 @@ function CoreEditingApple1() {
           can peek in past the section's normal padding. */}
       <div
         ref={viewportRef}
-        className="mt-10 lg:mt-14 relative overflow-hidden"
-        style={{ height: viewportW * ACTIVE_RATIO * (9 / 16) + 32 }}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
+        className="mt-10 lg:mt-14 relative overflow-hidden select-none"
+        style={{
+          height: viewportW * ACTIVE_RATIO * (9 / 16) + 32,
+          cursor: dragging ? "grabbing" : "grab",
+          touchAction: "pan-y",
+        }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
       >
         <div
           className="absolute top-0 left-0 flex items-center"
           style={{
             gap: GAP,
-            transform: `translateX(${trackX}px)`,
-            transition: "transform 520ms cubic-bezier(0.4, 0, 0.2, 1)",
+            transform: `translateX(${trackX + dragOffset}px)`,
+            // Snap-easing on release; no transition during drag so the
+            // strip tracks the pointer 1:1.
+            transition: dragging
+              ? "none"
+              : "transform 520ms cubic-bezier(0.4, 0, 0.2, 1)",
             height: "100%",
           }}
         >
@@ -111,6 +166,13 @@ function CoreEditingApple1() {
                 key={c.id}
                 type="button"
                 onClick={() => {
+                  // Suppress click that follows a drag — otherwise
+                  // releasing on a neighbour after a drag would also
+                  // promote it.
+                  if (wasDragged.current) {
+                    wasDragged.current = false;
+                    return;
+                  }
                   setActiveIdx(idx);
                   setPaused(true);
                 }}
