@@ -155,8 +155,14 @@ function CoreEditingApple1() {
         onPointerCancel={endDrag}
       >
         <div
-          className="absolute top-0 left-0 flex items-center"
+          className="absolute top-0 left-0 flex items-center flex-nowrap"
           style={{
+            // Force the row to sum-of-children width so flex-nowrap
+            // actually keeps the cards on a single line — without
+            // width:max-content + flex-nowrap explicit, some flex
+            // contexts shrink the row to the viewport and wrap (or
+            // squash) the cards into a grid.
+            width: "max-content",
             gap: GAP,
             transform: `translateX(${trackX + dragOffset}px)`,
             // Snap-easing on release; no transition during drag so the
