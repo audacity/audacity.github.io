@@ -273,9 +273,17 @@ function ThemeDemo() {
 
   const TRACK_CONTROL_W = 240;
   const CANVAS_W = 720;
-  const RULER_H = 32;
+  // TrackControlSidePanel's "Tracks" header is locked at 40px in the
+  // design system, so the timeline ruler needs to match exactly or the
+  // first track in the side panel and the first track in the lane don't
+  // start at the same Y.
+  const RULER_H = 40;
   const TRACK_H = 78;
   const PPS = 36;
+  // TransportToolbar is taller than the old hand-rolled row (two rows
+  // tall in the dense layout) — budget for it so the lane doesn't get
+  // clipped before the last track has rendered.
+  const TOOLBAR_H_BUDGET = 110;
 
   const trackHeights = tracks.map(() => TRACK_H);
   const totalTracksH =
@@ -301,7 +309,7 @@ function ThemeDemo() {
             width: TRACK_CONTROL_W + CANVAS_W + 40,
             // Slightly taller than the card so it clips at the bottom too,
             // reading as a window onto a larger workspace.
-            height: 60 + RULER_H + totalTracksH + 20,
+            height: TOOLBAR_H_BUDGET + RULER_H + totalTracksH + 20,
             display: "flex",
             flexDirection: "column",
             background: theme.background.surface.subtle,
