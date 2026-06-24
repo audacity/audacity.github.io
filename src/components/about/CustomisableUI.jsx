@@ -91,7 +91,12 @@ function AccentDemo({ isActive = true }) {
         {/* Pan knob + volume slider sit together — the side-panel kit. */}
         <div className="flex items-center gap-8">
           <div className="flex flex-col items-center gap-2">
-            <PanKnob value={-30} />
+            {/* Held at centre (value=0) so the bipolar value-sweep — which
+                the design system paints with hardcoded blues that ignore
+                the theme — never renders. The outer gauge ring + the
+                indicator both read from --knob-gauge / --knob-indicator
+                CSS vars and pick up the accent. */}
+            <PanKnob value={0} />
             <span
               className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
               aria-hidden
