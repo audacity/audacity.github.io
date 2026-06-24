@@ -3,13 +3,11 @@ import {
   ApplicationHeader,
   ProjectToolbar,
   TransportToolbar,
-  ToolButton,
   TrackNew,
   TrackControlPanel,
   TrackControlSidePanel,
   TimelineRuler,
   PlayheadCursor,
-  GhostButton,
   SelectionToolbar,
   ThemeProvider,
   darkTheme,
@@ -72,13 +70,11 @@ function TransportRow({ config }) {
   const [loopRegionStart, setLoopRegionStart] = useState(null);
   const [loopRegionEnd, setLoopRegionEnd] = useState(null);
 
-  // Map workspace preset name to the toolbar's "workspace" prop. Only
-  // 'classic' and 'spectral-editing' are recognised today; everything
-  // else falls back to classic.
-  const workspace =
-    config.workspaceKind === "spectral-editing"
-      ? "spectral-editing"
-      : "classic";
+  // The package's TransportToolbar takes a Workspace enum and renders the
+  // corresponding tool layout internally. Each workspace config opts into a
+  // value ('classic' | 'spectral-editing' | 'modern' | 'music'); presets
+  // without a 1:1 package equivalent (e.g. 'custom') fall back to classic.
+  const workspace = config.workspace || "classic";
 
   return (
     <TransportToolbar
@@ -126,50 +122,40 @@ function TransportRow({ config }) {
   );
 }
 
-function renderProjectToolbar(config) {
+const PROJECT_TOOLBAR_CENTER_ACTIONS = [
+  { icon: "cog", label: "Audio setup" },
+  { icon: "cloud", label: "Share audio" },
+  { icon: "plugins", label: "Get effects" },
+];
+
+const NOOP_HISTORY = { onUndo: NOOP, onRedo: NOOP };
+
+function renderProjectToolbar({
+  config,
+  workspaceKey,
+  workspaceOptions,
+  onWorkspaceChange,
+}) {
+  const hasPicker =
+    workspaceKey && workspaceOptions?.length && onWorkspaceChange;
+  const workspaceSelector = hasPicker
+    ? {
+        value: workspaceKey,
+        options: workspaceOptions,
+        onChange: onWorkspaceChange,
+      }
+    : {
+        value: "current",
+        options: [{ value: "current", label: config.label }],
+        onChange: NOOP,
+      };
+
   return (
     <ProjectToolbar
       activeItem="project"
-      centerContent={
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <GhostButton icon="cog" label="Audio setup" size="small" />
-          <GhostButton icon="cloud" label="Share audio" size="small" />
-          <GhostButton icon="plugins" label="Get effects" size="small" />
-        </div>
-      }
-      rightContent={
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            paddingRight: 8,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "4px 10px",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 4,
-              fontFamily: "Inter, sans-serif",
-              fontSize: 13,
-              minWidth: 130,
-            }}
-          >
-            <span style={{ opacity: 0.6 }}>Workspace</span>
-            <span style={{ marginLeft: 4, fontWeight: 500 }}>
-              {config.label}
-            </span>
-            <span style={{ marginLeft: "auto", opacity: 0.5 }}>▾</span>
-          </div>
-          <ToolButton icon="undo" ariaLabel="Undo" />
-          <ToolButton icon="redo" ariaLabel="Redo" />
-        </div>
-      }
+      centerActions={PROJECT_TOOLBAR_CENTER_ACTIONS}
+      workspaceSelector={workspaceSelector}
+      historyActions={NOOP_HISTORY}
     />
   );
 }
@@ -196,6 +182,9 @@ function WorkspaceCanvas({
   extraClips,
   envelopeModeOverride,
   compact = false,
+  workspaceKey,
+  workspaceOptions,
+  onWorkspaceChange,
 }) {
   const containerRef = useRef(null);
   const scale = useScaleToFit(containerRef);
@@ -300,7 +289,12 @@ function WorkspaceCanvas({
                 menuItems={MENU_ITEMS}
               />
             )}
-            {renderProjectToolbar(config)}
+            {renderProjectToolbar({
+              config,
+              workspaceKey,
+              workspaceOptions,
+              onWorkspaceChange,
+            })}
             <TransportRow
               config={{ ...config, envelopeMode: effectiveEnvelopeMode }}
             />

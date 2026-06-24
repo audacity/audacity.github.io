@@ -8,6 +8,7 @@ const env = (points) => points.map(([time, db]) => ({ time, db }));
 export const WORKSPACE_CONFIGS = {
   classic: {
     label: "Classic",
+    workspace: "classic",
     blurb:
       "As close to Audacity 3 as it gets. Cut, copy, paste right in the transport, time in seconds, no tempo to fight with.",
     duration: 24,
@@ -49,6 +50,7 @@ export const WORKSPACE_CONFIGS = {
 
   music: {
     label: "Music",
+    workspace: "music",
     blurb:
       "Built for tracking and mixing. Tempo and time signature live in the transport, the ruler counts in bars and beats.",
     duration: 24,
@@ -157,6 +159,7 @@ export const WORKSPACE_CONFIGS = {
 
   podcast: {
     label: "Podcast",
+    workspace: "classic",
     blurb:
       "Voice-first projects with mono speakers, a music bed, and sound effects all on one canvas.",
     duration: 20,
@@ -224,6 +227,7 @@ export const WORKSPACE_CONFIGS = {
 
   modern: {
     label: "Modern",
+    workspace: "modern",
     blurb:
       "Envelopes front and centre, cut-copy-paste off the transport. Modern editing trusts you to drag and drop instead.",
     duration: 24,
@@ -293,6 +297,7 @@ export const WORKSPACE_CONFIGS = {
 
   custom: {
     label: "Custom",
+    workspace: "classic",
     blurb:
       "Start from any preset and rearrange. Add or remove any tool group, switch ruler formats, and save the result as your own workspace.",
     duration: 24,

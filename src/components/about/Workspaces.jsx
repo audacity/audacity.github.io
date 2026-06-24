@@ -64,6 +64,7 @@ function Workspaces() {
       ...PROJECT,
       toolbar: active.toolbar,
       envelopeMode: !!active.envelopeMode,
+      workspace: active.workspace,
       label: active.label,
       blurb: active.blurb,
     }),
@@ -134,7 +135,16 @@ function Workspaces() {
             role="tabpanel"
             aria-label={`${active.label} workspace preview`}
           >
-            <WorkspaceCanvas config={previewConfig} compact={false} />
+            <WorkspaceCanvas
+              config={previewConfig}
+              compact={false}
+              workspaceKey={activeKey}
+              workspaceOptions={WORKSPACE_KEYS.map((k) => ({
+                value: k,
+                label: WORKSPACE_CONFIGS[k]?.label ?? k,
+              }))}
+              onWorkspaceChange={setActiveKey}
+            />
           </div>
         </div>
       </div>
