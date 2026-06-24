@@ -1167,59 +1167,76 @@ function SampleEditingDemo({ isActive = true }) {
       <div
         ref={rootRef}
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
-        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
+        style={{
+          // Centre the fixed-size clip + overlay block within the card
+          // — previously top-left aligned, which left a big empty
+          // gutter on bigger cards (and stretched the no-viewBox SVG
+          // overlay so the stems and cursor painted at the wrong
+          // coordinates).
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <div style={{ flex: 1, paddingTop: 8, position: "relative" }}>
-          <div style={{ position: "relative", height: TRACK_H }}>
-            <TrackNew
-              clips={clips}
-              trackIndex={0}
-              width={CANVAS_W}
-              height={TRACK_H}
-              pixelsPerSecond={PPS}
-              color="cyan"
-              onClipTrimEdge={() => {}}
+        <div
+          style={{
+            position: "relative",
+            width: CANVAS_W,
+            height: TRACK_H,
+            flexShrink: 0,
+          }}
+        >
+          <TrackNew
+            clips={clips}
+            trackIndex={0}
+            width={CANVAS_W}
+            height={TRACK_H}
+            pixelsPerSecond={PPS}
+            color="cyan"
+            onClipTrimEdge={() => {}}
+          />
+          {/* Sample-editing overlay — sits on top of the clip body
+              and renders the zoomed-in sample stems for both
+              channels. Explicit width/height on the SVG element so it
+              stays at the 720×280 user coordinate space its content
+              was authored against, regardless of card size. */}
+          <svg
+            width={CANVAS_W}
+            height={TRACK_H}
+            viewBox={`0 0 ${CANVAS_W} ${TRACK_H}`}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              pointerEvents: "none",
+            }}
+          >
+            {renderChannel(TOP_MID, 0)}
+            {renderChannel(BOT_MID, 1.7)}
+          </svg>
+          {/* Cursor over the dragged sample */}
+          <svg
+            aria-hidden
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            style={{
+              position: "absolute",
+              left: cursorX,
+              top: cursorY,
+              transform: "translate(-50%, -50%)",
+              pointerEvents: "none",
+              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+            }}
+          >
+            <path
+              d="M11 2 L14 5 L12 5 L12 11 L18 11 L18 9 L21 12 L18 15 L18 13 L12 13 L12 19 L14 19 L11 22 L8 19 L10 19 L10 13 L4 13 L4 15 L1 12 L4 9 L4 11 L10 11 L10 5 L8 5 Z"
+              fill="#fff"
+              stroke="#0a0a0a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
             />
-            {/* Sample-editing overlay — sits on top of the clip body
-                and renders the zoomed-in sample stems for both
-                channels. Pointer-events: none so it doesn't catch
-                interactions. */}
-            <svg
-              width={CANVAS_W}
-              height={TRACK_H}
-              style={{
-                position: "absolute",
-                inset: 0,
-                pointerEvents: "none",
-              }}
-            >
-              {renderChannel(TOP_MID, 0)}
-              {renderChannel(BOT_MID, 1.7)}
-            </svg>
-            {/* Cursor over the dragged sample */}
-            <svg
-              aria-hidden
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              style={{
-                position: "absolute",
-                left: cursorX,
-                top: cursorY,
-                transform: "translate(-50%, -50%)",
-                pointerEvents: "none",
-                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
-              }}
-            >
-              <path
-                d="M11 2 L14 5 L12 5 L12 11 L18 11 L18 9 L21 12 L18 15 L18 13 L12 13 L12 19 L14 19 L11 22 L8 19 L10 19 L10 13 L4 13 L4 15 L1 12 L4 9 L4 11 L10 11 L10 5 L8 5 Z"
-                fill="#fff"
-                stroke="#0a0a0a"
-                strokeWidth="1.2"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
+          </svg>
         </div>
       </div>
     </ThemeProvider>

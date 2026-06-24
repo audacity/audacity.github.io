@@ -198,12 +198,16 @@ function CoreEditingApple1() {
                 {/* Only the active demo gets isActive=true, so inactive
                     cards stay at rest and don't burn CPU. */}
                 <Demo isActive={isActive} />
-                {/* Bottom-left text overlay — Apple-style. */}
+                {/* Bottom-left text overlay — Apple-style. z-index lifts
+                    it above demo-internal positioned elements like
+                    LoopingDemo's loop-region edge stalks (z-index 10)
+                    that otherwise paint over the gradient. */}
                 <div
                   className="absolute inset-x-0 bottom-0 px-6 lg:px-8 pb-5 lg:pb-6 pt-14 pointer-events-none"
                   style={{
                     background:
                       "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.4) 55%, transparent 100%)",
+                    zIndex: 20,
                   }}
                 >
                   <div
