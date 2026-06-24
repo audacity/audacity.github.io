@@ -2,23 +2,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ApplicationHeader,
   ProjectToolbar,
-  Toolbar,
-  ToolbarButtonGroup,
-  ToolbarDivider,
-  TransportButton,
+  TransportToolbar,
   ToolButton,
-  ToggleToolButton,
   TrackNew,
   TrackControlPanel,
   TrackControlSidePanel,
   TimelineRuler,
   PlayheadCursor,
-  TimeCode,
-  NumberStepper,
-  Dropdown,
-  Checkbox,
   GhostButton,
-  MasterMeter,
   SelectionToolbar,
   ThemeProvider,
   darkTheme,
@@ -65,135 +56,73 @@ function useScaleToFit(ref) {
   return scale;
 }
 
-function renderTransportRow(config) {
+const NOOP = () => {};
+
+/*
+  Replaces the previous hand-assembled transport row with the design
+  system's all-in-one TransportToolbar (added in @dilsonspickles/
+  components 0.8). Keeps a little local state so the controlled props
+  (loop region, snap, etc.) have somewhere to land — none of it does
+  real work, this is a marketing mockup.
+*/
+function TransportRow({ config }) {
   const tb = config.toolbar || {};
-  const showTrimSilence = tb.showTrimSilence !== false;
-  const showBPM = !!tb.showBPM;
-  const showTimeSignature = !!tb.showTimeSignature;
-  const showLoop = tb.showLoop !== false;
-  const showCutCopyPaste = !!tb.showCutCopyPaste;
-  const showAdvancedZoom = tb.showAdvancedZoom !== false;
   const timeCodeFormat = tb.timeCodeFormat || "hh:mm:ss";
+  const [loopRegionEnabled, setLoopRegionEnabled] = useState(false);
+  const [loopRegionStart, setLoopRegionStart] = useState(null);
+  const [loopRegionEnd, setLoopRegionEnd] = useState(null);
+
+  // Map workspace preset name to the toolbar's "workspace" prop. Only
+  // 'classic' and 'spectral-editing' are recognised today; everything
+  // else falls back to classic.
+  const workspace =
+    config.workspaceKind === "spectral-editing"
+      ? "spectral-editing"
+      : "classic";
 
   return (
-    <Toolbar
-      rightContent={
-        <div style={{ display: "flex", alignItems: "center", paddingRight: 8 }}>
-          <ToolButton icon="cog" ariaLabel="Settings" />
-        </div>
-      }
-    >
-      <ToolbarButtonGroup>
-        <TransportButton icon="play" ariaLabel="Play" />
-        <TransportButton icon="stop" ariaLabel="Stop" />
-        <TransportButton icon="record" ariaLabel="Record" />
-        <TransportButton icon="skip-back" ariaLabel="Skip to start" />
-        <TransportButton icon="skip-forward" ariaLabel="Skip to end" />
-        {showLoop && <ToggleToolButton icon="loop" ariaLabel="Loop" />}
-      </ToolbarButtonGroup>
-
-      <ToolbarDivider />
-      <ToolbarButtonGroup>
-        <ToggleToolButton
-          icon="automation"
-          isActive={!!config.envelopeMode}
-          ariaLabel="Envelope tool"
-        />
-        <ToggleToolButton
-          icon="cut"
-          isActive={!!config.splitMode}
-          ariaLabel="Split tool"
-        />
-        <ToolButton icon="cut" ariaLabel="Multi-clip" />
-        <ToolButton icon="waveform" ariaLabel="Wave tool" />
-      </ToolbarButtonGroup>
-
-      {showCutCopyPaste && (
-        <>
-          <ToolbarDivider />
-          <ToolbarButtonGroup>
-            <ToolButton icon="cut" ariaLabel="Cut" />
-            <ToolButton icon="copy" ariaLabel="Copy" />
-            <ToolButton icon="paste" ariaLabel="Paste" />
-          </ToolbarButtonGroup>
-        </>
-      )}
-
-      <ToolbarDivider />
-      <ToolbarButtonGroup>
-        <ToolButton icon="zoom-in" ariaLabel="Zoom in" />
-        <ToolButton icon="zoom-out" ariaLabel="Zoom out" />
-        <ToolButton icon="zoom-to-fit" ariaLabel="Zoom to fit" />
-        {showAdvancedZoom && (
-          <ToolButton icon="zoom-to-selection" ariaLabel="Zoom to selection" />
-        )}
-        {showAdvancedZoom && (
-          <ToolButton icon="zoom-toggle" ariaLabel="Zoom toggle" />
-        )}
-      </ToolbarButtonGroup>
-
-      {showTrimSilence && (
-        <>
-          <ToolbarDivider />
-          <ToolbarButtonGroup>
-            <ToolButton icon="trim" ariaLabel="Trim" />
-            <ToolButton icon="silence" ariaLabel="Silence" />
-          </ToolbarButtonGroup>
-        </>
-      )}
-
-      <ToolbarDivider />
-      <TimeCode value={config.playheadPosition} format={timeCodeFormat} />
-      {showBPM && (
-        <NumberStepper defaultValue="120" placeholder="bpm" width={86} />
-      )}
-      {showTimeSignature && (
-        <Dropdown
-          value="4-4"
-          width="62px"
-          options={[
-            { value: "4-4", label: "4 / 4" },
-            { value: "3-4", label: "3 / 4" },
-            { value: "6-8", label: "6 / 8" },
-          ]}
-        />
-      )}
-
-      <ToolbarDivider />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          fontFamily: "Inter, sans-serif",
-          fontSize: 12,
-        }}
-      >
-        <span style={{ opacity: 0.7 }}>Snap</span>
-        <Checkbox checked />
-        <Dropdown
-          value="bar"
-          width="92px"
-          options={[
-            { value: "bar", label: "Bar" },
-            { value: "beat", label: "Beat" },
-            { value: "seconds", label: "Seconds" },
-          ]}
-        />
-      </div>
-
-      <ToolbarDivider />
-      <ToolButton icon="microphone" ariaLabel="Recording level" />
-      <div style={{ width: 220, paddingLeft: 4 }}>
-        <MasterMeter
-          levelLeft={-90}
-          levelRight={-90}
-          recentPeakLeft={-90}
-          recentPeakRight={-90}
-          volume={0.8}
-        />
-      </div>
-    </Toolbar>
+    <TransportToolbar
+      activeMenuItem="project"
+      workspace={workspace}
+      isPlaying={false}
+      isRecording={false}
+      onPlay={NOOP}
+      onStop={NOOP}
+      onRecord={NOOP}
+      snapEnabled
+      snapMode="musical"
+      loopRegionEnabled={loopRegionEnabled}
+      loopRegionStart={loopRegionStart}
+      loopRegionEnd={loopRegionEnd}
+      setLoopRegionEnabled={setLoopRegionEnabled}
+      setLoopRegionStart={setLoopRegionStart}
+      setLoopRegionEnd={setLoopRegionEnd}
+      timeSelection={null}
+      bpm={120}
+      beatsPerMeasure={4}
+      noteValue={4}
+      envelopeMode={!!config.envelopeMode}
+      spectrogramMode={false}
+      onToggleEnvelope={NOOP}
+      onToggleSpectrogram={NOOP}
+      onZoomIn={NOOP}
+      onZoomOut={NOOP}
+      onZoomToSelection={NOOP}
+      onZoomToFitProject={NOOP}
+      onZoomToggle={NOOP}
+      currentTime={config.playheadPosition}
+      timeCodeFormat={timeCodeFormat}
+      onTimeCodeChange={NOOP}
+      onTimeCodeFormatChange={NOOP}
+      onShareClick={NOOP}
+      onExportAudioClick={NOOP}
+      onExportLoopRegionClick={NOOP}
+      masterLevelLeft={-12}
+      masterLevelRight={-14}
+      masterRecentPeakLeft={-8}
+      masterRecentPeakRight={-10}
+      masterVolume={0.8}
+    />
   );
 }
 
@@ -372,10 +301,9 @@ function WorkspaceCanvas({
               />
             )}
             {renderProjectToolbar(config)}
-            {renderTransportRow({
-              ...config,
-              envelopeMode: effectiveEnvelopeMode,
-            })}
+            <TransportRow
+              config={{ ...config, envelopeMode: effectiveEnvelopeMode }}
+            />
 
             <div
               style={{
