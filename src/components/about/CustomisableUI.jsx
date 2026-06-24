@@ -565,40 +565,57 @@ function ClipColoursDemo() {
     <ThemeProvider theme={darkTheme}>
       <div
         ref={rootRef}
-        className="absolute inset-0 overflow-hidden flex flex-col items-center justify-center gap-2 p-2"
-        style={{ background: darkTheme.background.canvas.default }}
+        className="absolute inset-0 overflow-hidden flex items-center justify-center p-2"
+        style={{
+          background: darkTheme.background.canvas.default,
+          // Perspective lives on the outer container so the entire wall
+          // tilts in 3D as one object instead of each row tilting
+          // independently.
+          perspective: "1600px",
+        }}
       >
-        {MASONRY_ROWS.map((row, ri) => (
-          <div key={ri} style={{ display: "flex", gap: 6 }}>
-            {row.map((c) => {
-              clipIdx += 1;
-              const color = useClassic
-                ? "classic"
-                : CLIP_PALETTE[clipIdx % CLIP_PALETTE.length];
-              const duration = c.w / PPS;
-              return (
-                <div
-                  key={`${ri}-${c.name}`}
-                  style={{
-                    transition: "filter 320ms ease",
-                    filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.35))",
-                  }}
-                >
-                  <Clip
-                    color={color}
-                    name={c.name}
-                    width={c.w}
-                    height={CLIP_H}
-                    waveformData={waveforms[clipIdx]}
-                    clipDuration={duration}
-                    pixelsPerSecond={PPS}
-                    onTrimEdge={() => {}}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        ))}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+            transform: "rotateY(-12deg) rotateX(8deg)",
+            transformOrigin: "center center",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {MASONRY_ROWS.map((row, ri) => (
+            <div key={ri} style={{ display: "flex", gap: 6 }}>
+              {row.map((c) => {
+                clipIdx += 1;
+                const color = useClassic
+                  ? "classic"
+                  : CLIP_PALETTE[clipIdx % CLIP_PALETTE.length];
+                const duration = c.w / PPS;
+                return (
+                  <div
+                    key={`${ri}-${c.name}`}
+                    style={{
+                      transition: "filter 320ms ease",
+                      filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.5))",
+                    }}
+                  >
+                    <Clip
+                      color={color}
+                      name={c.name}
+                      width={c.w}
+                      height={CLIP_H}
+                      waveformData={waveforms[clipIdx]}
+                      clipDuration={duration}
+                      pixelsPerSecond={PPS}
+                      onTrimEdge={() => {}}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
 
         {/* Mode label — tiny pill so the alternation is legible at a glance. */}
         <div
