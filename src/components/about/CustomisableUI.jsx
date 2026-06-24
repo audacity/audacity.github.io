@@ -87,14 +87,12 @@ function AccentDemo({ isActive = true }) {
             transparent 270deg
           ) !important;
         }
-        .accent-demo-card .knob__indicator { background: var(--accent) !important; }
         .accent-demo-card .button--primary { background: var(--accent) !important; }
         .accent-demo-card .button--primary:hover { background: var(--accent) !important; filter: brightness(1.08); }
         .accent-demo-card .toggle-button--active { background: var(--accent) !important; }
         .accent-demo-card .slider__fill,
         .accent-demo-card .radio__pip,
         .accent-demo-card .knob__gauge,
-        .accent-demo-card .knob__indicator,
         .accent-demo-card .button--primary,
         .accent-demo-card .toggle-button--active {
           transition: background 360ms ease;
