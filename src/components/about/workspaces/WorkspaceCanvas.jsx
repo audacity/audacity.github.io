@@ -435,12 +435,15 @@ function WorkspaceCanvas({
                   <PlayheadCursor
                     position={config.playheadPosition}
                     pixelsPerSecond={PIXELS_PER_SECOND}
-                    height={2 + totalTrackHeight + tracks.length * 2}
+                    // Oversized so the stalk fills the full canvas
+                    // beneath the ruler; the workspace container's
+                    // overflow:hidden clips the bottom.
+                    height={9999}
                     showTopIcon
-                    // Icon needs to land in the bottom half of the 40px
-                    // ruler. Wrapper is at ruler bottom, so offset -19
-                    // puts the icon top at ruler y=21.
-                    iconTopOffset={-19}
+                    // Wrapper at ruler bottom; offset -14 lands the
+                    // icon tucked into the bottom of the 40px ruler
+                    // (top at ruler y=26).
+                    iconTopOffset={-14}
                   />
                 </div>
               </div>

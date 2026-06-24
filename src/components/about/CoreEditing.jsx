@@ -799,10 +799,9 @@ function LoopingDemo({ isActive = true }) {
               height={9999}
               showTopIcon
               // Wrapper sits at the tracks-lane top (below the ruler).
-              // Need to push the 17px icon up so it lands centered in
-              // the bottom half of the 40px ruler: ruler y = 40 + offset
-              // → 40 - 19 = 21 ≈ icon top in the bottom half.
-              iconTopOffset={-19}
+              // Offset -14 tucks the 17px icon into the bottom of the
+              // 40px ruler — icon top lands at ruler y=26.
+              iconTopOffset={-14}
             />
           </div>
         </div>

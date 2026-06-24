@@ -447,11 +447,13 @@ function ThemeDemo() {
                 <PlayheadCursor
                   position={5.4}
                   pixelsPerSecond={PPS}
-                  height={totalTracksH}
+                  // Oversized — stalk fills the full canvas below the
+                  // ruler; outer overflow:hidden clips the overshoot.
+                  height={9999}
                   showTopIcon
-                  // Wrapper at ruler bottom → -19 lands the icon at
-                  // ruler y=21, in the bottom half.
-                  iconTopOffset={-19}
+                  // Wrapper at ruler bottom → -14 tucks the icon into
+                  // the bottom of the 40px ruler (top at ruler y=26).
+                  iconTopOffset={-14}
                 />
               </div>
             </div>
