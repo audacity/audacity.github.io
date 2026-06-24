@@ -668,121 +668,225 @@ function ClipColoursDemo() {
 }
 
 // ── Toolbar positioning ────────────────────────────────────────────────────
-const POSITIONS = ["top", "bottom", "left", "right"];
+const TOOLBAR_POSITION_TRACKS = [
+  {
+    name: "Voice",
+    type: "mono",
+    color: "blue",
+    clips: [
+      { id: "tp1", name: "Take 1", start: 0.4, duration: 4.2 },
+      { id: "tp2", name: "Take 2", start: 5.2, duration: 3.8 },
+    ],
+  },
+  {
+    name: "Music",
+    type: "stereo",
+    color: "violet",
+    clips: [{ id: "tp3", name: "Bed", start: 0.2, duration: 16 }],
+  },
+];
 
 function ToolbarPositionDemo() {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(POSITIONS.length, 2200, inView);
-  const pos = POSITIONS[i];
+  const i = useCycleIndex(2, 3200, inView);
+  const pos = i === 0 ? "top" : "bottom";
 
-  const toolbar = (orientation) => (
-    <div
-      style={{
-        background: "rgba(124, 196, 255, 0.18)",
-        border: "1px solid rgba(124, 196, 255, 0.35)",
-        borderRadius: 4,
-        display: "flex",
-        flexDirection: orientation === "vertical" ? "column" : "row",
-        gap: 4,
-        padding: 4,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {[0, 1, 2, 3, 4].map((n) => (
-        <div
-          key={n}
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 2,
-            background: "rgba(255,255,255,0.55)",
-          }}
-        />
-      ))}
-    </div>
+  const [loopEnabled, setLoopEnabled] = useState(false);
+  const [loopStart, setLoopStart] = useState(null);
+  const [loopEnd, setLoopEnd] = useState(null);
+
+  const waveforms = useMemo(
+    () => [generateSpeechWaveform(11), generateSpeechWaveform(17)],
+    [],
+  );
+  const tracks = useMemo(
+    () =>
+      TOOLBAR_POSITION_TRACKS.map((t, ti) => ({
+        ...t,
+        clips: t.clips.map((c) => ({ ...c, waveform: waveforms[ti] })),
+      })),
+    [waveforms],
   );
 
-  const isVertical = pos === "left" || pos === "right";
+  const TRACK_CONTROL_W = 280;
+  const CANVAS_W = 720;
+  const RULER_H = 40;
+  const TRACK_H = 110;
+  const PPS = 36;
+  const TOOLBAR_H_BUDGET = 64;
+  const trackHeights = tracks.map(() => TRACK_H);
+  const totalTracksH =
+    trackHeights.reduce((a, b) => a + b, 0) + tracks.length * 2;
+
+  const toolbar = (
+    <TransportToolbar
+      activeMenuItem="project"
+      workspace="classic"
+      isPlaying={false}
+      isRecording={false}
+      onPlay={NOOP}
+      onStop={NOOP}
+      onRecord={NOOP}
+      snapEnabled
+      snapMode="musical"
+      loopRegionEnabled={loopEnabled}
+      loopRegionStart={loopStart}
+      loopRegionEnd={loopEnd}
+      setLoopRegionEnabled={setLoopEnabled}
+      setLoopRegionStart={setLoopStart}
+      setLoopRegionEnd={setLoopEnd}
+      timeSelection={null}
+      bpm={120}
+      beatsPerMeasure={4}
+      noteValue={4}
+      envelopeMode={false}
+      spectrogramMode={false}
+      onToggleEnvelope={NOOP}
+      onToggleSpectrogram={NOOP}
+      onZoomIn={NOOP}
+      onZoomOut={NOOP}
+      onZoomToSelection={NOOP}
+      onZoomToFitProject={NOOP}
+      onZoomToggle={NOOP}
+      currentTime={5.4}
+      timeCodeFormat="hh:mm:ss"
+      onTimeCodeChange={NOOP}
+      onTimeCodeFormatChange={NOOP}
+      onShareClick={NOOP}
+      onExportAudioClick={NOOP}
+      onExportLoopRegionClick={NOOP}
+      masterLevelLeft={-12}
+      masterLevelRight={-14}
+      masterRecentPeakLeft={-8}
+      masterRecentPeakRight={-10}
+      masterVolume={0.8}
+    />
+  );
 
   return (
-    <div
-      ref={rootRef}
-      className="absolute inset-0 flex items-center justify-center p-7"
-    >
+    <ThemeProvider theme={darkTheme}>
       <div
-        className="rounded-lg overflow-hidden flex"
-        style={{
-          width: 260,
-          height: 175,
-          background: "#0F151B",
-          border: "1px solid rgba(255,255,255,0.08)",
-          padding: 10,
-          gap: 8,
-          flexDirection:
-            pos === "top"
-              ? "column"
-              : pos === "bottom"
-                ? "column-reverse"
-                : pos === "left"
-                  ? "row"
-                  : "row-reverse",
-          transition: "flex-direction 360ms ease",
-        }}
+        ref={rootRef}
+        className="absolute inset-0 overflow-hidden"
+        style={{ background: "#08090C" }}
       >
         <div
           style={{
-            flex: isVertical ? "0 0 28px" : "0 0 24px",
-            transition: "flex-basis 360ms ease",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            // Match ThemeDemo so the TransportToolbar never wraps.
+            width: 1500,
+            height: TOOLBAR_H_BUDGET + RULER_H + totalTracksH + 20,
+            display: "flex",
+            // flexDirection flips between column and column-reverse to
+            // snap the toolbar between top and bottom positions.
+            flexDirection: pos === "top" ? "column" : "column-reverse",
+            background: darkTheme.background.surface.subtle,
           }}
         >
-          {toolbar(isVertical ? "vertical" : "horizontal")}
+          {toolbar}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              minHeight: 0,
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
+              <TrackControlSidePanel trackHeights={trackHeights}>
+                {tracks.map((t, idx) => (
+                  <TrackControlPanel
+                    key={idx}
+                    trackName={t.name}
+                    trackType={t.type}
+                    volume={75}
+                    meterLevelLeft={48 - idx * 4}
+                    meterLevelRight={44 - idx * 4}
+                    meterRecentPeakLeft={62 - idx * 4}
+                    meterRecentPeakRight={58 - idx * 4}
+                    trackHeight={TRACK_H}
+                  />
+                ))}
+              </TrackControlSidePanel>
+            </div>
+
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                minWidth: 0,
+                position: "relative",
+                background: darkTheme.background.canvas.default,
+              }}
+            >
+              <TimelineRuler
+                width={CANVAS_W}
+                height={RULER_H}
+                pixelsPerSecond={PPS}
+                totalDuration={CANVAS_W / PPS}
+                timeFormat="minutes-seconds"
+              />
+              <div style={{ flex: 1, paddingTop: 2 }}>
+                {tracks.map((t, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      position: "relative",
+                      height: TRACK_H,
+                      marginBottom: 2,
+                    }}
+                  >
+                    <TrackNew
+                      clips={t.clips}
+                      trackIndex={idx}
+                      width={CANVAS_W}
+                      height={TRACK_H}
+                      pixelsPerSecond={PPS}
+                      color={t.color}
+                      onClipTrimEdge={() => {}}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: RULER_H,
+                  left: 0,
+                  pointerEvents: "none",
+                }}
+              >
+                <PlayheadCursor
+                  position={5.4}
+                  pixelsPerSecond={PPS}
+                  height={9999}
+                  showTopIcon
+                  iconTopOffset={-14}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex-1 flex flex-col gap-1.5">
-          <div
-            style={{
-              flex: 1,
-              background: "rgba(255,255,255,0.04)",
-              borderRadius: 3,
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                left: 4,
-                right: 4,
-                top: "50%",
-                height: 1,
-                background: "rgba(124,196,255,0.5)",
-              }}
-            />
-          </div>
-          <div
-            style={{
-              flex: 1,
-              background: "rgba(255,255,255,0.04)",
-              borderRadius: 3,
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                left: 4,
-                right: 4,
-                top: "50%",
-                height: 1,
-                background: "rgba(167,139,250,0.5)",
-              }}
-            />
-          </div>
+
+        {/* Position label */}
+        <div
+          className="absolute left-4 bottom-3 font-mono text-[10px] tracking-[0.22em] uppercase text-white/85"
+          style={{
+            padding: "5px 12px",
+            background: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.16)",
+            borderRadius: 999,
+          }}
+          aria-hidden
+        >
+          Toolbar · {pos === "top" ? "Top" : "Bottom"}
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
@@ -808,7 +912,8 @@ const CARDS = [
   {
     id: "toolbar",
     title: "Toolbar position",
-    description: "Top, bottom, or stuck to either side.",
+    description:
+      "Park the transport up top, or move it down to the bottom — whichever sits closer to your hands.",
     Demo: ToolbarPositionDemo,
   },
 ];
