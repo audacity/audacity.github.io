@@ -155,18 +155,17 @@ function CoreEditingApple1() {
         onPointerCancel={endDrag}
       >
         <div
-          className="absolute top-0 left-0 flex items-center flex-nowrap"
+          className="absolute top-0 left-0"
           style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            alignItems: "center",
             // Force the row to sum-of-children width so flex-nowrap
-            // actually keeps the cards on a single line — without
-            // width:max-content + flex-nowrap explicit, some flex
-            // contexts shrink the row to the viewport and wrap (or
-            // squash) the cards into a grid.
+            // actually keeps the cards on a single line.
             width: "max-content",
             gap: GAP,
             transform: `translateX(${trackX + dragOffset}px)`,
-            // Snap-easing on release; no transition during drag so the
-            // strip tracks the pointer 1:1.
             transition: dragging
               ? "none"
               : "transform 520ms cubic-bezier(0.4, 0, 0.2, 1)",
@@ -191,12 +190,17 @@ function CoreEditingApple1() {
                   setActiveIdx(idx);
                   setPaused(true);
                 }}
-                className="shrink-0 rounded-2xl border border-white/10 bg-[rgb(20,16,56)] overflow-hidden relative text-left"
+                className="rounded-2xl border border-white/10 bg-[rgb(20,16,56)] overflow-hidden relative text-left"
                 aria-label={`Show ${c.title}`}
                 style={{
+                  // Explicit + flex-shrink:0 instead of Tailwind classes
+                  // — belt-and-braces against any flex-context that
+                  // would otherwise wrap or shrink the cards.
+                  flexShrink: 0,
+                  flexGrow: 0,
+                  flexBasis: "auto",
                   width: cardW,
                   height: cardH,
-                  aspectRatio: "16/9",
                   transform: `scale(${isActive ? 1 : INACTIVE_SCALE})`,
                   opacity: isActive ? 1 : 0.35,
                   filter: isActive ? "none" : "saturate(0.7)",
