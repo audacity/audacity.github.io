@@ -115,17 +115,17 @@ function CoreEditingApple1() {
       <div className="px-6 lg:px-10">
         <header className="max-w-3xl mx-auto text-center">
           <div
-            className="font-mono text-xs tracking-[0.3em] uppercase text-accent"
+            className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
             aria-hidden
           >
-            Apple pattern #1 · Filmstrip
+            Also
           </div>
           <h2 className="mt-4 font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
             Hundreds of smaller things
           </h2>
           <p className="mt-5 text-text-contrast/70 text-base md:text-lg">
-            One card in focus, the neighbours sit dimmed on either side so you
-            always know there's more.
+            We've touched almost every corner of the app. Here are a few you'll
+            run into in your first session.
           </p>
         </header>
       </div>
