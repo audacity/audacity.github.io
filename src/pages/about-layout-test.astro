@@ -1,13 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CoreEditing from "../components/about/CoreEditing.jsx";
 import CoreEditingApple1 from "../components/about/CoreEditingApple1.jsx";
-import CoreEditingApple2 from "../components/about/CoreEditingApple2.jsx";
 import "@dilsonspickles/components/style.css";
 
 const pageTitle = "Layout test · Hundreds of smaller things";
 const pageDescription =
-  "Side-by-side of the current carousel + Apple #1 + Apple #2 layouts.";
+  "Sandbox for the Apple #1 filmstrip layout of Hundreds of smaller things.";
 ---
 
 <BaseLayout
@@ -16,32 +14,7 @@ const pageDescription =
   showPromoBanner={false}
 >
   <div class="layout-test-page">
-    <div class="layout-label">
-      <span class="layout-label__num">Current</span>
-      <span class="layout-label__desc">
-        Six small cards in a row, each running its own demo. Hover-to-play +
-        autoplay-of-active-card.
-      </span>
-    </div>
-    <CoreEditing client:visible />
-
-    <div class="layout-label">
-      <span class="layout-label__num">Apple #1</span>
-      <span class="layout-label__desc">
-        One big card at a time, headline + description under the hero, tab pills
-        along the bottom.
-      </span>
-    </div>
     <CoreEditingApple1 client:visible />
-
-    <div class="layout-label">
-      <span class="layout-label__num">Apple #2</span>
-      <span class="layout-label__desc">
-        Index column on the left, one big demo on the right, description below
-        the demo.
-      </span>
-    </div>
-    <CoreEditingApple2 client:visible />
   </div>
 </BaseLayout>
 
@@ -54,36 +27,5 @@ const pageDescription =
   }
   .layout-test-page {
     background: rgb(28, 22, 78);
-  }
-  .layout-label {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding: 6rem 1.5rem 1rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .layout-test-page > .layout-label:first-child {
-    border-top: none;
-    padding-top: 4rem;
-  }
-  @media (min-width: 1024px) {
-    .layout-label {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
-    }
-  }
-  .layout-label__num {
-    font-family: ui-monospace, monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: #f87171;
-  }
-  .layout-label__desc {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    max-width: 48rem;
   }
 </style>
