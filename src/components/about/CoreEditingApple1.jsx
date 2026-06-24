@@ -111,7 +111,10 @@ function CoreEditingApple1() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-background-dark py-24 lg:py-32">
+    <section
+      ref={sectionRef}
+      className="bg-background-dark py-24 lg:py-32 overflow-hidden relative"
+    >
       <div className="px-6 lg:px-10">
         <header className="max-w-3xl mx-auto text-center">
           <div
