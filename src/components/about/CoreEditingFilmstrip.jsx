@@ -123,12 +123,6 @@ function CoreEditingFilmstrip() {
                   aria-label={`Show ${c.title}`}
                 >
                   {isActive && <Demo isActive />}
-                  <div className="cef-card__overlay">
-                    <div className="cef-card__eyebrow" aria-hidden>
-                      {c.eyebrow}
-                    </div>
-                    <h3 className="cef-card__title">{c.title}</h3>
-                  </div>
                 </button>
               </li>
             );
@@ -136,29 +130,40 @@ function CoreEditingFilmstrip() {
         </ul>
       </div>
 
-      <p key={`caption-${activeIdx}`} className="cef-caption">
-        {CARDS[activeIdx].description}
-      </p>
+      <div key={`caption-${activeIdx}`} className="cef-caption">
+        <div className="cef-caption__eyebrow" aria-hidden>
+          {CARDS[activeIdx].eyebrow}
+        </div>
+        <h3 className="cef-caption__title">{CARDS[activeIdx].title}</h3>
+        <p className="cef-caption__desc">{CARDS[activeIdx].description}</p>
+      </div>
 
-      <div className="cef-controls">
-        <div className="cef-dots">
+      {/* Timeline-style ticker — like an Audacity ruler. One major
+          tick per feature, label sits underneath the active one, a
+          play/pause sits at the right end. */}
+      <div className="cef-timeline" role="tablist" aria-label="Features">
+        <div className="cef-timeline__track">
           {CARDS.map((c, idx) => {
             const isActive = idx === activeIdx;
             return (
               <button
                 key={c.id}
                 type="button"
+                role="tab"
+                aria-selected={isActive}
                 aria-label={`Show ${c.title}`}
                 onClick={() => {
                   setPaused(true);
                   scrollToIdx(idx);
                 }}
-                className={"cef-dot" + (isActive ? " cef-dot--active" : "")}
+                className={"cef-tick" + (isActive ? " cef-tick--active" : "")}
               >
+                <span className="cef-tick__mark" />
+                <span className="cef-tick__label">{c.eyebrow}</span>
                 {isActive && (
                   <span
                     key={`fill-${activeIdx}-${paused}`}
-                    className="cef-dot__fill"
+                    className="cef-tick__progress"
                     style={{
                       animationPlayState: paused ? "paused" : "running",
                     }}
@@ -176,12 +181,12 @@ function CoreEditingFilmstrip() {
         >
           {paused ? (
             <svg width="10" height="12" viewBox="0 0 10 12">
-              <path d="M0 0 L10 6 L0 12 Z" fill="white" />
+              <path d="M0 0 L10 6 L0 12 Z" fill="currentColor" />
             </svg>
           ) : (
             <svg width="10" height="12" viewBox="0 0 10 12">
-              <rect x="0" y="0" width="3" height="12" fill="white" />
-              <rect x="7" y="0" width="3" height="12" fill="white" />
+              <rect x="0" y="0" width="3" height="12" fill="currentColor" />
+              <rect x="7" y="0" width="3" height="12" fill="currentColor" />
             </svg>
           )}
         </button>
@@ -283,102 +288,136 @@ function CoreEditingFilmstrip() {
         .cef-card--active .cef-card__btn {
           box-shadow: 0 30px 60px rgba(0,0,0,0.55);
         }
-        .cef-card__overlay {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          padding: 3.5rem 1.75rem 1.5rem;
-          background: linear-gradient(
-            to top,
-            rgba(0,0,0,0.78) 0%,
-            rgba(0,0,0,0.4) 55%,
-            transparent 100%
-          );
-          pointer-events: none;
-          z-index: 20;
-        }
-        .cef-card__eyebrow {
-          font-family: ui-monospace, monospace;
-          font-size: 0.625rem;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.75);
-        }
-        .cef-card__title {
-          margin-top: 0.4rem;
-          font-family: var(--font-harmony, sans-serif);
-          font-size: clamp(1.25rem, 2vw, 1.875rem);
-          line-height: 1.1;
-          color: white;
-          max-width: 24rem;
-        }
+        /* Caption — sits below the row as an editorial slab. */
         .cef-caption {
-          margin: 1.75rem auto 0;
+          margin: 2.25rem auto 0;
           padding: 0 1.5rem;
-          max-width: 36rem;
-          min-height: 3.5rem;
-          text-align: center;
-          color: rgba(255,255,255,0.7);
-          font-size: 1rem;
+          max-width: 44rem;
+          text-align: left;
           animation: cefCaptionIn 480ms ease;
         }
         @media (min-width: 768px) {
-          .cef-caption { font-size: 1.125rem; }
+          .cef-caption { padding: 0 2.5rem; }
         }
-        .cef-controls {
-          margin-top: 0.75rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.75rem;
+        .cef-caption__eyebrow {
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.5);
+        }
+        .cef-caption__title {
+          margin: 0.5rem 0 0;
+          font-family: var(--font-harmony, sans-serif);
+          font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+          line-height: 1.1;
+          color: var(--text-contrast, #fff);
+        }
+        .cef-caption__desc {
+          margin: 0.75rem 0 0;
+          font-size: 1rem;
+          line-height: 1.55;
+          color: rgba(255,255,255,0.7);
+        }
+        @media (min-width: 768px) {
+          .cef-caption__desc { font-size: 1.0625rem; }
+        }
+        /* Audacity-style timeline ticker. Thin baseline with a tick per
+           feature; the active tick has a tall fill mark + label and a
+           progress sweep beneath. */
+        .cef-timeline {
+          margin: 2rem auto 0;
           padding: 0 1.5rem;
-        }
-        .cef-dots {
+          max-width: 56rem;
           display: flex;
-          align-items: center;
-          gap: 0.375rem;
+          align-items: flex-start;
+          gap: 1rem;
         }
-        .cef-dot {
+        @media (min-width: 768px) {
+          .cef-timeline { padding: 0 2.5rem; }
+        }
+        .cef-timeline__track {
+          flex: 1;
+          display: grid;
+          grid-auto-flow: column;
+          grid-auto-columns: 1fr;
+          gap: 1px;
+          padding-top: 0.75rem;
+          border-top: 1px solid rgba(255,255,255,0.18);
           position: relative;
-          height: 8px;
-          width: 8px;
+        }
+        .cef-tick {
+          position: relative;
           padding: 0;
+          background: transparent;
           border: none;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.22);
+          color: inherit;
           cursor: pointer;
-          overflow: hidden;
-          transition: width 240ms ease;
+          min-height: 2.5rem;
+          text-align: left;
+          font: inherit;
         }
-        .cef-dot--active {
-          width: 28px;
-        }
-        .cef-dot__fill {
+        .cef-tick__mark {
           position: absolute;
-          inset: 0 auto 0 0;
-          width: 100%;
+          top: -0.75rem;
+          left: 0;
+          width: 1px;
+          height: 0.5rem;
+          background: rgba(255,255,255,0.35);
+          transform-origin: top center;
+          transition: height 220ms ease, background 220ms ease, width 220ms ease;
+        }
+        .cef-tick--active .cef-tick__mark {
+          height: 0.85rem;
+          width: 2px;
+          background: rgba(255,255,255,0.9);
+        }
+        .cef-tick__label {
+          display: block;
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.35);
+          line-height: 1.4;
+          padding: 0.35rem 0.5rem 0 0.25rem;
+          transition: color 220ms ease;
+        }
+        .cef-tick--active .cef-tick__label {
+          color: rgba(255,255,255,0.85);
+        }
+        .cef-tick:hover .cef-tick__label {
+          color: rgba(255,255,255,0.7);
+        }
+        .cef-tick__progress {
+          position: absolute;
+          left: 0;
+          right: 1px;
+          top: -1px;
+          height: 1px;
           background: rgba(255,255,255,0.85);
           transform: scaleX(0);
           transform-origin: left;
           animation: cefDotFill ${CYCLE_MS}ms linear forwards;
         }
         .cef-playtoggle {
-          margin-left: 0.5rem;
-          width: 2rem;
-          height: 2rem;
+          width: 1.75rem;
+          height: 1.75rem;
           padding: 0;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.15);
+          flex-shrink: 0;
+          border-radius: 0;
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.7);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: background 160ms ease;
+          transition: color 160ms ease, border-color 160ms ease;
         }
         .cef-playtoggle:hover {
-          background: rgba(255,255,255,0.16);
+          color: rgba(255,255,255,1);
+          border-color: rgba(255,255,255,0.55);
         }
         @keyframes cefCaptionIn {
           from { opacity: 0; transform: translateY(4px); }
