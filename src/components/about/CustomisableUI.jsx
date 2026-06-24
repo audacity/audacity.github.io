@@ -37,12 +37,18 @@ function useCycleIndex(count, intervalMs, enabled = true) {
 // palette. Each control inherits its colour from CSS custom properties
 // scoped to a wrapper div — overriding them per-tick repaints all five
 // controls in sync without re-rendering them.
+// Matches the nine-colour accent picker shown in the onboarding modal,
+// in the same order.
 const ACCENTS = [
-  { name: "Coral", value: "#F87171" },
-  { name: "Mint", value: "#34D399" },
-  { name: "Violet", value: "#A78BFA" },
-  { name: "Sky", value: "#7CC4FF" },
-  { name: "Amber", value: "#FBBF24" },
+  { name: "Blue", value: "#5BA3F5" },
+  { name: "Violet", value: "#B594F0" },
+  { name: "Magenta", value: "#E380C0" },
+  { name: "Red", value: "#ED6F6F" },
+  { name: "Orange", value: "#F1A05B" },
+  { name: "Yellow", value: "#ECC247" },
+  { name: "Green", value: "#5FAF54" },
+  { name: "Turquoise", value: "#3FAB91" },
+  { name: "Cyan", value: "#5FB7C9" },
 ];
 
 // Each design-system control sets its own colour CSS vars inline on its
@@ -60,7 +66,7 @@ function accentVars(accent) {
 function AccentDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(ACCENTS.length, 2400, inView && isActive);
+  const i = useCycleIndex(ACCENTS.length, 1800, inView && isActive);
   const accent = ACCENTS[i].value;
 
   return (
@@ -140,7 +146,7 @@ function AccentDemo({ isActive = true }) {
         {/* Onboarding-style picker — sits below the panel so the panel
             reads as the focus and the swatches as the control feeding
             into it. */}
-        <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm">
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm">
           {ACCENTS.map((a, idx) => {
             const isPicked = idx === i;
             return (
@@ -148,13 +154,13 @@ function AccentDemo({ isActive = true }) {
                 key={a.value}
                 aria-hidden
                 style={{
-                  width: 22,
-                  height: 22,
+                  width: 18,
+                  height: 18,
                   borderRadius: "50%",
                   background: a.value,
                   outline: isPicked ? `2px solid ${a.value}` : "none",
                   outlineOffset: 2,
-                  transform: isPicked ? "scale(1)" : "scale(0.82)",
+                  transform: isPicked ? "scale(1)" : "scale(0.78)",
                   opacity: isPicked ? 1 : 0.55,
                   transition:
                     "outline-color 280ms ease, opacity 280ms ease, transform 280ms ease",
