@@ -13,11 +13,6 @@ import {
   TimelineRuler,
   PlayheadCursor,
   MasterMeter,
-  Button,
-  Slider,
-  Radio,
-  ToggleButton,
-  PanKnob,
   ThemeProvider,
   darkTheme,
   lightTheme,
@@ -78,7 +73,6 @@ function AccentDemo({ isActive = true }) {
           card so they can't leak into the rest of the page.
         */
         .accent-demo-card .slider__fill { background: var(--accent) !important; }
-        .accent-demo-card .radio__pip { background: var(--accent) !important; }
         /*
           Leave the outer gauge ring alone (it stays at the theme's
           default neutral) and override the bipolar value-sweep arc with
@@ -94,13 +88,9 @@ function AccentDemo({ isActive = true }) {
             transparent 81deg
           ) !important;
         }
-        .accent-demo-card .button--primary { background: var(--accent) !important; }
-        .accent-demo-card .button--primary:hover { background: var(--accent) !important; filter: brightness(1.08); }
         .accent-demo-card .toggle-button--active { background: var(--accent) !important; }
         .accent-demo-card .slider__fill,
-        .accent-demo-card .radio__pip,
         .accent-demo-card .knob__value-sweep,
-        .accent-demo-card .button--primary,
         .accent-demo-card .toggle-button--active {
           transition: background 360ms ease;
         }
@@ -170,27 +160,6 @@ function AccentDemo({ isActive = true }) {
               trackHeight={120}
             />
           </div>
-        </div>
-
-        {/* The other accent surfaces — primary CTA, effect bypass and
-            radio — sit underneath as a "and elsewhere" strip. */}
-        <div className="flex items-center gap-5">
-          <Button variant="primary" size="default">
-            Record
-          </Button>
-          <div
-            aria-hidden
-            className="w-px h-6 bg-white/10"
-            style={{ flexShrink: 0 }}
-          />
-          <ToggleButton
-            active
-            icon="power"
-            size={24}
-            activeColor={accent}
-            ariaLabel="Bypass effect"
-          />
-          <Radio checked onChange={() => {}} name="accent-demo" />
         </div>
 
         {/* Accent name pinned bottom-left, coloured by the active swatch. */}
