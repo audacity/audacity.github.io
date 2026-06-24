@@ -107,75 +107,85 @@ function AccentDemo({ isActive = true }) {
       `}</style>
       <div
         ref={rootRef}
-        className="accent-demo-card absolute inset-0 flex flex-col items-center justify-center gap-7 p-7"
+        className="accent-demo-card absolute inset-0 flex flex-col items-center justify-center gap-5 p-6"
         style={{
           ...accentVars(accent),
-          transition: "background-color 360ms ease",
+          // Soft accent halo behind the demo so the whole tile breathes
+          // with the colour, not just the controls.
+          background: `radial-gradient(circle at 50% 38%, ${accent}26 0%, transparent 62%)`,
+          transition: "background 480ms ease",
         }}
       >
-        {/* Pan knob + volume slider sit together — the side-panel kit. */}
-        <div className="flex items-center gap-8">
-          <div className="flex flex-col items-center gap-2">
-            {/* Pan held at -60 (60% left). The design system paints the
-                bipolar value-sweep with hardcoded blues via an inline
-                conic-gradient — overridden below with a matching-angle
-                gradient that reads from --accent so the indicator-of-
-                how-much arc actually picks up the cycling colour. */}
-            <PanKnob value={-60} />
-            <span
-              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
-              aria-hidden
-            >
-              Pan
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div style={{ width: 160 }}>
-              <Slider value={72} ariaLabel="Track volume" />
-            </div>
-            <span
-              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
-              aria-hidden
-            >
-              Volume
-            </span>
-          </div>
+        {/* Onboarding-style picker — the active swatch advances each
+            cycle so the colour flip reads as a deliberate choice rather
+            than an unexplained flicker. */}
+        <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm">
+          {ACCENTS.map((a, idx) => {
+            const isPicked = idx === i;
+            return (
+              <div
+                key={a.value}
+                aria-hidden
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: "50%",
+                  background: a.value,
+                  outline: isPicked ? `2px solid ${a.value}` : "none",
+                  outlineOffset: 2,
+                  transform: isPicked ? "scale(1)" : "scale(0.82)",
+                  opacity: isPicked ? 1 : 0.55,
+                  transition:
+                    "outline-color 280ms ease, opacity 280ms ease, transform 280ms ease",
+                }}
+              />
+            );
+          })}
         </div>
 
-        {/* Primary button — the obvious accent recipient. */}
-        <Button variant="primary" size="large">
-          Record
-        </Button>
-
-        {/* Effect bypass + radio sit together — the "small chrome" row. */}
-        <div className="flex items-center gap-8">
-          <div className="flex flex-col items-center gap-2">
-            <ToggleButton
-              active
-              icon="power"
-              size={28}
-              activeColor={accent}
-              ariaLabel="Bypass effect"
-            />
-            <span
-              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
-              aria-hidden
-            >
-              Bypass
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Radio checked onChange={() => {}} name="accent-demo" />
-            <span
-              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
-              aria-hidden
-            >
-              Selected
-            </span>
-          </div>
+        {/* Centerpiece: the real TrackControlPanel — pan knob + volume
+            slider + mute/solo toggles all live here and all pick up the
+            accent through the CSS overrides above. */}
+        <div
+          className="rounded-lg border border-white/[0.08] overflow-hidden shadow-[0_18px_36px_rgba(0,0,0,0.45)]"
+          style={{ width: 280 }}
+        >
+          <TrackControlPanel
+            trackName="Music bed"
+            trackType="stereo"
+            volume={72}
+            pan={-60}
+            isSolo
+            meterLevelLeft={48}
+            meterLevelRight={44}
+            meterRecentPeakLeft={62}
+            meterRecentPeakRight={58}
+            trackHeight={120}
+          />
         </div>
 
-        {/* Accent name pill, coloured by the current accent. */}
+        {/* The other accent surfaces — primary CTA, effect bypass and
+            radio — sit underneath as a "and elsewhere" strip. */}
+        <div className="flex items-center gap-5">
+          <Button variant="primary" size="default">
+            Record
+          </Button>
+          <div
+            aria-hidden
+            className="w-px h-6 bg-white/10"
+            style={{ flexShrink: 0 }}
+          />
+          <ToggleButton
+            active
+            icon="power"
+            size={24}
+            activeColor={accent}
+            ariaLabel="Bypass effect"
+          />
+          <Radio checked onChange={() => {}} name="accent-demo" />
+        </div>
+
+        {/* Accent name pinned bottom-left, coloured by the active swatch. */}
         <div
           className="absolute left-4 bottom-3 font-mono text-[10px] tracking-[0.22em] uppercase"
           style={{
