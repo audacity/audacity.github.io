@@ -145,23 +145,31 @@ function AccentDemo({ isActive = true }) {
 
         {/* Centerpiece: the real TrackControlPanel — pan knob + volume
             slider + mute/solo toggles all live here and all pick up the
-            accent through the CSS overrides above. */}
-        <div
-          className="rounded-lg border border-white/[0.08] overflow-hidden shadow-[0_18px_36px_rgba(0,0,0,0.45)]"
-          style={{ width: 280 }}
-        >
-          <TrackControlPanel
-            trackName="Music bed"
-            trackType="stereo"
-            volume={72}
-            pan={-60}
-            isSolo
-            meterLevelLeft={48}
-            meterLevelRight={44}
-            meterRecentPeakLeft={62}
-            meterRecentPeakRight={58}
-            trackHeight={120}
-          />
+            accent through the CSS overrides above. Wrapped in a
+            perspective container with a soft Y/X rotation so the panel
+            reads as a 3D object floating in the card. */}
+        <div style={{ perspective: "1400px" }}>
+          <div
+            className="rounded-lg border border-white/[0.10] overflow-hidden shadow-[0_28px_50px_rgba(0,0,0,0.55)]"
+            style={{
+              width: 280,
+              transform: "rotateY(-16deg) rotateX(6deg)",
+              transformOrigin: "center center",
+            }}
+          >
+            <TrackControlPanel
+              trackName="Music bed"
+              trackType="stereo"
+              volume={72}
+              pan={-60}
+              isSolo
+              meterLevelLeft={48}
+              meterLevelRight={44}
+              meterRecentPeakLeft={62}
+              meterRecentPeakRight={58}
+              trackHeight={120}
+            />
+          </div>
         </div>
 
         {/* The other accent surfaces — primary CTA, effect bypass and
