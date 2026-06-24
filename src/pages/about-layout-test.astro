@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CoreEditingFilmstrip from "../components/about/CoreEditingFilmstrip.jsx";
+import "@dilsonspickles/components/style.css";
+
+const pageTitle = "Layout test · Hundreds of smaller things";
+const pageDescription = "Sandbox for the Hundreds of smaller things filmstrip.";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <div class="filmstrip-test-page">
+    <CoreEditingFilmstrip client:visible />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  html {
+    --page-bg: rgb(10, 13, 26);
+  }
+  body {
+    background-color: var(--page-bg) !important;
+  }
+  .filmstrip-test-page {
+    background: rgb(28, 22, 78);
+  }
+</style>
