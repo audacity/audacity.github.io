@@ -118,25 +118,51 @@ function AccentDemo({ isActive = true }) {
         className="accent-demo-card absolute inset-0 flex flex-col items-center justify-center gap-5 p-6"
         style={{
           ...accentVars(accent),
-          // Soft accent halo behind the demo so the whole tile breathes
-          // with the colour, not just the controls.
-          background: `radial-gradient(circle at 50% 38%, ${accent}26 0%, transparent 62%)`,
-          transition: "background 480ms ease",
+          background: "#0B0D14",
         }}
       >
-        {/* Centerpiece: the real TrackControlPanel — pan knob + volume
-            slider + mute/solo toggles all live here and all pick up the
-            accent through the CSS overrides above. Wrapped in a
-            perspective container with a soft Y/X rotation so the panel
-            reads as a 3D object floating in the card. The wrapper
-            width matches the design system's hardcoded 268px so the
-            meter strip reaches the right edge with no gap. */}
-        <div style={{ perspective: "1400px" }}>
+        {/* Centerpiece: the real TrackControlPanel sitting on a stack of
+            accent-coloured paint chips. The chips peek out from behind
+            the panel so the card reads as "this colour applies to that
+            chrome", more deliberate than a soft glow. The panel itself
+            uses a punchier rotateY/X than the soft designer-tilt — feels
+            like a 3D product render rather than a portfolio mockup. */}
+        <div
+          style={{
+            position: "relative",
+            perspective: "2400px",
+            width: 268,
+          }}
+        >
+          {/* Paint-chip stack — three accent rectangles offset behind
+              the panel, each slightly larger and more transparent than
+              the last so they fan out like swatch cards. */}
+          {[
+            { dx: 18, dy: 14, scale: 1.04, opacity: 0.35 },
+            { dx: -22, dy: 24, scale: 1.08, opacity: 0.22 },
+            { dx: 6, dy: 38, scale: 1.12, opacity: 0.12 },
+          ].map((chip, idx) => (
+            <div
+              key={idx}
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: accent,
+                opacity: chip.opacity,
+                borderRadius: 12,
+                transform: `translate3d(${chip.dx}px, ${chip.dy}px, 0) scale(${chip.scale}) rotateY(-22deg) rotateX(10deg)`,
+                transformOrigin: "center center",
+                transition: "background 480ms ease, opacity 480ms ease",
+                pointerEvents: "none",
+              }}
+            />
+          ))}
           <div
-            className="rounded-lg border border-white/[0.10] overflow-hidden shadow-[0_28px_50px_rgba(0,0,0,0.55)]"
+            className="rounded-lg border border-white/[0.12] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] relative"
             style={{
               width: 268,
-              transform: "rotateY(-16deg) rotateX(6deg)",
+              transform: "rotateY(-22deg) rotateX(10deg)",
               transformOrigin: "center center",
             }}
           >
