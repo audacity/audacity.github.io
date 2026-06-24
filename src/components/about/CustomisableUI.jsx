@@ -13,6 +13,11 @@ import {
   TimelineRuler,
   PlayheadCursor,
   MasterMeter,
+  Button,
+  Slider,
+  Radio,
+  ToggleButton,
+  PanKnob,
   ThemeProvider,
   darkTheme,
   lightTheme,
@@ -32,6 +37,11 @@ function useCycleIndex(count, intervalMs, enabled = true) {
 }
 
 // ── Accent colour ──────────────────────────────────────────────────────────
+// Cycles real design-system controls (pan knob, volume slider, primary
+// button, effect bypass toggle, radio) through the onboarding accent
+// palette. Each control inherits its colour from CSS custom properties
+// scoped to a wrapper div — overriding them per-tick repaints all five
+// controls in sync without re-rendering them.
 const ACCENTS = [
   { name: "Coral", value: "#F87171" },
   { name: "Mint", value: "#34D399" },
@@ -40,77 +50,114 @@ const ACCENTS = [
   { name: "Amber", value: "#FBBF24" },
 ];
 
-function AccentDemo() {
+// Each design-system control that picks up the accent reads its own CSS
+// variable. Set them together at the wrapper so a single value change
+// repaints every control. Each entry has a base alpha (used for tints
+// like focus rings and hover states).
+function accentVars(accent) {
+  return {
+    "--accent-color": accent,
+    "--slider-fill-bg": accent,
+    "--slider-handle-border": accent,
+    "--radio-pip": accent,
+    "--knob-gauge": accent,
+    "--knob-indicator": accent,
+    "--button-bg-idle": accent,
+    "--button-bg-hover": accent,
+    "--button-bg-active": accent,
+    "--toggle-btn-bg-active": accent,
+    "--focus-color": accent,
+    "--focus-ring-color": `${accent}55`,
+    "--focus-border-color": accent,
+  };
+}
+
+function AccentDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(ACCENTS.length, 2200, inView);
+  const i = useCycleIndex(ACCENTS.length, 2400, inView && isActive);
   const accent = ACCENTS[i].value;
+
   return (
-    <div
-      ref={rootRef}
-      className="absolute inset-0 flex flex-col items-center justify-center gap-5 p-7"
-    >
+    <ThemeProvider theme={darkTheme}>
       <div
-        className="px-5 py-2.5 rounded-md font-mono text-sm tracking-wide"
+        ref={rootRef}
+        className="absolute inset-0 flex flex-col items-center justify-center gap-7 p-7"
         style={{
-          background: accent,
-          color: "#0E1218",
-          fontWeight: 600,
-          transition: "background 360ms ease",
+          ...accentVars(accent),
+          transition: "background-color 360ms ease",
         }}
       >
-        Record
-      </div>
-      <div className="flex items-center gap-4">
-        <div
-          className="w-5 h-5 rounded flex items-center justify-center"
-          style={{
-            background: accent,
-            transition: "background 360ms ease",
-          }}
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12">
-            <path
-              d="M2 6 L5 9 L10 3"
-              fill="none"
-              stroke="#0E1218"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        {/* Pan knob + volume slider sit together — the side-panel kit. */}
+        <div className="flex items-center gap-8">
+          <div className="flex flex-col items-center gap-2">
+            <PanKnob value={-30} />
+            <span
+              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
+              aria-hidden
+            >
+              Pan
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <div style={{ width: 160 }}>
+              <Slider value={72} ariaLabel="Track volume" />
+            </div>
+            <span
+              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
+              aria-hidden
+            >
+              Volume
+            </span>
+          </div>
+        </div>
+
+        {/* Primary button — the obvious accent recipient. */}
+        <Button variant="primary" size="large">
+          Record
+        </Button>
+
+        {/* Effect bypass + radio sit together — the "small chrome" row. */}
+        <div className="flex items-center gap-8">
+          <div className="flex flex-col items-center gap-2">
+            <ToggleButton
+              active
+              icon="power"
+              size={28}
+              activeColor={accent}
+              ariaLabel="Bypass effect"
             />
-          </svg>
+            <span
+              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
+              aria-hidden
+            >
+              Bypass
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Radio checked onChange={() => {}} name="accent-demo" />
+            <span
+              className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
+              aria-hidden
+            >
+              Selected
+            </span>
+          </div>
         </div>
+
+        {/* Accent name pill, coloured by the current accent. */}
         <div
-          className="relative w-32 h-1.5 rounded-full"
-          style={{ background: "rgba(255,255,255,0.1)" }}
+          className="absolute left-4 bottom-3 font-mono text-[10px] tracking-[0.22em] uppercase"
+          style={{
+            color: accent,
+            transition: "color 360ms ease",
+          }}
+          aria-hidden
         >
-          <div
-            className="absolute left-0 top-0 h-full rounded-full"
-            style={{
-              width: "62%",
-              background: accent,
-              transition: "background 360ms ease",
-            }}
-          />
-          <div
-            className="absolute top-1/2 w-3.5 h-3.5 rounded-full"
-            style={{
-              left: "62%",
-              transform: "translate(-50%, -50%)",
-              background: "#fff",
-              boxShadow: `0 0 0 3px ${accent}55`,
-              transition: "box-shadow 360ms ease",
-            }}
-          />
+          {ACCENTS[i].name}
         </div>
       </div>
-      <div
-        className="font-mono text-[10px] tracking-[0.3em] uppercase"
-        style={{ color: accent, opacity: 0.85, transition: "color 360ms ease" }}
-      >
-        {ACCENTS[i].name}
-      </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
