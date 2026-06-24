@@ -271,14 +271,19 @@ function ThemeDemo() {
     [waveforms],
   );
 
-  const TRACK_CONTROL_W = 240;
+  // Match the design system's natural sizes so the side panel and the
+  // lane line up cleanly:
+  //   - TrackControlPanel hardcodes its inner width at 268px; the
+  //     wrapper needs to be ≥ that or content overflows.
+  //   - "Tracks" header is locked at 40px → RULER_H must match.
+  //   - --tcp-height-default is 114px, --tcp-height-truncated 82px;
+  //     anything in between renders the squeezed truncated layout.
+  //     110 keeps the panel in its default layout so the mic-icon row
+  //     sits at the same Y as the clip head.
+  const TRACK_CONTROL_W = 280;
   const CANVAS_W = 720;
-  // TrackControlSidePanel's "Tracks" header is locked at 40px in the
-  // design system, so the timeline ruler needs to match exactly or the
-  // first track in the side panel and the first track in the lane don't
-  // start at the same Y.
   const RULER_H = 40;
-  const TRACK_H = 78;
+  const TRACK_H = 110;
   const PPS = 36;
   // TransportToolbar is taller than the old hand-rolled row (two rows
   // tall in the dense layout) — budget for it so the lane doesn't get
