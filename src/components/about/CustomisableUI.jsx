@@ -79,12 +79,19 @@ function AccentDemo({ isActive = true }) {
         */
         .accent-demo-card .slider__fill { background: var(--accent) !important; }
         .accent-demo-card .radio__pip { background: var(--accent) !important; }
-        .accent-demo-card .knob__gauge {
+        /*
+          Leave the outer gauge ring alone (it stays at the theme's
+          default neutral) and override the bipolar value-sweep arc with
+          the accent. The sweep angles below match value=-60 in bipolar
+          mode: bipolarNormalized = -0.6 → sweepDegrees = 81°, start at
+          -81° (matches the design system's formula in chunk-BQKLGEAZ).
+        */
+        .accent-demo-card .knob__value-sweep {
           background: conic-gradient(
-            from 225deg,
+            from -81deg,
             var(--accent) 0deg,
-            var(--accent) 270deg,
-            transparent 270deg
+            var(--accent) 81deg,
+            transparent 81deg
           ) !important;
         }
         .accent-demo-card .button--primary { background: var(--accent) !important; }
@@ -92,7 +99,7 @@ function AccentDemo({ isActive = true }) {
         .accent-demo-card .toggle-button--active { background: var(--accent) !important; }
         .accent-demo-card .slider__fill,
         .accent-demo-card .radio__pip,
-        .accent-demo-card .knob__gauge,
+        .accent-demo-card .knob__value-sweep,
         .accent-demo-card .button--primary,
         .accent-demo-card .toggle-button--active {
           transition: background 360ms ease;
@@ -109,12 +116,12 @@ function AccentDemo({ isActive = true }) {
         {/* Pan knob + volume slider sit together — the side-panel kit. */}
         <div className="flex items-center gap-8">
           <div className="flex flex-col items-center gap-2">
-            {/* Held at centre (value=0) so the bipolar value-sweep — which
-                the design system paints with hardcoded blues that ignore
-                the theme — never renders. The outer gauge ring + the
-                indicator both read from --knob-gauge / --knob-indicator
-                CSS vars and pick up the accent. */}
-            <PanKnob value={0} />
+            {/* Pan held at -60 (60% left). The design system paints the
+                bipolar value-sweep with hardcoded blues via an inline
+                conic-gradient — overridden below with a matching-angle
+                gradient that reads from --accent so the indicator-of-
+                how-much arc actually picks up the cycling colour. */}
+            <PanKnob value={-60} />
             <span
               className="font-mono text-[9px] tracking-[0.22em] uppercase text-text-contrast/45"
               aria-hidden
