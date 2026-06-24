@@ -1,10 +1,48 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CoreEditingFilmstrip from "../components/about/CoreEditingFilmstrip.jsx";
+import CoreEditingScroll from "../components/about/CoreEditingScroll.jsx";
+import CoreEditingPinned from "../components/about/CoreEditingPinned.jsx";
+import CoreEditingBento from "../components/about/CoreEditingBento.jsx";
+import CoreEditingBentoSelect from "../components/about/CoreEditingBentoSelect.jsx";
+import CoreEditingTabs from "../components/about/CoreEditingTabs.jsx";
 import "@dilsonspickles/components/style.css";
 
 const pageTitle = "Layout test · Hundreds of smaller things";
-const pageDescription = "Sandbox for the Hundreds of smaller things filmstrip.";
+const pageDescription =
+  "Alternative layouts for the Hundreds of smaller things section.";
+
+const options = [
+  {
+    num: "01",
+    label: "Sticky-scroll narrative",
+    blurb:
+      "Features stack vertically. Each is its own moment with demo on one side and copy on the other, alternating. Scroll drives through them; each demo only animates when its row is in view.",
+  },
+  {
+    num: "02",
+    label: "GSAP-pinned (Awwwards-style)",
+    blurb:
+      "The stage pins to the viewport and the user scrolls through six steps in place. Demo and copy swap inside the pinned frame; a thin progress bar tracks position through the run. One demo on screen at any time.",
+  },
+  {
+    num: "03",
+    label: "Bento — static grid",
+    blurb:
+      "All six demos visible at once at varying sizes. No spotlight, no scroll choreography — just a dense, browsable wall that says 'there's a lot here' without parading any one feature.",
+  },
+  {
+    num: "04",
+    label: "Bento — selected + live thumbnails",
+    blurb:
+      "One large hero shows the selected demo running live. The other five sit as live thumbnails along the bottom — actual scaled-down demos, not text — so you can see what you're picking before you click.",
+  },
+  {
+    num: "05",
+    label: "Tabbed grid",
+    blurb:
+      "Tiny chip tabs along the top, one full-size demo below. Reads as an engineer's interface, not a feature reel. All six feature names are visible at once; only one demo runs at a time.",
+  },
+];
 ---
 
 <BaseLayout
@@ -12,8 +50,74 @@ const pageDescription = "Sandbox for the Hundreds of smaller things filmstrip.";
   description={pageDescription}
   showPromoBanner={false}
 >
-  <div class="filmstrip-test-page">
-    <CoreEditingFilmstrip client:only="react" />
+  <div class="layout-test-page">
+    <section class="layout-test-intro">
+      <div class="layout-test-intro__inner">
+        <div class="layout-test-intro__eyebrow">Layout sandbox</div>
+        <h1 class="layout-test-intro__title">
+          Takes on “Hundreds of smaller things”
+        </h1>
+        <p class="layout-test-intro__lede">
+          Same six features, several different patterns. Scroll through and pick
+          the one that earns its place on the about page.
+        </p>
+      </div>
+    </section>
+
+    <section class="layout-test-divider">
+      <div class="layout-test-divider__inner">
+        <div class="layout-test-divider__num">{options[0].num}</div>
+        <div class="layout-test-divider__body">
+          <div class="layout-test-divider__label">{options[0].label}</div>
+          <p class="layout-test-divider__blurb">{options[0].blurb}</p>
+        </div>
+      </div>
+    </section>
+    <CoreEditingScroll client:only="react" />
+
+    <section class="layout-test-divider">
+      <div class="layout-test-divider__inner">
+        <div class="layout-test-divider__num">{options[1].num}</div>
+        <div class="layout-test-divider__body">
+          <div class="layout-test-divider__label">{options[1].label}</div>
+          <p class="layout-test-divider__blurb">{options[1].blurb}</p>
+        </div>
+      </div>
+    </section>
+    <CoreEditingPinned client:only="react" />
+
+    <section class="layout-test-divider">
+      <div class="layout-test-divider__inner">
+        <div class="layout-test-divider__num">{options[2].num}</div>
+        <div class="layout-test-divider__body">
+          <div class="layout-test-divider__label">{options[2].label}</div>
+          <p class="layout-test-divider__blurb">{options[2].blurb}</p>
+        </div>
+      </div>
+    </section>
+    <CoreEditingBento client:only="react" />
+
+    <section class="layout-test-divider">
+      <div class="layout-test-divider__inner">
+        <div class="layout-test-divider__num">{options[3].num}</div>
+        <div class="layout-test-divider__body">
+          <div class="layout-test-divider__label">{options[3].label}</div>
+          <p class="layout-test-divider__blurb">{options[3].blurb}</p>
+        </div>
+      </div>
+    </section>
+    <CoreEditingBentoSelect client:only="react" />
+
+    <section class="layout-test-divider">
+      <div class="layout-test-divider__inner">
+        <div class="layout-test-divider__num">{options[4].num}</div>
+        <div class="layout-test-divider__body">
+          <div class="layout-test-divider__label">{options[4].label}</div>
+          <p class="layout-test-divider__blurb">{options[4].blurb}</p>
+        </div>
+      </div>
+    </section>
+    <CoreEditingTabs client:only="react" />
   </div>
 </BaseLayout>
 
@@ -23,8 +127,87 @@ const pageDescription = "Sandbox for the Hundreds of smaller things filmstrip.";
   }
   body {
     background-color: var(--page-bg) !important;
+    overflow-x: hidden;
   }
-  .filmstrip-test-page {
+  .layout-test-page {
     background: rgb(28, 22, 78);
+  }
+
+  .layout-test-intro {
+    padding: 8rem 1.5rem 4rem;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  @media (min-width: 1024px) {
+    .layout-test-intro {
+      padding: 10rem 2.5rem 5rem;
+    }
+  }
+  .layout-test-intro__inner {
+    max-width: 52rem;
+  }
+  .layout-test-intro__eyebrow {
+    font-family: ui-monospace, monospace;
+    font-size: 0.875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(248, 113, 113, 0.85);
+  }
+  .layout-test-intro__title {
+    margin: 1rem 0 0;
+    font-family: var(--font-harmony, sans-serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    color: #fff;
+  }
+  .layout-test-intro__lede {
+    margin: 1.25rem 0 0;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .layout-test-divider {
+    padding: 5rem 1.5rem 0;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+  @media (min-width: 1024px) {
+    .layout-test-divider {
+      padding: 7rem 2.5rem 0;
+    }
+  }
+  .layout-test-divider__inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  @media (min-width: 1024px) {
+    .layout-test-divider__inner {
+      grid-template-columns: 8rem 1fr;
+      gap: 2.5rem;
+    }
+  }
+  .layout-test-divider__num {
+    font-family: ui-monospace, monospace;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1;
+    color: rgba(248, 113, 113, 0.85);
+  }
+  .layout-test-divider__label {
+    font-family: var(--font-harmony, sans-serif);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.1;
+    color: #fff;
+  }
+  .layout-test-divider__blurb {
+    margin: 0.75rem 0 0;
+    max-width: 48rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.7);
   }
 </style>
