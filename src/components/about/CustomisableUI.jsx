@@ -78,7 +78,6 @@ function AccentDemo({ isActive = true }) {
           card so they can't leak into the rest of the page.
         */
         .accent-demo-card .slider__fill { background: var(--accent) !important; }
-        .accent-demo-card .slider__handle { border-color: var(--accent) !important; }
         .accent-demo-card .radio__pip { background: var(--accent) !important; }
         .accent-demo-card .knob__gauge {
           background: conic-gradient(
@@ -93,13 +92,12 @@ function AccentDemo({ isActive = true }) {
         .accent-demo-card .button--primary:hover { background: var(--accent) !important; filter: brightness(1.08); }
         .accent-demo-card .toggle-button--active { background: var(--accent) !important; }
         .accent-demo-card .slider__fill,
-        .accent-demo-card .slider__handle,
         .accent-demo-card .radio__pip,
         .accent-demo-card .knob__gauge,
         .accent-demo-card .knob__indicator,
         .accent-demo-card .button--primary,
         .accent-demo-card .toggle-button--active {
-          transition: background 360ms ease, border-color 360ms ease;
+          transition: background 360ms ease;
         }
       `}</style>
       <div
