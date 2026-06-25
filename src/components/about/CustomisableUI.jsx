@@ -8,6 +8,8 @@ import {
   TrackControlSidePanel,
   TimelineRuler,
   PlayheadCursor,
+  MasterMeter,
+  MasterMeterVertical,
   ThemeProvider,
   darkTheme,
   lightTheme,
@@ -262,19 +264,280 @@ const THEMED_TRACKS = [
   },
 ];
 
+// Inner workspace UI rendered once per theme layer. Pulled out so we can
+// stack two copies (source + destination) and wipe between them on theme
+// flip — see ThemeDemo for the wipe choreography.
+function ThemeWorkspaceLayer({
+  theme,
+  tracks,
+  trackHeights,
+  innerW,
+  innerH,
+  TRACK_CONTROL_W,
+  CANVAS_W,
+  RULER_H,
+  TRACK_H,
+  PPS,
+  loopState,
+}) {
+  const {
+    loopEnabled,
+    loopStart,
+    loopEnd,
+    setLoopEnabled,
+    setLoopStart,
+    setLoopEnd,
+  } = loopState;
+  return (
+    <ThemeProvider theme={theme}>
+      <div
+        style={{
+          width: innerW,
+          height: innerH,
+          display: "flex",
+          flexDirection: "column",
+          background: theme.background.surface.subtle,
+        }}
+      >
+        <TransportToolbar
+          activeMenuItem="project"
+          workspace="classic"
+          isPlaying={false}
+          isRecording={false}
+          onPlay={NOOP}
+          onStop={NOOP}
+          onRecord={NOOP}
+          snapEnabled
+          snapMode="musical"
+          loopRegionEnabled={loopEnabled}
+          loopRegionStart={loopStart}
+          loopRegionEnd={loopEnd}
+          setLoopRegionEnabled={setLoopEnabled}
+          setLoopRegionStart={setLoopStart}
+          setLoopRegionEnd={setLoopEnd}
+          timeSelection={null}
+          bpm={120}
+          beatsPerMeasure={4}
+          noteValue={4}
+          envelopeMode={false}
+          spectrogramMode={false}
+          onToggleEnvelope={NOOP}
+          onToggleSpectrogram={NOOP}
+          onZoomIn={NOOP}
+          onZoomOut={NOOP}
+          onZoomToSelection={NOOP}
+          onZoomToFitProject={NOOP}
+          onZoomToggle={NOOP}
+          currentTime={5.4}
+          timeCodeFormat="hh:mm:ss"
+          onTimeCodeChange={NOOP}
+          onTimeCodeFormatChange={NOOP}
+          onShareClick={NOOP}
+          onExportAudioClick={NOOP}
+          onExportLoopRegionClick={NOOP}
+          masterLevelLeft={-12}
+          masterLevelRight={-14}
+          masterRecentPeakLeft={-8}
+          masterRecentPeakRight={-10}
+          masterVolume={0.8}
+        />
+
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            minHeight: 0,
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
+            <TrackControlSidePanel trackHeights={trackHeights}>
+              {tracks.map((t, idx) => (
+                <TrackControlPanel
+                  key={idx}
+                  trackName={t.name}
+                  trackType={t.type}
+                  volume={75}
+                  meterLevelLeft={48 - idx * 4}
+                  meterLevelRight={44 - idx * 4}
+                  meterRecentPeakLeft={62 - idx * 4}
+                  meterRecentPeakRight={58 - idx * 4}
+                  trackHeight={TRACK_H}
+                />
+              ))}
+            </TrackControlSidePanel>
+          </div>
+
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              minWidth: 0,
+              position: "relative",
+              // The audio canvas stays dark even in light mode —
+              // theme.background.canvas.default carries that token
+              // straight from the design system (#252837).
+              background: theme.background.canvas.default,
+            }}
+          >
+            <TimelineRuler
+              width={CANVAS_W}
+              height={RULER_H}
+              pixelsPerSecond={PPS}
+              totalDuration={CANVAS_W / PPS}
+              timeFormat="minutes-seconds"
+            />
+            <div style={{ flex: 1, paddingTop: 2 }}>
+              {tracks.map((t, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    position: "relative",
+                    height: TRACK_H,
+                    marginBottom: 2,
+                  }}
+                >
+                  <TrackNew
+                    clips={t.clips}
+                    trackIndex={idx}
+                    width={CANVAS_W}
+                    height={TRACK_H}
+                    pixelsPerSecond={PPS}
+                    color={t.color}
+                    onClipTrimEdge={() => {}}
+                  />
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                top: RULER_H,
+                left: 0,
+                pointerEvents: "none",
+              }}
+            >
+              <PlayheadCursor
+                position={5.4}
+                pixelsPerSecond={PPS}
+                height={9999}
+                showTopIcon
+                iconTopOffset={-14}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+// Sun ↔ moon icon. Two glyphs crossfade + counter-rotate as the theme
+// flips so the pill animates in sync with the horizon sweep.
+function SunMoonIcon({ isDark, color }) {
+  const baseStyle = {
+    position: "absolute",
+    inset: 0,
+    transition:
+      "opacity 760ms cubic-bezier(0.4, 0, 0.2, 1), transform 760ms cubic-bezier(0.4, 0, 0.2, 1)",
+    color,
+  };
+  return (
+    <span
+      style={{
+        position: "relative",
+        width: 12,
+        height: 12,
+        display: "inline-block",
+      }}
+    >
+      {/* Sun */}
+      <svg
+        viewBox="0 0 24 24"
+        width="12"
+        height="12"
+        style={{
+          ...baseStyle,
+          opacity: isDark ? 0 : 1,
+          transform: isDark
+            ? "rotate(-90deg) scale(0.6)"
+            : "rotate(0deg) scale(1)",
+        }}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      >
+        <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none" />
+        <line x1="12" y1="2" x2="12" y2="5" />
+        <line x1="12" y1="19" x2="12" y2="22" />
+        <line x1="2" y1="12" x2="5" y2="12" />
+        <line x1="19" y1="12" x2="22" y2="12" />
+        <line x1="4.93" y1="4.93" x2="6.7" y2="6.7" />
+        <line x1="17.3" y1="17.3" x2="19.07" y2="19.07" />
+        <line x1="4.93" y1="19.07" x2="6.7" y2="17.3" />
+        <line x1="17.3" y1="6.7" x2="19.07" y2="4.93" />
+      </svg>
+      {/* Moon */}
+      <svg
+        viewBox="0 0 24 24"
+        width="12"
+        height="12"
+        style={{
+          ...baseStyle,
+          opacity: isDark ? 1 : 0,
+          transform: isDark
+            ? "rotate(0deg) scale(1)"
+            : "rotate(90deg) scale(0.6)",
+        }}
+        fill="currentColor"
+      >
+        <path d="M20.7 14.5a8 8 0 11-11.2-11 1 1 0 011.2 1.3 6 6 0 008.7 7.5 1 1 0 011.3 1.2z" />
+      </svg>
+    </span>
+  );
+}
+
 function ThemeDemo() {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(2, 3500, inView);
-  const theme = i === 0 ? darkTheme : lightTheme;
-  const themeName = i === 0 ? "Dark" : "Light";
+  const tickI = useCycleIndex(2, 3500, inView);
 
-  // Loop region state for the TransportToolbar — has to be controlled,
-  // so we park it in local state even though nothing here actually
-  // interacts with it.
+  // Two-layer wipe: `currentI` is the settled theme, `tickI` is where we
+  // want to land. When they differ, the source layer wipes away to reveal
+  // the destination layer underneath. The horizon sweep travels with the
+  // wipe edge so the eye reads it as a sunrise/sunset rolling across.
+  const [currentI, setCurrentI] = useState(0);
+  const animating = currentI !== tickI;
+
+  // Set during render (not in useEffect) so the source layer mounts with
+  // the wipe class in the same paint as the bottom layer's theme prop
+  // update. Bumping a counter in useEffect would lag by one render, so
+  // the user would briefly see the bottom layer's new theme while the
+  // top layer is still pinned-clipped-invisible from the previous wipe.
+  const hasEverWipedRef = useRef(false);
+  if (animating) hasEverWipedRef.current = true;
+
+  const sourceTheme = currentI === 0 ? darkTheme : lightTheme;
+  const destTheme = tickI === 0 ? darkTheme : lightTheme;
+  const destIsDark = tickI === 0;
+  const destName = destIsDark ? "Dark" : "Light";
+
+  // Loop region state for the TransportToolbar — controlled, but nothing
+  // here interacts with it. Shared across both layers so the toolbar
+  // state stays consistent during the wipe.
   const [loopEnabled, setLoopEnabled] = useState(false);
   const [loopStart, setLoopStart] = useState(null);
   const [loopEnd, setLoopEnd] = useState(null);
+  const loopState = {
+    loopEnabled,
+    loopStart,
+    loopEnd,
+    setLoopEnabled,
+    setLoopStart,
+    setLoopEnd,
+  };
 
   // Stable waveforms — same shape across theme flips so only the colours
   // change. Big seeds give the dense peak pattern TrackNew expects.
@@ -297,222 +560,138 @@ function ThemeDemo() {
     [waveforms],
   );
 
-  // Match the design system's natural sizes so the side panel and the
-  // lane line up cleanly:
-  //   - TrackControlPanel hardcodes its inner width at 268px; the
-  //     wrapper needs to be ≥ that or content overflows.
-  //   - "Tracks" header is locked at 40px → RULER_H must match.
-  //   - --tcp-height-default is 114px, --tcp-height-truncated 82px;
-  //     anything in between renders the squeezed truncated layout.
-  //     110 keeps the panel in its default layout so the mic-icon row
-  //     sits at the same Y as the clip head.
+  // Match the design system's natural sizes — see prior comment block for
+  // why these specific numbers.
   const TRACK_CONTROL_W = 280;
   const CANVAS_W = 720;
   const RULER_H = 40;
   const TRACK_H = 110;
   const PPS = 36;
-  // Single-row TransportToolbar at our forced 1500px width is ~52px.
-  // Leave a touch of padding for the project tabs / header above it.
   const TOOLBAR_H_BUDGET = 64;
 
   const trackHeights = tracks.map(() => TRACK_H);
   const totalTracksH =
     trackHeights.reduce((a, b) => a + b, 0) + tracks.length * 2;
+  const innerW = 1500;
+  const innerH = TOOLBAR_H_BUDGET + RULER_H + totalTracksH + 20;
+
+  const layerProps = {
+    tracks,
+    trackHeights,
+    innerW,
+    innerH,
+    TRACK_CONTROL_W,
+    CANVAS_W,
+    RULER_H,
+    TRACK_H,
+    PPS,
+    loopState,
+  };
+
+  // Warm gradient for sunrise (going light), cool for moonrise (going dark).
+  const sweepGradient = destIsDark
+    ? "linear-gradient(90deg, rgba(60,40,120,0) 0%, rgba(110,90,190,0.5) 35%, rgba(70,60,170,0.85) 50%, rgba(110,90,190,0.5) 65%, rgba(60,40,120,0) 100%)"
+    : "linear-gradient(90deg, rgba(255,180,90,0) 0%, rgba(255,195,130,0.55) 35%, rgba(255,150,90,0.9) 50%, rgba(255,200,140,0.55) 65%, rgba(255,180,90,0) 100%)";
 
   return (
-    <ThemeProvider theme={theme}>
+    <div
+      ref={rootRef}
+      className="absolute inset-0 overflow-hidden"
+      style={{
+        background: "#08090C",
+      }}
+    >
+      {/* Bottom layer — destination theme, always painted underneath. */}
+      <div style={{ position: "absolute", top: 0, left: 0 }}>
+        <ThemeWorkspaceLayer theme={destTheme} {...layerProps} />
+      </div>
+
+      {/* Top layer — source theme, with a clip-path that wipes left→right
+          on each tick. Key is `tickI` so the element remounts in the
+          SAME render that tickI changes — the wipe's fresh start and
+          the bottom layer's theme update land in one paint. After the
+          animation ends the layer stays pinned at the `forwards` end
+          state (fully clipped, invisible) so the source-theme repaint
+          that follows happens out of sight. */}
       <div
-        ref={rootRef}
-        className="absolute inset-0 overflow-hidden"
+        key={`source-${tickI}`}
+        className={hasEverWipedRef.current ? "theme-wipe-source" : ""}
+        onAnimationEnd={(e) => {
+          if (e.animationName === "themeWipeSource") setCurrentI(tickI);
+        }}
+        style={{ position: "absolute", top: 0, left: 0 }}
+      >
+        <ThemeWorkspaceLayer theme={sourceTheme} {...layerProps} />
+      </div>
+
+      {/* Horizon gradient sweep — travels with the wipe edge, warm or
+          cool depending on which direction we're heading. */}
+      {animating && (
+        <div
+          key={`sweep-${tickI}`}
+          className="theme-wipe-band"
+          style={{ background: sweepGradient }}
+        />
+      )}
+
+      {/* Pill — anchors the metaphor (this control changes the theme)
+          and morphs sun ↔ moon in time with the sweep. */}
+      <div
         style={{
-          // Near-black backdrop so the seam at the bottom of the
-          // workspace container reads as a hard, dramatic cut — same
-          // colour in both light and dark mode.
-          background: "#08090C",
+          position: "absolute",
+          left: 14,
+          bottom: 12,
+          padding: "5px 12px 5px 10px",
+          fontFamily: "ui-monospace, monospace",
+          fontSize: 10,
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: destTheme.foreground.text.primary,
+          background: destTheme.background.surface.elevated,
+          border: `1px solid ${destTheme.border.onElevated}`,
+          borderRadius: 999,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          transition:
+            "color 760ms cubic-bezier(0.4, 0, 0.2, 1), background 760ms cubic-bezier(0.4, 0, 0.2, 1), border-color 760ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            // Wide enough that the TransportToolbar's responsive wrap
-            // never kicks in — the card is overflow-hidden so the
-            // toolbar's right edge is clipped anyway, but it stays on
-            // one row and reads as "an aperture into a bigger UI".
-            width: 1500,
-            // Slightly taller than the card so it clips at the bottom too,
-            // reading as a window onto a larger workspace.
-            height: TOOLBAR_H_BUDGET + RULER_H + totalTracksH + 20,
-            display: "flex",
-            flexDirection: "column",
-            background: theme.background.surface.subtle,
-            transition: "background 480ms ease",
-          }}
-        >
-          <TransportToolbar
-            activeMenuItem="project"
-            workspace="classic"
-            isPlaying={false}
-            isRecording={false}
-            onPlay={NOOP}
-            onStop={NOOP}
-            onRecord={NOOP}
-            snapEnabled
-            snapMode="musical"
-            loopRegionEnabled={loopEnabled}
-            loopRegionStart={loopStart}
-            loopRegionEnd={loopEnd}
-            setLoopRegionEnabled={setLoopEnabled}
-            setLoopRegionStart={setLoopStart}
-            setLoopRegionEnd={setLoopEnd}
-            timeSelection={null}
-            bpm={120}
-            beatsPerMeasure={4}
-            noteValue={4}
-            envelopeMode={false}
-            spectrogramMode={false}
-            onToggleEnvelope={NOOP}
-            onToggleSpectrogram={NOOP}
-            onZoomIn={NOOP}
-            onZoomOut={NOOP}
-            onZoomToSelection={NOOP}
-            onZoomToFitProject={NOOP}
-            onZoomToggle={NOOP}
-            currentTime={5.4}
-            timeCodeFormat="hh:mm:ss"
-            onTimeCodeChange={NOOP}
-            onTimeCodeFormatChange={NOOP}
-            onShareClick={NOOP}
-            onExportAudioClick={NOOP}
-            onExportLoopRegionClick={NOOP}
-            masterLevelLeft={-12}
-            masterLevelRight={-14}
-            masterRecentPeakLeft={-8}
-            masterRecentPeakRight={-10}
-            masterVolume={0.8}
-          />
-
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              minHeight: 0,
-              overflow: "hidden",
-            }}
-          >
-            <div style={{ width: TRACK_CONTROL_W, flexShrink: 0 }}>
-              <TrackControlSidePanel trackHeights={trackHeights}>
-                {tracks.map((t, idx) => (
-                  <TrackControlPanel
-                    key={idx}
-                    trackName={t.name}
-                    trackType={t.type}
-                    volume={75}
-                    meterLevelLeft={48 - idx * 4}
-                    meterLevelRight={44 - idx * 4}
-                    meterRecentPeakLeft={62 - idx * 4}
-                    meterRecentPeakRight={58 - idx * 4}
-                    trackHeight={TRACK_H}
-                  />
-                ))}
-              </TrackControlSidePanel>
-            </div>
-
-            <div
-              style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                minWidth: 0,
-                position: "relative",
-                // The audio canvas stays dark even in light mode —
-                // theme.background.canvas.default carries that token
-                // straight from the design system (#252837).
-                background: theme.background.canvas.default,
-              }}
-            >
-              <TimelineRuler
-                width={CANVAS_W}
-                height={RULER_H}
-                pixelsPerSecond={PPS}
-                totalDuration={CANVAS_W / PPS}
-                timeFormat="minutes-seconds"
-              />
-              <div style={{ flex: 1, paddingTop: 2 }}>
-                {tracks.map((t, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      position: "relative",
-                      height: TRACK_H,
-                      marginBottom: 2,
-                    }}
-                  >
-                    <TrackNew
-                      clips={t.clips}
-                      trackIndex={idx}
-                      width={CANVAS_W}
-                      height={TRACK_H}
-                      pixelsPerSecond={PPS}
-                      color={t.color}
-                      onClipTrimEdge={() => {}}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div
-                style={{
-                  // Wrapper at the lane top (just below the ruler) so
-                  // the stalk doesn't paint behind the time labels in
-                  // the top half of the ruler — only the head/icon
-                  // sits in the ruler, drawn upwards via a negative
-                  // iconTopOffset.
-                  position: "absolute",
-                  top: RULER_H,
-                  left: 0,
-                  pointerEvents: "none",
-                }}
-              >
-                <PlayheadCursor
-                  position={5.4}
-                  pixelsPerSecond={PPS}
-                  // Oversized — stalk fills the full canvas below the
-                  // ruler; outer overflow:hidden clips the overshoot.
-                  height={9999}
-                  showTopIcon
-                  // Wrapper at ruler bottom → -14 tucks the icon into
-                  // the bottom of the 40px ruler (top at ruler y=26).
-                  iconTopOffset={-14}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Theme name pill — small badge so you know which mode you're
-            seeing while it cycles. */}
-        <div
-          style={{
-            position: "absolute",
-            left: 14,
-            bottom: 12,
-            padding: "5px 12px",
-            fontFamily: "ui-monospace, monospace",
-            fontSize: 10,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: theme.foreground.text.primary,
-            background: theme.background.surface.elevated,
-            border: `1px solid ${theme.border.onElevated}`,
-            borderRadius: 999,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-          }}
-        >
-          {themeName}
-        </div>
+        <SunMoonIcon
+          isDark={destIsDark}
+          color={destTheme.foreground.text.primary}
+        />
+        {destName}
       </div>
-    </ThemeProvider>
+
+      <style>{`
+        @keyframes themeWipeSource {
+          from { clip-path: inset(0 0 0 0); }
+          to   { clip-path: inset(0 0 0 100%); }
+        }
+        .theme-wipe-source {
+          animation: themeWipeSource 950ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes themeBandSweep {
+          from { transform: translateX(-100%); opacity: 0; }
+          12%  { opacity: 1; }
+          88%  { opacity: 1; }
+          to   { transform: translateX(200%); opacity: 0; }
+        }
+        .theme-wipe-band {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 60%;
+          mix-blend-mode: screen;
+          pointer-events: none;
+          filter: blur(10px);
+          animation: themeBandSweep 950ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+      `}</style>
+    </div>
   );
 }
 
@@ -557,17 +736,69 @@ const MASONRY_ROWS = [
   ],
 ];
 
+// One clip with its own clock — flips between its palette colour and
+// classic on its own schedule. Periods and initial delays are derived
+// per-clip from the index so the wall reads as a slow shimmer instead
+// of a synchronised toggle.
+function IndependentClip({
+  paletteColor,
+  name,
+  width,
+  height,
+  pps,
+  waveform,
+  period,
+  initialDelay,
+  inView,
+}) {
+  const [useClassic, setUseClassic] = useState(false);
+
+  useEffect(() => {
+    if (!inView) return;
+    let cancelled = false;
+    let timerId = window.setTimeout(function tick() {
+      if (cancelled) return;
+      setUseClassic((prev) => !prev);
+      timerId = window.setTimeout(tick, period);
+    }, initialDelay);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timerId);
+    };
+  }, [inView, period, initialDelay]);
+
+  const color = useClassic ? "classic" : paletteColor;
+  const duration = width / pps;
+  return (
+    <div
+      style={{
+        filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.5))",
+      }}
+    >
+      <Clip
+        color={color}
+        name={name}
+        width={width}
+        height={height}
+        waveformData={waveform}
+        clipDuration={duration}
+        pixelsPerSecond={pps}
+        onTrimEdge={() => {}}
+      />
+    </div>
+  );
+}
+
 function ClipColoursDemo() {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(2, 3200, inView);
-  const useClassic = i === 1;
 
-  // One waveform per clip slot — generated once and stable across the
-  // colour flip. samplesPerSecond bumped to ~900 so each clip reads as a
-  // dense, "solid" peak block rather than a sparse line, and we rotate
-  // between three generators (speech / decaying-sine / sine) so adjacent
-  // clips look genuinely different rather than minor reshuffles.
+  // Stable waveforms — same shape across colour flips so neither face
+  // ever needs to repaint when the card turns. samplesPerSecond bumped
+  // to ~900 so each clip reads as a dense, "solid" peak block, and we
+  // rotate between three generators (speech / decaying-sine / sine) so
+  // adjacent clips look genuinely different rather than minor
+  // reshuffles.
   const flatClips = useMemo(() => MASONRY_ROWS.flatMap((row) => row), []);
   const waveforms = useMemo(
     () =>
@@ -611,356 +842,361 @@ function ClipColoursDemo() {
           }}
         >
           {MASONRY_ROWS.map((row, ri) => (
-            <div key={ri} style={{ display: "flex", gap: 6 }}>
+            <div
+              key={ri}
+              style={{
+                display: "flex",
+                gap: 6,
+              }}
+            >
               {row.map((c) => {
                 clipIdx += 1;
-                const color = useClassic
-                  ? "classic"
-                  : CLIP_PALETTE[clipIdx % CLIP_PALETTE.length];
-                const duration = c.w / PPS;
+                const paletteColor =
+                  CLIP_PALETTE[clipIdx % CLIP_PALETTE.length];
+                // Stable per-clip period (3.5–6s) and initial delay
+                // (0–5s) seeded by index — varied enough that the
+                // clips never fall into lockstep.
+                const period = 3500 + ((clipIdx * 1373) % 2500);
+                const initialDelay = (clipIdx * 437) % 5000;
                 return (
-                  <div
+                  <IndependentClip
                     key={`${ri}-${c.name}`}
-                    style={{
-                      transition: "filter 320ms ease",
-                      filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.5))",
-                    }}
-                  >
-                    <Clip
-                      color={color}
-                      name={c.name}
-                      width={c.w}
-                      height={CLIP_H}
-                      waveformData={waveforms[clipIdx]}
-                      clipDuration={duration}
-                      pixelsPerSecond={PPS}
-                      onTrimEdge={() => {}}
-                    />
-                  </div>
+                    paletteColor={paletteColor}
+                    name={c.name}
+                    width={c.w}
+                    height={CLIP_H}
+                    pps={PPS}
+                    waveform={waveforms[clipIdx]}
+                    period={period}
+                    initialDelay={initialDelay}
+                    inView={inView}
+                  />
                 );
               })}
             </div>
           ))}
-        </div>
-
-        {/* Mode label — tiny pill so the alternation is legible at a glance. */}
-        <div
-          style={{
-            position: "absolute",
-            left: 14,
-            bottom: 12,
-            padding: "5px 12px",
-            fontFamily: "ui-monospace, monospace",
-            fontSize: 10,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#fff",
-            background: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.16)",
-            borderRadius: 999,
-          }}
-        >
-          {useClassic ? "Classic" : "Palette"}
         </div>
       </div>
     </ThemeProvider>
   );
 }
 
-// ── Toolbar positioning ────────────────────────────────────────────────────
-// Layout demo: diagrammatic wireframe of the workspace regions, cycling
-// the toolbar between top/bottom and the master meter between
-// horizontal (inside the toolbar) and vertical (parked beside the
-// tracks). Intentionally no real components — gives the section its
-// one bit of editorial/schematic visual variety so it doesn't read as
-// "four screenshots of the same workspace".
-const LAYOUT_STATES = [
-  { id: "top-horiz", toolbar: "top", meter: "horizontal" },
-  { id: "bottom-horiz", toolbar: "bottom", meter: "horizontal" },
-  { id: "bottom-vert", toolbar: "bottom", meter: "vertical" },
-  { id: "top-vert", toolbar: "top", meter: "vertical" },
+// ── Meter dock ─────────────────────────────────────────────────────────────
+// Real MasterMeter and MasterMeterVertical from the package, cycling
+// between a horizontal mount inside a faux transport row and a vertical
+// dock parked beside the tracks lane. The surrounding layout (toolbar
+// gap on the right, tracks lane on the left) animates in lockstep so the
+// meter visibly "moves" between the two positions rather than just
+// snapping.
+function useLiveLevels(inView) {
+  const [levels, setLevels] = useState({
+    levelLeft: -10,
+    levelRight: -12,
+    peakLeft: -6,
+    peakRight: -8,
+  });
+  useEffect(() => {
+    if (!inView) return;
+    let raf;
+    const t0 = performance.now();
+    const loop = (t) => {
+      const dt = t - t0;
+      setLevels({
+        levelLeft: -10 + Math.sin(dt / 280) * 7,
+        levelRight: -12 + Math.sin(dt / 260) * 7,
+        peakLeft: -5 + Math.sin(dt / 440) * 3,
+        peakRight: -7 + Math.sin(dt / 460) * 3,
+      });
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [inView]);
+  return levels;
+}
+
+const METER_DOCK_TRACKS = [
+  { name: "Voice", type: "mono", color: "blue" },
+  { name: "Music", type: "stereo", color: "violet" },
+  { name: "FX", type: "mono", color: "orange" },
+  { name: "Drums", type: "mono", color: "red" },
+  { name: "Bass", type: "mono", color: "green" },
 ];
 
-const WIREFRAME_LINE = "rgba(255,255,255,0.14)";
-const WIREFRAME_FILL = "rgba(255,255,255,0.04)";
-const WIREFRAME_FILL_STRONG = "rgba(255,255,255,0.07)";
-const WIREFRAME_LABEL = "rgba(255,255,255,0.55)";
-
-function WireframeRegion({ label, style, accent, children }) {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        background: accent ? WIREFRAME_FILL_STRONG : WIREFRAME_FILL,
-        border: `1px solid ${WIREFRAME_LINE}`,
-        borderRadius: 4,
-        transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
-        ...style,
-      }}
-    >
-      {label && (
-        <div
-          style={{
-            position: "absolute",
-            top: 6,
-            left: 8,
-            fontFamily: "ui-monospace, monospace",
-            fontSize: 9,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: WIREFRAME_LABEL,
-            pointerEvents: "none",
-          }}
-          aria-hidden
-        >
-          {label}
-        </div>
-      )}
-      {children}
-    </div>
-  );
-}
-
-function MeterFill({ vertical }) {
-  // Green→yellow→red gradient so the meter region reads as a level
-  // indicator even at low opacity.
-  const gradient = vertical
-    ? "linear-gradient(to top, rgba(74,222,128,0.7), rgba(250,204,21,0.7) 70%, rgba(248,113,113,0.7))"
-    : "linear-gradient(to right, rgba(74,222,128,0.7), rgba(250,204,21,0.7) 70%, rgba(248,113,113,0.7))";
-  return (
-    <div
-      style={{
-        position: "absolute",
-        inset: 6,
-        borderRadius: 3,
-        background: gradient,
-        transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
-        opacity: 0.65,
-      }}
-      aria-hidden
-    />
-  );
-}
-
-function ToolbarPositionDemo() {
+function MeterDockDemo() {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const i = useCycleIndex(LAYOUT_STATES.length, 2600, inView);
-  const state = LAYOUT_STATES[i];
+  const i = useCycleIndex(2, 3400, inView);
+  const isVertical = i === 1;
+  const levels = useLiveLevels(inView);
 
-  // Diagram lives in a fixed coordinate space so the regions can
-  // animate cleanly between layouts. Inner padding gives the regions
-  // some breathing room inside the card.
-  const W = 520;
-  const H = 320;
-  const PAD = 18;
-  const GAP = 6;
-  const TOOLBAR_H = 32;
-  const SIDEBAR_W = 96;
-  const METER_VERTICAL_W = 28;
-  const METER_HORIZONTAL_W = 140;
+  // Controlled state for the TransportToolbar — nothing here actually
+  // interacts with it, but the toolbar's props are controlled so we
+  // have to park the values somewhere.
+  const [loopEnabled, setLoopEnabled] = useState(false);
+  const [loopStart, setLoopStart] = useState(null);
+  const [loopEnd, setLoopEnd] = useState(null);
 
-  // Inner coordinate space (after padding).
-  const innerW = W - PAD * 2;
-  const innerH = H - PAD * 2;
+  // Stable waveforms for the lanes so the canvas reads as a real
+  // mockup rather than empty boxes.
+  const waveforms = useMemo(
+    () => [
+      generateSpeechWaveform(11),
+      generateSineWave(8, 110),
+      generateDecayingSineWave(7),
+      generateSpeechWaveform(17),
+      generateSineWave(6, 90),
+    ],
+    [],
+  );
 
-  // Toolbar Y position.
-  const toolbarTop = state.toolbar === "top" ? PAD : PAD + innerH - TOOLBAR_H;
-  // Body (sidebar + tracks + maybe vertical meter) sits in the
-  // remaining vertical space.
-  const bodyTop = state.toolbar === "top" ? PAD + TOOLBAR_H + GAP : PAD;
-  const bodyH = innerH - TOOLBAR_H - GAP;
-
-  // Tracks region right edge depends on whether the meter is parked
-  // beside it (vertical) or inside the toolbar (horizontal).
-  const tracksRight =
-    state.meter === "vertical"
-      ? PAD + innerW - METER_VERTICAL_W - GAP
-      : PAD + innerW;
-  const tracksLeft = PAD + SIDEBAR_W + GAP;
-  const tracksW = tracksRight - tracksLeft;
+  // Inner workspace sizes — aperture-of-the-UI style (cf. ThemeDemo):
+  // the workspace is rendered at full native width and right-anchored
+  // inside the card, so the right portion (toolbar's master meter +
+  // the vertical-dock slot) sits flush with the card's right edge.
+  // The left portion just clips off naturally. No responsive plumbing.
+  const RULER_H = 32;
+  const TRACK_H = 110;
+  const PPS = 30;
+  // MasterMeterVertical's intrinsic width: bars (22) + gap (2) +
+  // scale column (24) + padding (12 left + 12 right) = 72. Matching
+  // the slot width exactly leaves no gap on either side.
+  const VERT_METER_W = 72;
+  // Workspace = wide enough that the TransportToolbar never hits its
+  // responsive wrap (cf. ThemeDemo's 1500px). Body matches so the
+  // meter's two positions both anchor to the same right edge.
+  const WORKSPACE_W = 1500;
+  // Canvas renders at full workspace width; the vertical-meter slot
+  // then "covers" the canvas's right edge as it docks in.
+  const CANVAS_RENDER_W = WORKSPACE_W;
+  const EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
   return (
-    <div
-      ref={rootRef}
-      className="absolute inset-0 overflow-hidden flex items-center justify-center"
-      style={{ background: "#08090C" }}
-    >
+    <ThemeProvider theme={darkTheme}>
       <div
-        style={{
-          position: "relative",
-          width: W,
-          height: H,
-        }}
+        ref={rootRef}
+        className="meter-dock absolute inset-0 overflow-hidden"
+        style={{ background: "#08090C" }}
+        data-vertical={isVertical ? "true" : "false"}
       >
-        {/* Toolbar — slides between top and bottom. */}
-        <WireframeRegion
-          label="Transport"
-          accent
-          style={{
-            top: toolbarTop,
-            left: PAD,
-            width: innerW,
-            height: TOOLBAR_H,
-          }}
-        >
-          {/* Small filled "control" tiles inside the toolbar so it
-              reads as the transport area, not just an empty box. */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: 70,
-              transform: "translateY(-50%)",
-              display: "flex",
-              gap: 4,
-            }}
-            aria-hidden
-          >
-            {[0, 1, 2, 3].map((n) => (
-              <div
-                key={n}
-                style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 2,
-                  background: WIREFRAME_LINE,
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Horizontal meter lives INSIDE the toolbar; only visible
-              when state.meter === 'horizontal'. */}
-          <div
-            style={{
-              position: "absolute",
-              top: 6,
-              right: 8,
-              bottom: 6,
-              width: METER_HORIZONTAL_W,
-              borderRadius: 3,
-              background: WIREFRAME_FILL,
-              border: `1px solid ${WIREFRAME_LINE}`,
-              opacity: state.meter === "horizontal" ? 1 : 0,
-              transform:
-                state.meter === "horizontal"
-                  ? "translateX(0)"
-                  : "translateX(20px)",
-              transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
-              pointerEvents: "none",
-            }}
-            aria-hidden
-          >
-            <MeterFill vertical={false} />
-          </div>
-        </WireframeRegion>
-
-        {/* Sidebar */}
-        <WireframeRegion
-          label="Tracks"
-          style={{
-            top: bodyTop,
-            left: PAD,
-            width: SIDEBAR_W,
-            height: bodyH,
-          }}
-        />
-
-        {/* Tracks lane — shrinks when meter is vertical to leave room
-            for the meter on its right. */}
-        <WireframeRegion
-          label="Canvas"
-          style={{
-            top: bodyTop,
-            left: tracksLeft,
-            width: tracksW,
-            height: bodyH,
-          }}
-        >
-          {/* Faux ruler + track rows inside the canvas region so it
-              reads as audio, not an empty box. */}
-          <div
-            style={{
-              position: "absolute",
-              top: 24,
-              left: 8,
-              right: 8,
-              height: 1,
-              background: WIREFRAME_LINE,
-              opacity: 0.5,
-            }}
-          />
-          {[0, 1].map((n) => (
-            <div
-              key={n}
-              style={{
-                position: "absolute",
-                top: 38 + n * 28,
-                left: 14,
-                right: 14,
-                height: 18,
-                borderRadius: 2,
-                background: WIREFRAME_FILL,
-                border: `1px solid ${WIREFRAME_LINE}`,
-              }}
-            />
-          ))}
-        </WireframeRegion>
-
-        {/* Vertical meter — slides in from the right when active. */}
         <div
           style={{
             position: "absolute",
-            top: bodyTop,
-            left: PAD + innerW - METER_VERTICAL_W,
-            width: METER_VERTICAL_W,
-            height: bodyH,
-            borderRadius: 4,
-            background: WIREFRAME_FILL_STRONG,
-            border: `1px solid ${WIREFRAME_LINE}`,
-            opacity: state.meter === "vertical" ? 1 : 0,
-            transform:
-              state.meter === "vertical" ? "translateX(0)" : "translateX(20px)",
-            transition: "all 480ms cubic-bezier(0.4, 0, 0.2, 1)",
-            pointerEvents: "none",
+            top: 0,
+            right: 0,
+            width: WORKSPACE_W,
+            // No fixed height — workspace renders at its natural
+            // intrinsic size (toolbar + tracks). With enough tracks
+            // it overflows the aperture vertically, which is the
+            // intended "aperture into a bigger UI" feel.
+            display: "flex",
+            flexDirection: "column",
+            background: darkTheme.background.canvas.default,
+            transform: "scale(0.82)",
+            transformOrigin: "top right",
           }}
-          aria-hidden
         >
-          <MeterFill vertical />
-          <div
-            style={{
-              position: "absolute",
-              bottom: -16,
-              left: "50%",
-              transform: "translateX(-50%)",
-              fontFamily: "ui-monospace, monospace",
-              fontSize: 9,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: WIREFRAME_LABEL,
-              whiteSpace: "nowrap",
-            }}
-          >
-            Meter
+          {/* Real TransportToolbar at full workspace width. No wrapping,
+              no shifting, no responsive plumbing — the card is just an
+              aperture into a bigger UI, so anything that overflows
+              clips naturally. */}
+          <div>
+            <TransportToolbar
+              activeMenuItem="project"
+              workspace="classic"
+              isPlaying={false}
+              isRecording={false}
+              onPlay={NOOP}
+              onStop={NOOP}
+              onRecord={NOOP}
+              snapEnabled
+              snapMode="musical"
+              loopRegionEnabled={loopEnabled}
+              loopRegionStart={loopStart}
+              loopRegionEnd={loopEnd}
+              setLoopRegionEnabled={setLoopEnabled}
+              setLoopRegionStart={setLoopStart}
+              setLoopRegionEnd={setLoopEnd}
+              timeSelection={null}
+              bpm={120}
+              beatsPerMeasure={4}
+              noteValue={4}
+              envelopeMode={false}
+              spectrogramMode={false}
+              onToggleEnvelope={NOOP}
+              onToggleSpectrogram={NOOP}
+              onZoomIn={NOOP}
+              onZoomOut={NOOP}
+              onZoomToSelection={NOOP}
+              onZoomToFitProject={NOOP}
+              onZoomToggle={NOOP}
+              currentTime={4.2}
+              timeCodeFormat="hh:mm:ss"
+              onTimeCodeChange={NOOP}
+              onTimeCodeFormatChange={NOOP}
+              onShareClick={NOOP}
+              onExportAudioClick={NOOP}
+              onExportLoopRegionClick={NOOP}
+              masterLevelLeft={levels.levelLeft}
+              masterLevelRight={levels.levelRight}
+              masterRecentPeakLeft={levels.peakLeft}
+              masterRecentPeakRight={levels.peakRight}
+              masterVolume={0.8}
+            />
+          </div>
+
+          {/* Body: canvas + vertical meter dock. Body takes its
+              natural height from the track lanes — no `flex: 1`,
+              nothing responsive. The meter then stretches to the
+              body's intrinsic height. */}
+          <div style={{ display: "flex", minHeight: 0 }}>
+            <div
+              style={{
+                flex: 1,
+                position: "relative",
+                background: darkTheme.background.canvas.default,
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+              }}
+            >
+              <TimelineRuler
+                width={CANVAS_RENDER_W}
+                height={RULER_H}
+                pixelsPerSecond={PPS}
+                totalDuration={CANVAS_RENDER_W / PPS}
+                timeFormat="minutes-seconds"
+              />
+              <div style={{ flex: 1, paddingTop: 2 }}>
+                {METER_DOCK_TRACKS.map((t, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      position: "relative",
+                      height: TRACK_H,
+                      marginBottom: 2,
+                    }}
+                  >
+                    <TrackNew
+                      clips={[
+                        {
+                          id: `mdt-${idx}-1`,
+                          name: t.name,
+                          start: 0.3,
+                          duration: 5.4,
+                          waveform: waveforms[idx],
+                        },
+                        {
+                          id: `mdt-${idx}-2`,
+                          name: `${t.name} 2`,
+                          start: 6.6,
+                          duration: 5.2,
+                          waveform: waveforms[idx],
+                        },
+                        {
+                          id: `mdt-${idx}-3`,
+                          name: `${t.name} 3`,
+                          start: 12.6,
+                          duration: 4.6,
+                          waveform: waveforms[idx],
+                        },
+                      ]}
+                      trackIndex={idx}
+                      width={CANVAS_RENDER_W}
+                      height={TRACK_H}
+                      pixelsPerSecond={PPS}
+                      color={t.color}
+                      onClipTrimEdge={() => {}}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: RULER_H,
+                  left: 0,
+                  pointerEvents: "none",
+                }}
+              >
+                <PlayheadCursor
+                  position={4.2}
+                  pixelsPerSecond={PPS}
+                  height={9999}
+                  showTopIcon
+                  iconTopOffset={-12}
+                />
+              </div>
+            </div>
+
+            {/* Vertical meter slot — expands from 0 when the meter
+                docks here. The meter itself slides in from upper-left
+                so the motion reads as "the meter arrived from the
+                toolbar," not just "a meter appeared." */}
+            <div
+              style={{
+                width: isVertical ? VERT_METER_W : 0,
+                transition: `width 750ms ${EASE}`,
+                overflow: "hidden",
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "stretch",
+                justifyContent: "center",
+                background: darkTheme.background.canvas.default,
+              }}
+            >
+              <div
+                className="meter-dock__vert"
+                style={{
+                  width: VERT_METER_W,
+                  display: "flex",
+                  alignItems: "stretch",
+                  justifyContent: "center",
+                  opacity: isVertical ? 1 : 0,
+                  transform: isVertical
+                    ? "translate(0, 0) scale(1)"
+                    : "translate(-14px, -16px) scale(0.92)",
+                  transition: `opacity 420ms ease ${
+                    isVertical ? "240ms" : "0ms"
+                  }, transform 720ms ${EASE} ${isVertical ? "180ms" : "0ms"}`,
+                  filter: isVertical
+                    ? "drop-shadow(0 0 18px rgba(91,163,245,0.28))"
+                    : "drop-shadow(0 0 0 rgba(91,163,245,0))",
+                }}
+              >
+                <MasterMeterVertical
+                  levelLeft={levels.levelLeft}
+                  levelRight={levels.levelRight}
+                  recentPeakLeft={levels.peakLeft}
+                  recentPeakRight={levels.peakRight}
+                  volume={0.8}
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* State label */}
-      <div
-        className="absolute left-4 bottom-3 font-mono text-[10px] tracking-[0.22em] uppercase text-white/85"
-        style={{
-          padding: "5px 12px",
-          background: "rgba(255,255,255,0.08)",
-          border: "1px solid rgba(255,255,255,0.16)",
-          borderRadius: 999,
-        }}
-        aria-hidden
-      >
-        Transport · {state.toolbar} · Meter · {state.meter}
+        {/* When isVertical, the TransportToolbar's built-in horizontal
+            meter slides DOWN AND RIGHT as it fades — toward where the
+            vertical dock lives — so the eye reads the two transitions
+            as one continuous motion rather than two unrelated fades.
+            The slot stays in the toolbar so the transport row keeps
+            its shape. A soft glow on the active meter makes it the
+            clear focal point of the demo. */}
+        <style>{`
+          .meter-dock .master-meter {
+            transition: opacity 420ms ease, transform 720ms ${EASE}, filter 480ms ease;
+            filter: drop-shadow(0 0 14px rgba(91,163,245,0.22));
+          }
+          .meter-dock[data-vertical="true"] .master-meter {
+            opacity: 0;
+            transform: translate(16px, 14px) scale(0.92);
+            pointer-events: none;
+            filter: drop-shadow(0 0 0 rgba(91,163,245,0));
+          }
+        `}</style>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
@@ -984,11 +1220,11 @@ const CARDS = [
     Demo: ClipColoursDemo,
   },
   {
-    id: "layout",
-    title: "Layout",
+    id: "meter-dock",
+    title: "Master meter, your way",
     description:
-      "Park the transport above or below the canvas, and stand the master meter up vertically — same controls, your shape.",
-    Demo: ToolbarPositionDemo,
+      "Keep the master meter docked horizontally inside the transport, or stand it up vertically beside the tracks. Long-requested, finally here.",
+    Demo: MeterDockDemo,
   },
 ];
 
