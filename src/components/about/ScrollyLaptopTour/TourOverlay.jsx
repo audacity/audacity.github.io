@@ -417,23 +417,17 @@ const SplitCursor = () => (
 
 function SplitDemo({ button, clip, frame }) {
   if (!frame) return null;
+  // `button` is unused now that the package's real ToolButton paints
+  // its own active state (driven by the `data-split-tool-active`
+  // attribute on WorkspaceCanvas's root). The blue highlight overlay
+  // used to sit on top of it; killing that since the real button
+  // already reads as active.
+  void button;
   const lineColor = "#7CC4FF";
   const lineGlow = "0 0 8px rgba(124, 196, 255, 0.7)";
 
   return (
     <>
-      {frame.buttonActive && (
-        <div
-          style={rectStyle(button, {
-            border: `1.5px solid ${lineColor}`,
-            borderRadius: 4,
-            boxShadow: `inset 0 0 8px rgba(124,196,255,0.4), 0 0 12px rgba(124,196,255,0.45)`,
-            background: "rgba(124, 196, 255, 0.18)",
-            transition: "opacity 120ms ease-out",
-          })}
-        />
-      )}
-
       {frame.lineX !== null && !frame.split && (
         <div
           style={{
@@ -468,6 +462,27 @@ function SplitDemo({ button, clip, frame }) {
         {frame.cursor === "split" && <SplitCursor />}
       </div>
     </>
+  );
+}
+
+function DropDemo({ frame }) {
+  if (!frame) return null;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: `${frame.x}%`,
+        top: `${frame.y}%`,
+        opacity: frame.opacity,
+        transform: `translate(-3px, -2px) ${frame.clicking ? "scale(0.82)" : ""}`,
+        transformOrigin: "3px 3px",
+        filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+        pointerEvents: "none",
+        zIndex: 30,
+      }}
+    >
+      <ArrowCursor />
+    </div>
   );
 }
 
@@ -794,6 +809,8 @@ function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
           frame={splitFrame}
         />
       )}
+      {overlay?.kind === "drop" && <DropDemo frame={splitFrame} />}
+      {overlay?.kind === "multi-select" && <DropDemo frame={splitFrame} />}
       {overlay?.kind === "envelopes" && (
         <EnvelopesDemo button={overlay.button} frame={envelopeFrame} />
       )}

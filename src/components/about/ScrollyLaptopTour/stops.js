@@ -51,7 +51,10 @@ export const STOPS = [
       kind: "split",
       button: { x: 18.52, y: 14.65, w: 2.19, h: 3.89 },
       clip: { x: 23.12, y: 41.94, w: 22.5, h: 15.83 },
-      splitX: 0.5,
+      // Two cuts (as fractions of the clip's duration) — after the
+      // first the LEFT half (s1) is selected, after the second the
+      // selection moves to the middle clip (left half of the new cut).
+      splits: [0.35, 0.7],
     },
   },
   {

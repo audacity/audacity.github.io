@@ -159,7 +159,10 @@ export const WORKSPACE_CONFIGS = {
 
   podcast: {
     label: "Podcast",
-    workspace: "classic",
+    // "music" so the package's TransportToolbar renders the split tool
+    // (classic doesn't include it in 0.9.0). Once split lands in
+    // classic upstream we can flip this back.
+    workspace: "music",
     blurb:
       "Voice-first projects with mono speakers, a music bed, and sound effects all on one canvas.",
     duration: 20,

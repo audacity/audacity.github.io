@@ -185,6 +185,12 @@ function WorkspaceCanvas({
   workspaceKey,
   workspaceOptions,
   onWorkspaceChange,
+  // Tour-only: when the laptop tour's split animation has the tool
+  // "armed", flip a data attribute on the root so the CSS rule below
+  // styles the package's `Cut / Split` ToolButton in its pressed state.
+  // The package ships split as a plain ToolButton (not a ToggleToolButton)
+  // so it has no built-in `isActive` prop — this is the workaround.
+  splitToolActive = false,
 }) {
   const containerRef = useRef(null);
   const scale = useScaleToFit(containerRef);
@@ -271,12 +277,26 @@ function WorkspaceCanvas({
             // shared ancestor of both `.application-header` and the
             // toolbars below it.
             ".workspace-canvas .application-header{" +
-            "background-color:#2E353C;}",
+            "background-color:#2E353C;}" +
+            // Split tool "armed" state — the package ships split as a
+            // plain ToolButton (no isActive prop), so when the laptop
+            // tour wants to show the tool as active we paint it in the
+            // same primary-blue the ToggleToolButton's "on" state uses
+            // for the envelope toggle next to it. Secondary's pressed
+            // color is too close to idle to read as active.
+            '.workspace-canvas[data-split-tool-active="true"] ' +
+            '.tool-button[aria-label="Cut / Split"]{' +
+            "background-color:#4a90e2!important;" +
+            "color:#fff!important;}" +
+            '.workspace-canvas[data-split-tool-active="true"] ' +
+            '.tool-button[aria-label="Cut / Split"]:hover{' +
+            "background-color:#5ba3ff!important;}",
         }}
       />
       <div
         ref={containerRef}
         className="workspace-canvas w-full h-full overflow-hidden"
+        data-split-tool-active={splitToolActive ? "true" : undefined}
       >
         <div
           style={{

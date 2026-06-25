@@ -40,10 +40,36 @@ function ScrollyLaptopTour() {
 // applied after the given stop's edit lands. Each stop layers its edit on top
 // of every preceding stop's edit so the laptop appears to carry every change
 // the tour has made so far.
-const FULL_S1_WAVEFORM = generateDecayingSineWave(7.2);
-const SPLIT_IDX = Math.floor(FULL_S1_WAVEFORM.length * 0.5);
-const S1_FIRST_HALF = FULL_S1_WAVEFORM.slice(0, SPLIT_IDX);
-const S1_SECOND_HALF = FULL_S1_WAVEFORM.slice(SPLIT_IDX);
+
+// s1 (Music bed → "Intro theme") starts at 0.1s for 7.2s. The split-tool stop
+// cuts it twice at SPLIT_FRAC_A and SPLIT_FRAC_B (fractions of the duration),
+// leaving three clips. Tracking the waveform slices and frac constants in
+// one place so the animation and the end-state can stay aligned.
+const S1_START = 0.1;
+const S1_DURATION = 7.2;
+const SPLIT_FRAC_A = 0.35;
+const SPLIT_FRAC_B = 0.7;
+const FULL_S1_WAVEFORM = generateDecayingSineWave(S1_DURATION);
+const SPLIT_IDX_A = Math.floor(FULL_S1_WAVEFORM.length * SPLIT_FRAC_A);
+const SPLIT_IDX_B = Math.floor(FULL_S1_WAVEFORM.length * SPLIT_FRAC_B);
+const S1_PART_A = FULL_S1_WAVEFORM.slice(0, SPLIT_IDX_A);
+const S1_PART_B = FULL_S1_WAVEFORM.slice(SPLIT_IDX_A, SPLIT_IDX_B);
+const S1_PART_C = FULL_S1_WAVEFORM.slice(SPLIT_IDX_B);
+const S1_A_DUR = S1_DURATION * SPLIT_FRAC_A;
+const S1_B_DUR = S1_DURATION * (SPLIT_FRAC_B - SPLIT_FRAC_A);
+const S1_C_DUR = S1_DURATION * (1 - SPLIT_FRAC_B);
+const S1_A_START = S1_START;
+const S1_B_START = S1_START + S1_A_DUR;
+const S1_C_START = S1_START + S1_DURATION * SPLIT_FRAC_B;
+
+// drop-anywhere: the rightmost split (s1-c) is the SMALLER clip we pick up,
+// dragged onto s2 (the bigger 5s "Outro music"). s2 gets sliced at the
+// dropped clip's edges so it visually splits into two; the smaller clip
+// eats the audio underneath where it landed.
+const S2_START = 9.0;
+const S2_DURATION = 5.0;
+const DROP_START = 10.5;
+const DROP_END = DROP_START + S1_C_DUR;
 
 function computeCumulativeState(stopIndex) {
   const overrides = {};
@@ -55,34 +81,79 @@ function computeCumulativeState(stopIndex) {
     if (!id) continue;
 
     if (id === "split-tool") {
+      // Two cuts at SPLIT_FRAC_A and SPLIT_FRAC_B → three clips. In real
+      // Audacity, splitting selects the LEFT half of the cut; after the
+      // second cut the middle clip (left half of cut B) carries the
+      // selection.
       overrides.s1 = {
         ...(overrides.s1 || {}),
-        duration: 3.6,
-        waveform: S1_FIRST_HALF,
-        focused: true,
+        duration: S1_A_DUR,
+        waveform: S1_PART_A,
+        focused: false,
+        selected: false,
       };
       extraByTrack[1] = [
         {
           id: "s1-b",
           name: "Intro theme",
-          start: 3.7,
-          duration: 3.6,
-          waveform: S1_SECOND_HALF,
+          start: S1_B_START,
+          duration: S1_B_DUR,
+          waveform: S1_PART_B,
+          selected: true,
           focused: true,
+        },
+        {
+          id: "s1-c",
+          name: "Intro theme",
+          start: S1_C_START,
+          duration: S1_C_DUR,
+          waveform: S1_PART_C,
+          focused: false,
         },
       ];
     }
 
     if (id === "drop-anywhere") {
-      // s1-b drags right onto s2; s2 trims back
-      if (extraByTrack[1]?.[0]?.id === "s1-b") {
-        extraByTrack[1][0] = { ...extraByTrack[1][0], start: 8.5 };
+      // Drop s1-c onto s2: s1-c moves to DROP_START, s2 splits at the
+      // dropped clip's edges, and selection transfers to the dropped
+      // clip (real-app behavior: the dropped clip becomes the focus).
+      extraByTrack[1] = extraByTrack[1] || [];
+      const middleClip = extraByTrack[1].find((c) => c.id === "s1-b");
+      if (middleClip) {
+        middleClip.selected = false;
+        middleClip.focused = false;
       }
-      overrides.s2 = { start: 11.0, duration: 3.0 };
+      const sourceClip = extraByTrack[1].find((c) => c.id === "s1-c");
+      if (sourceClip) {
+        sourceClip.start = DROP_START;
+        sourceClip.selected = true;
+        sourceClip.focused = true;
+      }
+      // s2 keeps its original start but truncates to where the drop
+      // begins, and we add s2-b for the right-hand remainder.
+      overrides.s2 = {
+        ...(overrides.s2 || {}),
+        duration: DROP_START - S2_START,
+      };
+      if (!extraByTrack[1].find((c) => c.id === "s2-b")) {
+        extraByTrack[1].push({
+          id: "s2-b",
+          name: "Outro music",
+          start: DROP_END,
+          duration: S2_START + S2_DURATION - DROP_END,
+        });
+      }
     }
 
     if (id === "multi-select") {
-      // h2 + g2 selected, shifted right by 0.4s together
+      // h2 + g2 selected, shifted right by 0.4s together. The dropped
+      // s1-c also loses its previous selection — only the multi-select
+      // pair is now active.
+      const droppedClip = extraByTrack[1]?.find((c) => c.id === "s1-c");
+      if (droppedClip) {
+        droppedClip.selected = false;
+        droppedClip.focused = false;
+      }
       overrides.h2 = {
         ...(overrides.h2 || {}),
         selected: true,
@@ -111,8 +182,8 @@ function computeCumulativeState(stopIndex) {
       overrides.s1 = {
         ...(overrides.s1 || {}),
         envelopePoints: [
-          { time: 0.72, db: 0 }, // 20% into s1's 3.6s
-          { time: 2.7, db: -25 }, // 75% into s1's 3.6s
+          { time: 0.5, db: 0 }, // 20% into s1's 2.52s
+          { time: 1.9, db: -25 }, // 75% into s1's 2.52s
         ],
       };
     }
@@ -411,29 +482,48 @@ function DesktopTour() {
     }
 
     if (stop.id === "split-tool" && stop.overlay?.kind === "split") {
-      const { button, clip, splitX = 0.5 } = stop.overlay;
+      const {
+        button,
+        clip,
+        splits = [SPLIT_FRAC_A, SPLIT_FRAC_B],
+      } = stop.overlay;
+      const [fracA, fracB] = splits;
       const easeInOut = (u) =>
         u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
       const lerp = (a, b, t) => a + (b - a) * t;
-      const S1_START = 0.1;
-      const S1_DURATION = 7.2;
-      const splitTime = S1_START + S1_DURATION * splitX;
-      const firstDuration = splitTime - S1_START;
-      const secondDuration = S1_START + S1_DURATION - splitTime;
       const SYNTH_TRACK_INDEX = 1;
-      const fullWaveform = generateDecayingSineWave(S1_DURATION);
-      const splitSampleIdx = Math.floor(fullWaveform.length * splitX);
-      const firstHalfWaveform = fullWaveform.slice(0, splitSampleIdx);
-      const secondHalfWaveform = fullWaveform.slice(splitSampleIdx);
 
-      const CYCLE = 8000;
+      // Cursor coords (in % of laptop-screen container)
       const parkX = 92;
       const parkY = 86;
       const buttonCx = button.x + button.w / 2;
       const buttonCy = button.y + button.h / 2;
-      const splitXPct = clip.x + clip.w * splitX;
-      const clipApproachX = clip.x + clip.w * 0.15;
+      const splitXa = clip.x + clip.w * fracA;
+      const splitXb = clip.x + clip.w * fracB;
+      const clipApproachX = clip.x + clip.w * 0.12;
       const clipMidY = clip.y + clip.h * 0.5;
+
+      // Waveform slices for the three-clip end state.
+      const partA = FULL_S1_WAVEFORM.slice(0, SPLIT_IDX_A);
+      const partAB = FULL_S1_WAVEFORM.slice(SPLIT_IDX_A);
+      const partB = FULL_S1_WAVEFORM.slice(SPLIT_IDX_A, SPLIT_IDX_B);
+      const partC = FULL_S1_WAVEFORM.slice(SPLIT_IDX_B);
+
+      // Phase end times as fractions of the full cycle.
+      const CYCLE = 11000;
+      const P_FADE_IN = 0.03;
+      const P_TO_BUTTON = 0.13;
+      const P_BUTTON_HOLD = 0.16;
+      const P_TO_CLIP = 0.22;
+      const P_TO_CUT_A = 0.32;
+      const P_HOVER_A = 0.36;
+      const P_CUT_A = 0.4;
+      const P_LINGER_A = 0.48;
+      const P_TO_CUT_B = 0.56;
+      const P_HOVER_B = 0.6;
+      const P_CUT_B = 0.64;
+      const P_LINGER_B = 0.9;
+      const P_FADE_OUT = 0.97;
 
       const t0 = performance.now();
       let raf;
@@ -446,62 +536,105 @@ function DesktopTour() {
         let clicking = false;
         let buttonActive = false;
         let lineX = null;
-        let split = false;
+        let cutsDone = 0;
 
-        if (t < 0.04) {
-          opacity = t / 0.04;
-        } else if (t < 0.2) {
-          const p = easeInOut((t - 0.04) / 0.16);
+        if (t < P_FADE_IN) {
+          opacity = t / P_FADE_IN;
+        } else if (t < P_TO_BUTTON) {
+          const p = easeInOut((t - P_FADE_IN) / (P_TO_BUTTON - P_FADE_IN));
           x = lerp(parkX, buttonCx, p);
           y = lerp(parkY, buttonCy, p);
           opacity = 1;
-        } else if (t < 0.24) {
+        } else if (t < P_BUTTON_HOLD) {
           x = buttonCx;
           y = buttonCy;
           opacity = 1;
           clicking = true;
-          buttonActive = t > 0.22;
-        } else if (t < 0.34) {
-          const p = easeInOut((t - 0.24) / 0.1);
+          buttonActive = t > P_BUTTON_HOLD - 0.015;
+        } else if (t < P_TO_CLIP) {
+          const p = easeInOut(
+            (t - P_BUTTON_HOLD) / (P_TO_CLIP - P_BUTTON_HOLD),
+          );
           x = lerp(buttonCx, clipApproachX, p);
           y = lerp(buttonCy, clipMidY, p);
           opacity = 1;
           cursor = "split";
           buttonActive = true;
-        } else if (t < 0.54) {
-          const p = easeInOut((t - 0.34) / 0.2);
-          x = lerp(clipApproachX, splitXPct, p);
+        } else if (t < P_TO_CUT_A) {
+          const p = easeInOut((t - P_TO_CLIP) / (P_TO_CUT_A - P_TO_CLIP));
+          x = lerp(clipApproachX, splitXa, p);
           y = clipMidY;
           opacity = 1;
           cursor = "split";
           buttonActive = true;
           lineX = x;
-        } else if (t < 0.58) {
-          x = splitXPct;
-          y = clipMidY;
-          opacity = 1;
-          cursor = "split";
-          clicking = t < 0.56;
-          buttonActive = true;
-          lineX = splitXPct;
-          split = t > 0.56;
-        } else if (t < 0.86) {
-          x = splitXPct;
+        } else if (t < P_HOVER_A) {
+          x = splitXa;
           y = clipMidY;
           opacity = 1;
           cursor = "split";
           buttonActive = true;
-          split = true;
-        } else if (t < 0.96) {
-          const p = (t - 0.86) / 0.1;
-          x = splitXPct;
+          lineX = splitXa;
+        } else if (t < P_CUT_A) {
+          x = splitXa;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          clicking = true;
+          buttonActive = true;
+          lineX = splitXa;
+          cutsDone = t > P_CUT_A - 0.012 ? 1 : 0;
+        } else if (t < P_LINGER_A) {
+          x = splitXa;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+          cutsDone = 1;
+        } else if (t < P_TO_CUT_B) {
+          const p = easeInOut((t - P_LINGER_A) / (P_TO_CUT_B - P_LINGER_A));
+          x = lerp(splitXa, splitXb, p);
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+          lineX = x;
+          cutsDone = 1;
+        } else if (t < P_HOVER_B) {
+          x = splitXb;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+          lineX = splitXb;
+          cutsDone = 1;
+        } else if (t < P_CUT_B) {
+          x = splitXb;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          clicking = true;
+          buttonActive = true;
+          lineX = splitXb;
+          cutsDone = t > P_CUT_B - 0.012 ? 2 : 1;
+        } else if (t < P_LINGER_B) {
+          x = splitXb;
+          y = clipMidY;
+          opacity = 1;
+          cursor = "split";
+          buttonActive = true;
+          cutsDone = 2;
+        } else if (t < P_FADE_OUT) {
+          const p = (t - P_LINGER_B) / (P_FADE_OUT - P_LINGER_B);
+          x = splitXb;
           y = clipMidY;
           opacity = 1 - p;
           cursor = "split";
-          buttonActive = t < 0.92;
-          split = t < 0.92;
+          buttonActive = t < P_FADE_OUT - 0.03;
+          cutsDone = 2;
         } else {
           opacity = 0;
+          cutsDone = 2;
         }
 
         setSplitFrame({
@@ -512,14 +645,26 @@ function DesktopTour() {
           clicking,
           buttonActive,
           lineX,
-          split,
+          // `split` was a single-cut flag in the old animation — used by
+          // the overlay to hide the indicator line at the cut moment. We
+          // keep the same semantic: true whenever any cut has landed.
+          split: cutsDone > 0,
         });
-        const focusClip = cursor === "split" || split;
-        if (split) {
+
+        if (cutsDone === 0) {
+          if (cursor === "split") {
+            setClipOverrides({ s1: { focused: true } });
+          } else {
+            setClipOverrides(null);
+          }
+          setExtraClips(null);
+        } else if (cutsDone === 1) {
+          // After cut #1: 2 clips. LEFT half (s1) is selected.
           setClipOverrides({
             s1: {
-              duration: firstDuration,
-              waveform: firstHalfWaveform,
+              duration: S1_A_DUR,
+              waveform: partA,
+              selected: true,
               focused: true,
             },
           });
@@ -528,20 +673,379 @@ function DesktopTour() {
               {
                 id: "s1-b",
                 name: "Intro theme",
-                start: splitTime,
-                duration: secondDuration,
-                waveform: secondHalfWaveform,
-                focused: true,
+                start: S1_B_START,
+                duration: S1_DURATION - S1_A_DUR,
+                waveform: partAB,
               },
             ],
           });
-        } else if (focusClip) {
-          setClipOverrides({ s1: { focused: true } });
-          setExtraClips(null);
         } else {
-          setClipOverrides(null);
-          setExtraClips(null);
+          // After cut #2: 3 clips. MIDDLE (s1-b) is the new "left of
+          // cut B" so it carries the selection; s1 (cut A's left) is
+          // deselected.
+          setClipOverrides({
+            s1: {
+              duration: S1_A_DUR,
+              waveform: partA,
+              selected: false,
+              focused: false,
+            },
+          });
+          setExtraClips({
+            [SYNTH_TRACK_INDEX]: [
+              {
+                id: "s1-b",
+                name: "Intro theme",
+                start: S1_B_START,
+                duration: S1_B_DUR,
+                waveform: partB,
+                selected: true,
+                focused: true,
+              },
+              {
+                id: "s1-c",
+                name: "Intro theme",
+                start: S1_C_START,
+                duration: S1_C_DUR,
+                waveform: partC,
+              },
+            ],
+          });
         }
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => {
+        cancelAnimationFrame(raf);
+        setSplitFrame(null);
+      };
+    }
+
+    if (stop.id === "drop-anywhere" && stop.overlay?.kind === "drop") {
+      // Pick up the smaller clip (s1-c — rightmost split from
+      // split-tool) and drop it onto s2 (the bigger 5s music bed
+      // outro). s2 splits at the drop edges and s1-c eats the audio
+      // underneath where it lands.
+      const easeInOut = (u) =>
+        u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const lerp = (a, b, t) => a + (b - a) * t;
+
+      const SYNTH_TRACK_INDEX = 1;
+      // Timeline → screen-% mapping derived from the split overlay's
+      // reference clip (s1: x=23.12% at t=0.1, w=22.5% over 7.2s →
+      // 3.125% per second).
+      const PCT_PER_SEC = 22.5 / 7.2;
+      const PCT_AT_ZERO = 23.12 - 0.1 * PCT_PER_SEC;
+      const timeToX = (t) => PCT_AT_ZERO + t * PCT_PER_SEC;
+      const sourceCenterX = timeToX(S1_C_START + S1_C_DUR / 2);
+      const targetCenterX = timeToX(DROP_START + S1_C_DUR / 2);
+
+      // Music bed track y/h matches the split overlay's reference clip.
+      const trackY = 41.94;
+      const trackH = 15.83;
+      const clipMidY = trackY + trackH / 2;
+
+      const parkX = 92;
+      const parkY = 86;
+
+      const partA = FULL_S1_WAVEFORM.slice(0, SPLIT_IDX_A);
+      const partB = FULL_S1_WAVEFORM.slice(SPLIT_IDX_A, SPLIT_IDX_B);
+      const partC = FULL_S1_WAVEFORM.slice(SPLIT_IDX_B);
+
+      const CYCLE = 7500;
+      const P_FADE_IN = 0.03;
+      const P_TO_SOURCE = 0.15;
+      const P_GRAB = 0.2;
+      const P_DRAG = 0.65;
+      const P_DROP = 0.7;
+      const P_LINGER = 0.92;
+      const P_FADE_OUT = 0.98;
+
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => {
+        const t = ((now - t0) % CYCLE) / CYCLE;
+        let x = parkX;
+        let y = parkY;
+        let opacity = 0;
+        let clicking = false;
+        // Phases: "before" → idle on split-tool end state; "dragging"
+        // → s1-c follows cursor; "dropped" → s2 splits, s1-c parked.
+        let phase = "before";
+        let dragStart = S1_C_START;
+
+        if (t < P_FADE_IN) {
+          opacity = t / P_FADE_IN;
+          x = sourceCenterX;
+          y = clipMidY - 22;
+        } else if (t < P_TO_SOURCE) {
+          const p = easeInOut((t - P_FADE_IN) / (P_TO_SOURCE - P_FADE_IN));
+          x = sourceCenterX;
+          y = lerp(clipMidY - 22, clipMidY, p);
+          opacity = 1;
+        } else if (t < P_GRAB) {
+          x = sourceCenterX;
+          y = clipMidY;
+          opacity = 1;
+          clicking = true;
+        } else if (t < P_DRAG) {
+          const p = easeInOut((t - P_GRAB) / (P_DRAG - P_GRAB));
+          x = lerp(sourceCenterX, targetCenterX, p);
+          y = clipMidY;
+          opacity = 1;
+          clicking = true;
+          phase = "dragging";
+          dragStart = lerp(S1_C_START, DROP_START, p);
+        } else if (t < P_DROP) {
+          x = targetCenterX;
+          y = clipMidY;
+          opacity = 1;
+          clicking = t < P_DROP - 0.01;
+          phase = t > P_DROP - 0.015 ? "dropped" : "dragging";
+          dragStart = DROP_START;
+        } else if (t < P_LINGER) {
+          x = targetCenterX;
+          y = clipMidY;
+          opacity = 1;
+          phase = "dropped";
+          dragStart = DROP_START;
+        } else if (t < P_FADE_OUT) {
+          const p = (t - P_LINGER) / (P_FADE_OUT - P_LINGER);
+          x = targetCenterX;
+          y = clipMidY;
+          opacity = 1 - p;
+          phase = "dropped";
+          dragStart = DROP_START;
+        } else {
+          opacity = 0;
+          phase = "dropped";
+          dragStart = DROP_START;
+        }
+
+        setSplitFrame({
+          x,
+          y,
+          opacity,
+          cursor: "arrow",
+          clicking,
+          buttonActive: false,
+          lineX: null,
+          split: false,
+        });
+
+        const overrides = {
+          s1: {
+            duration: S1_A_DUR,
+            waveform: partA,
+            selected: false,
+            focused: false,
+          },
+        };
+        if (phase === "dropped") {
+          overrides.s2 = {
+            ...(overrides.s2 || {}),
+            duration: DROP_START - S2_START,
+          };
+        }
+        setClipOverrides(overrides);
+
+        const extras = [
+          {
+            id: "s1-b",
+            name: "Intro theme",
+            start: S1_B_START,
+            duration: S1_B_DUR,
+            waveform: partB,
+            // Carries split-tool's selection until the user starts dragging.
+            selected: phase === "before",
+            focused: phase === "before",
+          },
+          {
+            id: "s1-c",
+            name: "Intro theme",
+            start: dragStart,
+            duration: S1_C_DUR,
+            waveform: partC,
+            focused: phase !== "before",
+            selected: phase === "dropped",
+          },
+        ];
+        if (phase === "dropped") {
+          extras.push({
+            id: "s2-b",
+            name: "Outro music",
+            start: DROP_END,
+            duration: S2_START + S2_DURATION - DROP_END,
+          });
+        }
+        setExtraClips({ [SYNTH_TRACK_INDEX]: extras });
+
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => {
+        cancelAnimationFrame(raf);
+        setSplitFrame(null);
+      };
+    }
+
+    if (stop.id === "multi-select" && stop.overlay?.kind === "multi-select") {
+      // Both clips are already selected by cumulative state. The
+      // animation just shows the cursor grabbing them and shifting
+      // them right by 0.4s.
+      const easeInOut = (u) =>
+        u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const lerp = (a, b, t) => a + (b - a) * t;
+
+      // Same time→x mapping as the drop animation.
+      const PCT_PER_SEC = 22.5 / 7.2;
+      const PCT_AT_ZERO = 23.12 - 0.1 * PCT_PER_SEC;
+      const timeToX = (t) => PCT_AT_ZERO + t * PCT_PER_SEC;
+
+      const H2_START_FROM = 5.0;
+      const H2_START_TO = 5.4;
+      const H2_DURATION = 2.6;
+      const G2_START_FROM = 7.8;
+      const G2_START_TO = 8.2;
+
+      // Music bed is track 1 at y=41.94, h=15.83 — Host (track 0) sits
+      // one track + 2px-gap above that.
+      const TRACK_GAP_PCT = 2 / 720; // 720px native screen height
+      const MUSIC_BED_Y = 41.94;
+      const MUSIC_BED_H = 15.83;
+      const HOST_Y = MUSIC_BED_Y - MUSIC_BED_H - TRACK_GAP_PCT * 100;
+      const hostMidY = HOST_Y + MUSIC_BED_H / 2;
+
+      const h2CenterFrom = timeToX(H2_START_FROM + H2_DURATION / 2);
+      const h2CenterTo = timeToX(H2_START_TO + H2_DURATION / 2);
+
+      const parkX = 92;
+      const parkY = 6; // approach from top so it sweeps across the toolbar
+
+      const CYCLE = 6500;
+      const P_FADE_IN = 0.04;
+      const P_TO_CLIP = 0.18;
+      const P_GRAB = 0.24;
+      const P_DRAG = 0.62;
+      const P_DROP = 0.68;
+      const P_LINGER = 0.92;
+      const P_FADE_OUT = 0.98;
+
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => {
+        const t = ((now - t0) % CYCLE) / CYCLE;
+        let x = parkX;
+        let y = parkY;
+        let opacity = 0;
+        let clicking = false;
+        // Animate both h2 and g2 in sync by the same delta.
+        let progress = 0; // 0 = original position, 1 = final
+        if (t < P_FADE_IN) {
+          opacity = t / P_FADE_IN;
+          x = h2CenterFrom;
+        } else if (t < P_TO_CLIP) {
+          const p = easeInOut((t - P_FADE_IN) / (P_TO_CLIP - P_FADE_IN));
+          x = h2CenterFrom;
+          y = lerp(parkY, hostMidY, p);
+          opacity = 1;
+        } else if (t < P_GRAB) {
+          x = h2CenterFrom;
+          y = hostMidY;
+          opacity = 1;
+          clicking = true;
+        } else if (t < P_DRAG) {
+          const p = easeInOut((t - P_GRAB) / (P_DRAG - P_GRAB));
+          x = lerp(h2CenterFrom, h2CenterTo, p);
+          y = hostMidY;
+          opacity = 1;
+          clicking = true;
+          progress = p;
+        } else if (t < P_DROP) {
+          x = h2CenterTo;
+          y = hostMidY;
+          opacity = 1;
+          clicking = t < P_DROP - 0.01;
+          progress = 1;
+        } else if (t < P_LINGER) {
+          x = h2CenterTo;
+          y = hostMidY;
+          opacity = 1;
+          progress = 1;
+        } else if (t < P_FADE_OUT) {
+          const p = (t - P_LINGER) / (P_FADE_OUT - P_LINGER);
+          x = h2CenterTo;
+          y = hostMidY;
+          opacity = 1 - p;
+          progress = 1;
+        } else {
+          opacity = 0;
+          progress = 1;
+        }
+
+        setSplitFrame({
+          x,
+          y,
+          opacity,
+          cursor: "arrow",
+          clicking,
+          buttonActive: false,
+          lineX: null,
+          split: false,
+        });
+
+        const h2Start = lerp(H2_START_FROM, H2_START_TO, progress);
+        const g2Start = lerp(G2_START_FROM, G2_START_TO, progress);
+        setClipOverrides({
+          h2: {
+            selected: true,
+            start: h2Start,
+          },
+          g2: {
+            selected: true,
+            start: g2Start,
+          },
+          // Preserve the previous stop's split + drop end state.
+          s1: {
+            duration: S1_A_DUR,
+            waveform: FULL_S1_WAVEFORM.slice(0, SPLIT_IDX_A),
+            selected: false,
+            focused: false,
+          },
+          s2: {
+            duration: DROP_START - S2_START,
+          },
+        });
+        // Keep the music-bed extras from drop-anywhere in place.
+        setExtraClips({
+          1: [
+            {
+              id: "s1-b",
+              name: "Intro theme",
+              start: S1_B_START,
+              duration: S1_B_DUR,
+              waveform: FULL_S1_WAVEFORM.slice(SPLIT_IDX_A, SPLIT_IDX_B),
+              selected: false,
+              focused: false,
+            },
+            {
+              id: "s1-c",
+              name: "Intro theme",
+              start: DROP_START,
+              duration: S1_C_DUR,
+              waveform: FULL_S1_WAVEFORM.slice(SPLIT_IDX_B),
+              selected: false,
+              focused: false,
+            },
+            {
+              id: "s2-b",
+              name: "Outro music",
+              start: DROP_END,
+              duration: S2_START + S2_DURATION - DROP_END,
+            },
+          ],
+        });
+
         raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
@@ -766,6 +1270,7 @@ function DesktopTour() {
               clipOverrides={clipOverrides}
               extraClips={extraClips}
               envelopeModeOverride={envelopeMode}
+              splitToolActive={!!splitFrame?.buttonActive}
             />
             <TourOverlay
               overlay={stop.overlay}
