@@ -96,6 +96,17 @@ export const STOPS = [
     target: null,
     overlay: {
       kind: "clip-groups",
+      // h2 (Host) + g2 (Guest) at their post-multi-select positions —
+      // the clip-groups animation opens h2's context menu, picks the
+      // "Group clips" action, then drags the new group as one unit.
+      h2Clip: { x: 43.12, y: 25.83, w: 8.125, h: 15.83 },
+      g2Clip: { x: 51.87, y: 58.05, w: 10.625, h: 15.83 },
+      // Context-menu button sits at the top-right of the clip header.
+      menuButton: { x: 50.5, y: 26.4, w: 1.2, h: 1.6 },
+      // Where the context menu opens. "Group clips" is the 4th item.
+      menuPos: { x: 50.7, y: 27.8 },
+      groupItemX: 51.7,
+      groupItemY: 40.7,
     },
   },
   {
@@ -110,7 +121,10 @@ export const STOPS = [
     overlay: {
       kind: "envelopes",
       button: { x: 16.17, y: 14.65, w: 2.19, h: 3.89 },
-      clip: { x: 23.12, y: 41.94, w: 22.5, h: 15.83 },
+      // s1 is now the FIRST split (~35% of the original 7.2s clip) — the
+      // envelope demo points at this shorter clip, so coords reflect
+      // the post-split width (22.5 * 0.35 ≈ 7.875).
+      clip: { x: 23.12, y: 41.94, w: 7.875, h: 15.83 },
     },
   },
   {

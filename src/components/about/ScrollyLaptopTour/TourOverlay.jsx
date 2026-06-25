@@ -231,24 +231,32 @@ const ArrowCursor = () => (
   </svg>
 );
 
-const HAND_STYLE = {
-  fontSize: 22,
-  lineHeight: 1,
-  userSelect: "none",
+const HAND_CURSOR_IMG = {
   display: "block",
-  filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.45))",
+  userSelect: "none",
+  filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.55))",
 };
 
 const OpenHandCursor = () => (
-  <div style={HAND_STYLE} aria-hidden="true">
-    🖐
-  </div>
+  <img
+    src="/cursors/HandOpen.png"
+    alt=""
+    aria-hidden="true"
+    width={28}
+    height={28}
+    style={HAND_CURSOR_IMG}
+  />
 );
 
 const ClosedHandCursor = () => (
-  <div style={HAND_STYLE} aria-hidden="true">
-    ✊
-  </div>
+  <img
+    src="/cursors/HandClosed.png"
+    alt=""
+    aria-hidden="true"
+    width={28}
+    height={28}
+    style={HAND_CURSOR_IMG}
+  />
 );
 
 function lerp(a, b, t) {
@@ -465,8 +473,51 @@ function SplitDemo({ button, clip, frame }) {
   );
 }
 
+function ClipGroupsDemo({ overlay, frame }) {
+  if (!frame) return null;
+  const isHand = frame.cursor === "open" || frame.cursor === "closed";
+  const offset = isHand ? "-14px, -8px" : "-3px, -2px";
+  const origin = isHand ? "14px 8px" : "3px 3px";
+
+  return (
+    <>
+      {frame.menuOpen && (
+        <MockContextMenu
+          x={overlay.menuPos.x}
+          y={overlay.menuPos.y}
+          hoverGroup={frame.hoverGroup}
+        />
+      )}
+      <div
+        style={{
+          position: "absolute",
+          left: `${frame.x}%`,
+          top: `${frame.y}%`,
+          opacity: frame.opacity,
+          transform: `translate(${offset}) ${
+            !isHand && frame.clicking ? "scale(0.82)" : ""
+          }`,
+          transformOrigin: origin,
+          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+          pointerEvents: "none",
+          zIndex: 30,
+        }}
+      >
+        {frame.cursor === "open" && <OpenHandCursor />}
+        {frame.cursor === "closed" && <ClosedHandCursor />}
+        {(!frame.cursor || frame.cursor === "arrow") && <ArrowCursor />}
+      </div>
+    </>
+  );
+}
+
 function DropDemo({ frame }) {
   if (!frame) return null;
+  // Hand cursors are 28×28 with the grab point near the top-middle of
+  // the glyph. Offsetting -14/-8 lands the hotspot on (frame.x, frame.y).
+  const isHand = frame.cursor === "open" || frame.cursor === "closed";
+  const offset = isHand ? "-14px, -8px" : "-3px, -2px";
+  const origin = isHand ? "14px 8px" : "3px 3px";
   return (
     <div
       style={{
@@ -474,14 +525,20 @@ function DropDemo({ frame }) {
         left: `${frame.x}%`,
         top: `${frame.y}%`,
         opacity: frame.opacity,
-        transform: `translate(-3px, -2px) ${frame.clicking ? "scale(0.82)" : ""}`,
-        transformOrigin: "3px 3px",
+        // Don't scale-down the closed hand on click — it IS the click
+        // state. Only the arrow benefits from a tap-shrink.
+        transform: `translate(${offset}) ${
+          !isHand && frame.clicking ? "scale(0.82)" : ""
+        }`,
+        transformOrigin: origin,
         filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
         pointerEvents: "none",
         zIndex: 30,
       }}
     >
-      <ArrowCursor />
+      {frame.cursor === "open" && <OpenHandCursor />}
+      {frame.cursor === "closed" && <ClosedHandCursor />}
+      {(!frame.cursor || frame.cursor === "arrow") && <ArrowCursor />}
     </div>
   );
 }
@@ -811,6 +868,9 @@ function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
       )}
       {overlay?.kind === "drop" && <DropDemo frame={splitFrame} />}
       {overlay?.kind === "multi-select" && <DropDemo frame={splitFrame} />}
+      {overlay?.kind === "clip-groups" && (
+        <ClipGroupsDemo overlay={overlay} frame={splitFrame} />
+      )}
       {overlay?.kind === "envelopes" && (
         <EnvelopesDemo button={overlay.button} frame={envelopeFrame} />
       )}

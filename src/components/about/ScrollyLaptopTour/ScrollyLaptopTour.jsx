@@ -146,9 +146,10 @@ function computeCumulativeState(stopIndex) {
     }
 
     if (id === "multi-select") {
-      // h2 + g2 selected, shifted right by 0.4s together. The dropped
-      // s1-c also loses its previous selection — only the multi-select
-      // pair is now active.
+      // h2 + g2 + sfx1 selected across three tracks, shifted right by
+      // 1.5s together — a question, the answer, and the SFX sting that
+      // punctuates them, all moved as one moment. The dropped s1-c
+      // loses its previous selection.
       const droppedClip = extraByTrack[1]?.find((c) => c.id === "s1-c");
       if (droppedClip) {
         droppedClip.selected = false;
@@ -157,28 +158,63 @@ function computeCumulativeState(stopIndex) {
       overrides.h2 = {
         ...(overrides.h2 || {}),
         selected: true,
-        start: 5.4,
+        start: 6.5,
       };
       overrides.g2 = {
         ...(overrides.g2 || {}),
         selected: true,
-        start: 8.2,
+        start: 9.3,
+      };
+      overrides.sfx1 = {
+        ...(overrides.sfx1 || {}),
+        selected: true,
+        start: 6.1,
       };
     }
 
     if (id === "clip-groups") {
+      // Two beats: we explicitly group h2+g2 via the right-click
+      // context menu (no drag — just the grouping action). Then we
+      // grab h3 — which was always in its own group with g3 — and
+      // the pair slides together (+0.4s), demonstrating that groups
+      // were always there. Engaging the second group deselects the
+      // first, so the end state has only h3+g3 active. h2/g2 stay
+      // at their multi-select positions.
       overrides.h2 = {
         ...(overrides.h2 || {}),
-        selected: true,
+        selected: false,
+        start: 6.5,
       };
       overrides.g2 = {
         ...(overrides.g2 || {}),
+        selected: false,
+        start: 9.3,
+      };
+      overrides.h3 = {
+        ...(overrides.h3 || {}),
         selected: true,
+        start: 11.8,
+      };
+      overrides.g3 = {
+        ...(overrides.g3 || {}),
+        selected: true,
+        start: 15.2,
+      };
+      // sfx1 stays at its multi-select position.
+      overrides.sfx1 = {
+        ...(overrides.sfx1 || {}),
+        selected: false,
+        start: 6.1,
       };
     }
 
     if (id === "clip-envelopes") {
-      envMode = true;
+      // envelopeMode is driven ENTIRELY by the per-stop animation now —
+      // setting it true here from cumulative state caused a flicker
+      // when scrolling into the stop (cumulative flipped on, animation
+      // immediately flipped it off again during its fade-in phase,
+      // then back on at the click). Animation alone decides when the
+      // mode is on. Envelope points themselves still persist here.
       overrides.s1 = {
         ...(overrides.s1 || {}),
         envelopePoints: [
@@ -490,6 +526,7 @@ function DesktopTour() {
       const [fracA, fracB] = splits;
       const easeInOut = (u) =>
         u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const easeOutCubic = (u) => 1 - Math.pow(1 - u, 3);
       const lerp = (a, b, t) => a + (b - a) * t;
       const SYNTH_TRACK_INDEX = 1;
 
@@ -509,21 +546,23 @@ function DesktopTour() {
       const partB = FULL_S1_WAVEFORM.slice(SPLIT_IDX_A, SPLIT_IDX_B);
       const partC = FULL_S1_WAVEFORM.slice(SPLIT_IDX_B);
 
-      // Phase end times as fractions of the full cycle.
-      const CYCLE = 11000;
+      // Phase end times as fractions of the full cycle. Trimmed for
+      // snap — was 11s before, now 7s with the slack squeezed out of
+      // lingers and approach windows.
+      const CYCLE = 7000;
       const P_FADE_IN = 0.03;
       const P_TO_BUTTON = 0.13;
       const P_BUTTON_HOLD = 0.16;
       const P_TO_CLIP = 0.22;
       const P_TO_CUT_A = 0.32;
-      const P_HOVER_A = 0.36;
-      const P_CUT_A = 0.4;
-      const P_LINGER_A = 0.48;
-      const P_TO_CUT_B = 0.56;
-      const P_HOVER_B = 0.6;
-      const P_CUT_B = 0.64;
-      const P_LINGER_B = 0.9;
-      const P_FADE_OUT = 0.97;
+      const P_HOVER_A = 0.35;
+      const P_CUT_A = 0.38;
+      const P_LINGER_A = 0.44;
+      const P_TO_CUT_B = 0.55;
+      const P_HOVER_B = 0.58;
+      const P_CUT_B = 0.61;
+      const P_LINGER_B = 0.92;
+      const P_FADE_OUT = 0.98;
 
       const t0 = performance.now();
       let raf;
@@ -541,7 +580,9 @@ function DesktopTour() {
         if (t < P_FADE_IN) {
           opacity = t / P_FADE_IN;
         } else if (t < P_TO_BUTTON) {
-          const p = easeInOut((t - P_FADE_IN) / (P_TO_BUTTON - P_FADE_IN));
+          // easeOutCubic for cursor approaches — decelerating arrival
+          // reads as natural hand motion, not the symmetric ease-in-out.
+          const p = easeOutCubic((t - P_FADE_IN) / (P_TO_BUTTON - P_FADE_IN));
           x = lerp(parkX, buttonCx, p);
           y = lerp(parkY, buttonCy, p);
           opacity = 1;
@@ -552,7 +593,7 @@ function DesktopTour() {
           clicking = true;
           buttonActive = t > P_BUTTON_HOLD - 0.015;
         } else if (t < P_TO_CLIP) {
-          const p = easeInOut(
+          const p = easeOutCubic(
             (t - P_BUTTON_HOLD) / (P_TO_CLIP - P_BUTTON_HOLD),
           );
           x = lerp(buttonCx, clipApproachX, p);
@@ -561,7 +602,7 @@ function DesktopTour() {
           cursor = "split";
           buttonActive = true;
         } else if (t < P_TO_CUT_A) {
-          const p = easeInOut((t - P_TO_CLIP) / (P_TO_CUT_A - P_TO_CLIP));
+          const p = easeOutCubic((t - P_TO_CLIP) / (P_TO_CUT_A - P_TO_CLIP));
           x = lerp(clipApproachX, splitXa, p);
           y = clipMidY;
           opacity = 1;
@@ -723,11 +764,21 @@ function DesktopTour() {
 
     if (stop.id === "drop-anywhere" && stop.overlay?.kind === "drop") {
       // Pick up the smaller clip (s1-c — rightmost split from
-      // split-tool) and drop it onto s2 (the bigger 5s music bed
-      // outro). s2 splits at the drop edges and s1-c eats the audio
-      // underneath where it lands.
+      // split-tool) BY ITS HEADER and drop it onto s2 (the bigger 5s
+      // music bed outro). s2 splits at the drop edges and s1-c eats
+      // the audio underneath where it lands.
       const easeInOut = (u) =>
         u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      // Asymmetric "natural" curve: fast start, slow approach. Closer
+      // to how a real hand moves — most of the distance is covered in
+      // the first half, then the cursor decelerates into the target.
+      const easeOutCubic = (u) => 1 - Math.pow(1 - u, 3);
+      // Back-out for the landing: tiny overshoot then settle.
+      const easeBackOut = (u) => {
+        const c1 = 1.4;
+        const c3 = c1 + 1;
+        return 1 + c3 * Math.pow(u - 1, 3) + c1 * Math.pow(u - 1, 2);
+      };
       const lerp = (a, b, t) => a + (b - a) * t;
 
       const SYNTH_TRACK_INDEX = 1;
@@ -741,9 +792,15 @@ function DesktopTour() {
       const targetCenterX = timeToX(DROP_START + S1_C_DUR / 2);
 
       // Music bed track y/h matches the split overlay's reference clip.
+      // The clip's HEADER (its draggable strip) sits in the top ~13% of
+      // the clip height; the cursor grabs there, not at the midpoint.
       const trackY = 41.94;
       const trackH = 15.83;
-      const clipMidY = trackY + trackH / 2;
+      const clipHeaderY = trackY + trackH * 0.13;
+      // Arc the cursor up during the drag — the clip "lifts" before
+      // travelling. Subtle (1.2% of the screen ≈ 9px on a 720px-tall
+      // canvas) so it reads as natural hand motion, not a flourish.
+      const DRAG_ARC = 1.4;
 
       const parkX = 92;
       const parkY = 86;
@@ -752,12 +809,13 @@ function DesktopTour() {
       const partB = FULL_S1_WAVEFORM.slice(SPLIT_IDX_A, SPLIT_IDX_B);
       const partC = FULL_S1_WAVEFORM.slice(SPLIT_IDX_B);
 
-      const CYCLE = 7500;
+      // Trimmed from 5.5s → 4.5s — drag still reads but doesn't dawdle.
+      const CYCLE = 4500;
       const P_FADE_IN = 0.03;
-      const P_TO_SOURCE = 0.15;
-      const P_GRAB = 0.2;
-      const P_DRAG = 0.65;
-      const P_DROP = 0.7;
+      const P_TO_SOURCE = 0.16;
+      const P_GRAB = 0.22;
+      const P_DRAG = 0.66;
+      const P_DROP = 0.72;
       const P_LINGER = 0.92;
       const P_FADE_OUT = 0.98;
 
@@ -769,6 +827,9 @@ function DesktopTour() {
         let y = parkY;
         let opacity = 0;
         let clicking = false;
+        // Cursor glyph: arrow off-clip, open hand when hovering the
+        // header, closed hand while click-dragging. Default is arrow.
+        let cursor = "arrow";
         // Phases: "before" → idle on split-tool end state; "dragging"
         // → s1-c follows cursor; "dropped" → s2 splits, s1-c parked.
         let phase = "before";
@@ -777,43 +838,60 @@ function DesktopTour() {
         if (t < P_FADE_IN) {
           opacity = t / P_FADE_IN;
           x = sourceCenterX;
-          y = clipMidY - 22;
+          y = clipHeaderY - 22;
         } else if (t < P_TO_SOURCE) {
-          const p = easeInOut((t - P_FADE_IN) / (P_TO_SOURCE - P_FADE_IN));
+          // Cursor arrives at the header from above, decelerating into
+          // place. Switch to the open-hand cursor for the final stretch
+          // so it lands on the clip already showing the grab affordance.
+          const p = easeOutCubic((t - P_FADE_IN) / (P_TO_SOURCE - P_FADE_IN));
           x = sourceCenterX;
-          y = lerp(clipMidY - 22, clipMidY, p);
+          y = lerp(clipHeaderY - 22, clipHeaderY, p);
           opacity = 1;
+          if (p > 0.6) cursor = "open";
         } else if (t < P_GRAB) {
           x = sourceCenterX;
-          y = clipMidY;
+          y = clipHeaderY;
           opacity = 1;
           clicking = true;
+          cursor = "closed";
         } else if (t < P_DRAG) {
           const p = easeInOut((t - P_GRAB) / (P_DRAG - P_GRAB));
+          // X moves with a slightly asymmetric curve, Y arcs upward
+          // mid-drag (sine bow) then back down to the header line —
+          // the clip "lifts" off the lane during the travel.
           x = lerp(sourceCenterX, targetCenterX, p);
-          y = clipMidY;
+          y = clipHeaderY - DRAG_ARC * Math.sin(p * Math.PI);
           opacity = 1;
           clicking = true;
+          cursor = "closed";
           phase = "dragging";
           dragStart = lerp(S1_C_START, DROP_START, p);
         } else if (t < P_DROP) {
+          // Drop with a tiny back-out: cursor overshoots target by a
+          // hair then settles — same shape a real drop has when the
+          // hand decelerates.
+          const p = easeBackOut((t - P_DRAG) / (P_DROP - P_DRAG));
           x = targetCenterX;
-          y = clipMidY;
+          y = clipHeaderY;
           opacity = 1;
-          clicking = t < P_DROP - 0.01;
-          phase = t > P_DROP - 0.015 ? "dropped" : "dragging";
-          dragStart = DROP_START;
+          clicking = t < P_DROP - 0.012;
+          // Open the hand again the moment the click releases.
+          cursor = clicking ? "closed" : "open";
+          phase = t > P_DROP - 0.018 ? "dropped" : "dragging";
+          dragStart = lerp(lerp(S1_C_START, DROP_START, 1), DROP_START, p);
         } else if (t < P_LINGER) {
           x = targetCenterX;
-          y = clipMidY;
+          y = clipHeaderY;
           opacity = 1;
+          cursor = "open";
           phase = "dropped";
           dragStart = DROP_START;
         } else if (t < P_FADE_OUT) {
           const p = (t - P_LINGER) / (P_FADE_OUT - P_LINGER);
           x = targetCenterX;
-          y = clipMidY;
+          y = clipHeaderY;
           opacity = 1 - p;
+          cursor = "open";
           phase = "dropped";
           dragStart = DROP_START;
         } else {
@@ -826,7 +904,7 @@ function DesktopTour() {
           x,
           y,
           opacity,
-          cursor: "arrow",
+          cursor,
           clicking,
           buttonActive: false,
           lineX: null,
@@ -866,8 +944,10 @@ function DesktopTour() {
             start: dragStart,
             duration: S1_C_DUR,
             waveform: partC,
+            // Selected the moment we grab it (real-app behaviour) and
+            // stays selected through dragging + after the drop.
             focused: phase !== "before",
-            selected: phase === "dropped",
+            selected: phase !== "before",
           },
         ];
         if (phase === "dropped") {
@@ -890,45 +970,70 @@ function DesktopTour() {
     }
 
     if (stop.id === "multi-select" && stop.overlay?.kind === "multi-select") {
-      // Both clips are already selected by cumulative state. The
-      // animation just shows the cursor grabbing them and shifting
-      // them right by 0.4s.
+      // Cursor explicitly selects three clips across three tracks by
+      // visiting each header (open hand on hover, brief closed-hand
+      // click), then grabs h2 and drags the whole selection right by
+      // 1.5s. Each click adds its clip to the selection — Audacity's
+      // shift-click multi-select pattern.
       const easeInOut = (u) =>
         u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const easeOutCubic = (u) => 1 - Math.pow(1 - u, 3);
       const lerp = (a, b, t) => a + (b - a) * t;
 
-      // Same time→x mapping as the drop animation.
       const PCT_PER_SEC = 22.5 / 7.2;
       const PCT_AT_ZERO = 23.12 - 0.1 * PCT_PER_SEC;
       const timeToX = (t) => PCT_AT_ZERO + t * PCT_PER_SEC;
 
       const H2_START_FROM = 5.0;
-      const H2_START_TO = 5.4;
+      const H2_START_TO = 6.5;
       const H2_DURATION = 2.6;
       const G2_START_FROM = 7.8;
-      const G2_START_TO = 8.2;
+      const G2_START_TO = 9.3;
+      const G2_DURATION = 3.4;
+      const SFX1_START_FROM = 4.6;
+      const SFX1_START_TO = 6.1;
+      const SFX1_DURATION = 0.5;
 
-      // Music bed is track 1 at y=41.94, h=15.83 — Host (track 0) sits
-      // one track + 2px-gap above that.
-      const TRACK_GAP_PCT = 2 / 720; // 720px native screen height
+      // Track Y positions. Music bed (track 1) is the visual anchor;
+      // Host (track 0) sits above, Guest (track 2) below, SFX (track 3)
+      // below that. Each header is at the top ~13% of its track.
+      const TRACK_GAP_PCT = 2 / 720;
       const MUSIC_BED_Y = 41.94;
       const MUSIC_BED_H = 15.83;
+      const SFX_H = (84 / 720) * 100; // ~11.67%
       const HOST_Y = MUSIC_BED_Y - MUSIC_BED_H - TRACK_GAP_PCT * 100;
-      const hostMidY = HOST_Y + MUSIC_BED_H / 2;
+      const GUEST_Y = MUSIC_BED_Y + MUSIC_BED_H + TRACK_GAP_PCT * 100;
+      const SFX_Y = GUEST_Y + MUSIC_BED_H + TRACK_GAP_PCT * 100;
+      const hostHeaderY = HOST_Y + MUSIC_BED_H * 0.13;
+      const guestHeaderY = GUEST_Y + MUSIC_BED_H * 0.13;
+      const sfxHeaderY = SFX_Y + SFX_H * 0.13;
 
-      const h2CenterFrom = timeToX(H2_START_FROM + H2_DURATION / 2);
-      const h2CenterTo = timeToX(H2_START_TO + H2_DURATION / 2);
+      const DRAG_ARC = 1.2;
+
+      // Clip header grab points (45% into the clip — same convention
+      // as the other animations).
+      const h2GrabFromX = timeToX(H2_START_FROM + H2_DURATION * 0.45);
+      const h2GrabToX = timeToX(H2_START_TO + H2_DURATION * 0.45);
+      const g2GrabX = timeToX(G2_START_FROM + G2_DURATION * 0.45);
+      const sfx1GrabX = timeToX(SFX1_START_FROM + SFX1_DURATION * 0.45);
 
       const parkX = 92;
-      const parkY = 6; // approach from top so it sweeps across the toolbar
+      const parkY = 6;
 
-      const CYCLE = 6500;
-      const P_FADE_IN = 0.04;
-      const P_TO_CLIP = 0.18;
-      const P_GRAB = 0.24;
-      const P_DRAG = 0.62;
-      const P_DROP = 0.68;
-      const P_LINGER = 0.92;
+      const CYCLE = 7500;
+      // Phase end times — selection then drag.
+      const P_FADE_IN = 0.02;
+      const P_TO_H2 = 0.1;
+      const P_CLICK_H2 = 0.13; // h2 becomes selected at this point
+      const P_TO_G2 = 0.22;
+      const P_CLICK_G2 = 0.25; // g2 added to selection
+      const P_TO_SFX1 = 0.34;
+      const P_CLICK_SFX1 = 0.37; // sfx1 added
+      const P_TO_GRAB = 0.46; // back over to h2 to grab the trio
+      const P_GRAB = 0.49;
+      const P_DRAG = 0.74;
+      const P_DROP = 0.77;
+      const P_LINGER = 0.94;
       const P_FADE_OUT = 0.98;
 
       const t0 = performance.now();
@@ -939,44 +1044,90 @@ function DesktopTour() {
         let y = parkY;
         let opacity = 0;
         let clicking = false;
-        // Animate both h2 and g2 in sync by the same delta.
-        let progress = 0; // 0 = original position, 1 = final
+        let cursor = "arrow";
+        let progress = 0;
+
         if (t < P_FADE_IN) {
           opacity = t / P_FADE_IN;
-          x = h2CenterFrom;
-        } else if (t < P_TO_CLIP) {
-          const p = easeInOut((t - P_FADE_IN) / (P_TO_CLIP - P_FADE_IN));
-          x = h2CenterFrom;
-          y = lerp(parkY, hostMidY, p);
+          x = h2GrabFromX;
+        } else if (t < P_TO_H2) {
+          const p = easeOutCubic((t - P_FADE_IN) / (P_TO_H2 - P_FADE_IN));
+          x = h2GrabFromX;
+          y = lerp(parkY, hostHeaderY, p);
           opacity = 1;
-        } else if (t < P_GRAB) {
-          x = h2CenterFrom;
-          y = hostMidY;
+          if (p > 0.6) cursor = "open";
+        } else if (t < P_CLICK_H2) {
+          x = h2GrabFromX;
+          y = hostHeaderY;
           opacity = 1;
           clicking = true;
+          cursor = "closed";
+        } else if (t < P_TO_G2) {
+          const p = easeOutCubic((t - P_CLICK_H2) / (P_TO_G2 - P_CLICK_H2));
+          x = lerp(h2GrabFromX, g2GrabX, p);
+          y = lerp(hostHeaderY, guestHeaderY, p);
+          opacity = 1;
+          cursor = p > 0.6 ? "open" : "arrow";
+        } else if (t < P_CLICK_G2) {
+          x = g2GrabX;
+          y = guestHeaderY;
+          opacity = 1;
+          clicking = true;
+          cursor = "closed";
+        } else if (t < P_TO_SFX1) {
+          const p = easeOutCubic((t - P_CLICK_G2) / (P_TO_SFX1 - P_CLICK_G2));
+          x = lerp(g2GrabX, sfx1GrabX, p);
+          y = lerp(guestHeaderY, sfxHeaderY, p);
+          opacity = 1;
+          cursor = p > 0.6 ? "open" : "arrow";
+        } else if (t < P_CLICK_SFX1) {
+          x = sfx1GrabX;
+          y = sfxHeaderY;
+          opacity = 1;
+          clicking = true;
+          cursor = "closed";
+        } else if (t < P_TO_GRAB) {
+          // Travel back up to h2 to grab and drag.
+          const p = easeOutCubic(
+            (t - P_CLICK_SFX1) / (P_TO_GRAB - P_CLICK_SFX1),
+          );
+          x = lerp(sfx1GrabX, h2GrabFromX, p);
+          y = lerp(sfxHeaderY, hostHeaderY, p);
+          opacity = 1;
+          cursor = p > 0.6 ? "open" : "arrow";
+        } else if (t < P_GRAB) {
+          x = h2GrabFromX;
+          y = hostHeaderY;
+          opacity = 1;
+          clicking = true;
+          cursor = "closed";
         } else if (t < P_DRAG) {
           const p = easeInOut((t - P_GRAB) / (P_DRAG - P_GRAB));
-          x = lerp(h2CenterFrom, h2CenterTo, p);
-          y = hostMidY;
+          x = lerp(h2GrabFromX, h2GrabToX, p);
+          y = hostHeaderY - DRAG_ARC * Math.sin(p * Math.PI);
           opacity = 1;
           clicking = true;
+          cursor = "closed";
           progress = p;
         } else if (t < P_DROP) {
-          x = h2CenterTo;
-          y = hostMidY;
+          x = h2GrabToX;
+          y = hostHeaderY;
           opacity = 1;
           clicking = t < P_DROP - 0.01;
+          cursor = clicking ? "closed" : "open";
           progress = 1;
         } else if (t < P_LINGER) {
-          x = h2CenterTo;
-          y = hostMidY;
+          x = h2GrabToX;
+          y = hostHeaderY;
           opacity = 1;
+          cursor = "open";
           progress = 1;
         } else if (t < P_FADE_OUT) {
           const p = (t - P_LINGER) / (P_FADE_OUT - P_LINGER);
-          x = h2CenterTo;
-          y = hostMidY;
+          x = h2GrabToX;
+          y = hostHeaderY;
           opacity = 1 - p;
+          cursor = "open";
           progress = 1;
         } else {
           opacity = 0;
@@ -987,24 +1138,25 @@ function DesktopTour() {
           x,
           y,
           opacity,
-          cursor: "arrow",
+          cursor,
           clicking,
           buttonActive: false,
           lineX: null,
           split: false,
         });
 
+        // Selection accumulates as each click lands.
+        const h2Selected = t >= P_CLICK_H2;
+        const g2Selected = t >= P_CLICK_G2;
+        const sfx1Selected = t >= P_CLICK_SFX1;
+
         const h2Start = lerp(H2_START_FROM, H2_START_TO, progress);
         const g2Start = lerp(G2_START_FROM, G2_START_TO, progress);
+        const sfx1Start = lerp(SFX1_START_FROM, SFX1_START_TO, progress);
         setClipOverrides({
-          h2: {
-            selected: true,
-            start: h2Start,
-          },
-          g2: {
-            selected: true,
-            start: g2Start,
-          },
+          h2: { selected: h2Selected, start: h2Start },
+          g2: { selected: g2Selected, start: g2Start },
+          sfx1: { selected: sfx1Selected, start: sfx1Start },
           // Preserve the previous stop's split + drop end state.
           s1: {
             duration: S1_A_DUR,
@@ -1055,23 +1207,310 @@ function DesktopTour() {
       };
     }
 
+    if (stop.id === "clip-groups" && stop.overlay?.kind === "clip-groups") {
+      // Open the clip's context menu, pick "Group clips", then drag
+      // the new group as one unit. h2 + g2 come in already selected
+      // from the multi-select stop.
+      const { h2Clip, g2Clip, menuButton, menuPos, groupItemX, groupItemY } =
+        stop.overlay;
+      const easeInOut = (u) =>
+        u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const easeOutCubic = (u) => 1 - Math.pow(1 - u, 3);
+      const lerp = (a, b, t) => a + (b - a) * t;
+
+      const PCT_PER_SEC = 22.5 / 7.2;
+      const PCT_AT_ZERO = 23.12 - 0.1 * PCT_PER_SEC;
+      const timeToX = (t) => PCT_AT_ZERO + t * PCT_PER_SEC;
+
+      // h2 + g2 stay where they are — we only group them via the menu,
+      // no drag. Constants used by the cursor's grouping interaction.
+      const H2_START = 6.5;
+      const H2_DURATION = 2.6;
+      const G2_START = 9.3;
+
+      // Second beat — h3 is already in a group with g3. Grab h3, g3
+      // follows (+0.4s on each — smaller delta because h3 has only
+      // ~0.9s of slack to h4).
+      const H3_START_FROM = 11.4;
+      const H3_DURATION = 3.2;
+      const G3_START_FROM = 14.8;
+      const G3_DURATION = 4.6;
+      const MOVE_DELTA_2 = 0.4;
+      const H3_START_TO = H3_START_FROM + MOVE_DELTA_2;
+      const G3_START_TO = G3_START_FROM + MOVE_DELTA_2;
+
+      // Cursor targets
+      const buttonCx = menuButton.x + menuButton.w / 2;
+      const buttonCy = menuButton.y + menuButton.h / 2;
+      // h3 lives on the Host track at the same y as h2 — derived from
+      // the overlay's h2Clip rect (its top + 13% for the header strip).
+      const headerY = h2Clip.y + h2Clip.h * 0.13;
+      const h3GrabFromX = timeToX(H3_START_FROM + H3_DURATION * 0.45);
+      const h3GrabToX = timeToX(H3_START_TO + H3_DURATION * 0.45);
+      const DRAG_ARC = 1.2;
+
+      const parkX = 92;
+      const parkY = 6;
+
+      // Trimmed cycle — removed the explicit-group drag, so the whole
+      // sequence fits in ~6s.
+      const CYCLE = 6000;
+      // Phase end times (fraction of cycle).
+      // First beat — open h2's menu, pick "Group clips" (no drag).
+      const P_FADE_IN = 0.02;
+      const P_TO_BUTTON = 0.1;
+      const P_CLICK_BUTTON = 0.13;
+      const P_MENU_OPEN = 0.16;
+      const P_TO_GROUP = 0.24;
+      const P_HOVER_GROUP = 0.27;
+      const P_CLICK_GROUP = 0.3;
+      const P_LINGER_GROUP = 0.36;
+      // Second beat — grab h3 (already grouped with g3).
+      const P_TO_H3 = 0.46;
+      const P_GRAB_H3 = 0.5;
+      const P_DRAG_H3 = 0.78;
+      const P_DROP_H3 = 0.81;
+      const P_LINGER_H3 = 0.95;
+      const P_FADE_OUT = 0.99;
+
+      const t0 = performance.now();
+      let raf;
+      const tick = (now) => {
+        const t = ((now - t0) % CYCLE) / CYCLE;
+        let x = parkX;
+        let y = parkY;
+        let opacity = 0;
+        let clicking = false;
+        let cursor = "arrow";
+        let menuOpen = false;
+        let hoverGroup = false;
+        // 0 = ungrouped, 1 = grouped (animates in once the menu action lands).
+        let grouped = 0;
+        // Second beat: 0 → 1 progress on h3+g3.
+        let moveP2 = 0;
+
+        if (t < P_FADE_IN) {
+          opacity = t / P_FADE_IN;
+          x = buttonCx;
+          y = buttonCy - 18;
+        } else if (t < P_TO_BUTTON) {
+          const p = easeOutCubic((t - P_FADE_IN) / (P_TO_BUTTON - P_FADE_IN));
+          x = buttonCx;
+          y = lerp(buttonCy - 18, buttonCy, p);
+          opacity = 1;
+        } else if (t < P_CLICK_BUTTON) {
+          x = buttonCx;
+          y = buttonCy;
+          opacity = 1;
+          clicking = true;
+        } else if (t < P_MENU_OPEN) {
+          x = buttonCx;
+          y = buttonCy;
+          opacity = 1;
+          menuOpen = true;
+        } else if (t < P_TO_GROUP) {
+          const p = easeOutCubic(
+            (t - P_MENU_OPEN) / (P_TO_GROUP - P_MENU_OPEN),
+          );
+          x = lerp(buttonCx, groupItemX, p);
+          y = lerp(buttonCy, groupItemY, p);
+          opacity = 1;
+          menuOpen = true;
+          hoverGroup = p > 0.6;
+        } else if (t < P_HOVER_GROUP) {
+          x = groupItemX;
+          y = groupItemY;
+          opacity = 1;
+          menuOpen = true;
+          hoverGroup = true;
+        } else if (t < P_CLICK_GROUP) {
+          x = groupItemX;
+          y = groupItemY;
+          opacity = 1;
+          menuOpen = true;
+          hoverGroup = true;
+          clicking = true;
+        } else if (t < P_LINGER_GROUP) {
+          // Menu closes, h2+g2 are now grouped — brief pause to let
+          // the grouping register before we move on to h3.
+          x = groupItemX;
+          y = groupItemY;
+          opacity = 1;
+          grouped = 1;
+        } else if (t < P_TO_H3) {
+          // Travel from the menu position straight over to h3 — no
+          // explicit drag of the first group, just on to the next.
+          const p = easeOutCubic(
+            (t - P_LINGER_GROUP) / (P_TO_H3 - P_LINGER_GROUP),
+          );
+          x = lerp(groupItemX, h3GrabFromX, p);
+          y = lerp(groupItemY, headerY, p);
+          opacity = 1;
+          grouped = 1;
+          cursor = p > 0.6 ? "open" : "arrow";
+        } else if (t < P_GRAB_H3) {
+          x = h3GrabFromX;
+          y = headerY;
+          opacity = 1;
+          cursor = "closed";
+          clicking = true;
+          grouped = 1;
+        } else if (t < P_DRAG_H3) {
+          const p = easeInOut((t - P_GRAB_H3) / (P_DRAG_H3 - P_GRAB_H3));
+          x = lerp(h3GrabFromX, h3GrabToX, p);
+          y = headerY - DRAG_ARC * Math.sin(p * Math.PI);
+          opacity = 1;
+          cursor = "closed";
+          clicking = true;
+          grouped = 1;
+          moveP2 = p;
+        } else if (t < P_DROP_H3) {
+          x = h3GrabToX;
+          y = headerY;
+          opacity = 1;
+          clicking = t < P_DROP_H3 - 0.012;
+          cursor = clicking ? "closed" : "open";
+          grouped = 1;
+          moveP2 = 1;
+        } else if (t < P_LINGER_H3) {
+          x = h3GrabToX;
+          y = headerY;
+          opacity = 1;
+          cursor = "open";
+          grouped = 1;
+          moveP2 = 1;
+        } else if (t < P_FADE_OUT) {
+          const p = (t - P_LINGER_H3) / (P_FADE_OUT - P_LINGER_H3);
+          x = h3GrabToX;
+          y = headerY;
+          opacity = 1 - p;
+          cursor = "open";
+          grouped = 1;
+          moveP2 = 1;
+        } else {
+          opacity = 0;
+          grouped = 1;
+          moveP2 = 1;
+        }
+
+        // h2 + g2 stay put — no explicit drag any more.
+        const h2Start = H2_START;
+        const g2Start = G2_START;
+        const h3Start = lerp(H3_START_FROM, H3_START_TO, moveP2);
+        const g3Start = lerp(G3_START_FROM, G3_START_TO, moveP2);
+
+        // Live clip coords for the Group bracket — kept in sync with the
+        // animated start positions so the bracket follows the drag.
+        const h2ClipLive = {
+          x: timeToX(h2Start),
+          y: h2Clip.y,
+          w: h2Clip.w,
+          h: h2Clip.h,
+        };
+        const g2ClipLive = {
+          x: timeToX(g2Start),
+          y: g2Clip.y,
+          w: g2Clip.w,
+          h: g2Clip.h,
+        };
+
+        setSplitFrame({
+          x,
+          y,
+          opacity,
+          cursor,
+          clicking,
+          buttonActive: false,
+          lineX: null,
+          split: false,
+          menuOpen,
+          hoverGroup,
+          grouped,
+          groupedClips: [h2ClipLive, g2ClipLive],
+        });
+
+        // Selection model: clicking the second group's clip (the moment
+        // we land on h3 to start beat 2) deselects the first group —
+        // matches the app's "click-elsewhere-clears-selection" rule.
+        const secondGroupEngaged = t >= P_TO_H3;
+        setClipOverrides({
+          h2: { selected: !secondGroupEngaged, start: h2Start },
+          g2: { selected: !secondGroupEngaged, start: g2Start },
+          h3: { selected: secondGroupEngaged, start: h3Start },
+          g3: { selected: secondGroupEngaged, start: g3Start },
+          // sfx1 also gets deselected when the second group engages.
+          sfx1: { selected: !secondGroupEngaged, start: 6.1 },
+          // Preserve previous stops' state so scroll-back is consistent.
+          s1: {
+            duration: S1_A_DUR,
+            waveform: S1_PART_A,
+            selected: false,
+            focused: false,
+          },
+          s2: {
+            duration: DROP_START - S2_START,
+          },
+        });
+        setExtraClips({
+          1: [
+            {
+              id: "s1-b",
+              name: "Intro theme",
+              start: S1_B_START,
+              duration: S1_B_DUR,
+              waveform: S1_PART_B,
+              selected: false,
+              focused: false,
+            },
+            {
+              id: "s1-c",
+              name: "Intro theme",
+              start: DROP_START,
+              duration: S1_C_DUR,
+              waveform: S1_PART_C,
+              selected: false,
+              focused: false,
+            },
+            {
+              id: "s2-b",
+              name: "Outro music",
+              start: DROP_END,
+              duration: S2_START + S2_DURATION - DROP_END,
+            },
+          ],
+        });
+
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => {
+        cancelAnimationFrame(raf);
+        setSplitFrame(null);
+      };
+    }
+
     if (stop.id === "clip-envelopes" && stop.overlay?.kind === "envelopes") {
       const { button, clip } = stop.overlay;
       const easeInOut = (u) =>
         u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      const easeOutCubic = (u) => 1 - Math.pow(1 - u, 3);
       const lerp = (a, b, t) => a + (b - a) * t;
 
-      const S1_DURATION = 7.2;
-      const CYCLE = 11000;
+      // s1 here is the FIRST split (S1_A_DUR ≈ 2.52s), not the original
+      // 7.2s clip. Envelope point times are fractions of THIS shorter
+      // clip, so they land on the visible audio.
+      const ENV_S1_DURATION = S1_A_DUR;
+      // Trimmed from 11s → 7.5s — same beats, faster pace.
+      const CYCLE = 7500;
       const parkX = 92;
       const parkY = 86;
       const buttonCx = button.x + button.w / 2;
       const buttonCy = button.y + button.h / 2;
       const lineY = clip.y + clip.h * 0.42;
       const dragEndY = clip.y + clip.h * 0.85;
-      const pointATime = S1_DURATION * 0.2;
+      const pointATime = ENV_S1_DURATION * 0.2;
       const pointAX = clip.x + clip.w * 0.2;
-      const pointBTime = S1_DURATION * 0.75;
+      const pointBTime = ENV_S1_DURATION * 0.75;
       const pointBX = clip.x + clip.w * 0.75;
 
       const pA = { time: pointATime, db: 0 };
@@ -1097,8 +1536,8 @@ function DesktopTour() {
           y = parkY + 8 * (1 - ease);
           opacity = ease;
         } else if (t < 0.17) {
-          // travel to envelope button
-          const p = easeInOut((t - 0.08) / 0.09);
+          // travel to envelope button — decelerating arrival
+          const p = easeOutCubic((t - 0.08) / 0.09);
           x = lerp(parkX, buttonCx, p);
           y = lerp(parkY, buttonCy, p);
           opacity = 1;
@@ -1112,7 +1551,7 @@ function DesktopTour() {
           envOn = t > 0.19;
         } else if (t < 0.28) {
           // travel to point A
-          const p = easeInOut((t - 0.21) / 0.07);
+          const p = easeOutCubic((t - 0.21) / 0.07);
           x = lerp(buttonCx, pointAX, p);
           y = lerp(buttonCy, lineY, p);
           opacity = 1;
@@ -1129,7 +1568,7 @@ function DesktopTour() {
           if (t > 0.3) points = [pA];
         } else if (t < 0.41) {
           // travel to point B position
-          const p = easeInOut((t - 0.32) / 0.09);
+          const p = easeOutCubic((t - 0.32) / 0.09);
           x = lerp(pointAX, pointBX, p);
           y = lineY;
           opacity = 1;
@@ -1165,7 +1604,7 @@ function DesktopTour() {
           points = [pA, pBLow];
         } else if (t < 0.83) {
           // travel back to envelope button
-          const p = easeInOut((t - 0.72) / 0.11);
+          const p = easeOutCubic((t - 0.72) / 0.11);
           x = lerp(pointBX, buttonCx, p);
           y = lerp(dragEndY, buttonCy, p);
           opacity = 1;
@@ -1195,21 +1634,63 @@ function DesktopTour() {
         setEnvelopeFrame({ x, y, opacity, clicking, buttonActive });
         setEnvelopeMode(envOn);
         const focusClip = envOn && t > 0.21 && t < 0.87;
-        if (envOn && points.length > 0) {
-          setClipOverrides({
-            s1: { envelopePoints: points, focused: true },
-          });
-        } else if (focusClip) {
-          setClipOverrides({ s1: { focused: true } });
-        } else {
-          setClipOverrides(null);
-        }
+
+        // Preserve the cumulative state from every prior stop. The
+        // animation was overwriting this every frame which collapsed
+        // the splits / drops / multi-select / clip-groups results.
+        const s1Override = {
+          duration: S1_A_DUR,
+          waveform: S1_PART_A,
+          selected: false,
+          focused: focusClip,
+        };
+        if (envOn && points.length > 0) s1Override.envelopePoints = points;
+        setClipOverrides({
+          s1: s1Override,
+          s2: { duration: DROP_START - S2_START },
+          h2: { selected: false, start: 6.5 },
+          g2: { selected: false, start: 9.3 },
+          h3: { selected: true, start: 11.8 },
+          g3: { selected: true, start: 15.2 },
+          sfx1: { selected: false, start: 6.1 },
+        });
+        setExtraClips({
+          1: [
+            {
+              id: "s1-b",
+              name: "Intro theme",
+              start: S1_B_START,
+              duration: S1_B_DUR,
+              waveform: S1_PART_B,
+              selected: false,
+              focused: false,
+            },
+            {
+              id: "s1-c",
+              name: "Intro theme",
+              start: DROP_START,
+              duration: S1_C_DUR,
+              waveform: S1_PART_C,
+              selected: false,
+              focused: false,
+            },
+            {
+              id: "s2-b",
+              name: "Outro music",
+              start: DROP_END,
+              duration: S2_START + S2_DURATION - DROP_END,
+            },
+          ],
+        });
         raf = requestAnimationFrame(tick);
       };
       raf = requestAnimationFrame(tick);
       return () => {
         cancelAnimationFrame(raf);
         setEnvelopeFrame(null);
+        // Reset on leave so a stale "envelope on" frame doesn't bleed
+        // into the next stop while React processes the transition.
+        setEnvelopeMode(undefined);
       };
     }
 

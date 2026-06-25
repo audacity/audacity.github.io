@@ -290,7 +290,12 @@ function WorkspaceCanvas({
             "color:#fff!important;}" +
             '.workspace-canvas[data-split-tool-active="true"] ' +
             '.tool-button[aria-label="Cut / Split"]:hover{' +
-            "background-color:#5ba3ff!important;}",
+            "background-color:#5ba3ff!important;}" +
+            // Lift the playhead above selected clips. The package ships
+            // `.playhead-cursor` at z-index 1000, and the override
+            // earlier pushes selected clips to 9999 — without this rule
+            // the cursor disappears behind any selected clip it crosses.
+            ".workspace-canvas .playhead-cursor{z-index:10001!important;}",
         }}
       />
       <div
