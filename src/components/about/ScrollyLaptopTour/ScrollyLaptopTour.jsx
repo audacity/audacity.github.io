@@ -11,7 +11,12 @@ import { STOPS } from "./stops.js";
 import { generateDecayingSineWave } from "@dilsonspickles/components";
 
 function useDesktopAnimation() {
-  const [enabled, setEnabled] = useState(null);
+  // Default to desktop so SSR can paint the intro state of the laptop
+  // tour (closed lid, title overlay) rather than a blank section that
+  // shows nothing until JS hydrates. On the client we run the
+  // matchMedia checks after mount and switch to MobileFallback if the
+  // viewport is narrow or the user prefers reduced motion.
+  const [enabled, setEnabled] = useState(true);
   useEffect(() => {
     const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mqWidth = window.matchMedia("(min-width: 1024px)");
@@ -29,9 +34,6 @@ function useDesktopAnimation() {
 
 function ScrollyLaptopTour() {
   const enabled = useDesktopAnimation();
-  if (enabled === null) {
-    return <section style={{ minHeight: "100vh" }} aria-hidden />;
-  }
   if (!enabled) return <MobileFallback />;
   return <DesktopTour />;
 }
