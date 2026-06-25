@@ -14,8 +14,15 @@ const RESERVED_VERTICAL = 240;
 // panel below, so the mockup can fill the full panel content area.
 const PANEL_MAX_W = 2200;
 
+// Show roughly the top half of the workspace — toolbar + a couple of
+// track lanes. The mockup window is shorter than the workspace's
+// intrinsic 16:9 height; WorkspaceCanvas scales to fit the container's
+// width and the container's overflow: hidden clips everything below
+// the cut.
+const MOCKUP_TRIM = 0.5;
+
 function useMockupSize() {
-  const [size, setSize] = useState({ width: 1248, height: 702 });
+  const [size, setSize] = useState({ width: 1248, height: 234 });
   useEffect(() => {
     if (typeof window === "undefined") return;
     const update = () => {
@@ -35,7 +42,14 @@ function useMockupSize() {
         width = maxW;
         height = maxW / ratio;
       }
-      setSize({ width: Math.round(width), height: Math.round(height) });
+      // Trim height to show just the top slice; WorkspaceCanvas inside
+      // still renders at its native size (its useScaleToFit watches
+      // width only), so the toolbar and the top of the canvas read
+      // crisp while everything below clips off via the container.
+      setSize({
+        width: Math.round(width),
+        height: Math.round(height * MOCKUP_TRIM),
+      });
     };
     update();
     window.addEventListener("resize", update);

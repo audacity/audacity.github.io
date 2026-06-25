@@ -254,7 +254,24 @@ function WorkspaceCanvas({
             "{border-color:rgba(255,255,255,0.18);}" +
             ".workspace-canvas .dropdown__menu{" +
             "background-color:#22262F;" +
-            "border-color:rgba(255,255,255,0.08);}",
+            "border-color:rgba(255,255,255,0.08);}" +
+            // Narrow the master meter inside the TransportToolbar so
+            // the toolbar fits on a single row even at trimmed mockup
+            // widths. The component's `defaultWidth` is 360, and its
+            // root CSS is `width: 100%`, so we constrain via max-width
+            // here rather than passing a prop.
+            ".workspace-canvas .master-meter{" +
+            "max-width:200px;flex:0 0 200px;}" +
+            // ApplicationHeader (OS chrome + file-menu rows) ships
+            // with `var(--header-bg)` = theme.background.surface.default,
+            // which reads as a lighter band above the rest of the
+            // chrome. Use the dark-theme toolbar hex directly here —
+            // `var(--toolbar-bg)` would fall back to the global :root
+            // default (light) because the variable isn't set on a
+            // shared ancestor of both `.application-header` and the
+            // toolbars below it.
+            ".workspace-canvas .application-header{" +
+            "background-color:#2E353C;}",
         }}
       />
       <div
