@@ -1,4 +1,5 @@
 import React from "react";
+import { useEntrance } from "../../hooks/useEntrance.js";
 
 const ACCENT = "#F87171";
 
@@ -33,14 +34,51 @@ const ITEMS = [
   },
 ];
 
+function UnderTheHoodItem({ item, i }) {
+  const entrance = useEntrance({ delayMs: 150 + i * 90 });
+  return (
+    <div
+      ref={entrance.ref}
+      className={
+        "py-10 lg:py-12 px-0 sm:px-6 lg:px-8 border-white/10 " +
+        "border-b sm:border-b-0 " +
+        (i > 0 ? "sm:border-l " : "") +
+        (i >= 2 ? "sm:border-t lg:border-t-0 " : "") +
+        (i % 2 === 0 ? "sm:border-l-0 lg:border-l " : "") +
+        (i === 0 ? "lg:border-l-0 " : "")
+      }
+      style={entrance.style}
+    >
+      <div
+        className="font-mono text-xs tracking-[0.3em] uppercase"
+        style={{ color: ACCENT }}
+        aria-hidden
+      >
+        {item.tag}
+      </div>
+      <div className="mt-6 font-harmony text-text-contrast text-3xl md:text-4xl lg:text-5xl leading-[1.05]">
+        {item.headline}
+      </div>
+      <p className="mt-6 text-text-contrast/65 text-sm md:text-base leading-relaxed">
+        {item.description}
+      </p>
+    </div>
+  );
+}
+
 function UnderTheHood() {
+  const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
       <div className="max-w-[2200px] mx-auto">
         {/* Top row — headline + lede on the left, deep-dive link on the
             right. Mirrors the ClickUp-style hero block above the stat
             columns. */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-12">
+        <div
+          ref={headerEntrance.ref}
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-12"
+          style={headerEntrance.style}
+        >
           <div className="max-w-3xl">
             <div
               className="font-mono text-xs tracking-[0.3em] uppercase"
@@ -73,38 +111,7 @@ function UnderTheHood() {
         <div className="mt-14 lg:mt-20 border-t border-white/10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {ITEMS.map((item, i) => (
-              <div
-                key={item.id}
-                className={
-                  "py-10 lg:py-12 px-0 sm:px-6 lg:px-8 border-white/10 " +
-                  // Bottom border on stacked rows; vertical dividers on
-                  // multi-column rows so the columns read as a single
-                  // ledger strip.
-                  "border-b sm:border-b-0 " +
-                  (i > 0 ? "sm:border-l " : "") +
-                  // On the 2-col breakpoint, the third item starts a new
-                  // row — add a top border to separate the rows.
-                  (i >= 2 ? "sm:border-t lg:border-t-0 " : "") +
-                  // Reset the left border on the start-of-row items in
-                  // the 2-col layout.
-                  (i % 2 === 0 ? "sm:border-l-0 lg:border-l " : "") +
-                  (i === 0 ? "lg:border-l-0 " : "")
-                }
-              >
-                <div
-                  className="font-mono text-xs tracking-[0.3em] uppercase"
-                  style={{ color: ACCENT }}
-                  aria-hidden
-                >
-                  {item.tag}
-                </div>
-                <div className="mt-6 font-harmony text-text-contrast text-3xl md:text-4xl lg:text-5xl leading-[1.05]">
-                  {item.headline}
-                </div>
-                <p className="mt-6 text-text-contrast/65 text-sm md:text-base leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
+              <UnderTheHoodItem key={item.id} item={item} i={i} />
             ))}
           </div>
         </div>

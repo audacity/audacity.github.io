@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "../../hooks/useInView.js";
+import { useEntrance } from "../../hooks/useEntrance.js";
 import { useHoverCapable } from "../../hooks/useHoverCapable.js";
 import {
   TrackControlPanel,
@@ -1298,6 +1299,103 @@ export const CARDS = [
 // enough to watch the demo loop through once or twice on most cards.
 const CYCLE_MS = 6500;
 
+// Per-card wrapper so each carousel card can have its own scroll-in
+// entrance with a tiny per-card stagger. The hook has to be called
+// per card (you can't call hooks in a loop) so the .map ends up
+// looking light if we extract the rest of the logic in here too.
+function CoreEditingCarouselCard({
+  card,
+  idx,
+  activeIdx,
+  setActiveIdx,
+  paused,
+  setPaused,
+  canHover,
+}) {
+  const entrance = useEntrance({ delayMs: idx * 80 });
+  const isActive = idx === activeIdx;
+  const handlePointerEnter = (e) => {
+    if (canHover && e.pointerType !== "touch") {
+      setActiveIdx(idx);
+      setPaused(true);
+    }
+  };
+  const handlePointerLeave = (e) => {
+    if (canHover && e.pointerType !== "touch") {
+      setPaused(false);
+    }
+  };
+  const handleClick = () => {
+    if (canHover) return;
+    if (paused && isActive) {
+      setPaused(false);
+    } else {
+      setActiveIdx(idx);
+      setPaused(true);
+    }
+  };
+  return (
+    <li
+      ref={entrance.ref}
+      className="snap-start shrink-0 w-[min(82vw,420px)] flex flex-col"
+      style={entrance.style}
+    >
+      <div
+        className={
+          "flex-1 min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden cursor-pointer transition-[border-color,box-shadow] duration-300 " +
+          (isActive
+            ? "border-white/30 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+            : "border-white/10")
+        }
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onClick={handleClick}
+        aria-hidden
+      >
+        {/* Pointer-events-none wrapper around the demo so the DS
+            components inside (sliders, meters, clip handles) don't
+            swallow horizontal swipes — the browser's native carousel
+            scroll needs the gesture to bubble through. */}
+        <div className="absolute inset-0 pointer-events-none">
+          {card.Demo ? (
+            <card.Demo isActive={isActive} />
+          ) : (
+            <div className="absolute inset-0 flex items-end p-7">
+              <div className="font-mono text-xs tracking-[0.2em] uppercase text-text-contrast/50">
+                {card.eyebrow}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Progress bar — only mounted on the active card. key={activeIdx}
+            restarts the CSS animation on each advance; play-state pauses
+            it during hover/tap holds so the visual matches the timer. */}
+        <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/[0.06]">
+          {isActive && (
+            <div
+              key={`progress-${activeIdx}`}
+              className="h-full bg-white/55 origin-left"
+              style={{
+                animation: `coreEditingProgress ${CYCLE_MS}ms linear forwards`,
+                animationPlayState: paused ? "paused" : "running",
+              }}
+            />
+          )}
+        </div>
+      </div>
+      <div className="mt-5 px-1 shrink-0 card-text-block">
+        <h3 className="font-harmony text-text-contrast text-xl md:text-2xl leading-[1.1]">
+          {card.title}
+        </h3>
+        <p className="mt-2 text-text-contrast/65 text-sm md:text-base leading-relaxed">
+          {card.description}
+        </p>
+      </div>
+    </li>
+  );
+}
+
 function CoreEditing() {
   // Only one demo animates at a time. Autoplay walks the row card-by-card;
   // hover (or tap on touch) pauses the rotation on whichever card is
@@ -1307,6 +1405,7 @@ function CoreEditing() {
   const [paused, setPaused] = useState(false);
   const sectionRef = useRef(null);
   const sectionInView = useInView(sectionRef);
+  const headerEntrance = useEntrance();
 
   // Autoplay: when the section is on-screen and nothing is engaged,
   // schedule the next advance. Re-runs on every active change so the new
@@ -1325,7 +1424,11 @@ function CoreEditing() {
       className="bg-background-dark core-editing-section"
     >
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 shrink-0">
-        <header className="max-w-3xl">
+        <header
+          ref={headerEntrance.ref}
+          className="max-w-3xl"
+          style={headerEntrance.style}
+        >
           <div
             className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
             aria-hidden
@@ -1349,84 +1452,18 @@ function CoreEditing() {
             scrollPaddingLeft: "calc((100vw - min(100vw, 80rem)) / 2 + 1.5rem)",
           }}
         >
-          {CARDS.map((card, idx) => {
-            const isActive = idx === activeIdx;
-            const handlePointerEnter = (e) => {
-              if (canHover && e.pointerType !== "touch") {
-                setActiveIdx(idx);
-                setPaused(true);
-              }
-            };
-            const handlePointerLeave = (e) => {
-              if (canHover && e.pointerType !== "touch") {
-                setPaused(false);
-              }
-            };
-            const handleClick = () => {
-              if (canHover) return;
-              if (paused && isActive) {
-                // Already focused — second tap releases the row.
-                setPaused(false);
-              } else {
-                setActiveIdx(idx);
-                setPaused(true);
-              }
-            };
-            return (
-              <li
-                key={card.id}
-                className="snap-start shrink-0 w-[min(82vw,420px)] flex flex-col"
-              >
-                <div
-                  className={
-                    "flex-1 min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden cursor-pointer transition-[border-color,box-shadow] duration-300 " +
-                    (isActive
-                      ? "border-white/30 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
-                      : "border-white/10")
-                  }
-                  onPointerEnter={handlePointerEnter}
-                  onPointerLeave={handlePointerLeave}
-                  onClick={handleClick}
-                  aria-hidden
-                >
-                  {card.Demo ? (
-                    <card.Demo isActive={isActive} />
-                  ) : (
-                    <div className="absolute inset-0 flex items-end p-7">
-                      <div className="font-mono text-xs tracking-[0.2em] uppercase text-text-contrast/50">
-                        {card.eyebrow}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Progress bar — only mounted on the active card.
-                      key={activeIdx} restarts the CSS animation on each
-                      advance; animation-play-state pauses it during
-                      hover/tap holds so the visual matches the timer. */}
-                  <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/[0.06]">
-                    {isActive && (
-                      <div
-                        key={`progress-${activeIdx}`}
-                        className="h-full bg-white/55 origin-left"
-                        style={{
-                          animation: `coreEditingProgress ${CYCLE_MS}ms linear forwards`,
-                          animationPlayState: paused ? "paused" : "running",
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="mt-5 px-1 shrink-0 card-text-block">
-                  <h3 className="font-harmony text-text-contrast text-xl md:text-2xl leading-[1.1]">
-                    {card.title}
-                  </h3>
-                  <p className="mt-2 text-text-contrast/65 text-sm md:text-base leading-relaxed">
-                    {card.description}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
+          {CARDS.map((card, idx) => (
+            <CoreEditingCarouselCard
+              key={card.id}
+              card={card}
+              idx={idx}
+              activeIdx={activeIdx}
+              setActiveIdx={setActiveIdx}
+              paused={paused}
+              setPaused={setPaused}
+              canHover={canHover}
+            />
+          ))}
           <li
             aria-hidden
             className="shrink-0 w-6 lg:w-10"

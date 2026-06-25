@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "../../hooks/useInView.js";
+import { useEntrance } from "../../hooks/useEntrance.js";
 import {
   Clip,
   TransportToolbar,
@@ -1228,11 +1229,46 @@ const CARDS = [
   },
 ];
 
+// Per-card wrapper so each grid cell can have its own scroll-in
+// entrance (slight cascade across the grid via `delayMs`). The hook
+// has to be called per card, hence the sub-component instead of
+// inlining inside the .map.
+function CustomisableUICard({ card, idx }) {
+  const entrance = useEntrance({ delayMs: idx * 90 });
+  return (
+    <li
+      ref={entrance.ref}
+      className="flex flex-col min-h-0"
+      style={entrance.style}
+    >
+      <div
+        className="flex-1 min-h-0 rounded-xl border border-white/10 bg-white/[0.03] relative overflow-hidden"
+        aria-hidden
+      >
+        <card.Demo />
+      </div>
+      <div className="mt-4 shrink-0 customisable-text-block">
+        <h3 className="font-harmony text-text-contrast text-lg md:text-xl leading-tight">
+          {card.title}
+        </h3>
+        <p className="mt-1.5 text-text-contrast/65 text-sm md:text-base">
+          {card.description}
+        </p>
+      </div>
+    </li>
+  );
+}
+
 function CustomisableUI() {
+  const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark customisable-section px-6 lg:px-10">
       <div className="max-w-[1400px] mx-auto w-full h-full flex flex-col">
-        <header className="max-w-3xl shrink-0">
+        <header
+          ref={headerEntrance.ref}
+          className="max-w-3xl shrink-0"
+          style={headerEntrance.style}
+        >
           <h2 className="font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
             Fully customisable UI
           </h2>
@@ -1243,23 +1279,8 @@ function CustomisableUI() {
         </header>
 
         <ul className="mt-8 lg:mt-10 flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 grid-rows-[1fr_1fr] gap-5 lg:gap-7">
-          {CARDS.map((card) => (
-            <li key={card.id} className="flex flex-col min-h-0">
-              <div
-                className="flex-1 min-h-0 rounded-xl border border-white/10 bg-white/[0.03] relative overflow-hidden"
-                aria-hidden
-              >
-                <card.Demo />
-              </div>
-              <div className="mt-4 shrink-0 customisable-text-block">
-                <h3 className="font-harmony text-text-contrast text-lg md:text-xl leading-tight">
-                  {card.title}
-                </h3>
-                <p className="mt-1.5 text-text-contrast/65 text-sm md:text-base">
-                  {card.description}
-                </p>
-              </div>
-            </li>
+          {CARDS.map((card, idx) => (
+            <CustomisableUICard key={card.id} card={card} idx={idx} />
           ))}
         </ul>
       </div>

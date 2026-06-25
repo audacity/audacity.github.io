@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useEntrance } from "../../hooks/useEntrance.js";
 
 const EFFECTS = [
   {
@@ -124,10 +125,16 @@ function EffectWindows() {
     };
   }, []);
 
+  const headerEntrance = useEntrance();
+  const stripEntrance = useEntrance({ delayMs: 160 });
   return (
     <section className="bg-background-dark relative">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 pt-24 lg:pt-32">
-        <header className="max-w-3xl">
+        <header
+          ref={headerEntrance.ref}
+          className="max-w-3xl"
+          style={headerEntrance.style}
+        >
           <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
             Effects, redesigned
           </h2>
@@ -140,8 +147,12 @@ function EffectWindows() {
       </div>
 
       <div
-        ref={stripRef}
+        ref={(el) => {
+          stripRef.current = el;
+          stripEntrance.ref.current = el;
+        }}
         className="mt-14 lg:mt-20 pb-24 lg:pb-32 effect-strip"
+        style={stripEntrance.style}
       >
         <ul
           ref={rowRef}

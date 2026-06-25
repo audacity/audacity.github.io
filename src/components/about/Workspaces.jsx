@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { WORKSPACE_CONFIGS } from "./workspaces/workspaceConfigs.js";
 import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
+import { useEntrance } from "../../hooks/useEntrance.js";
 
 const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 
@@ -68,6 +69,10 @@ function Workspaces() {
   const [activeKey, setActiveKey] = useState("music");
   const mockupSize = useMockupSize();
   const active = WORKSPACE_CONFIGS[activeKey] ?? WORKSPACE_CONFIGS.music;
+
+  const headerEntrance = useEntrance();
+  const chipsEntrance = useEntrance({ delayMs: 100 });
+  const mockupEntrance = useEntrance({ delayMs: 200 });
   // Workspaces are toolbar/UI presets — the underlying project (tracks,
   // clips, mixer) stays the same. We borrow the podcast project as the
   // demo content and only let the active workspace's toolbar/envelope
@@ -92,7 +97,11 @@ function Workspaces() {
         style={{ background: HERO_PANEL_GRADIENT }}
       >
         <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">
-          <header className="max-w-2xl mx-auto text-center">
+          <header
+            ref={headerEntrance.ref}
+            className="max-w-2xl mx-auto text-center"
+            style={headerEntrance.style}
+          >
             <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
               Workspaces
             </h2>
@@ -103,9 +112,11 @@ function Workspaces() {
           </header>
 
           <div
+            ref={chipsEntrance.ref}
             role="tablist"
             aria-label="Workspaces"
             className="mt-9 lg:mt-10 flex flex-wrap justify-center gap-2.5"
+            style={chipsEntrance.style}
           >
             {WORKSPACE_KEYS.map((key) => {
               const cfg = WORKSPACE_CONFIGS[key];
@@ -140,11 +151,13 @@ function Workspaces() {
             ApplicationHeader inside the canvas.
           */}
           <div
+            ref={mockupEntrance.ref}
             className="mt-8 lg:mt-10 mx-auto rounded-t-2xl border border-white/20 border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden"
             style={{
               width: mockupSize.width,
               height: mockupSize.height,
               maxWidth: "100%",
+              ...mockupEntrance.style,
             }}
             role="tabpanel"
             aria-label={`${active.label} workspace preview`}
