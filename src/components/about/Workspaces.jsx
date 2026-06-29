@@ -1,63 +1,74 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { WORKSPACE_CONFIGS } from "./workspaces/workspaceConfigs.js";
 import WorkspaceCanvas from "./workspaces/WorkspaceCanvas.jsx";
 import { useEntrance } from "../../hooks/useEntrance.js";
 
 const WORKSPACE_KEYS = ["classic", "music", "modern", "custom"];
 
-// Vertical real-estate the rest of the section eats (heading, lede,
-// tab strip, panel padding, section padding). Smaller value than the
-// "true" reserved height — content below the mockup is allowed to
-// overflow the viewport on shorter screens so the mockup itself can
-// stay generous.
-const RESERVED_VERTICAL = 240;
-// Hero panel max-width — kept in sync with the Tailwind max-w on the
-// panel below, so the mockup can fill the full panel content area.
-const PANEL_MAX_W = 2200;
-
-// Show roughly the top half of the workspace — toolbar + a couple of
-// track lanes. The mockup window is shorter than the workspace's
-// intrinsic 16:9 height; WorkspaceCanvas scales to fit the container's
-// width and the container's overflow: hidden clips everything below
-// the cut.
+// The mockup used to size itself with a JS hook that watched window
+// dimensions and called setState on mount/resize. That meant SSR
+// rendered a fixed default and the first client paint snapped to the
+// real size — a visible content shift on first load. The math is now
+// expressed in pure CSS (see the constants + min() calc below). Both
+// the SSR pass and every client render get the exact same dimensions,
+// so there's nothing to shift.
+//
+// The mockup window is shorter than the workspace's intrinsic 16:9
+// height — we show roughly the top half. WorkspaceCanvas scales to
+// fit the container's width and the container's overflow:hidden
+// clips everything below the cut.
 const MOCKUP_TRIM = 0.5;
+// Container aspect ratio: a full 16:9 workspace trimmed to MOCKUP_TRIM
+// of its height is 16 wide by (9 * MOCKUP_TRIM) tall.
+const MOCKUP_ASPECT = `16 / ${9 * MOCKUP_TRIM}`;
+// Vertical real-estate the rest of the section eats (heading, lede,
+// tab strip, panel padding). Used to cap the mockup's pre-trim height
+// so the full workspace can still fit in the section on shorter
+// viewports — the container then trims to MOCKUP_TRIM of that.
+const RESERVED_VERTICAL_PX = 240;
+const PANEL_MAX_W_PX = 2200;
 
-function useMockupSize() {
-  const [size, setSize] = useState({ width: 1248, height: 234 });
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const update = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      // Mirror the section + hero-panel padding stack so the mockup can
-      // fill the *actual* panel content area rather than a rough offset.
-      const sectionPx = vw >= 1024 ? 80 : 48;
-      const panelPx = vw >= 1024 ? 96 : vw >= 640 ? 80 : 48;
-      const panelContentW = Math.min(vw - sectionPx, PANEL_MAX_W) - panelPx;
-      const maxH = Math.max(240, Math.min(vh * 0.75, vh - RESERVED_VERTICAL));
-      const maxW = Math.max(260, panelContentW);
-      const ratio = 16 / 9;
-      let width = maxH * ratio;
-      let height = maxH;
-      if (width > maxW) {
-        width = maxW;
-        height = maxW / ratio;
-      }
-      // Trim height to show just the top slice; WorkspaceCanvas inside
-      // still renders at its native size (its useScaleToFit watches
-      // width only), so the toolbar and the top of the canvas read
-      // crisp while everything below clips off via the container.
-      setSize({
-        width: Math.round(width),
-        height: Math.round(height * MOCKUP_TRIM),
-      });
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-  return size;
-}
+// Section / panel horizontal padding totals (both sides combined),
+// keyed off the Tailwind breakpoints we use in the markup below:
+//   - below 640:  section px-6 (48 total) + panel px-6 (48 total)
+//   - 640..1024:  section px-6 (48 total) + panel px-10 (80 total)
+//   - 1024+:      section px-10 (80 total) + panel px-12 (96 total)
+// Expressed as CSS variables on the mockup element so the width
+// calc below can reference them at every breakpoint without us
+// hand-rolling media queries inside calc().
+const MOCKUP_BASE_STYLE = {
+  aspectRatio: MOCKUP_ASPECT,
+  // The full-height 16:9 workspace would be (panel-content-width) ×
+  // (panel-content-width × 9/16). We cap that height at the reserved
+  // viewport budget, then size the container's width off the smaller
+  // of those two limits.
+  width:
+    "min(" +
+    "calc(min(75vh, 100vh - " +
+    RESERVED_VERTICAL_PX +
+    "px) * 16 / 9), " +
+    "calc(min(100vw - var(--mockup-section-total), " +
+    PANEL_MAX_W_PX +
+    "px) - var(--mockup-panel-total))" +
+    ")",
+  maxWidth: "100%",
+};
+
+const MOCKUP_VAR_CSS = `
+  .workspaces-mockup {
+    --mockup-section-total: 48px;
+    --mockup-panel-total: 48px;
+  }
+  @media (min-width: 640px) {
+    .workspaces-mockup { --mockup-panel-total: 80px; }
+  }
+  @media (min-width: 1024px) {
+    .workspaces-mockup {
+      --mockup-section-total: 80px;
+      --mockup-panel-total: 96px;
+    }
+  }
+`;
 
 // Radial gradient inside the hero panel: magenta highlight top-right that
 // fades through deep purple to brand navy at the bottom — echoes the section's
@@ -67,7 +78,6 @@ const HERO_PANEL_GRADIENT =
 
 function Workspaces() {
   const [activeKey, setActiveKey] = useState("music");
-  const mockupSize = useMockupSize();
   const active = WORKSPACE_CONFIGS[activeKey] ?? WORKSPACE_CONFIGS.music;
 
   const headerEntrance = useEntrance();
@@ -92,6 +102,7 @@ function Workspaces() {
 
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-16 lg:py-20">
+      <style dangerouslySetInnerHTML={{ __html: MOCKUP_VAR_CSS }} />
       <div
         className="max-w-[2200px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
@@ -152,11 +163,9 @@ function Workspaces() {
           */}
           <div
             ref={mockupEntrance.ref}
-            className="mt-8 lg:mt-10 mx-auto rounded-t-2xl border border-white/20 border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden"
+            className="workspaces-mockup mt-8 lg:mt-10 mx-auto rounded-t-2xl border border-white/20 border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden"
             style={{
-              width: mockupSize.width,
-              height: mockupSize.height,
-              maxWidth: "100%",
+              ...MOCKUP_BASE_STYLE,
               ...mockupEntrance.style,
             }}
             role="tabpanel"

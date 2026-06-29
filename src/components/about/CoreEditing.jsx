@@ -1433,10 +1433,10 @@ function CoreEditing() {
             className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
             aria-hidden
           >
-            Also
+            Also new
           </div>
           <h2 className="mt-4 font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-            Hundreds of smaller things
+            Improvements throughout
           </h2>
           <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
             We've touched almost every corner of the app. Here are a few you'll

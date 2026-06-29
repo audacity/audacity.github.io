@@ -1792,6 +1792,7 @@ function DesktopTour() {
           visible={isOutro}
           eyebrow={outroStop.eyebrow}
           heading={outroStop.heading}
+          compact
         />
         <IntroOverlay
           visible={isReveal}

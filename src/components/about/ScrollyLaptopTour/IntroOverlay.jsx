@@ -24,8 +24,18 @@ function IntroOverlay({
   const textDim = Math.min(1, dimProgress * 10);
   const STAGGER = 0.15;
   const easeIn = (u) => u * u;
-  const chars = String(heading || "").split("");
-  const total = Math.max(1, chars.length);
+
+  // Split into word/whitespace tokens so the per-character animation
+  // spans can be grouped inside a per-word `nowrap` container.
+  // Without this the browser is free to break BETWEEN characters,
+  // which is how "And we're only just getting started" was wrapping
+  // as "just getting s" / "tarted" — every char is its own inline-
+  // block, so the line can break at any of them. Grouping per word
+  // keeps the word atomic at the wrap; the heading still breaks at
+  // spaces as expected.
+  const headingStr = String(heading || "");
+  const tokens = headingStr.split(/(\s+)/).filter(Boolean);
+  const total = Math.max(1, headingStr.length);
 
   const headingBlock = (
     <div
@@ -47,34 +57,57 @@ function IntroOverlay({
       >
         {eyebrow}
       </div>
-      <h2
-        className={headingClass}
-        aria-label={heading}
-        style={{ display: "inline-block" }}
-      >
-        {chars.map((c, i) => {
-          const delay = (i / total) * STAGGER;
-          const denom = Math.max(0.001, 1 - STAGGER);
-          const raw = (textDim - delay) / denom;
-          const cp = Math.max(0, Math.min(1, raw));
-          const eased = easeIn(cp);
-          return (
-            <span
-              key={i}
-              aria-hidden="true"
-              style={{
-                display: "inline-block",
-                whiteSpace: "pre",
-                opacity: 1 - eased,
-                transform: `translateY(${-70 * eased}px) scale(${1 - 0.18 * eased})`,
-                filter: `blur(${10 * eased}px)`,
-                willChange: "opacity, transform, filter",
-              }}
-            >
-              {c === " " ? " " : c}
-            </span>
-          );
-        })}
+      <h2 className={headingClass} aria-label={heading}>
+        {(() => {
+          let charIdx = 0;
+          const renderChar = (c, i) => {
+            const delay = (i / total) * STAGGER;
+            const denom = Math.max(0.001, 1 - STAGGER);
+            const raw = (textDim - delay) / denom;
+            const cp = Math.max(0, Math.min(1, raw));
+            const eased = easeIn(cp);
+            return (
+              <span
+                key={i}
+                aria-hidden="true"
+                style={{
+                  display: "inline-block",
+                  whiteSpace: "pre",
+                  opacity: 1 - eased,
+                  transform: `translateY(${-70 * eased}px) scale(${1 - 0.18 * eased})`,
+                  filter: `blur(${10 * eased}px)`,
+                  willChange: "opacity, transform, filter",
+                }}
+              >
+                {c === " " ? " " : c}
+              </span>
+            );
+          };
+          return tokens.map((token, ti) => {
+            if (/^\s+$/.test(token)) {
+              // Whitespace renders as a normal char so the browser
+              // wraps here as it would in plain text.
+              const node = renderChar(token, charIdx);
+              charIdx += token.length;
+              return <React.Fragment key={`s-${ti}`}>{node}</React.Fragment>;
+            }
+            // Word: nowrap container so its chars stay together when
+            // the heading wraps.
+            return (
+              <span
+                key={`w-${ti}`}
+                aria-hidden="true"
+                style={{ display: "inline-block", whiteSpace: "nowrap" }}
+              >
+                {Array.from(token).map((c) => {
+                  const node = renderChar(c, charIdx);
+                  charIdx += 1;
+                  return node;
+                })}
+              </span>
+            );
+          });
+        })()}
       </h2>
     </div>
   );
