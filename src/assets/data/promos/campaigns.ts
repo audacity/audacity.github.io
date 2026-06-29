@@ -59,6 +59,25 @@ export const campaignBannerPromos: Record<string, PromoData> = {
       link: "https://www.musehub.com/bundle/soap-voice-recording-bundle?utm_source=au-web-banner&utm_medium=au-banner",
     },
   },
+  speakerDiarizationPro: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-06-25",
+    endDate: "2026-07-09",
+    message:
+      "Speaker Diarization Pro: The AI tool for splitting multi-speaker audio. Detect, separate, and export voices instantly.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Speaker Diarization Pro MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/speaker-diarization-pro?utm_source=au-web-banner&utm_medium=au-banner",
+    },
+  },
 };
 
 export const campaignVideoPromos: Record<string, PromoData> = {
