@@ -5,8 +5,9 @@ import "../styles/icons.css";
 import logo from "../assets/img/promo/audacity-audiocom-promo.png";
 import { Image } from "astro:assets";
 
-// Where the AI-Experimentor snippet is served from.
-const AIX_HOST = "https://web-n7vh.onrender.com";
+// Assurance badges from the winning post-download variant
+// (v_20260617_131023_0). See CRO experiment page 805325524.
+const badges = ["Free Cloud Storage", "Automatic Backups", "Access Anywhere"];
 ---
 
 <BaseLayout
@@ -14,20 +15,6 @@ const AIX_HOST = "https://web-n7vh.onrender.com";
   description="Sync & save projects in Audacity Cloud. Secure, automatic, and always accessible."
   index="all"
 >
-  <script is:inline define:vars={{ AIX_HOST }}>
-    (function () {
-      // Load the AI-Experimentor snippet (one tag; self-quiet if no experiment
-      // matches this path). Consent-gated because it sets a cookie + sends
-      // events, matching Matomo/Clarity.
-      if (document.cookie.indexOf("audacity_consent=true") !== -1) {
-        var s = document.createElement("script");
-        s.src = AIX_HOST + "/aix.js";
-        s.async = true;
-        document.head.appendChild(s);
-      }
-    })();
-  </script>
-
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
     <div
       class="flex flex-col items-center justify-center"
@@ -40,8 +27,24 @@ const AIX_HOST = "https://web-n7vh.onrender.com";
         quality="80/"
       />
       <div class="text-center">
-        <h1 class="font-bold">Thank you for downloading Audacity!</h1>
-        <h1 class="font-bold">You can now complete Cloud setup</h1>
+        <h1 class="font-bold">Welcome to Audacity!</h1>
+        <p class="mt-2 text-lg font-semibold text-gray-500">
+          Never lose your work – connect to Cloud storage.
+        </p>
+        <ul
+          class="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 font-bold"
+        >
+          {
+            badges.map((badge) => (
+              <li class="flex items-center gap-2">
+                <span class="bg-green-100 grid h-6 w-6 place-items-center rounded-full">
+                  <span class="icon icon-check icon-small text-green-600 leading-none" />
+                </span>
+                {badge}
+              </li>
+            ))
+          }
+        </ul>
       </div>
       <div class="w-full mt-8">
         <div class="grid grid-cols-12 items-center">
