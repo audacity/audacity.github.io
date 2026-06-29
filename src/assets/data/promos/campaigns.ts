@@ -64,8 +64,8 @@ export const campaignBannerPromos: Record<string, PromoData> = {
     isActive: true,
     priority: 50,
     osTargets: ["Windows", "OS X"],
-    startDate: "2026-06-25",
-    endDate: "2026-07-09",
+    startDate: "2026-07-29",
+    endDate: "2026-08-13",
     message:
       "Speaker Diarization Pro: The AI tool for splitting multi-speaker audio. Detect, separate, and export voices instantly.",
     tracking: {
