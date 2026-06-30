@@ -75,7 +75,7 @@ export const campaignBannerPromos: Record<string, PromoData> = {
     },
     cta: {
       text: "Get it on MuseHub",
-      link: "https://www.musehub.com/plugin/speaker-diarization-pro?utm_source=au-web-banner&utm_medium=au-banner",
+      link: "https://www.musehub.com/plugin/speaker-diarization-pro?utm_source=au-web-banner-mh-web&utm_medium=speaker-diarization-pro&utm_campaign=au-web-banner-mh-web-speaker-diarization-pro&utm_id=au-web-banner",
     },
   },
 };
