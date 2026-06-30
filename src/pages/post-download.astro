@@ -5,6 +5,9 @@ import "../styles/icons.css";
 import logo from "../assets/img/promo/audacity-audiocom-promo.png";
 import { Image } from "astro:assets";
 
+// Where the AI-Experimentor snippet is served from.
+const AIX_HOST = "https://web-n7vh.onrender.com";
+
 // Assurance badges from the winning post-download variant
 // (v_20260617_131023_0). See CRO experiment page 805325524.
 const badges = ["Free Cloud Storage", "Automatic Backups", "Access Anywhere"];
@@ -15,6 +18,20 @@ const badges = ["Free Cloud Storage", "Automatic Backups", "Access Anywhere"];
   description="Sync & save projects in Audacity Cloud. Secure, automatic, and always accessible."
   index="all"
 >
+  <script is:inline define:vars={{ AIX_HOST }}>
+    (function () {
+      // Load the AI-Experimentor snippet (one tag; self-quiet if no experiment
+      // matches this path). Consent-gated because it sets a cookie + sends
+      // events, matching Matomo/Clarity.
+      if (document.cookie.indexOf("audacity_consent=true") !== -1) {
+        var s = document.createElement("script");
+        s.src = AIX_HOST + "/aix.js";
+        s.async = true;
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
     <div
       class="flex flex-col items-center justify-center"
