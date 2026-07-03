@@ -1,5 +1,3 @@
-import { injectClarity } from "./clarityTracking.js";
-
 const cookieStorage = {
   getItem: (key) => {
     const cookies = document.cookie
@@ -149,7 +147,6 @@ window.addEventListener("load", function () {
     if (typeof _paq !== "undefined") {
       _paq.push(["setCookieConsentGiven"]);
     }
-    injectClarity();
   };
 
   const rejectCookie = (event) => {

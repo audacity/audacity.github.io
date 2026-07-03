@@ -16,7 +16,6 @@
         "astro-compressor": "^1.3.0",
         "astro-icon": "^1.1.5",
         "astro-lazy-youtube-embed": "^0.5.5",
-        "astro-microsoft-clarity-integration": "^1.1.7",
         "classnames": "^2.5.1",
         "platform": "^1.3.6",
         "react": "^18.3.1",
@@ -441,8 +440,6 @@
     "astro-icon": ["astro-icon@1.1.5", "", { "dependencies": { "@iconify/tools": "^4.0.5", "@iconify/types": "^2.0.0", "@iconify/utils": "^2.1.30" } }, "sha512-CJYS5nWOw9jz4RpGWmzNQY7D0y2ZZacH7atL2K9DeJXJVaz7/5WrxeyIxO8KASk1jCM96Q4LjRx/F3R+InjJrw=="],
 
     "astro-lazy-youtube-embed": ["astro-lazy-youtube-embed@0.5.5", "", { "peerDependencies": { "astro": "^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta || ^6.0.0-beta" } }, "sha512-eus7WTAxRT76Z4CJWgSubMI/hLDTkZA5iqzAFarJPnkoYxgBD8Wew0L1iAcbIuCUAUwWv/fw6xE7qeKmmgYStg=="],
-
-    "astro-microsoft-clarity-integration": ["astro-microsoft-clarity-integration@1.1.7", "", { "peerDependencies": { "astro": "^4.0.0 || ^5.0.0 || ^6.0.0" } }, "sha512-HMYatKSxtquY4+j6HAEVre3XcqnIOyue61ouW+f3iD3GOsbgCSkqiJIRRTXBmN4oVpFvZAf0Kl1R6Lw9MNrmRg=="],
 
     "autoprefixer": ["autoprefixer@10.4.21", "", { "dependencies": { "browserslist": "^4.24.4", "caniuse-lite": "^1.0.30001702", "fraction.js": "^4.3.7", "normalize-range": "^0.1.2", "picocolors": "^1.1.1", "postcss-value-parser": "^4.2.0" }, "peerDependencies": { "postcss": "^8.1.0" }, "bin": "bin/autoprefixer" }, "sha512-O+A6LWV5LDHSJD3LjHYoNi4VLsj/Whi7k6zG12xTYaU4cQ8oxQGckXNX8cRHK5yOZ/ppVHe0ZBXGzSV9jXdVbQ=="],
 

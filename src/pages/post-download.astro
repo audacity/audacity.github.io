@@ -22,7 +22,7 @@ const badges = ["Free Cloud Storage", "Automatic Backups", "Access Anywhere"];
     (function () {
       // Load the AI-Experimentor snippet (one tag; self-quiet if no experiment
       // matches this path). Consent-gated because it sets a cookie + sends
-      // events, matching Matomo/Clarity.
+      // events, matching Matomo.
       if (document.cookie.indexOf("audacity_consent=true") !== -1) {
         var s = document.createElement("script");
         s.src = AIX_HOST + "/aix.js";

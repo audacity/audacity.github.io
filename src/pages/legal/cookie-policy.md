@@ -3,7 +3,7 @@ layout: "../../layouts/PageLayout.astro"
 title: Audacity ® | Cookie Policy
 ---
 
-Last updated: 16. April 2026
+Last updated: 3. July 2026
 
 ## About this Policy
 
@@ -18,7 +18,7 @@ When you arrive on AudacityTeam.org, your IP address is anonymised before being 
 
 Cookies are small data files that are placed on your computer or mobile device when you visit a website. Cookies are used by website owners in order to understand how you are using the website, by providing usage statistics which helps to maintain and improve it.
 Cookies have many different features, such as allowing you to navigate between pages efficiently, remembering your preferences, and generally improving your user experience.
-Cookies set by the Website itself (in this case, https://www.audacityteam.org) are called “**first party cookies“**. Please note that our Website uses third party cookies from Microsoft Clarity for heatmap and session recording analytics.
+Cookies set by the Website itself (in this case, https://www.audacityteam.org) are called “**first party cookies“**. Please note that our Website does not use any third party cookies.
 
 ## How do we use cookies?
 
@@ -29,7 +29,7 @@ When you visit our Website, we place the following types of cookies:
 
 By default we collect statistics that track the number of site visits as well as the number of downloads of Audacity. These analytics are anonymously collected: your IP address is anonymised before storage and by default, we do not collect any other personal information of any kind. You still have the option to disable the processing of these anonymized statistical cookies through the settings in our cookie banner (please refer section “**How can I control cookies?”** below for more info).
 
-On our Website we use first party cookies and limited third party cookies (Microsoft Clarity). First party cookie data is stored on our side in accordance with the rules applicable to the protection of privacy in the electronic communications sector. Third party cookies are governed by Microsoft's privacy policy.
+On our Website we use only first party cookies, which means that all your cookie data will be stored on our side in accordance with the rules applicable to the protection of privacy in the electronic communications sector.
 
 | Cookie                                       | Duration | Description                                                                                                                                                                             | Type      |
 | -------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
@@ -37,13 +37,6 @@ On our Website we use first party cookies and limited third party cookies (Micro
 | `__cf_bm`                                    | 30 min   | [Cloudflare Bot Management](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/#__cf_bm-cookie-for-cloudflare-bot-products)               | Necessary |
 | `cf_clearance`                               | 30 min   | [Cloudflare challenge clear proof](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/#additional-cookies-used-by-the-challenge-platform) | Necessary |
 | Cookies starting with:<br>`_pk...`, `mtm...` | Varies   | Matomo cookies. [Details...](https://matomo.org/faq/general/faq_146/)                                                                                                                   | Analytics |
-| `_clck`                                      | 1 year   | Microsoft Clarity user ID cookie. [Details...](https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent)                                                         | Analytics |
-| `_clsk`                                      | 1 day    | Microsoft Clarity session cookie. [Details...](https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent)                                                         | Analytics |
-| `CLID`                                       | 1 year   | Microsoft Clarity tracking identifier                                                                                                                                                   | Analytics |
-| `ANONCHK`                                    | 10 min   | Microsoft Clarity check cookie                                                                                                                                                          | Analytics |
-| `MR`                                         | 7 days   | Microsoft cookie used with Clarity                                                                                                                                                      | Analytics |
-| `MUID`                                       | 1 year   | Microsoft user identifier                                                                                                                                                               | Analytics |
-| `SM`                                         | Session  | Microsoft cookie used with Clarity                                                                                                                                                      | Analytics |
 
 ## How can I control cookies?
 
