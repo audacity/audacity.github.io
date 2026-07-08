@@ -1757,21 +1757,34 @@ function DesktopTour() {
   const lidAngle = restingLidAngle;
 
   // On mobile, ignore the per-stop x/y translates (they were tuned to
-  // clear a side panel that doesn't exist in the mobile layout). Force
-  // a full 1.0 scale so the laptop reads at real size against the small
-  // viewport — the stops' desktop scales (0.48–1.0) were tuned to shrink
-  // the laptop to make room for side panels that don't apply here.
-  const laptopX = isMobile ? "0vw" : stop.laptop.x;
-  const laptopY = isMobile ? "0vh" : stop.laptop.y;
-  const laptopScale = isMobile ? 1 : stop.laptop.scale;
-  const transform = `translate3d(${laptopX}, ${laptopY}, 0) scale(${laptopScale})`;
-  // scroll-snap-stop: always forces a hard scroll landing on each panel.
-  // The previous 720ms slow-in-out laptop transition was still mid-animation
-  // when the snap settled — read as judder on every panel except the intro
-  // (whose lid is scrubbed by scroll, not by CSS transition). Use a shorter
-  // fast-start ease so the laptop is essentially in place by the time the
-  // snap finishes.
-  const laptopTransition = "transform 360ms cubic-bezier(0.2, 0, 0.2, 1)";
+  // clear a side panel that doesn't exist in the mobile layout) and
+  // apply a cinematic pan+zoom from `stop.mobileFocus` instead. The
+  // laptop stays centred at scale 1 by default (workspace, intro,
+  // outro); focus stops shift the laptop so their point of interest
+  // lands at viewport centre, then scale up.
+  //
+  // Math: `translate(shiftX%, shiftY%)` moves the laptop element by a
+  // % of its OWN dimensions. To bring focus point (x, y) — in % of the
+  // laptop element — to the centre, we translate by (50 - x, 50 - y).
+  // Applying `scale(zoom)` after keeps the centre-aligned focus fixed
+  // and enlarges everything around it.
+  let transform;
+  let laptopTransition;
+  if (isMobile) {
+    const focus = stop.mobileFocus ?? { x: 50, y: 50, zoom: 1 };
+    const shiftX = 50 - focus.x;
+    const shiftY = 50 - focus.y;
+    transform = `translate(${shiftX}%, ${shiftY}%) scale(${focus.zoom})`;
+    // Longer, slower-in-slower-out ease so the pan/zoom reads as a
+    // camera move rather than an abrupt jump.
+    laptopTransition = "transform 900ms cubic-bezier(0.65, 0.05, 0.36, 1)";
+  } else {
+    transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
+    // scroll-snap-stop: always forces a hard scroll landing on each
+    // panel. Use a shorter fast-start ease so the laptop is
+    // essentially in place by the time the snap finishes.
+    laptopTransition = "transform 360ms cubic-bezier(0.2, 0, 0.2, 1)";
+  }
 
   return (
     <section
@@ -1813,7 +1826,7 @@ function DesktopTour() {
         ref={stageRef}
         className={
           "sticky top-0 w-full flex items-center justify-center " +
-          (isMobile ? "flex-col gap-6" : "")
+          (isMobile ? "flex-col gap-12 pt-16 pb-16" : "")
         }
         style={{
           height: "100vh",
@@ -1942,8 +1955,11 @@ function DesktopTour() {
 
         {isMobile && (
           // Text card below the laptop for every stop — replaces the
-          // desktop side-panel + IntroOverlay pair. key={stop.id}
-          // remounts on stop change so the fade-in animation restarts.
+          // desktop side-panel + IntroOverlay pair. Consistent layout
+          // across every stop so scroll transitions read as smooth
+          // laptop zoom/pan changes rather than layout jumps.
+          // key={stop.id} remounts on stop change so the fade-in
+          // animation restarts.
           <div
             key={stop.id}
             className="mobile-tour-panel px-6 text-center max-w-md z-20 relative"
@@ -2018,8 +2034,15 @@ function DesktopTour() {
                 // a single wheel/trackpad gesture, without needing global
                 // CSS scroll-snap (which was making the rest of the page
                 // judder in sections with continuous animations).
-                height: "130vh",
-                minHeight: "130vh",
+                //
+                // svh (not vh) so the driver height is in the same viewport
+                // unit as the sticky container above. Any mismatch (e.g.
+                // sticky=svh but drivers=vh) shows up on iOS as a wiggle
+                // that matches the browser chrome height, because the
+                // scroll region and the pinned region interpret viewport
+                // differently as chrome toggles.
+                height: "130svh",
+                minHeight: "130svh",
                 pointerEvents: "none",
               }}
               aria-label={s.heading}

@@ -18,8 +18,10 @@ function ScrollIndicator({
         // iOS URL bar toggles. env(safe-area-inset-bottom) changes
         // between chrome-visible (~90px) and chrome-hidden (~34px)
         // states, which made the pills visibly jump on every scroll.
-        // 44px still clears the iPhone home-indicator area (~34px).
-        bottom: "44px",
+        // 24px still clears the iPhone home-indicator area (~34px)
+        // when the sticky container is inset from the viewport bottom
+        // by the mobile chrome bar.
+        bottom: "24px",
         transform: "translateX(-50%)",
         opacity: visible ? 1 : 0,
         pointerEvents: visible ? "auto" : "none",

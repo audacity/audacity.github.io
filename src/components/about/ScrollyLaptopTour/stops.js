@@ -15,6 +15,11 @@
 //   Host h3 "Follow up": time 11.4, duration 3.2 → x≈47.66%, w≈10.00%
 //   Envelope toggle:    { x: 16.17, y: 14.65, w: 2.19, h: 3.89 }
 //   Split tool toggle:  { x: 18.52, y: 14.65, w: 2.19, h: 3.89 }
+//
+// mobileFocus: cinematic zoom/pan on mobile. { x, y } are % of the laptop
+// element (NOT the screen area — accounts for bezels + base) that should
+// land at the viewport centre; `zoom` scales the laptop up so detail is
+// visible. Omit or set zoom=1 for a full-laptop view (intro/outro/reveal).
 
 export const STOPS = [
   {
@@ -26,6 +31,7 @@ export const STOPS = [
     // without collision. Scrolling into the workspace stop expands the laptop
     // back to its full tour scale, which reads as a subtle zoom-in.
     laptop: { x: "0vw", y: "4vh", scale: 0.48, lidAngle: -85 },
+    mobileFocus: { x: 50, y: 50, zoom: 0.72 },
     panelSide: "intro",
     target: null,
     overlay: null,
@@ -55,6 +61,7 @@ export const STOPS = [
       "Drop the split tool anywhere on a clip and Audacity cuts cleanly on the sample. Two clips, no mess, undo at any time.",
     accentColor: "#FFB88A",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
+    mobileFocus: { x: 34, y: 43, zoom: 2.1 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -75,6 +82,7 @@ export const STOPS = [
       "Remember 'there is not enough room available to paste the selection'? Gone. Drag a clip onto another and it makes room. Pull the handle back and the audio's still there.",
     accentColor: "#F5D97A",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
+    mobileFocus: { x: 42, y: 42, zoom: 1.75 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -91,6 +99,7 @@ export const STOPS = [
       "Shift-click or lasso to grab any clips across any tracks, then move, trim or fade them as one. Obvious in hindsight. Strange to go back.",
     accentColor: "#9EE0B8",
     laptop: { x: "22vw", y: "0vh", scale: 0.85 },
+    mobileFocus: { x: 47, y: 41, zoom: 1.5 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -105,6 +114,7 @@ export const STOPS = [
       "Bind related takes into a group and they move and edit as one. Permanent, until you ungroup. Nothing destructive about it.",
     accentColor: "#8ECEE8",
     laptop: { x: "22vw", y: "0vh", scale: 0.85 },
+    mobileFocus: { x: 48, y: 38, zoom: 1.8 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -130,6 +140,7 @@ export const STOPS = [
       "Flip on the envelope tool and drop nodes straight on the clip. Curves live with the audio. Move the clip, copy the clip, the shape comes with it.",
     accentColor: "#C8B5F5",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
+    mobileFocus: { x: 28, y: 43, zoom: 2.4 },
     panelSide: "left",
     target: null,
     overlay: {
@@ -147,6 +158,7 @@ export const STOPS = [
     heading: "And we're only just getting started",
     description: null,
     laptop: { x: "0vw", y: "0vh", scale: 0.571, lidAngle: 0 },
+    mobileFocus: { x: 50, y: 50, zoom: 0.72 },
     panelSide: "outro",
     target: null,
     overlay: null,
