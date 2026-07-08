@@ -1248,7 +1248,7 @@ function CustomisableUICard({ card, idx }) {
         <card.Demo />
       </div>
       <div className="mt-4 shrink-0 customisable-text-block">
-        <h3 className="font-harmony text-text-contrast text-lg md:text-xl leading-tight">
+        <h3 className="font-sans font-semibold text-text-contrast text-base md:text-lg leading-tight">
           {card.title}
         </h3>
         <p className="mt-1.5 text-text-contrast/65 text-sm md:text-base">
@@ -1263,7 +1263,7 @@ function CustomisableUI() {
   const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark customisable-section px-6 lg:px-10">
-      <div className="max-w-[1400px] mx-auto w-full h-full flex flex-col">
+      <div className="max-w-[1600px] mx-auto w-full h-full flex flex-col">
         <header
           ref={headerEntrance.ref}
           className="max-w-3xl shrink-0"

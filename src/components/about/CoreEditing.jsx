@@ -1315,12 +1315,17 @@ function CoreEditingCarouselCard({
   const entrance = useEntrance({ delayMs: idx * 80 });
   const isActive = idx === activeIdx;
   const handlePointerEnter = (e) => {
+    // e.buttons !== 0 = pointer is down (mid-drag). Otherwise dragging
+    // the carousel past cards would keep re-triggering active-card
+    // changes as each new card slid under the cursor.
+    if (e.buttons !== 0) return;
     if (canHover && e.pointerType !== "touch") {
       setActiveIdx(idx);
       setPaused(true);
     }
   };
   const handlePointerLeave = (e) => {
+    if (e.buttons !== 0) return;
     if (canHover && e.pointerType !== "touch") {
       setPaused(false);
     }
@@ -1342,7 +1347,7 @@ function CoreEditingCarouselCard({
     >
       <div
         className={
-          "flex-1 min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden cursor-pointer transition-[border-color,box-shadow] duration-300 " +
+          "flex-1 min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden cursor-grab transition-[border-color,box-shadow] duration-300 " +
           (isActive
             ? "border-white/30 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
             : "border-white/10")
@@ -1385,7 +1390,7 @@ function CoreEditingCarouselCard({
         </div>
       </div>
       <div className="mt-5 px-1 shrink-0 card-text-block">
-        <h3 className="font-harmony text-text-contrast text-xl md:text-2xl leading-[1.1]">
+        <h3 className="font-sans font-semibold text-text-contrast text-lg md:text-xl leading-[1.15]">
           {card.title}
         </h3>
         <p className="mt-2 text-text-contrast/65 text-sm md:text-base leading-relaxed">
@@ -1404,6 +1409,7 @@ function CoreEditing() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [paused, setPaused] = useState(false);
   const sectionRef = useRef(null);
+  const carouselRef = useRef(null);
   const sectionInView = useInView(sectionRef);
   const headerEntrance = useEntrance();
 
@@ -1418,12 +1424,80 @@ function CoreEditing() {
     return () => clearTimeout(t);
   }, [paused, sectionInView, activeIdx]);
 
+  // Click-and-drag scrolling for the horizontal carousel. Desktop users
+  // don't get a native swipe on a wheel-only mouse and reaching for the
+  // hidden scrollbar is awkward, so mouse/pen pointer-drag gives them a
+  // way to walk through the row. Touch is intentionally excluded — the
+  // browser's native pan already handles it and doing both fights.
+  useEffect(() => {
+    const ul = carouselRef.current;
+    if (!ul) return;
+    let dragging = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let moved = 0;
+    const THRESHOLD = 6;
+
+    const onMove = (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      ul.scrollLeft = scrollStart - dx;
+    };
+    const finish = () => {
+      if (!dragging) return;
+      dragging = false;
+      ul.dataset.dragging = "false";
+      // Restore snap-mandatory so release lands on the nearest card.
+      ul.style.scrollSnapType = "";
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", finish);
+      window.removeEventListener("pointercancel", finish);
+      if (moved > THRESHOLD) {
+        // Swallow the click that follows a drag so it doesn't trigger
+        // card handlers. Capture phase catches it before React's
+        // delegated onClick fires. Timeout is a fallback for the case
+        // where no click event follows the pointerup (e.g. drag ended
+        // over a different element than it started on).
+        const suppress = (ev) => {
+          ev.stopPropagation();
+          ev.preventDefault();
+        };
+        ul.addEventListener("click", suppress, { capture: true, once: true });
+        setTimeout(() => {
+          ul.removeEventListener("click", suppress, { capture: true });
+        }, 50);
+      }
+    };
+    const onDown = (e) => {
+      if (e.pointerType === "touch") return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragging = true;
+      startX = e.clientX;
+      scrollStart = ul.scrollLeft;
+      moved = 0;
+      ul.dataset.dragging = "true";
+      // Snap fights the drag mid-motion — release restores it.
+      ul.style.scrollSnapType = "none";
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", finish);
+      window.addEventListener("pointercancel", finish);
+    };
+    ul.addEventListener("pointerdown", onDown);
+    return () => {
+      ul.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", finish);
+      window.removeEventListener("pointercancel", finish);
+    };
+  }, []);
+
   return (
     <section
       ref={sectionRef}
       className="bg-background-dark core-editing-section"
     >
-      <div className="max-w-screen-xl mx-auto px-6 lg:px-10 shrink-0">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-10 shrink-0">
         <header
           ref={headerEntrance.ref}
           className="max-w-3xl"
@@ -1447,9 +1521,15 @@ function CoreEditing() {
 
       <div className="mt-8 lg:mt-10 flex-1 min-h-0 flex">
         <ul
-          className="flex items-stretch gap-5 lg:gap-7 overflow-x-auto snap-x snap-mandatory px-6 lg:px-10 scrollbar-hide w-full"
+          ref={carouselRef}
+          className="core-editing-carousel flex items-stretch gap-5 lg:gap-7 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-6 lg:px-10 scrollbar-hide w-full max-w-[1600px] mx-auto cursor-grab"
           style={{
-            scrollPaddingLeft: "calc((100vw - min(100vw, 80rem)) / 2 + 1.5rem)",
+            // Prevent the horizontal carousel from swallowing vertical
+            // scroll: `touch-action: pan-x` routes vertical touch gestures
+            // to the page, and `overscroll-behavior-x: contain` stops a
+            // horizontal fling from chaining into browser back-nav on iOS.
+            touchAction: "pan-x",
+            overscrollBehaviorX: "contain",
           }}
         >
           {CARDS.map((card, idx) => (
@@ -1496,6 +1576,12 @@ function CoreEditing() {
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { scrollbar-width: none; }
+        /* Mid-drag override so the whole row (cards included) reads as
+           actively grabbed, not just the ul gutter. */
+        .core-editing-carousel[data-dragging="true"],
+        .core-editing-carousel[data-dragging="true"] * {
+          cursor: grabbing !important;
+        }
         @keyframes coreEditingProgress {
           from { transform: scaleX(0); }
           to { transform: scaleX(1); }

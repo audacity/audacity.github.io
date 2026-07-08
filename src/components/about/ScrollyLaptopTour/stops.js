@@ -22,7 +22,10 @@ export const STOPS = [
     eyebrow: "A guided tour",
     heading: "See what's new in Audacity 4",
     description: null,
-    laptop: { x: "0vw", y: "4vh", scale: 0.514, lidAngle: -85 },
+    // Smaller + lower during the intro so the title sits above the laptop
+    // without collision. Scrolling into the workspace stop expands the laptop
+    // back to its full tour scale, which reads as a subtle zoom-in.
+    laptop: { x: "0vw", y: "4vh", scale: 0.48, lidAngle: -85 },
     panelSide: "intro",
     target: null,
     overlay: null,
@@ -33,6 +36,12 @@ export const STOPS = [
     heading: "A workspace built for the work",
     description:
       "Audacity 4 puts your tracks, transport, meters and effects on one calm canvas. Nothing buried, nothing competing for attention.",
+    // Per-stop heading tint. Walks a warm→cool pastel sequence so as the
+    // reader scrolls the heading swap registers as a hue shift as well as
+    // a text change (pink → coral → gold → mint → sky → lavender). All
+    // sit in the same soft-brightness range so they read as a coordinated
+    // palette rather than a random set.
+    accentColor: "#FFB3BE",
     laptop: { x: "0vw", y: "0vh", scale: 0.62, lidAngle: 0 },
     panelSide: "reveal",
     target: null,
@@ -44,6 +53,7 @@ export const STOPS = [
     heading: "Split clips where it counts",
     description:
       "Drop the split tool anywhere on a clip and Audacity cuts cleanly on the sample. Two clips, no mess, undo at any time.",
+    accentColor: "#FFB88A",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     panelSide: "left",
     target: null,
@@ -63,6 +73,7 @@ export const STOPS = [
     heading: "Drop a clip onto another",
     description:
       "Remember 'there is not enough room available to paste the selection'? Gone. Drag a clip onto another and it makes room. Pull the handle back and the audio's still there.",
+    accentColor: "#F5D97A",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     panelSide: "left",
     target: null,
@@ -78,6 +89,7 @@ export const STOPS = [
     heading: "Select many, move once",
     description:
       "Shift-click or lasso to grab any clips across any tracks, then move, trim or fade them as one. Obvious in hindsight. Strange to go back.",
+    accentColor: "#9EE0B8",
     laptop: { x: "22vw", y: "0vh", scale: 0.85 },
     panelSide: "left",
     target: null,
@@ -91,6 +103,7 @@ export const STOPS = [
     heading: "Group what belongs together",
     description:
       "Bind related takes into a group and they move and edit as one. Permanent, until you ungroup. Nothing destructive about it.",
+    accentColor: "#8ECEE8",
     laptop: { x: "22vw", y: "0vh", scale: 0.85 },
     panelSide: "left",
     target: null,
@@ -115,6 +128,7 @@ export const STOPS = [
     heading: "Shape volume right on the clip",
     description:
       "Flip on the envelope tool and drop nodes straight on the clip. Curves live with the audio. Move the clip, copy the clip, the shape comes with it.",
+    accentColor: "#C8B5F5",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     panelSide: "left",
     target: null,

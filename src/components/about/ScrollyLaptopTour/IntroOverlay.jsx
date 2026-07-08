@@ -7,14 +7,27 @@ function IntroOverlay({
   description,
   compact,
   centerHeading,
+  topAlign,
   dimProgress = 0,
+  accentColor,
 }) {
   const eyebrowClass = compact
     ? "font-mono text-sm tracking-[0.2em] uppercase"
     : "font-mono text-sm tracking-[0.3em] uppercase";
+  // topAlign uses a slightly smaller heading than the vertically-centered
+  // variant so the title stays on one line above the laptop rather than
+  // wrapping mid-word ("Audacity" / "4").
+  const headingColorClass = accentColor ? "" : "text-text-contrast";
   const headingClass = compact
-    ? "font-harmony mt-3 text-4xl md:text-5xl leading-[1.05] text-text-contrast"
-    : "font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] text-text-contrast";
+    ? `font-harmony mt-3 text-4xl md:text-5xl leading-[1.05] ${headingColorClass}`
+    : topAlign
+      ? `font-harmony mt-4 text-5xl md:text-6xl leading-[1.05] ${headingColorClass}`
+      : `font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] ${headingColorClass}`;
+  // When a stop passes an accentColor, tint the heading with it so
+  // scrolling into this stop reads as a color change (see stops.js
+  // for the per-stop palette).
+  const headingStyleColor = accentColor ? { color: accentColor } : undefined;
+  const headingContainerMax = topAlign ? "max-w-5xl" : "max-w-2xl";
   const dimOpacity = Math.max(0, Math.min(1, 1 - dimProgress));
   // Fade the text out very early in the lid-open scroll — by the time the
   // lid is ~10% open the heading should already be gone, so it never
@@ -39,7 +52,7 @@ function IntroOverlay({
 
   const headingBlock = (
     <div
-      className="text-center px-6 max-w-2xl"
+      className={`text-center px-6 ${headingContainerMax}`}
       style={{
         transform: `translateY(${-24 * textDim}px)`,
       }}
@@ -53,11 +66,18 @@ function IntroOverlay({
           filter: `blur(${5 * textDim}px)`,
           letterSpacing: `${0.2 + 0.15 * textDim}em`,
           transition: "opacity 120ms linear",
+          animation: topAlign
+            ? "tour-eyebrow-enter 520ms cubic-bezier(0.16, 0.72, 0.24, 1) 160ms both"
+            : undefined,
         }}
       >
         {eyebrow}
       </div>
-      <h2 className={headingClass} aria-label={heading}>
+      <h2
+        className={headingClass}
+        aria-label={heading}
+        style={headingStyleColor}
+      >
         {(() => {
           let charIdx = 0;
           const renderChar = (c, i) => {
@@ -83,6 +103,7 @@ function IntroOverlay({
               </span>
             );
           };
+          let wordIdx = 0;
           return tokens.map((token, ti) => {
             if (/^\s+$/.test(token)) {
               // Whitespace renders as a normal char so the browser
@@ -92,12 +113,25 @@ function IntroOverlay({
               return <React.Fragment key={`s-${ti}`}>{node}</React.Fragment>;
             }
             // Word: nowrap container so its chars stay together when
-            // the heading wraps.
+            // the heading wraps. In the intro variant each word also
+            // gets a small entrance stagger so the title reads like
+            // it's being spoken onto the screen.
+            const thisWordIdx = wordIdx++;
+            const wordAnimation = topAlign
+              ? `tour-word-enter 620ms cubic-bezier(0.16, 0.72, 0.24, 1) ${360 + thisWordIdx * 65}ms both`
+              : undefined;
             return (
               <span
                 key={`w-${ti}`}
                 aria-hidden="true"
-                style={{ display: "inline-block", whiteSpace: "nowrap" }}
+                style={{
+                  display: "inline-block",
+                  whiteSpace: "nowrap",
+                  animation: wordAnimation,
+                  willChange: topAlign
+                    ? "opacity, transform, filter"
+                    : undefined,
+                }}
               >
                 {Array.from(token).map((c) => {
                   const node = renderChar(c, charIdx);
@@ -112,11 +146,15 @@ function IntroOverlay({
     </div>
   );
 
+  // topAlign anchors the title card to the upper portion of the stage so
+  // the intro composition can pair it with a smaller/lower laptop without
+  // the heading colliding with the lid as it opens.
+  const paddingTop = topAlign ? "13vh" : "9vh";
   return (
     <div
       className="absolute inset-0 z-20 pointer-events-none flex flex-col items-center justify-between"
       style={{
-        paddingTop: "9vh",
+        paddingTop,
         paddingBottom: "9vh",
         opacity: visible ? 1 : 0,
         transition: "opacity 320ms ease-out",

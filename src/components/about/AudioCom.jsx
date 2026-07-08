@@ -44,7 +44,7 @@ function AudioComPanel({ panel, idx }) {
         >
           {panel.eyebrow}
         </div>
-        <h3 className="mt-3 font-harmony text-text-contrast text-2xl md:text-3xl leading-tight">
+        <h3 className="mt-3 font-sans font-semibold text-text-contrast text-xl md:text-2xl leading-tight">
           {panel.title}
         </h3>
         <p className="mt-3 text-text-contrast/65 text-base leading-relaxed max-w-md">

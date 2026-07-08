@@ -104,7 +104,7 @@ function Workspaces() {
     <section className="bg-background-dark px-6 lg:px-10 py-16 lg:py-20">
       <style dangerouslySetInnerHTML={{ __html: MOCKUP_VAR_CSS }} />
       <div
-        className="max-w-[2200px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-[1600px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
         <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">

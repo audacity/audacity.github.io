@@ -2,44 +2,20 @@ import React, { useEffect, useRef } from "react";
 import { useEntrance } from "../../hooks/useEntrance.js";
 
 const EFFECTS = [
-  {
-    id: "compressor",
-    name: "Compressor",
-    image: "/effects/Compressor.png",
-    accentSoft: "rgba(248, 113, 113, 0.25)",
-  },
+  { id: "compressor", name: "Compressor", image: "/effects/Compressor.png" },
   {
     id: "filter-curve",
     name: "Filter Curve",
     image: "/effects/Filter_curve.png",
-    accentSoft: "rgba(52, 211, 153, 0.22)",
   },
-  {
-    id: "graphic-eq",
-    name: "Graphic EQ",
-    image: "/effects/Graphic_EQ.png",
-    accentSoft: "rgba(167, 139, 250, 0.25)",
-  },
-  {
-    id: "limiter",
-    name: "Limiter",
-    image: "/effects/Limiter.png",
-    accentSoft: "rgba(251, 191, 36, 0.22)",
-  },
-  {
-    id: "reverb",
-    name: "Reverb",
-    image: "/effects/Reverb.png",
-    accentSoft: "rgba(124, 196, 255, 0.25)",
-  },
+  { id: "graphic-eq", name: "Graphic EQ", image: "/effects/Graphic_EQ.png" },
+  { id: "limiter", name: "Limiter", image: "/effects/Limiter.png" },
+  { id: "reverb", name: "Reverb", image: "/effects/Reverb.png" },
 ];
 
 function EffectCard({ effect }) {
   return (
-    <li
-      className="effect-card shrink-0 w-[min(86vw,520px)] flex flex-col items-center"
-      style={{ "--accent-soft": effect.accentSoft }}
-    >
+    <li className="effect-card shrink-0 w-[min(86vw,520px)] flex flex-col items-center">
       <div className="relative w-full" style={{ aspectRatio: "16 / 11" }}>
         <img
           src={effect.image}
@@ -51,7 +27,7 @@ function EffectCard({ effect }) {
         />
       </div>
       <div className="mt-6 text-center">
-        <h3 className="font-harmony text-text-contrast text-2xl md:text-3xl leading-tight">
+        <h3 className="font-sans font-semibold text-text-contrast text-base md:text-lg leading-tight">
           {effect.name}
         </h3>
       </div>
@@ -179,9 +155,7 @@ function EffectWindows() {
           height: 100%;
           object-fit: contain;
           user-select: none;
-          filter:
-            drop-shadow(0 30px 50px rgba(0, 0, 0, 0.5))
-            drop-shadow(0 0 28px var(--accent-soft));
+          filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.5));
         }
       `}</style>
     </section>

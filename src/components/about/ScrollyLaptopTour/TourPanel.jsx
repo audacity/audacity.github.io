@@ -63,7 +63,14 @@ function TourPanel({ stop, panelRef }) {
       <h3
         className="font-harmony mt-3 text-4xl md:text-5xl leading-[1.05]"
         data-tour-panel-heading
-        style={line(ENTER_STAGGER, EXIT_STAGGER)}
+        style={{
+          // Per-stop accent tint (see stops.js). Each stop advances the
+          // hue so a heading swap reads as a color change too, not just
+          // a text swap. Falls back to inherited white if a stop doesn't
+          // declare one.
+          color: displayStop.accentColor,
+          ...line(ENTER_STAGGER, EXIT_STAGGER),
+        }}
       >
         {displayStop.heading}
       </h3>

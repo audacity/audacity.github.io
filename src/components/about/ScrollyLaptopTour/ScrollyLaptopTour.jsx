@@ -250,7 +250,11 @@ function DesktopTour() {
   const [envelopeMode, setEnvelopeMode] = useState(undefined);
   const [envelopeFrame, setEnvelopeFrame] = useState(null);
   const [renderStopId, setRenderStopId] = useState(STOPS[0].id);
-  const [liveLidAngle, setLiveLidAngle] = useState(null);
+  // The intro stop config declares a closed lid (`lidAngle: -85`) so SSR/first
+  // paint show the laptop shut. On mount we run an auto-open animation and
+  // flip this to true; from then on the intro renders with the lid at 0deg,
+  // so scrolling back to the intro doesn't re-close it.
+  const [hasAutoOpened, setHasAutoOpened] = useState(false);
   const config = WORKSPACE_CONFIGS.podcast;
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
@@ -283,37 +287,6 @@ function DesktopTour() {
         })
         .filter(Boolean);
 
-      const introIdx = STOPS.findIndex((s) => s.id === "intro");
-      const introPanel = panelRefs.current[introIdx];
-      const closedAngle = STOPS[introIdx]?.laptop?.lidAngle ?? -85;
-      if (introPanel) {
-        const lidTrigger = ScrollTrigger.create({
-          trigger: introPanel,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-          onUpdate: (self) => {
-            // Write the lid transform straight to the DOM during scrub so
-            // scrolling doesn't trigger 60 React re-renders per second.
-            const angle = closedAngle + -closedAngle * self.progress;
-            if (lidRef.current) {
-              lidRef.current.style.transition = "none";
-              lidRef.current.style.transform = `rotateX(${angle}deg)`;
-            }
-          },
-          onLeave: () => {
-            // Hand control back to React for the discrete stop state.
-            if (lidRef.current) lidRef.current.style.transition = "";
-            setLiveLidAngle(null);
-          },
-          onLeaveBack: () => {
-            if (lidRef.current) lidRef.current.style.transition = "";
-            setLiveLidAngle(closedAngle);
-          },
-        });
-        triggers.push(lidTrigger);
-      }
-
       cleanup = () => {
         triggers.forEach((t) => t.kill());
       };
@@ -324,6 +297,68 @@ function DesktopTour() {
       cleanup();
     };
   }, []);
+
+  // Auto-open the laptop lid on mount. SSR paints the closed intro state
+  // (lidAngle -85), and just after hydration we rAF-tween the transform
+  // straight to the DOM (matching the previous scrub approach) so React
+  // doesn't have to re-render 60x during the open. Once the animation
+  // completes we flip `hasAutoOpened`, which promotes the intro's
+  // resting lid angle to 0 — scrolling back to intro then keeps the
+  // lid open rather than snapping shut.
+  useEffect(() => {
+    if (hasAutoOpened) return undefined;
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setHasAutoOpened(true);
+      return undefined;
+    }
+    const closedAngle = introStop.laptop?.lidAngle ?? -85;
+    const openAngle = 0;
+    // Timing choreographs with the CSS entrance animations on the laptop
+    // and title wrappers:
+    //   0-820ms   title drifts in (120ms delay + 700ms)
+    //   300-1150ms laptop drifts up and fades in (300ms delay + 850ms)
+    //   1000-2400ms lid opens — starts just as the laptop entrance
+    //     completes so the whole intro reads as one 2.4s beat.
+    const DURATION = 1400;
+    const START_DELAY = 1000;
+    // easeOutCubic — weighty settle without an overshoot that would
+    // read as bounce on the lid hinge.
+    const ease = (u) => 1 - Math.pow(1 - u, 3);
+    let raf = 0;
+    let t0 = 0;
+    let cancelled = false;
+    const tick = (now) => {
+      if (cancelled) return;
+      if (!t0) t0 = now;
+      const p = Math.max(0, Math.min(1, (now - t0) / DURATION));
+      const angle = closedAngle + (openAngle - closedAngle) * ease(p);
+      if (lidRef.current) {
+        lidRef.current.style.transition = "none";
+        lidRef.current.style.transform = `rotateX(${angle}deg)`;
+      }
+      if (p < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        if (lidRef.current) {
+          lidRef.current.style.transition = "";
+          lidRef.current.style.transform = "";
+        }
+        setHasAutoOpened(true);
+      }
+    };
+    const delayTimer = setTimeout(() => {
+      if (cancelled) return;
+      raf = requestAnimationFrame(tick);
+    }, START_DELAY);
+    return () => {
+      cancelled = true;
+      clearTimeout(delayTimer);
+      cancelAnimationFrame(raf);
+    };
+  }, [hasAutoOpened, introStop]);
 
   useEffect(() => {
     setRenderStopId(scrolledStop.id);
@@ -1705,13 +1740,12 @@ function DesktopTour() {
   const isIntro = stop.panelSide === "intro";
   const isOutro = stop.panelSide === "outro";
   const isReveal = stop.panelSide === "reveal";
-  const lidAngle = liveLidAngle ?? stop.laptop.lidAngle ?? 0;
-  const lidImmediate = liveLidAngle !== null;
-  const introClosedAngle = introStop.laptop.lidAngle ?? -85;
-  const introDim =
-    liveLidAngle === null
-      ? 0
-      : (liveLidAngle - introClosedAngle) / -introClosedAngle;
+  // Intro config declares lidAngle -85 so the SSR/first client paint show a
+  // closed laptop. Once the auto-open finishes we promote intro to a 0deg
+  // resting state so scrolling back doesn't re-close the lid.
+  const restingLidAngle =
+    isIntro && hasAutoOpened ? 0 : (stop.laptop.lidAngle ?? 0);
+  const lidAngle = restingLidAngle;
 
   const transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
   // scroll-snap-stop: always forces a hard scroll landing on each panel.
@@ -1728,41 +1762,89 @@ function DesktopTour() {
       className="relative bg-background-dark"
       style={{ overflow: "clip" }}
     >
+      <style>{`
+        @keyframes tour-laptop-enter {
+          0%   { opacity: 0; transform: translateY(96px) scale(0.94); filter: blur(10px); }
+          55%  { opacity: 1; }
+          100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        @keyframes tour-title-enter {
+          0%   { transform: translateY(14px); }
+          100% { transform: translateY(0); }
+        }
+        @keyframes tour-eyebrow-enter {
+          0%   { opacity: 0; transform: translateY(8px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes tour-word-enter {
+          0%   { opacity: 0; transform: translateY(22px); filter: blur(6px); }
+          100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes tour-glow-enter {
+          0%   { opacity: 0; }
+          100% { opacity: 1; }
+        }
+      `}</style>
       <div
         ref={stageRef}
         className="sticky top-0 h-screen w-full flex items-center justify-center"
         style={{ zIndex: 1 }}
       >
+        {/* Ambient glow behind the laptop — soft radial that anchors the
+            intro composition and gives the reveal a warmer, cinematic feel.
+            Fades out as the user leaves the intro so other stops stay flat. */}
         <div
-          ref={laptopRef}
-          className="relative z-10"
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
           style={{
-            transform,
-            transformOrigin: "center center",
-            transition: laptopTransition,
-            willChange: "transform",
+            zIndex: 0,
+            background:
+              "radial-gradient(60% 45% at 50% 62%, rgba(120, 70, 200, 0.28) 0%, rgba(60, 40, 140, 0.14) 40%, rgba(0,0,0,0) 72%)",
+            opacity: isIntro ? 1 : 0,
+            transition: "opacity 520ms ease-out",
+            animation: isIntro
+              ? "tour-glow-enter 1200ms ease-out 200ms both"
+              : undefined,
+          }}
+        />
+        {/* Entrance wrapper — plays once on mount so the laptop drifts up into
+            its resting closed pose. Nested transform composes with the
+            stop-driven translate/scale below, so the entrance and stop
+            transitions don't fight each other. */}
+        <div
+          style={{
+            animation:
+              "tour-laptop-enter 850ms cubic-bezier(0.16, 0.72, 0.24, 1) 300ms both",
+            willChange: "opacity, transform",
           }}
         >
-          <LaptopFrame
-            lidRef={lidRef}
-            lidAngle={lidAngle}
-            lidImmediate={lidImmediate}
+          <div
+            ref={laptopRef}
+            className="relative z-10"
+            style={{
+              transform,
+              transformOrigin: "center center",
+              transition: laptopTransition,
+              willChange: "transform",
+            }}
           >
-            <WorkspaceCanvas
-              config={config}
-              clipOverrides={clipOverrides}
-              extraClips={extraClips}
-              envelopeModeOverride={envelopeMode}
-              splitToolActive={!!splitFrame?.buttonActive}
-            />
-            <TourOverlay
-              overlay={stop.overlay}
-              targetId={stop.id}
-              target={stop.target}
-              splitFrame={splitFrame}
-              envelopeFrame={envelopeFrame}
-            />
-          </LaptopFrame>
+            <LaptopFrame lidRef={lidRef} lidAngle={lidAngle}>
+              <WorkspaceCanvas
+                config={config}
+                clipOverrides={clipOverrides}
+                extraClips={extraClips}
+                envelopeModeOverride={envelopeMode}
+                splitToolActive={!!splitFrame?.buttonActive}
+              />
+              <TourOverlay
+                overlay={stop.overlay}
+                targetId={stop.id}
+                target={stop.target}
+                splitFrame={splitFrame}
+                envelopeFrame={envelopeFrame}
+              />
+            </LaptopFrame>
+          </div>
         </div>
 
         <div
@@ -1781,13 +1863,26 @@ function DesktopTour() {
           <TourPanel stop={stop} panelRef={tourPanelRef} />
         </div>
 
-        <IntroOverlay
-          visible={isIntro}
-          eyebrow={introStop.eyebrow}
-          heading={introStop.heading}
-          centerHeading
-          dimProgress={introDim}
-        />
+        {/* Intro title card entrance — text drifts in and settles above the
+            laptop. The wrapper's animation runs once on mount; IntroOverlay's
+            own opacity transition still handles the exit when the user
+            scrolls past the intro stop. */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            zIndex: 20,
+            animation:
+              "tour-title-enter 700ms cubic-bezier(0.16, 0.72, 0.24, 1) 120ms both",
+            willChange: "opacity, transform",
+          }}
+        >
+          <IntroOverlay
+            visible={isIntro}
+            eyebrow={introStop.eyebrow}
+            heading={introStop.heading}
+            topAlign
+          />
+        </div>
         <IntroOverlay
           visible={isOutro}
           eyebrow={outroStop.eyebrow}
@@ -1800,6 +1895,7 @@ function DesktopTour() {
           heading={stop.heading}
           description={stop.description}
           compact
+          accentColor={stop.accentColor}
         />
 
         <ScrollIndicator

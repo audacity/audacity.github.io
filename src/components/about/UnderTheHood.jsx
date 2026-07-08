@@ -70,7 +70,7 @@ function UnderTheHood() {
   const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
-      <div className="max-w-[2200px] mx-auto">
+      <div className="max-w-[1600px] mx-auto">
         {/* Top row — headline + lede on the left, deep-dive link on the
             right. Mirrors the ClickUp-style hero block above the stat
             columns. */}
