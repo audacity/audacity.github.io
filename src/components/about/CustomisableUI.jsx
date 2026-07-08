@@ -1242,7 +1242,11 @@ function CustomisableUICard({ card, idx }) {
       style={entrance.style}
     >
       <div
-        className="flex-1 min-h-0 rounded-xl border border-white/10 bg-white/[0.03] relative overflow-hidden"
+        // Mobile: explicit min-height so the demo (absolute-positioned
+        // inside) has a box to fill — otherwise flex-1 collapses to 0
+        // when the ul isn't bounded by a fixed-height parent. Tablet+
+        // returns to flex-1 min-h-0 so cards divide the 2×2 grid space.
+        className="min-h-[240px] sm:flex-1 sm:min-h-0 rounded-xl border border-white/10 bg-white/[0.03] relative overflow-hidden"
         aria-hidden
       >
         <card.Demo />
@@ -1278,7 +1282,7 @@ function CustomisableUI() {
           </p>
         </header>
 
-        <ul className="mt-8 lg:mt-10 flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 grid-rows-[1fr_1fr] gap-5 lg:gap-7">
+        <ul className="mt-8 lg:mt-10 flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-[1fr_1fr] gap-5 lg:gap-7">
           {CARDS.map((card, idx) => (
             <CustomisableUICard key={card.id} card={card} idx={idx} />
           ))}
@@ -1287,16 +1291,29 @@ function CustomisableUI() {
 
       <style>{`
         .customisable-section {
-          height: 100vh;
+          /* Mobile: let the section grow — grid-cols-1 stacks 4 cards
+             vertically and each card needs real estate for its demo.
+             Locking to 100vh would clip them below the fold. */
           min-height: 100vh !important;
-          max-height: 100vh;
           display: flex !important;
           flex-direction: column;
           justify-content: center !important;
-          padding-top: 6vh;
-          padding-bottom: 6vh;
+          padding-top: 8vh;
+          padding-bottom: 8vh;
           scroll-snap-align: start;
           scroll-snap-stop: normal;
+        }
+        @media (min-width: 640px) {
+          /* Tablet+: 2×2 grid fits in one viewport, so re-apply the
+             fixed height. svh keeps it stable across chrome toggles. */
+          .customisable-section {
+            height: 100vh;
+            height: 100svh;
+            max-height: 100vh;
+            max-height: 100svh;
+            padding-top: 6vh;
+            padding-bottom: 6vh;
+          }
         }
         .customisable-section .customisable-text-block {
           min-height: 76px;

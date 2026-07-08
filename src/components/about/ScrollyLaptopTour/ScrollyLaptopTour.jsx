@@ -11,22 +11,19 @@ import { STOPS } from "./stops.js";
 import { generateDecayingSineWave } from "@dilsonspickles/components";
 
 function useDesktopAnimation() {
-  // Default to desktop so SSR can paint the intro state of the laptop
+  // Default to enabled so SSR can paint the intro state of the laptop
   // tour (closed lid, title overlay) rather than a blank section that
-  // shows nothing until JS hydrates. On the client we run the
-  // matchMedia checks after mount and switch to MobileFallback if the
-  // viewport is narrow or the user prefers reduced motion.
+  // shows nothing until JS hydrates. Only reduced-motion falls back to
+  // the simple stacked list — DesktopTour handles both desktop and
+  // mobile layouts internally (see isMobile below).
   const [enabled, setEnabled] = useState(true);
   useEffect(() => {
     const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mqWidth = window.matchMedia("(min-width: 1024px)");
-    const compute = () => setEnabled(mqWidth.matches && !mqMotion.matches);
+    const compute = () => setEnabled(!mqMotion.matches);
     compute();
     mqMotion.addEventListener("change", compute);
-    mqWidth.addEventListener("change", compute);
     return () => {
       mqMotion.removeEventListener("change", compute);
-      mqWidth.removeEventListener("change", compute);
     };
   }, []);
   return enabled;
@@ -255,6 +252,18 @@ function DesktopTour() {
   // flip this to true; from then on the intro renders with the lid at 0deg,
   // so scrolling back to the intro doesn't re-close it.
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
+  // Mobile layout override: same animations and scroll drivers, but the
+  // laptop stays centered (no per-stop x/y translates that push it out
+  // of frame) and text panels drop below the laptop instead of the
+  // side positioning designed for desktop viewports.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const compute = () => setIsMobile(mq.matches);
+    compute();
+    mq.addEventListener("change", compute);
+    return () => mq.removeEventListener("change", compute);
+  }, []);
   const config = WORKSPACE_CONFIGS.podcast;
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
@@ -1747,7 +1756,15 @@ function DesktopTour() {
     isIntro && hasAutoOpened ? 0 : (stop.laptop.lidAngle ?? 0);
   const lidAngle = restingLidAngle;
 
-  const transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
+  // On mobile, ignore the per-stop x/y translates (they were tuned to
+  // clear a side panel that doesn't exist in the mobile layout). Force
+  // a full 1.0 scale so the laptop reads at real size against the small
+  // viewport — the stops' desktop scales (0.48–1.0) were tuned to shrink
+  // the laptop to make room for side panels that don't apply here.
+  const laptopX = isMobile ? "0vw" : stop.laptop.x;
+  const laptopY = isMobile ? "0vh" : stop.laptop.y;
+  const laptopScale = isMobile ? 1 : stop.laptop.scale;
+  const transform = `translate3d(${laptopX}, ${laptopY}, 0) scale(${laptopScale})`;
   // scroll-snap-stop: always forces a hard scroll landing on each panel.
   // The previous 720ms slow-in-out laptop transition was still mid-animation
   // when the snap settled — read as judder on every panel except the intro
@@ -1784,11 +1801,30 @@ function DesktopTour() {
           0%   { opacity: 0; }
           100% { opacity: 1; }
         }
+        @keyframes mobile-tour-panel-in {
+          0%   { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+          100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        .mobile-tour-panel {
+          animation: mobile-tour-panel-in 460ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        }
       `}</style>
       <div
         ref={stageRef}
-        className="sticky top-0 h-screen w-full flex items-center justify-center"
-        style={{ zIndex: 1 }}
+        className={
+          "sticky top-0 w-full flex items-center justify-center " +
+          (isMobile ? "flex-col gap-6" : "")
+        }
+        style={{
+          height: "100vh",
+          // svh (not dvh) so the pinned tour container's height is
+          // stable across mobile chrome toggles — dvh caused visible
+          // reflow of the pinned laptop every time the URL bar hid.
+          ...(typeof CSS !== "undefined" && CSS.supports("height: 100svh")
+            ? { height: "100svh" }
+            : {}),
+          zIndex: 1,
+        }}
       >
         {/* Ambient glow behind the laptop — soft radial that anchors the
             intro composition and gives the reveal a warmer, cinematic feel.
@@ -1847,59 +1883,94 @@ function DesktopTour() {
           </div>
         </div>
 
-        <div
-          className="absolute top-1/2 z-20 px-8 lg:px-12 max-w-[380px]"
-          style={{
-            // Inset the panel from the viewport edge so it clears the scroll
-            // indicators (which now live at left: max(2vw, 24px)).
-            [panelOnRight ? "right" : "left"]: "max(72px, 5vw)",
-            transform: "translateY(-50%)",
-            opacity: panelOnLeft || panelOnRight ? 1 : 0,
-            transition: "opacity 280ms ease-out",
-            textAlign: panelOnRight ? "right" : "left",
-            pointerEvents: panelOnLeft || panelOnRight ? "auto" : "none",
-          }}
-        >
-          <TourPanel stop={stop} panelRef={tourPanelRef} />
-        </div>
+        {!isMobile && (
+          <div
+            className="absolute top-1/2 z-20 px-8 lg:px-12 max-w-[380px]"
+            style={{
+              // Inset the panel from the viewport edge so it clears the scroll
+              // indicators (which now live at left: max(2vw, 24px)).
+              [panelOnRight ? "right" : "left"]: "max(72px, 5vw)",
+              transform: "translateY(-50%)",
+              opacity: panelOnLeft || panelOnRight ? 1 : 0,
+              transition: "opacity 280ms ease-out",
+              textAlign: panelOnRight ? "right" : "left",
+              pointerEvents: panelOnLeft || panelOnRight ? "auto" : "none",
+            }}
+          >
+            <TourPanel stop={stop} panelRef={tourPanelRef} />
+          </div>
+        )}
 
-        {/* Intro title card entrance — text drifts in and settles above the
-            laptop. The wrapper's animation runs once on mount; IntroOverlay's
-            own opacity transition still handles the exit when the user
-            scrolls past the intro stop. */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            zIndex: 20,
-            animation:
-              "tour-title-enter 700ms cubic-bezier(0.16, 0.72, 0.24, 1) 120ms both",
-            willChange: "opacity, transform",
-          }}
-        >
-          <IntroOverlay
-            visible={isIntro}
-            eyebrow={introStop.eyebrow}
-            heading={introStop.heading}
-            topAlign
-          />
-        </div>
-        <IntroOverlay
-          visible={isOutro}
-          eyebrow={outroStop.eyebrow}
-          heading={outroStop.heading}
-          compact
-        />
-        <IntroOverlay
-          visible={isReveal}
-          eyebrow={stop.eyebrow}
-          heading={stop.heading}
-          description={stop.description}
-          compact
-          accentColor={stop.accentColor}
-        />
+        {!isMobile && (
+          <>
+            {/* Intro title card entrance — text drifts in and settles above the
+                laptop. The wrapper's animation runs once on mount; IntroOverlay's
+                own opacity transition still handles the exit when the user
+                scrolls past the intro stop. */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                zIndex: 20,
+                animation:
+                  "tour-title-enter 700ms cubic-bezier(0.16, 0.72, 0.24, 1) 120ms both",
+                willChange: "opacity, transform",
+              }}
+            >
+              <IntroOverlay
+                visible={isIntro}
+                eyebrow={introStop.eyebrow}
+                heading={introStop.heading}
+                topAlign
+              />
+            </div>
+            <IntroOverlay
+              visible={isOutro}
+              eyebrow={outroStop.eyebrow}
+              heading={outroStop.heading}
+              compact
+            />
+            <IntroOverlay
+              visible={isReveal}
+              eyebrow={stop.eyebrow}
+              heading={stop.heading}
+              description={stop.description}
+              compact
+              accentColor={stop.accentColor}
+            />
+          </>
+        )}
+
+        {isMobile && (
+          // Text card below the laptop for every stop — replaces the
+          // desktop side-panel + IntroOverlay pair. key={stop.id}
+          // remounts on stop change so the fade-in animation restarts.
+          <div
+            key={stop.id}
+            className="mobile-tour-panel px-6 text-center max-w-md z-20 relative"
+          >
+            <div
+              className="font-mono text-xs tracking-[0.2em] uppercase"
+              style={{ color: "rgba(255,255,255,0.4)" }}
+            >
+              {stop.eyebrow}
+            </div>
+            <h3
+              className="font-harmony mt-2 text-2xl sm:text-3xl leading-tight text-text-contrast"
+              style={stop.accentColor ? { color: stop.accentColor } : undefined}
+            >
+              {stop.heading}
+            </h3>
+            {stop.description && (
+              <p className="mt-2 text-sm text-text-contrast/75 leading-relaxed">
+                {stop.description}
+              </p>
+            )}
+          </div>
+        )}
 
         <ScrollIndicator
           visible={!isIntro}
+          orientation={isMobile ? "horizontal" : "vertical"}
           stops={STOPS.filter(
             (s) => !s.noScrollPanel && s.panelSide !== "intro",
           )}
@@ -1922,7 +1993,20 @@ function DesktopTour() {
         />
       </div>
 
-      <div style={{ marginTop: "-100vh", position: "relative", zIndex: 2 }}>
+      <div
+        style={{
+          marginTop: "-100vh",
+          // svh to match the sticky container's svh — otherwise the
+          // scroll drivers offset by a different unit than the pinned
+          // area and the whole tour's scroll math misaligns as chrome
+          // toggles.
+          ...(typeof CSS !== "undefined" && CSS.supports("margin-top: -100svh")
+            ? { marginTop: "-100svh" }
+            : {}),
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
         {STOPS.map((s, i) =>
           s.noScrollPanel ? null : (
             <section

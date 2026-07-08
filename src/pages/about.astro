@@ -124,7 +124,11 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
 
   .scroll-bg-page > .about-section:nth-child(n + 2),
   .scroll-bg-page > .about-section:nth-child(n + 2) section {
+    /* svh (small viewport height) so section min-heights stay stable
+       as mobile browser chrome shows/hides — dvh would grow/shrink on
+       every scroll and cause the whole page to reflow. */
     min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     justify-content: center;

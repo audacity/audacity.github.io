@@ -81,7 +81,7 @@ function NavigationReact(props) {
         </div>
 
         <button
-          className="flex w-10 h-10 hover:bg-white/10 active:bg-white/20 rounded-sm justify-center items-center sm:hidden text-text-contrast"
+          className="flex w-10 h-10 ml-auto hover:bg-white/10 active:bg-white/20 rounded-sm justify-center items-center sm:hidden text-text-contrast"
           onClick={() => handleHamburgerMenuClick()}
           aria-label="Hamburger menu"
         >

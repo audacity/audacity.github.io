@@ -1311,9 +1311,13 @@ function CoreEditingCarouselCard({
   paused,
   setPaused,
   canHover,
+  isMobile,
 }) {
   const entrance = useEntrance({ delayMs: idx * 80 });
-  const isActive = idx === activeIdx;
+  // In the mobile vertical stack every card is on-screen simultaneously,
+  // so every demo should just play and every card should read as its
+  // own focused moment — no dim/active distinction.
+  const isActive = isMobile ? true : idx === activeIdx;
   const handlePointerEnter = (e) => {
     // e.buttons !== 0 = pointer is down (mid-drag). Otherwise dragging
     // the carousel past cards would keep re-triggering active-card
@@ -1342,15 +1346,21 @@ function CoreEditingCarouselCard({
   return (
     <li
       ref={entrance.ref}
-      className="snap-start shrink-0 w-[min(82vw,420px)] flex flex-col"
+      className="w-full sm:snap-start sm:shrink-0 sm:w-[min(82vw,420px)] flex flex-col"
       style={entrance.style}
     >
       <div
         className={
-          "flex-1 min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden cursor-grab transition-[border-color,box-shadow] duration-300 " +
-          (isActive
-            ? "border-white/30 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
-            : "border-white/10")
+          // Mobile: shorter demo box (aspect-friendly) with no hover
+          // border variation — all cards read as their own moment.
+          // sm+: fixed viewport carousel, flex-1 fills the row, hover
+          // grows the active border.
+          "h-[220px] sm:h-auto sm:flex-1 sm:min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden sm:cursor-grab transition-[border-color,box-shadow] duration-300 " +
+          (isMobile
+            ? "border-white/10"
+            : isActive
+              ? "border-white/30 shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+              : "border-white/10")
         }
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
@@ -1373,21 +1383,22 @@ function CoreEditingCarouselCard({
           )}
         </div>
 
-        {/* Progress bar — only mounted on the active card. key={activeIdx}
-            restarts the CSS animation on each advance; play-state pauses
-            it during hover/tap holds so the visual matches the timer. */}
-        <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/[0.06]">
-          {isActive && (
-            <div
-              key={`progress-${activeIdx}`}
-              className="h-full bg-white/55 origin-left"
-              style={{
-                animation: `coreEditingProgress ${CYCLE_MS}ms linear forwards`,
-                animationPlayState: paused ? "paused" : "running",
-              }}
-            />
-          )}
-        </div>
+        {/* Progress bar — only for the sm+ autoplay carousel. Mobile
+            stack doesn't autoplay, so no timer to visualize. */}
+        {!isMobile && (
+          <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/[0.06]">
+            {isActive && (
+              <div
+                key={`progress-${activeIdx}`}
+                className="h-full bg-white/55 origin-left"
+                style={{
+                  animation: `coreEditingProgress ${CYCLE_MS}ms linear forwards`,
+                  animationPlayState: paused ? "paused" : "running",
+                }}
+              />
+            )}
+          </div>
+        )}
       </div>
       <div className="mt-5 px-1 shrink-0 card-text-block">
         <h3 className="font-sans font-semibold text-text-contrast text-lg md:text-xl leading-[1.15]">
@@ -1408,28 +1419,42 @@ function CoreEditing() {
   const canHover = useHoverCapable();
   const [activeIdx, setActiveIdx] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const carouselRef = useRef(null);
   const sectionInView = useInView(sectionRef);
   const headerEntrance = useEntrance();
 
-  // Autoplay: when the section is on-screen and nothing is engaged,
-  // schedule the next advance. Re-runs on every active change so the new
-  // card gets its own full CYCLE_MS window.
+  // Below sm the layout switches from a horizontal one-at-a-time
+  // carousel to a vertical stack — every card is visible at once, so
+  // autoplay + active-card cycling no longer makes sense.
   useEffect(() => {
-    if (paused || !sectionInView) return;
+    const mq = window.matchMedia("(max-width: 639px)");
+    const compute = () => setIsMobile(mq.matches);
+    compute();
+    mq.addEventListener("change", compute);
+    return () => mq.removeEventListener("change", compute);
+  }, []);
+
+  // Autoplay: when the section is on-screen and nothing is engaged,
+  // schedule the next advance. Skipped on mobile (all cards visible
+  // simultaneously in the stack, so cycling active-idx is pointless).
+  useEffect(() => {
+    if (isMobile || paused || !sectionInView) return;
     const t = setTimeout(() => {
       setActiveIdx((i) => (i + 1) % CARDS.length);
     }, CYCLE_MS);
     return () => clearTimeout(t);
-  }, [paused, sectionInView, activeIdx]);
+  }, [isMobile, paused, sectionInView, activeIdx]);
 
   // Click-and-drag scrolling for the horizontal carousel. Desktop users
   // don't get a native swipe on a wheel-only mouse and reaching for the
   // hidden scrollbar is awkward, so mouse/pen pointer-drag gives them a
   // way to walk through the row. Touch is intentionally excluded — the
   // browser's native pan already handles it and doing both fights.
+  // Skipped on mobile: no horizontal row to drag through in the stack.
   useEffect(() => {
+    if (isMobile) return;
     const ul = carouselRef.current;
     if (!ul) return;
     let dragging = false;
@@ -1490,7 +1515,7 @@ function CoreEditing() {
       window.removeEventListener("pointerup", finish);
       window.removeEventListener("pointercancel", finish);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
@@ -1522,13 +1547,11 @@ function CoreEditing() {
       <div className="mt-8 lg:mt-10 flex-1 min-h-0 flex">
         <ul
           ref={carouselRef}
-          className="core-editing-carousel flex items-stretch gap-5 lg:gap-7 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-6 lg:px-10 scrollbar-hide w-full max-w-[1600px] mx-auto cursor-grab"
+          className="core-editing-carousel flex flex-col sm:flex-row gap-10 sm:gap-5 lg:gap-7 sm:items-stretch sm:overflow-x-auto sm:overflow-y-clip sm:snap-x sm:snap-proximity px-6 lg:px-10 scrollbar-hide w-full max-w-[1600px] mx-auto sm:cursor-grab"
           style={{
-            // Prevent the horizontal carousel from swallowing vertical
-            // scroll: `touch-action: pan-x` routes vertical touch gestures
-            // to the page, and `overscroll-behavior-x: contain` stops a
-            // horizontal fling from chaining into browser back-nav on iOS.
-            touchAction: "pan-x",
+            // Native `overflow-x: auto` on the sm+ carousel handles
+            // horizontal swipes; vertical bubbles to the page. Mobile
+            // is a plain vertical stack — no scroll container at all.
             overscrollBehaviorX: "contain",
           }}
         >
@@ -1542,11 +1565,12 @@ function CoreEditing() {
               paused={paused}
               setPaused={setPaused}
               canHover={canHover}
+              isMobile={isMobile}
             />
           ))}
           <li
             aria-hidden
-            className="shrink-0 w-6 lg:w-10"
+            className="hidden sm:block shrink-0 w-6 lg:w-10"
             style={{ scrollSnapAlign: "none" }}
           />
         </ul>
@@ -1554,9 +1578,10 @@ function CoreEditing() {
 
       <style>{`
         .core-editing-section {
-          height: 100vh;
+          /* Mobile: no viewport-height lock. The carousel cards get an
+             explicit height so their demos have room, and the section
+             sizes to fit header + cards + padding. */
           min-height: 100vh !important;
-          max-height: 100vh;
           display: flex !important;
           flex-direction: column;
           justify-content: center !important;
@@ -1565,6 +1590,16 @@ function CoreEditing() {
           gap: 0;
           scroll-snap-align: start;
           scroll-snap-stop: normal;
+        }
+        @media (min-width: 1024px) {
+          /* Desktop: lock to viewport so the carousel reads as a single
+             screen. svh (not dvh) stays stable across chrome toggles. */
+          .core-editing-section {
+            height: 100vh;
+            height: 100svh;
+            max-height: 100vh;
+            max-height: 100svh;
+          }
         }
         .core-editing-section .card-text-block {
           min-height: 132px;

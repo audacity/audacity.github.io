@@ -8,13 +8,31 @@ function LaptopFrame({
   lidRef,
   lidAngle = 0,
   lidImmediate = false,
+  // Override for callers that need to cap on both width and viewport
+  // height — e.g. the pinned mobile tour, where a pure 96vw frame
+  // would dominate the composition on landscape phones.
+  maxWidth = "min(96vw, 1330px)",
 }) {
+  // All chunky dimensions scale off the frame's own width via
+  // --frame-w so the case never looks proportionally too thick on
+  // mobile. clamp() sets a sane minimum for tiny viewports and caps
+  // at the values originally designed for the ~1330px desktop tour.
+  const bezel = "clamp(9px, calc(var(--frame-w) * 0.021), 28px)";
+  const outerRadius = "clamp(14px, calc(var(--frame-w) * 0.021), 28px)";
+  const innerRadius = "clamp(6px, calc(var(--frame-w) * 0.0105), 14px)";
+  const lipH = "clamp(5px, calc(var(--frame-w) * 0.0083), 11px)";
+  const baseH = "clamp(16px, calc(var(--frame-w) * 0.024), 32px)";
+  const baseRadius = "clamp(11px, calc(var(--frame-w) * 0.018), 24px)";
+  const glowH = "clamp(28px, calc(var(--frame-w) * 0.053), 70px)";
+  const shadowBlur = "clamp(48px, calc(var(--frame-w) * 0.105), 140px)";
+  const shadowY = "clamp(18px, calc(var(--frame-w) * 0.039), 52px)";
   return (
     <div
       ref={frameRef}
       className="relative mx-auto"
       style={{
-        width: "min(96vw, 1330px)",
+        "--frame-w": maxWidth,
+        width: "var(--frame-w)",
         willChange: "transform",
         perspective: 3500,
       }}
@@ -27,8 +45,10 @@ function LaptopFrame({
       >
         <div
           ref={lidRef}
-          className="rounded-[28px] p-[21px] lg:p-[28px] shadow-[0_52px_140px_-35px_rgba(0,0,0,0.8)]"
           style={{
+            padding: bezel,
+            borderRadius: outerRadius,
+            boxShadow: `0 ${shadowY} ${shadowBlur} -35px rgba(0,0,0,0.8)`,
             background: "linear-gradient(180deg, #1f1f23 0%, #15151a 100%)",
             border: "1px solid rgba(255,255,255,0.05)",
             transformOrigin: "bottom center",
@@ -39,7 +59,10 @@ function LaptopFrame({
             backfaceVisibility: "hidden",
           }}
         >
-          <div className="aspect-[16/9] rounded-[14px] overflow-hidden bg-black relative">
+          <div
+            className="aspect-[16/9] overflow-hidden bg-black relative"
+            style={{ borderRadius: innerRadius }}
+          >
             {children}
           </div>
         </div>
@@ -48,7 +71,7 @@ function LaptopFrame({
           className="mx-auto"
           style={{
             width: "92%",
-            height: 11,
+            height: lipH,
             background: "linear-gradient(180deg, #2a2a2e 0%, #18181c 100%)",
           }}
         />
@@ -56,19 +79,19 @@ function LaptopFrame({
           style={{
             width: "108%",
             marginLeft: "-4%",
-            height: 32,
+            height: baseH,
             background: "linear-gradient(180deg, #1a1a1d 0%, #0a0a0d 100%)",
             clipPath: "polygon(3% 0, 97% 0, 100% 100%, 0 100%)",
-            borderBottomLeftRadius: 24,
-            borderBottomRightRadius: 24,
+            borderBottomLeftRadius: baseRadius,
+            borderBottomRightRadius: baseRadius,
           }}
         />
         <div
           className="mx-auto"
           style={{
             width: "70%",
-            height: 70,
-            marginTop: 11,
+            height: glowH,
+            marginTop: lipH,
             background:
               "radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, transparent 70%)",
             filter: "blur(10px)",

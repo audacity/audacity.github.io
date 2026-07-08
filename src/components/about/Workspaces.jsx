@@ -37,14 +37,22 @@ const PANEL_MAX_W_PX = 2200;
 // calc below can reference them at every breakpoint without us
 // hand-rolling media queries inside calc().
 const MOCKUP_BASE_STYLE = {
-  aspectRatio: MOCKUP_ASPECT,
+  // aspectRatio is set via CSS class (see MOCKUP_VAR_CSS) so mobile
+  // gets full 16:9 and desktop gets the 32:9 trimmed strip. Setting it
+  // here as an inline style would override the CSS media query.
+  //
   // The full-height 16:9 workspace would be (panel-content-width) ×
   // (panel-content-width × 9/16). We cap that height at the reserved
   // viewport budget, then size the container's width off the smaller
   // of those two limits.
+  //
+  // svh (not vh) so mobile browser chrome toggling as the user scrolls
+  // doesn't change the mockup dimensions — otherwise the inner
+  // ResizeObserver-driven `useScaleToFit` re-scales the workspace
+  // canvas continuously, which reads as the UI "moving" mid-scroll.
   width:
     "min(" +
-    "calc(min(75vh, 100vh - " +
+    "calc(min(75svh, 100svh - " +
     RESERVED_VERTICAL_PX +
     "px) * 16 / 9), " +
     "calc(min(100vw - var(--mockup-section-total), " +
@@ -56,11 +64,20 @@ const MOCKUP_BASE_STYLE = {
 
 const MOCKUP_VAR_CSS = `
   .workspaces-mockup {
-    --mockup-section-total: 48px;
-    --mockup-panel-total: 48px;
+    /* Mobile — full 16:9 aspect (not the 32:9 trimmed strip used on
+       desktop) so the mockup renders TALL enough to actually show the
+       tracks. Section + panel padding squeezed near zero to give the
+       mockup the whole viewport width. */
+    --mockup-section-total: 16px;
+    --mockup-panel-total: 16px;
+    aspect-ratio: 16 / 9;
   }
   @media (min-width: 640px) {
-    .workspaces-mockup { --mockup-panel-total: 80px; }
+    .workspaces-mockup {
+      --mockup-section-total: 48px;
+      --mockup-panel-total: 80px;
+      aspect-ratio: 32 / 9;
+    }
   }
   @media (min-width: 1024px) {
     .workspaces-mockup {
@@ -101,22 +118,31 @@ function Workspaces() {
   );
 
   return (
-    <section className="bg-background-dark px-6 lg:px-10 py-16 lg:py-20">
+    <section
+      className="bg-background-dark px-2 sm:px-6 lg:px-10 py-4 sm:py-16 lg:py-20 min-h-[100vh] sm:min-h-0 flex flex-col"
+      style={{
+        // svh (small viewport height) so the section keeps a stable
+        // height even as Safari's bottom chrome bar hides/shows. dvh
+        // would grow/shrink with the chrome and cause the flex-1 hero
+        // card + centred content to visibly reflow on every scroll.
+        minHeight: "100svh",
+      }}
+    >
       <style dangerouslySetInnerHTML={{ __html: MOCKUP_VAR_CSS }} />
       <div
-        className="max-w-[1600px] mx-auto rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-[1600px] mx-auto w-full flex-1 sm:flex-none flex flex-col justify-center sm:block sm:rounded-[32px] overflow-hidden sm:shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
-        <div className="pt-14 lg:pt-16 px-6 sm:px-10 lg:px-12">
+        <div className="sm:pt-14 lg:pt-16 px-2 sm:px-10 lg:px-12 py-6 sm:py-0 flex flex-col gap-6 sm:block">
           <header
             ref={headerEntrance.ref}
-            className="max-w-2xl mx-auto text-center"
+            className="max-w-2xl mx-auto text-center order-2 sm:order-none"
             style={headerEntrance.style}
           >
-            <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+            <h2 className="font-harmony text-text-contrast text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
               Workspaces
             </h2>
-            <p className="mt-6 text-text-contrast/85 text-base md:text-lg">
+            <p className="mt-3 sm:mt-6 text-text-contrast/85 text-sm sm:text-base md:text-lg">
               Pick a workspace to see how Audacity adapts. Tools, panels, and
               shortcuts reshape around the way you actually work.
             </p>
@@ -126,7 +152,7 @@ function Workspaces() {
             ref={chipsEntrance.ref}
             role="tablist"
             aria-label="Workspaces"
-            className="mt-9 lg:mt-10 flex flex-wrap justify-center gap-2.5"
+            className="mt-0 sm:mt-9 lg:mt-10 flex flex-wrap justify-center gap-2 order-3 sm:order-none"
             style={chipsEntrance.style}
           >
             {WORKSPACE_KEYS.map((key) => {
@@ -141,7 +167,7 @@ function Workspaces() {
                   aria-selected={isActive}
                   onClick={() => setActiveKey(key)}
                   className={
-                    "px-4 py-2 rounded-md border font-muse-sans text-sm md:text-base transition-colors " +
+                    "px-3 sm:px-4 py-1.5 sm:py-2 rounded-md border font-muse-sans text-xs sm:text-sm md:text-base transition-colors " +
                     (isActive
                       ? "bg-text-contrast text-background-dark border-text-contrast"
                       : "bg-white/5 text-text-contrast border-white/30 hover:border-white/50")
@@ -163,7 +189,7 @@ function Workspaces() {
           */}
           <div
             ref={mockupEntrance.ref}
-            className="workspaces-mockup mt-8 lg:mt-10 mx-auto rounded-t-2xl border border-white/20 border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden"
+            className="workspaces-mockup mt-0 sm:mt-8 lg:mt-10 mx-auto rounded-2xl sm:rounded-t-2xl sm:rounded-b-none border border-white/20 sm:border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden order-1 sm:order-none"
             style={{
               ...MOCKUP_BASE_STYLE,
               ...mockupEntrance.style,

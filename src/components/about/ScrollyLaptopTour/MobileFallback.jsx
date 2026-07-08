@@ -5,6 +5,10 @@ import WorkspaceCanvas from "../workspaces/WorkspaceCanvas.jsx";
 import { WORKSPACE_CONFIGS } from "../workspaces/workspaceConfigs.js";
 import { STOPS } from "./stops.js";
 
+// Reduced-motion fallback. The main experience (DesktopTour) handles
+// both desktop and mobile layouts, so this component is only used when
+// the user has requested reduced motion — a simple stacked list, no
+// scroll pinning, no per-stop rAF loops.
 function MobileFallback() {
   const config = WORKSPACE_CONFIGS.podcast;
   return (
@@ -27,12 +31,19 @@ function MobileFallback() {
               >
                 {stop.eyebrow}
               </div>
-              <h3 className="font-harmony mt-2 text-3xl leading-tight">
+              <h3
+                className="font-harmony mt-2 text-3xl leading-tight text-text-contrast"
+                style={
+                  stop.accentColor ? { color: stop.accentColor } : undefined
+                }
+              >
                 {stop.heading}
               </h3>
-              <p className="mt-3 text-base text-text-contrast/70 leading-relaxed">
-                {stop.description}
-              </p>
+              {stop.description && (
+                <p className="mt-3 text-base text-text-contrast/70 leading-relaxed">
+                  {stop.description}
+                </p>
+              )}
             </div>
           </div>
         ))}
