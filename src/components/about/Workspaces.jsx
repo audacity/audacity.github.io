@@ -66,10 +66,11 @@ const MOCKUP_VAR_CSS = `
   .workspaces-mockup {
     /* Mobile — full 16:9 aspect (not the 32:9 trimmed strip used on
        desktop) so the mockup renders TALL enough to actually show the
-       tracks. Section + panel padding squeezed near zero to give the
-       mockup the whole viewport width. */
+       tracks. Section padding = px-2 (16px total). Panel padding =
+       px-4 (32px total) to give the card content some breathing room
+       inside the rounded/shadowed hero container. */
     --mockup-section-total: 16px;
-    --mockup-panel-total: 16px;
+    --mockup-panel-total: 32px;
     aspect-ratio: 16 / 9;
   }
   @media (min-width: 640px) {
@@ -130,21 +131,21 @@ function Workspaces() {
     >
       <style dangerouslySetInnerHTML={{ __html: MOCKUP_VAR_CSS }} />
       <div
-        className="max-w-[1600px] mx-auto w-full flex-1 sm:flex-none flex flex-col justify-center sm:block sm:rounded-[32px] overflow-hidden sm:shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
+        className="max-w-[1600px] mx-auto w-full flex-1 sm:flex-none flex flex-col justify-center sm:block rounded-3xl sm:rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.5)] ring-1 ring-white/10 sm:ring-0"
         style={{ background: HERO_PANEL_GRADIENT }}
       >
-        <div className="sm:pt-14 lg:pt-16 px-2 sm:px-10 lg:px-12 py-6 sm:py-0 flex flex-col gap-6 sm:block">
+        <div className="sm:pt-14 lg:pt-16 px-4 sm:px-10 lg:px-12 py-6 sm:py-0 flex flex-col gap-6 sm:block">
           <header
             ref={headerEntrance.ref}
             className="max-w-2xl mx-auto text-center order-2 sm:order-none"
             style={headerEntrance.style}
           >
-            <h2 className="font-harmony text-text-contrast text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-              Workspaces
+            <h2 className="font-harmony text-text-contrast text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+              Pick a workspace, or build your own
             </h2>
             <p className="mt-3 sm:mt-6 text-text-contrast/85 text-sm sm:text-base md:text-lg">
-              Pick a workspace to see how Audacity adapts. Tools, panels, and
-              shortcuts reshape around the way you actually work.
+              Tools, panels, and shortcuts reshape around the way you actually
+              work.
             </p>
           </header>
 
