@@ -6,9 +6,9 @@ const PANELS = [
     id: "effects",
     image: "/museHub/MuseHub_effects.png",
     eyebrow: "Get Effects",
-    title: "Get Effects opens MuseHub",
+    title: "Get plugins, samples, and oneshots",
     description:
-      "MuseHub opens with plugins, samples, and oneshots, free and paid, all in one place.",
+      "Get Effects gives you access to thousands of plugins, samples, and oneshots from MuseHub, free and paid.",
   },
   {
     id: "plugin",
@@ -69,9 +69,8 @@ function MuseHub() {
             Effects, samples, and oneshots, from MuseHub
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            MuseHub is the companion app that ships with Audacity 4. Open it
-            from Get Effects to browse thousands of plugins, samples, and
-            oneshots, free and paid.
+            Open Get Effects to browse thousands of plugins, samples, and
+            oneshots from MuseHub, free and paid.
           </p>
         </header>
 

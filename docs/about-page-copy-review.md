@@ -220,16 +220,16 @@ Compressor · Filter Curve · Graphic EQ · Limiter · Reverb
 
 _Source: `src/components/about/MuseHub.jsx`_
 
-### Section header _(revised 2026-07-09, twice — see notes)_
+### Section header _(revised 2026-07-09, three times — see notes)_
 
 - **Heading:** Effects, samples, and oneshots, from MuseHub
-- **Lede:** MuseHub is the companion app that ships with Audacity 4. Open it from Get Effects to browse thousands of plugins, samples, and oneshots, free and paid.
+- **Lede:** Open Get Effects to browse thousands of plugins, samples, and oneshots from MuseHub, free and paid.
 
 ### Panel — Get Effects _(revised 2026-07-09)_
 
 - **Eyebrow:** Get Effects _(this eyebrow DOES render on screen for MuseHub/AudioCom panels — unlike the CoreEditing/CustomisableUI cards)_
-- **Title:** Get Effects opens MuseHub
-- **Body:** MuseHub opens with plugins, samples, and oneshots, free and paid, all in one place.
+- **Title:** Get plugins, samples, and oneshots
+- **Body:** Get Effects gives you access to thousands of plugins, samples, and oneshots from MuseHub, free and paid.
 
 ### Panel — Background install _(revised 2026-07-09)_
 
@@ -237,10 +237,11 @@ _Source: `src/components/about/MuseHub.jsx`_
 - **Title:** Keep working while it installs
 - **Body:** Choose a plugin in MuseHub and it installs in the background. Switch back to Audacity and it's ready in your effect chain once it's done. No restart needed.
 
-> ⚠️ Two rounds of factual correction on this section, both from Alex directly (not code-verified — per [[feedback_trust_domain_authority]] these are taken as ground truth):
+> ⚠️ Three rounds of factual correction on this section, all from Alex directly (not code-verified — per [[feedback_trust_domain_authority]] these are taken as ground truth):
 >
-> 1. MuseHub is a **separate companion program**, not embedded in the editor — "without leaving the editor" / "from inside the app" framing was wrong. Get Effects _launches_ MuseHub; it doesn't browse in-place.
+> 1. MuseHub is a **separate program**, not embedded in the editor — "without leaving the editor" / "from inside the app" framing was wrong.
 > 2. MuseHub has **no VSTi/MIDI support**, so "instruments" is not a real content category — the catalogue is plugins, samples, and oneshots only. (The word "instruments" was in the _original_ pre-review copy too, so this bug predates this pass.)
+> 3. MuseHub is **not** "the companion app that ships with Audacity" either — the actual relationship is more complex (Audacity itself is apparently downloadable from MuseHub). Alex asked us to deliberately not characterize what MuseHub is; copy now only states what you can get from it, with no claim about its nature or relationship to Audacity.
 
 ---
 
