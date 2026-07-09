@@ -6,17 +6,17 @@ const PANELS = [
     id: "project-page",
     image: "/audiocom/Project_page.png",
     eyebrow: "Project page",
-    title: "Every project, one home",
+    title: "Keep track of your cloud projects",
     description:
-      "Open recents, manage local projects, and pull anything from audio.com into your session without leaving Audacity.",
+      "Open your cloud projects from the new Cloud projects tab, or view them in audio.com.",
   },
   {
     id: "audiocom",
     image: "/audiocom/Audio_com.png",
     eyebrow: "Audio.com",
-    title: "Publish in two clicks",
+    title: "Your projects on the cloud",
     description:
-      "Upload straight from the editor to your audio.com workspace. Listeners get a shareable page, you get cloud storage and revision history.",
+      "Upload your project to your audio.com profile, or export audio directly to the community.",
   },
 ];
 
@@ -69,8 +69,8 @@ function AudioCom() {
             Save to the cloud, share to the world.
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Sign in with your audio.com account and the editor and the web meet
-            in the middle — projects on one side, listeners on the other.
+            Save your projects to the cloud, or share your audio with the world,
+            using audio.com.
           </p>
         </header>
 

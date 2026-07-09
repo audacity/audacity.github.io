@@ -182,22 +182,22 @@ _Source: `src/components/about/CustomisableUI.jsx`_
 
 _Source: `src/components/about/AudioCom.jsx`_
 
-### Section header
+### Section header _(lede revised 2026-07-09)_
 
-- **Heading:** Save to the cloud, share to the world.
-- **Lede:** Sign in with your audio.com account and the editor and the web meet in the middle — projects on one side, listeners on the other.
+- **Heading:** Save to the cloud, share to the world. _(kept — Alex's favourite line so far)_
+- **Lede:** Save your projects to the cloud, or share your audio with the world, using audio.com.
 
-### Panel — Project page
+### Panel — Project page _(revised 2026-07-09)_
 
 - **Eyebrow:** Project page
-- **Title:** Every project, one home
-- **Body:** Open recents, manage local projects, and pull anything from audio.com into your session without leaving Audacity.
+- **Title:** Keep track of your cloud projects
+- **Body:** Open your cloud projects from the new Cloud projects tab, or view them in audio.com.
 
-### Panel — Audio.com
+### Panel — Audio.com _(revised 2026-07-09)_
 
 - **Eyebrow:** Audio.com
-- **Title:** Publish in two clicks
-- **Body:** Upload straight from the editor to your audio.com workspace. Listeners get a shareable page, you get cloud storage and revision history.
+- **Title:** Your projects on the cloud
+- **Body:** Upload your project to your audio.com profile, or export audio directly to the community.
 
 ---
 
