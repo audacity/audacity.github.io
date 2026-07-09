@@ -1248,49 +1248,49 @@ export const CARDS = [
   {
     id: "clip-handles",
     eyebrow: "Clip handles",
-    title: "Trim or stretch, same gesture",
+    title: "Trim and stretch handles",
     description:
-      "Grab a handle on either edge of a clip. Drag to trim, or hold to time-stretch — the source is always there if you change your mind.",
+      "The top handle trims the clip. The bottom handle stretches it.",
     Demo: ClipHandlesDemo,
   },
   {
     id: "track-meters",
     eyebrow: "Track meters",
-    title: "See every level at a glance",
+    title: "Per-track metering",
     description:
-      "Per-track meters next to every channel and a master meter in the transport — peaks held, recents shown, calibrated to dBFS.",
+      "Track meters show input levels while recording, and playback levels the rest of the time. Use them to dial in your mix.",
     Demo: TrackMetersDemo,
   },
   {
     id: "vertical-meter",
-    eyebrow: "Vertical master meter",
-    title: "Stand it up",
+    eyebrow: "Vertical playback meter",
+    title: "Vertical playback meter",
     description:
-      "Long-requested: dock the master meter vertically. Stays out of the transport's way and shows more headroom at a glance.",
+      "The playback meter can now be positioned vertically, using the application's full height.",
     Demo: VerticalMeterDemo,
   },
   {
     id: "labels",
     eyebrow: "Label tracks",
-    title: "Mark up your project",
+    title: "Markers and regions",
     description:
-      "Drop labels on the timeline to mark takes, edits or sections. They travel with the audio and survive every move.",
+      "Mark a point or a region on the timeline to annotate your project. Export audio based on your labels.",
     Demo: LabelsDemo,
   },
   {
     id: "looping",
     eyebrow: "Looping",
-    title: "Loop any region, instantly",
+    title: "Loop region controls",
     description:
-      "Set a loop range with two clicks and iterate. The range stays visible and you can drag the edges to refine without losing your place.",
+      "The loop range now has its own row in the timeline ruler, with a single toggle to turn it on or off.",
     Demo: LoopingDemo,
   },
   {
     id: "sample-editing",
     eyebrow: "Sample editing",
-    title: "Zoom in, edit samples directly",
+    title: "Direct sample editing",
     description:
-      "No mode to enter, no setting to flip. Zoom all the way in and Audacity hands you the samples — drag them by hand and zoom back out.",
+      "No need to switch to the Draw or Multi-tool. Zoom all the way in and drag the samples directly.",
     Demo: SampleEditingDemo,
   },
 ];
@@ -1532,14 +1532,14 @@ function CoreEditing() {
             className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
             aria-hidden
           >
-            Also new
+            Core interactions
           </div>
           <h2 className="mt-4 font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-            Improvements throughout
+            A new editing experience
           </h2>
           <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
-            We've touched almost every corner of the app. Here are a few you'll
-            run into in your first session.
+            The moves you make every session got the same attention as the new
+            features.
           </p>
         </header>
       </div>

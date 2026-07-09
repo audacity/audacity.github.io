@@ -75,47 +75,48 @@ _Source: `src/components/about/ScrollyLaptopTour/stops.js`_
 
 _Source: `src/components/about/CoreEditing.jsx`_
 
-### Section header
+### Section header _(revised 2026-07-09)_
 
-- **Eyebrow:** Also new
-- **Heading:** Improvements throughout
-- **Lede:** We've touched almost every corner of the app. Here are a few you'll run into in your first session.
+- **Eyebrow:** Core interactions
+- **Heading:** A new editing experience
+- **Lede:** The moves you make every session got the same attention as the new features.
 
-### Card — Clip handles
+### Card — Clip handles _(revised 2026-07-09)_
 
-- **Eyebrow:** Clip handles
-- **Title:** Trim or stretch, same gesture
-- **Body:** Grab a handle on either edge of a clip. Drag to trim, or hold to time-stretch — the source is always there if you change your mind.
+- **Eyebrow:** Clip handles _(note: unused in render — dead markup, only a fallback for cards with no Demo, which never happens)_
+- **Title:** Trim and stretch handles
+- **Body:** The top handle trims the clip. The bottom handle stretches it.
 
-### Card — Track meters
+### Card — Track meters _(revised 2026-07-09)_
 
-- **Eyebrow:** Track meters
-- **Title:** See every level at a glance
-- **Body:** Per-track meters next to every channel and a master meter in the transport — peaks held, recents shown, calibrated to dBFS.
+- **Eyebrow:** Track meters _(unused in render, see note above)_
+- **Title:** Per-track metering
+- **Body:** Track meters show input levels while recording, and playback levels the rest of the time. Use them to dial in your mix.
 
-### Card — Vertical master meter
+### Card — Vertical playback meter _(revised 2026-07-09)_
 
-- **Eyebrow:** Vertical master meter
-- **Title:** Stand it up
-- **Body:** Long-requested: dock the master meter vertically. Stays out of the transport's way and shows more headroom at a glance.
+- **Eyebrow:** Vertical playback meter _(unused in render, see note above)_
+- **Title:** Vertical playback meter
+- **Body:** The playback meter can now be positioned vertically, using the application's full height.
+- ⚠️ Dropped "Long-requested" here — the same claim also appears on the "Master meter, your way" card in §4 Fully customisable UI. Revisit that card for the same fix.
 
-### Card — Label tracks
+### Card — Label tracks _(revised 2026-07-09)_
 
-- **Eyebrow:** Label tracks
-- **Title:** Mark up your project
-- **Body:** Drop labels on the timeline to mark takes, edits or sections. They travel with the audio and survive every move.
+- **Eyebrow:** Label tracks _(unused in render, see note above)_
+- **Title:** Markers and regions
+- **Body:** Mark a point or a region on the timeline to annotate your project. Export audio based on your labels.
 
-### Card — Looping
+### Card — Looping _(revised 2026-07-09)_
 
-- **Eyebrow:** Looping
-- **Title:** Loop any region, instantly
-- **Body:** Set a loop range with two clicks and iterate. The range stays visible and you can drag the edges to refine without losing your place.
+- **Eyebrow:** Looping _(unused in render, see note above)_
+- **Title:** Loop region controls
+- **Body:** The loop range now has its own row in the timeline ruler, with a single toggle to turn it on or off.
 
-### Card — Sample editing
+### Card — Sample editing _(revised 2026-07-09)_
 
-- **Eyebrow:** Sample editing
-- **Title:** Zoom in, edit samples directly
-- **Body:** No mode to enter, no setting to flip. Zoom all the way in and Audacity hands you the samples — drag them by hand and zoom back out.
+- **Eyebrow:** Sample editing _(unused in render, see note above)_
+- **Title:** Direct sample editing
+- **Body:** No need to switch to the Draw or Multi-tool. Zoom all the way in and drag the samples directly.
 
 ---
 
