@@ -8,15 +8,15 @@ const PANELS = [
     eyebrow: "Get Effects",
     title: "Browse from inside the app",
     description:
-      "Open Get Effects and you're looking at the whole MuseHub catalogue — free and paid — without a separate window or a browser tab.",
+      "Open Get Effects and browse the whole MuseHub catalogue, free and paid, without a separate window or a browser tab.",
   },
   {
     id: "plugin",
     image: "/museHub/MuseHub_plugin.png",
-    eyebrow: "One-click install",
-    title: "Pick it, install it, it's there",
+    eyebrow: "Background install",
+    title: "Install without leaving the app",
     description:
-      "Choose a plugin, install in the background, and it shows up in your effect chain the next time you reach for it. No restarts.",
+      "Choose a plugin and installation runs in the background while you keep working. It shows up in your effect chain once it's ready, no restart needed.",
   },
 ];
 
@@ -66,12 +66,11 @@ function MuseHub() {
           style={headerEntrance.style}
         >
           <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-            And even more from MuseHub
+            Thousands of effects, built in
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Audacity 4 ships with MuseHub built in — thousands of plugins,
-            instruments, and samples, browsed and installed without ever leaving
-            the editor.
+            Audacity 4 ships with MuseHub built in. Browse the whole catalog,
+            free and paid, without leaving the editor.
           </p>
         </header>
 

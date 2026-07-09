@@ -220,22 +220,23 @@ Compressor · Filter Curve · Graphic EQ · Limiter · Reverb
 
 _Source: `src/components/about/MuseHub.jsx`_
 
-### Section header
+### Section header _(revised 2026-07-09)_
 
-- **Heading:** And even more from MuseHub
-- **Lede:** Audacity 4 ships with MuseHub built in — thousands of plugins, instruments, and samples, browsed and installed without ever leaving the editor.
+- **Heading:** Thousands of effects, built in
+- **Lede:** Audacity 4 ships with MuseHub built in. Browse the whole catalog, free and paid, without leaving the editor.
 
-### Panel — Get Effects
+### Panel — Get Effects _(revised 2026-07-09)_
 
-- **Eyebrow:** Get Effects
+- **Eyebrow:** Get Effects _(this eyebrow DOES render on screen for MuseHub/AudioCom panels — unlike the CoreEditing/CustomisableUI cards)_
 - **Title:** Browse from inside the app
-- **Body:** Open Get Effects and you're looking at the whole MuseHub catalogue — free and paid — without a separate window or a browser tab.
+- **Body:** Open Get Effects and browse the whole MuseHub catalogue, free and paid, without a separate window or a browser tab.
 
-### Panel — One-click install
+### Panel — Background install _(revised 2026-07-09 — eyebrow and title changed to drop speed/ease claims)_
 
-- **Eyebrow:** One-click install
-- **Title:** Pick it, install it, it's there
-- **Body:** Choose a plugin, install in the background, and it shows up in your effect chain the next time you reach for it. No restarts.
+- **Eyebrow:** Background install _(was "One-click install" — factually wrong per Alex: install is not fast, "it's definitely not a one click process... the process is long and slow")_
+- **Title:** Install without leaving the app
+- **Body:** Choose a plugin and installation runs in the background while you keep working. It shows up in your effect chain once it's ready, no restart needed.
+- Kept: "free and paid" framing (Alex confirmed this is good) and "no restart needed" (not contradicted). Cut: any claim of speed or one-click simplicity.
 
 ---
 
