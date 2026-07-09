@@ -251,36 +251,38 @@ _Source: `src/components/about/MuseHub.jsx`_
 
 _Source: `src/components/about/UnderTheHood.jsx`_
 
-### Section header
+### Section header _(revised 2026-07-09)_
 
-- **Eyebrow:** Foundation
-- **Heading:** Under the hood
-- **Lede:** The work you can't see — the foundation that makes everything else feel quick and dependable.
-- **Button:** View the source → github.com/audacity/audacity
+- ~~Eyebrow: Foundation~~ _(removed — "Foundation means nothing")_
+- **Heading:** Under the hood _(kept, Alex likes it)_
+- ~~Lede~~ _(cut entirely — every version restated the columns below it; the four columns speak for themselves)_
+- ~~Button: View the source~~ _(removed — CTA cut)_
 
-### Column — Framework
+### Column — Framework _(revised 2026-07-09)_
 
 - **Tag:** Framework
 - **Headline:** Built on Qt
-- **Body:** The interface is rebuilt on Qt — one modern codebase, native on macOS, Windows and Linux.
+- **Body:** The interface is rebuilt on Qt, one modern codebase that runs native on macOS, Windows and Linux.
 
-### Column — Plugins
+### Column — Plugins _(revised 2026-07-09)_
 
 - **Tag:** Plugins
 - **Headline:** LV2 + VST3 + AU
-- **Body:** Open-standard LV2 plugins load right alongside VST3 and Audio Units — no wrappers required.
+- **Body:** Open-standard LV2 plugins load right alongside VST3 and Audio Units, with no wrappers required.
 
-### Column — Compatibility
+### Column — Compatibility _(revised 2026-07-09)_
 
 - **Tag:** Compatibility
 - **Headline:** .aup3 opens natively
-- **Body:** Every .aup3 file from Audacity 3 opens directly in Audacity 4 — your sessions, edits, and undo history come with you.
+- **Body:** Every .aup3 file from Audacity 3 opens directly in Audacity 4, exactly as you saved it. _(dropped "undo history come with you" — undo history is refreshed each session, so the claim was likely false)_
 
-### Column — License
+### Column — License _(revised 2026-07-09)_
 
 - **Tag:** License
 - **Headline:** Free, GPL v3
-- **Body:** Same free, open-source licence Audacity has always shipped under — auditable, redistributable, no strings attached.
+- **Body:** The same free, open-source licence Audacity has always shipped under. Auditable and redistributable. _(cut "no strings attached" idiom)_
+
+> ⚠️ Spelling: "License" (tag, US) vs "licence" (body, UK) still inconsistent here — part of the pending site-wide spelling decision.
 
 ---
 

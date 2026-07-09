@@ -9,28 +9,28 @@ const ITEMS = [
     tag: "Framework",
     headline: "Built on Qt",
     description:
-      "The interface is rebuilt on Qt — one modern codebase, native on macOS, Windows and Linux.",
+      "The interface is rebuilt on Qt, one modern codebase that runs native on macOS, Windows and Linux.",
   },
   {
     id: "lv2",
     tag: "Plugins",
     headline: "LV2 + VST3 + AU",
     description:
-      "Open-standard LV2 plugins load right alongside VST3 and Audio Units — no wrappers required.",
+      "Open-standard LV2 plugins load right alongside VST3 and Audio Units, with no wrappers required.",
   },
   {
     id: "compat",
     tag: "Compatibility",
     headline: ".aup3 opens natively",
     description:
-      "Every .aup3 file from Audacity 3 opens directly in Audacity 4 — your sessions, edits, and undo history come with you.",
+      "Every .aup3 file from Audacity 3 opens directly in Audacity 4, exactly as you saved it.",
   },
   {
     id: "license",
     tag: "License",
     headline: "Free, GPL v3",
     description:
-      "Same free, open-source licence Audacity has always shipped under — auditable, redistributable, no strings attached.",
+      "The same free, open-source licence Audacity has always shipped under. Auditable and redistributable.",
   },
 ];
 
@@ -71,38 +71,15 @@ function UnderTheHood() {
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
       <div className="max-w-[1600px] mx-auto">
-        {/* Top row — headline + lede on the left, deep-dive link on the
-            right. Mirrors the ClickUp-style hero block above the stat
-            columns. */}
+        {/* Headline + lede above the stat columns. */}
         <div
           ref={headerEntrance.ref}
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-12"
+          className="max-w-3xl"
           style={headerEntrance.style}
         >
-          <div className="max-w-3xl">
-            <div
-              className="font-mono text-xs tracking-[0.3em] uppercase"
-              style={{ color: ACCENT }}
-              aria-hidden
-            >
-              Foundation
-            </div>
-            <h2 className="mt-5 font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-              Under the hood
-            </h2>
-            <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
-              The work you can't see — the foundation that makes everything else
-              feel quick and dependable.
-            </p>
-          </div>
-          <a
-            href="https://github.com/audacity/audacity"
-            target="_blank"
-            rel="noreferrer"
-            className="lg:shrink-0 self-start lg:self-auto inline-flex items-center justify-center rounded-full bg-text-contrast text-background-dark px-7 py-3.5 font-muse-sans text-base font-semibold hover:opacity-90 transition-opacity"
-          >
-            View the source
-          </a>
+          <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+            Under the hood
+          </h2>
         </div>
 
         {/* Stat columns. Border-top + vertical dividers between columns
