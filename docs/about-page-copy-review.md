@@ -205,10 +205,10 @@ _Source: `src/components/about/AudioCom.jsx`_
 
 _Source: `src/components/about/EffectWindows.jsx`_
 
-### Section header
+### Section header _(lede revised 2026-07-09)_
 
-- **Heading:** Effects, redesigned
-- **Lede:** Every built-in effect now lives in a focused window — clear controls, real-time preview, and the same vocabulary across the whole suite.
+- **Heading:** Effects, redesigned _(kept, unchanged)_
+- **Lede:** Every effect window has been rebuilt, inside and out, to match the rest of the app. _(dropped "real-time preview" — factually wrong, not all effects are real-time; some are destructive/offline)_
 
 ### Effect card labels (marquee)
 

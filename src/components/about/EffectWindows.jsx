@@ -115,9 +115,8 @@ function EffectWindows() {
             Effects, redesigned
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Every built-in effect now lives in a focused window — clear
-            controls, real-time preview, and the same vocabulary across the
-            whole suite.
+            Every effect window has been rebuilt, inside and out, to match the
+            rest of the app.
           </p>
         </header>
       </div>
