@@ -220,23 +220,27 @@ Compressor · Filter Curve · Graphic EQ · Limiter · Reverb
 
 _Source: `src/components/about/MuseHub.jsx`_
 
-### Section header _(revised 2026-07-09)_
+### Section header _(revised 2026-07-09, twice — see notes)_
 
-- **Heading:** Thousands of effects, built in
-- **Lede:** Audacity 4 ships with MuseHub built in. Browse the whole catalog, free and paid, without leaving the editor.
+- **Heading:** Effects, samples, and oneshots, from MuseHub
+- **Lede:** MuseHub is the companion app that ships with Audacity 4. Open it from Get Effects to browse thousands of plugins, samples, and oneshots, free and paid.
 
 ### Panel — Get Effects _(revised 2026-07-09)_
 
 - **Eyebrow:** Get Effects _(this eyebrow DOES render on screen for MuseHub/AudioCom panels — unlike the CoreEditing/CustomisableUI cards)_
-- **Title:** Browse from inside the app
-- **Body:** Open Get Effects and browse the whole MuseHub catalogue, free and paid, without a separate window or a browser tab.
+- **Title:** Get Effects opens MuseHub
+- **Body:** MuseHub opens with plugins, samples, and oneshots, free and paid, all in one place.
 
-### Panel — Background install _(revised 2026-07-09 — eyebrow and title changed to drop speed/ease claims)_
+### Panel — Background install _(revised 2026-07-09)_
 
 - **Eyebrow:** Background install _(was "One-click install" — factually wrong per Alex: install is not fast, "it's definitely not a one click process... the process is long and slow")_
-- **Title:** Install without leaving the app
-- **Body:** Choose a plugin and installation runs in the background while you keep working. It shows up in your effect chain once it's ready, no restart needed.
-- Kept: "free and paid" framing (Alex confirmed this is good) and "no restart needed" (not contradicted). Cut: any claim of speed or one-click simplicity.
+- **Title:** Keep working while it installs
+- **Body:** Choose a plugin in MuseHub and it installs in the background. Switch back to Audacity and it's ready in your effect chain once it's done. No restart needed.
+
+> ⚠️ Two rounds of factual correction on this section, both from Alex directly (not code-verified — per [[feedback_trust_domain_authority]] these are taken as ground truth):
+>
+> 1. MuseHub is a **separate companion program**, not embedded in the editor — "without leaving the editor" / "from inside the app" framing was wrong. Get Effects _launches_ MuseHub; it doesn't browse in-place.
+> 2. MuseHub has **no VSTi/MIDI support**, so "instruments" is not a real content category — the catalogue is plugins, samples, and oneshots only. (The word "instruments" was in the _original_ pre-review copy too, so this bug predates this pass.)
 
 ---
 
