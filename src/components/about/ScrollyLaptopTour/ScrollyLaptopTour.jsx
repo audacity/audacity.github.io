@@ -268,8 +268,6 @@ function DesktopTour() {
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
   const introStop = STOPS.find((s) => s.panelSide === "intro") ?? STOPS[0];
-  const outroStop =
-    STOPS.find((s) => s.panelSide === "outro") ?? STOPS[STOPS.length - 1];
 
   useEffect(() => {
     let cleanup = () => {};
@@ -1747,7 +1745,6 @@ function DesktopTour() {
   const panelOnLeft = stop.panelSide === "left";
   const panelOnRight = stop.panelSide === "right";
   const isIntro = stop.panelSide === "intro";
-  const isOutro = stop.panelSide === "outro";
   const isReveal = stop.panelSide === "reveal";
   // Intro config declares lidAngle -85 so the SSR/first client paint show a
   // closed laptop. Once the auto-open finishes we promote intro to a 0deg
@@ -1759,8 +1756,8 @@ function DesktopTour() {
   // On mobile, ignore the per-stop x/y translates (they were tuned to
   // clear a side panel that doesn't exist in the mobile layout) and
   // apply a cinematic pan+zoom from `stop.mobileFocus` instead. The
-  // laptop stays centred at scale 1 by default (workspace, intro,
-  // outro); focus stops shift the laptop so their point of interest
+  // laptop stays centred at scale 1 by default (workspace, intro);
+  // focus stops shift the laptop so their point of interest
   // lands at viewport centre, then scale up.
   //
   // Math: `translate(shiftX%, shiftY%)` moves the laptop element by a
@@ -1936,12 +1933,6 @@ function DesktopTour() {
                 topAlign
               />
             </div>
-            <IntroOverlay
-              visible={isOutro}
-              eyebrow={outroStop.eyebrow}
-              heading={outroStop.heading}
-              compact
-            />
             <IntroOverlay
               visible={isReveal}
               eyebrow={stop.eyebrow}
