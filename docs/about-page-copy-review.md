@@ -191,13 +191,13 @@ _Source: `src/components/about/AudioCom.jsx`_
 
 - **Eyebrow:** Project page
 - **Title:** Keep track of your cloud projects
-- **Body:** Open your cloud projects from the new Cloud projects tab, or view them in audio.com.
+- **Body:** Open your cloud projects from the Cloud projects tab, or view them in audio.com.
 
-### Panel — Audio.com _(revised 2026-07-09)_
+### Panel — Audio.com _(revised 2026-07-09, heading changed to keep the outward/publish direction)_
 
 - **Eyebrow:** Audio.com
-- **Title:** Your projects on the cloud
-- **Body:** Upload your project to your audio.com profile, or export audio directly to the community.
+- **Title:** Publish straight to audio.com
+- **Body:** Upload your project to your audio.com profile, or export audio directly to your audio.com community.
 
 ---
 

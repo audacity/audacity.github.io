@@ -8,15 +8,15 @@ const PANELS = [
     eyebrow: "Project page",
     title: "Keep track of your cloud projects",
     description:
-      "Open your cloud projects from the new Cloud projects tab, or view them in audio.com.",
+      "Open your cloud projects from the Cloud projects tab, or view them in audio.com.",
   },
   {
     id: "audiocom",
     image: "/audiocom/Audio_com.png",
     eyebrow: "Audio.com",
-    title: "Your projects on the cloud",
+    title: "Publish straight to audio.com",
     description:
-      "Upload your project to your audio.com profile, or export audio directly to the community.",
+      "Upload your project to your audio.com profile, or export audio directly to your audio.com community.",
   },
 ];
 
