@@ -124,10 +124,10 @@ _Source: `src/components/about/CoreEditing.jsx`_
 
 _Source: `src/components/about/Workspaces.jsx`, `src/components/about/workspaces/workspaceConfigs.js`_
 
-### Section header
+### Section header _(lede revised 2026-07-09)_
 
 - **Heading:** Pick a workspace, or build your own
-- **Lede:** Tools, panels, and shortcuts reshape around the way you actually work.
+- **Lede:** Each workspace changes the tools in your toolbar, and swaps the ruler between seconds and bars and beats. Build your own to personalise Audacity further. _(marked "for now, we can tweak")_
 
 ### Workspace tabs (chip labels)
 
@@ -152,27 +152,29 @@ _Source: `src/components/about/CustomisableUI.jsx`_
 ### Section header
 
 - **Heading:** Fully customisable UI
-- **Lede:** Workspaces are the starting point. From there, almost everything bends to fit.
+- **Lede** _(revised 2026-07-09)_: Set the new UI up however you like, from accent colors to themes.
 
-### Card — Accent colour
+### Card — Accent color _(revised 2026-07-09, US spelling per Alex's request)_
 
-- **Title:** Accent colour
-- **Body:** Tag the whole app with the colour you like.
+- **Title:** Accent color
+- **Body:** Choose an accent color and it applies throughout the app.
 
-### Card — Themes
+### Card — Themes _(revised 2026-07-09)_
 
 - **Title:** Themes
-- **Body:** Light, dark, and high contrast — your call.
+- **Body:** Switch between light and dark themes, each with a high-contrast variant.
 
-### Card — Clip colours
+### Card — Clip colors _(revised 2026-07-09, US spelling per Alex's request)_
 
-- **Title:** Clip colours
-- **Body:** Colour-code clips so projects read at a glance.
+- **Title:** Clip colors
+- **Body:** Give each clip its own color, or keep the classic look from Audacity 3.
 
-### Card — Master meter
+### Card — Vertical playback meter _(revised 2026-07-09 — reused from §2 Improvements throughout, duplicate removed there)_
 
-- **Title:** Master meter, your way
-- **Body:** Keep the master meter docked horizontally inside the transport, or stand it up vertically beside the tracks. Long-requested, finally here.
+- **Title:** Vertical playback meter
+- **Body:** The playback meter can now be positioned vertically, using the application's full height.
+
+> ⚠️ Spelling note: cards in this section now use US spelling ("color") per explicit request, while the section heading itself ("Fully customisable UI") and the rest of the page use UK spelling ("colour", "customisable", "licence"). Flagged for a possible site-wide spelling decision later.
 
 ---
 

@@ -144,8 +144,9 @@ function Workspaces() {
               Pick a workspace, or build your own
             </h2>
             <p className="mt-3 sm:mt-6 text-text-contrast/85 text-sm sm:text-base md:text-lg">
-              Tools, panels, and shortcuts reshape around the way you actually
-              work.
+              Each workspace changes the tools in your toolbar, and swaps the
+              ruler between seconds and bars and beats. Build your own to
+              personalise Audacity further.
             </p>
           </header>
 

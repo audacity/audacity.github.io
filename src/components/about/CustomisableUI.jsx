@@ -1204,27 +1204,29 @@ function MeterDockDemo() {
 const CARDS = [
   {
     id: "accent",
-    title: "Accent colour",
-    description: "Tag the whole app with the colour you like.",
+    title: "Accent color",
+    description: "Choose an accent color and it applies throughout the app.",
     Demo: AccentDemo,
   },
   {
     id: "themes",
     title: "Themes",
-    description: "Light, dark, and high contrast — your call.",
+    description:
+      "Switch between light and dark themes, each with a high-contrast variant.",
     Demo: ThemeDemo,
   },
   {
     id: "clip-colours",
-    title: "Clip colours",
-    description: "Colour-code clips so projects read at a glance.",
+    title: "Clip colors",
+    description:
+      "Give each clip its own color, or keep the classic look from Audacity 3.",
     Demo: ClipColoursDemo,
   },
   {
     id: "meter-dock",
-    title: "Master meter, your way",
+    title: "Vertical playback meter",
     description:
-      "Keep the master meter docked horizontally inside the transport, or stand it up vertically beside the tracks. Long-requested, finally here.",
+      "The playback meter can now be positioned vertically, using the application's full height.",
     Demo: MeterDockDemo,
   },
 ];
@@ -1277,8 +1279,7 @@ function CustomisableUI() {
             Fully customisable UI
           </h2>
           <p className="mt-4 text-text-contrast/70 text-base md:text-lg">
-            Workspaces are the starting point. From there, almost everything
-            bends to fit.
+            Set the new UI up however you like, from accent colors to themes.
           </p>
         </header>
 
