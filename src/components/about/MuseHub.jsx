@@ -6,17 +6,17 @@ const PANELS = [
     id: "effects",
     image: "/museHub/MuseHub_effects.png",
     eyebrow: "Get Effects",
-    title: "Get plugins, samples, and oneshots",
+    title: "Browse everything in one place",
     description:
-      "Get Effects gives you access to thousands of plugins, samples, and oneshots from MuseHub, free and paid.",
+      "Get Effects lists everything available from MuseHub, sorted by category.",
   },
   {
     id: "plugin",
     image: "/museHub/MuseHub_plugin.png",
-    eyebrow: "Background install",
-    title: "Keep working while it installs",
+    eyebrow: "In your effect chain",
+    title: "Runs right in Audacity",
     description:
-      "Choose a plugin in MuseHub and it installs in the background. Switch back to Audacity and it's ready in your effect chain once it's done. No restart needed.",
+      "MuseHub effects sit in the same effect chain as Audacity's built-in ones.",
   },
 ];
 
@@ -66,7 +66,7 @@ function MuseHub() {
           style={headerEntrance.style}
         >
           <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-            Effects, samples, and oneshots, from MuseHub
+            More from MuseHub
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
             Open Get Effects to browse thousands of plugins, samples, and
