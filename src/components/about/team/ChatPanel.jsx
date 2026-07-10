@@ -11,9 +11,8 @@ function ChatPanel({ open, onClose }) {
   if (!open) return null;
   return (
     <div
-      className="flex flex-col"
+      className="flex w-full flex-col lg:w-[300px]"
       style={{
-        width: 300,
         background: "#14171d",
         borderLeft: "1px solid rgba(255,255,255,0.06)",
       }}
