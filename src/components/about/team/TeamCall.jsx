@@ -99,12 +99,17 @@ function TeamCall() {
           <div className="flex">
             <div className="flex-1 p-3.5">
               {effectiveView === "grid" ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                // Fixed height on desktop (lg:h-[440px]) matches the speaker
+                // view so toggling Speaker/Grid never resizes the card. Grid
+                // view only renders at lg (below that the toggle is hidden and
+                // speaker view is forced), so 4 cols × 3 rows holds all 11.
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:grid-rows-3 gap-2.5 lg:h-[440px]">
                   {TEAM_ROSTER.map((m, i) => (
                     <CallTile
                       key={m.id}
                       member={m}
                       variant="grid"
+                      fill
                       active={i === activeIndex}
                       onSelect={() => selectSpeaker(i)}
                     />
@@ -134,15 +139,15 @@ function TeamCall() {
                   </div>
                 </div>
               ) : (
-                /* Speaker + side grid when chat is closed. Speaker's 4:3 aspect
-                   sets the height; the side column stretches to match and
-                   splits into 5 rows so all 10 members fit with nothing
-                   clipped. */
-                <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
-                  <div
-                    className="w-full sm:w-[58%]"
-                    style={{ aspectRatio: "4 / 3" }}
-                  >
+                /* Speaker + side grid when chat is closed. Below lg the
+                   speaker's 4:3 aspect sets the height; at lg the row is
+                   pinned to the same fixed height as the grid view
+                   (lg:h-[440px]) so toggling never resizes the card, and the
+                   speaker stretches to fill it (lg:aspect-auto). The side
+                   column stretches to match and splits into 5 rows so all 10
+                   members fit with nothing clipped. */
+                <div className="flex flex-col sm:flex-row items-stretch gap-2.5 lg:h-[440px]">
+                  <div className="w-full sm:w-[58%] aspect-[4/3] lg:aspect-auto">
                     <CallTile member={active} variant="speaker" active />
                   </div>
                   <div className="grid w-full sm:w-[42%] grid-cols-2 grid-rows-5 gap-2">
