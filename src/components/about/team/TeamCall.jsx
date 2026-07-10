@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { TEAM_ROSTER } from "./teamRoster.js";
 import CallTile from "./CallTile.jsx";
+import CallControls from "./CallControls.jsx";
 import { useSpeakerCycle } from "./useSpeakerCycle.js";
 import { useInView } from "../../../hooks/useInView.js";
 
@@ -35,6 +36,7 @@ function ViewToggle({ view, onChange }) {
 
 function TeamCall() {
   const [view, setView] = useState("speaker");
+  const [chatOpen, setChatOpen] = useState(false);
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef);
   const { activeIndex, selectSpeaker } = useSpeakerCycle({
@@ -104,6 +106,11 @@ function TeamCall() {
               </div>
             )}
           </div>
+
+          <CallControls
+            chatOpen={chatOpen}
+            onToggleChat={() => setChatOpen((o) => !o)}
+          />
         </div>
       </div>
     </section>
