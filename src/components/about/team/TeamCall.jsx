@@ -1,7 +1,9 @@
 // src/components/about/team/TeamCall.jsx
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TEAM_ROSTER } from "./teamRoster.js";
 import CallTile from "./CallTile.jsx";
+import { useSpeakerCycle } from "./useSpeakerCycle.js";
+import { useInView } from "../../../hooks/useInView.js";
 
 function ViewToggle({ view, onChange }) {
   const opt = (key, label) => (
@@ -33,13 +35,18 @@ function ViewToggle({ view, onChange }) {
 
 function TeamCall() {
   const [view, setView] = useState("speaker");
-  const [activeIndex] = useState(0);
+  const sectionRef = useRef(null);
+  const inView = useInView(sectionRef);
+  const { activeIndex, selectSpeaker } = useSpeakerCycle({
+    length: TEAM_ROSTER.length,
+    inView,
+  });
 
   const active = TEAM_ROSTER[activeIndex];
   const others = TEAM_ROSTER.filter((_, i) => i !== activeIndex);
 
   return (
-    <section className="px-6 lg:px-10 py-20 lg:py-28">
+    <section ref={sectionRef} className="px-6 lg:px-10 py-20 lg:py-28">
       <div className="mx-auto w-full max-w-[980px]">
         <div
           className="overflow-hidden rounded-2xl"
@@ -67,6 +74,7 @@ function TeamCall() {
                     member={m}
                     variant="grid"
                     active={i === activeIndex}
+                    onSelect={() => selectSpeaker(i)}
                   />
                 ))}
               </div>
@@ -79,9 +87,19 @@ function TeamCall() {
                   <CallTile member={active} variant="speaker" active />
                 </div>
                 <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
-                  {others.map((m) => (
-                    <CallTile key={m.id} member={m} variant="sidebar" />
-                  ))}
+                  {others.map((m) => {
+                    const realIndex = TEAM_ROSTER.findIndex(
+                      (x) => x.id === m.id,
+                    );
+                    return (
+                      <CallTile
+                        key={m.id}
+                        member={m}
+                        variant="sidebar"
+                        onSelect={() => selectSpeaker(realIndex)}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             )}
