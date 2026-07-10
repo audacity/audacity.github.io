@@ -6,6 +6,7 @@ import CallControls from "./CallControls.jsx";
 import ChatPanel from "./ChatPanel.jsx";
 import { useSpeakerCycle } from "./useSpeakerCycle.js";
 import { useInView } from "../../../hooks/useInView.js";
+import { useEntrance } from "../../../hooks/useEntrance.js";
 
 function ViewToggle({ view, onChange }) {
   const opt = (key, label) => (
@@ -41,6 +42,7 @@ function TeamCall() {
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef);
+  const headerEntrance = useEntrance();
   const { activeIndex, selectSpeaker } = useSpeakerCycle({
     length: TEAM_ROSTER.length,
     inView,
@@ -61,6 +63,19 @@ function TeamCall() {
   return (
     <section ref={sectionRef} className="px-6 lg:px-10 py-20 lg:py-28">
       <div className="mx-auto w-full max-w-[980px]">
+        <header
+          ref={headerEntrance.ref}
+          style={headerEntrance.style}
+          className="mb-8 max-w-2xl"
+        >
+          <h2 className="font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
+            The team behind Audacity 4
+          </h2>
+          <p className="mt-4 text-text-contrast/70 text-base md:text-lg">
+            We are fully remote, so a video call is how we see each other most
+            days. Say hello.
+          </p>
+        </header>
         <div
           className="overflow-hidden rounded-2xl"
           style={{
@@ -175,6 +190,13 @@ function TeamCall() {
           />
         </div>
       </div>
+      <style>{`
+          .about-section--team .team-tile:focus-visible,
+          .about-section--team button:focus-visible {
+            outline: 2px solid #7c9cff;
+            outline-offset: 2px;
+          }
+        `}</style>
     </section>
   );
 }
