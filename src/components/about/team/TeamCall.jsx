@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { TEAM_ROSTER } from "./teamRoster.js";
 import CallTile from "./CallTile.jsx";
 import CallControls from "./CallControls.jsx";
+import ChatPanel from "./ChatPanel.jsx";
 import { useSpeakerCycle } from "./useSpeakerCycle.js";
 import { useInView } from "../../../hooks/useInView.js";
 
@@ -67,44 +68,72 @@ function TeamCall() {
           </div>
 
           {/* Stage */}
-          <div className="p-3.5">
-            {view === "grid" ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
-                {TEAM_ROSTER.map((m, i) => (
-                  <CallTile
-                    key={m.id}
-                    member={m}
-                    variant="grid"
-                    active={i === activeIndex}
-                    onSelect={() => selectSpeaker(i)}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-stretch gap-2.5">
-                {/* Speaker's 4:3 aspect defines the stage height; the side
-                    column stretches to match and divides into 5 rows so all
-                    10 members fit beside the speaker with nothing clipped. */}
-                <div className="w-[58%]" style={{ aspectRatio: "4 / 3" }}>
-                  <CallTile member={active} variant="speaker" active />
+          <div className="flex">
+            <div className="flex-1 p-3.5">
+              {view === "grid" ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                  {TEAM_ROSTER.map((m, i) => (
+                    <CallTile
+                      key={m.id}
+                      member={m}
+                      variant="grid"
+                      active={i === activeIndex}
+                      onSelect={() => selectSpeaker(i)}
+                    />
+                  ))}
                 </div>
-                <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
-                  {others.map((m) => {
-                    const realIndex = TEAM_ROSTER.findIndex(
-                      (x) => x.id === m.id,
-                    );
-                    return (
-                      <CallTile
-                        key={m.id}
-                        member={m}
-                        variant="sidebar"
-                        onSelect={() => selectSpeaker(realIndex)}
-                      />
-                    );
-                  })}
+              ) : chatOpen ? (
+                /* Speaker + filmstrip when chat is open (needs the width) */
+                <div className="flex flex-col gap-2" style={{ height: 300 }}>
+                  <div className="flex-1">
+                    <CallTile member={active} variant="speaker" active />
+                  </div>
+                  <div className="flex gap-1.5" style={{ height: 46 }}>
+                    {others.map((m) => {
+                      const realIndex = TEAM_ROSTER.findIndex(
+                        (x) => x.id === m.id,
+                      );
+                      return (
+                        <div key={m.id} className="flex-1">
+                          <CallTile
+                            member={m}
+                            variant="filmstrip"
+                            onSelect={() => selectSpeaker(realIndex)}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : (
+                /* Speaker + side grid when chat is closed. Speaker's 4:3 aspect
+                   sets the height; the side column stretches to match and
+                   splits into 5 rows so all 10 members fit with nothing
+                   clipped. */
+                <div className="flex items-stretch gap-2.5">
+                  <div className="w-[58%]" style={{ aspectRatio: "4 / 3" }}>
+                    <CallTile member={active} variant="speaker" active />
+                  </div>
+                  <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
+                    {others.map((m) => {
+                      const realIndex = TEAM_ROSTER.findIndex(
+                        (x) => x.id === m.id,
+                      );
+                      return (
+                        <CallTile
+                          key={m.id}
+                          member={m}
+                          variant="sidebar"
+                          onSelect={() => selectSpeaker(realIndex)}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
           </div>
 
           <CallControls
