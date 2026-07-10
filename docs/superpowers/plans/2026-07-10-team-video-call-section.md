@@ -809,11 +809,14 @@ function TeamCall() {
                 ))}
               </div>
             ) : (
-              <div className="flex gap-2.5" style={{ height: 300 }}>
-                <div className="w-[58%]">
+              <div className="flex items-stretch gap-2.5">
+                {/* Speaker's 4:3 aspect defines the stage height; the side
+                    column stretches to match and divides into 5 rows so all
+                    10 members fit beside the speaker with nothing clipped. */}
+                <div className="w-[58%]" style={{ aspectRatio: "4 / 3" }}>
                   <CallTile member={active} variant="speaker" active />
                 </div>
-                <div className="grid w-[42%] grid-cols-2 gap-2 content-start">
+                <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
                   {others.map((m) => {
                     const realIndex = TEAM_ROSTER.findIndex(
                       (x) => x.id === m.id,
@@ -822,7 +825,7 @@ function TeamCall() {
                       <CallTile
                         key={m.id}
                         member={m}
-                        variant="grid"
+                        variant="sidebar"
                         onSelect={() => selectSpeaker(realIndex)}
                       />
                     );
@@ -1187,19 +1190,21 @@ Wrap the stage + chat in a flex row so the panel sits to the right. Replace the 
         </div>
       </div>
     ) : (
-      /* Speaker + side grid when chat is closed */
-      <div className="flex gap-2.5" style={{ height: 300 }}>
-        <div className="w-[58%]">
+      /* Speaker + side grid when chat is closed. Speaker's 4:3 aspect sets
+         the height; the side column stretches to match and splits into 5
+         rows so all 10 members fit with nothing clipped. */
+      <div className="flex items-stretch gap-2.5">
+        <div className="w-[58%]" style={{ aspectRatio: "4 / 3" }}>
           <CallTile member={active} variant="speaker" active />
         </div>
-        <div className="grid w-[42%] grid-cols-2 gap-2 content-start">
+        <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
           {others.map((m) => {
             const realIndex = TEAM_ROSTER.findIndex((x) => x.id === m.id);
             return (
               <CallTile
                 key={m.id}
                 member={m}
-                variant="grid"
+                variant="sidebar"
                 onSelect={() => selectSpeaker(realIndex)}
               />
             );
