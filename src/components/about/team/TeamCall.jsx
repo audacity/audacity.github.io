@@ -38,6 +38,7 @@ function ViewToggle({ view, onChange }) {
 function TeamCall() {
   const [view, setView] = useState("speaker");
   const [chatOpen, setChatOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef);
   const { activeIndex, selectSpeaker } = useSpeakerCycle({
@@ -45,8 +46,17 @@ function TeamCall() {
     inView,
   });
 
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const compute = () => setIsMobile(mq.matches);
+    compute();
+    mq.addEventListener("change", compute);
+    return () => mq.removeEventListener("change", compute);
+  }, []);
+
   const active = TEAM_ROSTER[activeIndex];
   const others = TEAM_ROSTER.filter((_, i) => i !== activeIndex);
+  const effectiveView = isMobile ? "speaker" : view;
 
   return (
     <section ref={sectionRef} className="px-6 lg:px-10 py-20 lg:py-28">
@@ -62,15 +72,18 @@ function TeamCall() {
           {/* Top bar */}
           <div
             className="flex items-center justify-end px-3 py-2.5"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+            style={{
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              minHeight: 44,
+            }}
           >
-            <ViewToggle view={view} onChange={setView} />
+            {!isMobile && <ViewToggle view={view} onChange={setView} />}
           </div>
 
           {/* Stage */}
           <div className="flex">
             <div className="flex-1 p-3.5">
-              {view === "grid" ? (
+              {effectiveView === "grid" ? (
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
                   {TEAM_ROSTER.map((m, i) => (
                     <CallTile
@@ -110,11 +123,14 @@ function TeamCall() {
                    sets the height; the side column stretches to match and
                    splits into 5 rows so all 10 members fit with nothing
                    clipped. */
-                <div className="flex items-stretch gap-2.5">
-                  <div className="w-[58%]" style={{ aspectRatio: "4 / 3" }}>
+                <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
+                  <div
+                    className="w-full sm:w-[58%]"
+                    style={{ aspectRatio: "4 / 3" }}
+                  >
                     <CallTile member={active} variant="speaker" active />
                   </div>
-                  <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
+                  <div className="grid w-full sm:w-[42%] grid-cols-2 grid-rows-5 gap-2">
                     {others.map((m) => {
                       const realIndex = TEAM_ROSTER.findIndex(
                         (x) => x.id === m.id,
@@ -133,7 +149,24 @@ function TeamCall() {
               )}
             </div>
 
-            <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
+            {isMobile ? (
+              chatOpen && (
+                <div
+                  className="fixed inset-0 z-50 flex"
+                  style={{ background: "rgba(0,0,0,0.6)" }}
+                  onClick={() => setChatOpen(false)}
+                >
+                  <div
+                    className="ml-auto h-full"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <ChatPanel open onClose={() => setChatOpen(false)} />
+                  </div>
+                </div>
+              )
+            ) : (
+              <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
+            )}
           </div>
 
           <CallControls
