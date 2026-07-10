@@ -9,7 +9,7 @@ import CallTile from "./CallTile.jsx";
 function TeamCall() {
   return (
     <section className="px-6 lg:px-10 py-20 lg:py-28">
-      <div className="mx-auto max-w-[980px]">
+      <div className="mx-auto w-full max-w-[980px]">
         <div
           className="overflow-hidden rounded-2xl"
           style={{
