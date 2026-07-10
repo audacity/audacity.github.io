@@ -21,7 +21,6 @@ function CallTile({ member, variant = "grid", active = false, onSelect }) {
       type="button"
       onClick={onSelect ? () => onSelect(member.id) : undefined}
       onMouseEnter={onSelect ? () => onSelect(member.id) : undefined}
-      onFocus={onSelect ? () => onSelect(member.id) : undefined}
       aria-pressed={active}
       aria-label={member.name}
       className={
