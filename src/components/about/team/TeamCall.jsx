@@ -71,13 +71,16 @@ function TeamCall() {
                 ))}
               </div>
             ) : (
-              <div className="flex gap-2.5" style={{ height: 300 }}>
-                <div className="w-[58%]">
+              <div className="flex items-stretch gap-2.5">
+                {/* Speaker's 4:3 aspect defines the stage height; the side
+                    column stretches to match and divides into 5 rows so all
+                    10 members fit beside the speaker with nothing clipped. */}
+                <div className="w-[58%]" style={{ aspectRatio: "4 / 3" }}>
                   <CallTile member={active} variant="speaker" active />
                 </div>
-                <div className="grid w-[42%] grid-cols-2 gap-2 content-start">
+                <div className="grid w-[42%] grid-cols-2 grid-rows-5 gap-2">
                   {others.map((m) => (
-                    <CallTile key={m.id} member={m} variant="grid" />
+                    <CallTile key={m.id} member={m} variant="sidebar" />
                   ))}
                 </div>
               </div>

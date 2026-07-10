@@ -7,8 +7,13 @@ import React from "react";
 function CallTile({ member, variant = "grid", active = false, onSelect }) {
   const isSpeaker = variant === "speaker";
   const isFilm = variant === "filmstrip";
+  // "sidebar" tiles fill their grid cell (h-full) rather than an intrinsic
+  // aspect ratio, so a fixed-row side column next to the speaker fits all
+  // members at the speaker's height with nothing clipped.
+  const isSidebar = variant === "sidebar";
+  const fillHeight = isSpeaker || isSidebar;
 
-  const avatarSize = isSpeaker ? 92 : isFilm ? 26 : 40;
+  const avatarSize = isSpeaker ? 92 : isFilm ? 26 : isSidebar ? 36 : 40;
   const nameSize = isSpeaker ? 14 : 10;
 
   return (
@@ -20,7 +25,7 @@ function CallTile({ member, variant = "grid", active = false, onSelect }) {
       aria-label={member.name}
       className={
         "team-tile relative flex items-center justify-center overflow-hidden rounded-[10px] border-0 p-0 cursor-pointer " +
-        (isSpeaker ? "w-full h-full" : "aspect-[16/11]")
+        (fillHeight ? "w-full h-full" : "aspect-[16/11]")
       }
       style={{
         background: "#262b33",
