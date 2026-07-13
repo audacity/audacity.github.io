@@ -57,6 +57,34 @@ The effects panel uses `useContainerTabGroup` (group id `effects-panel`) with ar
 
 Each effect slot within the panel adds its own keyboard model on top of that: focusing an effect's drag handle and pressing <Shortcut client:load keys="enter" /> enters a "move" mode where <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> reorders the effect and <Shortcut client:load keys="enter" /> or <Shortcut client:load keys="esc" /> exits it; outside of move mode, arrow keys step between the slot's own focusable controls.
 
+## Add-track button
+
+The **Add new** button sits in its own `role="group"` labelled "Add track" and is a single tab stop (tabIndex 98 in the global order — see [How keyboard navigation works](/manual/accessibility/navigation-model)). Because it's a one-item group, arrow keys pressed on it are deliberately swallowed so they don't jump into the track list below.
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="enter" /> / <Shortcut client:load keys="space" /> | Open the "add track" flyout menu |
+
+The flyout is a roving menu of track types. When opened by keyboard, focus lands on its first option; then:
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> / <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move between track-type options, wrapping |
+| <Shortcut client:load keys="enter" /> | Add the highlighted track type. Inside the flyout only <Shortcut client:load keys="enter" /> selects — <Shortcut client:load keys="space" /> is deliberately inert here (it neither selects nor scrolls the page), even though Space opens the flyout from the button |
+| <Shortcut client:load keys="esc" /> | Close the flyout and return focus to the Add-new button |
+| <Shortcut client:load keys="tab" /> | Close the flyout and continue tabbing normally |
+
+## Timeline ruler
+
+The timeline ruler is a focusable `role="region"` labelled "Timeline ruler" (tabIndex 99). It's a horizontal-only surface, so its keyboard model is limited to moving the playhead along it:
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Nudge the playhead earlier / later | With snap on, each press lands on the next grid division and Shift has no effect; with snap off the step is 0.1s, and <Shortcut client:load keys="shift+left" /> / <Shortcut client:load keys="shift+right" /> accelerates to 1s (the 1s acceleration exists only with snap off) |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | No-op | Swallowed so they don't jump focus into the track list |
+| <Shortcut client:load keys="shift+f10" /> | Open the ruler context menu | Also opens on right-click |
+| <Shortcut client:load keys="esc" /> | Blur the ruler | Removes keyboard focus from it |
+
 ## Selection toolbar
 
 The bottom bar of timecode fields, each a `role="group"` composite widget.
@@ -106,9 +134,11 @@ These are active throughout the application regardless of what's focused, and do
 | Shortcut | Action |
 |---|---|
 | <Shortcut client:load keys="cmd+t" /> | New mono track |
-| <Shortcut client:load keys="shift+t" /> | New stereo track |
-| <Shortcut client:load keys="shift+l" /> | New label track |
+| <Shortcut client:load keys="cmd+shift+t" /> | New stereo track |
+| <Shortcut client:load keys="cmd+shift+l" /> | New label track |
 | <Shortcut client:load keys="cmd+w" /> | Close (delete) the focused track |
+
+All three track-creation shortcuts require the Cmd/Ctrl modifier; stereo and label add Shift on top of it. (Plain <Shortcut client:load keys="l" /> without Cmd is the loop-region toggle, not a label-track shortcut.)
 
 ## Implementation notes
 

@@ -9,9 +9,9 @@ order: 2
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 
-The track area interleaves two kinds of tab stops per track: the **track container**, which owns the track's own selection/navigation keys and hands focus into the track control panel on <Shortcut client:load keys="tab" />, and the track's **clips** (see [How keyboard navigation works](/manual/accessibility/navigation-model) for how these fit into the wider tab order).
+The track area contributes three tab stops per track (a stride of 4 in the underlying tab order, with one reserved slot unused): the **track container**, which owns the track's own selection/navigation keys and hands focus into the track control panel on <Shortcut client:load keys="tab" />; the track's **clips**; and the track's **per-track vertical ruler**. (The side control panel is not itself a tab stop — see [How keyboard navigation works](/manual/accessibility/navigation-model) for how these fit into the wider tab order.)
 
-## Track control panel
+## Track container and control panel
 
 ### Track container focused
 
@@ -62,7 +62,7 @@ The pan and volume child controls use a two-step "slot" model: arrow navigation 
 | <Shortcut client:load keys="shift+f10" /> | Open the clip context menu, focus first item | Also the dedicated Menu key |
 | <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Step to the next / previous clip | Tab on the last clip hands off to the ruler/next track; Shift+Tab on the first clip returns to the track panel |
 | <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move focus to the adjacent track | The clip loses focus — this does not cycle between clips |
-| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move the playhead | Deliberately not clip-to-clip cycling — see notes |
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move the playhead | Falls through to the global playhead nudge below — deliberately not clip-to-clip cycling (see notes). See [Playhead and time selection](#playhead-and-time-selection) for the full arrow-key family |
 | <Shortcut client:load keys="shift+up" /> / <Shortcut client:load keys="shift+down" /> | No-op | Swallowed — no action |
 | <Shortcut client:load keys="cmd+left" /> / <Shortcut client:load keys="cmd+right" /> | Move the clip earlier / later by 0.1s | Alt = 1s. Overlap with neighbours resolves on modifier release, not per nudge — see notes |
 | <Shortcut client:load keys="cmd+up" /> / <Shortcut client:load keys="cmd+down" /> | Move the clip to the adjacent track | |
@@ -71,7 +71,7 @@ The pan and volume child controls use a two-step "slot" model: arrow navigation 
 | <Shortcut client:load keys="shift+[" /> | Extend: move the left edge left | |
 | <Shortcut client:load keys="shift+]" /> | Contract: move the left edge right | |
 | Cmd/Ctrl + any of the above four | Same edge, same direction, but stretches instead of trims | Ignores the source-audio boundary that plain trim respects |
-| <Shortcut client:load keys="alt+shift+left" /> / <Shortcut client:load keys="alt+shift+right" /> | Time-stretch: lengthen from the left / right edge | Add Cmd/Ctrl to shorten instead |
+| <Shortcut client:load keys="alt+shift+left" /> / <Shortcut client:load keys="alt+shift+right" /> | Time-stretch: lengthen from the left / right edge by 0.1s | Add Cmd/Ctrl to shorten instead |
 | <Shortcut client:load keys="delete" /> | Delete the focused clip, and any other selected clips | Part of a global priority cascade — see notes |
 | <Shortcut client:load keys="cmd+delete" /> | Delete the focused clip directly | Skips the cascade |
 
@@ -83,15 +83,29 @@ Labels also support mouse interaction — dragging an ear handle resizes a regio
 |---|---|---|
 | <Shortcut client:load keys="delete" /> | Delete the selected label(s) | Backspace is equivalent |
 
+## Playhead and time selection
+
+The left/right arrow keys are the authoritative playhead and time-selection controls. When nothing else claims the keypress they behave as below — a focused clip lets plain Left/Right fall through to these, but the timeline ruler does not: it consumes Left/Right for its own snap-aware nudge (see [Toolbars and panels](/manual/accessibility/toolbars-and-panels)).
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Nudge the playhead earlier / later by 0.1s | Add Alt for 1s |
+| <Shortcut client:load keys="shift+left" /> / <Shortcut client:load keys="shift+right" /> | Extend the time selection by 0.1s from that edge | Add Alt for 1s |
+| <Shortcut client:load keys="cmd+shift+left" /> / <Shortcut client:load keys="cmd+shift+right" /> | Reduce the time selection from that edge | |
+| <Shortcut client:load keys="cmd+left" /> / <Shortcut client:load keys="cmd+right" /> | With **no** focused clip: move the clips overlapped by the time selection, or failing that the currently selected clips | With a focused clip this moves that clip instead (see the Clips table); there is no playhead fallback while Cmd is held |
+
+These are skipped inside text inputs, sliders, and the project / transport toolbars, which handle their own arrows.
+
 ## Track-area global shortcuts
 
 Active regardless of what's focused in the track area:
 
 | Shortcut | Action | Notes |
 |---|---|---|
-| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move the track focus outline to the adjacent track | Yields to a clip's, ruler's, or the panel's own arrow handling — see notes |
-| <Shortcut client:load keys="shift+up" /> / <Shortcut client:load keys="shift+down" /> | Extend the multi-track selection | |
-| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | Playhead to project start / end | Home also clears the time selection |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move the track focus outline to the adjacent track | Clamps at the first / last track — it does not wrap. Yields to a clip's, ruler's, or the panel's own arrow handling — see notes |
+| <Shortcut client:load keys="shift+up" /> / <Shortcut client:load keys="shift+down" /> | Extend the multi-track selection | Also clamps at the first / last track |
+| <Shortcut client:load keys="cmd+up" /> / <Shortcut client:load keys="cmd+down" /> | Move the track focus without changing the selection ("peek") | Only when neither a focused clip (which Cmd+Up/Down moves to the adjacent track) nor a focused track container (which it reorders) claims the key: focus moves to the adjacent track but the current track selection is left untouched |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | Playhead to project start / end | Home also clears the time selection. Suppressed while a toolbar or the menu bar is focused, where Home/End get their native first/last-item behaviour instead |
 | <Shortcut client:load keys="shift+home" /> / <Shortcut client:load keys="shift+end" /> | Extend/create a time selection from the playhead to the start / end | |
 | <Shortcut client:load keys="," /> / <Shortcut client:load keys="." /> | Playhead 1s left / right | Shift extends the time selection in that direction |
 | <Shortcut client:load keys="j" /> / <Shortcut client:load keys="k" /> | Playhead to the previous / next clip edge on the focused track | |

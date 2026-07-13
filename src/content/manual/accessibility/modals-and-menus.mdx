@@ -21,15 +21,13 @@ The export modal has five field groups, visited in this order: **export-type** �
 | <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> (also <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" />) | Previous / next item within the group, wrapping | All five groups are configured `wrap:true` |
 | <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last item in the group | |
 
-<Callout type="warning" title="Escape does not close this modal">
-Dispatching <Shortcut client:load keys="esc" /> at the modal root, the overlay, a focused button inside the modal, and the document all leave the modal open — there is no Escape handler on the export modal. It closes only by clicking the overlay, the dialog header's close button, or Cancel.
+<Callout type="warning" title="No focus trap, and Escape does not close this modal">
+The export modal is a plain overlay rather than the shared dialog shell, so it has **no focus trap** and **does not move focus on open**: focus stays where it was until you Tab into the modal, and Tab can leave the modal rather than wrapping inside it. It also has **no Escape handler** — <Shortcut client:load keys="esc" /> leaves it open. It closes only by clicking the overlay, the dialog header's close button, or Cancel.
 </Callout>
 
 Dropdown-style fields in the modal use the shared `Dropdown` component: <Shortcut client:load keys="esc" /> closes an open dropdown and returns focus to its trigger button.
 
-<Callout type="info" title="Groups wrap, despite what the field list used to say">
-An earlier draft of this behaviour recorded the export field groups as non-wrapping. The live app configures `wrap:true` for all five groups, matching the table above.
-</Callout>
+All five groups are configured to wrap, matching the table above.
 
 ## Preferences modal
 
@@ -37,26 +35,33 @@ An earlier draft of this behaviour recorded the export field groups as non-wrapp
 |---|---|---|
 | <Shortcut client:load keys="cmd+," /> | Open Preferences | Consumes the key so the playhead-jump handler never sees it |
 
-The modal has three focus regions: a left-hand section list (each item its own `role="tab"` stop, `tabIndex=0`), the `preferences-content` pane for the active section (its controls are sequentially focusable, `tabIndex=0` in DOM order — sampled: language buttons, path input, Browse, checkboxes), and a `dialog-footer` roving group for Reset / Cancel / OK.
+Unlike the export modal, the Preferences modal uses the shared dialog shell, so it **traps focus**: on open, focus moves to the first control (the outline is suppressed since it was moved programmatically), and Tab is contained — Tab on the last control wraps to the first, Shift+Tab on the first wraps to the last.
+
+The modal has three focus regions: a left-hand section list (each item its own `role="tab"` stop, `tabIndex=0`), the `preferences-content` pane for the active section (its controls are sequentially focusable, `tabIndex=0` in DOM order, such as language buttons, the path input, Browse and checkboxes), and a `dialog-footer` roving group for Reset / Cancel / OK.
 
 | Shortcut | Action | Notes |
 |---|---|---|
 | <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Move between the modal's focusable stops; the section list, the content pane and the footer are separate focus regions, with the content pane visited before the footer | Content-pane controls are visited one at a time in DOM order, not grouped |
-| <Shortcut client:load keys="right" /> (footer focused) | Move to the next footer button | Live: Reset preferences carried the footer's tab stop, Cancel and OK were `tabIndex=-1`; Right stepped Reset → Cancel → OK |
+| <Shortcut client:load keys="right" /> (footer focused) | Move to the next footer button | The footer is a roving group: Reset carries the tab stop, Cancel and OK are `tabIndex=-1`; the arrow keys step Reset → Cancel → OK |
+| <Shortcut client:load keys="f6" /> / <Shortcut client:load keys="shift+f6" /> | Jump focus to the content pane / to the section list | Registered by the modal itself while it is open: <Shortcut client:load keys="f6" /> focuses the first control in the content pane, <Shortcut client:load keys="shift+f6" /> the first item in the left-hand section list. These are absolute jumps, not a cycle |
 
-<Callout type="warning" title="Escape does not close this modal either">
-As with the export modal, Escape does not close Preferences in the live app. It closes via the dialog header's controls or Cancel.
+<Callout type="info" title="Escape closes this modal">
+Because it uses the shared dialog shell, <Shortcut client:load keys="esc" /> **does** close the Preferences modal (the dialog registers its own Escape-to-close handler). This is a genuine difference from the export modal, which has no Escape handler. Clicking the overlay, however, does **not** close Preferences — it must be closed via Escape, the dialog header's controls, or Cancel.
 </Callout>
 
 ## Context menus
 
-Opening a context menu — <Shortcut client:load keys="shift+f10" /> or the Menu key from a focused clip or track panel — is covered on [Tracks, clips and labels](/manual/accessibility/track-view); this section covers behaviour once the menu is open. Menus render as `role="menu"` with `role="menuitem"` children.
+Opening a context menu — <Shortcut client:load keys="shift+f10" /> or the Menu key from a focused clip or track panel — is covered on [Tracks, clips and labels](/manual/accessibility/track-view); this section covers behaviour once the menu is open. Menus render as `role="menu"` with `role="menuitem"` children, and focus lands on the first item when the menu opens.
 
 | Shortcut | Action | Notes |
 |---|---|---|
-| <Shortcut client:load keys="down" /> / <Shortcut client:load keys="up" /> | Step to the next / previous menu item | Spot-checked on the clip context menu (14 items): Down stepped Rename clip → Clip color → Cut → Copy, Up reversed |
+| <Shortcut client:load keys="down" /> / <Shortcut client:load keys="up" /> | Step to the next / previous menu item, wrapping | Last → first and first → last |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | Jump to the first / last item | |
+| <Shortcut client:load keys="enter" /> / <Shortcut client:load keys="space" /> | Activate the focused item, then close the menu | On a submenu parent, <Shortcut client:load keys="enter" /> or <Shortcut client:load keys="right" /> opens the submenu (focusing its first item) and <Shortcut client:load keys="left" /> closes it back to the parent |
+| <Shortcut client:load keys="esc" /> | Close the menu and return focus to whatever opened it | The trigger element captured on open is re-focused |
+| <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Close the menu; the Tab keypress itself is suppressed | No focus move happens — focus simply drops when the menu closes, neither restored to the trigger nor advanced to the next stop. (The add-track flyout differs: its Tab genuinely continues to the next element after closing — see [Toolbars and panels](/manual/accessibility/toolbars-and-panels)) |
 
 ## Implementation notes
 
-- Neither the export modal nor the Preferences modal closes on Escape — both rely on overlay-click, the dialog header's close control, or Cancel. The `Dropdown` component is the one place inside these modals where Escape both closes and restores focus, to its own trigger button.
+- The two modals close differently because they use different shells. The **export modal** is a bespoke overlay: no focus trap, no focus-on-open, no Escape handler — it closes via overlay-click, the dialog header's close control, or Cancel. The **Preferences modal** uses the shared dialog shell, which traps focus, focuses the first control on open, and closes on Escape — but not on overlay-click. The `Dropdown` component is a third case: Escape closes an open dropdown and restores focus to its own trigger button.
 - Two different roving patterns coexist inside dialogs: `TabGroupField`/`useTabGroup` per-item roving (the export modal's five groups, the Preferences footer) versus plain sequential `tabIndex=0` DOM order (the Preferences content pane and its section list).

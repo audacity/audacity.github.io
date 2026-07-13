@@ -54,7 +54,7 @@ The menubar (tabIndex 1) only exists in the **Windows** chrome variant, and only
 </Callout>
 
 <Callout type="warning" title="Selection toolbar's tabIndex 200 doesn't actually apply">
-The selection toolbar is configured for tabIndex 200 in the profile, but its focusable elements are the `TimeCode` groups, and `TimeCode` hardcodes its own container to `tabIndex={0}` (and re-asserts `0` after menu interactions). Native Tab order visits every positive-tabIndex element first, then all `tabIndex=0` elements in DOM order — so the selection toolbar is actually observed at the very end of the sequence, not at position 200, and Tab from there wraps back to the file menu.
+The selection toolbar is configured for tabIndex 200 in the profile, but its focusable elements are the `TimeCode` groups, and `TimeCode` hardcodes its own container to `tabIndex={0}` (and re-asserts `0` after menu interactions). Native Tab order visits every positive-tabIndex element first, then all `tabIndex=0` elements in DOM order — so the selection toolbar is actually observed at the very end of the sequence, not at position 200, and Tab from there wraps back to the start of the cycle.
 </Callout>
 
 ## Track area tab order
@@ -79,7 +79,7 @@ The prototype also ships a debug profile (`wcag-flat`) in which every interactiv
 
 It does <strong>not</strong> disable clip editing keyboard shortcuts. A `keyboardShortcuts` gating block (covering clip moves and edge extend/reduce, and label move/trim/delete) exists in both profiles' configuration, but the only code that ever reads it is unwired dead code — so every clip move/trim/stretch/delete shortcut runs identically in both profiles regardless of which one is active.
 
-In the flat profile only, <Shortcut client:load keys="f6" /> / <Shortcut client:load keys="shift+f6" /> cycles focus between major UI blocks (File → Home → Play → Add Track → track controls) as a fallback way to move between regions now that arrow-key grouping is off.
+In the flat profile only, <Shortcut client:load keys="f6" /> / <Shortcut client:load keys="shift+f6" /> cycles focus between major UI blocks (File → Home → Play → Add Track → track controls) as a fallback way to move between regions now that arrow-key grouping is off. One exception applies in <strong>both</strong> profiles: while the Preferences modal is open, the modal registers its own <Shortcut client:load keys="f6" /> / <Shortcut client:load keys="shift+f6" /> handler that jumps focus to its content pane / section list (see [Modals and menus](/manual/accessibility/modals-and-menus)) — so F6 is not inert there even under the default AU4 profile.
 
 One footgun to know about: profiles are resolved by id, and passing an id that isn't `au4-tab-groups` or `wcag-flat` doesn't error and doesn't fall back to the default AU4 profile — it silently returns the <strong>flat</strong> profile instead. Anything that needs the tab-group behaviour described on this page must pass the real `au4-tab-groups` id explicitly.
 </Callout>
@@ -87,5 +87,5 @@ One footgun to know about: profiles are resolved by id, and passing an id that i
 ## Implementation notes
 
 - The group configuration (which groups exist, whether arrows/wrap are on) and the tab order table above are read from a single profile data structure, not scattered per-component constants.
-- The tab order is fixed by configuration; it is not affected by DOM order within a group's container.
+- The between-group order comes from the profile's `tabOrder` map (which group gets which positive `tabIndex`), not from where the groups sit in the DOM. Within a group, the browser still follows DOM order — and a component can override its configured value (the `TimeCode` widget hardcodes `tabIndex=0`, which is why the selection toolbar lands at the end rather than at its configured 200).
 - Both the blur reset and the focus-on-entry reset matter in practice: without them, re-entering a group — a toolbar, a dialog's field group — would resume on whatever item was last focused instead of a predictable first item.
