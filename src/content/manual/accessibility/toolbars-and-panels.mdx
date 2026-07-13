@@ -63,16 +63,22 @@ The **Add new** button sits in its own `role="group"` labelled "Add track" and i
 
 | Shortcut | Action |
 |---|---|
-| <Shortcut client:load keys="enter" /> / <Shortcut client:load keys="space" /> | Open the "add track" flyout menu |
+| <Shortcut client:load keys="enter" /> | Open the "add track" flyout menu |
+
+<Callout type="warning" title="Space plays — it does not open the flyout">
+The **Add new** button opens on <Shortcut client:load keys="enter" /> only. <Shortcut client:load keys="space" /> is reserved for play/pause across the entire application (see [Application-wide shortcuts](#application-wide-shortcuts) below), and the transport handler intercepts the keypress before the button can activate — so pressing Space with this button focused plays or pauses the transport rather than opening the menu. This is a deliberate deviation from the native-button convention where Space activates.
+</Callout>
 
 The flyout is a roving menu of track types. When opened by keyboard, focus lands on its first option; then:
 
 | Shortcut | Action |
 |---|---|
 | <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> / <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move between track-type options, wrapping |
-| <Shortcut client:load keys="enter" /> | Add the highlighted track type. Inside the flyout only <Shortcut client:load keys="enter" /> selects — <Shortcut client:load keys="space" /> is deliberately inert here (it neither selects nor scrolls the page), even though Space opens the flyout from the button |
+| <Shortcut client:load keys="enter" /> | Add the highlighted track type and close the flyout |
 | <Shortcut client:load keys="esc" /> | Close the flyout and return focus to the Add-new button |
 | <Shortcut client:load keys="tab" /> | Close the flyout and continue tabbing normally |
+
+Inside the flyout, <Shortcut client:load keys="enter" /> is the only key that selects a track type. <Shortcut client:load keys="space" /> does not select — consistent with the button, it stays bound to play/pause (the flyout deliberately swallows Space so it never activates an option).
 
 ## Timeline ruler
 
