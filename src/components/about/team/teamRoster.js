@@ -9,7 +9,8 @@ export const TEAM_ROSTER = [
     role: "Product Designer",
     initials: "AD",
     avatarColor: "#7c5cff",
-    photo: null,
+    photo: "/videos/team/Alex.jpg",
+    video: "/videos/team/Alex.mp4",
   },
   {
     id: "anton",
@@ -17,7 +18,8 @@ export const TEAM_ROSTER = [
     role: "QA Manual Engineer",
     initials: "AC",
     avatarColor: "#cc6655",
-    photo: null,
+    photo: "/videos/team/Anton.jpg",
+    video: "/videos/team/Anton.mp4",
   },
   {
     id: "dmitry",
@@ -25,7 +27,8 @@ export const TEAM_ROSTER = [
     role: "C++ Developer",
     initials: "DM",
     avatarColor: "#55aa88",
-    photo: null,
+    photo: "/videos/team/Dmitry.jpg",
+    video: "/videos/team/Dmitry.mp4",
   },
   {
     id: "elnur",
@@ -41,7 +44,8 @@ export const TEAM_ROSTER = [
     role: "C++ Developer",
     initials: "GS",
     avatarColor: "#6688bb",
-    photo: null,
+    photo: "/videos/team/Gabriel.jpg",
+    video: "/videos/team/Gabriel.mp4",
   },
   {
     id: "grzegorz",
@@ -49,7 +53,8 @@ export const TEAM_ROSTER = [
     role: "C++ Developer",
     initials: "GW",
     avatarColor: "#aa6677",
-    photo: null,
+    photo: "/videos/team/Grzegorz.jpg",
+    video: "/videos/team/Grzegorz.mp4",
   },
   {
     id: "johan",
@@ -65,7 +70,8 @@ export const TEAM_ROSTER = [
     role: "Senior Audio Developer",
     initials: "MH",
     avatarColor: "#bb8855",
-    photo: null,
+    photo: "/videos/team/Matthieu.jpg",
+    video: "/videos/team/Matthieu.mp4",
   },
   {
     id: "paul",
@@ -73,7 +79,8 @@ export const TEAM_ROSTER = [
     role: "Audio Developer",
     initials: "PM",
     avatarColor: "#66aa99",
-    photo: null,
+    photo: "/videos/team/Paul.jpg",
+    video: "/videos/team/Paul.mp4",
   },
   {
     id: "sergey",
@@ -89,6 +96,7 @@ export const TEAM_ROSTER = [
     role: "Project Manager",
     initials: "YL",
     avatarColor: "#cc7788",
-    photo: null,
+    photo: "/videos/team/Yana.jpg",
+    video: "/videos/team/Yana.mp4",
   },
 ];

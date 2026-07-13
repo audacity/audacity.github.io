@@ -42,7 +42,16 @@ function CallTile({
         transition: "box-shadow 220ms ease",
       }}
     >
-      {member.photo ? (
+      {isSpeaker && member.video ? (
+        <video
+          src={member.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : member.photo ? (
         <img
           src={member.photo}
           alt={member.name}
