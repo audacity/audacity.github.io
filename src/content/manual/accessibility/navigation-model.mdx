@@ -31,6 +31,18 @@ Both follow the same rules below; two rules apply to only one of the two hooks, 
 | Focus-on-entry reset — *per-item groups only* | When focus enters a `useTabGroup` group from outside, it always lands on the first item, regardless of which item last held the tab stop |
 | Unknown group id — *container-level groups* | If a group id isn't in the active profile's configuration map, `useContainerTabGroup` falls back to roving + arrows + wrap rather than failing |
 
+## Reserved keys
+
+A handful of transport shortcuts are handled by a single **document-level** keydown listener rather than by whatever control has focus, so they fire *wherever focus happens to be*. They are skipped only while a text field (a text input, textarea, or `contenteditable`) has focus, so typing is never interrupted.
+
+<Callout type="warning" title="Space is reserved for play/pause — everywhere">
+<Shortcut client:load keys="space" /> toggles play/pause globally. The document-level listener calls `preventDefault()` on Space for any target that isn't a text field, which means it **overrides a control's own Space behaviour**: a focused button does <strong>not</strong> activate on Space the way a native button normally would — Space plays or pauses instead.
+
+The practical rule: <Shortcut client:load keys="space" /> is never a reliable "activate this control" key. Use <Shortcut client:load keys="enter" /> to activate buttons and menu items and leave <Shortcut client:load keys="space" /> to the transport. (This is exactly why the [Add new track button](/manual/accessibility/toolbars-and-panels#add-track-button) opens on <Shortcut client:load keys="enter" /> only.)
+</Callout>
+
+Record (<Shortcut client:load keys="r" />) and loop (<Shortcut client:load keys="l" />) work the same document-level way and are likewise skipped in text fields. The full list of application-wide shortcuts lives on [Toolbars and panels](/manual/accessibility/toolbars-and-panels#application-wide-shortcuts).
+
 ## Global tab order
 
 Groups are visited in this order (numbers are the roving `tabIndex` values assigned by the AU4 Tab Groups profile):
