@@ -85,51 +85,44 @@ function TeamCall() {
               "0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.06)",
           }}
         >
-          {/* Top bar */}
-          <div
-            className="flex items-center justify-end px-3 py-2.5"
-            style={{
-              borderBottom: "1px solid rgba(255,255,255,0.05)",
-              minHeight: 44,
-            }}
-          >
-            {!isMobile && <ViewToggle view={view} onChange={setView} />}
-          </div>
-
-          {/* Call ended screen */}
-          {callEnded && (
+          {/* Top bar — hidden once the call ends */}
+          {!callEnded && (
             <div
-              className="flex flex-col items-center justify-center gap-5 py-16"
-              style={{ minHeight: 300 }}
+              className="flex items-center justify-end px-3 py-2.5"
+              style={{
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                minHeight: 44,
+              }}
             >
-              <p
-                className="font-sans font-semibold text-white"
-                style={{ fontSize: 18 }}
-              >
-                You left the call
-              </p>
-              <button
-                type="button"
-                onClick={() => setCallEnded(false)}
-                className="rounded-full border-0 cursor-pointer font-semibold text-white"
-                style={{
-                  background: "#35c46a",
-                  padding: "10px 24px",
-                  fontSize: 14,
-                }}
-              >
-                Rejoin
-              </button>
+              {!isMobile && <ViewToggle view={view} onChange={setView} />}
             </div>
           )}
 
           {/* Stage */}
-          <div
-            className="flex"
-            style={{ display: callEnded ? "none" : undefined }}
-          >
+          <div className="flex">
             <div className="flex-1 p-3.5">
-              {effectiveView === "grid" ? (
+              {callEnded ? (
+                <div className="flex flex-col items-center justify-center gap-5 w-full sm:aspect-[4/3] lg:aspect-auto lg:h-[440px]">
+                  <p
+                    className="font-sans font-semibold text-white"
+                    style={{ fontSize: 18 }}
+                  >
+                    You left the call
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setCallEnded(false)}
+                    className="rounded-full border-0 cursor-pointer font-semibold text-white"
+                    style={{
+                      background: "#35c46a",
+                      padding: "10px 24px",
+                      fontSize: 14,
+                    }}
+                  >
+                    Rejoin
+                  </button>
+                </div>
+              ) : effectiveView === "grid" ? (
                 // Fixed height on desktop (lg:h-[440px]) matches the speaker
                 // view so toggling Speaker/Grid never resizes the card. Grid
                 // view only renders at lg (below that the toggle is hidden and
@@ -200,7 +193,7 @@ function TeamCall() {
               )}
             </div>
 
-            {isMobile ? (
+            {!callEnded && isMobile ? (
               chatOpen && (
                 <div
                   className="fixed inset-0 z-50 flex"
@@ -220,14 +213,16 @@ function TeamCall() {
             )}
           </div>
 
-          <CallControls
-            chatOpen={chatOpen}
-            onToggleChat={() => setChatOpen((o) => !o)}
-            onLeave={() => {
-              setChatOpen(false);
-              setCallEnded(true);
-            }}
-          />
+          {!callEnded && (
+            <CallControls
+              chatOpen={chatOpen}
+              onToggleChat={() => setChatOpen((o) => !o)}
+              onLeave={() => {
+                setChatOpen(false);
+                setCallEnded(true);
+              }}
+            />
+          )}
         </div>
       </div>
       <style>{`
