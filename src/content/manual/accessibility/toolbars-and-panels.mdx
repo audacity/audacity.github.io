@@ -1,0 +1,116 @@
+---
+title: Toolbars and panels
+description: Keyboard behaviour of the menu bar, toolbars, the effects panel and the selection toolbar.
+section: "Accessibility"
+sectionOrder: 160
+order: 3
+---
+
+import Callout from "../../../components/manual/Callout.astro";
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Toolbars, the effects panel and the selection toolbar all use the same tab-group roving pattern described in [How keyboard navigation works](/manual/accessibility/navigation-model) — each is one <Shortcut client:load keys="tab" /> stop, with arrow keys moving between the items inside it.
+
+## Shared toolbar behaviour
+
+The transport toolbar and the tool toolbar both use `role="toolbar"` with container-level roving (`useContainerTabGroup`):
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" /> | Previous item (wraps) |
+| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> | Next item (wraps) |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last item |
+| <Shortcut client:load keys="tab" /> | Leave the toolbar (next group) |
+| *(focus leaves the toolbar)* | Blur reset — the first item becomes the tab stop again, so re-entering the toolbar always resumes at the first item |
+
+The tool toolbar filters out elements that live inside a `role="group"` container (the timecode widget), so a composite control like that counts as a single arrow-navigation stop rather than one stop per internal digit or button.
+
+## Menu bar (Windows only)
+
+<Callout type="warning" title="Only in the Windows chrome variant">
+The menu bar (File, Edit, …) only exists in the **Windows** chrome variant of the application header — the macOS variant renders no menu bar at all (just the traffic-light buttons and the app name). Windows is the default `operatingSystem` preference. The menu bar is also suppressed inside the Electron desktop build in favour of the native OS menu, so it's only reachable in a plain browser session running the Windows chrome.
+</Callout>
+
+Where it renders, the menu bar is `role="menubar"` with roving tabindex (the first item, File, holds the tab stop; the rest are `-1`):
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> | Next top-level menu (wraps) |
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" /> | Previous top-level menu (wraps) |
+| <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Leave the menu bar (passes through, doesn't open a menu) |
+
+## Project toolbar
+
+The project toolbar is not one group but **four separate tab-group stops**, visited consecutively in the global tab order: **project-toolbar** → **project-toolbar-actions** → **project-toolbar-workspace** → **project-toolbar-history** (tabIndex 2 through 5 — see the global tab order table in [How keyboard navigation works](/manual/accessibility/navigation-model)). Each follows the shared behaviour above independently: <Shortcut client:load keys="tab" /> moves between the four groups, arrows move within whichever one has focus.
+
+## Effects panel
+
+<Callout type="info" title="The panel has arrow navigation">
+The effects panel uses `useContainerTabGroup` (group id `effects-panel`) with arrows and wrap enabled — it is not an Enter-to-open, arrows-disabled control.
+</Callout>
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> / <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move between effect controls in the panel | Roving container tab group, wraps |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last control | |
+
+Each effect slot within the panel adds its own keyboard model on top of that: focusing an effect's drag handle and pressing <Shortcut client:load keys="enter" /> enters a "move" mode where <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> reorders the effect and <Shortcut client:load keys="enter" /> or <Shortcut client:load keys="esc" /> exits it; outside of move mode, arrow keys step between the slot's own focusable controls.
+
+## Selection toolbar
+
+The bottom bar of timecode fields, each a `role="group"` composite widget.
+
+<Callout type="warning" title="Configured tabIndex 200 doesn't apply in practice">
+The selection toolbar's configuration assigns it tabIndex 200, but each `TimeCode` group hardcodes its own container to `tabIndex={0}` (and re-asserts `0` after menu interactions), overriding the configured value. Native Tab order visits every positive-tabIndex element first (1 through the low hundreds), then all `tabIndex=0` elements in DOM order — so the selection toolbar is actually observed as the *last* stop in the sequence, not at position 200, and Tab from there wraps back to the start.
+</Callout>
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move between timecode fields (wraps) |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move between timecode fields (wraps) |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last timecode field |
+
+Within a focused timecode field, its own digit-level editing takes over from there — the field is a single tab-group stop, not one stop per digit.
+
+## Application-wide shortcuts
+
+These are active throughout the application regardless of what's focused, and don't belong to the track area (see [Tracks, clips and labels](/manual/accessibility/track-view)) or the navigation model itself.
+
+### Transport and tools
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="space" /> | Play / pause the transport (skipped when a text field is focused) |
+| <Shortcut client:load keys="r" /> | Toggle recording |
+| <Shortcut client:load keys="s" /> | Toggle the split tool |
+| <Shortcut client:load keys="e" /> | Toggle the effects panel for the focused track, restoring focus on close |
+
+### Editing
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="cmd+z" /> | Undo |
+| <Shortcut client:load keys="cmd+shift+z" /> / <Shortcut client:load keys="cmd+y" /> | Redo |
+| <Shortcut client:load keys="cmd+c" /> | Copy the selected clip(s) |
+| <Shortcut client:load keys="cmd+x" /> | Cut the selected clip(s) |
+| <Shortcut client:load keys="cmd+v" /> | Paste |
+| <Shortcut client:load keys="cmd+d" /> | Duplicate the focused clip(s) / track(s) |
+| <Shortcut client:load keys="cmd+i" /> | Split the selected clip(s) at the playhead |
+| <Shortcut client:load keys="cmd+shift+i" /> | Split every track at the playhead |
+| <Shortcut client:load keys="cmd+k" /> | Delete the selected time range |
+| <Shortcut client:load keys="esc" /> | Priority cascade: exit split mode → clear time/clip selection → narrow track selection → unwind track focus → blur |
+
+### Track creation and window
+
+| Shortcut | Action |
+|---|---|
+| <Shortcut client:load keys="cmd+t" /> | New mono track |
+| <Shortcut client:load keys="shift+t" /> | New stereo track |
+| <Shortcut client:load keys="shift+l" /> | New label track |
+| <Shortcut client:load keys="cmd+w" /> | Close (delete) the focused track |
+
+## Implementation notes
+
+- The toolbar group discovers its focusable children at runtime from the DOM (buttons, selects, inputs) and skips hidden ones — items added or removed by state changes don't require re-registering the group.
+- Timecode-style composite widgets need `role="group"` so they collapse to a single navigation stop for the toolbar's own arrow handling, and so the global track-focus Up/Down guard (see [How keyboard navigation works](/manual/accessibility/navigation-model)) skips over them instead of stealing the keypress.
+- The effects panel's roving arrows and its per-slot move-mode are two separate keyboard layers stacked on the same group — the panel delegates its key handling to the roving hook, while each effect slot adds its own keyboard model on top.
