@@ -169,7 +169,16 @@ function IntroOverlay({
         headingBlock
       )}
 
-      {description ? (
+      {topAlign && description ? (
+        <div className="flex flex-col items-center gap-5">
+          <p className="text-center px-6 max-w-md text-base md:text-lg leading-relaxed text-text-contrast/70">
+            {description}
+          </p>
+          <div style={{ opacity: dimOpacity }}>
+            <ScrollChevron />
+          </div>
+        </div>
+      ) : description ? (
         <p className="text-center px-6 max-w-md text-base md:text-lg leading-relaxed text-text-contrast/70">
           {description}
         </p>

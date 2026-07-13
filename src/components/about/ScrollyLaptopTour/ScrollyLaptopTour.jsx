@@ -1930,6 +1930,7 @@ function DesktopTour() {
                 visible={isIntro}
                 eyebrow={introStop.eyebrow}
                 heading={introStop.heading}
+                description={introStop.description}
                 topAlign
               />
             </div>

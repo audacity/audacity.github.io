@@ -25,8 +25,8 @@ export const STOPS = [
   {
     id: "intro",
     eyebrow: "Audacity 4",
-    heading: "You're looking at the new Audacity",
-    description: null,
+    heading: "Welcome to the new Audacity",
+    description: "We built this for you",
     // Smaller + lower during the intro so the title sits above the laptop
     // without collision. Scrolling into the workspace stop expands the laptop
     // back to its full tour scale, which reads as a subtle zoom-in.
@@ -39,9 +39,9 @@ export const STOPS = [
   {
     id: "workspace",
     eyebrow: "01",
-    heading: "Everything is where you left it",
+    heading: "Don't worry, it's all there!",
     description:
-      "The interface is new from top to bottom. It still feels like Audacity, and your muscle memory carries over.",
+      "It's still the Audacity you learned, but with a fresh new interface.",
     // Per-stop heading tint. Walks a warm→cool pastel sequence so as the
     // reader scrolls the heading swap registers as a hue shift as well as
     // a text change (pink → coral → gold → mint → sky → lavender). All
@@ -56,7 +56,7 @@ export const STOPS = [
   {
     id: "split-tool",
     eyebrow: "02",
-    heading: "A dedicated split tool",
+    heading: "New split tool",
     description:
       "Press S, then click a clip to split it at that point. Ctrl+I (⌘I on Mac) splits at the playhead.",
     accentColor: "#FFB88A",
@@ -77,9 +77,8 @@ export const STOPS = [
   {
     id: "drop-anywhere",
     eyebrow: "03",
-    heading: "Drop a clip onto another",
-    description:
-      "Clips can now be dropped on top of each other, and the clip underneath makes room.",
+    heading: "Make some room",
+    description: "Clips can be dropped anywhere!",
     accentColor: "#F5D97A",
     laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
     mobileFocus: { x: 42, y: 42, zoom: 1.75 },
@@ -94,9 +93,8 @@ export const STOPS = [
   {
     id: "multi-select",
     eyebrow: "04",
-    heading: "Multi-select clips",
-    description:
-      "Shift-click to add clips to the selection, then move, trim or stretch them together.",
+    heading: "All together now",
+    description: "Select multiple clips and move, trim or stretch them as one",
     accentColor: "#9EE0B8",
     laptop: { x: "22vw", y: "0vh", scale: 0.85 },
     mobileFocus: { x: 47, y: 41, zoom: 1.5 },
