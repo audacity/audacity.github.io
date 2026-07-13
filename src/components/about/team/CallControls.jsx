@@ -66,7 +66,7 @@ function DecorCtrl({ name, label }) {
   );
 }
 
-function CallControls({ chatOpen, onToggleChat }) {
+function CallControls({ chatOpen, onToggleChat, onLeave }) {
   return (
     <div
       className="flex items-start justify-center gap-[18px] px-3.5 pb-3.5 pt-3"
@@ -98,13 +98,16 @@ function CallControls({ chatOpen, onToggleChat }) {
 
       <DecorCtrl name="people" label="People" />
 
-      <div className="flex flex-col items-center gap-1.5" aria-hidden>
-        <span
-          className="flex items-center justify-center rounded-[20px]"
+      <div className="flex flex-col items-center gap-1.5">
+        <button
+          type="button"
+          onClick={onLeave}
+          aria-label="Leave call"
+          className="flex items-center justify-center rounded-[20px] border-0 cursor-pointer"
           style={{ width: 54, height: 40, background: "#e5484d" }}
         >
           <Svg name="leave" leave />
-        </span>
+        </button>
         <small style={{ fontSize: 9, fontWeight: 500, color: "#8a96a6" }}>
           Leave
         </small>

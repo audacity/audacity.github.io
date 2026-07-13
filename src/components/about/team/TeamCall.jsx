@@ -39,6 +39,7 @@ function ViewToggle({ view, onChange }) {
 function TeamCall() {
   const [view, setView] = useState("speaker");
   const [chatOpen, setChatOpen] = useState(false);
+  const [callEnded, setCallEnded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef);
@@ -95,8 +96,38 @@ function TeamCall() {
             {!isMobile && <ViewToggle view={view} onChange={setView} />}
           </div>
 
+          {/* Call ended screen */}
+          {callEnded && (
+            <div
+              className="flex flex-col items-center justify-center gap-5 py-16"
+              style={{ minHeight: 300 }}
+            >
+              <p
+                className="font-sans font-semibold text-white"
+                style={{ fontSize: 18 }}
+              >
+                You left the call
+              </p>
+              <button
+                type="button"
+                onClick={() => setCallEnded(false)}
+                className="rounded-full border-0 cursor-pointer font-semibold text-white"
+                style={{
+                  background: "#35c46a",
+                  padding: "10px 24px",
+                  fontSize: 14,
+                }}
+              >
+                Rejoin
+              </button>
+            </div>
+          )}
+
           {/* Stage */}
-          <div className="flex">
+          <div
+            className="flex"
+            style={{ display: callEnded ? "none" : undefined }}
+          >
             <div className="flex-1 p-3.5">
               {effectiveView === "grid" ? (
                 // Fixed height on desktop (lg:h-[440px]) matches the speaker
@@ -192,6 +223,10 @@ function TeamCall() {
           <CallControls
             chatOpen={chatOpen}
             onToggleChat={() => setChatOpen((o) => !o)}
+            onLeave={() => {
+              setChatOpen(false);
+              setCallEnded(true);
+            }}
           />
         </div>
       </div>
