@@ -1,0 +1,110 @@
+---
+title: Tracks, clips and labels
+description: Keyboard navigation and editing in the track area — track headers, clips and labels.
+section: "Accessibility"
+sectionOrder: 160
+order: 2
+---
+
+import Callout from "../../../components/manual/Callout.astro";
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+The track area interleaves two kinds of tab stops per track: the **track container**, which owns the track's own selection/navigation keys and hands focus into the track control panel on <Shortcut client:load keys="tab" />, and the track's **clips** (see [How keyboard navigation works](/manual/accessibility/navigation-model) for how these fit into the wider tab order).
+
+## Track control panel
+
+### Track container focused
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="enter" /> | Select the track, deselecting clips | Shift and Cmd/Ctrl variants are passed through to the selection handler |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Navigate to the previous / next track | |
+| <Shortcut client:load keys="shift+up" /> / <Shortcut client:load keys="shift+down" /> | Extend the track range selection | |
+| <Shortcut client:load keys="cmd+up" /> / <Shortcut client:load keys="cmd+down" /> | Reorder this track | |
+| <Shortcut client:load keys="tab" /> | Enter the track control panel | The panel itself isn't a native tab stop — the container moves focus into it programmatically. An empty track hands off to the ruler / next track instead |
+| <Shortcut client:load keys="shift+tab" /> | Focus the previous track's container | |
+
+### Panel focused
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="enter" /> | Select/toggle the track | Shift+Enter range-selects, Cmd/Ctrl+Enter toggles; Enter on an already-selected track deselects it |
+| <Shortcut client:load keys="shift+f10" /> | Open the track context menu, focus first item | Also the dedicated Menu key |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Navigate to the previous / next track header | |
+| <Shortcut client:load keys="cmd+up" /> / <Shortcut client:load keys="cmd+down" /> | Reorder this track | |
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | No-op | The panel does not enter its children on Left/Right — see notes |
+| <Shortcut client:load keys="tab" /> | Focus the first child control (the track's icon button) | The only way into the children |
+| <Shortcut client:load keys="shift+tab" /> | Leave the panel — to the track container | |
+
+### Child button focused
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> / <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" /> | Cycle to the next / previous child, wrapping first↔last | Does not return to the panel |
+| <Shortcut client:load keys="esc" /> | Return focus to the track container | See notes — the panel's own Escape handler targets the panel, but a global cascade re-anchors focus one level up |
+| <Shortcut client:load keys="tab" /> | Leave the panel — to the track's clips | |
+| <Shortcut client:load keys="shift+tab" /> | Return to the track container | |
+| <Shortcut client:load keys="f2" /> / <Shortcut client:load keys="enter" /> (track name focused) | Start inline rename | Overrides the panel's default Enter-selects behaviour for this one child |
+
+<Callout type="info" title="Track icon picker">
+Opening the track's icon button reveals a roving 4-column grid: Left/Right wrap across the row, Up/Down clamp by column without wrapping, Home/End jump to the first/last icon, Escape closes the grid and returns focus to the trigger button, and Enter/Space commits the highlighted icon.
+</Callout>
+
+<Callout type="info" title="Pan and volume controls">
+The pan and volume child controls use a two-step "slot" model: arrow navigation lands on the slot itself, Enter pushes focus into the knob or slider, and Escape or Enter pops back out to the slot.
+</Callout>
+
+## Clips
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="enter" /> | Toggle clip selection | Shift+Enter range-selects, Cmd/Ctrl+Enter toggles the clip in/out of a multi-selection |
+| <Shortcut client:load keys="shift+f10" /> | Open the clip context menu, focus first item | Also the dedicated Menu key |
+| <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Step to the next / previous clip | Tab on the last clip hands off to the ruler/next track; Shift+Tab on the first clip returns to the track panel |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move focus to the adjacent track | The clip loses focus — this does not cycle between clips |
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move the playhead | Deliberately not clip-to-clip cycling — see notes |
+| <Shortcut client:load keys="shift+up" /> / <Shortcut client:load keys="shift+down" /> | No-op | Swallowed — no action |
+| <Shortcut client:load keys="cmd+left" /> / <Shortcut client:load keys="cmd+right" /> | Move the clip earlier / later by 0.1s | Alt = 1s. Overlap with neighbours resolves on modifier release, not per nudge — see notes |
+| <Shortcut client:load keys="cmd+up" /> / <Shortcut client:load keys="cmd+down" /> | Move the clip to the adjacent track | |
+| <Shortcut client:load keys="[" /> | Contract: move the right edge left | |
+| <Shortcut client:load keys="]" /> | Extend: move the right edge right | Blocked at the source-audio boundary (shake animation) |
+| <Shortcut client:load keys="shift+[" /> | Extend: move the left edge left | |
+| <Shortcut client:load keys="shift+]" /> | Contract: move the left edge right | |
+| Cmd/Ctrl + any of the above four | Same edge, same direction, but stretches instead of trims | Ignores the source-audio boundary that plain trim respects |
+| <Shortcut client:load keys="alt+shift+left" /> / <Shortcut client:load keys="alt+shift+right" /> | Time-stretch: lengthen from the left / right edge | Add Cmd/Ctrl to shorten instead |
+| <Shortcut client:load keys="delete" /> | Delete the focused clip, and any other selected clips | Part of a global priority cascade — see notes |
+| <Shortcut client:load keys="cmd+delete" /> | Delete the focused clip directly | Skips the cascade |
+
+## Labels
+
+Labels also support mouse interaction — dragging an ear handle resizes a region label's edge, and clicking or dragging the banner moves a label or expands a point label to every track. The only keyboard shortcut is:
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="delete" /> | Delete the selected label(s) | Backspace is equivalent |
+
+## Track-area global shortcuts
+
+Active regardless of what's focused in the track area:
+
+| Shortcut | Action | Notes |
+|---|---|---|
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move the track focus outline to the adjacent track | Yields to a clip's, ruler's, or the panel's own arrow handling — see notes |
+| <Shortcut client:load keys="shift+up" /> / <Shortcut client:load keys="shift+down" /> | Extend the multi-track selection | |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | Playhead to project start / end | Home also clears the time selection |
+| <Shortcut client:load keys="shift+home" /> / <Shortcut client:load keys="shift+end" /> | Extend/create a time selection from the playhead to the start / end | |
+| <Shortcut client:load keys="," /> / <Shortcut client:load keys="." /> | Playhead 1s left / right | Shift extends the time selection in that direction |
+| <Shortcut client:load keys="j" /> / <Shortcut client:load keys="k" /> | Playhead to the previous / next clip edge on the focused track | |
+| <Shortcut client:load keys="shift+j" /> / <Shortcut client:load keys="shift+k" /> | Playhead to the earliest start / latest end of that track's clips | Falls back to the whole project when no track is focused |
+| <Shortcut client:load keys="l" /> | Toggle the loop region | |
+| <Shortcut client:load keys="shift+s" /> / <Shortcut client:load keys="shift+u" /> | Solo / mute the focused (or selected) track(s) | |
+
+## Implementation notes
+
+- **Bracket-key edge semantics:** `[` contracts from the right, `]` extends from the right, `Shift+[` extends from the left, `Shift+]` contracts from the left. Adding Cmd/Ctrl converts the same edge/direction from a trim into a time-stretch, which is why it can push past a boundary a plain trim would refuse.
+- **Left/Right is deliberately not clip cycling:** a focused clip does not handle plain Left/Right itself and does not delegate them to the roving-tabindex hook that other groups use — they fall straight through to the global playhead nudge. Clip-to-clip stepping only happens on Tab/Shift+Tab.
+- **Cmd/Ctrl+Arrow overlap resolution fires on modifier release, not per keypress:** while the modifier is held, a nudged clip may temporarily overlap its neighbours; a single shared resolution step reconciles final positions when Cmd/Ctrl is released (keyup), not after each arrow press.
+- **Global Up/Down guard:** the document-level track-focus handler steps back when the event target is a clip, a per-track ruler, inside the project or transport toolbars, the add-track group, or inside any multi-item `role="toolbar"`/`role="group"`/`role="menubar"`/`role="region"`/`role="menu"` container — each of those owns its own Up/Down handling instead.
+- **Delete/Backspace runs a priority cascade:** the document-level handler deletes the first thing that applies, in this order: selected labels → the canvas time selection → focused/selected clips → tracks. The focused clip is read from the active element only when the user is keyboard-navigating. Cmd/Ctrl+Delete is a separate path that always deletes the focused clip directly, skipping the cascade.
+- **The panel's Escape doesn't stay on the panel:** its handler focuses the panel but doesn't stop the event from bubbling, so the app's global Escape cascade runs afterward and re-anchors focus to the track container — the resting place after Escape from a child is one level higher than the panel's own handler intends.
+- **One roving tab stop per track's clips:** only the first clip on a track carries the roving tab stop (the rest are `tabIndex = -1`) — which is why Tab always enters a track's clips at the first clip, and clip-to-clip stepping is the clips' own Tab handling rather than native browser tabbing. See [How keyboard navigation works](/manual/accessibility/navigation-model) for the roving-tabindex mechanism.
