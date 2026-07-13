@@ -21,7 +21,8 @@ The transport toolbar and the tool toolbar both use `role="toolbar"` with contai
 | <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> | Next item (wraps) |
 | <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last item |
 | <Shortcut client:load keys="tab" /> | Leave the toolbar (next group) |
-| *(focus leaves the toolbar)* | Blur reset — the first item becomes the tab stop again, so re-entering the toolbar always resumes at the first item |
+
+Blur reset: when focus leaves the toolbar, the first item becomes the tab stop again, so re-entering the toolbar always resumes at the first item.
 
 The tool toolbar filters out elements that live inside a `role="group"` container (the timecode widget), so a composite control like that counts as a single arrow-navigation stop rather than one stop per internal digit or button.
 
