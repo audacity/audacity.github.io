@@ -41,7 +41,7 @@ function CallTile({
         transition: "box-shadow 220ms ease",
       }}
     >
-      {isSpeaker && member.video ? (
+      {(isSpeaker || active) && member.video ? (
         <video
           src={member.video}
           autoPlay
