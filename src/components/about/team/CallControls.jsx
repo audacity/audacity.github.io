@@ -66,11 +66,14 @@ function DecorCtrl({ name, label }) {
   );
 }
 
-function CallControls({ chatOpen, onToggleChat, onLeave }) {
+function CallControls({ hidden, chatOpen, onToggleChat, onLeave }) {
   return (
     <div
       className="flex items-start justify-center gap-[18px] px-3.5 pb-3.5 pt-3"
-      style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+      style={{
+        borderTop: "1px solid rgba(255,255,255,0.05)",
+        visibility: hidden ? "hidden" : "visible",
+      }}
     >
       <DecorCtrl name="mic" label="Mute" />
       <DecorCtrl name="video" label="Video" />

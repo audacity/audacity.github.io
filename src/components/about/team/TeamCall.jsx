@@ -85,21 +85,21 @@ function TeamCall() {
               "0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.06)",
           }}
         >
-          {/* Top bar — hidden once the call ends */}
-          {!callEnded && (
-            <div
-              className="flex items-center justify-end px-3 py-2.5"
-              style={{
-                borderBottom: "1px solid rgba(255,255,255,0.05)",
-                minHeight: 44,
-              }}
-            >
-              {!isMobile && <ViewToggle view={view} onChange={setView} />}
-            </div>
-          )}
+          {/* Top bar — always rendered to hold its height */}
+          <div
+            className="flex items-center justify-end px-3 py-2.5"
+            style={{
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              minHeight: 44,
+            }}
+          >
+            {!callEnded && !isMobile && (
+              <ViewToggle view={view} onChange={setView} />
+            )}
+          </div>
 
-          {/* Stage */}
-          <div className="flex">
+          {/* Stage — relative so the chat panel can overlay without affecting layout */}
+          <div className="relative flex">
             <div className="flex-1 p-3.5">
               {callEnded ? (
                 <div className="flex flex-col items-center justify-center gap-5 w-full sm:aspect-[4/3] lg:aspect-auto lg:h-[440px]">
@@ -123,10 +123,6 @@ function TeamCall() {
                   </button>
                 </div>
               ) : effectiveView === "grid" ? (
-                // Fixed height on desktop (lg:h-[440px]) matches the speaker
-                // view so toggling Speaker/Grid never resizes the card. Grid
-                // view only renders at lg (below that the toggle is hidden and
-                // speaker view is forced), so 4 cols × 3 rows holds all 11.
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:grid-rows-3 gap-2.5 lg:h-[440px]">
                   {TEAM_ROSTER.map((m, i) => (
                     <CallTile
@@ -139,37 +135,7 @@ function TeamCall() {
                     />
                   ))}
                 </div>
-              ) : chatOpen ? (
-                /* Speaker + filmstrip when chat is open (needs the width) */
-                <div className="flex flex-col gap-2" style={{ height: 300 }}>
-                  <div className="flex-1">
-                    <CallTile member={active} variant="speaker" active />
-                  </div>
-                  <div className="flex gap-1.5" style={{ height: 46 }}>
-                    {others.map((m) => {
-                      const realIndex = TEAM_ROSTER.findIndex(
-                        (x) => x.id === m.id,
-                      );
-                      return (
-                        <div key={m.id} className="flex-1">
-                          <CallTile
-                            member={m}
-                            variant="filmstrip"
-                            onSelect={() => selectSpeaker(realIndex)}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
               ) : (
-                /* Speaker + side grid when chat is closed. Below lg the
-                   speaker's 4:3 aspect sets the height; at lg the row is
-                   pinned to the same fixed height as the grid view
-                   (lg:h-[440px]) so toggling never resizes the card, and the
-                   speaker stretches to fill it (lg:aspect-auto). The side
-                   column stretches to match and splits into 5 rows so all 10
-                   members fit with nothing clipped. */
                 <div className="flex flex-col sm:flex-row items-stretch gap-2.5 lg:h-[440px]">
                   <div className="w-full sm:w-[58%] aspect-[4/3] lg:aspect-auto">
                     <CallTile member={active} variant="speaker" active />
@@ -193,8 +159,10 @@ function TeamCall() {
               )}
             </div>
 
-            {!callEnded && isMobile ? (
-              chatOpen && (
+            {/* Chat — mobile: full-screen overlay; desktop: absolute right-side overlay */}
+            {!callEnded &&
+              chatOpen &&
+              (isMobile ? (
                 <div
                   className="fixed inset-0 z-50 flex"
                   style={{ background: "rgba(0,0,0,0.6)" }}
@@ -207,22 +175,25 @@ function TeamCall() {
                     <ChatPanel open onClose={() => setChatOpen(false)} />
                   </div>
                 </div>
-              )
-            ) : (
-              <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
-            )}
+              ) : (
+                <div
+                  className="absolute inset-y-0 right-0 z-10"
+                  style={{ width: 300 }}
+                >
+                  <ChatPanel open onClose={() => setChatOpen(false)} />
+                </div>
+              ))}
           </div>
 
-          {!callEnded && (
-            <CallControls
-              chatOpen={chatOpen}
-              onToggleChat={() => setChatOpen((o) => !o)}
-              onLeave={() => {
-                setChatOpen(false);
-                setCallEnded(true);
-              }}
-            />
-          )}
+          <CallControls
+            hidden={callEnded}
+            chatOpen={chatOpen}
+            onToggleChat={() => setChatOpen((o) => !o)}
+            onLeave={() => {
+              setChatOpen(false);
+              setCallEnded(true);
+            }}
+          />
         </div>
       </div>
       <style>{`
