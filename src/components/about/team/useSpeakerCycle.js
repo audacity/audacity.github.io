@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { nextIndex } from "./cycle.js";
 
-const STEP_MS = 3500; // time each speaker holds the spotlight
+const STEP_MS = 5000; // time each speaker holds the spotlight
 const RESUME_MS = 8000; // idle time before auto-cycle resumes after takeover
 
 function prefersReducedMotion() {
