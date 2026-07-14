@@ -1,10 +1,17 @@
 // Tour stop configs. Coordinates inside the laptop screen are expressed as
 // percentages of the native 1280x720 workspace so they stay aligned no matter
-// how the laptop is scaled. `laptop.x` and `laptop.y` are viewport-relative
-// translates (vw / vh). With transform-origin centered, a positive `x` shifts
-// the laptop right (exposing the left side of the canvas), and a negative `x`
-// shifts it left (exposing the right side). A small negative `y` lifts the
-// laptop to keep the base in frame when it scales up.
+// how the laptop is scaled. `laptop.x` is a viewport-relative translate (vw).
+// With transform-origin centered, a positive `x` shifts the laptop right
+// (exposing the left side of the canvas), and a negative `x` shifts it left.
+//
+// `laptop.y` is a px translate. The laptop's flex-centred bounding box
+// includes a ~81px glow/shadow block below the base, so centring the box
+// leaves the *visible* laptop sitting high (more space below than above).
+// The focus (zoomed) stops offset down by half the glow — scaled by the
+// stop's scale, hence ~40px at scale 1.0 and ~34px at 0.85 — so the visible
+// laptop is vertically centred with equal spacing above and below. px (not
+// vh) because the glow scales with the laptop, not the viewport, so it
+// stays centred at any window height.
 //
 // The tour is one continuous narrative: each stop's edit persists into every
 // subsequent stop. The laptop never resets — it just navigates around the
@@ -60,7 +67,7 @@ export const STOPS = [
     description:
       "Press S, then click a clip to split it at that point. Ctrl+I (⌘I on Mac) splits at the playhead.",
     accentColor: "#FFB88A",
-    laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
+    laptop: { x: "28vw", y: "40px", scale: 1.0 },
     mobileFocus: { x: 34, y: 43, zoom: 2.1 },
     panelSide: "left",
     target: null,
@@ -80,7 +87,7 @@ export const STOPS = [
     heading: "Make some room",
     description: "Clips can be dropped anywhere!",
     accentColor: "#F5D97A",
-    laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
+    laptop: { x: "28vw", y: "40px", scale: 1.0 },
     mobileFocus: { x: 42, y: 42, zoom: 1.75 },
     panelSide: "left",
     target: null,
@@ -96,7 +103,7 @@ export const STOPS = [
     heading: "All together now",
     description: "Select multiple clips and move, trim or stretch them as one",
     accentColor: "#9EE0B8",
-    laptop: { x: "22vw", y: "0vh", scale: 0.85 },
+    laptop: { x: "22vw", y: "34px", scale: 0.85 },
     mobileFocus: { x: 47, y: 41, zoom: 1.5 },
     panelSide: "left",
     target: null,
@@ -111,7 +118,7 @@ export const STOPS = [
     description:
       "Select a few clips and choose Group clips from the right-click menu. The group moves, trims and stretches as one until you ungroup it.",
     accentColor: "#8ECEE8",
-    laptop: { x: "22vw", y: "0vh", scale: 0.85 },
+    laptop: { x: "22vw", y: "34px", scale: 0.85 },
     mobileFocus: { x: 48, y: 38, zoom: 1.8 },
     panelSide: "left",
     target: null,
@@ -137,7 +144,7 @@ export const STOPS = [
     description:
       "Switch on the envelope tool and click to add points along a clip. Drag them to set the clip's gain, and it stays with the clip when you move or copy it.",
     accentColor: "#C8B5F5",
-    laptop: { x: "28vw", y: "-2vh", scale: 1.0 },
+    laptop: { x: "28vw", y: "40px", scale: 1.0 },
     mobileFocus: { x: 28, y: 43, zoom: 2.4 },
     panelSide: "left",
     target: null,

@@ -121,24 +121,6 @@ function TrackMetersDemo({ isActive = true }) {
       lp: peaks.b,
       rp: Math.max(0, peaks.b - 4),
     },
-    {
-      name: "Music bed",
-      type: "mono",
-      color: "magenta",
-      clips: [
-        {
-          id: 3,
-          name: "Music bed",
-          start: 0,
-          duration: 5.0,
-          waveform: METERS_WAVEFORMS[2],
-        },
-      ],
-      l: levels.c,
-      r: levels.c,
-      lp: peaks.c,
-      rp: peaks.c,
-    },
   ];
 
   // Replicating WorkspaceCanvas's track-area layout EXACTLY — it has
@@ -149,10 +131,11 @@ function TrackMetersDemo({ isActive = true }) {
   const TRACK_CONTROL_W = 280;
   const RULER_H = 40;
   const CANVAS_W = 760;
-  // Taller tracks so the meter inside each TrackControlPanel takes a
-  // proper share of the row — these meters are the centre-stage element
-  // of this card.
-  const trackHeights = tracks.map(() => 200);
+  // Two tracks at a comfortable height so each TrackControlPanel renders
+  // its meter in full without cramping — the card is height-capped now, so
+  // three full panels no longer fit. These meters are the centre-stage
+  // element of this card.
+  const trackHeights = tracks.map(() => 160);
   const PPS = 28;
 
   return (
@@ -323,7 +306,9 @@ function ClipHandlesDemo({ isActive = true }) {
   const FULL_DURATION = 3.2;
   const RULER_H = 40;
   const CANVAS_W = 720;
-  const TRACK_H = 200;
+  // Tall single track so the one clip fills the height-capped card instead
+  // of leaving a big empty lane below it.
+  const TRACK_H = 320;
   // Clip pinned at the left; the right edge animates.
   const CLIP_START = 0.4;
 
@@ -454,7 +439,7 @@ function LabelsDemo({ isActive = true }) {
   const PPS = 80;
   const CANVAS_W = 720;
   const LABEL_TRACK_H = 50;
-  const AUDIO_TRACK_H = 78;
+  const AUDIO_TRACK_H = 76;
 
   // Labels mark a song structure — point markers for hits, a region for
   // the chorus. Each appears once the loop reaches its threshold.
@@ -635,7 +620,7 @@ function LoopingDemo({ isActive = true }) {
   const PPS = 80;
   const CANVAS_W = 720;
   const RULER_H = 40;
-  const TRACK_H = 72;
+  const TRACK_H = 104;
 
   // Loop region in seconds — brackets a single beat-loop cell so the
   // repeated clip pattern reads visually as "loopable".
@@ -1098,7 +1083,7 @@ function CoreEditingCarouselCard({
           // border variation — all cards read as their own moment.
           // sm+: fixed viewport carousel, flex-1 fills the row, hover
           // grows the active border.
-          "h-[220px] sm:h-auto sm:flex-1 sm:min-h-0 rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden sm:cursor-grab transition-[border-color,box-shadow] duration-300 " +
+          "h-[220px] sm:h-[clamp(380px,40vh,400px)] rounded-2xl border bg-[rgb(20,16,56)] relative overflow-hidden sm:cursor-grab transition-[border-color,box-shadow] duration-300 " +
           (isMobile
             ? "border-white/10"
             : isActive
@@ -1290,7 +1275,7 @@ function CoreEditing() {
       <div className="mt-8 lg:mt-10 flex-1 min-h-0 flex">
         <ul
           ref={carouselRef}
-          className="core-editing-carousel flex flex-col sm:flex-row gap-10 sm:gap-5 lg:gap-7 sm:items-stretch sm:overflow-x-auto sm:overflow-y-clip sm:snap-x sm:snap-proximity px-6 lg:px-10 scrollbar-hide w-full max-w-[1600px] mx-auto sm:cursor-grab"
+          className="core-editing-carousel flex flex-col sm:flex-row gap-10 sm:gap-5 lg:gap-7 sm:items-center sm:overflow-x-auto sm:overflow-y-clip sm:snap-x sm:snap-proximity px-6 lg:px-10 scrollbar-hide w-full max-w-[1600px] mx-auto sm:cursor-grab"
           style={{
             // Native `overflow-x: auto` on the sm+ carousel handles
             // horizontal swipes; vertical bubbles to the page. Mobile

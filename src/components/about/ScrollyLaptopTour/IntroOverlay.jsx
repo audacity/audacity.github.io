@@ -19,7 +19,7 @@ function IntroOverlay({
   // wrapping mid-word ("Audacity" / "4").
   const headingColorClass = accentColor ? "" : "text-text-contrast";
   const headingClass = compact
-    ? `font-harmony mt-3 text-4xl md:text-5xl leading-[1.05] ${headingColorClass}`
+    ? `font-harmony mt-4 text-5xl md:text-6xl leading-[1.03] ${headingColorClass}`
     : topAlign
       ? `font-harmony mt-4 text-5xl md:text-6xl leading-[1.05] ${headingColorClass}`
       : `font-harmony mt-4 text-5xl md:text-6xl lg:text-7xl leading-[1.05] ${headingColorClass}`;
@@ -150,12 +150,20 @@ function IntroOverlay({
   // the intro composition can pair it with a smaller/lower laptop without
   // the heading colliding with the lid as it opens.
   const paddingTop = topAlign ? "13vh" : "9vh";
+  // Reveal stops (the workspace stop) center a large laptop with the
+  // description bottom-anchored via justify-between. On tall viewports that
+  // leaves a wide gap between the laptop's lower edge and the copy, so pull
+  // the copy up toward the laptop — but never past a 9vh floor, so on short
+  // desktop windows (where the centered laptop nearly reaches the copy) it
+  // can't collide. 50vh is the laptop's centre; ~350px clears its lower half
+  // plus a small gap.
+  const paddingBottom = topAlign ? "9vh" : "max(9vh, calc(50vh - 350px))";
   return (
     <div
       className="absolute inset-0 z-20 pointer-events-none flex flex-col items-center justify-between"
       style={{
         paddingTop,
-        paddingBottom: "9vh",
+        paddingBottom,
         opacity: visible ? 1 : 0,
         transition: "opacity 320ms ease-out",
       }}
@@ -179,7 +187,7 @@ function IntroOverlay({
           </div>
         </div>
       ) : description ? (
-        <p className="text-center px-6 max-w-md text-base md:text-lg leading-relaxed text-text-contrast/70">
+        <p className="text-center px-6 max-w-lg text-lg md:text-xl leading-relaxed text-text-contrast/70">
           {description}
         </p>
       ) : (
