@@ -10,6 +10,23 @@ import { WORKSPACE_CONFIGS } from "../workspaces/workspaceConfigs.js";
 import { STOPS } from "./stops.js";
 import { generateDecayingSineWave } from "@dilsonspickles/components";
 
+// The per-stop laptop shifts (stop.laptop.x, e.g. "28vw") were tuned around
+// a ~1300px canvas. On wider viewports a raw vw shift keeps growing while the
+// laptop frame stays capped at 1330px, so the laptop sails off the right edge
+// and a dead gap opens between it and the text panel (obvious at 1920px+).
+// Freezing the shift at its 1300px value beyond that width keeps the tuned
+// composition. Below 1300px the vw value wins, so existing tablet tuning is
+// untouched.
+const TOUR_REF_WIDTH = 1300;
+function capViewportShift(value) {
+  const match = /^(-?\d*\.?\d+)vw$/.exec(String(value).trim());
+  if (!match) return value;
+  const vw = parseFloat(match[1]);
+  const cap = (vw * TOUR_REF_WIDTH) / 100;
+  if (vw === 0) return value;
+  return vw < 0 ? `max(${vw}vw, ${cap}px)` : `min(${vw}vw, ${cap}px)`;
+}
+
 function useDesktopAnimation() {
   // Default to enabled so SSR can paint the intro state of the laptop
   // tour (closed lid, title overlay) rather than a blank section that
@@ -1776,7 +1793,7 @@ function DesktopTour() {
     // camera move rather than an abrupt jump.
     laptopTransition = "transform 900ms cubic-bezier(0.65, 0.05, 0.36, 1)";
   } else {
-    transform = `translate3d(${stop.laptop.x}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
+    transform = `translate3d(${capViewportShift(stop.laptop.x)}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
     // scroll-snap-stop: always forces a hard scroll landing on each
     // panel. Use a shorter fast-start ease so the laptop is
     // essentially in place by the time the snap finishes.
@@ -1895,11 +1912,14 @@ function DesktopTour() {
 
         {!isMobile && (
           <div
-            className="absolute top-1/2 z-20 px-8 lg:px-12 max-w-[380px]"
+            className="absolute top-1/2 z-20"
             style={{
-              // Inset the panel from the viewport edge so it clears the scroll
-              // indicators (which now live at left: max(2vw, 24px)).
-              [panelOnRight ? "right" : "left"]: "max(72px, 5vw)",
+              // Anchor the copy inside the left zone rather than hugging the
+              // viewport edge — on wide screens the inset grows so the text
+              // reads as a real column beside the laptop instead of a small
+              // island stranded in the margin. Still clears the scroll
+              // indicators at left: max(2vw, 24px).
+              [panelOnRight ? "right" : "left"]: "clamp(88px, 7.5vw, 190px)",
               transform: "translateY(-50%)",
               opacity: panelOnLeft || panelOnRight ? 1 : 0,
               transition: "opacity 280ms ease-out",

@@ -49,7 +49,7 @@ function TourPanel({ stop, panelRef }) {
     <div
       ref={panelRef}
       key={displayStop.id}
-      className="max-w-md text-text-contrast"
+      className="max-w-[27rem] text-text-contrast"
     >
       <div
         className="font-mono text-sm tracking-[0.2em] uppercase"
@@ -61,7 +61,7 @@ function TourPanel({ stop, panelRef }) {
         {displayStop.eyebrow}
       </div>
       <h3
-        className="font-harmony mt-3 text-4xl md:text-5xl leading-[1.05]"
+        className="font-harmony mt-4 text-5xl md:text-6xl leading-[1.03]"
         data-tour-panel-heading
         style={{
           // Per-stop accent tint (see stops.js). Each stop advances the
@@ -75,7 +75,7 @@ function TourPanel({ stop, panelRef }) {
         {displayStop.heading}
       </h3>
       <p
-        className="mt-5 text-base md:text-lg text-text-contrast/70 leading-relaxed"
+        className="mt-6 text-lg md:text-xl text-text-contrast/70 leading-relaxed"
         style={line(ENTER_STAGGER * 2, 0)}
       >
         {displayStop.description}
