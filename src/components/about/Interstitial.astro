@@ -45,10 +45,17 @@ const { from = "rgb(28, 30, 108)", to = "rgb(86, 32, 78)" } = Astro.props;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: min(80vw, 1400px);
+    /* Height-cap the swoosh via the width → aspect-ratio chain (92vh) so it
+       always fits inside the gap between the two adjacent sections' content
+       and never spills into either. The previous full-size swoosh was taller
+       than that gap, so centred it bled up into the section above and lowered
+       it bled down into the section below — there was no position that
+       contained it. Centred, this sits in the seam, clear of both. Raise the
+       vh to enlarge it (at the risk of re-introducing spill), lower to shrink. */
+    width: min(80vw, 1400px, 92vh);
     aspect-ratio: 669 / 554;
     transform-origin: center;
-    transform: translate3d(-50%, -50%, 0) scale(1.05);
+    transform: translate3d(-50%, -50%, 0);
     z-index: -1;
   }
 </style>

@@ -120,8 +120,15 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       Layer 3 (z-index: 2): each section's CONTENT (this rule). Text and
         imagery sit above the swoosh layer so they remain readable when the
         spill enters their territory.
+
+    NOTE: `client:visible` sections are wrapped in <astro-island>, which is
+    `display: contents` — so position/z-index set on it are ignored and the
+    real content box below would fall back to z-index auto (0), letting the
+    swoosh paint OVER it (that's the AudioCom/UnderTheHood overlap bug). The
+    second selector reaches through the island to the actual content box.
   */
-  .about-section > * {
+  .about-section > *,
+  .about-section > astro-island > * {
     position: relative;
     z-index: 2;
   }

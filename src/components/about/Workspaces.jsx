@@ -110,7 +110,10 @@ function Workspaces() {
     () => ({
       ...PROJECT,
       toolbar: active.toolbar,
-      envelopeMode: !!active.envelopeMode,
+      // Never show clip gain envelopes in this preview, even for the
+      // Modern workspace (which sets envelopeMode: true). This section
+      // is about toolbar/ruler presets, not envelope editing.
+      envelopeMode: false,
       workspace: active.workspace,
       label: active.label,
       blurb: active.blurb,
@@ -191,7 +194,12 @@ function Workspaces() {
           */}
           <div
             ref={mockupEntrance.ref}
-            className="workspaces-mockup mt-0 sm:mt-8 lg:mt-10 mx-auto rounded-2xl sm:rounded-t-2xl sm:rounded-b-none border border-white/20 sm:border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden order-1 sm:order-none"
+            // The mockup is a display-only preview of the Audacity UI —
+            // pointer-events-none makes it non-interactive (no hover states,
+            // no clickable sliders/dropdowns inside the fake app), and
+            // select-none stops its text being selected. The workspace tab
+            // chips above remain the way to switch workspaces.
+            className="workspaces-mockup pointer-events-none select-none mt-0 sm:mt-8 lg:mt-10 mx-auto rounded-2xl sm:rounded-t-2xl sm:rounded-b-none border border-white/20 sm:border-b-0 bg-[#171F25] shadow-[0_28px_60px_rgba(0,0,0,0.55)] overflow-hidden order-1 sm:order-none"
             style={{
               ...MOCKUP_BASE_STYLE,
               ...mockupEntrance.style,
