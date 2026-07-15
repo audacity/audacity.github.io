@@ -61,9 +61,36 @@ function quote(value: string): string {
   return `"${escaped}"`;
 }
 
+/**
+ * Collapses any whitespace run containing a newline (`\r?\n`, plus any
+ * whitespace immediately surrounding it) into a single space.
+ *
+ * The manual's frontmatter schema is all single-line scalars, but nothing
+ * upstream guarantees that — `FrontmatterForm`'s Description field is a
+ * `<textarea>`, so a value can arrive containing a raw `\n` (Shift+Enter,
+ * or a multi-line paste). A raw newline inside a plain YAML scalar produces
+ * invalid single-line frontmatter: the flat-YAML reader in
+ * `../backend/frontmatter.ts` splits on `\n` and would silently truncate to
+ * the first line, and a real YAML parser (Astro's, once a save path writes
+ * this to disk) would fail to parse the page at build time. Exported so
+ * `FrontmatterForm` can apply the same normalization at input time, keeping
+ * what the user sees in sync with what gets serialized.
+ *
+ * Deliberately does *not* trim the whole string — this runs on every
+ * keystroke in the form's controlled `<textarea>`, and trimming would eat a
+ * trailing space the instant it's typed. Leading/trailing whitespace left
+ * over after collapsing is still handled correctly: `needsQuoting` detects
+ * it and `scalar` quotes the value, so it round-trips rather than silently
+ * vanishing.
+ */
+export function collapseNewlines(value: string): string {
+  return value.replace(/\s*\n\s*/g, " ");
+}
+
 /** Renders a string scalar, quoting only when required (see `needsQuoting`). */
 function scalar(value: string): string {
-  return needsQuoting(value) ? quote(value) : value;
+  const normalized = collapseNewlines(value);
+  return needsQuoting(normalized) ? quote(normalized) : normalized;
 }
 
 /**

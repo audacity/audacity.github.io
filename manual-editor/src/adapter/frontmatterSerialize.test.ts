@@ -170,3 +170,50 @@ test("leaves an ordinary title/section unquoted", () => {
   expect(yaml).toContain("title: Basics");
   expect(yaml).toContain("section: Getting Started");
 });
+
+test("collapses a multi-line description (e.g. from a <textarea>) into a single-line scalar", () => {
+  const data: FrontmatterData = {
+    title: "T",
+    section: "S",
+    description: "line one\nline two",
+  };
+  const yaml = serializeFrontmatter(data);
+  // No raw newline anywhere in the emitted YAML block.
+  expect(yaml).not.toContain("line one\nline two");
+  const lines = yaml.split("\n").filter((l) => l.length > 0);
+  // One line per delimiter/key (---, title, description, section, --- == 5),
+  // i.e. the multi-line description didn't spill onto extra lines.
+  expect(lines).toHaveLength(5);
+  expect(yaml).toContain("description: line one line two");
+
+  const { data: parsed } = roundtrip(data);
+  expect(parsed.description).toBe("line one line two");
+});
+
+test("collapses a title containing a newline into a single-line scalar", () => {
+  const data: FrontmatterData = {
+    title: "Recording\naudio",
+    section: "S",
+  };
+  const yaml = serializeFrontmatter(data);
+  expect(yaml).not.toContain("Recording\naudio");
+  expect(yaml).toContain("title: Recording audio");
+
+  const { data: parsed } = roundtrip(data);
+  expect(parsed.title).toBe("Recording audio");
+});
+
+test("collapses CRLF and multiple consecutive newlines into a single space", () => {
+  const data: FrontmatterData = {
+    title: "T",
+    section: "S",
+    description: "para one\r\n\r\npara two",
+  };
+  const yaml = serializeFrontmatter(data);
+  expect(yaml).not.toContain("\r");
+  expect(yaml).not.toContain("\n\n");
+  expect(yaml).toContain("description: para one para two");
+
+  const { data: parsed } = roundtrip(data);
+  expect(parsed.description).toBe("para one para two");
+});

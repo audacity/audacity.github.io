@@ -105,3 +105,24 @@ test("editing section, order fields, and the draft checkbox calls onChange with 
   fireEvent.click(screen.getByLabelText("Draft"));
   expect(latest.draft).toBe(true);
 });
+
+test("pasting/typing a newline into Description strips it, collapsing to a space", () => {
+  let latest: FrontmatterData | null = null;
+  render(
+    <FrontmatterForm
+      data={baseData}
+      sections={[]}
+      onChange={(next) => {
+        latest = next;
+      }}
+    />,
+  );
+  const description = screen.getByLabelText("Description");
+  fireEvent.change(description, {
+    target: { value: "line one\nline two" },
+  });
+
+  expect(latest).not.toBeNull();
+  expect(latest!.description).toBe("line one line two");
+  expect(latest!.description).not.toContain("\n");
+});

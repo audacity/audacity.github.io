@@ -1,4 +1,7 @@
-import type { FrontmatterData } from "../adapter/frontmatterSerialize";
+import {
+  collapseNewlines,
+  type FrontmatterData,
+} from "../adapter/frontmatterSerialize";
 
 /** `<datalist>` id backing the Section field's autocomplete (see the input below). */
 const SECTION_LIST_ID = "frontmatter-form-sections";
@@ -54,7 +57,7 @@ export function FrontmatterForm({
           id="frontmatter-description"
           rows={2}
           value={data.description ?? ""}
-          onChange={(e) => set("description", e.target.value)}
+          onChange={(e) => set("description", collapseNewlines(e.target.value))}
         />
       </div>
 
