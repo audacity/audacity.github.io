@@ -78,6 +78,44 @@ export const campaignBannerPromos: Record<string, PromoData> = {
       link: "https://www.musehub.com/plugin/speaker-diarization-pro?utm_source=au-web-banner-mh-web&utm_medium=speaker-diarization-pro&utm_campaign=au-web-banner-mh-web-speaker-diarization-pro&utm_id=au-web-banner",
     },
   },
+  overtune: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-07-27",
+    endDate: "2026-08-10",
+    message:
+      "Overtune: The beat maker for rappers and singers. Sing, polish, and share.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Overtune MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/app/overtune-studio?utm_source=au-web-banner-mh-web&utm_medium=overtune-2&utm_campaign=au-web-banner-mh-web-overtune-2r&utm_id=au-web-banner",
+    },
+  },
+  viatorVoiceDenoiser: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-07-13",
+    endDate: "2026-07-27",
+    message:
+      "Viator Voice Denoiser: The one-knob tool for clean vocals. Remove noise fast and keep your voice natural.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Viator Voice Denoiser MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/viator-voice-denoiser?utm_source=au-web-banner-mh-web&utm_medium=viator-voice-denoiser&utm_campaign=au-web-banner-mh-web-viator-voice-denoiser&utm_id=au-web-banner",
+    },
+  },
 };
 
 export const campaignVideoPromos: Record<string, PromoData> = {
