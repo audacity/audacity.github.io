@@ -354,8 +354,10 @@ test("SECURITY: an OAuth state cookie value cannot be replayed as the session co
 // auth-logout
 // ---------------------------------------------------------------------------
 
-test("auth-logout clears the session cookie", async () => {
-  const res = await logoutHandler();
+test("auth-logout POST clears the session cookie", async () => {
+  const res = await logoutHandler(
+    new Request("http://localhost/api/auth-logout", { method: "POST" }),
+  );
   expect(res.status).toBe(200);
   const body = (await res.json()) as { ok: boolean };
   expect(body.ok).toBe(true);
@@ -363,4 +365,15 @@ test("auth-logout clears the session cookie", async () => {
   expect(cookie).toBeTruthy();
   expect(cookie).toContain("manual_editor_session=");
   expect(cookie).toContain("Max-Age=0");
+});
+
+// A cross-site GET (e.g. `<img src="/api/auth-logout">` embedded on another
+// origin) must not be able to force a sign-out — see `auth-logout.ts`'s doc
+// comment. Only POST is accepted.
+test("auth-logout GET is rejected with 405 and does not clear the session cookie", async () => {
+  const res = await logoutHandler(
+    new Request("http://localhost/api/auth-logout"),
+  );
+  expect(res.status).toBe(405);
+  expect(firstSetCookie(res, "manual_editor_session")).toBeUndefined();
 });
