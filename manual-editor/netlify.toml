@@ -1,0 +1,17 @@
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[dev]
+  command = "vite"
+  targetPort = 5273
+  port = 8873
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
