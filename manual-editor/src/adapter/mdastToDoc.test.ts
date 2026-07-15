@@ -82,3 +82,36 @@ test("inline Shortcut becomes an inline shortcut atom", () => {
   const shortcut = paragraph.content!.find((n) => n.type === "shortcut")!;
   expect(shortcut.attrs).toEqual({ keys: "Ctrl+S" });
 });
+
+test("an ordered list with a non-1 start carries attrs.start", () => {
+  const { doc } = mdastToDoc(parseMdx("some text\n\n3. three\n4. four\n"));
+  const orderedList = doc.content!.find((n) => n.type === "orderedList")!;
+  expect(orderedList.attrs).toEqual({ start: 3 });
+});
+
+test("a normal ordered list (start 1/absent) has no start attr", () => {
+  const { doc } = mdastToDoc(parseMdx("1. one\n2. two\n"));
+  const orderedList = doc.content!.find((n) => n.type === "orderedList")!;
+  expect(orderedList.attrs?.start).toBeUndefined();
+});
+
+test("a GFM task list is preserved whole, checkbox state intact", () => {
+  const { doc } = mdastToDoc(parseMdx("- [x] done\n- [ ] todo\n"));
+  const pres = doc.content!.find((n) => n.type === "preserved")!;
+  const mdast = pres.attrs!.mdast as {
+    type: string;
+    children: { checked: boolean | null }[];
+  };
+  expect(mdast.type).toBe("list");
+  expect(mdast.children.map((c) => c.checked)).toEqual([true, false]);
+  expect(doc.content!.some((n) => n.type === "bulletList")).toBe(false);
+  expect(doc.content!.some((n) => n.type === "orderedList")).toBe(false);
+});
+
+test("an image nested inside strong is preserved with the containing paragraph", () => {
+  const { doc } = mdastToDoc(parseMdx("**![alt text](/img.png)**\n"));
+  const pres = doc.content!.find((n) => n.type === "preserved")!;
+  const mdast = pres.attrs!.mdast as { type: string };
+  expect(mdast.type).toBe("paragraph");
+  expect(doc.content!.some((n) => n.type === "image")).toBe(false);
+});

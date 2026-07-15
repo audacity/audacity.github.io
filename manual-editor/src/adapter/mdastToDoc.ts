@@ -101,7 +101,7 @@ function mapBlock(node: RootContent): PMNodeJSON[] {
       // See the `paragraph` case below for the unsupported-inline rule;
       // headings are the other block type with phrasing children directly
       // (not wrapped in an intermediate block), so the same rule applies.
-      if (n.children.some(hasUnsupportedInline)) {
+      if (n.children.some((c) => hasUnsupportedInline(c))) {
         return [preserve(node)];
       }
       return splitInlineWithImages(n.children, (content) => ({
@@ -128,7 +128,7 @@ function mapBlock(node: RootContent): PMNodeJSON[] {
       // is exempted (see below) because it CAN be validly represented, as
       // a sibling block. Expected to be rare in the corpus; C4's
       // golden-file test verifies no content is lost either way.
-      if (n.children.some(hasUnsupportedInline)) {
+      if (n.children.some((c) => hasUnsupportedInline(c))) {
         return [preserve(node)];
       }
       // Images are a block-level atom in the schema (see mapImage's doc
@@ -143,15 +143,37 @@ function mapBlock(node: RootContent): PMNodeJSON[] {
     }
     case "list": {
       const n = node as List;
-      return [
-        {
-          type: n.ordered ? "orderedList" : "bulletList",
-          content: n.children.map(mapListItem),
-        },
-      ];
+      // GFM task lists (`- [ ] todo` / `- [x] done`) put a `checked`
+      // boolean on `listItem`, but the schema has no attribute slot for it
+      // (neither `bulletList`/`orderedList` nor `listItem` model checkbox
+      // state). Mapping normally would silently lose which items are
+      // checked, so per the fidelity rule we preserve the whole `list`
+      // verbatim (mirroring how mid-document `yaml` is special-cased above)
+      // rather than emit a checkbox-less bullet/ordered list.
+      if (n.children.some((item) => item.checked != null)) {
+        return [preserve(node)];
+      }
+      const pm: PMNodeJSON = {
+        type: n.ordered ? "orderedList" : "bulletList",
+        content: n.children.map(mapListItem),
+      };
+      // mdast's `List.start` only applies to ordered lists, and is only
+      // meaningful when it isn't the default of 1 — e.g. a numbered
+      // procedure interrupted by a paragraph/image parses as multiple
+      // sibling `list` nodes with `start: 2`, `start: 3`, ... Carry it
+      // through as TipTap StarterKit's `OrderedList` node defines a `start`
+      // attribute (defaulting to 1) for exactly this purpose.
+      if (n.ordered && n.start != null && n.start !== 1) {
+        pm.attrs = { start: n.start };
+      }
+      return [pm];
     }
     case "code": {
       const n = node as Code;
+      // Note: fenced-code `meta` (e.g. the `{1,3-5}` in ```js{1,3-5}) is
+      // intentionally not preserved here — the schema has no attribute slot
+      // for it and it's absent from the corpus, so mapping only `lang`/
+      // `value` is a deliberate, currently-safe gap (not an oversight).
       const pm: PMNodeJSON = {
         type: "codeBlock",
         attrs: { language: n.lang ?? null },
@@ -270,23 +292,33 @@ function mapFlowJsx(node: MdxJsxFlowElement): PMNodeJSON {
  * `mapInline` cannot turn into valid inline PM content: an unknown
  * `mdxJsxTextElement`, or any other phrasing type this module doesn't
  * explicitly map (GFM `delete`, `footnoteReference`, inline `html`, etc).
- * `image` is excluded — it's handled separately by `splitInlineWithImages`,
- * which pulls it out to a sibling block instead. Recurses into marks
- * (`emphasis`/`strong`/`link`) since an unsupported node can be nested
- * inside one, e.g. `**~~x~~**`.
+ * A top-level `image` (a direct child of the paragraph/heading) is excluded
+ * — it's handled separately by `splitInlineWithImages`, which pulls it out
+ * to a sibling block instead. But an `image` *nested inside a mark*
+ * (`emphasis`/`strong`/`link`, e.g. `**![alt](src)**`) has no valid inline
+ * representation — the schema's `image` node is a block atom, not part of
+ * the `inline*` group `mapInline` builds — so it's treated as unsupported
+ * here, routing the containing paragraph/heading to `preserved` instead of
+ * letting `mapInline`'s image branch emit a schema-invalid inline block.
+ * `inMark` tracks whether we're already recursing inside a mark; it's only
+ * ever `true` for calls made from the `emphasis`/`strong`/`link` cases
+ * below, never for the top-level call from `mapBlock`.
  */
-function hasUnsupportedInline(node: PhrasingContent): boolean {
+function hasUnsupportedInline(node: PhrasingContent, inMark = false): boolean {
   switch (node.type) {
     case "text":
     case "inlineCode":
     case "break":
-    case "image":
       return false;
+    case "image":
+      return inMark;
     case "emphasis":
     case "strong":
-      return (node as Emphasis | Strong).children.some(hasUnsupportedInline);
+      return (node as Emphasis | Strong).children.some((c) =>
+        hasUnsupportedInline(c, true),
+      );
     case "link":
-      return (node as Link).children.some(hasUnsupportedInline);
+      return (node as Link).children.some((c) => hasUnsupportedInline(c, true));
     case "mdxJsxTextElement": {
       const el = node as MdxJsxTextElement;
       return !(el.name && el.name in KNOWN_INLINE);
@@ -348,13 +380,15 @@ function mapInline(node: PhrasingContent, activeMarks: PMMark[]): PMNodeJSON[] {
       void (node as Break);
       return [{ type: "hardBreak" }];
     case "image":
-      // Reachable only when an image is nested inside another mark (e.g.
-      // `**![alt](src)**`), since `splitInlineWithImages` already pulls
-      // top-level images in a paragraph/heading out to sibling blocks
-      // before `mapInlineChildren` ever sees them. This is a rare
-      // construct with no clean inline representation for a block-level
-      // atom; emit it as a block-shaped node anyway (favoring fidelity over
-      // strict schema-validity in this edge case) rather than dropping it.
+      // Not reachable in practice: `hasUnsupportedInline` now treats an
+      // `image` nested inside a mark (e.g. `**![alt](src)**`) as
+      // unsupported, so `mapBlock`'s paragraph/heading cases route the
+      // whole containing block to `preserved` before `mapInlineChildren`
+      // ever sees it (there's no clean inline representation for a
+      // block-level atom). Kept as a defensive fallback — mapping it to the
+      // image block shape favors fidelity over strict schema-validity
+      // rather than silently dropping it — in case a future caller invokes
+      // `mapInline` directly without that guard.
       return [mapImage(node as Image)];
     case "mdxJsxTextElement": {
       const n = node as MdxJsxTextElement;
