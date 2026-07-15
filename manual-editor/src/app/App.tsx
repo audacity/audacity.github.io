@@ -22,6 +22,19 @@ function activeSlugFromPath(activePath: string | null): string | null {
   return slug;
 }
 
+/**
+ * `api.ts`'s `jsonOrThrow` throws `` `${status} ${message}` `` (e.g. "409
+ * Nothing to publish — no draft changes") so callers that need the status
+ * code can get at it — but that numeric prefix is an implementation detail
+ * of the transport, not something a writer should see in the UI. Strips a
+ * leading `"<digits> "` for display only; leaves anything that doesn't
+ * match untouched (defensive — a non-`Error` rejection stringifies without
+ * that prefix).
+ */
+function stripStatusPrefix(message: string): string {
+  return message.replace(/^\d+ /, "");
+}
+
 export function App({
   api = defaultApi,
   user,
@@ -81,7 +94,8 @@ export function App({
       setPublishResult(result);
       api.listPages().then(setPages);
     } catch (err) {
-      setPublishError(err instanceof Error ? err.message : String(err));
+      const message = err instanceof Error ? err.message : String(err);
+      setPublishError(stripStatusPrefix(message));
     } finally {
       setPublishing(false);
     }

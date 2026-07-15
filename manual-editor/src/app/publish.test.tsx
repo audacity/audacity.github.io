@@ -132,7 +132,11 @@ test("a failed publish shows the server's error message and re-enables the butto
   fireEvent.click(publishButton);
 
   const error = await waitFor(() => screen.getByTestId("publish-error"));
-  expect(error.textContent).toContain("Nothing to publish");
+  // The server's error is transport-wrapped as `"409 Nothing to publish…"`
+  // (see `api.ts`'s `jsonOrThrow`) — the writer should see the clean
+  // message only, with no leading numeric status prefix (Fix 3).
+  expect(error.textContent).toBe("Nothing to publish — no draft changes");
+  expect(error.textContent).not.toMatch(/^\d/);
   expect(screen.queryByTestId("publish-result")).toBeNull();
   expect(publishButton.disabled).toBe(false);
   expect(publishButton.textContent).toBe("Publish");
