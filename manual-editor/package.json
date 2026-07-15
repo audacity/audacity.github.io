@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "netlify dev",
+    "dev:local": "bun run dev-server.ts",
     "build": "vite build",
     "test": "bun test",
     "test:e2e": "playwright test",
