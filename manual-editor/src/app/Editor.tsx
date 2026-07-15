@@ -3,6 +3,7 @@ import { useMemo, useRef } from "react";
 import { mdastToDoc } from "../adapter/mdastToDoc";
 import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
+import { Toolbar } from "./Toolbar";
 
 /**
  * Mounts a live TipTap editor for a single manual page.
@@ -38,6 +39,7 @@ export function Editor({ source, path }: { source: string; path: string }) {
 
   return (
     <div data-testid="editor">
+      <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>
   );

@@ -117,6 +117,69 @@ body {
   color: #64748b;
 }
 
+/* Toolbar: formatting marks/blocks + insert menu, above the ProseMirror doc. */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 auto 1rem;
+  padding: 0.5rem 0.6rem;
+  max-width: 720px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.toolbar__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.toolbar__group--insert {
+  gap: 0.35rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid #e2e8f0;
+}
+
+.toolbar__label {
+  margin-right: 0.15rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.toolbar__button {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.toolbar__button:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.toolbar__button.is-active {
+  border-color: #4f46e5;
+  background: #e0e7ff;
+  color: #312e81;
+}
+
+.toolbar__button:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 /* Prose styling for the editable ProseMirror document. */
 .ProseMirror {
   max-width: 720px;
