@@ -7,9 +7,24 @@ import { OctokitBackend, type MinimalOctokit } from "./octokitBackend";
  * branch key means "this ref doesn't exist" (404, matching real Octokit
  * error shape: `err.status === 404`).
  */
+interface FakeOpenPull {
+  number: number;
+  html_url: string;
+  head: string;
+  base: string;
+}
+
 interface FakeRepoState {
   login: string;
   branches: Record<string, Record<string, string> | undefined>;
+  /** Open PRs already on the fake repo, for the "existing PR" publish path. */
+  openPulls?: FakeOpenPull[];
+  /**
+   * When true, `pulls.create` throws the real API's 422 "No commits
+   * between" error instead of creating a PR — models both "drafts branch
+   * doesn't exist" and "drafts branch has no diff from base".
+   */
+  noCommitsToPublish?: boolean;
 }
 
 /** Records of write-side calls, in order, for assertion on call sequence. */
@@ -29,6 +44,18 @@ function notFound(): Error & { status: number } {
 function unprocessable(): Error & { status: number } {
   const err = new Error(
     "GitHub422: Returns an error if you try to delete a file that does not exist.",
+  ) as Error & { status: number };
+  err.status = 422;
+  return err;
+}
+
+/** Mirrors the real API's `pulls.create` 422 when there's nothing to diff. */
+function noCommitsBetween(
+  base: string,
+  head: string,
+): Error & { status: number } {
+  const err = new Error(
+    `Validation Failed: No commits between ${base} and ${head}`,
   ) as Error & { status: number };
   err.status = 422;
   return err;
@@ -134,6 +161,14 @@ function makeFakeOctokit(state: FakeRepoState): {
         const content = files[path];
         if (content === undefined) throw notFound();
         return { data: { content: b64(content), encoding: "base64" } };
+      },
+    },
+    pulls: {
+      async list() {
+        throw new Error("pulls.list not supported by read-only fake");
+      },
+      async create() {
+        throw new Error("pulls.create not supported by read-only fake");
       },
     },
   };
@@ -299,6 +334,24 @@ function makeWriteFakeOctokit(state: FakeRepoState): {
         const content = blobs[entry.sha!];
         if (content === undefined) throw notFound();
         return { data: { content, encoding: "base64" } };
+      },
+    },
+    pulls: {
+      async list({ head, base, state: prState }) {
+        calls.push({ op: "pulls.list", args: { head, base, state: prState } });
+        const open = state.openPulls ?? [];
+        return {
+          data: open
+            .filter((p) => p.head === head && p.base === base)
+            .map((p) => ({ number: p.number, html_url: p.html_url })),
+        };
+      },
+      async create({ title, head, base, body }) {
+        calls.push({ op: "pulls.create", args: { title, head, base, body } });
+        if (state.noCommitsToPublish) throw noCommitsBetween(base, head);
+        const number = (state.openPulls?.length ?? 0) + 100;
+        const html_url = `https://github.com/${OWNER}/${REPO}/pull/${number}`;
+        return { data: { number, html_url } };
       },
     },
   };
@@ -530,11 +583,67 @@ test("readPage: throws when missing everywhere and there is no drafts branch", a
   ).rejects.toThrow();
 });
 
-test("publish is still stubbed (lands in G3)", async () => {
-  const { backend } = backendFor({ login: "u", branches: { [BASE]: {} } });
+test("publish: returns the existing open PR without creating a new one", async () => {
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+    openPulls: [
+      {
+        number: 42,
+        html_url: `https://github.com/${OWNER}/${REPO}/pull/42`,
+        head: `${OWNER}:${DRAFTS}`,
+        base: BASE,
+      },
+    ],
+  });
+
+  const result = await backend.publish();
+
+  expect(result).toEqual({
+    prUrl: `https://github.com/${OWNER}/${REPO}/pull/42`,
+    prNumber: 42,
+  });
+  const listCall = calls.find((c) => c.op === "pulls.list")!;
+  expect(listCall.args).toEqual({
+    head: `${OWNER}:${DRAFTS}`,
+    base: BASE,
+    state: "open",
+  });
+  expect(calls.some((c) => c.op === "pulls.create")).toBe(false);
+});
+
+test("publish: creates a PR when none is open, with the right head/base/title", async () => {
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+  });
+
+  const result = await backend.publish();
+
+  const createCall = calls.find((c) => c.op === "pulls.create")!;
+  expect(createCall.args).toMatchObject({
+    title: "Manual: content updates from the editor",
+    head: DRAFTS,
+    base: BASE,
+  });
+  expect((createCall.args as any).body).toEqual(expect.any(String));
+  expect(result).toEqual({
+    prUrl: `https://github.com/${OWNER}/${REPO}/pull/100`,
+    prNumber: 100,
+  });
+});
+
+test("publish: no draft changes to publish surfaces a clear error", async () => {
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {} },
+    noCommitsToPublish: true,
+  });
+
   await expect(backend.publish()).rejects.toThrow(
-    "not implemented until G2/G3",
+    "Nothing to publish — no draft changes",
   );
+  expect(calls.some((c) => c.op === "pulls.create")).toBe(true);
 });
 
 test("saveDraft: missing drafts branch is created off base head, then committed — full call order", async () => {

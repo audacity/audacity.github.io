@@ -3,7 +3,7 @@ import { api as defaultApi, type makeApi, type Me } from "./api";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
 import { NewPageDialog } from "./NewPageDialog";
-import type { ManualPageMeta } from "../backend/types";
+import type { ManualPageMeta, PublishResult } from "../backend/types";
 
 const MANUAL_PREFIX = "src/content/manual/";
 
@@ -39,6 +39,11 @@ export function App({
   const [pages, setPages] = useState<ManualPageMeta[] | null>(null);
   const [activePath, setActivePath] = useState<string | null>(null);
   const [source, setSource] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const [publishResult, setPublishResult] = useState<PublishResult | null>(
+    null,
+  );
+  const [publishError, setPublishError] = useState<string | null>(null);
   // `undefined` = dialog closed; `null` = open for a new top-level page;
   // a `ManualPageMeta` = open for a new child of that page.
   const [dialogParent, setDialogParent] = useState<
@@ -61,6 +66,26 @@ export function App({
   useEffect(() => {
     api.listPages().then(setPages);
   }, [api]);
+
+  // Opens/reuses the drafts -> base PR. After success, re-fetches the page
+  // list so the sidebar's `hasDraft` dots reflect what just landed on the
+  // drafts branch — on the dev backend `publish()` clears drafts entirely,
+  // so dots disappear; on the real backend they persist until the PR is
+  // merged, which is correct and deliberately not special-cased here.
+  async function handlePublish() {
+    setPublishing(true);
+    setPublishError(null);
+    setPublishResult(null);
+    try {
+      const result = await api.publish();
+      setPublishResult(result);
+      api.listPages().then(setPages);
+    } catch (err) {
+      setPublishError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setPublishing(false);
+    }
+  }
 
   function handleSelect(path: string) {
     setActivePath(path);
@@ -129,6 +154,36 @@ export function App({
       <header className="app-topbar">
         <h1 className="app-topbar__title">Audacity Manual Editor</h1>
         <div className="app-topbar__actions">
+          <div className="app-topbar__publish">
+            <button
+              type="button"
+              className="app-topbar__publish-button"
+              data-testid="publish-button"
+              disabled={publishing}
+              onClick={handlePublish}
+            >
+              {publishing ? "Publishing…" : "Publish"}
+            </button>
+            {publishResult ? (
+              <a
+                className="app-topbar__publish-result"
+                data-testid="publish-result"
+                href={publishResult.prUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {`PR #${publishResult.prNumber} opened ↗`}
+              </a>
+            ) : null}
+            {publishError ? (
+              <span
+                className="app-topbar__publish-error"
+                data-testid="publish-error"
+              >
+                {publishError}
+              </span>
+            ) : null}
+          </div>
           {user ? (
             <div className="auth-badge">
               <span

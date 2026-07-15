@@ -1,5 +1,6 @@
 import type { GitHubBackend } from "./types";
 import { InMemoryBackend, loadCorpusSeed } from "./inMemoryBackend";
+import { OctokitBackend } from "./octokitBackend";
 
 let cachedDev: InMemoryBackend | null = null;
 
@@ -9,6 +10,5 @@ export function getBackend(token: string | null): GitHubBackend {
     if (!cachedDev) cachedDev = new InMemoryBackend(loadCorpusSeed());
     return cachedDev;
   }
-  // Phase G swaps this for `new OctokitBackend(token, ...)`.
-  throw new Error("Production backend not wired until Phase G");
+  return new OctokitBackend(token);
 }

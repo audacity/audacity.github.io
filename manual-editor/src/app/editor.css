@@ -43,6 +43,9 @@ body {
 }
 
 .app-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
   min-width: 1px;
 }
 
@@ -1087,6 +1090,53 @@ body {
 
 .auth-error__card button:hover {
   background: #f1f5f9;
+}
+
+/* Top-bar "Publish" control (`App.tsx`'s `.app-topbar__actions`): opens/
+   reuses the drafts -> base PR, with the result (a link) or error shown
+   inline next to the button. */
+.app-topbar__publish {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.app-topbar__publish-button {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid #2563eb;
+  border-radius: 5px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.app-topbar__publish-button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.app-topbar__publish-button:disabled {
+  border-color: #94a3b8;
+  background: #94a3b8;
+  cursor: default;
+}
+
+.app-topbar__publish-result {
+  color: #15803d;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.app-topbar__publish-result:hover {
+  text-decoration: underline;
+}
+
+.app-topbar__publish-error {
+  color: #b91c1c;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 /* Top-bar user badge (`App.tsx`'s `.app-topbar__actions`): login name +

@@ -15,6 +15,7 @@
 import { expect, test } from "bun:test";
 import { backendFor, currentSession } from "./_shared";
 import { signSession, sessionCookie, type Session } from "./_session";
+import { OctokitBackend } from "../../src/backend/octokitBackend";
 
 const secret = "test-secret";
 const session: Session = { token: "real-token", login: "octocat" };
@@ -73,15 +74,13 @@ test("currentSession returns null with an invalid cookie outside dev mode", asyn
   });
 });
 
-test("backendFor forwards the session token into getBackend, which throws until Phase G wires a real backend", async () => {
+test("backendFor forwards the session token into getBackend, which resolves an OctokitBackend outside dev mode", async () => {
   await withNonDevEnv(() => {
     const signed = signSession(session, secret);
     const cookie = sessionCookie(signed);
     const cookieValue = cookie.split(";")[0];
     const request = requestWithCookie(cookieValue);
-    expect(() => backendFor(request)).toThrow(
-      "Production backend not wired until Phase G",
-    );
+    expect(backendFor(request)).toBeInstanceOf(OctokitBackend);
   });
 });
 

@@ -87,6 +87,23 @@ export interface MinimalOctokit {
       ref: string;
     }): Promise<{ data: { content?: string; encoding?: string } }>;
   };
+  pulls: {
+    list(params: {
+      owner: string;
+      repo: string;
+      state: "open";
+      head: string;
+      base: string;
+    }): Promise<{ data: Array<{ number: number; html_url: string }> }>;
+    create(params: {
+      owner: string;
+      repo: string;
+      title: string;
+      head: string;
+      base: string;
+      body: string;
+    }): Promise<{ data: { number: number; html_url: string } }>;
+  };
 }
 
 /**
@@ -128,9 +145,10 @@ function decodeBase64Content(data: {
 
 /**
  * `GitHubBackend` implementation backed by the real GitHub REST API via
- * Octokit. This task (G1) implements the read paths only — `currentUser`,
- * `listPages`, `readPage`. The mutating methods (`saveDraft`, `saveImage`,
- * `publish`, `deletePage`) are stubbed and land in G2/G3.
+ * Octokit. G1 landed the read paths (`currentUser`, `listPages`,
+ * `readPage`); G2 added the drafts-branch mutations (`saveDraft`,
+ * `saveImage`, `deletePage`); G3 added `publish` (open/reuse the drafts ->
+ * base PR).
  *
  * Strategy:
  * - `listPages` walks the git Trees API (recursive) for the base branch and,
@@ -425,8 +443,49 @@ export class OctokitBackend implements GitHubBackend {
     return path;
   }
 
+  /**
+   * Opens (or, if one's already open, reuses) the PR from the drafts
+   * branch onto base. `pulls.list`'s `head` filter must be `"owner:branch"`
+   * (GitHub's cross-repo-safe format — required even for a same-repo
+   * branch); `pulls.create`'s `head`, by contrast, is just the bare branch
+   * name.
+   *
+   * A `pulls.create` 422 is GitHub's signal that there's nothing to diff —
+   * either the drafts branch doesn't exist yet (never saved a draft) or it
+   * exists but is identical to base (e.g. every draft was already
+   * published). Both collapse to the same "nothing to publish" outcome, so
+   * this doesn't try to distinguish them further.
+   */
   async publish(): Promise<PublishResult> {
-    throw new Error("not implemented until G2/G3");
+    const { data: openPulls } = await this.octokit.pulls.list({
+      owner: this.owner,
+      repo: this.repo,
+      state: "open",
+      head: `${this.owner}:${this.draftsBranch}`,
+      base: this.baseBranch,
+    });
+    const existing = openPulls[0];
+    if (existing) {
+      return { prUrl: existing.html_url, prNumber: existing.number };
+    }
+
+    try {
+      const { data: created } = await this.octokit.pulls.create({
+        owner: this.owner,
+        repo: this.repo,
+        title: "Manual: content updates from the editor",
+        head: this.draftsBranch,
+        base: this.baseBranch,
+        body: "Opened automatically by the Audacity manual editor.",
+      });
+      return { prUrl: created.html_url, prNumber: created.number };
+    } catch (err) {
+      const status = (err as { status?: number } | undefined)?.status;
+      if (status === 422) {
+        throw new Error("Nothing to publish — no draft changes");
+      }
+      throw err;
+    }
   }
 
   /**

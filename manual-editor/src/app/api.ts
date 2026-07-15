@@ -7,8 +7,26 @@ import type {
 export type Me = { login: string; mode: "dev" | "github" };
 
 export function makeApi(f: typeof fetch = fetch) {
+  /**
+   * On a non-ok response, prefers a JSON body's `{ error: string }` message
+   * (what every `netlify/functions/*.ts` error path returns via `json({
+   * error: message }, status)`) over the raw response text, so callers like
+   * `App.tsx`'s publish handler can surface it directly rather than a
+   * generic failure string. Falls back to the raw text — still prefixed
+   * with the status — when the body isn't JSON shaped that way.
+   */
   async function jsonOrThrow<T>(res: Response): Promise<T> {
-    if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+    if (!res.ok) {
+      const text = await res.text();
+      let message = text;
+      try {
+        const parsed = JSON.parse(text) as { error?: unknown };
+        if (typeof parsed?.error === "string") message = parsed.error;
+      } catch {
+        // Not JSON; use the raw text as-is.
+      }
+      throw new Error(`${res.status} ${message}`);
+    }
     return (await res.json()) as T;
   }
   return {
