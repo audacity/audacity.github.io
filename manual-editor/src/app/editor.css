@@ -236,20 +236,27 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.9rem;
-  /* Stick to the top of the scrolling editor pane (.app-main) so the
-     formatting controls stay visible while editing further down the page.
-     top: 0 pins it flush to the pane's padding-box top; the pane's own
-     top padding gives the initial gap before it engages on scroll. */
+  /* Floating toolbar: rendered as the last element of the editor and stuck
+     to the bottom of the scrolling pane, so the formatting controls hover
+     over the content and stay reachable while editing anywhere on the page.
+     It sizes to its content (a centered pill) and lifts off the content with
+     a rounded border and shadow. */
   position: sticky;
-  top: 0;
+  bottom: 1.25rem;
   z-index: 20;
-  margin: 0 auto 1rem;
-  padding: 0.6rem;
-  max-width: 720px;
+  width: fit-content;
+  max-width: min(720px, calc(100% - 1.5rem));
+  margin: 1.5rem auto 0;
+  padding: 0.5rem 0.75rem;
+  justify-content: center;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0 2px 8px -4px rgba(15, 23, 42, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow:
+    0 6px 20px -6px rgba(15, 23, 42, 0.28),
+    0 2px 6px -3px rgba(15, 23, 42, 0.18);
 }
 
 .toolbar__group {

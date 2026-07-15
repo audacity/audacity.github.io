@@ -229,8 +229,8 @@ export function Editor({
         sections={sections}
         onChange={handleFrontmatterChange}
       />
-      <Toolbar editor={editor} />
       <EditorContent editor={editor} />
+      <Toolbar editor={editor} />
     </div>
   );
 }
