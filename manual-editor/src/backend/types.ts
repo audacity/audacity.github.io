@@ -50,4 +50,10 @@ export interface GitHubBackend {
   ): Promise<string>;
   /** Opens or updates the PR from drafts branch -> base; returns PR info. */
   publish(): Promise<PublishResult>;
+  /**
+   * Deletes a page. A draft-only page is discarded entirely; a page that
+   * exists on base is staged for deletion (hidden from listings/reads until
+   * `publish()` lands it). Throws if the path doesn't exist at all.
+   */
+  deletePage(path: string): Promise<void>;
 }

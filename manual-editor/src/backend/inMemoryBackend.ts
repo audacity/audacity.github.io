@@ -43,6 +43,7 @@ export class InMemoryBackend implements GitHubBackend {
   private base = new Map<string, string>();
   private drafts = new Map<string, string>();
   private images = new Map<string, Uint8Array>();
+  private deleted = new Set<string>();
   private prCounter = 0;
   constructor(
     seed: PageContent[],
@@ -57,6 +58,7 @@ export class InMemoryBackend implements GitHubBackend {
     const pages: ManualPageMeta[] = [];
     const paths = new Set<string>([...this.base.keys(), ...this.drafts.keys()]);
     for (const path of paths) {
+      if (this.deleted.has(path)) continue;
       const current = this.drafts.get(path) ?? this.base.get(path)!;
       const meta = metaFromSource(path, current);
       meta.hasDraft = this.drafts.has(path);
@@ -71,12 +73,16 @@ export class InMemoryBackend implements GitHubBackend {
     );
   }
   async readPage(path: string): Promise<PageContent> {
+    if (this.deleted.has(path)) throw new Error(`No such page: ${path}`);
     const source = this.drafts.get(path) ?? this.base.get(path);
     if (source === undefined) throw new Error(`No such page: ${path}`);
     return { path, source };
   }
   async saveDraft(changes: FileChange[], _message: string): Promise<void> {
-    for (const c of changes) this.drafts.set(c.path, c.content);
+    for (const c of changes) {
+      this.deleted.delete(c.path);
+      this.drafts.set(c.path, c.content);
+    }
   }
   async saveImage(
     slug: string,
@@ -88,8 +94,22 @@ export class InMemoryBackend implements GitHubBackend {
     return rel;
   }
   async publish(): Promise<PublishResult> {
+    for (const path of this.deleted) this.base.delete(path);
+    this.deleted.clear();
     this.drafts.clear();
     this.prCounter += 1;
     return { prUrl: `memory://pr/${this.prCounter}`, prNumber: this.prCounter };
+  }
+  async deletePage(path: string): Promise<void> {
+    if (this.base.has(path)) {
+      this.deleted.add(path);
+      this.drafts.delete(path);
+      return;
+    }
+    if (this.drafts.has(path)) {
+      this.drafts.delete(path);
+      return;
+    }
+    throw new Error(`No such page: ${path}`);
   }
 }

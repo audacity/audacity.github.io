@@ -101,3 +101,84 @@ test("a draft that edits an existing page is not double-listed", async () => {
   expect(pages.filter((p) => p.slug === "a/b").length).toBe(1);
   expect(pages.find((p) => p.slug === "a/b")!.title).toBe("T2"); // draft title wins
 });
+
+test("deleting a base page hides it from listPages and readPage throws", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: T\nsection: S\n---\n\nB\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await backend.deletePage("src/content/manual/a/b.mdx");
+  const pages = await backend.listPages();
+  expect(pages.find((p) => p.slug === "a/b")).toBeUndefined();
+  await expect(
+    backend.readPage("src/content/manual/a/b.mdx"),
+  ).rejects.toThrow();
+});
+
+test("deleting a draft-only page discards it entirely", async () => {
+  const backend = new InMemoryBackend([]);
+  await backend.saveDraft(
+    [
+      {
+        path: "src/content/manual/x/new.mdx",
+        content: "---\ntitle: N\nsection: S\n---\n\n",
+      },
+    ],
+    "create",
+  );
+  await backend.deletePage("src/content/manual/x/new.mdx");
+  expect((await backend.listPages()).length).toBe(0);
+});
+
+test("saveDraft to a deleted path clears the deletion (re-create)", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: T\nsection: S\n---\n\nB\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await backend.deletePage("src/content/manual/a/b.mdx");
+  await backend.saveDraft(
+    [
+      {
+        path: "src/content/manual/a/b.mdx",
+        content: "---\ntitle: T2\nsection: S\n---\n\nNew\n",
+      },
+    ],
+    "recreate",
+  );
+  const page = (await backend.listPages()).find((p) => p.slug === "a/b");
+  expect(page).toBeDefined();
+  expect(page!.title).toBe("T2");
+});
+
+test("deletePage on an unknown path throws", async () => {
+  const backend = new InMemoryBackend([]);
+  await expect(
+    backend.deletePage("src/content/manual/nope.mdx"),
+  ).rejects.toThrow();
+});
+
+test("publish clears pending deletions", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: T\nsection: S\n---\n\nB\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await backend.deletePage("src/content/manual/a/b.mdx");
+  await backend.publish();
+  // After the fake publish, the deletion has "landed": the page stays gone
+  // (the in-memory base still holds the file, but the deletion set is cleared
+  // conceptually with the publish). Assert publish() doesn't throw and the
+  // page remains hidden OR reappears — pick ONE semantic and document it:
+  // for the dev backend, keep it simple: publish clears the marker AND
+  // removes the file from base (the deletion landed).
+  const pages = await backend.listPages();
+  expect(pages.find((p) => p.slug === "a/b")).toBeUndefined();
+});
