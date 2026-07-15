@@ -162,7 +162,7 @@ Netlify deploy previews enabled for that repo/branch, the PR's deploy preview
 renders the updated manual pages (`src/pages/manual`) — a reviewer can read
 the actual rendered change before merging, on the main site, not the editor.
 
-### 4. Function bundling (prettier config) — known deploy blocker
+### 4. Function bundling (prettier config)
 
 Every draft save (`POST /api/draft`, `netlify/functions/draft.ts`) calls
 `docToSource` -> `formatMdx` (`src/adapter/docToMdast.ts` ->
@@ -189,30 +189,12 @@ and both have been done as part of this change:
    `.prettierrc.json` into `manual-editor/` (inside the base directory) and
    including that copy instead.
 
-**Neither of those is actually sufficient**, and this is the important part:
-`normalize.ts`'s `REPO_ROOT` is computed as
-`path.resolve(import.meta.dir, "../../..")`, and `import.meta.dir` is a
-**Bun-only** global — it does not exist under Node.js (`import.meta.url` and,
-on modern Node, `import.meta.dirname`/`filename` do; `import.meta.dir` does
-not). Netlify Functions execute on a Node.js runtime, not Bun. Verified
-directly: bundling `netlify/functions/draft.ts` with esbuild the same way
-Netlify's `node_bundler = "esbuild"` does (`--bundle --platform=node
---format=esm`) and importing the result under `node` throws immediately, at
-module load, before any request is handled or any file is read:
-
-```
-TypeError: The "paths[0]" argument must be of type string. Received undefined
-```
-
-This is why the bug has gone unnoticed: local dev never runs through this
-path (`dev-server.ts` runs the function modules directly under Bun, where
-`import.meta.dir` is defined, and `netlify dev` — the one thing that would
-bundle-and-run under Node like production does — crashes on this machine's
-Node 24 before it gets that far; see "Local dev" above). **`/api/draft` will
-crash on first use in a real deploy today.** Fixing it requires changing
-`src/mdx/normalize.ts`'s `REPO_ROOT` computation to something portable across
-both Bun and Node (e.g. `path.dirname(fileURLToPath(import.meta.url))`
-instead of `import.meta.dir`) — `src/mdx` is frozen for this task, so that
-change is out of scope here and must land as a follow-up before the editor's
-save/publish flow can be trusted in production, independent of the
-`included_files` question above.
+A third issue was found and **fixed**: `normalize.ts`'s `REPO_ROOT` was
+computed via Bun-only `import.meta.dir`, which is `undefined` on Node.js —
+Netlify's function runtime — so the bundled `/api/draft` crashed at module
+load. It now uses the portable
+`path.dirname(fileURLToPath(import.meta.url))`, verified by bundling
+`draft.ts` with esbuild (`--bundle --platform=node --format=esm`, matching
+Netlify's `node_bundler = "esbuild"`) and importing the result under `node`
+successfully. The remaining unverified-against-a-real-deploy item is the
+`included_files` path caveat above — confirm with a preview deploy.

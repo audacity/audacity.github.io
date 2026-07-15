@@ -1,11 +1,18 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import prettier from "prettier";
 
 /**
  * Repo root, resolved from this file: manual-editor/src/mdx -> ../../.. .
- * import.meta.dir is Bun's absolute directory of the current module.
  */
-export const REPO_ROOT: string = path.resolve(import.meta.dir, "../../..");
+// path.dirname(fileURLToPath(import.meta.url)) rather than Bun's
+// import.meta.dir: this module also runs inside Netlify functions on the
+// Node runtime, where import.meta.dir is undefined and would crash the
+// function at import time. import.meta.url works on both runtimes.
+export const REPO_ROOT: string = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 
 let cachedConfig: prettier.Options | null = null;
 
