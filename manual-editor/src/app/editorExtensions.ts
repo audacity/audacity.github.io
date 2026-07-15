@@ -2,14 +2,17 @@ import type { Extensions, Node } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { buildExtensions } from "../adapter/schema";
 import { AdmonitionView } from "./nodeviews/AdmonitionView";
+import { PreservedView } from "./nodeviews/PreservedView";
 import { ShortcutView } from "./nodeviews/ShortcutView";
+import { TabsView, TabView } from "./nodeviews/TabsView";
 
 /**
  * App-level extension list: the SAME ProseMirror schema as the pure adapter
  * `buildExtensions()` (used by `src/adapter`'s own tests and by
  * `editor-mount.test.tsx`), but with React node views attached to
- * `admonition` and `shortcut` so the live app renders them as a styled box
- * and keycaps instead of bare content.
+ * `admonition`, `shortcut`, `preserved`, `tabs` and `tab` so the live app
+ * renders them as a styled box, keycaps, a read-only "preserved" card, and a
+ * switchable tab strip, respectively, instead of bare content.
  *
  * Rather than redeclaring the node definitions here (which would risk the
  * two schemas drifting apart), this calls `.extend()` on the exact `Node`
@@ -31,6 +34,27 @@ export function buildAppExtensions(): Extensions {
       return (extension as Node).extend({
         addNodeView() {
           return ReactNodeViewRenderer(ShortcutView);
+        },
+      });
+    }
+    if (extension.name === "preserved") {
+      return (extension as Node).extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(PreservedView);
+        },
+      });
+    }
+    if (extension.name === "tabs") {
+      return (extension as Node).extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(TabsView);
+        },
+      });
+    }
+    if (extension.name === "tab") {
+      return (extension as Node).extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(TabView);
         },
       });
     }

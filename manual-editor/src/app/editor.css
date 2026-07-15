@@ -309,3 +309,124 @@ body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.85em;
 }
+
+/* Preserved node view: read-only card for any mdast the adapter doesn't
+   understand yet (arbitrary JSX components, ESM imports, etc). */
+.preserved {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: default;
+}
+
+.preserved__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.preserved__badge {
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.preserved__note {
+  color: #64748b;
+  font-size: 0.825rem;
+}
+
+.preserved__details {
+  margin-top: 0.5rem;
+}
+
+.preserved__summary {
+  color: #475569;
+  font-size: 0.8rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.preserved__source {
+  margin: 0.5rem 0 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 0.8rem;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Tabs / Tab node views: platform switcher with editable panels. */
+.tabs {
+  margin: 1.25rem 0;
+}
+
+.tabs__headers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tabs__header {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.tabs__header:hover {
+  color: #1f2937;
+}
+
+.tabs__header[data-active="true"] {
+  border-bottom-color: #4f46e5;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.tabs__body {
+  padding-top: 0.4rem;
+}
+
+.tab[data-active="false"] {
+  display: none;
+}
+
+.tab__header {
+  margin-bottom: 0.3rem;
+}
+
+.tab__label-input {
+  padding: 0.1rem 0.3rem;
+  border: none;
+  border-bottom: 1px dashed #cbd5e1;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.tab__label-input:focus {
+  border-bottom-style: solid;
+  outline: none;
+}
+
+.tab__body > *:first-child {
+  margin-top: 0;
+}
+
+.tab__body > *:last-child {
+  margin-bottom: 0;
+}
