@@ -55,8 +55,9 @@ export class InMemoryBackend implements GitHubBackend {
   }
   async listPages(): Promise<ManualPageMeta[]> {
     const pages: ManualPageMeta[] = [];
-    for (const [path, source] of this.base) {
-      const current = this.drafts.get(path) ?? source;
+    const paths = new Set<string>([...this.base.keys(), ...this.drafts.keys()]);
+    for (const path of paths) {
+      const current = this.drafts.get(path) ?? this.base.get(path)!;
       const meta = metaFromSource(path, current);
       meta.hasDraft = this.drafts.has(path);
       pages.push(meta);

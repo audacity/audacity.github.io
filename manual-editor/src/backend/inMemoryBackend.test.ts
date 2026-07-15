@@ -52,3 +52,52 @@ test("publish clears drafts", async () => {
   const pages = await backend.listPages();
   expect(pages.find((p) => p.slug === "a/b")!.hasDraft).toBe(false);
 });
+
+test("listPages includes a draft-only (newly created) page", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/basics/existing.mdx",
+      source: "---\ntitle: E\nsection: Basics\n---\n\nBody\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  // No such file in base — this is a brand-new page saved only as a draft:
+  await backend.saveDraft(
+    [
+      {
+        path: "src/content/manual/basics/new-page.mdx",
+        content: "---\ntitle: New Page\nsection: Basics\norder: 2\n---\n\n",
+      },
+    ],
+    "create",
+  );
+  const pages = await backend.listPages();
+  const created = pages.find((p) => p.slug === "basics/new-page");
+  expect(created).toBeDefined();
+  expect(created!.title).toBe("New Page");
+  expect(created!.hasDraft).toBe(true);
+  // Existing page still present exactly once:
+  expect(pages.filter((p) => p.slug === "basics/existing").length).toBe(1);
+});
+
+test("a draft that edits an existing page is not double-listed", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: T\nsection: S\n---\n\nB\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await backend.saveDraft(
+    [
+      {
+        path: "src/content/manual/a/b.mdx",
+        content: "---\ntitle: T2\nsection: S\n---\n\nEdited\n",
+      },
+    ],
+    "e",
+  );
+  const pages = await backend.listPages();
+  expect(pages.filter((p) => p.slug === "a/b").length).toBe(1);
+  expect(pages.find((p) => p.slug === "a/b")!.title).toBe("T2"); // draft title wins
+});
