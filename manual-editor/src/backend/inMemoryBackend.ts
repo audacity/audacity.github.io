@@ -94,6 +94,12 @@ export class InMemoryBackend implements GitHubBackend {
     return rel;
   }
   async publish(): Promise<PublishResult> {
+    // Parity with OctokitBackend: publishing with no staged changes is an
+    // error there (GitHub's "No commits between" 422 -> "Nothing to publish"),
+    // so the dev backend must behave the same for the UI to be truthful.
+    if (this.drafts.size === 0 && this.deleted.size === 0) {
+      throw new Error("Nothing to publish — no draft changes");
+    }
     for (const path of this.deleted) this.base.delete(path);
     this.deleted.clear();
     this.drafts.clear();

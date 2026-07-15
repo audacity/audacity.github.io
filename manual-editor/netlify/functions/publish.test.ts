@@ -7,9 +7,26 @@
  */
 import { expect, test } from "bun:test";
 import publishHandler from "./publish";
+import draftHandler from "./draft";
 import type { PublishResult } from "../../src/backend/types";
 
 test("publish.ts POST returns the dev backend's fake PR result", async () => {
+  // The dev backend now mirrors OctokitBackend: publishing with zero staged
+  // changes is a 409 ("Nothing to publish"). Stage a draft first so the
+  // happy path is exercised.
+  const draftRes = await draftHandler(
+    new Request("http://localhost/api/draft", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        path: "src/content/manual/publish-fn-test/page.mdx",
+        doc: { type: "doc", content: [{ type: "paragraph" }] },
+        frontmatter: "title: Publish Fn Test\nsection: Test",
+      }),
+    }),
+  );
+  expect(draftRes.status).toBe(200);
+
   const res = await publishHandler(
     new Request("http://localhost/api/publish", { method: "POST" }),
   );
@@ -24,4 +41,15 @@ test("publish.ts GET is rejected with 405", async () => {
     new Request("http://localhost/api/publish", { method: "GET" }),
   );
   expect(res.status).toBe(405);
+});
+
+test("publish.ts POST with nothing staged returns 409 Nothing to publish", async () => {
+  // The previous test's publish cleared all drafts on the shared cached dev
+  // backend, so this exercises the empty case deterministically after it.
+  const res = await publishHandler(
+    new Request("http://localhost/api/publish", { method: "POST" }),
+  );
+  expect(res.status).toBe(409);
+  const body = (await res.json()) as { error: string };
+  expect(body.error).toContain("Nothing to publish");
 });
