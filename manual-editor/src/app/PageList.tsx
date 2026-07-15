@@ -34,7 +34,15 @@ export function PageList({
                     onClick={() => onSelect(p.path)}
                   >
                     {p.title}
-                    {p.hasDraft ? " ●" : ""}
+                    {p.hasDraft ? (
+                      <span
+                        className="page-list__draft-dot"
+                        aria-label="Has unpublished draft"
+                      >
+                        {" "}
+                        ●
+                      </span>
+                    ) : null}
                   </button>
                 </li>
               ))}

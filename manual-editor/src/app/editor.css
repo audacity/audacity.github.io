@@ -107,6 +107,12 @@ body {
   font-weight: 600;
 }
 
+/* Draft dot: a page with unpublished changes on the drafts branch. */
+.page-list__draft-dot {
+  color: #4f46e5;
+  font-weight: 700;
+}
+
 .app-main {
   flex: 1;
   overflow-y: auto;
@@ -115,6 +121,36 @@ body {
 
 .app-main__placeholder {
   color: #64748b;
+}
+
+/* Autosave status line, above the frontmatter form. */
+.editor-topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto 0.5rem;
+  max-width: 720px;
+  min-height: 1.2rem;
+}
+
+.editor-topbar__save-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.editor-topbar__save-status--dirty {
+  color: #64748b;
+}
+
+.editor-topbar__save-status--saving {
+  color: #4f46e5;
+}
+
+.editor-topbar__save-status--saved {
+  color: #059669;
+}
+
+.editor-topbar__save-status--error {
+  color: #dc2626;
 }
 
 /* Frontmatter form: title/description/section/order/draft fields, above the toolbar. */

@@ -1,5 +1,6 @@
 import { EditorContent, useEditor } from "@tiptap/react";
-import { useMemo, useState } from "react";
+import type { Editor as TiptapEditor } from "@tiptap/core";
+import { useEffect, useMemo, useState } from "react";
 import { mdastToDoc } from "../adapter/mdastToDoc";
 import {
   serializeFrontmatter,
@@ -10,6 +11,7 @@ import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
 import { FrontmatterForm } from "./FrontmatterForm";
 import { Toolbar } from "./Toolbar";
+import { api as defaultApi, type makeApi } from "./api";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
 const DEFAULT_ORDER = 99;
@@ -53,15 +55,43 @@ function toFrontmatterData(data: Record<string, unknown>): FrontmatterData {
  * `parseFrontmatter` + `toFrontmatterData`) and driven by `FrontmatterForm`,
  * replacing the original raw frontmatter string entirely — metadata edits
  * now persist. `serializeFrontmatter(frontmatterData)` is exposed via
- * `getFrontmatterSource` for D6's save path
- * (`docToSource(doc, serializeFrontmatter(frontmatterData))`), so it does
- * not currently need to be its own piece of state.
+ * `onFrontmatterSourceReady`, and also feeds D6's autosave path below.
+ *
+ * D6 autosave: any editor content change (`editor.on("update")`) or
+ * frontmatter form change bumps `saveVersion`, which (re)arms a debounce
+ * timer (`autosaveDelayMs`, default 1.2s). When it fires, the current PM doc
+ * JSON + serialized frontmatter are posted via
+ * `api.saveDraftDoc(path, doc, frontmatter)` to `/api/draft`, which calls
+ * the real `docToSource(doc, frontmatter)` — never hand-assembled — on the
+ * *server* to build the final MDX before committing it to the dev backend.
+ * This save path deliberately does NOT call `docToSource` (or import
+ * anything from `../adapter/docToMdast`) here in browser code: `docToSource`
+ * -> `formatMdx` (`../mdx/normalize.ts`) does `import path from "node:path"`
+ * and resolves the repo's `.prettierrc.json` off disk at module scope, both
+ * Bun/Node-only — bundled into the client and evaluated in a real browser,
+ * that import throws immediately (Vite's `node:path` browser shim throws on
+ * property access), which took down the entire app (blank page, nothing
+ * rendered) the moment this module was reachable from `Editor.tsx`'s import
+ * graph. Netlify functions run under Bun/Node, so the exact same
+ * `docToSource` call is safe and correct there — see `draft.ts`.
+ *
+ * The effect closes over `path` from its own render, and its cleanup
+ * (unmount, or a `saveVersion`/`path` change before the timer fires) both
+ * cancels the pending timeout and flips a `cancelled` flag so an in-flight
+ * save from a page that's since been navigated away from can't clobber the
+ * new page's status indicator — see the effect body. On success,
+ * `onDraftSaved(path)` lets `App` know to refresh the page list's
+ * `hasDraft` dot.
  */
 export function Editor({
   source,
   path,
   sections = [],
   onFrontmatterSourceReady,
+  api = defaultApi,
+  onDraftSaved,
+  autosaveDelayMs = 1200,
+  onEditorReady,
 }: {
   source: string;
   path: string;
@@ -77,10 +107,22 @@ export function Editor({
    * caller (e.g. a future save action) each time the form data changes.
    */
   onFrontmatterSourceReady?: (frontmatterSource: string) => void;
+  /** Injectable for tests; defaults to the real fetch-backed client. */
+  api?: ReturnType<typeof makeApi>;
+  /** Called with `path` after a debounced autosave succeeds. */
+  onDraftSaved?: (path: string) => void;
+  /** Debounce idle time before autosaving, in ms. Overridable for tests. */
+  autosaveDelayMs?: number;
+  /** Test-only hook exposing the live TipTap instance once created. */
+  onEditorReady?: (editor: TiptapEditor) => void;
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
   );
+  const [saveStatus, setSaveStatus] = useState<
+    "idle" | "dirty" | "saving" | "saved" | "error"
+  >("idle");
+  const [saveVersion, setSaveVersion] = useState(0);
 
   const doc = useMemo(() => {
     const { doc } = mdastToDoc(parseMdx(source));
@@ -95,17 +137,93 @@ export function Editor({
     {
       extensions: buildAppExtensions(),
       content: doc,
+      onCreate: ({ editor: created }) => onEditorReady?.(created),
     },
     [path],
   );
 
+  // Marks the doc dirty (and (re)arms the autosave debounce below) on every
+  // content-changing transaction. Registered/torn down per `editor`
+  // instance, which is recreated whenever `path` changes (see `useEditor`'s
+  // deps above), so a stale listener never fires against a page that's no
+  // longer mounted.
+  useEffect(() => {
+    if (!editor) return;
+    const handleUpdate = () => {
+      setSaveStatus("dirty");
+      setSaveVersion((v) => v + 1);
+    };
+    editor.on("update", handleUpdate);
+    return () => {
+      editor.off("update", handleUpdate);
+    };
+  }, [editor]);
+
+  // The debounced autosave itself. `saveVersion` is the trigger: it only
+  // increments once an actual edit has happened (content or frontmatter),
+  // so the initial mount (`saveVersion === 0`) never autosaves an unedited
+  // page. Re-running effects re-arm the timer, which is the debounce.
+  useEffect(() => {
+    if (saveVersion === 0 || !editor) return;
+    const savingPath = path;
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      void (async () => {
+        setSaveStatus("saving");
+        try {
+          await api.saveDraftDoc(
+            savingPath,
+            editor.getJSON(),
+            serializeFrontmatter(frontmatterData),
+          );
+          if (cancelled) return;
+          setSaveStatus("saved");
+          onDraftSaved?.(savingPath);
+        } catch {
+          if (!cancelled) setSaveStatus("error");
+        }
+      })();
+    }, autosaveDelayMs);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+    // `editor`, `frontmatterData`, `api`, `onDraftSaved`, `autosaveDelayMs`
+    // are deliberately read from this render's closure rather than listed:
+    // any of them changing mid-debounce is already covered by `saveVersion`
+    // (content/frontmatter edits) or `path` (page switch) re-arming the
+    // timer with fresh values.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveVersion, path]);
+
   function handleFrontmatterChange(next: FrontmatterData) {
     setFrontmatterData(next);
     onFrontmatterSourceReady?.(serializeFrontmatter(next));
+    setSaveStatus("dirty");
+    setSaveVersion((v) => v + 1);
   }
+
+  const saveStatusLabel =
+    saveStatus === "saving"
+      ? "Saving…"
+      : saveStatus === "saved"
+        ? "Saved draft ●"
+        : saveStatus === "dirty"
+          ? "Edited"
+          : saveStatus === "error"
+            ? "Save failed"
+            : "";
 
   return (
     <div data-testid="editor">
+      <div className="editor-topbar">
+        <span
+          data-testid="save-status"
+          className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}
+        >
+          {saveStatusLabel}
+        </span>
+      </div>
       <FrontmatterForm
         data={frontmatterData}
         sections={sections}

@@ -24,6 +24,15 @@ export function App({
     api.getPage(path).then((page) => setSource(page.source));
   }
 
+  // After a successful autosave (see `Editor`'s debounce effect), re-fetch
+  // the page list so the sidebar's `hasDraft` ● dot reflects the new draft.
+  // Simplest-correct: the in-memory dev backend already recomputes
+  // `hasDraft` on every `listPages()` call, so a re-fetch is always right
+  // rather than trying to keep a locally-patched copy in sync.
+  function handleDraftSaved(_path: string) {
+    api.listPages().then(setPages);
+  }
+
   // Unique section names across the loaded page list, in first-seen order —
   // offered to `FrontmatterForm` as autocomplete for the Section field so an
   // edit can reuse an existing section instead of retyping it.
@@ -49,7 +58,13 @@ export function App({
         </aside>
         <main className="app-main">
           {source !== null && activePath !== null ? (
-            <Editor source={source} path={activePath} sections={sections} />
+            <Editor
+              source={source}
+              path={activePath}
+              sections={sections}
+              api={api}
+              onDraftSaved={handleDraftSaved}
+            />
           ) : (
             <p className="app-main__placeholder">
               Select a page from the list to start editing.
