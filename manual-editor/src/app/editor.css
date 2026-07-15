@@ -500,6 +500,48 @@ body {
   padding: 2rem 2.5rem;
 }
 
+/* Notion-style block drag handle (`@tiptap/extension-drag-handle-react`).
+   The extension itself owns show/hide-on-hover and floating-ui positioning
+   (portaled into its own absolutely-positioned wrapper, `left-start` of the
+   hovered top-level block by default) — this only styles the handle button
+   the app renders as that portal's content. `.editor-scroll`'s existing
+   2.5rem left padding is gutter enough for the handle to float in without
+   overlapping document text, so no layout changes were needed here. */
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: grab;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.drag-handle:hover {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Dropcursor color/width is set via StarterKit's `dropcursor` option
+   (`editorExtensions.ts`); this class-based fallback only kicks in if that
+   option is ever unset, so the indicator never regresses to invisible. */
+.ProseMirror .prosemirror-dropcursor-block {
+  background-color: #4f46e5;
+}
+
 /* Autosave status line, above the frontmatter form. */
 .editor-topbar {
   display: flex;

@@ -1,5 +1,6 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor as TiptapEditor } from "@tiptap/core";
+import { DragHandle } from "@tiptap/extension-drag-handle-react";
 import { useEffect, useMemo, useState } from "react";
 import { mdastToDoc } from "../adapter/mdastToDoc";
 import {
@@ -94,6 +95,7 @@ export function Editor({
   onAddSubpage,
   hasChildren,
   onDeleted,
+  enableDragHandle = true,
 }: {
   source: string;
   path: string;
@@ -133,6 +135,16 @@ export function Editor({
    * delete-then-unmount sequence.
    */
   onDeleted: () => void;
+  /**
+   * Renders the Notion-style block drag handle. Defaults on for the real
+   * app; existing suites that mount `Editor` under happy-dom leave it on
+   * too — `@tiptap/extension-drag-handle-react` registers its plugin (and
+   * portals its handle content) without touching `floating-ui`'s DOM
+   * measurement APIs until an actual pointer interaction occurs, which
+   * happy-dom tolerates fine. The prop exists so a real-browser-only edge
+   * case can still opt out per-test without changing the default.
+   */
+  enableDragHandle?: boolean;
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
@@ -326,6 +338,19 @@ export function Editor({
         </span>
       </div>
       <div className="editor-scroll">
+        {enableDragHandle && editor ? (
+          <DragHandle editor={editor}>
+            <button
+              type="button"
+              className="drag-handle"
+              data-testid="drag-handle"
+              aria-label="Drag to move block"
+              tabIndex={-1}
+            >
+              ⠿
+            </button>
+          </DragHandle>
+        ) : null}
         <EditorContent editor={editor} />
       </div>
     </div>

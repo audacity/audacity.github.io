@@ -66,9 +66,10 @@ const listDoc = {
 };
 
 /**
- * Mounts a real `useEditor` (same construction `Editor.tsx` uses) with
- * `BlockReorder` appended explicitly — `buildAppExtensions()` itself does
- * not include it yet (Task 2 wires it into the live editor).
+ * Mounts a real `useEditor` (same construction `Editor.tsx` uses).
+ * `buildAppExtensions()` now includes `BlockReorder` itself (wired in Task
+ * 2), so it's not appended again here — doing so used to produce a
+ * "Duplicate extension names" warning from tiptap's extension manager.
  */
 function TestHarness({
   content,
@@ -79,7 +80,7 @@ function TestHarness({
 }) {
   const editor = useEditor(
     {
-      extensions: [...buildAppExtensions(), BlockReorder],
+      extensions: buildAppExtensions(),
       content,
       onCreate: ({ editor: created }) => onReady(created),
     },

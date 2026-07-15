@@ -67,3 +67,27 @@ test("toggleBold on a buildAppExtensions() editor marks subsequently inserted te
 
   editor.destroy();
 });
+
+/**
+ * Task 2 wires the D1 `BlockReorder` extension (Alt+Up/Down keyboard block
+ * moves) into the live app editor. Confirmed here via the extension
+ * manager's registered extension list rather than by exercising the
+ * keyboard shortcut itself — `blockMove.test.tsx` already covers
+ * `moveBlock`/`BlockReorder` behavior directly; this only guards that
+ * `buildAppExtensions()` actually includes it (schema-parity-safe, since
+ * `BlockReorder` is a plugin-only `Extension` with no nodes/marks — see the
+ * parity test above).
+ */
+test("buildAppExtensions includes the blockReorder extension", () => {
+  const editor = new Editor({
+    element: document.createElement("div"),
+    extensions: buildAppExtensions(),
+    content: "<p>Some text.</p>",
+  });
+
+  expect(
+    editor.extensionManager.extensions.some((e) => e.name === "blockReorder"),
+  ).toBe(true);
+
+  editor.destroy();
+});

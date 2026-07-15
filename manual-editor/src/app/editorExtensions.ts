@@ -1,4 +1,4 @@
-import type { Extensions, Node } from "@tiptap/core";
+import type { Extension, Extensions, Node } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { buildExtensions } from "../adapter/schema";
 import { AdmonitionView } from "./nodeviews/AdmonitionView";
@@ -7,6 +7,7 @@ import { ShortcutView } from "./nodeviews/ShortcutView";
 import { TabsView, TabView } from "./nodeviews/TabsView";
 import { LinkShortcut } from "./linkShortcut";
 import { SlashCommand } from "./slash/SlashCommand";
+import { BlockReorder } from "./blockMove";
 
 /**
  * App-level extension list: the SAME ProseMirror schema as the pure adapter
@@ -22,7 +23,14 @@ import { SlashCommand } from "./slash/SlashCommand";
  * `buildExtensions()` already builds, so there's nothing to `.extend()`.
  * Since neither adds nodes or marks, `editorExtensions.test.ts`'s schema
  * parity assertion (which only compares `buildExtensions()` against this
- * function) is unaffected by their presence.
+ * function) is unaffected by their presence. `BlockReorder` (Alt+Up/Down
+ * keyboard block moves, from `./blockMove`) is appended for the same
+ * reason — it's a plugin-only `Extension` with no schema footprint. The
+ * `starterKit` entry is additionally `.configure()`d (not `.extend()`d,
+ * since it's an `Extension` bundling sub-extensions rather than a `Node`)
+ * to recolor its bundled `dropcursor` to match the app's indigo accent —
+ * `.configure()` only changes options, never the schema, so this is
+ * likewise parity-safe.
  *
  * Rather than redeclaring the node definitions here (which would risk the
  * two schemas drifting apart), this calls `.extend()` on the exact `Node`
@@ -33,6 +41,11 @@ import { SlashCommand } from "./slash/SlashCommand";
  */
 export function buildAppExtensions(): Extensions {
   const extensions = buildExtensions().map((extension) => {
+    if (extension.name === "starterKit") {
+      return (extension as Extension).configure({
+        dropcursor: { color: "#4f46e5", width: 2 },
+      });
+    }
     if (extension.name === "admonition") {
       return (extension as Node).extend({
         addNodeView() {
@@ -71,5 +84,5 @@ export function buildAppExtensions(): Extensions {
     return extension;
   });
 
-  return [...extensions, SlashCommand, LinkShortcut];
+  return [...extensions, SlashCommand, LinkShortcut, BlockReorder];
 }
