@@ -1,17 +1,17 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const publishedBlogPosts = await getCollection("blog");
   return publishedBlogPosts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 const options: Intl.DateTimeFormatOptions = {
   weekday: "long",
   year: "numeric",
@@ -20,12 +20,19 @@ const options: Intl.DateTimeFormatOptions = {
 };
 ---
 
-<BaseLayout title={"Audacity ® | " + post.data.title} description={post.data.description}>
-  <article id="main" class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40">
+<BaseLayout
+  title={"Audacity ® | " + post.data.title}
+  description={post.data.description}
+>
+  <article
+    id="main"
+    class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40"
+  >
     <div class="flex flex-col gap-2 border-b pb-6">
       <h2 class="my-0">{post.data.title}</h2>
       <p class="mb-0">By {post.data.author}</p>
-      <small>{post.data.publishDate.toLocaleDateString("en-US", options)}</small>
+      <small>{post.data.publishDate.toLocaleDateString("en-US", options)}</small
+      >
     </div>
     <Content />
   </article>
