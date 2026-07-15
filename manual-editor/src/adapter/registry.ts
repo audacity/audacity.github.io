@@ -35,6 +35,31 @@ export type KnownFlowComponent = keyof typeof KNOWN_FLOW;
 export type KnownInlineComponent = keyof typeof KNOWN_INLINE;
 
 /**
+ * A single JSX attribute captured verbatim in source order. `value` is `null`
+ * for a valueless/directive attribute (e.g. Astro's `client:load`, which is a
+ * bare `name` with no `="..."`), or the raw string for `name="value"`.
+ *
+ * The `shortcut` PM node stores the FULL original attribute list in this shape
+ * (not just `keys`) so `<Shortcut client:load keys="X"/>` round-trips
+ * byte-identically — dropping `client:load` would break the component's Astro
+ * hydration in the built manual, which is real data loss, not benign
+ * formatting. `keys` stays a first-class editable value via `readShortcutKeys`.
+ */
+export interface JsxAttr {
+  name: string;
+  value: string | null;
+}
+
+/**
+ * Reads the `keys` value out of a `shortcut` node's stored attribute list, for
+ * the schema's `renderHTML` and any future node view that edits the shortcut.
+ * Returns `""` when absent so callers always get a string.
+ */
+export function readShortcutKeys(attributes: readonly JsxAttr[]): string {
+  return attributes.find((a) => a.name === "keys")?.value ?? "";
+}
+
+/**
  * Component names (from KNOWN_FLOW) that map onto the `admonition` PM node.
  * Useful for the adapter to know which `component` attr values are valid
  * when converting a PM `admonition` node back to mdast.

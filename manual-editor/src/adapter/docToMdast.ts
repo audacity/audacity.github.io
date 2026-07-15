@@ -40,7 +40,7 @@ import type {
 } from "mdast-util-mdx-jsx";
 import { formatMdx } from "../mdx/normalize";
 import { stringifyMdx } from "../mdx/pipeline";
-import { KNOWN_FLOW } from "./registry";
+import { type JsxAttr, KNOWN_FLOW } from "./registry";
 import type { PMNodeJSON } from "./mdastToDoc";
 
 type PMMark = { type: string; attrs?: Record<string, unknown> };
@@ -229,90 +229,135 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
   }
 }
 
+/**
+ * Rebuilds a run of PM inline nodes into mdast phrasing content, restoring the
+ * mark NESTING that C2 flattened away.
+ *
+ * C2 (`mdastToDoc`) flattens `strong > emphasis > text` — and, crucially, a
+ * *mark that wraps several siblings* like `strong > [inlineCode, text,
+ * inlineCode]` (`**\`x\`, \`y\`**`) — into a flat list of PM leaves, each
+ * carrying the same `marks` array recorded outer-to-inner (C2's
+ * "emphasis"/"strong"/"link" cases each *append* to `activeMarks` as they
+ * recurse inward, so index 0 is the outermost mark). Marks are also carried
+ * onto non-text atoms (`hardBreak`, `shortcut`) so they stay inside their
+ * wrapping mark.
+ *
+ * A naive per-leaf inversion would wrap EACH leaf in its own `strong`/`link`,
+ * turning `**\`x\`, \`y\`**` into `**\`x\`****, ****\`y\`**` — reordered,
+ * over-escaped, not byte-identical. Instead we group: at each nesting depth,
+ * consecutive leaves sharing the same mark (same type AND attrs) are wrapped
+ * together under a single mdast node, then we recurse one level deeper. This
+ * is the exact inverse of C2's flattening and reproduces the source's mark
+ * structure — one `strong` around all four code spans, one `link` around a
+ * multi-word label, etc.
+ *
+ * `code` is NOT a wrapping level: C2's "inlineCode" case appends a `code` mark
+ * onto the leaf and stops (an inline code span has no marks *inside* it), so
+ * `code` identifies the leaf itself as an `inlineCode` node. It's filtered out
+ * of the wrapping marks and consulted only when building the leaf.
+ */
 function mapInlineChildrenBack(nodes: PMNodeJSON[]): PhrasingContent[] {
-  return nodes.map(mapInlineBack);
+  return buildInlineRun(nodes, 0);
 }
 
-function mapInlineBack(node: PMNodeJSON): PhrasingContent {
+/** The wrapping (non-`code`) marks of a PM inline node, outermost first. */
+function wrapMarksOf(node: PMNodeJSON): PMMark[] {
+  return (node.marks ?? []).filter((m) => m.type !== "code");
+}
+
+/** Stable identity for a mark (type + attrs) so runs group by exact equality. */
+function markKey(mark: PMMark): string {
+  return `${mark.type}:${JSON.stringify(mark.attrs ?? null)}`;
+}
+
+/**
+ * Groups `nodes` (all of which already share the same marks at indices
+ * `0..depth-1`) by the mark at `depth`: each maximal run of consecutive nodes
+ * with the same `depth`-th wrapping mark is wrapped under one mdast node and
+ * recursed into at `depth + 1`; nodes with no mark at `depth` become leaves.
+ */
+function buildInlineRun(nodes: PMNodeJSON[], depth: number): PhrasingContent[] {
+  const out: PhrasingContent[] = [];
+  let i = 0;
+  while (i < nodes.length) {
+    const marks = wrapMarksOf(nodes[i]!);
+    if (marks.length <= depth) {
+      out.push(inlineLeaf(nodes[i]!));
+      i++;
+      continue;
+    }
+    const mark = marks[depth]!;
+    const key = markKey(mark);
+    let j = i + 1;
+    while (j < nodes.length) {
+      const m = wrapMarksOf(nodes[j]!);
+      if (m.length <= depth || markKey(m[depth]!) !== key) break;
+      j++;
+    }
+    const children = buildInlineRun(nodes.slice(i, j), depth + 1);
+    out.push(wrapMark(mark, children));
+    i = j;
+  }
+  return out;
+}
+
+/** Builds the innermost mdast leaf for a PM inline node (no wrapping marks left). */
+function inlineLeaf(node: PMNodeJSON): PhrasingContent {
   switch (node.type) {
-    case "text":
-      return textToPhrasing(node);
+    case "text": {
+      const hasCode = (node.marks ?? []).some((m) => m.type === "code");
+      if (hasCode) {
+        const inlineCode: InlineCode = {
+          type: "inlineCode",
+          value: node.text ?? "",
+        };
+        return inlineCode;
+      }
+      const text: Text = { type: "text", value: node.text ?? "" };
+      return text;
+    }
     case "hardBreak": {
       const brk: Break = { type: "break" };
       return brk;
     }
-    case "shortcut": {
-      const attrs = attrsOf(node);
-      const el: MdxJsxTextElement = {
-        type: "mdxJsxTextElement",
-        name: "Shortcut",
-        attributes: [
-          {
-            type: "mdxJsxAttribute",
-            name: "keys",
-            value: (attrs.keys as string) ?? "",
-          },
-        ],
-        children: [],
-      };
-      return el;
-    }
+    case "shortcut":
+      return shortcutBack(node);
     default:
       throw new Error(`docToMdast: unknown inline PM node type "${node.type}"`);
   }
 }
 
 /**
- * Rebuilds a single mark-bearing PM text node into its mdast phrasing
- * subtree. Mirrors C2's `mapInline`/`hasUnsupportedInline` design in
- * reverse: C2 flattens `emphasis > strong > text` (etc.) into one PM text
- * leaf whose `marks` array records the marks outer-to-inner (see C2's
- * `mapInline` "emphasis"/"strong"/"link" cases, which each *append* to
- * `activeMarks` as they recurse inward). To invert that, marks are applied
- * back onto the leaf from innermost (last in the array) to outermost
- * (first), which reconstructs the same nesting order — `[bold, italic]` on
- * the PM side becomes `strong > emphasis > text`, exactly the shape
- * `**_text_**` parses to.
- *
- * `code` is handled separately from the wrapping marks: C2's "inlineCode"
- * case doesn't recurse further (an inline code span has no marks *inside*
- * it), it just appends a `code` mark onto whatever `activeMarks` were
- * already active and stops. So a `code` mark identifies the *leaf itself*
- * as an `inlineCode` node (not a `text` node wrapped in something), and any
- * other marks alongside it (e.g. `**\`code\`**` -> `[bold, code]`) still
- * wrap that leaf normally.
+ * Rebuilds a `shortcut` PM node into its `<Shortcut ... />` mdast element,
+ * re-emitting the stored attribute list in its original order (see C2's
+ * `jsxAttrsToPairs` and the `shortcut` schema node) so every attribute —
+ * including Astro's valueless `client:load` directive (value `null`) — is
+ * reproduced byte-identically. `value: null` stringifies as a bare valueless
+ * attribute; a string stringifies as `name="value"`.
  */
-function textToPhrasing(node: PMNodeJSON): PhrasingContent {
-  const marks: PMMark[] = node.marks ?? [];
-  const hasCode = marks.some((m) => m.type === "code");
-  const wrapMarks = marks.filter((m) => m.type !== "code");
-
-  let leaf: PhrasingContent;
-  if (hasCode) {
-    const inlineCode: InlineCode = {
-      type: "inlineCode",
-      value: node.text ?? "",
-    };
-    leaf = inlineCode;
-  } else {
-    const text: Text = { type: "text", value: node.text ?? "" };
-    leaf = text;
-  }
-
-  for (let i = wrapMarks.length - 1; i >= 0; i--) {
-    leaf = applyWrapMark(wrapMarks[i]!, leaf);
-  }
-  return leaf;
+function shortcutBack(node: PMNodeJSON): MdxJsxTextElement {
+  const pairs = (attrsOf(node).attributes as JsxAttr[] | undefined) ?? [];
+  return {
+    type: "mdxJsxTextElement",
+    name: "Shortcut",
+    attributes: pairs.map((p) => ({
+      type: "mdxJsxAttribute",
+      name: p.name,
+      value: p.value,
+    })),
+    children: [],
+  };
 }
 
-function applyWrapMark(mark: PMMark, child: PhrasingContent): PhrasingContent {
+/** Wraps a run of phrasing children under a single mdast mark node. */
+function wrapMark(mark: PMMark, children: PhrasingContent[]): PhrasingContent {
   switch (mark.type) {
     case "bold": {
-      const strong: Strong = { type: "strong", children: [child] };
+      const strong: Strong = { type: "strong", children };
       return strong;
     }
     case "italic": {
-      const emphasis: Emphasis = { type: "emphasis", children: [child] };
+      const emphasis: Emphasis = { type: "emphasis", children };
       return emphasis;
     }
     case "link": {
@@ -321,7 +366,7 @@ function applyWrapMark(mark: PMMark, child: PhrasingContent): PhrasingContent {
         type: "link",
         url: attrs.href as string,
         title: (attrs.title as string | null | undefined) ?? null,
-        children: [child],
+        children,
       };
       return link;
     }

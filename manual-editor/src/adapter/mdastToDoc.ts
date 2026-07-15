@@ -36,7 +36,7 @@ import type {
   MdxJsxFlowElement,
   MdxJsxTextElement,
 } from "mdast-util-mdx-jsx";
-import { KNOWN_FLOW, KNOWN_INLINE } from "./registry";
+import { type JsxAttr, KNOWN_FLOW, KNOWN_INLINE } from "./registry";
 
 /** ProseMirror's generic node/mark JSON shape (matches `prosemirror-model`'s `NodeJSON`/`Fragment` output). */
 export interface PMNodeJSON {
@@ -76,6 +76,31 @@ function readStringAttr(
   );
   if (!found) return null;
   return typeof found.value === "string" ? found.value : null;
+}
+
+/**
+ * Converts an mdxJsx element's `attributes` array into the flat
+ * `{ name, value }[]` shape the `shortcut` PM node stores (see
+ * `./registry.ts`), preserving source ORDER so the element re-serializes
+ * byte-identically. Returns `null` — signalling "not round-trippable via this
+ * simple shape, route to `preserved`" — if the element carries an attribute
+ * expression (`attr={expr}`), a spread (`{...rest}`), or any non-string value,
+ * none of which the known inline components use in this corpus but which would
+ * otherwise be silently lost.
+ */
+function jsxAttrsToPairs(
+  attributes: (MdxJsxFlowElement | MdxJsxTextElement)["attributes"],
+): JsxAttr[] | null {
+  const out: JsxAttr[] = [];
+  for (const a of attributes) {
+    if (a.type !== "mdxJsxAttribute") return null; // spread expression
+    if (a.value === null || typeof a.value === "string") {
+      out.push({ name: a.name, value: a.value });
+    } else {
+      return null; // attribute value expression
+    }
+  }
+  return out;
 }
 
 /** Wraps a `preserved` node carrying the given mdast node verbatim. */
@@ -317,11 +342,26 @@ function hasUnsupportedInline(node: PhrasingContent, inMark = false): boolean {
       return (node as Emphasis | Strong).children.some((c) =>
         hasUnsupportedInline(c, true),
       );
-    case "link":
-      return (node as Link).children.some((c) => hasUnsupportedInline(c, true));
+    case "link": {
+      const link = node as Link;
+      // A link with NO children (`[](url)` — an empty-text anchor, present in
+      // the corpus as bare heading anchors) maps to a `link` mark applied to
+      // zero inline nodes, i.e. the link is silently dropped entirely. There
+      // is no valid inline PM representation for it (the mark has nothing to
+      // attach to), so treat it as unsupported and route the containing
+      // paragraph/heading to `preserved`, which re-emits the `[](url)`
+      // verbatim rather than losing it.
+      if (link.children.length === 0) return true;
+      return link.children.some((c) => hasUnsupportedInline(c, true));
+    }
     case "mdxJsxTextElement": {
       const el = node as MdxJsxTextElement;
-      return !(el.name && el.name in KNOWN_INLINE);
+      if (!(el.name && el.name in KNOWN_INLINE)) return true;
+      // A known inline component (Shortcut) whose attributes can't be captured
+      // as plain `{ name, value }` pairs (spread/expression attrs) can't
+      // round-trip through the `shortcut` node's stored attr list, so preserve
+      // the whole containing block rather than lose those attributes.
+      return jsxAttrsToPairs(el.attributes) === null;
     }
     default:
       return true;
@@ -376,9 +416,14 @@ function mapInline(node: PhrasingContent, activeMarks: PMMark[]): PMNodeJSON[] {
       };
       return mapInlineChildren(n.children, [...activeMarks, mark]);
     }
-    case "break":
+    case "break": {
       void (node as Break);
-      return [{ type: "hardBreak" }];
+      const pm: PMNodeJSON = { type: "hardBreak" };
+      // Carry active marks so a hard break inside emphasis/strong/link stays
+      // grouped under that mark when docToMdast reconstructs the run.
+      if (activeMarks.length > 0) pm.marks = activeMarks;
+      return [pm];
+    }
     case "image":
       // Not reachable in practice: `hasUnsupportedInline` now treats an
       // `image` nested inside a mark (e.g. `**![alt](src)**`) as
@@ -393,15 +438,29 @@ function mapInline(node: PhrasingContent, activeMarks: PMMark[]): PMNodeJSON[] {
     case "mdxJsxTextElement": {
       const n = node as MdxJsxTextElement;
       if (n.name && n.name in KNOWN_INLINE) {
-        return [
-          {
-            type: "shortcut",
-            attrs: { keys: readStringAttr(n.attributes, "keys") ?? "" },
-          },
-        ];
+        const pairs = jsxAttrsToPairs(n.attributes);
+        // `pairs === null` (non-serializable attrs) can't reach here: the
+        // paragraph/heading's `hasUnsupportedInline` check routes such a
+        // Shortcut to `preserved` before `mapInline` runs. Guard defensively
+        // anyway — preserve rather than emit a lossy shortcut node.
+        if (pairs === null) return [preserve(node)];
+        // Store the FULL attribute list in source order (see the `shortcut`
+        // schema node): this keeps Astro's valueless `client:load` directive
+        // AND `keys` so `<Shortcut client:load keys="X"/>` round-trips
+        // byte-identically instead of dropping `client:load`.
+        const pm: PMNodeJSON = {
+          type: "shortcut",
+          attrs: { attributes: pairs },
+        };
+        // Carry active marks so a `<Shortcut>` nested inside emphasis/strong/
+        // link (e.g. `**... <Shortcut .../>**`) stays grouped under that mark
+        // when docToMdast reconstructs the inline run, instead of being pulled
+        // out of the mark (which would reorder the `**`/`_` boundary).
+        if (activeMarks.length > 0) pm.marks = activeMarks;
+        return [pm];
       }
-      // Unhandled here: containsUnknownInlineJsx should have routed the
-      // whole paragraph to `preserved` before we ever reach this branch.
+      // Unhandled here: hasUnsupportedInline should have routed the whole
+      // paragraph to `preserved` before we ever reach this branch.
       return [preserve(node)];
     }
     default:

@@ -1,5 +1,6 @@
 import { type Extensions, Node, mergeAttributes } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
+import { type JsxAttr, readShortcutKeys } from "./registry";
 
 /**
  * `admonition` — the PM node that `Callout`, `Notes`, `Pitfalls`,
@@ -90,7 +91,17 @@ const Tab = Node.create({
   },
 });
 
-/** `shortcut` — inline atom for `<Shortcut keys="..." />`. */
+/**
+ * `shortcut` — inline atom for `<Shortcut ... />`.
+ *
+ * Stores the component's FULL original attribute list (`attributes`, an array
+ * of `{ name, value }` in source order) rather than just `keys`, so every
+ * attribute — including Astro's valueless `client:load` hydration directive —
+ * round-trips byte-identically through the adapter. Dropping `client:load`
+ * would break the component's hydration in the built manual (real data loss),
+ * so it must be preserved. `keys` is still exposed as a first-class editable
+ * value for the node view via `readShortcutKeys`.
+ */
 const Shortcut = Node.create({
   name: "shortcut",
   group: "inline",
@@ -98,10 +109,15 @@ const Shortcut = Node.create({
   atom: true,
   addAttributes() {
     return {
-      keys: {
-        default: "",
-        parseHTML: (element) => element.getAttribute("data-keys") ?? "",
-        renderHTML: (attributes) => ({ "data-keys": attributes.keys }),
+      attributes: {
+        default: [] as JsxAttr[],
+        parseHTML: (element) => {
+          const raw = element.getAttribute("data-attributes");
+          return raw ? (JSON.parse(raw) as JsxAttr[]) : [];
+        },
+        renderHTML: (attributes) => ({
+          "data-attributes": JSON.stringify(attributes.attributes ?? []),
+        }),
       },
     };
   },
@@ -112,7 +128,7 @@ const Shortcut = Node.create({
     return [
       "span",
       mergeAttributes(HTMLAttributes, { "data-shortcut": "" }),
-      node.attrs.keys,
+      readShortcutKeys((node.attrs.attributes ?? []) as JsxAttr[]),
     ];
   },
 });

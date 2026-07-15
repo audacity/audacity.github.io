@@ -74,13 +74,42 @@ test("a paragraph with unsupported inline content (GFM strikethrough) is preserv
   expect(doc.content!.some((n) => n.type === "paragraph")).toBe(false);
 });
 
-test("inline Shortcut becomes an inline shortcut atom", () => {
+test("inline Shortcut becomes an inline shortcut atom storing its full attribute list", () => {
   const { doc } = mdastToDoc(
     parseMdx('Press <Shortcut keys="Ctrl+S" /> to save.\n'),
   );
   const paragraph = doc.content!.find((n) => n.type === "paragraph")!;
   const shortcut = paragraph.content!.find((n) => n.type === "shortcut")!;
-  expect(shortcut.attrs).toEqual({ keys: "Ctrl+S" });
+  expect(shortcut.attrs).toEqual({
+    attributes: [{ name: "keys", value: "Ctrl+S" }],
+  });
+});
+
+test("inline Shortcut preserves the client:load directive (valueless) in source order", () => {
+  const { doc } = mdastToDoc(
+    parseMdx('Press <Shortcut client:load keys="tab" /> now.\n'),
+  );
+  const paragraph = doc.content!.find((n) => n.type === "paragraph")!;
+  const shortcut = paragraph.content!.find((n) => n.type === "shortcut")!;
+  // client:load is a valueless Astro hydration directive (value null); it must
+  // survive alongside keys, in source order, or the built manual breaks.
+  expect(shortcut.attrs).toEqual({
+    attributes: [
+      { name: "client:load", value: null },
+      { name: "keys", value: "tab" },
+    ],
+  });
+});
+
+test("a heading containing an empty-text anchor link is preserved whole", () => {
+  // `## [](url)` — a bare heading anchor with no link text. C2 would map the
+  // link to a `link` mark on zero inline nodes, dropping it entirely, so the
+  // whole heading is routed to `preserved` and re-emitted verbatim.
+  const { doc } = mdastToDoc(parseMdx("## [](https://x.test/#anchor)\n"));
+  const pres = doc.content!.find((n) => n.type === "preserved")!;
+  const mdast = pres.attrs!.mdast as { type: string };
+  expect(mdast.type).toBe("heading");
+  expect(doc.content!.some((n) => n.type === "heading")).toBe(false);
 });
 
 test("an ordered list with a non-1 start carries attrs.start", () => {

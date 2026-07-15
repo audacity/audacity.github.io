@@ -104,14 +104,17 @@ test("tabs/tab become mdxJsxFlowElements, tab label omitted when null", () => {
   expect(tab2.attributes).toEqual([]);
 });
 
-test("shortcut becomes an inline mdxJsxTextElement with a keys attribute", () => {
+test("shortcut becomes an inline mdxJsxTextElement rebuilding its full attribute list", () => {
   const root = docToMdast(
     doc([
       {
         type: "paragraph",
         content: [
           { type: "text", text: "Press " },
-          { type: "shortcut", attrs: { keys: "Ctrl+S" } },
+          {
+            type: "shortcut",
+            attrs: { attributes: [{ name: "keys", value: "Ctrl+S" }] },
+          },
           { type: "text", text: " to save." },
         ],
       },
@@ -126,6 +129,36 @@ test("shortcut becomes an inline mdxJsxTextElement with a keys attribute", () =>
     { type: "mdxJsxAttribute", name: "keys", value: "Ctrl+S" },
   ]);
   expect(shortcut.children).toEqual([]);
+});
+
+test("shortcut re-emits the client:load directive (valueless, null value) in stored order", () => {
+  const root = docToMdast(
+    doc([
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "shortcut",
+            attrs: {
+              attributes: [
+                { name: "client:load", value: null },
+                { name: "keys", value: "tab" },
+              ],
+            },
+          },
+        ],
+      },
+    ]),
+    null,
+  );
+  const paragraph = root.children[0] as Paragraph;
+  const shortcut = paragraph.children[0] as MdxJsxTextElement;
+  // A null-valued attribute is a bare valueless directive; it must round-trip
+  // verbatim and stay before `keys`.
+  expect(shortcut.attributes).toEqual([
+    { type: "mdxJsxAttribute", name: "client:load", value: null },
+    { type: "mdxJsxAttribute", name: "keys", value: "tab" },
+  ]);
 });
 
 test("preserved returns the stored mdast node verbatim", () => {
@@ -374,6 +407,69 @@ test("a text node with both bold and italic marks nests emphasis inside strong",
   const emphasis = strong.children[0] as { type: string; children: Text[] };
   expect(emphasis.type).toBe("emphasis");
   expect(emphasis.children[0].value).toBe("both");
+});
+
+test("a mark wrapping several inline leaves rebuilds ONE wrapper, not one per leaf", () => {
+  // Inverse of C2 flattening `**\`x\`, \`y\`**` into three PM leaves all
+  // carrying [bold]: they must regroup under a single `strong`, not become
+  // `strong[x] text[, ] strong[y]` (which stringifies to broken `**..****..**`).
+  const root = docToMdast(
+    doc([
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "x",
+            marks: [{ type: "bold" }, { type: "code" }],
+          },
+          { type: "text", text: ", ", marks: [{ type: "bold" }] },
+          {
+            type: "text",
+            text: "y",
+            marks: [{ type: "bold" }, { type: "code" }],
+          },
+        ],
+      },
+    ]),
+    null,
+  );
+  const paragraph = root.children[0] as Paragraph;
+  expect(paragraph.children).toHaveLength(1);
+  const strong = paragraph.children[0] as { type: string; children: unknown[] };
+  expect(strong.type).toBe("strong");
+  const kinds = (strong.children as { type: string }[]).map((c) => c.type);
+  expect(kinds).toEqual(["inlineCode", "text", "inlineCode"]);
+});
+
+test("a shortcut atom inside a mark stays grouped under that mark", () => {
+  const root = docToMdast(
+    doc([
+      {
+        type: "paragraph",
+        content: [
+          { type: "text", text: "do ", marks: [{ type: "bold" }] },
+          {
+            type: "shortcut",
+            attrs: { attributes: [{ name: "keys", value: "x" }] },
+            marks: [{ type: "bold" }],
+          },
+        ],
+      },
+    ]),
+    null,
+  );
+  const paragraph = root.children[0] as Paragraph;
+  expect(paragraph.children).toHaveLength(1);
+  const strong = paragraph.children[0] as {
+    type: string;
+    children: { type: string }[];
+  };
+  expect(strong.type).toBe("strong");
+  expect(strong.children.map((c) => c.type)).toEqual([
+    "text",
+    "mdxJsxTextElement",
+  ]);
 });
 
 test("docToSource produces a formatted MDX string", async () => {
