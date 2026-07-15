@@ -26,16 +26,25 @@ const LOCATION_LIST_ID = "new-page-dialog-locations";
  */
 export function NewPageDialog({
   pages,
+  parent,
   onCreate,
   onCancel,
 }: {
   pages: ManualPageMeta[];
+  /**
+   * When set, the dialog is creating a child of `parent`: the heading names
+   * it and the Location/Section fields start pre-filled from it (the title
+   * still starts empty). Since `App` mounts a fresh `NewPageDialog` each
+   * time it opens, these lazy `useState` initializers are all that's needed
+   * — there's no existing instance to resync.
+   */
+  parent?: ManualPageMeta;
   onCreate: (result: { path: string; frontmatter: string }) => void;
   onCancel: () => void;
 }) {
   const [title, setTitle] = useState("");
-  const [section, setSection] = useState("");
-  const [location, setLocation] = useState("");
+  const [section, setSection] = useState(() => parent?.section ?? "");
+  const [location, setLocation] = useState(() => parent?.slug ?? "");
   const [error, setError] = useState<string | null>(null);
 
   const sections = [...new Set(pages.map((p) => p.section))];
@@ -83,7 +92,9 @@ export function NewPageDialog({
         aria-labelledby="new-page-dialog-heading"
         data-testid="new-page-dialog"
       >
-        <h2 id="new-page-dialog-heading">New page</h2>
+        <h2 id="new-page-dialog-heading">
+          {parent ? `New sub-page of ${parent.title}` : "New page"}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="new-page-dialog__field">
             <label htmlFor="new-page-title">Title</label>

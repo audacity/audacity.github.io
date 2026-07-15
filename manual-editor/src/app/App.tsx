@@ -14,7 +14,15 @@ export function App({
   const [pages, setPages] = useState<ManualPageMeta[] | null>(null);
   const [activePath, setActivePath] = useState<string | null>(null);
   const [source, setSource] = useState<string | null>(null);
-  const [newPageDialogOpen, setNewPageDialogOpen] = useState(false);
+  // `undefined` = dialog closed; `null` = open for a new top-level page;
+  // a `ManualPageMeta` = open for a new child of that page.
+  const [dialogParent, setDialogParent] = useState<
+    ManualPageMeta | null | undefined
+  >(undefined);
+
+  function openNewPage(parent: ManualPageMeta | null) {
+    setDialogParent(parent);
+  }
 
   useEffect(() => {
     api.listPages().then(setPages);
@@ -51,7 +59,7 @@ export function App({
     const fresh = await api.listPages();
     setPages(fresh);
     handleSelect(path);
-    setNewPageDialogOpen(false);
+    setDialogParent(undefined);
   }
 
   // Unique section names across the loaded page list, in first-seen order —
@@ -72,7 +80,7 @@ export function App({
             className="app-sidebar__new-page-button"
             data-testid="new-page-button"
             disabled={pages === null}
-            onClick={() => setNewPageDialogOpen(true)}
+            onClick={() => openNewPage(null)}
           >
             + New page
           </button>
@@ -102,11 +110,12 @@ export function App({
           )}
         </main>
       </div>
-      {newPageDialogOpen && pages !== null ? (
+      {dialogParent !== undefined && pages !== null ? (
         <NewPageDialog
           pages={pages}
+          parent={dialogParent ?? undefined}
           onCreate={handleCreatePage}
-          onCancel={() => setNewPageDialogOpen(false)}
+          onCancel={() => setDialogParent(undefined)}
         />
       ) : null}
     </div>

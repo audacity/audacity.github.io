@@ -77,6 +77,46 @@ test("submitting with a path that collides with an existing page shows an error 
   expect(created).toBeNull();
 });
 
+const parent: ManualPageMeta = {
+  slug: "manual-index/project-management-menu/home",
+  path: "src/content/manual/manual-index/project-management-menu/home.mdx",
+  title: "Home",
+  section: "Project Management Menu",
+  sectionOrder: 5,
+  order: 2,
+  draft: false,
+  hasDraft: false,
+};
+
+test("with a parent, pre-fills location + section and previews a nested path", () => {
+  render(
+    <NewPageDialog
+      pages={[]}
+      parent={parent}
+      onCreate={() => {}}
+      onCancel={() => {}}
+    />,
+  );
+
+  expect(screen.getByText(/sub-page of Home/i)).toBeDefined();
+
+  fireEvent.change(screen.getByLabelText("Title"), {
+    target: { value: "Cloud Backups" },
+  });
+
+  expect(screen.getByTestId("new-page-path-preview").textContent).toBe(
+    "src/content/manual/manual-index/project-management-menu/home/cloud-backups.mdx",
+  );
+});
+
+test("without a parent, heading is the plain New page and location is empty", () => {
+  render(<NewPageDialog pages={[]} onCreate={() => {}} onCancel={() => {}} />);
+
+  expect(screen.getByText(/^New page$/i)).toBeDefined();
+  const loc = document.getElementById("new-page-location") as HTMLInputElement;
+  expect(loc.value).toBe("");
+});
+
 test("a valid submit calls onCreate with the composed path and frontmatter containing title/section", () => {
   let created: { path: string; frontmatter: string } | null = null;
   render(
