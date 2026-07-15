@@ -161,6 +161,11 @@ export function Editor({
   // styling rather than inventing a second error affordance).
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  // Collapses the frontmatter form behind an "Edit details" toggle so the
+  // header's default state is a single tidy title row. No persistence: each
+  // page mount (a fresh `Editor` instance, per the component doc above)
+  // starts collapsed.
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
 
   const doc = useMemo(() => {
     const { doc } = mdastToDoc(parseMdx(source));
@@ -273,69 +278,89 @@ export function Editor({
           as part of the rich-text document. Stays put while the document
           scrolls below it. */}
       <div className="editor-header">
-        <FrontmatterForm
-          data={frontmatterData}
-          sections={sections}
-          onChange={handleFrontmatterChange}
-        />
-        <button
-          type="button"
-          data-testid="editor-add-subpage"
-          className="editor-header__add-subpage"
-          onClick={onAddSubpage}
-        >
-          Add sub-page
-        </button>
-        {hasChildren ? (
-          <button
-            type="button"
-            data-testid="editor-delete-page"
-            className="editor-header__delete"
-            disabled
-            title="Delete or move its sub-pages first"
-          >
-            Delete page
-          </button>
-        ) : confirmingDelete ? (
-          <span className="editor-header__delete-confirm">
-            <span className="editor-header__delete-confirm-label">
-              Delete this page?
-            </span>
+        <div className="editor-header__row">
+          <div className="editor-header__title-group">
+            <h1 className="editor-header__title" data-testid="page-title">
+              {frontmatterData.title.trim() ? (
+                frontmatterData.title
+              ) : (
+                <span className="editor-header__title--placeholder">
+                  Untitled
+                </span>
+              )}
+            </h1>
             <button
               type="button"
-              data-testid="editor-delete-confirm"
-              className="editor-header__delete-confirm-button"
-              disabled={deleting}
-              onClick={handleConfirmDelete}
+              data-testid="edit-page-details"
+              className="editor-header__edit"
+              aria-expanded={detailsExpanded}
+              onClick={() => setDetailsExpanded((expanded) => !expanded)}
             >
-              Delete
+              {detailsExpanded ? "Done" : "✎ Edit details"}
             </button>
+          </div>
+          <div className="editor-header__actions">
             <button
               type="button"
-              data-testid="editor-delete-cancel"
-              className="editor-header__delete-cancel-button"
-              disabled={deleting}
-              onClick={() => setConfirmingDelete(false)}
+              data-testid="editor-add-subpage"
+              className="editor-header__add-subpage"
+              onClick={onAddSubpage}
             >
-              Cancel
+              Add sub-page
             </button>
-          </span>
-        ) : (
-          <button
-            type="button"
-            data-testid="editor-delete-page"
-            className="editor-header__delete"
-            onClick={() => setConfirmingDelete(true)}
-          >
-            Delete page
-          </button>
-        )}
-        <span
-          data-testid="save-status"
-          className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}
-        >
-          {saveStatusLabel}
-        </span>
+            {hasChildren ? (
+              <button
+                type="button"
+                data-testid="editor-delete-page"
+                className="editor-header__delete"
+                disabled
+                title="Delete or move its sub-pages first"
+              >
+                Delete page
+              </button>
+            ) : confirmingDelete ? (
+              <span className="editor-header__delete-confirm">
+                <span className="editor-header__delete-confirm-label">
+                  Delete this page?
+                </span>
+                <button
+                  type="button"
+                  data-testid="editor-delete-confirm"
+                  className="editor-header__delete-confirm-button"
+                  disabled={deleting}
+                  onClick={handleConfirmDelete}
+                >
+                  Delete
+                </button>
+                <button
+                  type="button"
+                  data-testid="editor-delete-cancel"
+                  className="editor-header__delete-cancel-button"
+                  disabled={deleting}
+                  onClick={() => setConfirmingDelete(false)}
+                >
+                  Cancel
+                </button>
+              </span>
+            ) : (
+              <button
+                type="button"
+                data-testid="editor-delete-page"
+                className="editor-header__delete"
+                onClick={() => setConfirmingDelete(true)}
+              >
+                Delete page
+              </button>
+            )}
+          </div>
+        </div>
+        {detailsExpanded ? (
+          <FrontmatterForm
+            data={frontmatterData}
+            sections={sections}
+            onChange={handleFrontmatterChange}
+          />
+        ) : null}
       </div>
       <div className="editor-scroll">
         {enableDragHandle && editor ? (
@@ -352,6 +377,28 @@ export function Editor({
           </DragHandle>
         ) : null}
         <EditorContent editor={editor} />
+      </div>
+      {/* Floating save-status pill: anchored to the pane's bottom-right
+          corner (`.editor-frame` is the positioning context) rather than
+          living in the chrome header, so it doesn't compete with page
+          metadata for header space. Always rendered (so `save-status`
+          keeps a stable DOM presence for existing assertions that read its
+          `textContent` while idle) but visually hidden via
+          `editor-save-pill--hidden` when there's nothing to show. */}
+      <div
+        className={
+          saveStatusLabel
+            ? "editor-save-pill"
+            : "editor-save-pill editor-save-pill--hidden"
+        }
+        data-testid="save-status-pill"
+      >
+        <span
+          data-testid="save-status"
+          className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}
+        >
+          {saveStatusLabel}
+        </span>
       </div>
     </div>
   );

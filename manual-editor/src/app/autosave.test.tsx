@@ -19,7 +19,13 @@
  */
 import { expect, test } from "bun:test";
 import type { Editor as TiptapEditor } from "@tiptap/core";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { Editor } from "./Editor";
 import { makeApi } from "./api";
 import type { PMNodeJSON } from "../adapter/mdastToDoc";
@@ -132,11 +138,13 @@ test("a frontmatter-only edit (no doc content change) also triggers saveDraftDoc
   const { calls, getEditor } = await mountEditor();
   getEditor(); // ensure editor mounted before interacting with the form
 
+  // The frontmatter form is collapsed behind "Edit details" by default.
+  fireEvent.click(screen.getByTestId("edit-page-details"));
+
   const titleInput = screen.getByLabelText(/title/i) as HTMLInputElement;
   act(() => {
     titleInput.focus();
   });
-  const { fireEvent } = await import("@testing-library/react");
   fireEvent.change(titleInput, { target: { value: "Renamed Page" } });
 
   await waitFor(() => expect(calls.length).toBe(1));

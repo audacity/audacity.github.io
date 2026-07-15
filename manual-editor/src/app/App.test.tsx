@@ -54,9 +54,11 @@ test("selecting a page fetches its source and mounts an editable rich-text edito
   fireEvent.click(button);
   const editor = await waitFor(() => screen.getByTestId("editor"));
   // The raw MDX source ("# Installing FFmpeg") should render as formatted
-  // rich text (an editable heading), not literal markdown syntax.
+  // rich text (an editable heading), not literal markdown syntax. Scoped to
+  // `.ProseMirror` since the collapsed header row also renders an `<h1>`
+  // for the page title (`editor-header__title`).
   await waitFor(() => {
-    const heading = editor.querySelector("h1");
+    const heading = editor.querySelector(".ProseMirror h1");
     expect(heading?.textContent).toBe("Installing FFmpeg");
   });
   const prosemirror = editor.querySelector(".ProseMirror");

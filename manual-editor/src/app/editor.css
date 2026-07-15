@@ -366,8 +366,12 @@ body {
   color: #64748b;
 }
 
-/* Editor = chrome header + scrolling document. */
+/* Editor = chrome header + scrolling document. Positioning context for the
+   floating save-status pill (`.editor-save-pill`), which anchors to this
+   pane's corner rather than the scroll region so it stays put regardless of
+   scroll position. */
 .editor-frame {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -375,26 +379,82 @@ body {
 }
 
 /* Full-bleed metadata header — reads as app chrome, spans the pane edge to
-   edge, and does not scroll with the document. */
+   edge, and does not scroll with the document. Collapsed by default (see
+   `.editor-header__row`); the frontmatter form only appears below the row
+   once expanded, so this stacks vertically now instead of laying the form
+   out inline. */
 .editor-header {
   flex: 0 0 auto;
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.6rem;
   padding: 0.75rem 1.5rem;
   background: #f1f5f9;
   border-bottom: 1px solid #dbe2ea;
 }
 
-.editor-header .editor-topbar__save-status {
-  flex: 0 0 auto;
-  margin-left: auto;
-  padding-top: 0.15rem;
-  white-space: nowrap;
+/* Collapsed-state row: title (+ its edit toggle) on the left, page-level
+   actions on the right. */
+.editor-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-/* Header "Add sub-page" action: small secondary button, sits before the
-   save-status indicator (which keeps its own margin-left: auto). */
+.editor-header__title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.editor-header__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-header__title--placeholder {
+  color: #94a3b8;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.editor-header__edit {
+  flex: 0 0 auto;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.editor-header__edit:hover {
+  background: #f8fafc;
+}
+
+.editor-header__edit[aria-expanded="true"] {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.editor-header__actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Header "Add sub-page" action: small secondary button. */
 .editor-header__add-subpage {
   flex: 0 0 auto;
   padding: 0.3rem 0.7rem;
@@ -542,13 +602,27 @@ body {
   background-color: #4f46e5;
 }
 
-/* Autosave status line, above the frontmatter form. */
-.editor-topbar {
-  display: flex;
-  justify-content: flex-end;
-  margin: 0 auto 0.5rem;
-  max-width: 720px;
-  min-height: 1.2rem;
+/* Floating save-status pill: anchored to the editor pane's bottom-right
+   corner (`.editor-frame` supplies the `position: relative` context) rather
+   than living in the chrome header. Sits above the scroll region's corner —
+   doesn't overlap the drag handle (which only appears left-aligned, next to
+   hovered blocks) and floats over content rather than pushing it. Hidden
+   entirely (not just emptied) while idle so it never reads as a blank white
+   chip sitting in the corner. */
+.editor-save-pill {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1rem;
+  z-index: 15;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #dbe2ea;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+}
+
+.editor-save-pill--hidden {
+  display: none;
 }
 
 .editor-topbar__save-status {
