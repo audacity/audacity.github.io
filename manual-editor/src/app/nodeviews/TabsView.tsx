@@ -1,8 +1,9 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import type { ReactNodeViewProps } from "@tiptap/react";
 import {
   getActiveTabIndex,
+  resolveActiveTabIndex,
   setActiveTabIndex,
   subscribeActiveTabIndex,
 } from "./tabsActiveStore";
@@ -40,7 +41,24 @@ export function TabsView({ node, editor, getPos }: ReactNodeViewProps) {
   });
 
   // Clamp in case tabs were deleted out from under a higher active index.
-  const clampedIndex = Math.min(activeIndex, Math.max(labels.length - 1, 0));
+  const clampedIndex = resolveActiveTabIndex(activeIndex, labels.length);
+
+  // `TabView` compares its own sibling index against the RAW (un-clamped)
+  // store value, not this component's local `clampedIndex` (the two mount as
+  // separate React roots with no shared state but the store itself — see
+  // `tabsActiveStore`'s doc comment). If a tab is deleted while a later tab
+  // was active, the store keeps pointing past the end until something writes
+  // the clamped value back, which otherwise leaves every `TabView` computing
+  // "not me" and the whole body blank even though a header shows selected.
+  // Write the clamp back here so the store — and therefore every subscribed
+  // `TabView` — agrees with the header row. Guarded to only fire when
+  // actually out of range so it can't loop (`setActiveTabIndex` itself is
+  // also a no-op when the value doesn't change).
+  useEffect(() => {
+    if (labels.length > 0 && clampedIndex !== activeIndex) {
+      setActiveTabIndex(editor, tabsPos, clampedIndex);
+    }
+  }, [activeIndex, clampedIndex, editor, tabsPos, labels.length]);
 
   return (
     <NodeViewWrapper

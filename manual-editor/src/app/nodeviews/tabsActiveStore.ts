@@ -58,6 +58,23 @@ export function getActiveTabIndex(editor: Editor, tabsPos: number): number {
   return entryFor(editor, tabsPos).index;
 }
 
+/**
+ * Resolves the effective active index for a `tabs` node that currently has
+ * `childCount` live `tab` children, clamping a possibly-stale `storedIndex`
+ * (e.g. a later tab was active and then deleted) down to the last valid
+ * child index. Returns `-1` when there are no children left to select.
+ *
+ * Pure and store-independent so it's cheap to unit test in isolation from
+ * the store/React wiring — see `nodeviews.test.tsx`.
+ */
+export function resolveActiveTabIndex(
+  storedIndex: number,
+  childCount: number,
+): number {
+  if (childCount <= 0) return -1;
+  return Math.min(storedIndex, childCount - 1);
+}
+
 /** Sets the active tab index for the `tabs` node starting at `tabsPos` and notifies subscribers. */
 export function setActiveTabIndex(
   editor: Editor,
