@@ -430,8 +430,8 @@ export class OctokitBackend implements GitHubBackend {
   }
 
   /**
-   * Mirrors `InMemoryBackend.deletePage`'s semantics: existence is checked
-   * as "present in base OR present in drafts" — independent OR, not
+   * Mirrors `InMemoryBackend.deletePage`'s existence semantics: "present in
+   * base OR present in drafts" — independent OR, not
    * "drafts-tree-if-it-exists-else-base" — so that re-deleting a base page
    * that's already staged for deletion (present in base, absent from the
    * drafts tree — the same state `listPages` treats as a staged deletion
@@ -439,17 +439,35 @@ export class OctokitBackend implements GitHubBackend {
    * throw, exactly like `InMemoryBackend` (which checks `this.base.has`
    * unconditionally, regardless of whether it's already in `this.deleted`).
    * Only "absent from both" throws.
+   *
+   * Existence alone isn't enough to decide whether to *commit*, though.
+   * `commitToDrafts` submits `{ path, sha: null }` in a tree diffed onto
+   * `base_tree` (the drafts branch's current tree, or — when there's no
+   * drafts branch yet — base's tree, since `commitToDrafts` creates the
+   * drafts branch off base's head first). GitHub's `createTree` returns a
+   * 422 if a `sha: null` entry targets a path that's absent from
+   * `base_tree` ("Returns an error if you try to delete a file that does
+   * not exist"). So the idempotent double-delete case above (in base, but
+   * already removed from drafts by a prior delete) would 422 instead of
+   * no-opping if we always submitted the entry. Guard against that by
+   * checking presence against the tree that will actually become
+   * `base_tree` and skipping the commit entirely when it's already gone.
    */
   async deletePage(path: string): Promise<void> {
     const baseTree = await this.getManualTree(this.baseBranch);
+    const draftsTree = await this.getManualTree(this.draftsBranch);
+
     const inBase = baseTree?.has(path) ?? false;
-    let exists = inBase;
-    if (!exists) {
-      const draftsTree = await this.getManualTree(this.draftsBranch);
-      exists = draftsTree?.has(path) ?? false;
-    }
-    if (!exists) {
+    const inDrafts = draftsTree?.has(path) ?? false;
+    if (!inBase && !inDrafts) {
       throw new Error(`No such page: ${path}`);
+    }
+
+    const effectiveBaseTree = draftsTree ?? baseTree;
+    if (!effectiveBaseTree?.has(path)) {
+      // Already absent from what `commitToDrafts` would use as base_tree —
+      // a true no-op, not a commit that deletes nothing. See doc comment.
+      return;
     }
 
     const tree: DraftTreeItem[] = [

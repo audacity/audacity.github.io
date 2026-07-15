@@ -21,6 +21,19 @@ function notFound(): Error & { status: number } {
   return err;
 }
 
+/**
+ * Mimics GitHub's real `createTree` 422: "Returns an error if you try to
+ * delete a file that does not exist." Thrown by the write fake below when a
+ * `sha: null` tree entry targets a path absent from the merged base_tree.
+ */
+function unprocessable(): Error & { status: number } {
+  const err = new Error(
+    "GitHub422: Returns an error if you try to delete a file that does not exist.",
+  ) as Error & { status: number };
+  err.status = 422;
+  return err;
+}
+
 /** Deterministic content-derived "sha" so equal content -> equal sha. */
 function fakeSha(content: string): string {
   let hash = 0;
@@ -233,6 +246,12 @@ function makeWriteFakeOctokit(state: FakeRepoState): {
         );
         for (const item of tree) {
           if (item.sha === null) {
+            // Real GitHub 422s deleting a path that isn't in base_tree —
+            // mirror that so an unconditional (unguarded) delete would be
+            // caught by tests instead of silently "succeeding".
+            if (!merged.has(item.path)) {
+              throw unprocessable();
+            }
             merged.delete(item.path);
           } else if (item.sha !== undefined) {
             merged.set(item.path, item.sha);
@@ -622,8 +641,11 @@ test("saveImage: createBlob(base64), tree item uses the returned sha, returns re
   expect(returnedPath).toBe("src/assets/img/manual/basics/a/diagram.png");
 
   const createBlobCall = calls.find((c) => c.op === "createBlob")!;
+  // Hardcoded literal (not `Buffer.from(bytes).toString("base64")`) so a
+  // shared encoding bug in both production code and this assertion can't
+  // hide: bytes [1,2,3,4] must always base64-encode to "AQIDBA==".
   expect(createBlobCall.args).toEqual({
-    content: Buffer.from(bytes).toString("base64"),
+    content: "AQIDBA==",
     encoding: "base64",
   });
 
@@ -683,7 +705,7 @@ test("deletePage: draft-only page (never in base) — deletes from drafts, no th
   ]);
 });
 
-test("deletePage: already staged-deleted on drafts but still present on base — idempotent, no throw", async () => {
+test("deletePage: already staged-deleted on drafts but still present on base — true no-op, zero write calls", async () => {
   const PATH = "src/content/manual/basics/gone.mdx";
   const { backend, calls } = writeBackendFor({
     login: "u",
@@ -693,9 +715,18 @@ test("deletePage: already staged-deleted on drafts but still present on base —
     },
   });
 
-  await backend.deletePage(PATH);
+  await expect(backend.deletePage(PATH)).resolves.toBeUndefined();
 
-  expect(calls.some((c) => c.op === "createCommit")).toBe(true);
+  // The drafts tree (what would become base_tree) is already missing the
+  // path, so submitting `sha: null` for it would 422 against the real API
+  // (and does throw against the hardened fake — see `unprocessable()`
+  // above). The fix must recognize this and skip the commit entirely: no
+  // createTree/createCommit/updateRef/createRef calls at all.
+  expect(
+    calls.some((c) =>
+      ["createTree", "createCommit", "updateRef", "createRef"].includes(c.op),
+    ),
+  ).toBe(false);
 });
 
 test("deletePage: path missing everywhere — throws without committing", async () => {
