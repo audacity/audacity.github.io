@@ -233,6 +233,70 @@ body {
   font-weight: 600;
 }
 
+/* Sidebar page tree: recursive, collapsible nesting by slug path. Nested
+   levels indent with a left border, echoing the public manual's sidebar. */
+.sidebar-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-tree .sidebar-tree {
+  margin: 0.15rem 0 0.15rem 0.65rem;
+  padding-left: 0.65rem;
+  border-left: 1px solid #e2e8f0;
+}
+
+.sidebar-tree__item {
+  margin: 0;
+}
+
+.sidebar-tree__row {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.sidebar-tree__row .sidebar-tree__page {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-tree__toggle,
+.sidebar-tree__toggle-spacer {
+  flex: 0 0 auto;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.sidebar-tree__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.sidebar-tree__toggle:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.sidebar-tree__chevron {
+  display: inline-block;
+  font-size: 0.6rem;
+  line-height: 1;
+  transition: transform 0.12s ease;
+}
+
+.sidebar-tree__chevron--open {
+  transform: rotate(90deg);
+}
+
 /* Draft dot: a page with unpublished changes on the drafts branch. */
 .page-list__draft-dot {
   color: #4f46e5;
