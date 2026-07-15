@@ -117,6 +117,76 @@ body {
   color: #64748b;
 }
 
+/* Frontmatter form: title/description/section/order/draft fields, above the toolbar. */
+.frontmatter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0 auto 1rem;
+  padding: 0.75rem 0.9rem;
+  max-width: 720px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.frontmatter-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.frontmatter-form__field label {
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.frontmatter-form__field input[type="text"],
+.frontmatter-form__field input[type="number"],
+.frontmatter-form__field textarea {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.frontmatter-form__field textarea {
+  resize: vertical;
+}
+
+.frontmatter-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.9rem;
+}
+
+.frontmatter-form__row .frontmatter-form__field {
+  flex: 1 1 120px;
+}
+
+.frontmatter-form__field--checkbox {
+  flex: 0 0 auto;
+  justify-content: center;
+}
+
+.frontmatter-form__field--checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #1f2937;
+}
+
 /* Toolbar: formatting marks/blocks + insert menu, above the ProseMirror doc. */
 .toolbar {
   display: flex;

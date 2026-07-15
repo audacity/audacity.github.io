@@ -24,6 +24,11 @@ export function App({
     api.getPage(path).then((page) => setSource(page.source));
   }
 
+  // Unique section names across the loaded page list, in first-seen order —
+  // offered to `FrontmatterForm` as autocomplete for the Section field so an
+  // edit can reuse an existing section instead of retyping it.
+  const sections = pages ? [...new Set(pages.map((p) => p.section))] : [];
+
   return (
     <div className="app-shell">
       <header className="app-topbar">
@@ -44,7 +49,7 @@ export function App({
         </aside>
         <main className="app-main">
           {source !== null && activePath !== null ? (
-            <Editor source={source} path={activePath} />
+            <Editor source={source} path={activePath} sections={sections} />
           ) : (
             <p className="app-main__placeholder">
               Select a page from the list to start editing.

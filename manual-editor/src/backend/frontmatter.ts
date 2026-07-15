@@ -33,13 +33,27 @@ function parseFlatYaml(yaml: string): Record<string, unknown> {
     if (idx === -1) continue;
     const key = line.slice(0, idx).trim();
     let value: string = line.slice(idx + 1).trim();
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
+    // A quoted scalar is always a string — e.g. `title: "42"` must stay the
+    // string "42", not coerce to the number 42 — so type coercion below is
+    // skipped once a quote is stripped.
+    let wasQuoted = false;
+    if (value.length >= 2 && value.startsWith('"') && value.endsWith('"')) {
+      // Double-quoted YAML scalars support backslash escapes; unescape `\"`
+      // and `\\` so a value serialized by `serializeFrontmatter` (which
+      // escapes embedded quotes/backslashes when quoting is required) reads
+      // back byte-identically instead of keeping the literal backslashes.
+      value = value.slice(1, -1).replace(/\\(["\\])/g, "$1");
+      wasQuoted = true;
+    } else if (
+      value.length >= 2 &&
+      value.startsWith("'") &&
+      value.endsWith("'")
     ) {
       value = value.slice(1, -1);
+      wasQuoted = true;
     }
-    if (value === "true") out[key] = true;
+    if (wasQuoted) out[key] = value;
+    else if (value === "true") out[key] = true;
     else if (value === "false") out[key] = false;
     else if (value !== "" && !Number.isNaN(Number(value)))
       out[key] = Number(value);
