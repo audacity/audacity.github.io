@@ -115,19 +115,53 @@ body {
 
 .app-main {
   flex: 1;
-  overflow-y: auto;
-  /* No top padding: the sticky toolbar pins flush to the pane's top edge
-     (top: 0) so scrolling content is fully covered, with no strip of
-     content peeking above it. Top spacing is applied to the first child. */
-  padding: 0 2.5rem 2rem;
-}
-
-.app-main > :first-child {
-  margin-top: 2rem;
+  min-height: 0;
+  /* The editor pane is a non-scrolling column: a fixed chrome header
+     (page metadata) sits above a scrolling document region. Scrolling is
+     owned by .editor-scroll, not the pane itself. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .app-main__placeholder {
+  padding: 2rem 2.5rem;
   color: #64748b;
+}
+
+/* Editor = chrome header + scrolling document. */
+.editor-frame {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Full-bleed metadata header — reads as app chrome, spans the pane edge to
+   edge, and does not scroll with the document. */
+.editor-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #f1f5f9;
+  border-bottom: 1px solid #dbe2ea;
+}
+
+.editor-header .editor-topbar__save-status {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding-top: 0.15rem;
+  white-space: nowrap;
+}
+
+/* Scrolling document region below the chrome header. */
+.editor-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2rem 2.5rem;
 }
 
 /* Autosave status line, above the frontmatter form. */
@@ -160,23 +194,49 @@ body {
   color: #dc2626;
 }
 
-/* Frontmatter form: title/description/section/order/draft fields, above the toolbar. */
+/* Frontmatter (page metadata) — laid out horizontally as a full-bleed chrome
+   panel inside .editor-header, not a card within the document. */
 .frontmatter-form {
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin: 0 auto 1rem;
-  padding: 0.75rem 0.9rem;
-  max-width: 720px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #ffffff;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  border: none;
+  background: transparent;
 }
 
 .frontmatter-form__field {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+}
+
+/* Field widths within the horizontal panel: title and section take a
+   reasonable base, description grows to fill, orders stay compact. */
+.frontmatter-form > .frontmatter-form__field:has(#frontmatter-title) {
+  flex: 1 1 180px;
+}
+.frontmatter-form > .frontmatter-form__field:has(#frontmatter-description) {
+  flex: 3 1 240px;
+}
+.frontmatter-form > .frontmatter-form__field:has(#frontmatter-section) {
+  flex: 1 1 150px;
+}
+.frontmatter-form__field textarea#frontmatter-description {
+  min-height: 2.1rem;
+}
+
+/* Orders + draft stay a compact trailing group, not stretched. */
+.frontmatter-form > .frontmatter-form__row {
+  flex: 0 0 auto;
+}
+.frontmatter-form__row .frontmatter-form__field input[type="number"] {
+  width: 4.5rem;
 }
 
 .frontmatter-form__field label {

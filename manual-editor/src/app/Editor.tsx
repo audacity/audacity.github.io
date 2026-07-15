@@ -215,8 +215,16 @@ export function Editor({
             : "";
 
   return (
-    <div data-testid="editor">
-      <div className="editor-topbar">
+    <div className="editor-frame" data-testid="editor">
+      {/* Full-bleed chrome header: page metadata reads as app chrome, not
+          as part of the rich-text document. Stays put while the document
+          scrolls below it. */}
+      <div className="editor-header">
+        <FrontmatterForm
+          data={frontmatterData}
+          sections={sections}
+          onChange={handleFrontmatterChange}
+        />
         <span
           data-testid="save-status"
           className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}
@@ -224,13 +232,10 @@ export function Editor({
           {saveStatusLabel}
         </span>
       </div>
-      <FrontmatterForm
-        data={frontmatterData}
-        sections={sections}
-        onChange={handleFrontmatterChange}
-      />
-      <EditorContent editor={editor} />
-      <Toolbar editor={editor} />
+      <div className="editor-scroll">
+        <EditorContent editor={editor} />
+        <Toolbar editor={editor} />
+      </div>
     </div>
   );
 }
