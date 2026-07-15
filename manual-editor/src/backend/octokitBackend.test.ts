@@ -857,3 +857,30 @@ test("deletePage: path missing everywhere — throws without committing", async 
     ),
   ).toBe(false);
 });
+
+test("publish: a non-'no commits' 422 from pulls.create is rethrown, not masked as nothing-to-publish", async () => {
+  // Minimal inline fake: no open PR, and pulls.create fails with a 422 that
+  // is NOT GitHub's "No commits between" — must propagate unchanged.
+  const fake = {
+    pulls: {
+      list: async () => ({ data: [] }),
+      create: async () => {
+        const err = new Error(
+          "Validation Failed: some other field problem",
+        ) as Error & { status: number };
+        err.status = 422;
+        throw err;
+      },
+    },
+  };
+  const backend = new OctokitBackend("tok", {
+    octokit: fake as unknown as ConstructorParameters<
+      typeof OctokitBackend
+    >[1] extends { octokit?: infer O }
+      ? O
+      : never,
+  });
+  await expect(backend.publish()).rejects.toThrow(
+    "Validation Failed: some other field problem",
+  );
+});

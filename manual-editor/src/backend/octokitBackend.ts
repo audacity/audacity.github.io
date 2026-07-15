@@ -481,7 +481,11 @@ export class OctokitBackend implements GitHubBackend {
       return { prUrl: created.html_url, prNumber: created.number };
     } catch (err) {
       const status = (err as { status?: number } | undefined)?.status;
-      if (status === 422) {
+      // Only GitHub's specific "No commits between base and head" 422 means
+      // "nothing to publish". Other 422s (validation, duplicate-PR edge
+      // cases) are real errors and must not be masked as an empty draft.
+      const message = err instanceof Error ? err.message : String(err);
+      if (status === 422 && /no commits between/i.test(message)) {
         throw new Error("Nothing to publish — no draft changes");
       }
       throw err;
