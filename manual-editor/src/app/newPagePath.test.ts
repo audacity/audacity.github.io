@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import {
   slugify,
+  slugifyFolder,
   buildNewPagePath,
   existingFolders,
   nextOrder,
@@ -35,4 +36,29 @@ test("nextOrder is max order in the folder + 1", () => {
   ] as any;
   expect(nextOrder(pages, "basics")).toBe(5);
   expect(nextOrder(pages, "empty-folder")).toBe(1);
+});
+
+test("slugifyFolder slugifies each segment and drops originally-empty ones", () => {
+  expect(slugifyFolder("Audio Editing")).toBe("audio-editing");
+  expect(slugifyFolder("audio-editing/")).toBe("audio-editing");
+  expect(slugifyFolder("a//b")).toBe("a/b");
+  expect(slugifyFolder("")).toBe("");
+});
+
+test("nextOrder sees the real folder when the caller slugifies a raw Location first", () => {
+  const pages = [
+    { path: "src/content/manual/audio-editing/trimming.mdx", order: 1 },
+    { path: "src/content/manual/audio-editing/fading.mdx", order: 2 },
+  ] as any;
+  // A raw, human-typed Location ("Audio Editing") must resolve through
+  // slugifyFolder before being handed to nextOrder, or it silently fails to
+  // match the slugified folder already used by existing pages (order: 1,
+  // not 3, would be a bug).
+  expect(nextOrder(pages, slugifyFolder("Audio Editing"))).toBe(3);
+});
+
+test("buildNewPagePath drops a trailing-slash folder segment instead of falling back to a stray 'page' folder", () => {
+  const path = buildNewPagePath("audio-editing/", "X");
+  expect(path).not.toContain("/page/");
+  expect(path).toBe("src/content/manual/audio-editing/x.mdx");
 });

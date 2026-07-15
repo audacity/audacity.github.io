@@ -7,6 +7,7 @@ import {
   nextOrder,
   sectionOrderFor,
   slugify,
+  slugifyFolder,
 } from "./newPagePath";
 
 const SECTION_LIST_ID = "new-page-dialog-sections";
@@ -42,9 +43,12 @@ export function NewPageDialog({
 
   // An unfilled Location falls back to the section's own slug, so a page in
   // a brand-new section lands in a same-named folder without the writer
-  // having to type it twice.
-  const folder = location.trim() || slugify(section);
-  const path = buildNewPagePath(folder, title);
+  // having to type it twice. Slugify once here so the same canonical folder
+  // is used both for the composed path and for `nextOrder`'s lookup below —
+  // otherwise a raw, unslugified Location (e.g. "Audio Editing") would fail
+  // to match the slugified folders already present in `pages`.
+  const folderSlug = slugifyFolder(location.trim() || section);
+  const path = buildNewPagePath(folderSlug, title);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -63,7 +67,7 @@ export function NewPageDialog({
     const frontmatter = serializeFrontmatter({
       title: trimmedTitle,
       section: trimmedSection,
-      order: nextOrder(pages, folder),
+      order: nextOrder(pages, folderSlug),
       sectionOrder: sectionOrderFor(pages, trimmedSection),
     });
     setError(null);

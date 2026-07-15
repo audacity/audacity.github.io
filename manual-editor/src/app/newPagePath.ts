@@ -31,17 +31,33 @@ export function slugify(input: string): string {
 }
 
 /**
+ * Slugifies a (possibly nested) folder path: splits on `/`, drops segments
+ * that were originally empty (e.g. from a leading/trailing/doubled "/")
+ * *before* slugifying — so a trailing slash can't turn into a stray "page"
+ * segment via `slugify`'s empty-input fallback — then slugifies each
+ * remaining segment independently and rejoins with `/`.
+ *
+ * This is the single source of truth for how a raw folder/location string
+ * maps to the folder actually used on disk; callers that need to match
+ * against existing page folders (e.g. `nextOrder`) must slugify with this
+ * function first, since `buildNewPagePath` does the same internally.
+ */
+export function slugifyFolder(folder: string): string {
+  return folder
+    .split("/")
+    .filter((segment) => segment.length > 0)
+    .map((segment) => slugify(segment))
+    .join("/");
+}
+
+/**
  * Composes the repo-relative `.mdx` path for a new page. `folder` may be
  * nested (e.g. "audio-editing/effects"); each `/`-separated segment is
  * slugified independently and the `/` separators are preserved. Empty
  * segments (e.g. from a leading/trailing/doubled "/") are dropped.
  */
 export function buildNewPagePath(folder: string, title: string): string {
-  const folderSlug = folder
-    .split("/")
-    .map((segment) => slugify(segment))
-    .filter((segment) => segment.length > 0)
-    .join("/");
+  const folderSlug = slugifyFolder(folder);
   const titleSlug = slugify(title);
   return `${MANUAL_PREFIX}${folderSlug}/${titleSlug}.mdx`;
 }
