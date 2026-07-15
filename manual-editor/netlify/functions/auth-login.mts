@@ -1,6 +1,6 @@
-import { getSessionSecret } from "./_session";
-import { stateCookie } from "./_oauthState";
-import { json } from "./_shared";
+import { getSessionSecret } from "../lib/_session";
+import { stateCookie } from "../lib/_oauthState";
+import { json } from "../lib/_shared";
 
 /**
  * `GET /api/auth-login` — starts the GitHub OAuth handshake.

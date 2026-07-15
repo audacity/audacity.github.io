@@ -9,7 +9,7 @@ import {
   readSession,
   getSessionSecret,
   type Session,
-} from "./_session";
+} from "../lib/_session";
 
 const secret = "test-secret-value";
 const session: Session = { token: "gho_abc123", login: "octocat" };

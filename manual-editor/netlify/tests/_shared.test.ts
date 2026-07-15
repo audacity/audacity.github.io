@@ -13,13 +13,13 @@
  * run order.
  */
 import { expect, test } from "bun:test";
-import { backendFor, currentSession, requireBackend } from "./_shared";
-import { signSession, sessionCookie, type Session } from "./_session";
+import { backendFor, currentSession, requireBackend } from "../lib/_shared";
+import { signSession, sessionCookie, type Session } from "../lib/_session";
 import { OctokitBackend } from "../../src/backend/octokitBackend";
-import pagesHandler from "./pages";
-import pageHandler from "./page";
-import draftHandler from "./draft";
-import publishHandler from "./publish";
+import pagesHandler from "../functions/pages";
+import pageHandler from "../functions/page";
+import draftHandler from "../functions/draft";
+import publishHandler from "../functions/publish";
 
 const secret = "test-secret";
 const session: Session = { token: "real-token", login: "octocat" };

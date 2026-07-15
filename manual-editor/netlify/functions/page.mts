@@ -1,4 +1,4 @@
-import { requireBackend, json } from "./_shared";
+import { requireBackend, json } from "../lib/_shared";
 export default async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
   const path = url.searchParams.get("path");

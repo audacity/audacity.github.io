@@ -3,16 +3,30 @@ import { fileURLToPath } from "node:url";
 import prettier from "prettier";
 
 /**
- * Repo root, resolved from this file: manual-editor/src/mdx -> ../../.. .
+ * Repo root, resolved from this module's own directory:
+ * manual-editor/src/mdx -> ../../.. .
+ *
+ * Resolution must survive three runtimes: Bun (local dev/tests, ESM,
+ * import.meta.url set), Node ESM, and Node CJS — Netlify bundles functions
+ * with esbuild as CJS, where `import.meta` is an EMPTY object, so
+ * `fileURLToPath(import.meta.url)` would throw at import time and kill the
+ * function. In a CJS bundle `__dirname` exists instead. Fall back to
+ * process.cwd() as a last resort — there, prettier-config resolution simply
+ * finds nothing and formatMdx degrades to default options (documented in
+ * the README's deployment notes) instead of crashing.
  */
-// path.dirname(fileURLToPath(import.meta.url)) rather than Bun's
-// import.meta.dir: this module also runs inside Netlify functions on the
-// Node runtime, where import.meta.dir is undefined and would crash the
-// function at import time. import.meta.url works on both runtimes.
-export const REPO_ROOT: string = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../..",
-);
+function moduleDir(): string {
+  const url = import.meta.url;
+  if (typeof url === "string" && url.length > 0) {
+    return path.dirname(fileURLToPath(url));
+  }
+  if (typeof __dirname === "string") {
+    return __dirname;
+  }
+  return process.cwd();
+}
+
+export const REPO_ROOT: string = path.resolve(moduleDir(), "../../..");
 
 let cachedConfig: prettier.Options | null = null;
 

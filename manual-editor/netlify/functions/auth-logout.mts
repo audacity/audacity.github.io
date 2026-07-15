@@ -1,4 +1,4 @@
-import { clearSessionCookie } from "./_session";
+import { clearSessionCookie } from "../lib/_session";
 
 /**
  * `POST /api/auth-logout` — clears the session cookie.

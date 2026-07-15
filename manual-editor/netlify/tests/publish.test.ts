@@ -6,8 +6,8 @@
  * method guard (only `POST` is allowed).
  */
 import { expect, test } from "bun:test";
-import publishHandler from "./publish";
-import draftHandler from "./draft";
+import publishHandler from "../functions/publish";
+import draftHandler from "../functions/draft";
 import type { PublishResult } from "../../src/backend/types";
 
 test("publish.ts POST returns the dev backend's fake PR result", async () => {

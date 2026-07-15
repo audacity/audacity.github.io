@@ -1,4 +1,4 @@
-import { requireBackend, json } from "./_shared";
+import { requireBackend, json } from "../lib/_shared";
 
 /**
  * `POST /api/publish` — opens (or reuses an already-open) PR from the

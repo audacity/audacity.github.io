@@ -1,4 +1,4 @@
-import { requireBackend, json } from "./_shared";
+import { requireBackend, json } from "../lib/_shared";
 import { docToSource } from "../../src/adapter/docToMdast";
 import type { PMNodeJSON } from "../../src/adapter/mdastToDoc";
 

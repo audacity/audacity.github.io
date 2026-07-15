@@ -1,6 +1,6 @@
-import { getSessionSecret, signSession, sessionCookie } from "./_session";
-import { readState, clearStateCookie } from "./_oauthState";
-import { json } from "./_shared";
+import { getSessionSecret, signSession, sessionCookie } from "../lib/_session";
+import { readState, clearStateCookie } from "../lib/_oauthState";
+import { json } from "../lib/_shared";
 
 interface GitHubTokenResponse {
   access_token?: string;

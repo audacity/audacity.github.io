@@ -8,12 +8,12 @@
  * `{login:"dev"}`) rely on that global default and don't touch env at all.
  */
 import { expect, test } from "bun:test";
-import loginHandler from "./auth-login";
-import { makeAuthCallback } from "./auth-callback";
-import logoutHandler from "./auth-logout";
-import meHandler from "./auth-me";
-import { verifySession } from "./_session";
-import { stateCookie } from "./_oauthState";
+import loginHandler from "../functions/auth-login";
+import { makeAuthCallback } from "../functions/auth-callback";
+import logoutHandler from "../functions/auth-logout";
+import meHandler from "../functions/auth-me";
+import { verifySession } from "../lib/_session";
+import { stateCookie } from "../lib/_oauthState";
 
 const ENV_KEYS = [
   "DEV_AUTH",
@@ -279,7 +279,7 @@ test("auth-me reports the dev identity in dev mode", async () => {
 
 test("auth-me reports the login for a valid session cookie outside dev mode, without leaking the token", async () => {
   await withProdEnv(async () => {
-    const { signSession, sessionCookie } = await import("./_session");
+    const { signSession, sessionCookie } = await import("../lib/_session");
     const signed = signSession(
       { token: "gho_secret_token", login: "octocat" },
       PROD_ENV.SESSION_SECRET,
@@ -345,7 +345,7 @@ test("SECURITY: an OAuth state cookie value cannot be replayed as the session co
     const res = await meHandler(request);
     expect(res.status).toBe(401);
 
-    const { currentSession } = await import("./_shared");
+    const { currentSession } = await import("../lib/_shared");
     expect(currentSession(request)).toBeNull();
   });
 });

@@ -8,8 +8,8 @@
  * touched elsewhere would make this test order-dependent.
  */
 import { expect, test } from "bun:test";
-import pageHandler from "./page";
-import draftHandler from "./draft";
+import pageHandler from "../functions/page";
+import draftHandler from "../functions/draft";
 import { mdastToDoc } from "../../src/adapter/mdastToDoc";
 import { parseMdx } from "../../src/mdx/pipeline";
 

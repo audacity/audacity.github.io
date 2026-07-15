@@ -1,4 +1,4 @@
-import { currentSession, json } from "./_shared";
+import { currentSession, json } from "../lib/_shared";
 
 /**
  * `GET /api/auth-me` — reports the signed-in identity, never the token.

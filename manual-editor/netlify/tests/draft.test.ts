@@ -10,8 +10,8 @@
  * `doc`+`frontmatter`) is reflected.
  */
 import { expect, test } from "bun:test";
-import draftHandler from "./draft";
-import pagesHandler from "./pages";
+import draftHandler from "../functions/draft";
+import pagesHandler from "../functions/pages";
 import { mdastToDoc } from "../../src/adapter/mdastToDoc";
 import { parseMdx } from "../../src/mdx/pipeline";
 import type { ManualPageMeta } from "../../src/backend/types";

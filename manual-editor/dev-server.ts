@@ -42,7 +42,7 @@ async function handleApi(
   const name = segments[1];
   if (!name) return jsonError(404, "not found");
 
-  const modulePath = `${import.meta.dir}/netlify/functions/${name}.ts`;
+  const modulePath = `${import.meta.dir}/netlify/functions/${name}.mts`;
 
   let mod: Record<string, unknown>;
   try {
