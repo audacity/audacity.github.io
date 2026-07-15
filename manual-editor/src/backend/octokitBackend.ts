@@ -46,6 +46,38 @@ export interface MinimalOctokit {
       repo: string;
       file_sha: string;
     }): Promise<{ data: { content: string; encoding: string } }>;
+    createBlob(params: {
+      owner: string;
+      repo: string;
+      content: string;
+      encoding: string;
+    }): Promise<{ data: { sha: string } }>;
+    createTree(params: {
+      owner: string;
+      repo: string;
+      base_tree?: string;
+      tree: DraftTreeItem[];
+    }): Promise<{ data: { sha: string } }>;
+    createCommit(params: {
+      owner: string;
+      repo: string;
+      message: string;
+      tree: string;
+      parents: string[];
+    }): Promise<{ data: { sha: string } }>;
+    createRef(params: {
+      owner: string;
+      repo: string;
+      ref: string;
+      sha: string;
+    }): Promise<{ data: { object: { sha: string } } }>;
+    updateRef(params: {
+      owner: string;
+      repo: string;
+      ref: string;
+      sha: string;
+      force?: boolean;
+    }): Promise<{ data: { object: { sha: string } } }>;
   };
   repos: {
     getContent(params: {
@@ -55,6 +87,19 @@ export interface MinimalOctokit {
       ref: string;
     }): Promise<{ data: { content?: string; encoding?: string } }>;
   };
+}
+
+/**
+ * A single entry in a `git.createTree` call. Either `content` (new/updated
+ * text blob, created inline by the Trees API) or `sha` (a pre-created blob
+ * — used for binary content — or `null` to delete the path) must be set.
+ */
+interface DraftTreeItem {
+  path: string;
+  mode: "100644";
+  type: "blob";
+  content?: string;
+  sha?: string | null;
 }
 
 export interface OctokitBackendOptions {
@@ -282,23 +327,134 @@ export class OctokitBackend implements GitHubBackend {
     }
   }
 
-  async saveDraft(_changes: FileChange[], _message: string): Promise<void> {
-    throw new Error("not implemented until G2/G3");
+  /**
+   * Commits `tree` (a diff, not a full tree — entries merge onto the
+   * drafts branch's current tree via `base_tree`) as a single atomic
+   * commit on the drafts branch, creating that branch off the base
+   * branch's head first if it doesn't exist yet.
+   *
+   * Single-writer assumption (one QA editing at a time): no retry-on-
+   * conflict loop. If `updateRef` fails (e.g. drafts moved concurrently),
+   * the error just propagates to the caller.
+   */
+  private async commitToDrafts(
+    tree: DraftTreeItem[],
+    message: string,
+  ): Promise<void> {
+    let draftsHeadSha: string;
+    try {
+      const ref = await this.octokit.git.getRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `heads/${this.draftsBranch}`,
+      });
+      draftsHeadSha = ref.data.object.sha;
+    } catch (err) {
+      if (!isNotFound(err)) throw err;
+      const baseRef = await this.octokit.git.getRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `heads/${this.baseBranch}`,
+      });
+      const baseHeadSha = baseRef.data.object.sha;
+      await this.octokit.git.createRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `refs/heads/${this.draftsBranch}`,
+        sha: baseHeadSha,
+      });
+      draftsHeadSha = baseHeadSha;
+    }
+
+    const headCommit = await this.octokit.git.getCommit({
+      owner: this.owner,
+      repo: this.repo,
+      commit_sha: draftsHeadSha,
+    });
+
+    const newTree = await this.octokit.git.createTree({
+      owner: this.owner,
+      repo: this.repo,
+      base_tree: headCommit.data.tree.sha,
+      tree,
+    });
+
+    const newCommit = await this.octokit.git.createCommit({
+      owner: this.owner,
+      repo: this.repo,
+      message,
+      tree: newTree.data.sha,
+      parents: [draftsHeadSha],
+    });
+
+    await this.octokit.git.updateRef({
+      owner: this.owner,
+      repo: this.repo,
+      ref: `heads/${this.draftsBranch}`,
+      sha: newCommit.data.sha,
+      force: false,
+    });
+  }
+
+  async saveDraft(changes: FileChange[], message: string): Promise<void> {
+    const tree: DraftTreeItem[] = changes.map((c) => ({
+      path: c.path,
+      mode: "100644",
+      type: "blob",
+      content: c.content,
+    }));
+    await this.commitToDrafts(tree, message);
   }
 
   async saveImage(
-    _pageSlug: string,
-    _filename: string,
-    _bytes: Uint8Array,
+    pageSlug: string,
+    filename: string,
+    bytes: Uint8Array,
   ): Promise<string> {
-    throw new Error("not implemented until G2/G3");
+    const path = `src/assets/img/manual/${pageSlug}/${filename}`;
+    const blob = await this.octokit.git.createBlob({
+      owner: this.owner,
+      repo: this.repo,
+      content: Buffer.from(bytes).toString("base64"),
+      encoding: "base64",
+    });
+    const tree: DraftTreeItem[] = [
+      { path, mode: "100644", type: "blob", sha: blob.data.sha },
+    ];
+    await this.commitToDrafts(tree, `docs: add image ${filename}`);
+    return path;
   }
 
   async publish(): Promise<PublishResult> {
     throw new Error("not implemented until G2/G3");
   }
 
-  async deletePage(_path: string): Promise<void> {
-    throw new Error("not implemented until G2/G3");
+  /**
+   * Mirrors `InMemoryBackend.deletePage`'s semantics: existence is checked
+   * as "present in base OR present in drafts" — independent OR, not
+   * "drafts-tree-if-it-exists-else-base" — so that re-deleting a base page
+   * that's already staged for deletion (present in base, absent from the
+   * drafts tree — the same state `listPages` treats as a staged deletion
+   * and excludes from the listing) is a harmless no-op rather than a
+   * throw, exactly like `InMemoryBackend` (which checks `this.base.has`
+   * unconditionally, regardless of whether it's already in `this.deleted`).
+   * Only "absent from both" throws.
+   */
+  async deletePage(path: string): Promise<void> {
+    const baseTree = await this.getManualTree(this.baseBranch);
+    const inBase = baseTree?.has(path) ?? false;
+    let exists = inBase;
+    if (!exists) {
+      const draftsTree = await this.getManualTree(this.draftsBranch);
+      exists = draftsTree?.has(path) ?? false;
+    }
+    if (!exists) {
+      throw new Error(`No such page: ${path}`);
+    }
+
+    const tree: DraftTreeItem[] = [
+      { path, mode: "100644", type: "blob", sha: null },
+    ];
+    await this.commitToDrafts(tree, `docs: delete ${path}`);
   }
 }
