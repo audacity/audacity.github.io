@@ -15,3 +15,13 @@ test("formatMdx preserves an MDX component", async () => {
   expect(out).toContain("<Callout");
   expect(out).toContain('type="tip"');
 });
+
+test("sanitizeConfigForMdx drops plugins/overrides but keeps formatting options", async () => {
+  const { sanitizeConfigForMdx } = await import("./normalize");
+  const sanitized = sanitizeConfigForMdx({
+    plugins: ["prettier-plugin-astro"],
+    printWidth: 100,
+    overrides: [{ files: "*.astro", options: { parser: "astro" } }],
+  });
+  expect(sanitized).toEqual({ printWidth: 100 });
+});

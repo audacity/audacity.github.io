@@ -30,12 +30,38 @@ export const REPO_ROOT: string = path.resolve(moduleDir(), "../../..");
 
 let cachedConfig: prettier.Options | null = null;
 
+/**
+ * Strip file-type-specific machinery from a resolved Prettier config before
+ * using it on in-memory MDX strings:
+ *
+ * - `plugins`: the repo config lists `prettier-plugin-astro`, which only
+ *   registers a parser/printer for `.astro` files — it contributes nothing
+ *   to `parser: "mdx"` formatting, but Prettier still tries to LOAD it,
+ *   which hard-crashes in the deployed Netlify function where the plugin
+ *   package isn't resolvable from the lambda root (502 on every save).
+ * - `overrides`: matched against a filepath we never pass, so they can
+ *   never apply to the in-memory strings formatMdx handles.
+ *
+ * Everything else (printWidth, quotes, etc., if ever added to the repo
+ * config) still flows through.
+ */
+export function sanitizeConfigForMdx(
+  config: prettier.Options,
+): prettier.Options {
+  const {
+    plugins: _plugins,
+    overrides: _overrides,
+    ...rest
+  } = config as prettier.Options & { overrides?: unknown };
+  return rest;
+}
+
 async function repoPrettierConfig(): Promise<prettier.Options> {
   if (cachedConfig) return cachedConfig;
   const resolved = await prettier.resolveConfig(
     path.join(REPO_ROOT, ".prettierrc.json"),
   );
-  cachedConfig = resolved ?? {};
+  cachedConfig = sanitizeConfigForMdx(resolved ?? {});
   return cachedConfig;
 }
 
