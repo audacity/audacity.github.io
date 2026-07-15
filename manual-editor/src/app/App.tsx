@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api as defaultApi, type makeApi } from "./api";
+import { Editor } from "./Editor";
 import { PageList } from "./PageList";
 import type { ManualPageMeta } from "../backend/types";
 
@@ -35,7 +36,9 @@ export function App({
           activePath={activePath}
         />
       )}
-      {source !== null && <pre data-testid="raw-source">{source}</pre>}
+      {source !== null && activePath !== null && (
+        <Editor source={source} path={activePath} />
+      )}
     </div>
   );
 }

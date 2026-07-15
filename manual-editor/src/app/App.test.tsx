@@ -46,15 +46,19 @@ test("App loads pages on mount and renders a page button", async () => {
   expect(screen.getByText("Installing FFmpeg")).toBeDefined();
 });
 
-test("selecting a page fetches and shows its raw source", async () => {
+test("selecting a page fetches its source and mounts an editable rich-text editor", async () => {
   render(<App api={makeApi(fakeFetch())} />);
   const button = await waitFor(() =>
     screen.getByTestId("page-basics/installing-ffmpeg"),
   );
   fireEvent.click(button);
-  await waitFor(() =>
-    expect(screen.getByTestId("raw-source").textContent).toBe(
-      "# Installing FFmpeg\n",
-    ),
-  );
+  const editor = await waitFor(() => screen.getByTestId("editor"));
+  // The raw MDX source ("# Installing FFmpeg") should render as formatted
+  // rich text (an editable heading), not literal markdown syntax.
+  await waitFor(() => {
+    const heading = editor.querySelector("h1");
+    expect(heading?.textContent).toBe("Installing FFmpeg");
+  });
+  const prosemirror = editor.querySelector(".ProseMirror");
+  expect(prosemirror?.getAttribute("contenteditable")).toBe("true");
 });
