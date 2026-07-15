@@ -1,7 +1,7 @@
 import { parseCookie, stringifySetCookie } from "cookie";
 import {
-  signSession,
-  verifySession,
+  signWithPurpose,
+  verifyWithPurpose,
   type SessionCookieOptions,
 } from "./_session";
 
@@ -12,13 +12,29 @@ import {
  * `manual_editor_session`) so a half-finished login attempt never looks like
  * a signed-in session, and so it can carry its own short `maxAge`.
  *
- * Reuses `_session.ts`'s `signSession`/`verifySession` to sign the state
- * value (packed into the existing `{token, login}` `Session` shape with a
- * fixed `login: "oauth-state"` marker) rather than duplicating HMAC signing
- * logic here — this keeps `_session.ts` itself unchanged.
+ * Reuses `_session.ts`'s `signWithPurpose`/`verifyWithPurpose` to sign the
+ * state value (packed into the existing `{token, login}` `Session` shape
+ * with a fixed `login: "oauth-state"` marker) rather than duplicating HMAC
+ * signing logic here — this keeps `_session.ts`'s wire format shared.
+ *
+ * Critically, this signs under purpose `STATE_PURPOSE` ("oauth-state"),
+ * NOT the default `"session"` purpose that `signSession`/`verifySession`
+ * use. `_session.ts`'s `deriveKey` derives a distinct HMAC key per purpose,
+ * so a state-cookie value signed here can never verify under
+ * `verifySession`, and a real session cookie can never verify here — even
+ * though both share the same `SESSION_SECRET` and the same `{token, login}`
+ * payload shape. Previously this called `signSession`/`verifySession`
+ * directly, which meant the state cookie's signed value verified as a valid
+ * session under the SAME key: an unauthenticated caller could read the
+ * `Set-Cookie: manual_editor_oauth_state=...` from their own
+ * `GET /api/auth-login` response and replay that exact value as the
+ * `manual_editor_session` cookie to authenticate as `{login:"oauth-state"}`.
+ * The `STATE_LOGIN_MARKER` check below is kept as defense-in-depth, but the
+ * purpose-scoped key is what actually closes the bypass.
  */
 const STATE_COOKIE_NAME = "manual_editor_oauth_state";
 const STATE_LOGIN_MARKER = "oauth-state";
+const STATE_PURPOSE = "oauth-state";
 const TEN_MINUTES_SECONDS = 600;
 
 function resolveSecure(opts?: SessionCookieOptions): boolean {
@@ -34,9 +50,10 @@ export function stateCookie(
   secret: string,
   opts?: SessionCookieOptions,
 ): string {
-  const value = signSession(
+  const value = signWithPurpose(
     { token: state, login: STATE_LOGIN_MARKER },
     secret,
+    STATE_PURPOSE,
   );
   return stringifySetCookie({
     name: STATE_COOKIE_NAME,
@@ -73,6 +90,6 @@ export function readState(request: Request, secret: string): string | null {
   const cookies = parseCookie(header);
   const value = cookies[STATE_COOKIE_NAME];
   if (!value) return null;
-  const session = verifySession(value, secret);
+  const session = verifyWithPurpose(value, secret, STATE_PURPOSE);
   return session?.login === STATE_LOGIN_MARKER ? session.token : null;
 }

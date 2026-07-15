@@ -36,25 +36,66 @@ function base64UrlDecode(input: string): string {
   return Buffer.from(input, "base64url").toString("utf8");
 }
 
-function sign(payload: string, secret: string): string {
-  return createHmac("sha256", secret).update(payload).digest("base64url");
+/** The default purpose used by `signSession`/`verifySession`. */
+const SESSION_PURPOSE = "session";
+
+/**
+ * Derives a purpose-scoped HMAC key from the base secret.
+ *
+ * This is `HMAC(secret, purpose)`, NOT string concatenation like
+ * `` `${secret}:${purpose}` ``. Concatenation-with-a-delimiter schemes are
+ * vulnerable to "delimiter games": if `purpose` could ever contain the
+ * delimiter (or if two distinct `(secret, purpose)` pairs could be crafted
+ * to concatenate to the same string), two different purposes could collide
+ * on the same derived key. Running `purpose` through HMAC as its own
+ * message avoids that class of bug entirely — there is no delimiter to
+ * inject around, so distinct purpose strings always derive distinct keys
+ * (barring a HMAC-SHA256 collision). Every signing/verification namespace
+ * in this codebase MUST go through this function (or `signWithPurpose`/
+ * `verifyWithPurpose` below) rather than deriving keys ad hoc, and a new
+ * purpose is safe to add without coordinating on delimiter-safe naming.
+ */
+function deriveKey(secret: string, purpose: string): Buffer {
+  return createHmac("sha256", secret).update(purpose).digest();
 }
 
-/** Serializes and signs a session into the `${payload}.${signature}` cookie value. */
-export function signSession(session: Session, secret: string): string {
+function sign(payload: string, secret: string, purpose: string): string {
+  return createHmac("sha256", deriveKey(secret, purpose))
+    .update(payload)
+    .digest("base64url");
+}
+
+/**
+ * Serializes and signs a `Session` into the `${payload}.${signature}` wire
+ * format, scoped to `purpose` via `deriveKey`. Different purposes derive
+ * different keys, so a value signed for one purpose can never verify under
+ * another — this is what lets `_oauthState.ts` reuse this module's signing
+ * logic for its own `manual_editor_oauth_state` cookie (purpose
+ * `"oauth-state"`) without that cookie's signed value also being accepted
+ * as a valid `manual_editor_session` cookie by `verifySession`.
+ */
+export function signWithPurpose(
+  session: Session,
+  secret: string,
+  purpose: string,
+): string {
   const payload = base64UrlEncode(JSON.stringify(session));
-  const sig = sign(payload, secret);
+  const sig = sign(payload, secret, purpose);
   return `${payload}.${sig}`;
 }
 
 /**
- * Verifies a signed session value produced by `signSession`. Returns the
- * recovered `Session` on success, or `null` for absolutely any failure
- * (malformed shape, bad base64/JSON, tampered payload or signature, wrong
- * secret) — this never throws, so callers can treat "no valid session" as
- * a plain unauthenticated state.
+ * Verifies a signed value produced by `signWithPurpose` for the same
+ * `purpose`. Returns the recovered `Session` on success, or `null` for
+ * absolutely any failure (malformed shape, bad base64/JSON, tampered
+ * payload or signature, wrong secret, wrong purpose) — this never throws,
+ * so callers can treat "no valid session" as a plain unauthenticated state.
  */
-export function verifySession(value: string, secret: string): Session | null {
+export function verifyWithPurpose(
+  value: string,
+  secret: string,
+  purpose: string,
+): Session | null {
   try {
     if (!value) return null;
     const dotIndex = value.indexOf(".");
@@ -63,7 +104,7 @@ export function verifySession(value: string, secret: string): Session | null {
     const sig = value.slice(dotIndex + 1);
     if (!payload || !sig) return null;
 
-    const expectedSig = sign(payload, secret);
+    const expectedSig = sign(payload, secret, purpose);
     const sigBuf = Buffer.from(sig, "base64url");
     const expectedBuf = Buffer.from(expectedSig, "base64url");
     if (sigBuf.length !== expectedBuf.length) return null;
@@ -82,6 +123,28 @@ export function verifySession(value: string, secret: string): Session | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * Serializes and signs a session for the real `manual_editor_session`
+ * cookie — always purpose `"session"`. Other cookies (e.g. the OAuth state
+ * cookie) MUST NOT use this; they should call `signWithPurpose` with their
+ * own purpose string so their signed values can never verify as a session
+ * (see `verifySession`/`deriveKey`).
+ */
+export function signSession(session: Session, secret: string): string {
+  return signWithPurpose(session, secret, SESSION_PURPOSE);
+}
+
+/**
+ * Verifies a signed session value produced by `signSession`
+ * (purpose `"session"`). A value signed under any other purpose — e.g. the
+ * OAuth state cookie's `"oauth-state"` purpose — always fails here, even
+ * with the correct `SESSION_SECRET`, because `deriveKey` derives a
+ * different HMAC key per purpose.
+ */
+export function verifySession(value: string, secret: string): Session | null {
+  return verifyWithPurpose(value, secret, SESSION_PURPOSE);
 }
 
 export interface SessionCookieOptions {

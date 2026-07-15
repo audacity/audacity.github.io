@@ -192,6 +192,57 @@ test("auth-callback rejects a missing state cookie with 403", async () => {
   });
 });
 
+test("auth-callback returns 5xx and sets no session cookie when the user lookup succeeds but has no login", async () => {
+  await withProdEnv(async () => {
+    const state = "test-state-value";
+    const cookie = stateCookie(state, PROD_ENV.SESSION_SECRET).split(";")[0];
+    const fetchImpl = mockFetchSequence([
+      { body: { access_token: "gho_mocked_token" } },
+      { body: {} }, // /user response has no `login` field
+    ]);
+    const callbackHandler = makeAuthCallback(fetchImpl);
+
+    const request = requestWithCookie(
+      `http://localhost/api/auth-callback?code=abc123&state=${state}`,
+      cookie,
+    );
+    const res = await callbackHandler(request);
+
+    expect(res.status).toBeGreaterThanOrEqual(500);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toBeTruthy();
+    expect(firstSetCookie(res, "manual_editor_session")).toBeUndefined();
+  });
+});
+
+test("auth-callback returns 5xx and sets no session cookie when the user lookup request itself fails", async () => {
+  await withProdEnv(async () => {
+    const state = "test-state-value";
+    const cookie = stateCookie(state, PROD_ENV.SESSION_SECRET).split(";")[0];
+    let call = 0;
+    const fetchImpl = (async (..._args: Parameters<typeof fetch>) => {
+      call += 1;
+      if (call === 1) {
+        return new Response(
+          JSON.stringify({ access_token: "gho_mocked_token" }),
+          { status: 200 },
+        );
+      }
+      throw new Error("network down");
+    }) as typeof fetch;
+    const callbackHandler = makeAuthCallback(fetchImpl);
+
+    const request = requestWithCookie(
+      `http://localhost/api/auth-callback?code=abc123&state=${state}`,
+      cookie,
+    );
+    const res = await callbackHandler(request);
+
+    expect(res.status).toBeGreaterThanOrEqual(500);
+    expect(firstSetCookie(res, "manual_editor_session")).toBeUndefined();
+  });
+});
+
 test("auth-callback returns an error and sets no session cookie when the token exchange fails", async () => {
   await withProdEnv(async () => {
     const state = "test-state-value";
@@ -248,6 +299,54 @@ test("auth-me returns 401 without a session cookie outside dev mode", async () =
   await withProdEnv(async () => {
     const res = await meHandler(new Request("http://localhost/api/auth-me"));
     expect(res.status).toBe(401);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// SECURITY REGRESSION — auth-bypass via OAuth-state/session key reuse
+// ---------------------------------------------------------------------------
+//
+// Previously `_oauthState.ts` signed the state cookie with the SAME
+// `signSession`/`SESSION_SECRET`/`{token, login}` shape as the real session
+// cookie, and the signed value didn't encode which cookie it belonged to.
+// An unauthenticated caller could GET /api/auth-login, read the raw
+// `Set-Cookie: manual_editor_oauth_state=<payload>.<sig>` from their OWN
+// response, then replay that exact value as `Cookie:
+// manual_editor_session=...` on /api/auth-me — the HMAC verified (same
+// key/function) and auth-me returned 200 `{login:"oauth-state",
+// mode:"github"}` instead of 401. Fixed by domain-separating the signing
+// key per purpose (`_session.ts`'s `deriveKey`); this test drives the
+// exploit end-to-end through the real handlers and must see a 401.
+test("SECURITY: an OAuth state cookie value cannot be replayed as the session cookie to bypass auth-me", async () => {
+  await withProdEnv(async () => {
+    // 1. Unauthenticated caller starts the OAuth handshake and gets a
+    //    signed state cookie back — exactly what a real attacker can do
+    //    without ever authenticating.
+    const loginRes = await loginHandler();
+    const stateCookieHeader = firstSetCookie(
+      loginRes,
+      "manual_editor_oauth_state",
+    );
+    expect(stateCookieHeader).toBeTruthy();
+    const stateValue = stateCookieHeader!
+      .split(";")[0]
+      .split("=")
+      .slice(1)
+      .join("=");
+
+    // 2. Replay that exact signed value as the SESSION cookie instead.
+    const request = requestWithCookie(
+      "http://localhost/api/auth-me",
+      `manual_editor_session=${stateValue}`,
+    );
+
+    // 3. Both the endpoint and the underlying session resolver must reject
+    //    it — this is the actual gate `auth-me`/`currentSession` enforce.
+    const res = await meHandler(request);
+    expect(res.status).toBe(401);
+
+    const { currentSession } = await import("./_shared");
+    expect(currentSession(request)).toBeNull();
   });
 });
 

@@ -2,6 +2,8 @@ import { expect, test } from "bun:test";
 import {
   signSession,
   verifySession,
+  signWithPurpose,
+  verifyWithPurpose,
   sessionCookie,
   clearSessionCookie,
   readSession,
@@ -127,6 +129,42 @@ test("readSession returns null for a tampered cookie value", () => {
   const signed = signSession(session, secret);
   const request = requestWithCookie(`manual_editor_session=${signed}xxx`);
   expect(readSession(request, secret)).toBeNull();
+});
+
+// ---------------------------------------------------------------------------
+// Purpose-scoped key derivation (domain separation between signing
+// namespaces, e.g. the real session vs. `_oauthState.ts`'s OAuth state
+// cookie — see CRITICAL fix: a value signed for one purpose must never
+// verify for another, even with the same secret and payload shape).
+// ---------------------------------------------------------------------------
+
+test("signWithPurpose -> verifyWithPurpose round-trip recovers the session for the same purpose", () => {
+  const signed = signWithPurpose(session, secret, "oauth-state");
+  expect(verifyWithPurpose(signed, secret, "oauth-state")).toEqual(session);
+});
+
+test("signSession is equivalent to signWithPurpose(..., 'session')", () => {
+  const viaSignSession = signSession(session, secret);
+  expect(verifyWithPurpose(viaSignSession, secret, "session")).toEqual(session);
+});
+
+test("a value signed with purpose 'oauth-state' fails verifySession (purpose 'session')", () => {
+  const stateSigned = signWithPurpose(
+    { token: "some-state-value", login: "oauth-state" },
+    secret,
+    "oauth-state",
+  );
+  expect(verifySession(stateSigned, secret)).toBeNull();
+});
+
+test("a session-signed value fails verifyWithPurpose(..., 'oauth-state')", () => {
+  const sessionSigned = signSession(session, secret);
+  expect(verifyWithPurpose(sessionSigned, secret, "oauth-state")).toBeNull();
+});
+
+test("verifyWithPurpose rejects a value signed under a different purpose even with the correct secret", () => {
+  const signed = signWithPurpose(session, secret, "purpose-a");
+  expect(verifyWithPurpose(signed, secret, "purpose-b")).toBeNull();
 });
 
 test("getSessionSecret returns the dev secret in dev mode without SESSION_SECRET set", () => {
