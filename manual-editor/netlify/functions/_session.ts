@@ -86,16 +86,21 @@ export function verifySession(value: string, secret: string): Session | null {
 
 export interface SessionCookieOptions {
   /**
-   * Whether to set the `Secure` attribute. Defaults to
-   * `process.env.NODE_ENV !== "development"` so local dev over HTTP still
-   * gets the cookie stored.
+   * Whether to set the `Secure` attribute. Defaults to `false` when either
+   * dev signal is present — `process.env.DEV_AUTH === "1"` (this repo's
+   * actual local-dev flow, `bun run dev:local` → `dev-server.ts`, the
+   * required workaround since netlify-cli is broken on Node 24) or
+   * `process.env.NODE_ENV === "development"` — so local dev over HTTP
+   * still gets the cookie stored. Defaults to `true` otherwise.
    */
   secure?: boolean;
 }
 
 function resolveSecure(opts?: SessionCookieOptions): boolean {
   if (opts?.secure !== undefined) return opts.secure;
-  return process.env.NODE_ENV !== "development";
+  const dev =
+    process.env.DEV_AUTH === "1" || process.env.NODE_ENV === "development";
+  return !dev;
 }
 
 /** Serializes the `Set-Cookie` header value carrying a signed session. */

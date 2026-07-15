@@ -86,6 +86,8 @@ test("clearSessionCookie has Max-Age=0", () => {
   const cookie = clearSessionCookie();
   expect(cookie).toContain("manual_editor_session=");
   expect(cookie).toContain("Max-Age=0");
+  expect(cookie).toContain("HttpOnly");
+  expect(cookie).toContain("Path=/");
 });
 
 /**
