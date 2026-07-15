@@ -6,8 +6,6 @@ import { getCollection } from "astro:content";
 const publishedBlogPosts = await getCollection("blog", ({ data }) => {
   return data.draft !== true;
 });
-
-
 ---
 
 <BaseLayout title="Audacity ® | Blog">
@@ -19,18 +17,23 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
         class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 my-4 sm:my-8 md:my-12 gap-8 sm:gap-8 md:gap-12"
       >
         {
-         publishedBlogPosts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()).map((post) => {
-            return (
-              <NEWBlogPostCard
-                href={post.slug}
-                title={post.data.title}
-                description={post.data.description}
-                publishDate={post.data.publishDate}
-                cover={post.data.cover}
-                coverAlt={post.data.coverAlt}
-              />
-            );
-          })
+          publishedBlogPosts
+            .sort(
+              (a, b) =>
+                b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+            )
+            .map((post) => {
+              return (
+                <NEWBlogPostCard
+                  href={post.id}
+                  title={post.data.title}
+                  description={post.data.description}
+                  publishDate={post.data.publishDate}
+                  cover={post.data.cover}
+                  coverAlt={post.data.coverAlt}
+                />
+              );
+            })
         }
       </div>
     </div>
