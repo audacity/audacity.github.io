@@ -6,6 +6,6 @@
     "types": ["react", "react-dom", "bun-types"],
     "moduleResolution": "bundler"
   },
-  "include": ["src/app", "src/adapter", "src/backend"],
+  "include": ["src/app", "src/adapter", "src/backend", "netlify/functions"],
   "exclude": []
 }
