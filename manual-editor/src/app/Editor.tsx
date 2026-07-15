@@ -1,7 +1,7 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useMemo, useRef } from "react";
 import { mdastToDoc } from "../adapter/mdastToDoc";
-import { buildExtensions } from "../adapter/schema";
+import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
 
 /**
@@ -30,7 +30,7 @@ export function Editor({ source, path }: { source: string; path: string }) {
 
   const editor = useEditor(
     {
-      extensions: buildExtensions(),
+      extensions: buildAppExtensions(),
       content: doc,
     },
     [path],

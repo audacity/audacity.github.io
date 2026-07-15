@@ -25,20 +25,33 @@ export function App({
   }
 
   return (
-    <div>
-      <h1>Audacity Manual Editor</h1>
-      {pages === null ? (
-        <p>Loading…</p>
-      ) : (
-        <PageList
-          pages={pages}
-          onSelect={handleSelect}
-          activePath={activePath}
-        />
-      )}
-      {source !== null && activePath !== null && (
-        <Editor source={source} path={activePath} />
-      )}
+    <div className="app-shell">
+      <header className="app-topbar">
+        <h1 className="app-topbar__title">Audacity Manual Editor</h1>
+        <div className="app-topbar__actions" />
+      </header>
+      <div className="app-body">
+        <aside className="app-sidebar">
+          {pages === null ? (
+            <p className="app-sidebar__loading">Loading…</p>
+          ) : (
+            <PageList
+              pages={pages}
+              onSelect={handleSelect}
+              activePath={activePath}
+            />
+          )}
+        </aside>
+        <main className="app-main">
+          {source !== null && activePath !== null ? (
+            <Editor source={source} path={activePath} />
+          ) : (
+            <p className="app-main__placeholder">
+              Select a page from the list to start editing.
+            </p>
+          )}
+        </main>
+      </div>
     </div>
   );
 }

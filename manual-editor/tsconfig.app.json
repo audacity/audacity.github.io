@@ -3,7 +3,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["react", "react-dom", "bun-types"],
+    "types": ["react", "react-dom", "bun-types", "vite/client"],
     "moduleResolution": "bundler"
   },
   "include": ["src/app", "src/adapter", "src/backend", "netlify/functions"],
