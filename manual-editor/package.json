@@ -20,6 +20,7 @@
     "cookie": "^2.0.1",
     "mdast-util-mdx-jsx": "^3.2.0",
     "mdast-util-to-markdown": "^2.1.2",
+    "prettier-plugin-astro": "^0.14.1",
     "prosemirror-model": "^1.25.11",
     "prosemirror-state": "^1.4.4",
     "prosemirror-view": "^1.42.1",

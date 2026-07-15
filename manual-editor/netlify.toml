@@ -5,6 +5,18 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  # `src/mdx/normalize.ts`'s `formatMdx` (used by `/api/draft`) reads the
+  # repo-root `.prettierrc.json` (which lists the `prettier-plugin-astro`
+  # plugin) at runtime via `node:fs`, not a static `import`, so esbuild
+  # doesn't pick it up automatically. `included_files` copies it into the
+  # function bundle so that read can find it in the deployed Lambda's
+  # filesystem. See README "Production deployment" > "Function bundling
+  # (prettier config)" for the important caveat: this site's base directory
+  # is `manual-editor`, and Netlify docs describe `included_files` paths as
+  # resolved relative to the base directory with no documented support for
+  # `../` escaping it — this entry is unverified against a real deploy and
+  # is secondary to a deeper blocker documented in the README.
+  included_files = ["../.prettierrc.json"]
 
 [dev]
   command = "vite"
