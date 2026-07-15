@@ -1,6 +1,11 @@
 import type { Editor } from "@tiptap/core";
 import { useEditorState } from "@tiptap/react";
-import type { JsxAttr } from "../adapter/registry";
+import {
+  type AdmonitionComponent,
+  insertAdmonition,
+  insertShortcut,
+  insertTabs,
+} from "./insertCommands";
 
 /**
  * The five mdast components that map onto the `admonition` PM node (see
@@ -10,12 +15,7 @@ import type { JsxAttr } from "../adapter/registry";
  */
 const ADMONITION_INSERTS: ReadonlyArray<{
   label: string;
-  component:
-    | "Callout"
-    | "Notes"
-    | "Pitfalls"
-    | "TipsAndTricks"
-    | "BestPractices";
+  component: AdmonitionComponent;
   type?: string;
 }> = [
   { label: "Callout", component: "Callout", type: "info" },
@@ -24,67 +24,6 @@ const ADMONITION_INSERTS: ReadonlyArray<{
   { label: "Tip", component: "TipsAndTricks" },
   { label: "Best practice", component: "BestPractices" },
 ];
-
-/**
- * Default attributes for a freshly inserted `<Shortcut />`: `client:load`
- * first (so it hydrates in the built Astro manual, matching real corpus
- * usage) then a placeholder `keys` the author immediately overtypes via
- * `ShortcutView`'s click-to-edit. Order matches how the adapter round-trips
- * source attribute order (see `registry.ts`'s `JsxAttr` doc comment).
- */
-const DEFAULT_SHORTCUT_ATTRIBUTES: JsxAttr[] = [
-  { name: "client:load", value: null },
-  { name: "keys", value: "Ctrl+K" },
-];
-
-function insertAdmonition(
-  editor: Editor,
-  component: (typeof ADMONITION_INSERTS)[number]["component"],
-  type?: string,
-) {
-  editor
-    .chain()
-    .focus()
-    .insertContent({
-      type: "admonition",
-      attrs: { component, type: type ?? null, title: null },
-      content: [{ type: "paragraph" }],
-    })
-    .run();
-}
-
-function insertTabs(editor: Editor) {
-  editor
-    .chain()
-    .focus()
-    .insertContent({
-      type: "tabs",
-      content: [
-        {
-          type: "tab",
-          attrs: { label: "Windows" },
-          content: [{ type: "paragraph" }],
-        },
-        {
-          type: "tab",
-          attrs: { label: "macOS" },
-          content: [{ type: "paragraph" }],
-        },
-      ],
-    })
-    .run();
-}
-
-function insertShortcut(editor: Editor) {
-  editor
-    .chain()
-    .focus()
-    .insertContent({
-      type: "shortcut",
-      attrs: { attributes: DEFAULT_SHORTCUT_ATTRIBUTES },
-    })
-    .run();
-}
 
 function promptForLink(editor: Editor) {
   if (editor.isActive("link")) {

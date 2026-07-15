@@ -17,6 +17,7 @@
     "@tiptap/pm": "^3.27.4",
     "@tiptap/react": "^3.27.4",
     "@tiptap/starter-kit": "^3.27.4",
+    "@tiptap/suggestion": "^3.27.4",
     "cookie": "^2.0.1",
     "mdast-util-mdx-jsx": "^3.2.0",
     "mdast-util-to-markdown": "^2.1.2",
