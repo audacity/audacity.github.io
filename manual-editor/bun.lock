@@ -5,7 +5,8 @@
     "": {
       "name": "manual-editor",
       "dependencies": {
-        "mdast-util-from-markdown": "^2.0.3",
+        "mdast-util-mdx-jsx": "^3.2.0",
+        "mdast-util-to-markdown": "^2.1.2",
         "remark-frontmatter": "^5.0.0",
         "remark-gfm": "^4.0.1",
         "remark-mdx": "^3.1.1",
