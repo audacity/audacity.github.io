@@ -523,7 +523,8 @@ body {
   color: #059669;
 }
 
-.editor-topbar__save-status--error {
+.editor-topbar__save-status--error,
+.editor-topbar__save-status--delete-error {
   color: #dc2626;
 }
 

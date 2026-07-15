@@ -212,5 +212,5 @@ test("a failed delete surfaces an error and returns to the plain button", async 
   await waitFor(() => screen.getByTestId("editor-delete-page"));
   expect(screen.queryByTestId("editor-delete-confirm")).toBeNull();
   expect(screen.getByTestId("editor")).toBeDefined();
-  expect(screen.getByTestId("save-status").textContent).toBe("Save failed");
+  expect(screen.getByTestId("save-status").textContent).toBe("Delete failed");
 });

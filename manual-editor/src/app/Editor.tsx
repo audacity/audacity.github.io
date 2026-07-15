@@ -139,7 +139,7 @@ export function Editor({
     toFrontmatterData(parseFrontmatter(source).data),
   );
   const [saveStatus, setSaveStatus] = useState<
-    "idle" | "dirty" | "saving" | "saved" | "error"
+    "idle" | "dirty" | "saving" | "saved" | "error" | "delete-error"
   >("idle");
   const [saveVersion, setSaveVersion] = useState(0);
   // Header delete action's tiny local state machine: plain button ->
@@ -231,7 +231,8 @@ export function Editor({
     } catch {
       setDeleting(false);
       setConfirmingDelete(false);
-      setSaveStatus("error");
+      // Distinct from autosave "error": nothing was edited — the DELETE failed.
+      setSaveStatus("delete-error");
     }
   }
 
@@ -251,7 +252,9 @@ export function Editor({
           ? "Edited"
           : saveStatus === "error"
             ? "Save failed"
-            : "";
+            : saveStatus === "delete-error"
+              ? "Delete failed"
+              : "";
 
   return (
     <div className="editor-frame" data-testid="editor">
