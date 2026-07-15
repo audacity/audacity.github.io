@@ -56,6 +56,9 @@ body {
   width: 280px;
   flex-shrink: 0;
   overflow-y: auto;
+  /* Only scroll vertically — deep tree nesting must never introduce a
+     horizontal scrollbar; long titles wrap instead (see .sidebar-tree__page). */
+  overflow-x: hidden;
   border-right: 1px solid #e2e8f0;
   background: #ffffff;
   padding: 0.75rem;
@@ -211,9 +214,11 @@ body {
   padding: 0;
 }
 
-.app-sidebar nav button {
-  display: block;
-  width: 100%;
+/* Page (leaf/parent) buttons in the tree. Scoped to .sidebar-tree__page so
+   these do NOT hit the expand/collapse toggle buttons (which keep their own
+   fixed 1.35rem size) — an earlier `nav button` rule was winning on
+   specificity and stretching the toggle to full width. */
+.sidebar-tree__page {
   padding: 0.35rem 0.5rem;
   border: none;
   border-radius: 4px;
@@ -224,11 +229,11 @@ body {
   cursor: pointer;
 }
 
-.app-sidebar nav button:hover {
+.sidebar-tree__page:hover {
   background: #f1f5f9;
 }
 
-.app-sidebar nav button[aria-current="true"] {
+.sidebar-tree__page[aria-current="true"] {
   background: #e0e7ff;
   font-weight: 600;
 }
@@ -242,8 +247,8 @@ body {
 }
 
 .sidebar-tree .sidebar-tree {
-  margin: 0.15rem 0 0.15rem 0.65rem;
-  padding-left: 0.65rem;
+  margin: 0.15rem 0 0.15rem 0.5rem;
+  padding-left: 0.5rem;
   border-left: 1px solid #e2e8f0;
 }
 
@@ -253,13 +258,17 @@ body {
 
 .sidebar-tree__row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.1rem;
 }
 
 .sidebar-tree__row .sidebar-tree__page {
   flex: 1;
   min-width: 0;
+  /* Long titles wrap within the (possibly deeply indented) available width
+     rather than forcing the sidebar to scroll horizontally. */
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .sidebar-tree__toggle,
