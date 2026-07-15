@@ -3,6 +3,18 @@ import { GlobalRegistrator } from "@happy-dom/global-registrator";
 GlobalRegistrator.register();
 
 /**
+ * The whole suite (`draft.test.ts`, `page.test.ts`, etc. — see their doc
+ * comments) exercises the real Netlify function handlers against the dev
+ * (in-memory) backend, which `_shared.ts#backendFor`/`_session.ts
+ * #getSessionSecret` only resolve without a `SESSION_SECRET` when
+ * `DEV_AUTH=1`. Defaulting it here (individual tests that need to exercise
+ * the non-dev path, e.g. `_session.test.ts`'s `getSessionSecret` tests,
+ * save/restore it locally) keeps that dev-mode assumption true regardless
+ * of file run order.
+ */
+process.env.DEV_AUTH ??= "1";
+
+/**
  * `@testing-library/react` auto-registers an `afterEach(cleanup)` (unmounting
  * every `render()` and clearing the DOM between tests) IF it detects a
  * global `afterEach` — see its `dist/index.js`. Bun's test runner doesn't
