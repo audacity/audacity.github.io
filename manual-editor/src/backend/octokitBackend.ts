@@ -39,7 +39,10 @@ export interface MinimalOctokit {
       tree_sha: string;
       recursive?: string;
     }): Promise<{
-      data: { tree: Array<{ path?: string; type?: string; sha?: string }> };
+      data: {
+        tree: Array<{ path?: string; type?: string; sha?: string }>;
+        truncated?: boolean;
+      };
     }>;
     getBlob(params: {
       owner: string;
@@ -86,6 +89,18 @@ export interface MinimalOctokit {
       path: string;
       ref: string;
     }): Promise<{ data: { content?: string; encoding?: string } }>;
+    /**
+     * Used by `publish()` to detect a squash/rebase-merged drafts branch
+     * (see its `resetDraftsIfNoContentDiff` doc comment): `data.files` is
+     * GitHub's list of files that actually differ between `base` and
+     * `head`, independent of commit-history divergence.
+     */
+    compareCommits(params: {
+      owner: string;
+      repo: string;
+      base: string;
+      head: string;
+    }): Promise<{ data: { files?: Array<{ filename: string }> } }>;
   };
   pulls: {
     list(params: {
@@ -212,6 +227,15 @@ export class OctokitBackend implements GitHubBackend {
       tree_sha: commit.data.tree.sha,
       recursive: "1",
     });
+    if (tree.data.truncated) {
+      // GitHub caps recursive tree responses; a truncated response would
+      // silently drop pages from `listPages`/`deletePage` rather than
+      // erroring, which is worse than failing loudly — the repo has grown
+      // past what a single recursive call can return.
+      throw new Error(
+        "Repository tree too large — listing would be incomplete",
+      );
+    }
     const out = new Map<string, string>();
     for (const entry of tree.data.tree) {
       if (
@@ -450,11 +474,19 @@ export class OctokitBackend implements GitHubBackend {
    * branch); `pulls.create`'s `head`, by contrast, is just the bare branch
    * name.
    *
+   * Before creating a new PR, `resetDraftsIfNoContentDiff` guards against
+   * drafts-branch staleness left behind by a squash or rebase merge of a
+   * *previous* publish PR (see its doc comment) — a merge commit would
+   * self-heal this (drafts stays an ancestor-plus-more of base), but squash
+   * and rebase merges leave base and drafts with identical content on
+   * permanently divergent history, which would otherwise make every
+   * subsequent publish open a redundant zero-change PR forever.
+   *
    * A `pulls.create` 422 is GitHub's signal that there's nothing to diff —
-   * either the drafts branch doesn't exist yet (never saved a draft) or it
-   * exists but is identical to base (e.g. every draft was already
-   * published). Both collapse to the same "nothing to publish" outcome, so
-   * this doesn't try to distinguish them further.
+   * the drafts branch doesn't exist yet (never saved a draft), since the
+   * content-diff case is now caught earlier by
+   * `resetDraftsIfNoContentDiff`. Both still collapse to the same "nothing
+   * to publish" outcome for the caller.
    */
   async publish(): Promise<PublishResult> {
     const { data: openPulls } = await this.octokit.pulls.list({
@@ -467,6 +499,10 @@ export class OctokitBackend implements GitHubBackend {
     const existing = openPulls[0];
     if (existing) {
       return { prUrl: existing.html_url, prNumber: existing.number };
+    }
+
+    if (await this.branchExists(this.draftsBranch)) {
+      await this.resetDraftsIfNoContentDiff();
     }
 
     try {
@@ -490,6 +526,51 @@ export class OctokitBackend implements GitHubBackend {
       }
       throw err;
     }
+  }
+
+  /**
+   * Guards `publish()` against drafts-branch staleness left behind by a
+   * squash or rebase merge of a previous publish PR. Nothing resets
+   * `manual/editor-drafts` after a PR merges: a merge commit self-heals
+   * (drafts' history remains an ancestor-plus-more of base, so the next
+   * `pulls.create` naturally 422s "no commits between" once there really is
+   * nothing new), but a squash or rebase merge rewrites the commits that
+   * land on base, so drafts and base end up with identical *content* on
+   * permanently divergent *history* — `pulls.create` would see a nonempty
+   * (if content-free) diff and open a redundant zero-change PR, and the
+   * drafts branch would keep accumulating stale, already-shipped commits
+   * forever.
+   *
+   * `compareCommits` reports the actual changed files between `base` and
+   * `head`, independent of commit-history divergence, so it correctly
+   * reports "no diff" in the squash/rebase case where raw history
+   * comparison would not. When there is truly no content diff, force-reset
+   * drafts to base's head (discarding the stale commits) and throw the same
+   * "nothing to publish" error `pulls.create`'s 422 produces for the
+   * "brand-new drafts branch" case, so callers can't tell the two apart.
+   */
+  private async resetDraftsIfNoContentDiff(): Promise<void> {
+    const { data } = await this.octokit.repos.compareCommits({
+      owner: this.owner,
+      repo: this.repo,
+      base: this.baseBranch,
+      head: this.draftsBranch,
+    });
+    if ((data.files?.length ?? 0) > 0) return;
+
+    const baseRef = await this.octokit.git.getRef({
+      owner: this.owner,
+      repo: this.repo,
+      ref: `heads/${this.baseBranch}`,
+    });
+    await this.octokit.git.updateRef({
+      owner: this.owner,
+      repo: this.repo,
+      ref: `heads/${this.draftsBranch}`,
+      sha: baseRef.data.object.sha,
+      force: true,
+    });
+    throw new Error("Nothing to publish — no draft changes");
   }
 
   /**

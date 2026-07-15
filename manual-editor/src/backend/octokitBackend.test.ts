@@ -21,10 +21,21 @@ interface FakeRepoState {
   openPulls?: FakeOpenPull[];
   /**
    * When true, `pulls.create` throws the real API's 422 "No commits
-   * between" error instead of creating a PR — models both "drafts branch
-   * doesn't exist" and "drafts branch has no diff from base".
+   * between" error instead of creating a PR — models "drafts branch
+   * doesn't exist" (the only case that still reaches `pulls.create` without
+   * a diff, now that `resetDraftsIfNoContentDiff` intercepts the
+   * branch-exists-but-no-diff case earlier).
    */
   noCommitsToPublish?: boolean;
+  /**
+   * Controls `compareCommits`' fake `data.files` response, consulted by
+   * `publish()`'s pre-create `resetDraftsIfNoContentDiff` guard whenever the
+   * drafts branch exists. `undefined`/`true` models a real content diff
+   * (`data.files` nonempty); `false` models a squash/rebase-merged drafts
+   * branch that's byte-identical to base despite divergent history
+   * (`data.files` empty) — the case that should trigger the branch reset.
+   */
+  draftsHaveContentDiff?: boolean;
 }
 
 /** Records of write-side calls, in order, for assertion on call sequence. */
@@ -161,6 +172,9 @@ function makeFakeOctokit(state: FakeRepoState): {
         const content = files[path];
         if (content === undefined) throw notFound();
         return { data: { content: b64(content), encoding: "base64" } };
+      },
+      async compareCommits() {
+        throw new Error("compareCommits not supported by read-only fake");
       },
     },
     pulls: {
@@ -335,6 +349,11 @@ function makeWriteFakeOctokit(state: FakeRepoState): {
         if (content === undefined) throw notFound();
         return { data: { content, encoding: "base64" } };
       },
+      async compareCommits({ base, head }) {
+        calls.push({ op: "compareCommits", args: { base, head } });
+        const hasDiff = state.draftsHaveContentDiff ?? true;
+        return { data: { files: hasDiff ? [{ filename: "x" }] : [] } };
+      },
     },
     pulls: {
       async list({ head, base, state: prState }) {
@@ -384,6 +403,41 @@ test("currentUser maps login and reports github mode", async () => {
   });
   const user = await backend.currentUser();
   expect(user).toEqual({ login: "octo-cat", mode: "github" });
+});
+
+test("listPages: throws a clear error when GitHub reports the tree as truncated, instead of silently missing pages (Fix 4)", async () => {
+  // Minimal inline fake: a recursive tree response with `truncated: true` —
+  // GitHub's signal that the repo has grown past what a single recursive
+  // call can return, so the tree entries actually present are an unknown
+  // (and silently incomplete) subset.
+  const fake = {
+    git: {
+      getRef: async () => ({ data: { object: { sha: "commit-1" } } }),
+      getCommit: async () => ({ data: { tree: { sha: "tree-1" } } }),
+      getTree: async () => ({
+        data: {
+          tree: [
+            {
+              path: "src/content/manual/basics/a.mdx",
+              type: "blob" as const,
+              sha: "sha-a",
+            },
+          ],
+          truncated: true,
+        },
+      }),
+    },
+  };
+  const backend = new OctokitBackend("tok", {
+    octokit: fake as unknown as ConstructorParameters<
+      typeof OctokitBackend
+    >[1] extends { octokit?: infer O }
+      ? O
+      : never,
+  });
+  await expect(backend.listPages()).rejects.toThrow(
+    "Repository tree too large — listing would be incomplete",
+  );
 });
 
 test("listPages: base-only (no drafts branch) lists base pages with hasDraft false", async () => {
@@ -646,6 +700,71 @@ test("publish: no draft changes to publish surfaces a clear error", async () => 
   expect(calls.some((c) => c.op === "pulls.create")).toBe(true);
 });
 
+// ---------------------------------------------------------------------------
+// publish: drafts-branch staleness after a squash/rebase merge (Fix 2)
+// ---------------------------------------------------------------------------
+//
+// A merge commit self-heals: drafts' history stays an ancestor-plus-more of
+// base, so `pulls.create` naturally 422s "no commits between" once there's
+// truly nothing new (covered above). A squash or rebase merge instead
+// leaves base and drafts with identical *content* on permanently divergent
+// *history* — `compareCommits` (unlike raw history comparison) still
+// reports that correctly as "no diff", which is what `publish()` must act
+// on before ever calling `pulls.create`.
+
+test("publish: resets the drafts branch to base's head and reports nothing-to-publish when compareCommits shows no content diff (squash/rebase-merge staleness)", async () => {
+  const PATH = "src/content/manual/basics/a.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      // Same content on both branches — models a squash/rebase merge that
+      // already shipped these exact contents to base, leaving drafts
+      // pointing at now-stale, already-merged commits.
+      [BASE]: { [PATH]: fm("A", "Basics", 1) },
+      [DRAFTS]: { [PATH]: fm("A", "Basics", 1) },
+    },
+    draftsHaveContentDiff: false,
+  });
+
+  await expect(backend.publish()).rejects.toThrow(
+    "Nothing to publish — no draft changes",
+  );
+
+  const compareCall = calls.find((c) => c.op === "compareCommits")!;
+  expect(compareCall.args).toEqual({ base: BASE, head: DRAFTS });
+
+  const updateRefCall = calls.find((c) => c.op === "updateRef")!;
+  expect(updateRefCall.args).toMatchObject({
+    ref: `heads/${DRAFTS}`,
+    sha: "commit-release/audacity-4-seed",
+    force: true,
+  });
+
+  expect(calls.some((c) => c.op === "pulls.create")).toBe(false);
+});
+
+test("publish: proceeds to create a PR (no reset) when compareCommits shows a real content diff", async () => {
+  const PATH = "src/content/manual/basics/a.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PATH]: fm("A", "Basics", 1) },
+      [DRAFTS]: { [PATH]: fm("A (edited)", "Basics", 1) },
+    },
+    draftsHaveContentDiff: true,
+  });
+
+  const result = await backend.publish();
+
+  expect(calls.some((c) => c.op === "compareCommits")).toBe(true);
+  expect(calls.some((c) => c.op === "updateRef")).toBe(false);
+  expect(calls.some((c) => c.op === "pulls.create")).toBe(true);
+  expect(result).toEqual({
+    prUrl: `https://github.com/${OWNER}/${REPO}/pull/100`,
+    prNumber: 100,
+  });
+});
+
 test("saveDraft: missing drafts branch is created off base head, then committed — full call order", async () => {
   const PATH = "src/content/manual/basics/a.mdx";
   const { backend, calls } = writeBackendFor({
@@ -859,9 +978,16 @@ test("deletePage: path missing everywhere — throws without committing", async 
 });
 
 test("publish: a non-'no commits' 422 from pulls.create is rethrown, not masked as nothing-to-publish", async () => {
-  // Minimal inline fake: no open PR, and pulls.create fails with a 422 that
-  // is NOT GitHub's "No commits between" — must propagate unchanged.
+  // Minimal inline fake: no open PR, no drafts branch (so
+  // `resetDraftsIfNoContentDiff` is skipped and `publish()` falls straight
+  // through to `pulls.create`), which fails with a 422 that is NOT GitHub's
+  // "No commits between" — must propagate unchanged.
   const fake = {
+    git: {
+      getRef: async () => {
+        throw notFound();
+      },
+    },
     pulls: {
       list: async () => ({ data: [] }),
       create: async () => {

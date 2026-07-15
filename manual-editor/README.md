@@ -153,7 +153,21 @@ until it's configured.
 Clicking "Publish" (`publish()`) opens a PR from `manual/editor-drafts` onto
 `release/audacity-4` (or returns the existing open one if there already is
 one) — it does not merge automatically. Merging is a manual step in GitHub,
-same as any other PR.
+same as any other PR. Any merge strategy works: a merge commit self-heals
+the drafts branch automatically (its history remains an ancestor-plus-more
+of base, so the next publish's diff naturally shrinks to nothing until
+there's a real new draft); a squash or rebase merge is handled by
+`publish()`'s automatic empty-diff reset — it detects that base and drafts
+have become content-identical despite divergent history and force-resets
+`manual/editor-drafts` to base's head before opening a redundant PR (see
+`OctokitBackend.publish`'s and `resetDraftsIfNoContentDiff`'s doc comments).
+
+Signing out of the editor ends the browser session (clears the
+`manual_editor_session` cookie) — it does **not** revoke the app's GitHub
+OAuth authorization. To fully revoke access (e.g. after a suspected token
+leak), remove the Audacity manual editor from
+<https://github.com/settings/applications> (under "Authorized OAuth Apps")
+on the GitHub account that signed in.
 
 Because the manual's content lives in the main site's repo
 (`src/content/manual/**`, `src/assets/img/manual/**`) and that PR targets the
