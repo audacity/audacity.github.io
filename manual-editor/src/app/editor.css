@@ -66,6 +66,132 @@ body {
   font-size: 0.9rem;
 }
 
+/* "+ New page" button: sits above the page list, full-width like the sidebar
+   entries it introduces. */
+.app-sidebar__new-page-button {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.app-sidebar__new-page-button:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.app-sidebar__new-page-button:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* New-page modal: centered card over a dim backdrop. */
+.new-page-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.new-page-dialog {
+  width: 100%;
+  max-width: 420px;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem 1.5rem;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.35);
+}
+
+.new-page-dialog h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.new-page-dialog__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.85rem;
+}
+
+.new-page-dialog__field label {
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.new-page-dialog__field input[type="text"] {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.new-page-dialog__preview {
+  margin: 0 0 0.85rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 5px;
+  background: #f1f5f9;
+  color: #475569;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+
+.new-page-dialog__error {
+  margin: 0 0 0.85rem;
+  color: #dc2626;
+  font-size: 0.85rem;
+}
+
+.new-page-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.new-page-dialog__actions button {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.new-page-dialog__actions button[type="submit"] {
+  border-color: #4f46e5;
+  background: #4f46e5;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.new-page-dialog__actions button[type="submit"]:hover {
+  background: #4338ca;
+}
+
+.new-page-dialog__actions button[type="button"]:hover {
+  background: #f1f5f9;
+}
+
 .app-sidebar nav h2 {
   margin: 1.1rem 0 0.35rem;
   font-size: 0.72rem;

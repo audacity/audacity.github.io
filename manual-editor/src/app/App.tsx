@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api as defaultApi, type makeApi } from "./api";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
+import { NewPageDialog } from "./NewPageDialog";
 import type { ManualPageMeta } from "../backend/types";
 
 export function App({
@@ -13,6 +14,7 @@ export function App({
   const [pages, setPages] = useState<ManualPageMeta[] | null>(null);
   const [activePath, setActivePath] = useState<string | null>(null);
   const [source, setSource] = useState<string | null>(null);
+  const [newPageDialogOpen, setNewPageDialogOpen] = useState(false);
 
   useEffect(() => {
     api.listPages().then(setPages);
@@ -33,6 +35,25 @@ export function App({
     api.listPages().then(setPages);
   }
 
+  // `NewPageDialog`'s submit handler: writes an empty draft doc at the
+  // composed path, re-fetches the page list (so the new draft-only page
+  // shows up in the sidebar per Task 1's `hasDraft`/draft-listing work),
+  // then opens it in the editor the same way clicking a sidebar entry does.
+  async function handleCreatePage({
+    path,
+    frontmatter,
+  }: {
+    path: string;
+    frontmatter: string;
+  }) {
+    const emptyDoc = { type: "doc", content: [{ type: "paragraph" }] };
+    await api.saveDraftDoc(path, emptyDoc, frontmatter);
+    const fresh = await api.listPages();
+    setPages(fresh);
+    handleSelect(path);
+    setNewPageDialogOpen(false);
+  }
+
   // Unique section names across the loaded page list, in first-seen order —
   // offered to `FrontmatterForm` as autocomplete for the Section field so an
   // edit can reuse an existing section instead of retyping it.
@@ -46,6 +67,15 @@ export function App({
       </header>
       <div className="app-body">
         <aside className="app-sidebar">
+          <button
+            type="button"
+            className="app-sidebar__new-page-button"
+            data-testid="new-page-button"
+            disabled={pages === null}
+            onClick={() => setNewPageDialogOpen(true)}
+          >
+            + New page
+          </button>
           {pages === null ? (
             <p className="app-sidebar__loading">Loading…</p>
           ) : (
@@ -72,6 +102,13 @@ export function App({
           )}
         </main>
       </div>
+      {newPageDialogOpen && pages !== null ? (
+        <NewPageDialog
+          pages={pages}
+          onCreate={handleCreatePage}
+          onCancel={() => setNewPageDialogOpen(false)}
+        />
+      ) : null}
     </div>
   );
 }
