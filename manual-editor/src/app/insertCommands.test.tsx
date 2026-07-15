@@ -23,7 +23,7 @@ import type { JsxAttr } from "../adapter/registry";
  * TextType` union, which is too narrow/awkward to destructure in a generic
  * test. `PMNodeJSON` (the adapter's own loosely-typed PM JSON shape) is a
  * strictly wider supertype of whatever `getJSON()` actually returns, so this
- * cast is sound — same pattern as `Toolbar.test.tsx`.
+ * cast is sound.
  */
 function getJSON(editor: TiptapEditor): PMNodeJSON {
   return editor.getJSON() as unknown as PMNodeJSON;
@@ -31,9 +31,8 @@ function getJSON(editor: TiptapEditor): PMNodeJSON {
 
 /**
  * Minimal harness mounting a real `useEditor` (same construction `Editor.tsx`
- * uses) with no `Toolbar` — these tests call the extracted `insertCommands`
- * functions directly against the live editor instance, same harness pattern
- * as `Toolbar.test.tsx`'s `TestHarness` but without the button layer.
+ * uses) — these tests call the extracted `insertCommands` functions
+ * directly against the live editor instance (no UI layer to drive through).
  */
 function TestHarness({
   source,

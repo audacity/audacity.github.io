@@ -5,8 +5,8 @@ import type { JsxAttr } from "../adapter/registry";
  * The five mdast components that map onto the `admonition` PM node (see
  * `registry.ts`'s `KNOWN_FLOW`). Only `Callout` carries a meaningful `type`;
  * the rest render as a static heading (`AdmonitionView`), so their insert
- * just needs the bare `component` name. Shared between `Toolbar.tsx` (which
- * still owns its own button labels) and `slash/slashItems.ts`.
+ * just needs the bare `component` name. Used by `slash/slashItems.ts` (its
+ * own labels, distinct from these component names).
  */
 export type AdmonitionComponent =
   | "Callout"

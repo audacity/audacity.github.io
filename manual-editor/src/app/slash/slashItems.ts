@@ -29,9 +29,9 @@ export interface SlashItem {
 
 /**
  * The full slash-command registry. Every `run` delegates to the shared
- * `insertCommands` functions (the same ones `Toolbar.tsx` uses), so slash
- * insert behavior is provably identical to the toolbar buttons that insert
- * the same content.
+ * `insertCommands` functions — the same ones the app's (now-retired)
+ * floating toolbar used to call — so slash insert behavior is provably
+ * identical to what the old toolbar buttons inserted.
  */
 export const SLASH_ITEMS: SlashItem[] = [
   {

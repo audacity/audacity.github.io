@@ -10,7 +10,6 @@ import { parseFrontmatter } from "../backend/frontmatter";
 import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
 import { FrontmatterForm } from "./FrontmatterForm";
-import { Toolbar } from "./Toolbar";
 import { api as defaultApi, type makeApi } from "./api";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
@@ -328,7 +327,6 @@ export function Editor({
       </div>
       <div className="editor-scroll">
         <EditorContent editor={editor} />
-        <Toolbar editor={editor} />
       </div>
     </div>
   );

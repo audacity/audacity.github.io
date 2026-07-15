@@ -2,7 +2,6 @@ import { expect, test } from "bun:test";
 import { Editor } from "@tiptap/core";
 import type { Range } from "@tiptap/core";
 import { buildAppExtensions } from "../editorExtensions";
-import { SlashCommand } from "./SlashCommand";
 import type { SlashCommandOptions } from "./SlashCommand";
 import { SLASH_ITEMS } from "./slashItems";
 import type { PMNodeJSON } from "../../adapter/mdastToDoc";
@@ -16,11 +15,17 @@ import type { PMNodeJSON } from "../../adapter/mdastToDoc";
  * covered here, is the extension's own wiring: `addOptions()` builds a
  * `suggestion.items`/`suggestion.command` pair that correctly delegates to
  * `filterSlashItems` and the selected item's `run(editor)`.
+ *
+ * `buildAppExtensions()` (wired up in Task 2) already includes `SlashCommand`
+ * — appending it again here would register the extension (and its
+ * `Suggestion` plugin, keyed `suggestion$`) twice and crash ProseMirror's
+ * `Configuration` on construction, so this reads the instance
+ * `buildAppExtensions()` itself builds rather than adding a second one.
  */
 function buildEditor() {
   const editor = new Editor({
     element: document.createElement("div"),
-    extensions: [...buildAppExtensions(), SlashCommand],
+    extensions: buildAppExtensions(),
     content: "<p>hello</p>",
   });
   const extension = editor.extensionManager.extensions.find(

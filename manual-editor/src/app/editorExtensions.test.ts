@@ -1,7 +1,8 @@
 import { expect, test } from "bun:test";
-import { getSchema } from "@tiptap/core";
+import { Editor, getSchema } from "@tiptap/core";
 import { buildExtensions } from "../adapter/schema";
 import { buildAppExtensions } from "./editorExtensions";
+import type { PMNodeJSON } from "../adapter/mdastToDoc";
 
 /**
  * `buildAppExtensions()` attaches React node views (D2) to `admonition` and
@@ -33,4 +34,36 @@ test("buildAppExtensions produces the same node/mark schema as buildExtensions",
       Object.keys(pureSpec.attrs ?? {}).sort(),
     );
   }
+});
+
+/**
+ * Migrated from the retired `Toolbar.tsx`'s "clicking Bold toggles the
+ * mark" test (Task 2 — the toolbar button is gone, but `toggleBold` is
+ * native `@tiptap/starter-kit` behavior riding on `buildAppExtensions()`'s
+ * schema, not custom app code, so it belongs here as a schema/extension
+ * sanity check rather than in `insertCommands.test.tsx` — `insertCommands.ts`
+ * only wraps the app's own custom inserts). Drives `editor.commands`
+ * directly instead of a button click, since there's no UI layer left to
+ * click through.
+ */
+test("toggleBold on a buildAppExtensions() editor marks subsequently inserted text as bold", () => {
+  const editor = new Editor({
+    element: document.createElement("div"),
+    extensions: buildAppExtensions(),
+    content: "<p>Some text.</p>",
+  });
+
+  editor.commands.focus("end");
+  editor.commands.toggleBold();
+  editor.commands.insertContent("bold-word");
+
+  const json = editor.getJSON() as unknown as PMNodeJSON;
+  const paragraph = json.content?.find((n) => n.type === "paragraph");
+  const boldTextNode = paragraph?.content?.find(
+    (n) => n.type === "text" && n.text === "bold-word",
+  );
+  expect(boldTextNode).toBeDefined();
+  expect(boldTextNode?.marks?.some((m) => m.type === "bold")).toBe(true);
+
+  editor.destroy();
 });

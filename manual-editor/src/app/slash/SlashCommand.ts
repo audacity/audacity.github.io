@@ -16,9 +16,9 @@ export interface SlashCommandOptions {
  * the user types a space) opens `SlashMenuList` via `renderSlashMenu`'s
  * glue. Selecting an item deletes the `/query` range and runs the item
  * against the live editor — the exact same `insertCommands`-backed
- * functions `Toolbar.tsx`'s buttons call.
+ * functions the (now-retired) `Toolbar.tsx` used to call from its buttons.
  *
- * Not wired into `buildAppExtensions()` yet — see Task 2.
+ * Wired into `buildAppExtensions()` in `editorExtensions.ts`.
  */
 export const SlashCommand = Extension.create<SlashCommandOptions>({
   name: "slashCommand",

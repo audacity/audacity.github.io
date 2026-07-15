@@ -5,6 +5,8 @@ import { AdmonitionView } from "./nodeviews/AdmonitionView";
 import { PreservedView } from "./nodeviews/PreservedView";
 import { ShortcutView } from "./nodeviews/ShortcutView";
 import { TabsView, TabView } from "./nodeviews/TabsView";
+import { LinkShortcut } from "./linkShortcut";
+import { SlashCommand } from "./slash/SlashCommand";
 
 /**
  * App-level extension list: the SAME ProseMirror schema as the pure adapter
@@ -12,7 +14,15 @@ import { TabsView, TabView } from "./nodeviews/TabsView";
  * `editor-mount.test.tsx`), but with React node views attached to
  * `admonition`, `shortcut`, `preserved`, `tabs` and `tab` so the live app
  * renders them as a styled box, keycaps, a read-only "preserved" card, and a
- * switchable tab strip, respectively, instead of bare content.
+ * switchable tab strip, respectively, instead of bare content. Also appends
+ * two plugin-only extensions with no schema footprint of their own —
+ * `SlashCommand` (the `/` insert menu) and `LinkShortcut` (⌘K to link the
+ * selection) — which is why they're appended after the `.map()` below rather
+ * than folded into it: they don't correspond to any node/mark
+ * `buildExtensions()` already builds, so there's nothing to `.extend()`.
+ * Since neither adds nodes or marks, `editorExtensions.test.ts`'s schema
+ * parity assertion (which only compares `buildExtensions()` against this
+ * function) is unaffected by their presence.
  *
  * Rather than redeclaring the node definitions here (which would risk the
  * two schemas drifting apart), this calls `.extend()` on the exact `Node`
@@ -22,7 +32,7 @@ import { TabsView, TabView } from "./nodeviews/TabsView";
  * `editorExtensions.test.ts` for the parity assertion.
  */
 export function buildAppExtensions(): Extensions {
-  return buildExtensions().map((extension) => {
+  const extensions = buildExtensions().map((extension) => {
     if (extension.name === "admonition") {
       return (extension as Node).extend({
         addNodeView() {
@@ -60,4 +70,6 @@ export function buildAppExtensions(): Extensions {
     }
     return extension;
   });
+
+  return [...extensions, SlashCommand, LinkShortcut];
 }
