@@ -12,8 +12,9 @@ export function json(body: unknown, status = 200): Response {
 /**
  * Resolves the signed-in session for a request, or `null` when there is
  * none — dev mode (`DEV_AUTH=1`) never has a cookie-backed session, so it
- * always reports `null` here (see `_shared.test.ts`/`resolveBackend.ts`'s
- * dev-mode `currentUser` reporting `{login:"dev", mode:"dev"}` instead).
+ * always reports `null` here (see `inMemoryBackend.ts`'s dev-mode
+ * `currentUser` reporting `{login:"dev", mode:"dev"}` instead, which F2's
+ * auth-me endpoint falls back to when `currentSession` is null).
  */
 export function currentSession(request: Request): Session | null {
   if (process.env.DEV_AUTH === "1") return null;
