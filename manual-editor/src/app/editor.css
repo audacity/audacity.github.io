@@ -116,7 +116,14 @@ body {
 .app-main {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem 2.5rem;
+  /* No top padding: the sticky toolbar pins flush to the pane's top edge
+     (top: 0) so scrolling content is fully covered, with no strip of
+     content peeking above it. Top spacing is applied to the first child. */
+  padding: 0 2.5rem 2rem;
+}
+
+.app-main > :first-child {
+  margin-top: 2rem;
 }
 
 .app-main__placeholder {
@@ -229,12 +236,20 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.9rem;
+  /* Stick to the top of the scrolling editor pane (.app-main) so the
+     formatting controls stay visible while editing further down the page.
+     top: 0 pins it flush to the pane's padding-box top; the pane's own
+     top padding gives the initial gap before it engages on scroll. */
+  position: sticky;
+  top: 0;
+  z-index: 20;
   margin: 0 auto 1rem;
-  padding: 0.5rem 0.6rem;
+  padding: 0.6rem;
   max-width: 720px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: #ffffff;
+  box-shadow: 0 2px 8px -4px rgba(15, 23, 42, 0.18);
 }
 
 .toolbar__group {
