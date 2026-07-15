@@ -131,6 +131,7 @@ const Preserved = Node.create({
     return {
       mdast: {
         default: null,
+        rendered: false,
       },
     };
   },
