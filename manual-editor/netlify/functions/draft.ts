@@ -1,4 +1,4 @@
-import { backendFor, json } from "./_shared";
+import { requireBackend, json } from "./_shared";
 import { docToSource } from "../../src/adapter/docToMdast";
 import type { PMNodeJSON } from "../../src/adapter/mdastToDoc";
 
@@ -65,7 +65,8 @@ export default async (request: Request): Promise<Response> => {
       400,
     );
   }
-  const backend = backendFor(request);
+  const backend = requireBackend(request);
+  if (backend instanceof Response) return backend;
   const source = await docToSource(doc as PMNodeJSON, unfence(frontmatter));
   await backend.saveDraft(
     [{ path, content: source }],

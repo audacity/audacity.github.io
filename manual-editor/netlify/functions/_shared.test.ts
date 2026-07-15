@@ -13,9 +13,13 @@
  * run order.
  */
 import { expect, test } from "bun:test";
-import { backendFor, currentSession } from "./_shared";
+import { backendFor, currentSession, requireBackend } from "./_shared";
 import { signSession, sessionCookie, type Session } from "./_session";
 import { OctokitBackend } from "../../src/backend/octokitBackend";
+import pagesHandler from "./pages";
+import pageHandler from "./page";
+import draftHandler from "./draft";
+import publishHandler from "./publish";
 
 const secret = "test-secret";
 const session: Session = { token: "real-token", login: "octocat" };
@@ -110,4 +114,116 @@ test("with DEV_AUTH=1, backendFor returns the dev backend and currentSession is 
     if (prevDevAuth === undefined) delete process.env.DEV_AUTH;
     else process.env.DEV_AUTH = prevDevAuth;
   }
+});
+
+// ---------------------------------------------------------------------------
+// requireBackend — the server-side 401 auth gate (Fix 1)
+// ---------------------------------------------------------------------------
+//
+// Before this gate, an unauthenticated request outside dev mode reached
+// `backendFor`'s `getBackend(session?.token ?? null)`, which — with no
+// token — falls back to the InMemory backend (`resolveBackend.ts`). On a
+// real deploy that backend's corpus directory doesn't exist, so the request
+// 500s with a misleading error instead of a clean 401. `requireBackend` is
+// the fix: every endpoint must call it instead of `backendFor` directly.
+
+test("requireBackend returns a 401 Response outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(() => {
+    const request = new Request("http://localhost/api/x");
+    const result = requireBackend(request);
+    expect(result).toBeInstanceOf(Response);
+    expect((result as Response).status).toBe(401);
+  });
+});
+
+test("requireBackend returns a 401 Response outside dev mode with an invalid session cookie", async () => {
+  await withNonDevEnv(() => {
+    const request = requestWithCookie(
+      "manual_editor_session=not-a-valid-value",
+    );
+    const result = requireBackend(request);
+    expect(result).toBeInstanceOf(Response);
+    expect((result as Response).status).toBe(401);
+  });
+});
+
+test("requireBackend resolves an OctokitBackend (not a Response) outside dev mode with a valid session cookie", async () => {
+  await withNonDevEnv(() => {
+    const signed = signSession(session, secret);
+    const cookie = sessionCookie(signed);
+    const cookieValue = cookie.split(";")[0];
+    const request = requestWithCookie(cookieValue);
+    const result = requireBackend(request);
+    expect(result).not.toBeInstanceOf(Response);
+    expect(result).toBeInstanceOf(OctokitBackend);
+  });
+});
+
+test("requireBackend is unaffected by DEV_AUTH=1: no cookie still resolves the dev backend, not a 401", () => {
+  // The global preload already sets DEV_AUTH=1.
+  const request = new Request("http://localhost/api/x");
+  const result = requireBackend(request);
+  expect(result).not.toBeInstanceOf(Response);
+});
+
+// ---------------------------------------------------------------------------
+// Endpoint-level 401 integration proof — one per gated handler, confirming
+// `requireBackend` is actually wired into `pages.ts`/`page.ts`/`draft.ts`/
+// `publish.ts` and not just unit-tested in isolation.
+// ---------------------------------------------------------------------------
+
+test("pages.ts GET returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await pagesHandler(new Request("http://localhost/api/pages"));
+    expect(res.status).toBe(401);
+  });
+});
+
+test("page.ts GET returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await pageHandler(
+      new Request(
+        "http://localhost/api/page?path=src/content/manual/basics/a.mdx",
+      ),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("page.ts DELETE returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await pageHandler(
+      new Request(
+        "http://localhost/api/page?path=src/content/manual/basics/a.mdx",
+        { method: "DELETE" },
+      ),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("draft.ts POST returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await draftHandler(
+      new Request("http://localhost/api/draft", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          path: "src/content/manual/basics/a.mdx",
+          doc: { type: "doc", content: [] },
+          frontmatter: "title: T\nsection: S",
+        }),
+      }),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("publish.ts POST returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await publishHandler(
+      new Request("http://localhost/api/publish", { method: "POST" }),
+    );
+    expect(res.status).toBe(401);
+  });
 });

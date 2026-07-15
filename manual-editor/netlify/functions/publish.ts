@@ -1,4 +1,4 @@
-import { backendFor, json } from "./_shared";
+import { requireBackend, json } from "./_shared";
 
 /**
  * `POST /api/publish` — opens (or reuses an already-open) PR from the
@@ -11,7 +11,8 @@ export default async (request: Request): Promise<Response> => {
   if (request.method !== "POST") {
     return json({ error: "method not allowed" }, 405);
   }
-  const backend = backendFor(request);
+  const backend = requireBackend(request);
+  if (backend instanceof Response) return backend;
   try {
     const result = await backend.publish();
     return json(result);

@@ -1,9 +1,10 @@
-import { backendFor, json } from "./_shared";
+import { requireBackend, json } from "./_shared";
 export default async (request: Request): Promise<Response> => {
   const url = new URL(request.url);
   const path = url.searchParams.get("path");
   if (!path) return json({ error: "path required" }, 400);
-  const backend = backendFor(request);
+  const backend = requireBackend(request);
+  if (backend instanceof Response) return backend;
   if (request.method === "DELETE") {
     try {
       await backend.deletePage(path);
