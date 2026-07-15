@@ -1015,3 +1015,105 @@ body {
 .tab__body > *:last-child {
   margin-bottom: 0;
 }
+
+/* Auth gate (`AuthGate.tsx`): full-viewport loading/sign-in/error states
+   shown in place of the app shell before `/api/auth-me` resolves. */
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.auth-signin,
+.auth-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f8fafc;
+}
+
+.auth-signin__card,
+.auth-error__card {
+  width: 100%;
+  max-width: 360px;
+  padding: 2rem 1.75rem;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.35);
+  text-align: center;
+}
+
+.auth-signin__title {
+  margin: 0 0 1.25rem;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.auth-signin__button {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-signin__button:hover {
+  background: #111827;
+}
+
+.auth-error__card p {
+  margin: 0 0 1rem;
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.auth-error__card button {
+  padding: 0.45rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-error__card button:hover {
+  background: #f1f5f9;
+}
+
+/* Top-bar user badge (`App.tsx`'s `.app-topbar__actions`): login name +
+   sign-out, shown once `AuthGate` has resolved a signed-in user. */
+.auth-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.auth-badge__login {
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.auth-badge__signout {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-badge__signout:hover {
+  background: #f1f5f9;
+}

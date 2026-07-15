@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { api as defaultApi, type makeApi } from "./api";
+import { api as defaultApi, type makeApi, type Me } from "./api";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
 import { NewPageDialog } from "./NewPageDialog";
@@ -24,9 +24,17 @@ function activeSlugFromPath(activePath: string | null): string | null {
 
 export function App({
   api = defaultApi,
+  user,
 }: {
   /** Injectable for tests; defaults to the real fetch-backed client. */
   api?: ReturnType<typeof makeApi>;
+  /**
+   * Supplied by `AuthGate` (see `main.tsx`) once `/api/auth-me` resolves;
+   * optional here so `App.test.tsx`'s direct `<App/>` renders (no
+   * `AuthGate` involved) are unaffected. `undefined` simply renders the
+   * top-bar actions empty, same as before this prop existed.
+   */
+  user?: Me;
 } = {}) {
   const [pages, setPages] = useState<ManualPageMeta[] | null>(null);
   const [activePath, setActivePath] = useState<string | null>(null);
@@ -39,6 +47,15 @@ export function App({
 
   function openNewPage(parent: ManualPageMeta | null) {
     setDialogParent(parent);
+  }
+
+  // Signs the session out and reloads: simplest way back to `AuthGate`'s
+  // sign-in card, since a fresh full-page load re-mounts `AuthGate` and
+  // re-runs its `/api/auth-me` check from scratch (now 401, cookie cleared).
+  function handleSignOut() {
+    api.logout().then(() => {
+      window.location.reload();
+    });
   }
 
   useEffect(() => {
@@ -111,7 +128,26 @@ export function App({
     <div className="app-shell">
       <header className="app-topbar">
         <h1 className="app-topbar__title">Audacity Manual Editor</h1>
-        <div className="app-topbar__actions" />
+        <div className="app-topbar__actions">
+          {user ? (
+            <div className="auth-badge">
+              <span
+                className="auth-badge__login"
+                data-testid="auth-badge-login"
+              >
+                {user.login}
+              </span>
+              <button
+                type="button"
+                className="auth-badge__signout"
+                data-testid="auth-signout"
+                onClick={handleSignOut}
+              >
+                Sign out
+              </button>
+            </div>
+          ) : null}
+        </div>
       </header>
       <div className="app-body">
         <aside className="app-sidebar">

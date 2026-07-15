@@ -4,12 +4,30 @@ import type {
   PublishResult,
 } from "../backend/types";
 
+export type Me = { login: string; mode: "dev" | "github" };
+
 export function makeApi(f: typeof fetch = fetch) {
   async function jsonOrThrow<T>(res: Response): Promise<T> {
     if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
     return (await res.json()) as T;
   }
   return {
+    /**
+     * `GET /api/auth-me`. A 401 means "no session" — a normal, expected
+     * outcome for a signed-out visitor — so it resolves to `null` rather
+     * than throwing. Any other non-ok status (network hiccup, 500, etc.) is
+     * a real failure and throws via `jsonOrThrow`, letting `AuthGate`
+     * distinguish "show the sign-in card" from "show a retry error".
+     */
+    me: (): Promise<Me | null> =>
+      f("/api/auth-me").then((r) => {
+        if (r.status === 401) return null;
+        return jsonOrThrow<Me>(r);
+      }),
+    logout: () =>
+      f("/api/auth-logout", { method: "POST" }).then((r) =>
+        jsonOrThrow<{ ok: true }>(r),
+      ),
     listPages: () =>
       f("/api/pages").then((r) => jsonOrThrow<ManualPageMeta[]>(r)),
     getPage: (path: string) =>
