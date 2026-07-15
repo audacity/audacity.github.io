@@ -9,7 +9,7 @@
     "build": "vite build",
     "test": "bun test",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.mdx.json && tsc --noEmit"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",

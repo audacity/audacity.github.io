@@ -1,0 +1,15 @@
+{
+  // DOM-free typecheck for the pure MDX engine (src/mdx must never grow
+  // browser dependencies). Run via `bun run typecheck`.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["bun-types"],
+    "noEmit": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/mdx"]
+}

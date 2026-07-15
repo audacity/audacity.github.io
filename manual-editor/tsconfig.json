@@ -1,14 +1,22 @@
 {
+  // The package-root tsconfig doubles as the config Vite/rolldown discovers
+  // per source file (nearest tsconfig covering the file). It must therefore
+  // cover EVERY file the client build transforms — src/app, src/adapter,
+  // src/backend, src/mdx — with no exclude, or the lookup walks up to the
+  // repo root's tsconfig (extends astro/tsconfigs/strict), which is not
+  // resolvable in the editor's isolated Netlify build. The mdx engine's
+  // stricter DOM-free check lives in tsconfig.mdx.json.
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strict": true,
     "skipLibCheck": true,
-    "types": ["bun-types"],
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["react", "react-dom", "bun-types", "vite/client"],
     "noEmit": true,
     "esModuleInterop": true
   },
-  "include": ["src"],
-  "exclude": ["src/app", "src/adapter", "src/backend"]
+  "include": ["src", "netlify/functions", "dev-server.ts"]
 }
