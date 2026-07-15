@@ -92,6 +92,7 @@ export function Editor({
   onDraftSaved,
   autosaveDelayMs = 1200,
   onEditorReady,
+  onAddSubpage,
 }: {
   source: string;
   path: string;
@@ -115,6 +116,8 @@ export function Editor({
   autosaveDelayMs?: number;
   /** Test-only hook exposing the live TipTap instance once created. */
   onEditorReady?: (editor: TiptapEditor) => void;
+  /** Called when the header's "Add sub-page" button is clicked. */
+  onAddSubpage: () => void;
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
@@ -225,6 +228,14 @@ export function Editor({
           sections={sections}
           onChange={handleFrontmatterChange}
         />
+        <button
+          type="button"
+          data-testid="editor-add-subpage"
+          className="editor-header__add-subpage"
+          onClick={onAddSubpage}
+        >
+          Add sub-page
+        </button>
         <span
           data-testid="save-status"
           className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}

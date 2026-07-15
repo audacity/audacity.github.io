@@ -91,6 +91,7 @@ export function App({
               pages={pages}
               onSelect={handleSelect}
               activePath={activePath}
+              onAddSubpage={(p) => openNewPage(p)}
             />
           )}
         </aside>
@@ -102,6 +103,10 @@ export function App({
               sections={sections}
               api={api}
               onDraftSaved={handleDraftSaved}
+              onAddSubpage={() => {
+                const meta = pages?.find((p) => p.path === activePath);
+                if (meta) openNewPage(meta);
+              }}
             />
           ) : (
             <p className="app-main__placeholder">

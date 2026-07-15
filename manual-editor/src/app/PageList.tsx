@@ -39,6 +39,7 @@ function TreeNodeRow({
   expanded,
   onToggle,
   onSelect,
+  onAddSubpage,
   activePath,
 }: {
   node: TreeNode;
@@ -46,6 +47,7 @@ function TreeNodeRow({
   expanded: Set<string>;
   onToggle: (slug: string) => void;
   onSelect: (path: string) => void;
+  onAddSubpage: (parent: ManualPageMeta) => void;
   activePath: string | null;
 }) {
   const hasChildren = node.children.length > 0;
@@ -89,6 +91,16 @@ function TreeNodeRow({
             </span>
           ) : null}
         </button>
+        <button
+          type="button"
+          data-testid={`add-subpage-${node.page.slug}`}
+          className="sidebar-tree__add"
+          title="Add sub-page"
+          aria-label={`Add sub-page under ${node.page.title}`}
+          onClick={() => onAddSubpage(node.page)}
+        >
+          +
+        </button>
       </div>
       {hasChildren && isOpen ? (
         <ul className="sidebar-tree">
@@ -100,6 +112,7 @@ function TreeNodeRow({
               expanded={expanded}
               onToggle={onToggle}
               onSelect={onSelect}
+              onAddSubpage={onAddSubpage}
               activePath={activePath}
             />
           ))}
@@ -113,10 +126,12 @@ export function PageList({
   pages,
   onSelect,
   activePath,
+  onAddSubpage,
 }: {
   pages: ManualPageMeta[];
   onSelect: (path: string) => void;
   activePath: string | null;
+  onAddSubpage: (parent: ManualPageMeta) => void;
 }) {
   const sections = buildManualTree(pages);
   const [expanded, setExpanded] = useState<Set<string>>(() => {
@@ -180,6 +195,7 @@ export function PageList({
                 expanded={expanded}
                 onToggle={toggle}
                 onSelect={onSelect}
+                onAddSubpage={onAddSubpage}
                 activePath={activePath}
               />
             ))}

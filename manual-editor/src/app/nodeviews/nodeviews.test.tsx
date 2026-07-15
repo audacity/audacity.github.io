@@ -44,7 +44,7 @@ macOS steps.
 `;
 
 test("tabs node view renders switchable headers and shows only the active panel", async () => {
-  render(<Editor source={source} path="tabs-test" />);
+  render(<Editor source={source} path="tabs-test" onAddSubpage={() => {}} />);
   const editorEl = await waitFor(() => screen.getByTestId("editor"));
 
   const tabs = await waitFor(() => within(editorEl).getByTestId("tabs"));
@@ -205,7 +205,9 @@ test("resolveActiveTabIndex clamps a stale stored index to the last live child",
 });
 
 test("preserved node view shows a read-only card with the component name and MDX source", async () => {
-  render(<Editor source={source} path="preserved-test" />);
+  render(
+    <Editor source={source} path="preserved-test" onAddSubpage={() => {}} />,
+  );
   const editorEl = await waitFor(() => screen.getByTestId("editor"));
 
   const preserved = await waitFor(() =>

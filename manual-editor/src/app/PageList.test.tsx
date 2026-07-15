@@ -28,7 +28,12 @@ const pages = [
 
 test("nests children under their parent and toggles expansion", () => {
   const { getByTestId, queryByTestId } = render(
-    <PageList pages={pages} onSelect={() => {}} activePath={null} />,
+    <PageList
+      pages={pages}
+      onSelect={() => {}}
+      activePath={null}
+      onAddSubpage={() => {}}
+    />,
   );
   // Parent visible; children collapsed (parent not on active path):
   expect(getByTestId("page-pmm")).toBeDefined();
@@ -44,6 +49,7 @@ test("auto-expands the active page's ancestors", () => {
       pages={pages}
       onSelect={() => {}}
       activePath="src/content/manual/pmm/home.mdx"
+      onAddSubpage={() => {}}
     />,
   );
   // Child is visible without manual expansion because it's the active page:
@@ -57,8 +63,23 @@ test("selecting a node calls onSelect with its path", () => {
       pages={pages}
       onSelect={(p) => selected.push(p)}
       activePath={null}
+      onAddSubpage={() => {}}
     />,
   );
   fireEvent.click(getByTestId("page-pmm"));
   expect(selected).toEqual(["src/content/manual/pmm.mdx"]);
+});
+
+test("clicking a node's add-subpage button calls onAddSubpage with that page", () => {
+  const added: string[] = [];
+  const { getByTestId } = render(
+    <PageList
+      pages={pages}
+      onSelect={() => {}}
+      activePath={null}
+      onAddSubpage={(p) => added.push(p.slug)}
+    />,
+  );
+  fireEvent.click(getByTestId("add-subpage-pmm"));
+  expect(added).toEqual(["pmm"]);
 });
