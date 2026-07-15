@@ -409,6 +409,86 @@ body {
   background: #f1f5f9;
 }
 
+/* Header "Delete page" action: plain state matches "Add sub-page"'s
+   secondary styling; disabled (children-block) and confirm (destructive)
+   states are called out below. */
+.editor-header__delete {
+  flex: 0 0 auto;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.editor-header__delete:hover:not(:disabled) {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.editor-header__delete:disabled {
+  color: #94a3b8;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+}
+
+/* Inline "Delete this page?" confirm — destructive red, replaces the plain
+   delete button in place until confirmed or cancelled. */
+.editor-header__delete-confirm {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.editor-header__delete-confirm-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.editor-header__delete-confirm-button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #dc2626;
+  border-radius: 5px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editor-header__delete-confirm-button:hover:not(:disabled) {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.editor-header__delete-confirm-button:disabled {
+  background: #f3a5a5;
+  border-color: #f3a5a5;
+  cursor: not-allowed;
+}
+
+.editor-header__delete-cancel-button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editor-header__delete-cancel-button:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
 /* Scrolling document region below the chrome header. */
 .editor-scroll {
   flex: 1;

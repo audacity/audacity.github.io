@@ -65,6 +65,8 @@ async function mountEditor(
         editor = created;
       }}
       onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
       {...overrides}
     />,
   );
@@ -155,6 +157,8 @@ test("unmounting before the debounce fires cancels the pending autosave", async 
         editor = created;
       }}
       onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
     />,
   );
   await waitFor(() => expect(editor).not.toBeNull());

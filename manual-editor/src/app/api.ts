@@ -42,6 +42,10 @@ export function makeApi(f: typeof fetch = fetch) {
       f("/api/publish", { method: "POST" }).then((r) =>
         jsonOrThrow<PublishResult>(r),
       ),
+    deletePage: (path: string) =>
+      f(`/api/page?path=${encodeURIComponent(path)}`, {
+        method: "DELETE",
+      }).then((r) => jsonOrThrow<{ ok: true }>(r)),
   };
 }
 

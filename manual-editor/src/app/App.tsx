@@ -5,6 +5,23 @@ import { PageList } from "./PageList";
 import { NewPageDialog } from "./NewPageDialog";
 import type { ManualPageMeta } from "../backend/types";
 
+const MANUAL_PREFIX = "src/content/manual/";
+
+/**
+ * Strips the content-collection path prefix/extension to recover the slug —
+ * mirrors `PageList.tsx`'s `activeSlugFromPath` (kept local rather than
+ * shared since both are small and independently testable).
+ */
+function activeSlugFromPath(activePath: string | null): string | null {
+  if (!activePath) return null;
+  let slug = activePath;
+  if (slug.startsWith(MANUAL_PREFIX)) {
+    slug = slug.slice(MANUAL_PREFIX.length);
+  }
+  slug = slug.replace(/\.mdx?$/, "");
+  return slug;
+}
+
 export function App({
   api = defaultApi,
 }: {
@@ -62,6 +79,29 @@ export function App({
     setDialogParent(undefined);
   }
 
+  // After a successful `Editor` header delete: the deleted page is gone, so
+  // clear the editor back to the placeholder view and re-fetch the page list
+  // (same "always re-fetch rather than patch locally" reasoning as
+  // `handleDraftSaved` above — the backend's listing already reflects the
+  // deletion by the time `onDeleted` fires).
+  function handleDeleted() {
+    setSource(null);
+    setActivePath(null);
+    api.listPages().then(setPages);
+  }
+
+  // The active page's children, derived from the flat page list: any other
+  // page whose slug is nested under the active page's slug. Passed to
+  // `Editor` to gate the header's delete action (deleting a parent would
+  // orphan its children in the tree).
+  const activeSlug = activeSlugFromPath(activePath);
+  const hasChildren =
+    activeSlug !== null &&
+    (pages?.some(
+      (p) => p.slug !== activeSlug && p.slug.startsWith(activeSlug + "/"),
+    ) ??
+      false);
+
   // Unique section names across the loaded page list, in first-seen order —
   // offered to `FrontmatterForm` as autocomplete for the Section field so an
   // edit can reuse an existing section instead of retyping it.
@@ -107,6 +147,8 @@ export function App({
                 const meta = pages?.find((p) => p.path === activePath);
                 if (meta) openNewPage(meta);
               }}
+              hasChildren={hasChildren}
+              onDeleted={handleDeleted}
             />
           ) : (
             <p className="app-main__placeholder">

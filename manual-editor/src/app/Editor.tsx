@@ -93,6 +93,8 @@ export function Editor({
   autosaveDelayMs = 1200,
   onEditorReady,
   onAddSubpage,
+  hasChildren,
+  onDeleted,
 }: {
   source: string;
   path: string;
@@ -118,6 +120,20 @@ export function Editor({
   onEditorReady?: (editor: TiptapEditor) => void;
   /** Called when the header's "Add sub-page" button is clicked. */
   onAddSubpage: () => void;
+  /**
+   * True when the active page has sub-pages. Blocks deletion (the header's
+   * "Delete page" button renders disabled with a guard tooltip) since
+   * deleting a parent would orphan its children in the tree.
+   */
+  hasChildren: boolean;
+  /**
+   * Called after a successful `api.deletePage(path)`. `App` responds by
+   * clearing `source`/`activePath`, which unmounts this `Editor` instance —
+   * the debounce effect above already cancels any in-flight/pending autosave
+   * on unmount (see its cleanup), so no extra guard is needed here for the
+   * delete-then-unmount sequence.
+   */
+  onDeleted: () => void;
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
@@ -126,6 +142,14 @@ export function Editor({
     "idle" | "dirty" | "saving" | "saved" | "error"
   >("idle");
   const [saveVersion, setSaveVersion] = useState(0);
+  // Header delete action's tiny local state machine: plain button ->
+  // (click) -> inline confirm -> (confirm) -> `api.deletePage` in flight ->
+  // success calls `onDeleted` (which unmounts this component via `App`
+  // clearing `source`), failure falls back to the plain button with
+  // `saveStatus` flipped to "error" (reusing the existing save-status
+  // styling rather than inventing a second error affordance).
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const doc = useMemo(() => {
     const { doc } = mdastToDoc(parseMdx(source));
@@ -199,6 +223,18 @@ export function Editor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveVersion, path]);
 
+  async function handleConfirmDelete() {
+    setDeleting(true);
+    try {
+      await api.deletePage(path);
+      onDeleted();
+    } catch {
+      setDeleting(false);
+      setConfirmingDelete(false);
+      setSaveStatus("error");
+    }
+  }
+
   function handleFrontmatterChange(next: FrontmatterData) {
     setFrontmatterData(next);
     onFrontmatterSourceReady?.(serializeFrontmatter(next));
@@ -236,6 +272,50 @@ export function Editor({
         >
           Add sub-page
         </button>
+        {hasChildren ? (
+          <button
+            type="button"
+            data-testid="editor-delete-page"
+            className="editor-header__delete"
+            disabled
+            title="Delete or move its sub-pages first"
+          >
+            Delete page
+          </button>
+        ) : confirmingDelete ? (
+          <span className="editor-header__delete-confirm">
+            <span className="editor-header__delete-confirm-label">
+              Delete this page?
+            </span>
+            <button
+              type="button"
+              data-testid="editor-delete-confirm"
+              className="editor-header__delete-confirm-button"
+              disabled={deleting}
+              onClick={handleConfirmDelete}
+            >
+              Delete
+            </button>
+            <button
+              type="button"
+              data-testid="editor-delete-cancel"
+              className="editor-header__delete-cancel-button"
+              disabled={deleting}
+              onClick={() => setConfirmingDelete(false)}
+            >
+              Cancel
+            </button>
+          </span>
+        ) : (
+          <button
+            type="button"
+            data-testid="editor-delete-page"
+            className="editor-header__delete"
+            onClick={() => setConfirmingDelete(true)}
+          >
+            Delete page
+          </button>
+        )}
         <span
           data-testid="save-status"
           className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}
