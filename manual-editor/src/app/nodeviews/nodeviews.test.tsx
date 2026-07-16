@@ -467,3 +467,61 @@ test("preserved node view shows a read-only card with the component name and MDX
   });
   expect(preserved.querySelector("pre")?.textContent).toContain("UIMap");
 });
+
+test("import-only ESM blocks are hidden, not shown as a preserved card", async () => {
+  const importSource = `import Callout from "../../../components/manual/Callout.astro";
+import Tabs from "../../../components/manual/Tabs/Tabs.astro";
+
+# Page
+
+<Callout type="info">
+
+Body text.
+
+</Callout>
+`;
+  render(
+    <Editor
+      source={importSource}
+      path="import-hide-test"
+      onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
+    />,
+  );
+  const editorEl = await waitFor(() => screen.getByTestId("editor"));
+
+  const hidden = await waitFor(() =>
+    within(editorEl).getByTestId("preserved-hidden-imports"),
+  );
+  expect(hidden.style.display).toBe("none");
+  expect(hidden.textContent).toBe("");
+  // no visible "Preserved" card for the import block
+  expect(within(editorEl).queryByTestId("preserved")).toBeNull();
+  // the content itself still renders and stays editable
+  expect(within(editorEl).getByTestId("admonition")).toBeTruthy();
+});
+
+test("ESM with more than imports still shows the preserved card", async () => {
+  const esmSource = `import Callout from "../../../components/manual/Callout.astro";
+export const answer = 42;
+
+# Page
+
+Text.
+`;
+  render(
+    <Editor
+      source={esmSource}
+      path="esm-card-test"
+      onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
+    />,
+  );
+  const editorEl = await waitFor(() => screen.getByTestId("editor"));
+  const preserved = await waitFor(() =>
+    within(editorEl).getByTestId("preserved"),
+  );
+  expect(preserved.getAttribute("data-preserved-name")).toBe("mdxjsEsm");
+});

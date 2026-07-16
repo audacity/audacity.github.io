@@ -40,6 +40,17 @@ function stringifyPreserved(node: PreservedMdastNode): string {
 }
 
 /**
+ * True when an `mdxjsEsm` node's source consists solely of `import`
+ * statements (and blank lines) — the "component imports" block every manual
+ * page carries. Exported for PreservedView tests.
+ */
+export function isImportOnlyEsm(node: PreservedMdastNode): boolean {
+  if (node.type !== "mdxjsEsm" || typeof node.value !== "string") return false;
+  const lines = node.value.split("\n").filter((l) => l.trim() !== "");
+  return lines.length > 0 && lines.every((l) => /^\s*import\b/.test(l.trim()));
+}
+
+/**
  * Node view for the `preserved` block atom: any mdast construct the
  * mdast<->PM adapter doesn't understand (see `registry.ts` / `mdastToDoc.ts`
  * `preserve()`). It carries the original mdast subtree verbatim in
@@ -51,6 +62,26 @@ export function PreservedView({ node }: ReactNodeViewProps) {
   const [showSource, setShowSource] = useState(false);
   const mdast = (node.attrs.mdast ?? { type: "unknown" }) as PreservedMdastNode;
   const label = preservedLabel(mdast);
+
+  // Import-only ESM blocks are plumbing, not content: the site's MDX needs
+  // its `import Callout from …` lines, but a writer should never see (or
+  // worry about) them. Hide the block entirely — it stays in the document
+  // and round-trips into the saved MDX like any preserved node, it just
+  // doesn't render. Safe even if a writer removes it via a block-selection
+  // sweep: `ensureComponentImports` (draft save, server-side) re-adds
+  // whatever the page's components need on the next save. ESM carrying
+  // anything BEYOND imports (exports, consts) still shows as a normal
+  // preserved card.
+  if (isImportOnlyEsm(mdast)) {
+    return (
+      <NodeViewWrapper
+        className="preserved preserved--hidden-imports"
+        data-testid="preserved-hidden-imports"
+        contentEditable={false}
+        style={{ display: "none" }}
+      />
+    );
+  }
 
   return (
     <NodeViewWrapper
