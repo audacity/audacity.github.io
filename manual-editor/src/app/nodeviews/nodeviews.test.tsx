@@ -64,8 +64,14 @@ test("tabs node view renders switchable headers and shows only the active panel"
   expect(panels[1]?.getAttribute("data-active")).toBe("false");
   expect(panels[0]?.textContent).toContain("Windows steps.");
 
-  const headers = within(tabs).getAllByRole("button");
-  expect(headers.map((h) => h.textContent)).toEqual(["Windows", "macOS"]);
+  // Header row also renders a trailing "+" add-tab button (see
+  // `TabsView.tsx`'s `data-testid="tabs-add-tab"`), so header-only assertions
+  // scope to `.tabs__header` rather than every button in the row.
+  const headers = tabs.querySelectorAll<HTMLButtonElement>(".tabs__header");
+  expect(Array.from(headers).map((h) => h.textContent)).toEqual([
+    "Windows",
+    "macOS",
+  ]);
 
   fireEvent.click(headers[1]!);
 
@@ -210,6 +216,60 @@ test("resolveActiveTabIndex clamps a stale stored index to the last live child",
   expect(resolveActiveTabIndex(2, 3)).toBe(2);
   expect(resolveActiveTabIndex(0, 1)).toBe(0);
   expect(resolveActiveTabIndex(5, 0)).toBe(-1);
+});
+
+test('"+" add-tab button appends a new tab at the end, labeled "New tab", and activates it', async () => {
+  let editor: TiptapEditor | null = null;
+  render(
+    <TestHarness
+      source={threeTabSource}
+      onReady={(created) => {
+        editor = created;
+      }}
+    />,
+  );
+  const editorEl = await waitFor(() => screen.getByTestId("editor"));
+  const tabs = await waitFor(() => within(editorEl).getByTestId("tabs"));
+
+  expect(within(tabs).getAllByTestId("tab")).toHaveLength(3);
+
+  const addButton = within(tabs).getByTestId("tabs-add-tab");
+  act(() => {
+    fireEvent.click(addButton);
+  });
+
+  await waitFor(() => {
+    expect(within(tabs).getAllByTestId("tab")).toHaveLength(4);
+  });
+
+  const panels = within(tabs).getAllByTestId("tab");
+  const activeFlags = panels.map((p) => p.getAttribute("data-active"));
+  // The newly appended (4th, last) tab is now the active one.
+  expect(activeFlags).toEqual(["false", "false", "false", "true"]);
+
+  const headers = tabs.querySelectorAll<HTMLButtonElement>(".tabs__header");
+  expect(headers[3]?.textContent).toBe("New tab");
+
+  // Underlying doc: a real `tab` node with a `label: "New tab"` attr and a
+  // single (empty) paragraph child, appended as the tabs node's last child —
+  // not just a DOM/store-level illusion.
+  expect(editor).not.toBeNull();
+  const liveEditor = editor as unknown as TiptapEditor;
+  let tabsNode: ReturnType<TiptapEditor["state"]["doc"]["nodeAt"]> = null;
+  liveEditor.state.doc.descendants((node) => {
+    if (node.type.name === "tabs") {
+      tabsNode = node;
+      return false;
+    }
+    return true;
+  });
+  expect(tabsNode).not.toBeNull();
+  const parentNode = tabsNode!;
+  expect(parentNode.childCount).toBe(4);
+  const newTab = parentNode.child(3);
+  expect(newTab.attrs.label).toBe("New tab");
+  expect(newTab.childCount).toBe(1);
+  expect(newTab.child(0).type.name).toBe("paragraph");
 });
 
 test("preserved node view shows a read-only card with the component name and MDX source", async () => {

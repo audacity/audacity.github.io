@@ -1182,15 +1182,33 @@ body {
   white-space: pre;
 }
 
-/* Tabs / Tab node views: platform switcher with editable panels. */
+/* Tabs / Tab node views: platform switcher with editable panels.
+   `.tabs` carries a quiet 1px container border + radius so the group's
+   extent (where it starts/ends) reads at a glance without competing for
+   attention with actual content — see the task's "keep it quiet" brief.
+   `overflow: hidden` clips the header row's own border-radius corners to
+   match the container's rather than squaring them off. */
 .tabs {
   margin: 1.25rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ProseMirror's own `NodeSelection` class, applied to the node view's DOM
+   root when the whole `tabs` block is selected (e.g. via the block handle) —
+   same pattern as `.image-block.ProseMirror-selectednode`. */
+.tabs.ProseMirror-selectednode {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
 }
 
 .tabs__headers {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.25rem;
+  padding: 0.35rem 0.5rem 0;
   border-bottom: 1px solid #e2e8f0;
 }
 
@@ -1214,8 +1232,32 @@ body {
   font-weight: 600;
 }
 
+/* "+" add-tab button: same subtle ghost-button treatment as the sidebar's
+   own quiet actions (`.editor-header__edit`/`.app-sidebar__new-page-button`)
+   — a light border and muted label, not a call-to-action. */
+.tabs__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0 0 0.3rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tabs__add:hover {
+  background: #f1f5f9;
+  color: #1f2937;
+}
+
 .tabs__body {
-  padding-top: 0.4rem;
+  padding: 0.75rem 1rem;
 }
 
 .tab[data-active="false"] {

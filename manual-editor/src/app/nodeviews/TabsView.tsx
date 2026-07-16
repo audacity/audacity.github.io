@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import type { ReactNodeViewProps } from "@tiptap/react";
 import {
@@ -7,6 +7,39 @@ import {
   setActiveTabIndex,
   subscribeActiveTabIndex,
 } from "./tabsActiveStore";
+
+/**
+ * Appends a new `tab` node — `{ attrs: { label: "New tab" }, content:
+ * [paragraph] }` — at the END of the `tabs` node starting at `tabsPos`, in
+ * one transaction, then activates it via `tabsActiveStore` so the newly
+ * added tab is immediately visible (matching what a user clicking "+" would
+ * expect — see the header's own new tab appearing selected, not silently
+ * added behind the current one).
+ *
+ * Insert position: `tabsPos + tabsNode.nodeSize - 1` — one position before
+ * the `tabs` node's own closing token, i.e. right after its last child,
+ * same "insert just inside the end" math `duplicateAction`/`moveNodeAt` (in
+ * `blockActions.ts`/`blockMove.ts`) use elsewhere for sibling-relative
+ * inserts, just anchored to the container's own end instead of another
+ * sibling's start/end.
+ */
+function addTab(editor: ReactNodeViewProps["editor"], tabsPos: number): void {
+  const { state } = editor;
+  const tabsNode = state.doc.nodeAt(tabsPos);
+  if (!tabsNode) return;
+
+  const paragraphType = state.schema.nodes.paragraph;
+  const tabType = state.schema.nodes.tab;
+  if (!paragraphType || !tabType) return;
+
+  const newTab = tabType.create({ label: "New tab" }, paragraphType.create());
+  const insertPos = tabsPos + tabsNode.nodeSize - 1;
+
+  const tr = state.tr.insert(insertPos, newTab);
+  editor.view.dispatch(tr);
+
+  setActiveTabIndex(editor, tabsPos, tabsNode.childCount);
+}
 
 /**
  * Node view for the `tabs` block node (maps to the `Tabs` mdast component;
@@ -29,6 +62,7 @@ import {
  */
 export function TabsView({ node, editor, getPos }: ReactNodeViewProps) {
   const tabsPos = getPos() ?? -1;
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const activeIndex = useSyncExternalStore(
     (onChange) => subscribeActiveTabIndex(editor, tabsPos, onChange),
@@ -60,8 +94,30 @@ export function TabsView({ node, editor, getPos }: ReactNodeViewProps) {
     }
   }, [activeIndex, clampedIndex, editor, tabsPos, labels.length]);
 
+  // Dispatches the insert (see `addTab` above) and, on a best-effort basis,
+  // focuses the new tab's label input once its `TabView` node view has
+  // mounted (a separate React root — see this file's top doc comment — so
+  // there's no ref to it available synchronously; `requestAnimationFrame`
+  // gives ProseMirror's own view update + React's node-view mount a turn to
+  // finish first). Falls back silently to "just the panel activates" (the
+  // task's documented minimum) if the input isn't found, e.g. under
+  // `requestAnimationFrame`-less test environments.
+  function handleAddTab() {
+    addTab(editor, tabsPos);
+    requestAnimationFrame(() => {
+      const inputs =
+        wrapperRef.current?.querySelectorAll<HTMLInputElement>(
+          ".tab__label-input",
+        );
+      const lastInput = inputs?.[inputs.length - 1];
+      lastInput?.focus();
+      lastInput?.select();
+    });
+  }
+
   return (
     <NodeViewWrapper
+      ref={wrapperRef}
       className="tabs"
       data-testid="tabs"
       data-active-index={clampedIndex}
@@ -78,6 +134,15 @@ export function TabsView({ node, editor, getPos }: ReactNodeViewProps) {
             {label || `Tab ${index + 1}`}
           </button>
         ))}
+        <button
+          type="button"
+          className="tabs__add"
+          data-testid="tabs-add-tab"
+          title="Add tab"
+          onClick={handleAddTab}
+        >
+          +
+        </button>
       </div>
       <NodeViewContent className="tabs__body" />
     </NodeViewWrapper>
