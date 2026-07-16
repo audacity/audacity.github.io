@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test";
 import { TEAM_ROSTER } from "./teamRoster.js";
 
 describe("TEAM_ROSTER", () => {
-  test("has exactly 11 members", () => {
-    expect(TEAM_ROSTER).toHaveLength(11);
+  test("has exactly 10 members", () => {
+    expect(TEAM_ROSTER).toHaveLength(10);
   });
 
   test("every member has required fields", () => {
