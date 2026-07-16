@@ -757,6 +757,105 @@ body {
   color: #dc2626;
 }
 
+/* Notion-style multi-block selection (`blockSelection.ts`): a top-level
+   block currently in the selection set gets a soft indigo tint + outline,
+   matching the app's existing indigo accent (drag handle, sidebar active
+   row, etc.) rather than the browser's native selection blue. Applied via a
+   ProseMirror node decoration, so it rides on the block's own DOM root the
+   same way `.ProseMirror-selectednode` does for a single selected atom. */
+.block-multiselected {
+  background: rgba(79, 70, 229, 0.08);
+  outline: 2px solid rgba(79, 70, 229, 0.35);
+  border-radius: 4px;
+}
+
+/* Floating batch-action bar (`SelectionBar.tsx`), shown once >=1 block is
+   selected. Bottom-CENTER of `.editor-frame` (`.editor-save-pill` owns the
+   bottom-right corner — the two never overlap) with the same pill chrome
+   (white card, soft border, shadow) as that save-status pill, just wider to
+   fit its row of buttons. */
+.selection-bar {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #dbe2ea;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow:
+    0 12px 28px -8px rgba(15, 23, 42, 0.28),
+    0 2px 6px -3px rgba(15, 23, 42, 0.18);
+}
+
+.selection-bar__count {
+  padding-left: 0.3rem;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.selection-bar__group {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid #e2e8f0;
+}
+
+.selection-bar__button {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.selection-bar__button:hover {
+  background: #f1f5f9;
+}
+
+.selection-bar__button--danger {
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.selection-bar__button--danger:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.selection-bar__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-left: 0.2rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.selection-bar__close:hover {
+  background: #f1f5f9;
+  color: #1f2937;
+}
+
 /* Frontmatter (page metadata) — laid out horizontally as a full-bleed chrome
    panel inside .editor-header, not a card within the document. */
 .frontmatter-form {

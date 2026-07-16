@@ -9,6 +9,7 @@ import { TabsView, TabView } from "./nodeviews/TabsView";
 import { LinkShortcut } from "./linkShortcut";
 import { SlashCommand } from "./slash/SlashCommand";
 import { BlockReorder } from "./blockMove";
+import { BlockSelection } from "./blockSelection";
 import { TabEnterGuard } from "./tabKeymap";
 
 /**
@@ -33,11 +34,16 @@ import { TabEnterGuard } from "./tabKeymap";
  * since it's an `Extension` bundling sub-extensions rather than a `Node`)
  * to recolor its bundled `dropcursor` to match the app's indigo accent —
  * `.configure()` only changes options, never the schema, so this is
- * likewise parity-safe. `TabEnterGuard` (from `./tabKeymap`) is appended
- * last, after `BlockReorder`, for the same plugin-ordering reason its own
- * doc comment explains — being last in this array is what lets its `Enter`
- * binding intercept before the core `Keymap` extension's default Enter
- * chain (`liftEmptyBlock`/`splitBlock`) ever runs.
+ * likewise parity-safe. `BlockSelection` (from `./blockSelection` — Notion-
+ * style multi-block selection: Cmd/Ctrl+Click toggle, Shift+Cmd/Ctrl+Click
+ * range-fill, Esc to clear, plus the batch turn-into/duplicate/delete
+ * commands the floating `SelectionBar` drives) is likewise plugin-only, so
+ * it's appended here too rather than folded into the `.map()` above.
+ * `TabEnterGuard` (from `./tabKeymap`) is appended last, after
+ * `BlockReorder`/`BlockSelection`, for the same plugin-ordering reason its
+ * own doc comment explains — being last in this array is what lets its
+ * `Enter` binding intercept before the core `Keymap` extension's default
+ * Enter chain (`liftEmptyBlock`/`splitBlock`) ever runs.
  *
  * Rather than redeclaring the node definitions here (which would risk the
  * two schemas drifting apart), this calls `.extend()` on the exact `Node`
@@ -103,6 +109,7 @@ export function buildAppExtensions(): Extensions {
     SlashCommand,
     LinkShortcut,
     BlockReorder,
+    BlockSelection,
     TabEnterGuard,
   ];
 }

@@ -28,7 +28,9 @@ import {
   registerImageContext,
 } from "./imageUpload";
 import { getBlockActions, type BlockAction } from "./blockActions";
+import { getSelectedBlocks } from "./blockSelection";
 import { HandleMenu } from "./HandleMenu";
+import { SelectionBar } from "./SelectionBar";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
 const DEFAULT_ORDER = 99;
@@ -394,6 +396,30 @@ export function Editor({
     [path],
   );
 
+  // The floating multi-block selection bar (`SelectionBar.tsx`,
+  // `blockSelection.ts`)'s live "N blocks selected" count. The selection
+  // itself lives entirely in the `blockSelection` ProseMirror plugin's own
+  // state (a `DecorationSet`, not React state — see that module's doc
+  // comment for why), so this component only needs a *read* of it to decide
+  // whether/what to render; `editor.on("transaction")` fires after EVERY
+  // dispatched transaction (content edits, selection-only toggle/range/clear
+  // metas, undo/redo — anything), which is what keeps this count in sync
+  // with clicks that never touch `editor.on("update")` (that event only
+  // fires for document-CHANGING transactions, and toggling a block into the
+  // selection dispatches a metadata-only transaction with no document
+  // change at all).
+  const [selectedBlockCount, setSelectedBlockCount] = useState(0);
+  useEffect(() => {
+    if (!editor) return;
+    const handleTransaction = () => {
+      setSelectedBlockCount(getSelectedBlocks(editor).length);
+    };
+    editor.on("transaction", handleTransaction);
+    return () => {
+      editor.off("transaction", handleTransaction);
+    };
+  }, [editor]);
+
   // Marks the doc dirty (and (re)arms the autosave debounce below) on every
   // content-changing transaction. Registered/torn down per `editor`
   // instance, which is recreated whenever `path` changes (see `useEditor`'s
@@ -611,6 +637,14 @@ export function Editor({
           anchorRect={handleMenu.anchorRect}
           onClose={() => setHandleMenu(null)}
         />
+      ) : null}
+      {/* Floating multi-block selection bar: bottom-center of `.editor-frame`
+          (the save pill above owns the bottom-right corner, so the two never
+          collide) — see `SelectionBar.tsx`. Unmounted outright (not just
+          hidden) while nothing's selected, same treatment as `handleMenu`
+          above. */}
+      {selectedBlockCount > 0 && editor ? (
+        <SelectionBar editor={editor} count={selectedBlockCount} />
       ) : null}
       {/* Floating save-status pill: anchored to the pane's bottom-right
           corner (`.editor-frame` is the positioning context) rather than
