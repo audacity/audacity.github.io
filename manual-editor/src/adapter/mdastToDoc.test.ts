@@ -144,3 +144,46 @@ test("an image nested inside strong is preserved with the containing paragraph",
   expect(mdast.type).toBe("paragraph");
   expect(doc.content!.some((n) => n.type === "image")).toBe(false);
 });
+
+test("a single-line Callout (inline mdxJsxTextElement) becomes an editable admonition", () => {
+  const { doc } = mdastToDoc(
+    parseMdx('<Callout type="info">Hello there</Callout>\n'),
+  );
+  const admon = doc.content!.find((n) => n.type === "admonition")!;
+  expect(admon).toBeDefined();
+  expect(admon.attrs!.component).toBe("Callout");
+  expect(admon.attrs!.type).toBe("info");
+  expect(admon.content![0]!.type).toBe("paragraph");
+  expect(admon.content![0]!.content![0]!.text).toBe("Hello there");
+  expect(doc.content!.some((n) => n.type === "preserved")).toBe(false);
+});
+
+test("a single-line Callout with a title attr and marks maps fully", () => {
+  const { doc } = mdastToDoc(
+    parseMdx(
+      '<Callout type="warning" title="Heads up">Very **bold** move</Callout>\n',
+    ),
+  );
+  const admon = doc.content!.find((n) => n.type === "admonition")!;
+  expect(admon.attrs!.title).toBe("Heads up");
+  const para = admon.content![0]!;
+  const bold = para.content!.find((n) =>
+    n.marks?.some((m) => m.type === "bold"),
+  );
+  expect(bold?.text).toBe("bold");
+});
+
+test("an inline Callout mid-sentence (other text around it) is still preserved whole", () => {
+  const { doc } = mdastToDoc(
+    parseMdx('Before <Callout type="info">inline</Callout> after\n'),
+  );
+  expect(doc.content![0]!.type).toBe("preserved");
+  expect(doc.content!.some((n) => n.type === "admonition")).toBe(false);
+});
+
+test("a single-line non-admonition component (Shortcut) does not become an admonition", () => {
+  const { doc } = mdastToDoc(
+    parseMdx('<Shortcut client:load keys="Space" />\n'),
+  );
+  expect(doc.content!.some((n) => n.type === "admonition")).toBe(false);
+});

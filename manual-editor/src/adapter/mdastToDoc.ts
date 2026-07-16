@@ -137,6 +137,18 @@ function mapBlock(node: RootContent): PMNodeJSON[] {
     }
     case "paragraph": {
       const n = node as Paragraph;
+      // A single-line admonition (`<Callout type="info">Hello there
+      // </Callout>`, no blank lines around the body) parses as an inline
+      // `mdxJsxTextElement` inside a paragraph rather than the block
+      // `mdxJsxFlowElement` the blank-lined form produces. The editor's
+      // OWN serializer emits exactly this form for an admonition whose
+      // body is one paragraph (the stringifier's sole-paragraph rule), so
+      // without this mapping a callout inserted in the editor became a
+      // locked `preserved` block on the very next load. Map it as the
+      // admonition it is; the round trip (admonition -> docToMdast ->
+      // sole-paragraph stringify -> this mapping) is byte-stable.
+      const soleAdmonition = mapSoleInlineAdmonition(n);
+      if (soleAdmonition) return [soleAdmonition];
       // RULE for inline content we can't safely represent (unknown JSX
       // like `mdxJsxTextElement`s not in KNOWN_INLINE, but also any other
       // phrasing type this module doesn't map — e.g. GFM `delete`
@@ -278,6 +290,44 @@ function splitInlineWithImages(
 
 function mapListItem(n: ListItem): PMNodeJSON {
   return { type: "listItem", content: mapBlocks(n.children) };
+}
+
+/**
+ * A paragraph whose entire content is ONE inline JSX element of the
+ * admonition family — the shape MDX produces for a single-line
+ * `<Callout type="info">Hello there</Callout>` (an `mdxJsxTextElement`
+ * inside a `paragraph`, unlike the blank-lined form's block-level
+ * `mdxJsxFlowElement`). Whitespace-only text siblings around the element
+ * are tolerated. Returns the mapped `admonition` PM node, or null when the
+ * paragraph is anything else — including when the element's own children
+ * contain inline content we can't represent (that case falls through to
+ * the caller's preserve rule, keeping the fidelity guarantee).
+ */
+function mapSoleInlineAdmonition(n: Paragraph): PMNodeJSON | null {
+  const significant = n.children.filter(
+    (c) => !(c.type === "text" && (c as Text).value.trim() === ""),
+  );
+  if (significant.length !== 1) return null;
+  const el = significant[0]!;
+  if (el.type !== "mdxJsxTextElement") return null;
+  const jsx = el as MdxJsxTextElement;
+  const name = jsx.name;
+  if (!name || !(name in KNOWN_FLOW)) return null;
+  const descriptor = KNOWN_FLOW[name as keyof typeof KNOWN_FLOW];
+  if (descriptor.pmType !== "admonition") return null;
+  if (jsx.children.some((c) => hasUnsupportedInline(c))) return null;
+  return {
+    type: "admonition",
+    attrs: {
+      component: name,
+      type: readStringAttr(jsx.attributes, "type"),
+      title: readStringAttr(jsx.attributes, "title"),
+    },
+    content: splitInlineWithImages(jsx.children, (content) => ({
+      type: "paragraph",
+      content,
+    })),
+  };
 }
 
 function mapFlowJsx(node: MdxJsxFlowElement): PMNodeJSON {
