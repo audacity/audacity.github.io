@@ -1,5 +1,6 @@
 import type {
   ManualPageMeta,
+  MovePageDest,
   PageContent,
   PublishResult,
 } from "../backend/types";
@@ -82,6 +83,28 @@ export function makeApi(f: typeof fetch = fetch) {
       f(`/api/page?path=${encodeURIComponent(path)}`, {
         method: "DELETE",
       }).then((r) => jsonOrThrow<{ ok: true }>(r)),
+    /** Sidebar drag & drop (see `treeDnd.ts`): batch-rewrites `order`
+     * frontmatter on one or more pages via `POST /api/reorder`. */
+    reorder: (updates: Array<{ path: string; order: number }>) =>
+      f("/api/reorder", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ updates }),
+      }).then((r) => jsonOrThrow<{ ok: true }>(r)),
+    /** Sidebar drag & drop (see `treeDnd.ts`): moves a page (and its
+     * descendants) to a new folder/section via `POST /api/move`. Returns
+     * just the old->new path mapping — callers that need to remap
+     * `activePath` (see `App.tsx`) look it up there. */
+    movePage: (path: string, dest: MovePageDest) =>
+      f("/api/move", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ path, dest }),
+      })
+        .then((r) =>
+          jsonOrThrow<{ moves: Array<{ from: string; to: string }> }>(r),
+        )
+        .then((body) => body.moves),
   };
 }
 

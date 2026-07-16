@@ -72,6 +72,16 @@ body {
   font-size: 0.9rem;
 }
 
+/* Transient drag & drop failure (a blocked move's 400/409 from the API —
+   see `App.tsx`'s `handleDropPlan`). Same treatment as the top bar's
+   publish error: plain inline text, no toast system. */
+.app-sidebar__drop-error {
+  margin: 0 0 0.5rem;
+  color: #b91c1c;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 /* "+ New page" button: sits above the page list, full-width like the sidebar
    entries it introduces. */
 .app-sidebar__new-page-button {
@@ -260,9 +270,57 @@ body {
 }
 
 .sidebar-tree__row {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 0.1rem;
+}
+
+/* Sidebar drag & drop (see `treeDnd.ts`/`PageList.tsx`). The dragged row
+   fades so its old slot reads as "in transit"; the hovered drop target gets
+   an indigo line above/below (before/after a sibling) or a full tint
+   (into — becoming that row's child). A blocked target (e.g. dropping a
+   page onto its own descendant) swaps the tint for a not-allowed cursor and
+   never reaches the API. */
+.sidebar-tree__row--dragging {
+  opacity: 0.4;
+}
+
+.sidebar-tree__row--drop-before::before,
+.sidebar-tree__row--drop-after::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: #4f46e5;
+}
+
+.sidebar-tree__row--drop-before::before {
+  top: -1px;
+}
+
+.sidebar-tree__row--drop-after::after {
+  bottom: -1px;
+}
+
+.sidebar-tree__row--drop-into {
+  background: #e0e7ff;
+  border-radius: 4px;
+}
+
+.sidebar-tree__row--drop-blocked {
+  cursor: not-allowed;
+}
+
+.sidebar-tree__row--drop-blocked.sidebar-tree__row--drop-into {
+  background: #fee2e2;
+}
+
+.sidebar-tree__row--drop-blocked.sidebar-tree__row--drop-before::before,
+.sidebar-tree__row--drop-blocked.sidebar-tree__row--drop-after::after {
+  background: #dc2626;
 }
 
 .sidebar-tree__row .sidebar-tree__page {

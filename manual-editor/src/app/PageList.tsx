@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type DragEvent } from "react";
 import type { ManualPageMeta } from "../backend/types";
 import { buildManualTree, type TreeNode } from "./manualTree";
+import { computeDrop, type DropPlan, type DropZone } from "./treeDnd";
 
 const MANUAL_PREFIX = "src/content/manual/";
 
@@ -33,6 +34,17 @@ function collectAncestorSlugs(
   }
 }
 
+/** A row is a "before"/"after" drop target when the pointer is in the top or
+ * bottom quarter of its height; the middle half is "into". */
+const EDGE_ZONE_RATIO = 0.25;
+
+function zoneFromPointerY(rect: DOMRect, clientY: number): DropZone {
+  const ratio = (clientY - rect.top) / rect.height;
+  if (ratio < EDGE_ZONE_RATIO) return "before";
+  if (ratio > 1 - EDGE_ZONE_RATIO) return "after";
+  return "into";
+}
+
 function TreeNodeRow({
   node,
   depth,
@@ -41,6 +53,12 @@ function TreeNodeRow({
   onSelect,
   onAddSubpage,
   activePath,
+  draggedSlug,
+  dropTarget,
+  onRowDragStart,
+  onRowDragOver,
+  onRowDrop,
+  onRowDragEnd,
 }: {
   node: TreeNode;
   depth: number;
@@ -49,12 +67,33 @@ function TreeNodeRow({
   onSelect: (path: string) => void;
   onAddSubpage: (parent: ManualPageMeta) => void;
   activePath: string | null;
+  draggedSlug: string | null;
+  dropTarget: { slug: string; zone: DropZone; blocked: boolean } | null;
+  onRowDragStart: (slug: string) => void;
+  onRowDragOver: (e: DragEvent<HTMLDivElement>, slug: string) => void;
+  onRowDrop: (slug: string) => void;
+  onRowDragEnd: () => void;
 }) {
   const hasChildren = node.children.length > 0;
   const isOpen = expanded.has(node.page.slug);
+  const isDragging = draggedSlug === node.page.slug;
+  const isDropTarget = dropTarget?.slug === node.page.slug;
+  const rowClasses = ["sidebar-tree__row"];
+  if (isDragging) rowClasses.push("sidebar-tree__row--dragging");
+  if (isDropTarget) {
+    rowClasses.push(`sidebar-tree__row--drop-${dropTarget.zone}`);
+    if (dropTarget.blocked) rowClasses.push("sidebar-tree__row--drop-blocked");
+  }
   return (
     <li className="sidebar-tree__item" data-depth={depth}>
-      <div className="sidebar-tree__row">
+      <div
+        className={rowClasses.join(" ")}
+        onDragOver={(e) => onRowDragOver(e, node.page.slug)}
+        onDrop={(e) => {
+          e.preventDefault();
+          onRowDrop(node.page.slug);
+        }}
+      >
         {hasChildren ? (
           <button
             type="button"
@@ -78,6 +117,13 @@ function TreeNodeRow({
           data-testid={`page-${node.page.slug}`}
           className="sidebar-tree__page"
           aria-current={node.page.path === activePath}
+          draggable
+          onDragStart={(e) => {
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.setData("text/plain", node.page.slug);
+            onRowDragStart(node.page.slug);
+          }}
+          onDragEnd={onRowDragEnd}
           onClick={() => onSelect(node.page.path)}
         >
           {node.page.title}
@@ -114,6 +160,12 @@ function TreeNodeRow({
               onSelect={onSelect}
               onAddSubpage={onAddSubpage}
               activePath={activePath}
+              draggedSlug={draggedSlug}
+              dropTarget={dropTarget}
+              onRowDragStart={onRowDragStart}
+              onRowDragOver={onRowDragOver}
+              onRowDrop={onRowDrop}
+              onRowDragEnd={onRowDragEnd}
             />
           ))}
         </ul>
@@ -127,13 +179,56 @@ export function PageList({
   onSelect,
   activePath,
   onAddSubpage,
+  onDropPlan,
 }: {
   pages: ManualPageMeta[];
   onSelect: (path: string) => void;
   activePath: string | null;
   onAddSubpage: (parent: ManualPageMeta) => void;
+  onDropPlan: (plan: DropPlan) => void;
 }) {
   const sections = buildManualTree(pages);
+  const [draggedSlug, setDraggedSlug] = useState<string | null>(null);
+  const [dropTarget, setDropTarget] = useState<{
+    slug: string;
+    zone: DropZone;
+    blocked: boolean;
+  } | null>(null);
+
+  function handleRowDragStart(slug: string) {
+    setDraggedSlug(slug);
+  }
+
+  function handleRowDragOver(e: DragEvent<HTMLDivElement>, slug: string) {
+    if (!draggedSlug || draggedSlug === slug) return;
+    // Required so the browser treats this row as a valid drop target.
+    e.preventDefault();
+    const zone = zoneFromPointerY(
+      e.currentTarget.getBoundingClientRect(),
+      e.clientY,
+    );
+    const plan = computeDrop(pages, draggedSlug, slug, zone);
+    setDropTarget({ slug, zone, blocked: plan.kind === "blocked" });
+  }
+
+  function handleRowDrop(slug: string) {
+    if (draggedSlug && dropTarget && dropTarget.slug === slug) {
+      const plan = computeDrop(pages, draggedSlug, slug, dropTarget.zone);
+      // Blocked plans never reach the API — the row's cursor/tint already
+      // signaled the refusal while hovering.
+      if (plan.kind !== "blocked") {
+        onDropPlan(plan);
+      }
+    }
+    setDraggedSlug(null);
+    setDropTarget(null);
+  }
+
+  function handleRowDragEnd() {
+    setDraggedSlug(null);
+    setDropTarget(null);
+  }
+
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     const seed = new Set<string>();
     const activeSlug = activeSlugFromPath(activePath);
@@ -197,6 +292,12 @@ export function PageList({
                 onSelect={onSelect}
                 onAddSubpage={onAddSubpage}
                 activePath={activePath}
+                draggedSlug={draggedSlug}
+                dropTarget={dropTarget}
+                onRowDragStart={handleRowDragStart}
+                onRowDragOver={handleRowDragOver}
+                onRowDrop={handleRowDrop}
+                onRowDragEnd={handleRowDragEnd}
               />
             ))}
           </ul>

@@ -3,6 +3,7 @@ import { api as defaultApi, type makeApi, type Me } from "./api";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
 import { NewPageDialog } from "./NewPageDialog";
+import type { DropPlan } from "./treeDnd";
 import type { ManualPageMeta, PublishResult } from "../backend/types";
 
 const MANUAL_PREFIX = "src/content/manual/";
@@ -57,6 +58,7 @@ export function App({
     null,
   );
   const [publishError, setPublishError] = useState<string | null>(null);
+  const [dropError, setDropError] = useState<string | null>(null);
   // `undefined` = dialog closed; `null` = open for a new top-level page;
   // a `ManualPageMeta` = open for a new child of that page.
   const [dialogParent, setDialogParent] = useState<
@@ -105,6 +107,45 @@ export function App({
     setActivePath(path);
     setSource(null);
     api.getPage(path).then((page) => setSource(page.source));
+  }
+
+  // `PageList`'s `onDropPlan` (see `treeDnd.ts`'s `computeDrop`): executes
+  // whatever the drop resolved to, then re-fetches the page list so the
+  // sidebar reflects the new order/parent. A "move" plan may carry a
+  // same-list `alsoReorder` batch (renumbering the OTHER members of the
+  // destination arrangement) that must land after the move itself. If the
+  // page currently open got moved, `moves` (old->new path pairs, moved page
+  // first, descendants included) tells us its new path — reselect it via
+  // `handleSelect` so the open editor re-fetches the now-correct source
+  // (the move rewrites that page's own frontmatter) rather than pointing at
+  // a path that no longer exists.
+  async function handleDropPlan(plan: DropPlan) {
+    if (plan.kind === "noop") return;
+    if (plan.kind === "blocked") {
+      setDropError(plan.reason);
+      return;
+    }
+    setDropError(null);
+    try {
+      if (plan.kind === "reorder") {
+        await api.reorder(plan.updates);
+      } else {
+        const moves = await api.movePage(plan.path, plan.dest);
+        if (plan.alsoReorder.length > 0) {
+          await api.reorder(plan.alsoReorder);
+        }
+        const hit = activePath
+          ? moves.find((m) => m.from === activePath)
+          : undefined;
+        if (hit && hit.to !== activePath) {
+          handleSelect(hit.to);
+        }
+      }
+      api.listPages().then(setPages);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setDropError(stripStatusPrefix(message));
+    }
   }
 
   // After a successful autosave (see `Editor`'s debounce effect), re-fetch
@@ -229,6 +270,11 @@ export function App({
           >
             + New page
           </button>
+          {dropError ? (
+            <p className="app-sidebar__drop-error" data-testid="drop-error">
+              {dropError}
+            </p>
+          ) : null}
           {pages === null ? (
             <p className="app-sidebar__loading">Loading…</p>
           ) : (
@@ -237,6 +283,7 @@ export function App({
               onSelect={handleSelect}
               activePath={activePath}
               onAddSubpage={(p) => openNewPage(p)}
+              onDropPlan={handleDropPlan}
             />
           )}
         </aside>

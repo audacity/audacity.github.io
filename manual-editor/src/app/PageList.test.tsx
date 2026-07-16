@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import { PageList } from "./PageList";
 import type { ManualPageMeta } from "../backend/types";
 
@@ -33,6 +33,7 @@ test("nests children under their parent and toggles expansion", () => {
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={() => {}}
+      onDropPlan={() => {}}
     />,
   );
   // Parent visible; children collapsed (parent not on active path):
@@ -50,6 +51,7 @@ test("auto-expands the active page's ancestors", () => {
       onSelect={() => {}}
       activePath="src/content/manual/pmm/home.mdx"
       onAddSubpage={() => {}}
+      onDropPlan={() => {}}
     />,
   );
   // Child is visible without manual expansion because it's the active page:
@@ -64,6 +66,7 @@ test("selecting a node calls onSelect with its path", () => {
       onSelect={(p) => selected.push(p)}
       activePath={null}
       onAddSubpage={() => {}}
+      onDropPlan={() => {}}
     />,
   );
   fireEvent.click(getByTestId("page-pmm"));
@@ -78,8 +81,112 @@ test("clicking a node's add-subpage button calls onAddSubpage with that page", (
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={(p) => added.push(p.slug)}
+      onDropPlan={() => {}}
     />,
   );
   fireEvent.click(getByTestId("add-subpage-pmm"));
   expect(added).toEqual(["pmm"]);
+});
+
+/**
+ * Task 2: drag & drop. Page buttons are `draggable`; a full drag ->
+ * dragover -> drop sequence over a sibling computes a `DropPlan` (via
+ * `treeDnd.ts`'s `computeDrop`, same pure logic exercised directly in
+ * `treeDnd.test.ts`) and hands it to `onDropPlan`.
+ *
+ * `dataTransfer` round-trips fine through `fireEvent.dragStart`/`.drop` in
+ * this happy-dom setup (confirmed experimentally: the event that arrives
+ * carries a working `DataTransfer`-shaped object). `dragover` is different:
+ * `PageList`'s zone math needs `event.clientY`, but `fireEvent.dragOver(el,
+ * { clientY })` here produces a plain `Event` with no mouse-position
+ * properties at all (verified by inspecting what the listener actually
+ * receives) — `clientY` never makes it through, regardless of what's passed
+ * in the second argument. Dispatching a real `MouseEvent("dragover", {
+ * clientY, bubbles: true })` directly (wrapped in `act` since it's not a
+ * `fireEvent` call) sidesteps that and reaches the handler correctly; React
+ * only cares that a "dragover"-named native event arrived with the expected
+ * properties; it doesn't require an actual `DragEvent` instance.
+ */
+function dataTransferStub() {
+  return { effectAllowed: "", setData: () => {}, getData: () => "" };
+}
+
+/** `PageList`'s row rects are all-zero under happy-dom, so the sign of
+ * `clientY` alone (relative to a zero top/height) is what selects the zone:
+ * negative -> "before", positive -> "after", zero -> "into" (see
+ * `zoneFromPointerY` in `PageList.tsx`). */
+function dragOver(row: Element, clientY: number) {
+  act(() => {
+    row.dispatchEvent(
+      new MouseEvent("dragover", { bubbles: true, cancelable: true, clientY }),
+    );
+  });
+}
+
+test("page buttons are draggable", () => {
+  const { getByTestId } = render(
+    <PageList
+      pages={pages}
+      onSelect={() => {}}
+      activePath={null}
+      onAddSubpage={() => {}}
+      onDropPlan={() => {}}
+    />,
+  );
+  expect(getByTestId("page-pmm").getAttribute("draggable")).toBe("true");
+});
+
+test("dragging a root page and dropping it after a sibling invokes onDropPlan with a reorder plan", () => {
+  const rootPages = [page("a", { order: 1 }), page("b", { order: 2 })];
+  const plans: unknown[] = [];
+  const { getByTestId } = render(
+    <PageList
+      pages={rootPages}
+      onSelect={() => {}}
+      activePath={null}
+      onAddSubpage={() => {}}
+      onDropPlan={(plan) => plans.push(plan)}
+    />,
+  );
+
+  fireEvent.dragStart(getByTestId("page-a"), {
+    dataTransfer: dataTransferStub(),
+  });
+  const targetRow = getByTestId("page-b").closest(".sidebar-tree__row")!;
+  dragOver(targetRow, 10); // positive -> "after"
+  fireEvent.drop(targetRow);
+
+  expect(plans).toEqual([
+    {
+      kind: "reorder",
+      updates: [
+        { path: "src/content/manual/b.mdx", order: 1 },
+        { path: "src/content/manual/a.mdx", order: 2 },
+      ],
+    },
+  ]);
+});
+
+test("dropping a page onto its own descendant is blocked and never calls onDropPlan", () => {
+  const plans: unknown[] = [];
+  const { getByTestId } = render(
+    <PageList
+      pages={pages}
+      onSelect={() => {}}
+      activePath={null}
+      onAddSubpage={() => {}}
+      onDropPlan={(plan) => plans.push(plan)}
+    />,
+  );
+
+  fireEvent.click(getByTestId("toggle-pmm"));
+  fireEvent.dragStart(getByTestId("page-pmm"), {
+    dataTransfer: dataTransferStub(),
+  });
+  const targetRow = getByTestId("page-pmm/home").closest(".sidebar-tree__row")!;
+  dragOver(targetRow, 0); // "into" zone; blocked regardless — pmm/home is pmm's own descendant
+  expect(targetRow.className).toContain("sidebar-tree__row--drop-blocked");
+
+  fireEvent.drop(targetRow);
+  expect(plans).toEqual([]);
 });
