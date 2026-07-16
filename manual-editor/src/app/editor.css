@@ -209,7 +209,7 @@ body {
 }
 
 .app-sidebar nav h2 {
-  margin: 1.1rem 0 0.35rem;
+  margin: 0;
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -217,8 +217,49 @@ body {
   color: #64748b;
 }
 
-.app-sidebar nav section:first-of-type h2 {
+/* Section group header row: title + the hover-revealed per-section "+"
+   (PageList's `onAddToSection`). The h2's old vertical margins live here
+   now so the "+" stays vertically centered against the title. */
+.sidebar-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  margin: 1.1rem 0 0.35rem;
+}
+
+.app-sidebar nav section:first-of-type .sidebar-section__header {
   margin-top: 0.25rem;
+}
+
+/* Invisible until the header row is hovered or the button itself is
+   keyboard-focused — same subtle-until-hover treatment as the per-page
+   sub-page "+" and the drag handles. */
+.sidebar-section__add {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.sidebar-section__header:hover .sidebar-section__add,
+.sidebar-section__add:focus-visible {
+  opacity: 1;
+}
+
+.sidebar-section__add:hover {
+  background: #e2e8f0;
+  color: #0f172a;
 }
 
 .app-sidebar nav ul {

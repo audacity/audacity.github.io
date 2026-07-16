@@ -59,14 +59,20 @@ export function App({
   );
   const [publishError, setPublishError] = useState<string | null>(null);
   const [dropError, setDropError] = useState<string | null>(null);
-  // `undefined` = dialog closed; `null` = open for a new top-level page;
-  // a `ManualPageMeta` = open for a new child of that page.
-  const [dialogParent, setDialogParent] = useState<
-    ManualPageMeta | null | undefined
-  >(undefined);
+  // What the new-page dialog is creating (`null` = dialog closed):
+  // "top" = a page anywhere (the sidebar's global "+ New page"),
+  // "child" = a sub-page of `parent` (per-page and editor-header "+"),
+  // "section" = a top-level page prefilled for a sidebar group (the
+  // per-section header "+").
+  const [newPageIntent, setNewPageIntent] = useState<
+    | { kind: "top" }
+    | { kind: "child"; parent: ManualPageMeta }
+    | { kind: "section"; section: string }
+    | null
+  >(null);
 
   function openNewPage(parent: ManualPageMeta | null) {
-    setDialogParent(parent);
+    setNewPageIntent(parent ? { kind: "child", parent } : { kind: "top" });
   }
 
   // Signs the session out and reloads: simplest way back to `AuthGate`'s
@@ -173,7 +179,7 @@ export function App({
     const fresh = await api.listPages();
     setPages(fresh);
     handleSelect(path);
-    setDialogParent(undefined);
+    setNewPageIntent(null);
   }
 
   // After a successful `Editor` header delete: the deleted page is gone, so
@@ -283,6 +289,9 @@ export function App({
               onSelect={handleSelect}
               activePath={activePath}
               onAddSubpage={(p) => openNewPage(p)}
+              onAddToSection={(section) =>
+                setNewPageIntent({ kind: "section", section })
+              }
               onDropPlan={handleDropPlan}
             />
           )}
@@ -310,12 +319,17 @@ export function App({
           )}
         </main>
       </div>
-      {dialogParent !== undefined && pages !== null ? (
+      {newPageIntent !== null && pages !== null ? (
         <NewPageDialog
           pages={pages}
-          parent={dialogParent ?? undefined}
+          parent={
+            newPageIntent.kind === "child" ? newPageIntent.parent : undefined
+          }
+          sectionPrefill={
+            newPageIntent.kind === "section" ? newPageIntent.section : undefined
+          }
           onCreate={handleCreatePage}
-          onCancel={() => setDialogParent(undefined)}
+          onCancel={() => setNewPageIntent(null)}
         />
       ) : null}
     </div>

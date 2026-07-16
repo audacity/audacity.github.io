@@ -75,6 +75,25 @@ function folderOf(path: string): string | null {
   return rest.slice(0, lastSlash);
 }
 
+/**
+ * The folder a new page in `section` should default to: the folder of the
+ * section's first page in `pages`' existing order (the API returns pages
+ * pre-sorted by sectionOrder/section/order, so "first" is the section's
+ * top entry as the sidebar shows it). A section can span several folders
+ * (frontmatter `section` and file location are independent — e.g.
+ * "Audacity Basics" holds both `audacity-basics/` and `basics/` today), so
+ * "where the section's pages start" beats guessing from the section name.
+ * Returns null for a section with no pages (can't happen from the sidebar,
+ * where sections are derived from pages) or whose first page has no folder.
+ */
+export function primaryFolderForSection(
+  pages: { path: string; section: string }[],
+  section: string,
+): string | null {
+  const first = pages.find((p) => p.section === section);
+  return first ? folderOf(first.path) : null;
+}
+
 /** Unique folder prefixes present across `pages`, in first-seen order. */
 export function existingFolders(pages: { path: string }[]): string[] {
   const folders = new Set<string>();

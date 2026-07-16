@@ -5,6 +5,7 @@ import {
   buildNewPagePath,
   existingFolders,
   nextOrder,
+  primaryFolderForSection,
   sectionOrderFor,
   slugify,
   slugifyFolder,
@@ -27,6 +28,7 @@ const LOCATION_LIST_ID = "new-page-dialog-locations";
 export function NewPageDialog({
   pages,
   parent,
+  sectionPrefill,
   onCreate,
   onCancel,
 }: {
@@ -39,12 +41,28 @@ export function NewPageDialog({
    * — there's no existing instance to resync.
    */
   parent?: ManualPageMeta;
+  /**
+   * When set (mutually exclusive with `parent` — the sidebar's per-section
+   * "+" passes it), the dialog is creating a top-level page in that group:
+   * Section starts prefilled with it and Location with the folder the
+   * section's pages already live in (`primaryFolderForSection`), so the
+   * writer typically only types a title.
+   */
+  sectionPrefill?: string;
   onCreate: (result: { path: string; frontmatter: string }) => void;
   onCancel: () => void;
 }) {
   const [title, setTitle] = useState("");
-  const [section, setSection] = useState(() => parent?.section ?? "");
-  const [location, setLocation] = useState(() => parent?.slug ?? "");
+  const [section, setSection] = useState(
+    () => parent?.section ?? sectionPrefill ?? "",
+  );
+  const [location, setLocation] = useState(
+    () =>
+      parent?.slug ??
+      (sectionPrefill
+        ? (primaryFolderForSection(pages, sectionPrefill) ?? "")
+        : ""),
+  );
   const [error, setError] = useState<string | null>(null);
 
   const sections = [...new Set(pages.map((p) => p.section))];
@@ -93,7 +111,11 @@ export function NewPageDialog({
         data-testid="new-page-dialog"
       >
         <h2 id="new-page-dialog-heading">
-          {parent ? `New sub-page of ${parent.title}` : "New page"}
+          {parent
+            ? `New sub-page of ${parent.title}`
+            : sectionPrefill
+              ? `New page in ${sectionPrefill}`
+              : "New page"}
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="new-page-dialog__field">

@@ -145,3 +145,48 @@ test("a valid submit calls onCreate with the composed path and frontmatter conta
   expect(created!.frontmatter).toContain("title: Recording Voiceover");
   expect(created!.frontmatter).toContain("section: Basics");
 });
+
+test("with sectionPrefill, pre-fills Section and Location from the section's first page", () => {
+  render(
+    <NewPageDialog
+      pages={pages}
+      sectionPrefill="Audio Editing"
+      onCreate={() => {}}
+      onCancel={() => {}}
+    />,
+  );
+
+  expect(screen.getByText(/^New page in Audio Editing$/)).toBeDefined();
+  const section = document.getElementById(
+    "new-page-section",
+  ) as HTMLInputElement;
+  const loc = document.getElementById("new-page-location") as HTMLInputElement;
+  expect(section.value).toBe("Audio Editing");
+  expect(loc.value).toBe("audio-editing");
+
+  fireEvent.change(screen.getByLabelText("Title"), {
+    target: { value: "Fades" },
+  });
+  expect(screen.getByTestId("new-page-path-preview").textContent).toBe(
+    "src/content/manual/audio-editing/fades.mdx",
+  );
+});
+
+test("sectionPrefill for a section with no pages leaves Location empty (falls back to section slug)", () => {
+  render(
+    <NewPageDialog
+      pages={pages}
+      sectionPrefill="Brand New Section"
+      onCreate={() => {}}
+      onCancel={() => {}}
+    />,
+  );
+  const loc = document.getElementById("new-page-location") as HTMLInputElement;
+  expect(loc.value).toBe("");
+  fireEvent.change(screen.getByLabelText("Title"), {
+    target: { value: "First Page" },
+  });
+  expect(screen.getByTestId("new-page-path-preview").textContent).toBe(
+    "src/content/manual/brand-new-section/first-page.mdx",
+  );
+});

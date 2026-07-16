@@ -179,12 +179,18 @@ export function PageList({
   onSelect,
   activePath,
   onAddSubpage,
+  onAddToSection,
   onDropPlan,
 }: {
   pages: ManualPageMeta[];
   onSelect: (path: string) => void;
   activePath: string | null;
   onAddSubpage: (parent: ManualPageMeta) => void;
+  /**
+   * The per-section "+" in each group header: opens the new-page dialog
+   * prefilled for that section (see `NewPageDialog`'s `sectionPrefill`).
+   */
+  onAddToSection: (section: string) => void;
   onDropPlan: (plan: DropPlan) => void;
 }) {
   const sections = buildManualTree(pages);
@@ -280,7 +286,23 @@ export function PageList({
     <nav aria-label="Manual pages">
       {sections.map(({ section, nodes }) => (
         <section key={section}>
-          <h2>{section}</h2>
+          {/* Hover-revealed "+" (see .sidebar-section__add in editor.css)
+              rather than a permanent ghost row per group: the sidebar is
+              dense already, and this matches the app's subtle-until-hover
+              affordances (sub-page "+", drag handles). */}
+          <div className="sidebar-section__header">
+            <h2>{section}</h2>
+            <button
+              type="button"
+              className="sidebar-section__add"
+              data-testid="section-add-page"
+              aria-label={`Add page to ${section}`}
+              title={`Add page to ${section}`}
+              onClick={() => onAddToSection(section)}
+            >
+              +
+            </button>
+          </div>
           <ul className="sidebar-tree">
             {nodes.map((node) => (
               <TreeNodeRow

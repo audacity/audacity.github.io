@@ -33,6 +33,7 @@ test("nests children under their parent and toggles expansion", () => {
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={() => {}}
+      onAddToSection={() => {}}
       onDropPlan={() => {}}
     />,
   );
@@ -51,6 +52,7 @@ test("auto-expands the active page's ancestors", () => {
       onSelect={() => {}}
       activePath="src/content/manual/pmm/home.mdx"
       onAddSubpage={() => {}}
+      onAddToSection={() => {}}
       onDropPlan={() => {}}
     />,
   );
@@ -66,6 +68,7 @@ test("selecting a node calls onSelect with its path", () => {
       onSelect={(p) => selected.push(p)}
       activePath={null}
       onAddSubpage={() => {}}
+      onAddToSection={() => {}}
       onDropPlan={() => {}}
     />,
   );
@@ -81,6 +84,7 @@ test("clicking a node's add-subpage button calls onAddSubpage with that page", (
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={(p) => added.push(p.slug)}
+      onAddToSection={() => {}}
       onDropPlan={() => {}}
     />,
   );
@@ -130,6 +134,7 @@ test("page buttons are draggable", () => {
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={() => {}}
+      onAddToSection={() => {}}
       onDropPlan={() => {}}
     />,
   );
@@ -145,6 +150,7 @@ test("dragging a root page and dropping it after a sibling invokes onDropPlan wi
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={() => {}}
+      onAddToSection={() => {}}
       onDropPlan={(plan) => plans.push(plan)}
     />,
   );
@@ -175,6 +181,7 @@ test("dropping a page onto its own descendant is blocked and never calls onDropP
       onSelect={() => {}}
       activePath={null}
       onAddSubpage={() => {}}
+      onAddToSection={() => {}}
       onDropPlan={(plan) => plans.push(plan)}
     />,
   );
@@ -189,4 +196,31 @@ test("dropping a page onto its own descendant is blocked and never calls onDropP
 
   fireEvent.drop(targetRow);
   expect(plans).toEqual([]);
+});
+
+test("each section header has a '+' that calls onAddToSection with the section name", () => {
+  const added: string[] = [];
+  const twoSections = [
+    ...pages,
+    page("special/expected-uses", {
+      title: "Expected uses",
+      section: "Special Uses",
+      sectionOrder: 2,
+    }),
+  ];
+  const { getAllByTestId } = render(
+    <PageList
+      pages={twoSections}
+      onSelect={() => {}}
+      activePath={null}
+      onAddSubpage={() => {}}
+      onAddToSection={(s) => added.push(s)}
+      onDropPlan={() => {}}
+    />,
+  );
+  const buttons = getAllByTestId("section-add-page");
+  expect(buttons).toHaveLength(2);
+  expect(buttons[0]!.getAttribute("aria-label")).toBe("Add page to PMM");
+  fireEvent.click(buttons[1]!);
+  expect(added).toEqual(["Special Uses"]);
 });
