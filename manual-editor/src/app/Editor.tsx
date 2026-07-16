@@ -74,6 +74,30 @@ const HANDLE_COMPUTE_POSITION_CONFIG = {
 };
 
 /**
+ * `<DragHandle>`'s `nested` prop (`boolean | NestedOptions`, see
+ * `@tiptap/extension-drag-handle`'s `normalizeNestedOptions`): `false`
+ * (the default) only ever reports top-level `doc` children through
+ * `onNodeChange`, so a block INSIDE an `admonition`/`tab` body has no handle
+ * of its own — the only way to move/duplicate/delete/turn-into it is to hop
+ * out to the container's own handle (which acts on the whole container).
+ *
+ * `NestedOptions.allowedContainers` restricts nested targeting to specific
+ * ancestor node types rather than "any depth, anywhere" (its default): the
+ * app's only two block-content containers are `admonition` and `tab`
+ * (`bulletList`/`orderedList`/`blockquote` already had no reordering UI
+ * before this and stay that way — this task's scope is the two named
+ * containers, not a general nested-editing overhaul). `onNodeChange` in
+ * nested mode reports the SAME `{ node, editor, pos }` shape as top-level
+ * mode, just for whichever ancestor the rule-based scorer picks at the
+ * cursor position — `handleNodeChange`/`getBlockActions` below need no
+ * changes to understand a nested `{node, pos}`, since both already treat
+ * `pos` as "wherever this node currently lives," not "must be a doc child."
+ */
+const NESTED_DRAG_HANDLE_OPTIONS = {
+  allowedContainers: ["admonition", "tab"],
+};
+
+/**
  * Coerces the loosely-typed `parseFrontmatter` output into the form's
  * `FrontmatterData` shape, filling in the same defaults the content
  * collection schema applies (`src/content/config.ts` in the main repo) so
@@ -561,6 +585,7 @@ export function Editor({
             editor={editor}
             computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
             onNodeChange={handleNodeChange}
+            nested={NESTED_DRAG_HANDLE_OPTIONS}
             className="drag-handle-wrapper"
           >
             <button

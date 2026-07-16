@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor as TiptapEditor } from "@tiptap/core";
-import { moveBlock, BlockReorder } from "./blockMove";
+import { moveBlock, moveNodeAt, BlockReorder } from "./blockMove";
 import { buildAppExtensions } from "./editorExtensions";
 import type { PMNodeJSON } from "../adapter/mdastToDoc";
 
@@ -243,6 +243,139 @@ test("undo restores the original doc after a move", async () => {
     editor.commands.undo();
   });
   expect(getJSON(editor)).toEqual(before);
+});
+
+/**
+ * Doc: [paragraph "AAA", tabs(tab["Only tab": paragraph "one", paragraph
+ * "two", paragraph "three"]), paragraph "ZZZ"] — for `moveNodeAt`'s nested
+ * (any-depth) coverage. The `tab`'s three paragraphs are the sibling list
+ * under test; `AAA`/`tabs`/`ZZZ` are the top-level siblings that must stay
+ * untouched by a nested move.
+ */
+const nestedDoc = {
+  type: "doc",
+  content: [
+    { type: "paragraph", content: [{ type: "text", text: "AAA" }] },
+    {
+      type: "tabs",
+      content: [
+        {
+          type: "tab",
+          attrs: { label: "Only tab" },
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: "one" }] },
+            { type: "paragraph", content: [{ type: "text", text: "two" }] },
+            { type: "paragraph", content: [{ type: "text", text: "three" }] },
+          ],
+        },
+      ],
+    },
+    { type: "paragraph", content: [{ type: "text", text: "ZZZ" }] },
+  ],
+};
+
+/** Finds the doc position of a paragraph by its text content. */
+function findParagraphPos(editor: TiptapEditor, text: string): number {
+  let pos: number | null = null;
+  editor.state.doc.descendants((node, offset) => {
+    if (
+      node.type.name === "paragraph" &&
+      node.textContent === text &&
+      pos === null
+    ) {
+      pos = offset;
+      return false;
+    }
+    return true;
+  });
+  if (pos === null) throw new Error(`paragraph not found: ${text}`);
+  return pos;
+}
+
+test("moveNodeAt(-1) reorders two paragraphs INSIDE a tab; the tab and its top-level siblings are untouched", async () => {
+  const getEditor = await mount(nestedDoc);
+  const editor = getEditor();
+
+  const twoPos = findParagraphPos(editor, "two");
+
+  let result = false;
+  act(() => {
+    result = moveNodeAt(editor, twoPos, -1);
+  });
+  expect(result).toBe(true);
+
+  const json = getJSON(editor);
+  // Top-level structure unchanged: AAA, tabs, ZZZ, in that order.
+  expect(json.content?.map((n) => n.type)).toEqual([
+    "paragraph",
+    "tabs",
+    "paragraph",
+  ]);
+  expect(json.content?.[0]?.content?.[0]?.text).toBe("AAA");
+  expect(json.content?.[2]?.content?.[0]?.text).toBe("ZZZ");
+
+  // Nothing escaped the tab: still exactly one `tab`, still 3 paragraphs.
+  const tabsNode = json.content?.[1];
+  expect(tabsNode?.content).toHaveLength(1);
+  const tab = tabsNode?.content?.[0];
+  expect(tab?.type).toBe("tab");
+  expect(tab?.content?.map((p) => p.content?.[0]?.text)).toEqual([
+    "two",
+    "one",
+    "three",
+  ]);
+});
+
+test("moveNodeAt boundary: the tab's FIRST paragraph can't move up (no-op), doc unchanged", async () => {
+  const getEditor = await mount(nestedDoc);
+  const editor = getEditor();
+
+  const onePos = findParagraphPos(editor, "one");
+  const before = getJSON(editor);
+
+  let result = true;
+  act(() => {
+    result = moveNodeAt(editor, onePos, -1);
+  });
+  expect(result).toBe(false);
+  expect(getJSON(editor)).toEqual(before);
+});
+
+test("moveNodeAt boundary: the tab's LAST paragraph can't move down (no-op), doc unchanged", async () => {
+  const getEditor = await mount(nestedDoc);
+  const editor = getEditor();
+
+  const threePos = findParagraphPos(editor, "three");
+  const before = getJSON(editor);
+
+  let result = true;
+  act(() => {
+    result = moveNodeAt(editor, threePos, 1);
+  });
+  expect(result).toBe(false);
+  expect(getJSON(editor)).toEqual(before);
+});
+
+test("moveNodeAt also works at the top level (nested-mode regression): same swap moveBlock would do", async () => {
+  const getEditor = await mount(initialDoc);
+  const editor = getEditor();
+
+  let pos: number | null = null;
+  editor.state.doc.forEach((node, offset) => {
+    if (node.type.name === "admonition") pos = offset;
+  });
+  expect(pos).not.toBeNull();
+
+  let result = false;
+  act(() => {
+    result = moveNodeAt(editor, pos as number, -1);
+  });
+  expect(result).toBe(true);
+
+  const json = getJSON(editor);
+  expect(indexOfType(json, "admonition")).toBe(0);
+  expect(indexOfParagraphText(json, "AAA")).toBe(1);
+  expect(indexOfParagraphText(json, "CCC")).toBe(2);
 });
 
 test("Alt-ArrowUp shortcut handler calls moveBlock(-1) through the real command path", async () => {

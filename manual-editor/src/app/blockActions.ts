@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/core";
 import type { Node as PMNode } from "@tiptap/pm/model";
 import { NodeSelection, TextSelection } from "@tiptap/pm/state";
-import { moveBlock } from "./blockMove";
+import { moveNodeAt } from "./blockMove";
 import {
   setCodeBlock,
   setHeading,
@@ -122,12 +122,13 @@ function transformAction(
   };
 }
 
-/** Selects the block at `pos` as a whole-node selection, then delegates the
- * actual reordering to `moveBlock` (a no-op at the doc's top/bottom edge). */
+/** Delegates reordering to `moveNodeAt` (a no-op at the parent's first/last
+ * child edge), which moves the node AT `pos` among its own siblings — works
+ * at any depth, so this also handles a nested node's `pos` (e.g. from the
+ * drag handle's `nested` mode; see `Editor.tsx`), not just a top-level one. */
 function moveAction(pos: number, dir: -1 | 1): (editor: Editor) => void {
   return (editor) => {
-    editor.commands.setNodeSelection(pos);
-    moveBlock(editor, dir);
+    moveNodeAt(editor, pos, dir);
   };
 }
 

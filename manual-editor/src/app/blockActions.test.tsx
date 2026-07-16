@@ -303,3 +303,168 @@ test("edit-alt with a null prompt (cancel) leaves attrs.alt unchanged", () => {
   const image = json.content?.find((n) => n.type === "image");
   expect(image?.attrs?.alt).toBe("original alt");
 });
+
+/**
+ * Nested-pos coverage: `getBlockActions`/its actions must work identically
+ * for a block INSIDE a `tab`/`admonition` body, not just a top-level doc
+ * child — this is what the drag handle's `nested` mode (`Editor.tsx`) now
+ * hands them (a `pos` at any depth). Doc: [paragraph, tabs(tab["Only tab":
+ * paragraph "one", paragraph "two", heading "Three"])].
+ */
+const nestedDoc = {
+  type: "doc",
+  content: [
+    { type: "paragraph", content: [{ type: "text", text: "top" }] },
+    {
+      type: "tabs",
+      content: [
+        {
+          type: "tab",
+          attrs: { label: "Only tab" },
+          content: [
+            { type: "paragraph", content: [{ type: "text", text: "one" }] },
+            { type: "paragraph", content: [{ type: "text", text: "two" }] },
+            {
+              type: "heading",
+              attrs: { level: 2 },
+              content: [{ type: "text", text: "Three" }],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+/** Finds a node ANYWHERE in the doc (any depth) by predicate, mirroring what
+ * the drag handle's `nested` mode hands `getBlockActions` — unlike
+ * `findTopLevelBlock` above, which only walks `doc.content`. */
+function findNodeAt(
+  editor: Editor,
+  predicate: (node: PMNode) => boolean,
+): { node: PMNode; pos: number } {
+  let result: { node: PMNode; pos: number } | null = null;
+  editor.state.doc.descendants((node, pos) => {
+    if (!result && predicate(node)) {
+      result = { node, pos };
+      return false;
+    }
+    return true;
+  });
+  if (!result) throw new Error("node not found");
+  return result;
+}
+
+function tabOf(json: PMNodeJSON) {
+  const tabsNode = json.content?.find((n) => n.type === "tabs");
+  return tabsNode?.content?.[0];
+}
+
+test("getBlockActions on a nested paragraph pos (inside a tab) returns move/duplicate/delete/turn-into", () => {
+  const editor = makeEditor(nestedDoc);
+  const { node, pos } = findNodeAt(
+    editor,
+    (n) => n.type.name === "paragraph" && n.textContent === "one",
+  );
+  const ids = actionIds(getBlockActions(editor, node, pos));
+
+  expect(ids).toContain("turn-h2");
+  expect(ids).toContain("duplicate");
+  expect(ids).toContain("move-up");
+  expect(ids).toContain("move-down");
+  expect(ids).toContain("delete");
+});
+
+test("duplicate on a nested paragraph pos inserts the copy INSIDE the same tab, top-level doc shape untouched", () => {
+  const editor = makeEditor(nestedDoc);
+  const { node, pos } = findNodeAt(
+    editor,
+    (n) => n.type.name === "paragraph" && n.textContent === "one",
+  );
+  findAction(getBlockActions(editor, node, pos), "duplicate").run(editor);
+
+  const json = getJSON(editor);
+  expect(json.content?.[0]?.type).toBe("paragraph");
+  expect(json.content?.[1]?.type).toBe("tabs");
+  const tab = tabOf(json);
+  expect(tab?.content?.map((n) => n.content?.[0]?.text ?? n.type)).toEqual([
+    "one",
+    "one",
+    "two",
+    "Three",
+  ]);
+});
+
+test("delete on a nested paragraph pos removes only that paragraph, from within the tab", () => {
+  const editor = makeEditor(nestedDoc);
+  const { node, pos } = findNodeAt(
+    editor,
+    (n) => n.type.name === "paragraph" && n.textContent === "two",
+  );
+  findAction(getBlockActions(editor, node, pos), "delete").run(editor);
+
+  const json = getJSON(editor);
+  expect(json.content?.[0]?.type).toBe("paragraph");
+  expect(json.content?.[1]?.type).toBe("tabs");
+  const tab = tabOf(json);
+  expect(tab?.content?.map((n) => n.content?.[0]?.text ?? n.type)).toEqual([
+    "one",
+    "Three",
+  ]);
+});
+
+test("move-down/move-up on a nested paragraph pos reorders WITHIN the tab, nothing escapes it", () => {
+  const editor = makeEditor(nestedDoc);
+  const oneBlock = findNodeAt(
+    editor,
+    (n) => n.type.name === "paragraph" && n.textContent === "one",
+  );
+  findAction(
+    getBlockActions(editor, oneBlock.node, oneBlock.pos),
+    "move-down",
+  ).run(editor);
+
+  let json = getJSON(editor);
+  expect(json.content?.[0]?.type).toBe("paragraph");
+  expect(json.content?.[1]?.type).toBe("tabs");
+  let tab = tabOf(json);
+  expect(tab?.content?.map((n) => n.content?.[0]?.text ?? n.type)).toEqual([
+    "two",
+    "one",
+    "Three",
+  ]);
+
+  const movedOneBlock = findNodeAt(
+    editor,
+    (n) => n.type.name === "paragraph" && n.textContent === "one",
+  );
+  findAction(
+    getBlockActions(editor, movedOneBlock.node, movedOneBlock.pos),
+    "move-up",
+  ).run(editor);
+
+  json = getJSON(editor);
+  tab = tabOf(json);
+  expect(tab?.content?.map((n) => n.content?.[0]?.text ?? n.type)).toEqual([
+    "one",
+    "two",
+    "Three",
+  ]);
+});
+
+test("turn-h2 on a nested paragraph (inside a tab) converts it to a heading, still inside the tab", () => {
+  const editor = makeEditor(nestedDoc);
+  const { node, pos } = findNodeAt(
+    editor,
+    (n) => n.type.name === "paragraph" && n.textContent === "two",
+  );
+  findAction(getBlockActions(editor, node, pos), "turn-h2").run(editor);
+
+  const json = getJSON(editor);
+  expect(json.content?.[0]?.type).toBe("paragraph");
+  expect(json.content?.[1]?.type).toBe("tabs");
+  const tab = tabOf(json);
+  const converted = tab?.content?.find((n) => n.content?.[0]?.text === "two");
+  expect(converted?.type).toBe("heading");
+  expect(converted?.attrs?.level).toBe(2);
+});

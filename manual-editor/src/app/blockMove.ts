@@ -1,5 +1,53 @@
 import { Extension, type Editor } from "@tiptap/core";
+import type { Node as PMNode } from "@tiptap/pm/model";
+import type { Transaction } from "@tiptap/pm/state";
 import { NodeSelection, TextSelection } from "@tiptap/pm/state";
+
+/**
+ * Core move machinery shared by `moveBlock` (top-level, selection-based) and
+ * `moveNodeAt` (any-depth, position-based). Moves the node occupying
+ * `[nodeStart, nodeStart + node.nodeSize)` one slot up (`dir === -1`) or down
+ * (`dir === 1`) among the SIBLING LIST given by `siblings` (a snapshot of the
+ * moving node's parent's children plus each child's own `start` offset, all
+ * computed in the ORIGINAL doc before any mutation) — swapping places with
+ * the adjacent sibling at `siblingIndex + dir`.
+ *
+ * Same delete+insert+mapping approach `moveBlock` always used (see its own
+ * doc comment below for the full reasoning — the walk that builds `siblings`
+ * here is just that function's `doc.forEach` walk, generalized from "walk
+ * `doc.content`" to "walk `parent.content`" so it works at any depth, not
+ * just top-level). Returns `null` at either boundary of the sibling list (no
+ * transaction produced — callers treat that as a no-op).
+ */
+interface SiblingEntry {
+  start: number;
+  end: number;
+}
+
+function findMoveTransaction(
+  tr: Transaction,
+  node: PMNode,
+  nodeStart: number,
+  siblings: SiblingEntry[],
+  siblingIndex: number,
+  dir: -1 | 1,
+): { tr: Transaction; newNodeStart: number } | null {
+  const targetIndex = siblingIndex + dir;
+  if (targetIndex < 0 || targetIndex >= siblings.length) return null;
+  const target = siblings[targetIndex]!;
+
+  const nodeEnd = nodeStart + node.nodeSize;
+  tr.delete(nodeStart, nodeEnd);
+
+  const insertPosOriginal = dir === -1 ? target.start : target.end;
+  const mappedInsertPos = tr.mapping.map(
+    insertPosOriginal,
+    dir === -1 ? -1 : 1,
+  );
+  tr.insert(mappedInsertPos, node);
+
+  return { tr, newNodeStart: mappedInsertPos };
+}
 
 /**
  * `moveBlock` — moves the TOP-LEVEL block (direct child of `doc`) containing
@@ -35,6 +83,17 @@ import { NodeSelection, TextSelection } from "@tiptap/pm/state";
  * paragraph stays mid-word rather than jumping to the block's start.
  * `NodeSelection`s of a whole top-level block are restored the same way
  * (re-select the moved node), since there's no "offset inside" to speak of.
+ *
+ * Deliberately kept top-level/selection-based even though `moveNodeAt` below
+ * generalizes the same machinery to any depth: this is the Alt+Up/Down
+ * KEYBOARD path (`BlockReorder`), where "reorder the page's own structure"
+ * is the only thing a caret position can unambiguously mean — a cursor deep
+ * inside a `tab`/`admonition` body doesn't tell you whether the user wants
+ * to reorder within that container or hop the whole container itself. The
+ * block-handle menu (`blockActions.ts`), by contrast, always has an explicit
+ * `pos` the user physically pointed at (whatever the handle is hovering),
+ * which is exactly what `moveNodeAt` needs and disambiguates for free — see
+ * `getBlockActions`'s move-up/move-down there.
  */
 export function moveBlock(editor: Editor, dir: -1 | 1): boolean {
   const { state } = editor;
@@ -59,37 +118,29 @@ export function moveBlock(editor: Editor, dir: -1 | 1): boolean {
 
   const node = doc.nodeAt(blockStart);
   if (!node) return false;
-  const blockEnd = blockStart + node.nodeSize;
 
-  // Find this block's ordinal index among doc.content, and the target
-  // sibling at index + dir, in one walk over the top-level children.
+  // Find this block's ordinal index among doc.content, and every sibling's
+  // own start/end, in one walk over the top-level children.
   let blockIndex = -1;
-  let targetStart = -1;
-  let targetEnd = -1;
+  const siblings: SiblingEntry[] = [];
   doc.forEach((child, offset, index) => {
+    siblings.push({ start: offset, end: offset + child.nodeSize });
     if (offset === blockStart) blockIndex = index;
   });
   if (blockIndex === -1) return false;
-  const targetIndex = blockIndex + dir;
-  if (targetIndex < 0 || targetIndex >= doc.childCount) return false;
-  doc.forEach((child, offset, index) => {
-    if (index === targetIndex) {
-      targetStart = offset;
-      targetEnd = offset + child.nodeSize;
-    }
-  });
 
   const tr = state.tr;
-  tr.delete(blockStart, blockEnd);
-
-  const insertPosOriginal = dir === -1 ? targetStart : targetEnd;
-  const mappedInsertPos = tr.mapping.map(
-    insertPosOriginal,
-    dir === -1 ? -1 : 1,
+  const result = findMoveTransaction(
+    tr,
+    node,
+    blockStart,
+    siblings,
+    blockIndex,
+    dir,
   );
-  tr.insert(mappedInsertPos, node);
+  if (!result) return false;
 
-  const newBlockStart = mappedInsertPos;
+  const newBlockStart = result.newNodeStart;
   if (cursorOffset === null) {
     tr.setSelection(NodeSelection.create(tr.doc, newBlockStart));
   } else {
@@ -99,6 +150,61 @@ export function moveBlock(editor: Editor, dir: -1 | 1): boolean {
     tr.setSelection(TextSelection.near(tr.doc.resolve(pos)));
   }
 
+  editor.view.dispatch(tr);
+  return true;
+}
+
+/**
+ * `moveNodeAt` — moves the node AT `pos` one slot up (`dir === -1`) or down
+ * (`dir === 1`) among its own SIBLINGS within its parent, at ANY depth (a
+ * top-level block, a paragraph inside a `tab`, a paragraph inside an
+ * `admonition`, ...). Generalizes `moveBlock`'s delete+insert+mapping
+ * machinery (see that function's doc comment for the full mechanics) from
+ * "siblings = `doc.content`" to "siblings = the resolved node's own
+ * parent's content" — `state.doc.resolve(pos)` gives that parent for free
+ * via `$pos.parent`/`$pos.before(depth)`, no special-casing for depth 0 vs
+ * deeper needed beyond what `resolve` already does.
+ *
+ * Used by the block-handle context menu (`blockActions.ts`), where `pos`
+ * always comes from the drag handle's own `onNodeChange` — including in
+ * `nested` mode, where it can be a node at any depth (see `Editor.tsx`). Not
+ * currently reachable via any keyboard shortcut (Alt+Up/Down stays wired to
+ * `moveBlock` — see that function's doc comment for why the two are kept
+ * deliberately separate rather than one subsuming the other).
+ *
+ * Boundary (first/last child of its parent) is a no-op (`false`), same as
+ * `moveBlock`. Selection afterward: re-selects the moved node as a whole
+ * (`NodeSelection`) rather than trying to restore a caret offset — every
+ * current caller (the handle menu) triggers this from a menu click, not
+ * from an active text cursor inside the node, so "the moved node is now
+ * selected" is the more useful post-move state (mirrors `duplicateAction`'s
+ * choice to select the new copy, in the same file).
+ */
+export function moveNodeAt(editor: Editor, pos: number, dir: -1 | 1): boolean {
+  const { state } = editor;
+  const { doc } = state;
+
+  const node = doc.nodeAt(pos);
+  if (!node) return false;
+
+  const $pos = doc.resolve(pos);
+  const parent = $pos.parent;
+  const parentStart = $pos.start($pos.depth);
+
+  let nodeIndex = -1;
+  const siblings: SiblingEntry[] = [];
+  parent.forEach((child, offset, index) => {
+    const start = parentStart + offset;
+    siblings.push({ start, end: start + child.nodeSize });
+    if (start === pos) nodeIndex = index;
+  });
+  if (nodeIndex === -1) return false;
+
+  const tr = state.tr;
+  const result = findMoveTransaction(tr, node, pos, siblings, nodeIndex, dir);
+  if (!result) return false;
+
+  tr.setSelection(NodeSelection.create(tr.doc, result.newNodeStart));
   editor.view.dispatch(tr);
   return true;
 }
