@@ -87,6 +87,25 @@ const S2_DURATION = 5.0;
 const DROP_START = 10.5;
 const DROP_END = DROP_START + S1_C_DUR;
 
+// s2 ("Outro music") sits on track 1, which withWaveforms fills with a
+// decaying sine of the clip's duration — so reproduce that exact wave here
+// and slice it into the two halves left when the dropped clip lands mid-clip.
+// Without this, s2-b (an extraClip) reaches the canvas with no `waveform`;
+// extraClips bypass withWaveforms, so the renderer regenerates a fresh
+// (jittering) waveform every frame during the drop animation. Same slicing
+// approach as the split-tool step keeps both halves stable and true to s2's
+// original shape. The middle (DROP_START..DROP_END) is eaten by the dropped
+// clip, so we keep only [0, DROP_START] and [DROP_END, end].
+const FULL_S2_WAVEFORM = generateDecayingSineWave(S2_DURATION);
+const S2_SPLIT_IDX_A = Math.floor(
+  FULL_S2_WAVEFORM.length * ((DROP_START - S2_START) / S2_DURATION),
+);
+const S2_SPLIT_IDX_B = Math.floor(
+  FULL_S2_WAVEFORM.length * ((DROP_END - S2_START) / S2_DURATION),
+);
+const S2_PART_A = FULL_S2_WAVEFORM.slice(0, S2_SPLIT_IDX_A);
+const S2_PART_B = FULL_S2_WAVEFORM.slice(S2_SPLIT_IDX_B);
+
 function computeCumulativeState(stopIndex) {
   const overrides = {};
   const extraByTrack = {};
@@ -150,6 +169,7 @@ function computeCumulativeState(stopIndex) {
       overrides.s2 = {
         ...(overrides.s2 || {}),
         duration: DROP_START - S2_START,
+        waveform: S2_PART_A,
       };
       if (!extraByTrack[1].find((c) => c.id === "s2-b")) {
         extraByTrack[1].push({
@@ -157,6 +177,7 @@ function computeCumulativeState(stopIndex) {
           name: "Outro music",
           start: DROP_END,
           duration: S2_START + S2_DURATION - DROP_END,
+          waveform: S2_PART_B,
         });
       }
     }
@@ -984,6 +1005,7 @@ function DesktopTour() {
           overrides.s2 = {
             ...(overrides.s2 || {}),
             duration: DROP_START - S2_START,
+            waveform: S2_PART_A,
           };
         }
         setClipOverrides(overrides);
@@ -1017,6 +1039,7 @@ function DesktopTour() {
             name: "Outro music",
             start: DROP_END,
             duration: S2_START + S2_DURATION - DROP_END,
+            waveform: S2_PART_B,
           });
         }
         setExtraClips({ [SYNTH_TRACK_INDEX]: extras });
@@ -1227,6 +1250,7 @@ function DesktopTour() {
           },
           s2: {
             duration: DROP_START - S2_START,
+            waveform: S2_PART_A,
           },
         });
         // Keep the music-bed extras from drop-anywhere in place.
@@ -1255,6 +1279,7 @@ function DesktopTour() {
               name: "Outro music",
               start: DROP_END,
               duration: S2_START + S2_DURATION - DROP_END,
+              waveform: S2_PART_B,
             },
           ],
         });
@@ -1510,6 +1535,7 @@ function DesktopTour() {
           },
           s2: {
             duration: DROP_START - S2_START,
+            waveform: S2_PART_A,
           },
         });
         setExtraClips({
@@ -1537,6 +1563,7 @@ function DesktopTour() {
               name: "Outro music",
               start: DROP_END,
               duration: S2_START + S2_DURATION - DROP_END,
+              waveform: S2_PART_B,
             },
           ],
         });
@@ -1708,7 +1735,7 @@ function DesktopTour() {
         if (envOn && points.length > 0) s1Override.envelopePoints = points;
         setClipOverrides({
           s1: s1Override,
-          s2: { duration: DROP_START - S2_START },
+          s2: { duration: DROP_START - S2_START, waveform: S2_PART_A },
           h2: { selected: false, start: 6.5 },
           g2: { selected: false, start: 9.3 },
           h3: { selected: true, start: 11.8 },
@@ -1740,6 +1767,7 @@ function DesktopTour() {
               name: "Outro music",
               start: DROP_END,
               duration: S2_START + S2_DURATION - DROP_END,
+              waveform: S2_PART_B,
             },
           ],
         });
