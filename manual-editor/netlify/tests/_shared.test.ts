@@ -20,6 +20,8 @@ import pagesHandler from "../functions/pages";
 import pageHandler from "../functions/page";
 import draftHandler from "../functions/draft";
 import publishHandler from "../functions/publish";
+import reorderHandler from "../functions/reorder";
+import moveHandler from "../functions/move";
 
 const secret = "test-secret";
 const session: Session = { token: "real-token", login: "octocat" };
@@ -223,6 +225,37 @@ test("publish.ts POST returns 401 outside dev mode with no session cookie", asyn
   await withNonDevEnv(async () => {
     const res = await publishHandler(
       new Request("http://localhost/api/publish", { method: "POST" }),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("reorder.ts POST returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await reorderHandler(
+      new Request("http://localhost/api/reorder", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          updates: [{ path: "src/content/manual/basics/a.mdx", order: 1 }],
+        }),
+      }),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("move.ts POST returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await moveHandler(
+      new Request("http://localhost/api/move", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          path: "src/content/manual/basics/a.mdx",
+          dest: { folder: "elsewhere", order: 1 },
+        }),
+      }),
     );
     expect(res.status).toBe(401);
   });

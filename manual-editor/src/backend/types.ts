@@ -35,6 +35,15 @@ export interface CurrentUser {
   mode: "github" | "dev";
 }
 
+export interface MovePageDest {
+  /** Destination folder relative to `src/content/manual`; "" is not allowed. */
+  folder: string;
+  order: number;
+  /** Set when crossing sections; applies to descendants too. */
+  section?: string;
+  sectionOrder?: number;
+}
+
 export interface GitHubBackend {
   currentUser(): Promise<CurrentUser>;
   listPages(): Promise<ManualPageMeta[]>;
@@ -56,4 +65,15 @@ export interface GitHubBackend {
    * `publish()` lands it). Throws if the path doesn't exist at all.
    */
   deletePage(path: string): Promise<void>;
+  /** Rewrite `order` frontmatter on each path. One commit. */
+  reorderPages(updates: Array<{ path: string; order: number }>): Promise<void>;
+  /**
+   * Move a page and all its descendants to a new folder. Rewrites the moved
+   * page's frontmatter (order; section/sectionOrder when provided). Returns
+   * the old→new path mapping (moved page first).
+   */
+  movePage(
+    path: string,
+    dest: MovePageDest,
+  ): Promise<Array<{ from: string; to: string }>>;
 }

@@ -4,10 +4,13 @@ import type {
   FileChange,
   GitHubBackend,
   ManualPageMeta,
+  MovePageDest,
   PageContent,
   PublishResult,
 } from "./types";
-import { metaFromSource } from "./inMemoryBackend";
+import { metaFromSource, slugOf } from "./inMemoryBackend";
+import { rewriteFrontmatter } from "./frontmatterRewrite";
+import type { FrontmatterData } from "../adapter/frontmatterSerialize";
 
 const MANUAL_PATH_RE = /^src\/content\/manual\/.+\.(md|mdx)$/;
 /** Blob fetches for `listPages` are batched to avoid firing 200+ requests at once. */
@@ -618,5 +621,135 @@ export class OctokitBackend implements GitHubBackend {
       { path, mode: "100644", type: "blob", sha: null },
     ];
     await this.commitToDrafts(tree, `docs: delete ${path}`);
+  }
+
+  /**
+   * Rewrites `order` frontmatter on every path in `updates`, as a single
+   * commit on the drafts branch (content-rewrite tree items only — no
+   * renames/deletes here, unlike `movePage`).
+   */
+  async reorderPages(
+    updates: Array<{ path: string; order: number }>,
+  ): Promise<void> {
+    const tree: DraftTreeItem[] = [];
+    for (const { path, order } of updates) {
+      const { source } = await this.readPage(path);
+      tree.push({
+        path,
+        mode: "100644",
+        type: "blob",
+        content: rewriteFrontmatter(source, { order }),
+      });
+    }
+    await this.commitToDrafts(tree, "docs: reorder pages");
+  }
+
+  /**
+   * Set of manual paths currently "live" (visible in `listPages`/readable):
+   * everything on the drafts branch if it exists, plus everything on base
+   * that isn't shadowed by a staged deletion there. Mirrors `listPages`'
+   * base/drafts diff logic, but only needs the path set (not content), so
+   * `movePage` uses this directly rather than paying for blob fetches on
+   * pages it isn't touching.
+   */
+  private async getLivePaths(): Promise<Set<string>> {
+    const baseTree = await this.getManualTree(this.baseBranch);
+    const draftsTree = await this.getManualTree(this.draftsBranch);
+    const live = new Set<string>();
+    if (!draftsTree) {
+      for (const p of baseTree?.keys() ?? []) live.add(p);
+      return live;
+    }
+    const allPaths = new Set<string>([
+      ...(baseTree?.keys() ?? []),
+      ...draftsTree.keys(),
+    ]);
+    for (const p of allPaths) {
+      const inBase = baseTree?.has(p) ?? false;
+      const inDrafts = draftsTree.has(p);
+      if (inBase && !inDrafts) continue; // staged deletion
+      live.add(p);
+    }
+    return live;
+  }
+
+  /**
+   * Moves a page and every live descendant (any path under
+   * `src/content/manual/<movedSlug>/`) to `dest.folder`, as a single commit
+   * on the drafts branch: new-path content items (frontmatter rewritten
+   * where applicable) plus old-path `{sha: null}` deletions, all in one
+   * `commitToDrafts` tree — see that method's doc comment for why this is
+   * safe as one atomic write.
+   */
+  async movePage(
+    path: string,
+    dest: MovePageDest,
+  ): Promise<Array<{ from: string; to: string }>> {
+    if (!dest.folder) throw new Error("dest.folder is required");
+
+    const movedSlug = slugOf(path);
+    if (dest.folder === movedSlug || dest.folder.startsWith(`${movedSlug}/`)) {
+      throw new Error(
+        `Cannot move "${movedSlug}" into its own descendant folder "${dest.folder}"`,
+      );
+    }
+
+    // Validates existence (throws the same "No such page"/"deleted on
+    // drafts" errors as a direct readPage call would).
+    const pageSource = (await this.readPage(path)).source;
+
+    const prefix = "src/content/manual/";
+    const ext = path.slice(path.lastIndexOf(".") + 1);
+    const name = movedSlug.split("/").pop()!;
+    const descendantPrefix = `${prefix}${movedSlug}/`;
+
+    const livePaths = await this.getLivePaths();
+    const descendantPaths = [...livePaths].filter(
+      (p) => p !== path && p.startsWith(descendantPrefix),
+    );
+
+    const newPagePath = `${prefix}${dest.folder}/${name}.${ext}`;
+    const pagePatch: Partial<FrontmatterData> = { order: dest.order };
+    if (dest.section !== undefined) pagePatch.section = dest.section;
+    if (dest.sectionOrder !== undefined) {
+      pagePatch.sectionOrder = dest.sectionOrder;
+    }
+
+    const tree: DraftTreeItem[] = [
+      {
+        path: newPagePath,
+        mode: "100644",
+        type: "blob",
+        content: rewriteFrontmatter(pageSource, pagePatch),
+      },
+      { path, mode: "100644", type: "blob", sha: null },
+    ];
+    const moves: Array<{ from: string; to: string }> = [
+      { from: path, to: newPagePath },
+    ];
+
+    const descendantPatch: Partial<FrontmatterData> = {};
+    if (dest.section !== undefined) {
+      descendantPatch.section = dest.section;
+      if (dest.sectionOrder !== undefined) {
+        descendantPatch.sectionOrder = dest.sectionOrder;
+      }
+    }
+
+    for (const oldPath of descendantPaths) {
+      const rest = oldPath.slice(descendantPrefix.length);
+      const newPath = `${prefix}${dest.folder}/${name}/${rest}`;
+      const source = (await this.readPage(oldPath)).source;
+      const content =
+        Object.keys(descendantPatch).length > 0
+          ? rewriteFrontmatter(source, descendantPatch)
+          : source;
+      tree.push({ path: newPath, mode: "100644", type: "blob", content });
+      tree.push({ path: oldPath, mode: "100644", type: "blob", sha: null });
+      moves.push({ from: oldPath, to: newPath });
+    }
+
+    await this.commitToDrafts(tree, `docs: move ${path} -> ${newPagePath}`);
+    return moves;
   }
 }

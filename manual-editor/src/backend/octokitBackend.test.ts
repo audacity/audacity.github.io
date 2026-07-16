@@ -1010,3 +1010,150 @@ test("publish: a non-'no commits' 422 from pulls.create is rethrown, not masked 
     "Validation Failed: some other field problem",
   );
 });
+
+// ---------------------------------------------------------------------------
+// reorderPages
+// ---------------------------------------------------------------------------
+
+test("reorderPages: one createTree call, content items only (no sha:null deletes)", async () => {
+  const PATH_A = "src/content/manual/basics/a.mdx";
+  const PATH_B = "src/content/manual/basics/b.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: {
+        [PATH_A]: fm("A", "Basics", 1),
+        [PATH_B]: fm("B", "Basics", 2),
+      },
+      [DRAFTS]: {
+        [PATH_A]: fm("A", "Basics", 1),
+        [PATH_B]: fm("B", "Basics", 2),
+      },
+    },
+  });
+
+  await backend.reorderPages([
+    { path: PATH_A, order: 10 },
+    { path: PATH_B, order: 20 },
+  ]);
+
+  const createTreeCalls = calls.filter((c) => c.op === "createTree");
+  expect(createTreeCalls.length).toBe(1);
+  const tree = (createTreeCalls[0]!.args as any).tree as Array<{
+    path: string;
+    sha?: string | null;
+    content?: string;
+  }>;
+  expect(tree.length).toBe(2);
+  expect(tree.every((t) => t.sha === undefined)).toBe(true);
+  expect(tree.every((t) => typeof t.content === "string")).toBe(true);
+  const aItem = tree.find((t) => t.path === PATH_A)!;
+  expect(aItem.content).toContain("order: 10");
+
+  expect(calls.filter((c) => c.op === "createCommit").length).toBe(1);
+});
+
+// ---------------------------------------------------------------------------
+// movePage
+// ---------------------------------------------------------------------------
+
+test("movePage: single page — one createTree call, tree has both the new-path add and the old-path sha:null delete", async () => {
+  const OLD = "src/content/manual/a/b.mdx";
+  const NEW = "src/content/manual/c/b.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [OLD]: fm("B", "S", 1) },
+      [DRAFTS]: { [OLD]: fm("B", "S", 1) },
+    },
+  });
+
+  const moves = await backend.movePage(OLD, { folder: "c", order: 5 });
+
+  expect(moves).toEqual([{ from: OLD, to: NEW }]);
+  const createTreeCalls = calls.filter((c) => c.op === "createTree");
+  expect(createTreeCalls.length).toBe(1);
+  const tree = (createTreeCalls[0]!.args as any).tree as Array<{
+    path: string;
+    sha?: string | null;
+    content?: string;
+  }>;
+  expect(tree).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ path: NEW, content: expect.any(String) }),
+      expect.objectContaining({ path: OLD, sha: null }),
+    ]),
+  );
+  const newItem = tree.find((t) => t.path === NEW)!;
+  expect(newItem.content).toContain("order: 5");
+  expect(calls.filter((c) => c.op === "createCommit").length).toBe(1);
+});
+
+test("movePage: descendants travel in the same commit, both adds and deletes present", async () => {
+  const PARENT = "src/content/manual/a/b.mdx";
+  const CHILD = "src/content/manual/a/b/child.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PARENT]: fm("B", "S", 1), [CHILD]: fm("Child", "S", 1) },
+      [DRAFTS]: { [PARENT]: fm("B", "S", 1), [CHILD]: fm("Child", "S", 1) },
+    },
+  });
+
+  const moves = await backend.movePage(PARENT, { folder: "c", order: 2 });
+
+  expect(moves).toEqual([
+    { from: PARENT, to: "src/content/manual/c/b.mdx" },
+    { from: CHILD, to: "src/content/manual/c/b/child.mdx" },
+  ]);
+
+  const createTreeCalls = calls.filter((c) => c.op === "createTree");
+  expect(createTreeCalls.length).toBe(1);
+  const tree = (createTreeCalls[0]!.args as any).tree as Array<{
+    path: string;
+    sha?: string | null;
+  }>;
+  const paths = tree.map((t) => t.path).sort();
+  expect(paths).toEqual(
+    [
+      "src/content/manual/c/b.mdx",
+      "src/content/manual/c/b/child.mdx",
+      PARENT,
+      CHILD,
+    ].sort(),
+  );
+  expect(tree.find((t) => t.path === PARENT)!.sha).toBeNull();
+  expect(tree.find((t) => t.path === CHILD)!.sha).toBeNull();
+});
+
+test("movePage: cycle guard throws before any write call", async () => {
+  const PATH = "src/content/manual/a/b.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PATH]: fm("B", "S", 1) },
+      [DRAFTS]: { [PATH]: fm("B", "S", 1) },
+    },
+  });
+
+  await expect(
+    backend.movePage(PATH, { folder: "a/b/deeper", order: 1 }),
+  ).rejects.toThrow();
+  expect(
+    calls.some((c) =>
+      ["createTree", "createCommit", "updateRef"].includes(c.op),
+    ),
+  ).toBe(false);
+});
+
+test("movePage: unknown path throws without committing", async () => {
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+  });
+
+  await expect(
+    backend.movePage("src/content/manual/nope.mdx", { folder: "c", order: 1 }),
+  ).rejects.toThrow();
+  expect(calls.some((c) => c.op === "createTree")).toBe(false);
+});
