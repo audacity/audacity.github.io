@@ -1,6 +1,7 @@
 import { requireBackend, json } from "../lib/_shared";
 import { docToSource } from "../../src/adapter/docToMdast";
 import type { PMNodeJSON } from "../../src/adapter/mdastToDoc";
+import { ensureComponentImports } from "../../src/backend/ensureImports";
 
 /**
  * `docToSource`'s `frontmatter` parameter becomes an mdast `yaml` node's
@@ -68,8 +69,13 @@ export default async (request: Request): Promise<Response> => {
   const backend = requireBackend(request);
   if (backend instanceof Response) return backend;
   const source = await docToSource(doc as PMNodeJSON, unfence(frontmatter));
+  // The Astro site has no global MDX component mapping — a page using
+  // <Callout>/<Tabs>/… without importing them breaks the WHOLE site build
+  // (deploy previews, branch deploys). Inject whatever's missing before the
+  // draft commits. See ensureImports.ts for the full story.
+  const withImports = ensureComponentImports(source, path);
   await backend.saveDraft(
-    [{ path, content: source }],
+    [{ path, content: withImports }],
     "edit via manual editor",
   );
   return json({ ok: true });
