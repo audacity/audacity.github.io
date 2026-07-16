@@ -57,6 +57,13 @@ export interface GitHubBackend {
     filename: string,
     bytes: Uint8Array,
   ): Promise<string>;
+  /**
+   * Reads a binary asset (an image previously written by `saveImage`) by its
+   * repo-relative path. Prefers the drafts-branch version if present, else
+   * falls back to base — same precedence as `readPage`. Throws if the path
+   * doesn't exist on either.
+   */
+  readAsset(path: string): Promise<Uint8Array>;
   /** Opens or updates the PR from drafts branch -> base; returns PR info. */
   publish(): Promise<PublishResult>;
   /**

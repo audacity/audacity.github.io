@@ -162,6 +162,21 @@ function decodeBase64Content(data: {
 }
 
 /**
+ * Same base64 decode as `decodeBase64Content`, but returns raw bytes instead
+ * of decoding as UTF-8 text — required for binary assets (images), where a
+ * text decode would corrupt the data.
+ */
+function decodeBase64Bytes(data: {
+  content?: string;
+  encoding?: string;
+}): Uint8Array {
+  if (data.encoding && data.encoding !== "base64") {
+    throw new Error(`Unsupported content encoding: ${data.encoding}`);
+  }
+  return new Uint8Array(Buffer.from(data.content ?? "", "base64"));
+}
+
+/**
  * `GitHubBackend` implementation backed by the real GitHub REST API via
  * Octokit. G1 landed the read paths (`currentUser`, `listPages`,
  * `readPage`); G2 added the drafts-branch mutations (`saveDraft`,
@@ -468,6 +483,85 @@ export class OctokitBackend implements GitHubBackend {
     ];
     await this.commitToDrafts(tree, `docs: add image ${filename}`);
     return path;
+  }
+
+  /**
+   * Resolves `path`'s blob sha on `branch` via a recursive tree walk (not
+   * filtered by `MANUAL_PATH_RE` — assets live under `src/assets/img/manual/`,
+   * outside that regex's `src/content/manual/*.{md,mdx}` scope), or `null`
+   * if the branch doesn't exist or doesn't contain that path.
+   *
+   * Deliberately walks the Git Trees API rather than calling
+   * `repos.getContent(path, ref)` directly: the Contents API omits `content`
+   * for files over 1MB (returning a `download_url` instead), which would
+   * silently break on a larger image. The Trees + `git.getBlob` combination
+   * always returns the base64 payload regardless of size, matching how
+   * `getManualTree`/`getBlobContent` already read page content elsewhere in
+   * this class.
+   */
+  private async getBlobShaForPath(
+    branch: string,
+    path: string,
+  ): Promise<string | null> {
+    let ref;
+    try {
+      ref = await this.octokit.git.getRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `heads/${branch}`,
+      });
+    } catch (err) {
+      if (isNotFound(err)) return null;
+      throw err;
+    }
+    const commit = await this.octokit.git.getCommit({
+      owner: this.owner,
+      repo: this.repo,
+      commit_sha: ref.data.object.sha,
+    });
+    const tree = await this.octokit.git.getTree({
+      owner: this.owner,
+      repo: this.repo,
+      tree_sha: commit.data.tree.sha,
+      recursive: "1",
+    });
+    if (tree.data.truncated) {
+      throw new Error(
+        "Repository tree too large — asset lookup would be incomplete",
+      );
+    }
+    const entry = tree.data.tree.find(
+      (e) => e.type === "blob" && e.path === path,
+    );
+    return entry?.sha ?? null;
+  }
+
+  /**
+   * Reads a binary asset by repo-relative path: drafts branch first (an
+   * uploaded-but-unpublished image only exists there), falling back to base
+   * (covers assets from already-published pages/post-merge sessions) — same
+   * precedence as `readPage`. Throws if the path is absent from both.
+   */
+  async readAsset(path: string): Promise<Uint8Array> {
+    const draftsSha = await this.getBlobShaForPath(this.draftsBranch, path);
+    if (draftsSha) {
+      const { data } = await this.octokit.git.getBlob({
+        owner: this.owner,
+        repo: this.repo,
+        file_sha: draftsSha,
+      });
+      return decodeBase64Bytes(data);
+    }
+    const baseSha = await this.getBlobShaForPath(this.baseBranch, path);
+    if (baseSha) {
+      const { data } = await this.octokit.git.getBlob({
+        owner: this.owner,
+        repo: this.repo,
+        file_sha: baseSha,
+      });
+      return decodeBase64Bytes(data);
+    }
+    throw new Error(`No such asset: ${path}`);
   }
 
   /**

@@ -35,6 +35,26 @@ test("saveDraft then readPage returns the draft and flips hasDraft", async () =>
   expect(pages.find((p) => p.slug === "x/y")!.hasDraft).toBe(true);
 });
 
+// ---------------------------------------------------------------------------
+// saveImage / readAsset
+// ---------------------------------------------------------------------------
+
+test("saveImage then readAsset roundtrips the exact bytes", async () => {
+  const backend = new InMemoryBackend([]);
+  const bytes = new Uint8Array([137, 80, 78, 71, 1, 2, 3, 4, 5]);
+  const path = await backend.saveImage("basics/a", "diagram-ab12cd.png", bytes);
+  expect(path).toBe("src/assets/img/manual/basics/a/diagram-ab12cd.png");
+  const read = await backend.readAsset(path);
+  expect(read).toEqual(bytes);
+});
+
+test("readAsset on an unknown path throws", async () => {
+  const backend = new InMemoryBackend([]);
+  await expect(
+    backend.readAsset("src/assets/img/manual/basics/a/nope.png"),
+  ).rejects.toThrow();
+});
+
 test("publish clears drafts", async () => {
   const seed = [
     {

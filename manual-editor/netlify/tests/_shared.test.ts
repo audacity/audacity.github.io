@@ -22,6 +22,8 @@ import draftHandler from "../functions/draft";
 import publishHandler from "../functions/publish";
 import reorderHandler from "../functions/reorder";
 import moveHandler from "../functions/move";
+import imageHandler from "../functions/image";
+import assetHandler from "../functions/asset";
 
 const secret = "test-secret";
 const session: Session = { token: "real-token", login: "octocat" };
@@ -256,6 +258,34 @@ test("move.ts POST returns 401 outside dev mode with no session cookie", async (
           dest: { folder: "elsewhere", order: 1 },
         }),
       }),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("image.ts POST returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await imageHandler(
+      new Request("http://localhost/api/image", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          pageSlug: "basics/a",
+          filename: "x.png",
+          dataBase64: "AAAA",
+        }),
+      }),
+    );
+    expect(res.status).toBe(401);
+  });
+});
+
+test("asset.ts GET returns 401 outside dev mode with no session cookie", async () => {
+  await withNonDevEnv(async () => {
+    const res = await assetHandler(
+      new Request(
+        "http://localhost/api/asset?path=src/assets/img/manual/basics/a/x.png",
+      ),
     );
     expect(res.status).toBe(401);
   });

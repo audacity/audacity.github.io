@@ -97,6 +97,11 @@ export class InMemoryBackend implements GitHubBackend {
     this.images.set(rel, bytes);
     return rel;
   }
+  async readAsset(path: string): Promise<Uint8Array> {
+    const bytes = this.images.get(path);
+    if (!bytes) throw new Error(`No such asset: ${path}`);
+    return bytes;
+  }
   async publish(): Promise<PublishResult> {
     // Parity with OctokitBackend: publishing with no staged changes is an
     // error there (GitHub's "No commits between" 422 -> "Nothing to publish"),

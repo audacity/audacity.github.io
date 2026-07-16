@@ -36,6 +36,14 @@ interface FakeRepoState {
    * (`data.files` empty) — the case that should trigger the branch reset.
    */
   draftsHaveContentDiff?: boolean;
+  /**
+   * Binary (non-UTF8-safe) tree entries per branch — modeled separately from
+   * `branches` (which base64-encodes its values as if they were UTF-8 text,
+   * via `b64()`/`fakeSha()`). Keyed the same way (`branch -> path ->
+   * content`), but `content` here is the raw base64 payload to store
+   * directly, for seeding image fixtures used by `readAsset` tests.
+   */
+  binaryAssets?: Record<string, Record<string, string> | undefined>;
 }
 
 /** Records of write-side calls, in order, for assertion on call sequence. */
@@ -229,18 +237,33 @@ function makeWriteFakeOctokit(state: FakeRepoState): {
 
   function seedBranch(branch: string): void {
     const files = state.branches[branch];
-    if (files === undefined) return;
+    const assets = state.binaryAssets?.[branch];
+    if (files === undefined && assets === undefined) return;
     const treeSha = `tree-${branch}-seed`;
-    trees[treeSha] = Object.entries(files).map(([path, content]) => {
+    const entries = Object.entries(files ?? {}).map(([path, content]) => {
       const sha = fakeSha(content);
       blobs[sha] = b64(content);
       return { path, sha };
     });
+    // Binary fixtures (already base64-encoded) — see `binaryAssets`' doc
+    // comment. Sha'd off the base64 payload itself (not the raw bytes) so
+    // `fakeSha` stays a single deterministic string->sha function.
+    for (const [path, base64Content] of Object.entries(assets ?? {})) {
+      const sha = fakeSha(base64Content);
+      blobs[sha] = base64Content;
+      entries.push({ path, sha });
+    }
+    trees[treeSha] = entries;
     const commitSha = `commit-${branch}-seed`;
     commits[commitSha] = { tree: treeSha };
     heads[branch] = commitSha;
   }
-  for (const branch of Object.keys(state.branches)) seedBranch(branch);
+  for (const branch of new Set([
+    ...Object.keys(state.branches),
+    ...Object.keys(state.binaryAssets ?? {}),
+  ])) {
+    seedBranch(branch);
+  }
 
   const octokit: MinimalOctokit = {
     users: {
@@ -892,6 +915,76 @@ test("saveImage: createBlob(base64), tree item uses the returned sha, returns re
   expect((createCommitCall.args as any).message).toBe(
     "docs: add image diagram.png",
   );
+});
+
+// ---------------------------------------------------------------------------
+// readAsset
+// ---------------------------------------------------------------------------
+
+test("readAsset: prefers the drafts-branch blob when the asset exists there", async () => {
+  const PATH = "src/assets/img/manual/basics/a/diagram-ab12cd.png";
+  const { backend } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+    binaryAssets: {
+      [BASE]: { [PATH]: b64("base version bytes") },
+      [DRAFTS]: { [PATH]: b64("drafts version bytes") },
+    },
+  });
+
+  const bytes = await backend.readAsset(PATH);
+  expect(Buffer.from(bytes).toString("utf8")).toBe("drafts version bytes");
+});
+
+test("readAsset: falls back to the base branch when the asset isn't on drafts", async () => {
+  const PATH = "src/assets/img/manual/basics/a/diagram-ab12cd.png";
+  const { backend } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+    binaryAssets: {
+      [BASE]: { [PATH]: b64("base version bytes") },
+      // absent from drafts -> must fall back
+    },
+  });
+
+  const bytes = await backend.readAsset(PATH);
+  expect(Buffer.from(bytes).toString("utf8")).toBe("base version bytes");
+});
+
+test("readAsset: an image saved via saveImage() is readable back byte-for-byte", async () => {
+  const { backend } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+  });
+  const original = new Uint8Array([137, 80, 78, 71, 0, 1, 2, 3, 255]);
+  const path = await backend.saveImage(
+    "basics/a",
+    "diagram-ab12cd.png",
+    original,
+  );
+
+  const readBack = await backend.readAsset(path);
+  expect(readBack).toEqual(original);
+});
+
+test("readAsset: throws when the asset is missing from both branches", async () => {
+  const { backend } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {}, [DRAFTS]: {} },
+  });
+  await expect(
+    backend.readAsset("src/assets/img/manual/basics/a/nope.png"),
+  ).rejects.toThrow();
+});
+
+test("readAsset: throws when there is no drafts branch and the asset is missing from base", async () => {
+  const { backend } = writeBackendFor({
+    login: "u",
+    branches: { [BASE]: {} },
+  });
+  await expect(
+    backend.readAsset("src/assets/img/manual/basics/a/nope.png"),
+  ).rejects.toThrow();
 });
 
 test("deletePage: page exists on drafts — commits a tree entry with sha: null", async () => {
