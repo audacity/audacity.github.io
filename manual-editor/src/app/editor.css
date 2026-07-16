@@ -639,6 +639,28 @@ body {
   pointer-events: auto;
 }
 
+/* Invisible hit-area bridge across the 6px `offset.mainAxis` gap between
+   the handle and its block. The pointer's path from the block to the handle
+   must cross that gap; without this, the crossing mousemove lands on
+   whatever's underneath — for a block INSIDE a callout/tab that's the
+   container's padding, which retargets the drag handle to the container and
+   teleports it away from under the cursor (top-level blocks don't suffer:
+   there the gap sits over the editor's own margin, which still resolves to
+   the same block). With the bridge, the crossing pointer is over the handle
+   element itself (`pointer-events: auto`), the editor sees no mousemove,
+   and the target stays frozen. Extends a little vertically to forgive a
+   wobbly approach. Width matches the 6px gap (+1px rounding slack) exactly
+   so it never overlaps the block's text, where it would swallow clicks
+   meant to place the caret at the start of the line. */
+.drag-handle-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: -6px;
+  bottom: -6px;
+  width: 7px;
+}
+
 .drag-handle {
   display: flex;
   align-items: center;
