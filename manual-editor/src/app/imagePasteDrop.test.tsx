@@ -28,6 +28,7 @@ import { Slice } from "@tiptap/pm/model";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Editor } from "./Editor";
 import { makeApi } from "./api";
+import { getImageContext } from "./imageUpload";
 
 const pagePath = "src/content/manual/basics/x.mdx";
 const pageSource = "---\ntitle: X\nsection: Basics\n---\n\nHello world.\n";
@@ -113,6 +114,31 @@ beforeEach(() => {
 
 afterEach(() => {
   window.prompt = originalPrompt;
+});
+
+test("mounting Editor registers this instance's api/pageSlug as its image context (consumed by the slash menu's Image item)", async () => {
+  const calls: UploadCall[] = [];
+  const api = makeApi(fakeFetch(calls, "src/assets/img/manual/basics/x/n.png"));
+  let editor: TiptapEditor | null = null;
+  render(
+    <Editor
+      source={pageSource}
+      path={pagePath}
+      api={api}
+      onEditorReady={(created) => {
+        editor = created;
+      }}
+      onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
+    />,
+  );
+  await waitFor(() => screen.getByTestId("editor"));
+  await waitFor(() => expect(editor).not.toBeNull());
+
+  const context = getImageContext(editor as unknown as TiptapEditor);
+  expect(context?.api).toBe(api);
+  expect(context?.pageSlug).toBe("basics/x");
 });
 
 test("handlePaste with a pasted image file uploads it and inserts an image node", async () => {

@@ -929,8 +929,13 @@ body {
 
 /* Prose styling for the editable ProseMirror document. */
 .ProseMirror {
-  max-width: 720px;
-  margin: 0 auto;
+  /* Full-bleed event surface (Notion-style): block hover-tracking and
+     caret-placement work from the margins; the 720px text column is
+     created by symmetric padding instead of margin:auto. */
+  max-width: none;
+  margin: 0;
+  padding-left: max(calc((100% - 720px) / 2), 0px);
+  padding-right: max(calc((100% - 720px) / 2), 0px);
   font-size: 1rem;
   line-height: 1.65;
   outline: none;

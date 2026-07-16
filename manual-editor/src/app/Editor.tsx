@@ -22,7 +22,11 @@ import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
 import { FrontmatterForm } from "./FrontmatterForm";
 import { api as defaultApi, type makeApi } from "./api";
-import { insertImageFromFile, pageSlugFromPath } from "./imageUpload";
+import {
+  insertImageFromFile,
+  pageSlugFromPath,
+  registerImageContext,
+} from "./imageUpload";
 import { getBlockActions, type BlockAction } from "./blockActions";
 import { HandleMenu } from "./HandleMenu";
 
@@ -240,7 +244,12 @@ export function Editor({
   // `insertImageFromFile` (which needs a real `Editor` to `.chain()` off of)
   // can't close over it directly. `editorRef` bridges that: `onCreate` fires
   // synchronously once the instance exists, before any real user
-  // paste/drop can occur, and is re-set on every recreation.
+  // paste/drop can occur, and is re-set on every recreation. `onCreate` also
+  // calls `registerImageContext` with this same `api`/`pageSlug` pair, for
+  // the same underlying reason: the slash menu's "Image" item
+  // (`slash/slashItems.ts`) only receives the bare `Editor` instance from
+  // `SlashItem.run(editor)`, with no way to reach this component's `api`/
+  // `pageSlug` closure directly.
   const editorRef = useRef<TiptapEditor | null>(null);
 
   // The block-handle context menu (Notion-style: click the drag handle to
@@ -354,6 +363,7 @@ export function Editor({
       },
       onCreate: ({ editor: created }) => {
         editorRef.current = created;
+        registerImageContext(created, { api, pageSlug });
         onEditorReady?.(created);
       },
     },

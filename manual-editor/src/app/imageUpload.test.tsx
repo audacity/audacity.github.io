@@ -13,7 +13,13 @@ import { afterEach, beforeEach, expect, test } from "bun:test";
 import { Editor } from "@tiptap/core";
 import { buildAppExtensions } from "./editorExtensions";
 import { makeApi } from "./api";
-import { insertImageFromFile, pageSlugFromPath } from "./imageUpload";
+import {
+  getImageContext,
+  insertImageFromFile,
+  insertImageViaPicker,
+  pageSlugFromPath,
+  registerImageContext,
+} from "./imageUpload";
 import type { PMNodeJSON } from "../adapter/mdastToDoc";
 
 interface UploadCall {
@@ -168,6 +174,34 @@ test("happy path: uploads the file, then inserts an image node with the returned
   expect(images).toHaveLength(1);
   expect(images[0]!.attrs?.src).toBe(responsePath);
   expect(images[0]!.attrs?.alt).toBe("A screenshot of the toolbar");
+  editor.destroy();
+});
+
+test("registerImageContext + getImageContext round-trip the same context object for a given editor", () => {
+  const editor = makeEditor();
+  const api = makeApi(fakeFetch([], "src/assets/img/manual/x/y.png"));
+  const context = { api, pageSlug: "basics/x" };
+
+  expect(getImageContext(editor)).toBeUndefined();
+  registerImageContext(editor, context);
+  expect(getImageContext(editor)).toBe(context);
+
+  editor.destroy();
+});
+
+test("getImageContext returns undefined for an editor that was never registered", () => {
+  const editor = makeEditor();
+  expect(getImageContext(editor)).toBeUndefined();
+  editor.destroy();
+});
+
+test("insertImageViaPicker no-ops (no file input, no DOM changes) when the editor has no registered image context", () => {
+  const editor = makeEditor();
+  const bodyChildCountBefore = document.body.childElementCount;
+
+  expect(() => insertImageViaPicker(editor)).not.toThrow();
+
+  expect(document.body.childElementCount).toBe(bodyChildCountBefore);
   editor.destroy();
 });
 

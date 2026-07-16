@@ -77,3 +77,75 @@ export async function insertImageFromFile(
     return false;
   }
 }
+
+/**
+ * Per-editor context registry bridging the slash menu's "Image" item (see
+ * `slash/slashItems.ts`) to the `api`/`pageSlug` it needs but can't reach
+ * through `SlashItem.run(editor)`'s signature (unlike `handlePaste`/
+ * `handleDrop` in `Editor.tsx`, which close over both directly since they're
+ * defined inline in the same component render).
+ *
+ * A `WeakMap<Editor, ...>` rather than e.g. a React context: `run(editor)` is
+ * invoked from deep inside `SlashCommand`'s ProseMirror plugin/suggestion
+ * machinery, well outside any component tree that could supply a React
+ * context value — the `Editor` instance itself is the only thing both sides
+ * of that boundary share. `WeakMap` also means a registration is naturally
+ * garbage-collected once its `Editor` is destroyed, with no explicit
+ * unregister step required.
+ */
+const imageContexts = new WeakMap<
+  Editor,
+  { api: ReturnType<typeof makeApi>; pageSlug: string }
+>();
+
+/**
+ * Registers (or replaces) the `api`/`pageSlug` context for `editor`. Called
+ * from `Editor.tsx` whenever a live `TiptapEditor` instance exists for the
+ * current page — i.e. `onCreate` (first mount) and again whenever `path`
+ * changes and a new instance is created, mirroring how `editorRef` above is
+ * kept current.
+ */
+export function registerImageContext(
+  editor: Editor,
+  context: { api: ReturnType<typeof makeApi>; pageSlug: string },
+): void {
+  imageContexts.set(editor, context);
+}
+
+/** Looks up the context registered for `editor`, if any. */
+export function getImageContext(
+  editor: Editor,
+): { api: ReturnType<typeof makeApi>; pageSlug: string } | undefined {
+  return imageContexts.get(editor);
+}
+
+/**
+ * The slash menu's "Image" item body (`slash/slashItems.ts`): opens a native
+ * file picker and, once a file is chosen, runs the same
+ * `insertImageFromFile` flow paste/drop use. Factored out from the
+ * `SlashItem.run` closure so it's independently testable — the file-picker
+ * DOM interaction itself (`input.click()`) is a real user-gesture-driven
+ * browser affordance that's out of scope for happy-dom coverage, but the
+ * "no context registered -> no-op" guard and the context registry's
+ * round-trip are both plain function calls this can exercise directly.
+ *
+ * No-ops (no file input is ever created) when `editor` has no registered
+ * image context — e.g. a test-only editor instance that never went through
+ * `Editor.tsx`'s registration, or (defensively) a future caller that forgets
+ * to register one.
+ */
+export function insertImageViaPicker(editor: Editor): void {
+  const context = getImageContext(editor);
+  if (!context) return;
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.addEventListener("change", () => {
+    const file = input.files?.[0];
+    if (file) {
+      void insertImageFromFile(editor, context.api, context.pageSlug, file);
+    }
+  });
+  input.click();
+}

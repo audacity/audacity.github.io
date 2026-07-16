@@ -8,6 +8,7 @@ const EXPECTED_IDS = [
   "bulleted-list",
   "numbered-list",
   "code-block",
+  "image",
   "callout",
   "note",
   "pitfall",
@@ -17,12 +18,12 @@ const EXPECTED_IDS = [
   "shortcut",
 ];
 
-test("registry contains all 13 required items with unique ids", () => {
-  expect(SLASH_ITEMS).toHaveLength(13);
+test("registry contains all 14 required items with unique ids", () => {
+  expect(SLASH_ITEMS).toHaveLength(14);
   expect(SLASH_ITEMS.map((item) => item.id).sort()).toEqual(
     [...EXPECTED_IDS].sort(),
   );
-  expect(new Set(SLASH_ITEMS.map((item) => item.id)).size).toBe(13);
+  expect(new Set(SLASH_ITEMS.map((item) => item.id)).size).toBe(14);
 });
 
 test("basic-block items are in the 'Basic blocks' group and manual-block items are in 'Manual blocks'", () => {
@@ -33,6 +34,7 @@ test("basic-block items are in the 'Basic blocks' group and manual-block items a
     "bulleted-list",
     "numbered-list",
     "code-block",
+    "image",
   ];
   const manualBlockIds = [
     "callout",
@@ -102,4 +104,9 @@ test("filterSlashItems('warning') matches Callout via its keyword list", () => {
 test("filterSlashItems('tab') matches Tabs via label", () => {
   const results = filterSlashItems("tab");
   expect(results.map((r) => r.id)).toContain("tabs");
+});
+
+test("filterSlashItems('screenshot') and filterSlashItems('img') both match Image via its keyword list", () => {
+  expect(filterSlashItems("screenshot").map((r) => r.id)).toEqual(["image"]);
+  expect(filterSlashItems("img").map((r) => r.id)).toEqual(["image"]);
 });

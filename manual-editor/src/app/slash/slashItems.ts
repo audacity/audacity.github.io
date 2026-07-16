@@ -9,6 +9,7 @@ import {
   toggleBulletList,
   toggleOrderedList,
 } from "../insertCommands";
+import { insertImageViaPicker } from "../imageUpload";
 
 /**
  * A single row in the `/` slash menu. `group` controls the section it's
@@ -80,6 +81,13 @@ export const SLASH_ITEMS: SlashItem[] = [
     hint: "```",
     keywords: ["code", "codeblock", "fence", "pre"],
     run: (editor) => setCodeBlock(editor),
+  },
+  {
+    id: "image",
+    label: "Image",
+    group: "Basic blocks",
+    keywords: ["image", "picture", "photo", "screenshot", "img", "upload"],
+    run: (editor) => insertImageViaPicker(editor),
   },
   {
     id: "callout",
