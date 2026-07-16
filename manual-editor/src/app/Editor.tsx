@@ -1,7 +1,8 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor as TiptapEditor } from "@tiptap/core";
 import { DragHandle } from "@tiptap/extension-drag-handle-react";
-import { useEffect, useMemo, useState } from "react";
+import { TextSelection } from "@tiptap/pm/state";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { mdastToDoc } from "../adapter/mdastToDoc";
 import {
   serializeFrontmatter,
@@ -12,6 +13,7 @@ import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
 import { FrontmatterForm } from "./FrontmatterForm";
 import { api as defaultApi, type makeApi } from "./api";
+import { insertImageFromFile, pageSlugFromPath } from "./imageUpload";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
 const DEFAULT_ORDER = 99;
@@ -176,11 +178,96 @@ export function Editor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source, path]);
 
+  const pageSlug = useMemo(() => pageSlugFromPath(path), [path]);
+
+  // `handlePaste`/`handleDrop` below are captured into `editorProps` at
+  // editor-CREATION time (i.e. whenever `[path]` — `useEditor`'s deps array
+  // — changes), same as the autosave effect's closed-over `api`/
+  // `onDraftSaved`/etc (see that effect's comment). But the TipTap `Editor`
+  // instance itself doesn't exist yet while `useEditor`'s options object is
+  // being built — it's the return value of the very call below — so
+  // `insertImageFromFile` (which needs a real `Editor` to `.chain()` off of)
+  // can't close over it directly. `editorRef` bridges that: `onCreate` fires
+  // synchronously once the instance exists, before any real user
+  // paste/drop can occur, and is re-set on every recreation.
+  const editorRef = useRef<TiptapEditor | null>(null);
+
   const editor = useEditor(
     {
       extensions: buildAppExtensions(),
       content: doc,
-      onCreate: ({ editor: created }) => onEditorReady?.(created),
+      editorProps: {
+        // Pasted image(s) (e.g. a copied screenshot): runs the alt-prompt ->
+        // upload -> insert flow for the FIRST image file and reports the
+        // paste handled (`true`) so ProseMirror doesn't also fall through to
+        // its default text-insertion behavior for the same clipboard event.
+        // Anything without an image file (plain text, a copied block, ...)
+        // returns `false` for ProseMirror's default handling. The flow
+        // itself runs fire-and-forget (`void`) since this hook must answer
+        // synchronously.
+        handlePaste(_view, event) {
+          const files = event.clipboardData?.files;
+          if (!files) return false;
+          for (const file of Array.from(files)) {
+            if (file.type.startsWith("image/")) {
+              const liveEditor = editorRef.current;
+              if (liveEditor) {
+                void insertImageFromFile(liveEditor, api, pageSlug, file);
+              }
+              return true;
+            }
+          }
+          return false;
+        },
+        // Dropped image file(s) (e.g. dragged in from the Finder/desktop):
+        // same flow as paste above, but first moves the selection to the
+        // drop position (`view.posAtCoords`) so the image lands where the
+        // user actually dropped it rather than wherever the caret happened
+        // to be.
+        //
+        // `moved` is ProseMirror's own flag for "this drop is an in-editor
+        // drag completing" (e.g. the Notion-style `DragHandle` block-move
+        // above, or plain text/node drag-reordering) — it's `true` only for
+        // drags that STARTED inside this same ProseMirror view, and such
+        // drags never carry `dataTransfer.files` (there's no OS file
+        // involved). Returning `false` immediately whenever `moved` is true
+        // is therefore a pure guard against ever intercepting that path: it
+        // hands the event straight back to ProseMirror's own default
+        // drop-to-move handling, unexamined, before this code ever looks at
+        // `dataTransfer` — the block drag-handle's DnD is untouched.
+        handleDrop(view, event, _slice, moved) {
+          if (moved) return false;
+          const files = event.dataTransfer?.files;
+          if (!files) return false;
+          for (const file of Array.from(files)) {
+            if (file.type.startsWith("image/")) {
+              event.preventDefault();
+              const liveEditor = editorRef.current;
+              if (liveEditor) {
+                const coords = view.posAtCoords({
+                  left: event.clientX,
+                  top: event.clientY,
+                });
+                if (coords) {
+                  const { state } = view;
+                  view.dispatch(
+                    state.tr.setSelection(
+                      TextSelection.near(state.doc.resolve(coords.pos)),
+                    ),
+                  );
+                }
+                void insertImageFromFile(liveEditor, api, pageSlug, file);
+              }
+              return true;
+            }
+          }
+          return false;
+        },
+      },
+      onCreate: ({ editor: created }) => {
+        editorRef.current = created;
+        onEditorReady?.(created);
+      },
     },
     [path],
   );

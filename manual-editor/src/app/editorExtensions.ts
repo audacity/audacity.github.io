@@ -2,6 +2,7 @@ import type { Extension, Extensions, Node } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { buildExtensions } from "../adapter/schema";
 import { AdmonitionView } from "./nodeviews/AdmonitionView";
+import { ImageView } from "./nodeviews/ImageView";
 import { PreservedView } from "./nodeviews/PreservedView";
 import { ShortcutView } from "./nodeviews/ShortcutView";
 import { TabsView, TabView } from "./nodeviews/TabsView";
@@ -13,9 +14,10 @@ import { BlockReorder } from "./blockMove";
  * App-level extension list: the SAME ProseMirror schema as the pure adapter
  * `buildExtensions()` (used by `src/adapter`'s own tests and by
  * `editor-mount.test.tsx`), but with React node views attached to
- * `admonition`, `shortcut`, `preserved`, `tabs` and `tab` so the live app
- * renders them as a styled box, keycaps, a read-only "preserved" card, and a
- * switchable tab strip, respectively, instead of bare content. Also appends
+ * `admonition`, `shortcut`, `preserved`, `tabs`, `tab` and `image` so the
+ * live app renders them as a styled box, keycaps, a read-only "preserved"
+ * card, a switchable tab strip, and a captioned image, respectively, instead
+ * of bare content. Also appends
  * two plugin-only extensions with no schema footprint of their own —
  * `SlashCommand` (the `/` insert menu) and `LinkShortcut` (⌘K to link the
  * selection) — which is why they're appended after the `.map()` below rather
@@ -78,6 +80,13 @@ export function buildAppExtensions(): Extensions {
       return (extension as Node).extend({
         addNodeView() {
           return ReactNodeViewRenderer(TabView);
+        },
+      });
+    }
+    if (extension.name === "image") {
+      return (extension as Node).extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(ImageView);
         },
       });
     }

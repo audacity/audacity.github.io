@@ -1192,6 +1192,36 @@ body {
   margin-bottom: 0;
 }
 
+/* Image node view (`ImageView.tsx`): the (possibly `/api/asset`-proxied)
+   uploaded/corpus image plus a muted caption line showing its alt text.
+   Selected-state outline rides on ProseMirror's own `ProseMirror-selectednode`
+   class (applied automatically to the node view's DOM root when it's the
+   target of a `NodeSelection` — see that file's doc comment), styled here
+   rather than left to the browser's default dotted outline. */
+.image-block {
+  margin: 1.25rem 0;
+  cursor: default;
+}
+
+.image-block__img {
+  display: block;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.image-block.ProseMirror-selectednode .image-block__img {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.image-block__caption {
+  margin: 0.4rem 0 0;
+  color: #64748b;
+  font-size: 0.825rem;
+  font-style: italic;
+}
+
 /* Auth gate (`AuthGate.tsx`): full-viewport loading/sign-in/error states
    shown in place of the app shell before `/api/auth-me` resolves. */
 .auth-loading {
