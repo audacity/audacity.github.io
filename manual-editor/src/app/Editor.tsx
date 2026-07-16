@@ -193,8 +193,11 @@ function toFrontmatterData(data: Record<string, unknown>): FrontmatterData {
  *
  * D6 autosave: any editor content change (`editor.on("update")`) or
  * frontmatter form change bumps `saveVersion`, which (re)arms a debounce
- * timer (`autosaveDelayMs`, default 1.2s). When it fires, the current PM doc
- * JSON + serialized frontmatter are posted via
+ * timer (`autosaveDelayMs`, default 8s — each fire is a git commit on the
+ * drafts branch, and the original 1.2s default produced dozens of
+ * commits per editing session; a pending save is flushed rather than lost
+ * on page switch and tab close, see the flush/pagehide effects). When it
+ * fires, the current PM doc JSON + serialized frontmatter are posted via
  * `api.saveDraftDoc(path, doc, frontmatter)` to `/api/draft`, which calls
  * the real `docToSource(doc, frontmatter)` — never hand-assembled — on the
  * *server* to build the final MDX before committing it to the dev backend.
@@ -225,7 +228,7 @@ export function Editor({
   onFrontmatterSourceReady,
   api = defaultApi,
   onDraftSaved,
-  autosaveDelayMs = 1200,
+  autosaveDelayMs = 8000,
   onEditorReady,
   onAddSubpage,
   hasChildren,
@@ -516,6 +519,14 @@ export function Editor({
     };
   }, [editor]);
 
+  // A pending (armed-but-unfired) autosave, exposed so the flush effect
+  // below can fire it early when the page unmounts/switches. `flush()`
+  // captures the freshest doc/frontmatter at flush time, saves
+  // fire-and-forget (the component may already be gone — no setState), and
+  // is nulled the moment the debounce fires normally so a flush never
+  // double-saves.
+  const pendingSaveRef = useRef<{ flush: () => void } | null>(null);
+
   // The debounced autosave itself. `saveVersion` is the trigger: it only
   // increments once an actual edit has happened (content or frontmatter),
   // so the initial mount (`saveVersion === 0`) never autosaves an unedited
@@ -524,7 +535,21 @@ export function Editor({
     if (saveVersion === 0 || !editor) return;
     const savingPath = path;
     let cancelled = false;
+    pendingSaveRef.current = {
+      flush: () => {
+        pendingSaveRef.current = null;
+        void api
+          .saveDraftDoc(
+            savingPath,
+            editor.getJSON(),
+            serializeFrontmatter(frontmatterData),
+          )
+          .then(() => onDraftSaved?.(savingPath))
+          .catch(() => {});
+      },
+    };
     const timer = setTimeout(() => {
+      pendingSaveRef.current = null;
       void (async () => {
         setSaveStatus("saving");
         try {
@@ -552,6 +577,49 @@ export function Editor({
     // timer with fresh values.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveVersion, path]);
+
+  // Flushes a pending autosave instead of dropping it when the page
+  // unmounts or switches (`path` change unmounts the editor instance):
+  // with a several-second debounce, cancelling silently would lose the
+  // writer's last edits every time they click another page in the sidebar.
+  // Deliberately NOT keyed on `saveVersion` — re-arming while typing must
+  // not flush per keystroke; only leaving the page does.
+  useEffect(() => {
+    return () => {
+      pendingSaveRef.current?.flush();
+    };
+  }, [path]);
+
+  // Same protection for closing/reloading the whole tab: `pagehide` is the
+  // last reliable moment to get bytes out. `fetch` with `keepalive` lets
+  // the request outlive the page (same-origin cookies included) — the
+  // pending flush's normal `api.saveDraftDoc` path may be killed mid-flight
+  // by the unload, so this posts the payload directly.
+  useEffect(() => {
+    if (!editor) return;
+    const handlePageHide = () => {
+      if (!pendingSaveRef.current) return;
+      pendingSaveRef.current = null;
+      void fetch("/api/draft", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path,
+          doc: editor.getJSON(),
+          frontmatter: serializeFrontmatter(frontmatterData),
+        }),
+      }).catch(() => {});
+    };
+    window.addEventListener("pagehide", handlePageHide);
+    return () => {
+      window.removeEventListener("pagehide", handlePageHide);
+    };
+    // Closure freshness for `frontmatterData` follows the same reasoning as
+    // the autosave effect above; `saveVersion` re-renders keep it current
+    // enough, and the doc JSON is read live from the editor at fire time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, path, saveVersion]);
 
   async function handleConfirmDelete() {
     setDeleting(true);

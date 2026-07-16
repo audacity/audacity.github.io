@@ -1,6 +1,12 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  # Skip BRANCH DEPLOYS of the manual editor's autosave branch: every save
+  # in the editor is a commit there, and each was triggering a full site
+  # build for no audience. The PR deploy preview (context "deploy-preview")
+  # is the useful artifact and still builds — as does every other branch.
+  # Netlify ignore semantics: exit 0 = skip the build.
+  ignore = '[ "$BRANCH" = "manual/editor-drafts" ] && [ "$CONTEXT" = "branch-deploy" ]'
 
 [[edge_functions]]
   function = "cohort"

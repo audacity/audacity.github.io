@@ -151,7 +151,7 @@ test("a frontmatter-only edit (no doc content change) also triggers saveDraftDoc
   expect(calls[0]!.frontmatter).toContain("title: Renamed Page");
 });
 
-test("unmounting before the debounce fires cancels the pending autosave", async () => {
+test("unmounting before the debounce fires FLUSHES the pending autosave instead of dropping it", async () => {
   const calls: DraftCall[] = [];
   const api = makeApi(fakeFetch(calls));
   let editor: TiptapEditor | null = null;
@@ -160,7 +160,7 @@ test("unmounting before the debounce fires cancels the pending autosave", async 
       source={pageSource}
       path={pagePath}
       api={api}
-      autosaveDelayMs={50}
+      autosaveDelayMs={5000}
       onEditorReady={(created) => {
         editor = created;
       }}
@@ -173,15 +173,73 @@ test("unmounting before the debounce fires cancels the pending autosave", async 
 
   act(() => {
     editor!.commands.focus("end");
-    editor!.commands.insertContent(" will not be saved");
+    editor!.commands.insertContent(" LAST-SECOND-EDIT");
   });
 
+  // Long debounce (5s) hasn't fired; unmount must flush the save so the
+  // writer's final edits aren't lost when they click another page.
   unmount();
 
-  // Wait past the debounce window; the pending save must have been
-  // cancelled by the effect's cleanup on unmount.
-  await new Promise((r) => setTimeout(r, 150));
-  expect(calls.length).toBe(0);
+  await waitFor(() => expect(calls.length).toBe(1));
+  expect(calls[0]!.path).toBe(pagePath);
+  expect(containsText(calls[0]!.doc, "LAST-SECOND-EDIT")).toBe(true);
+});
+
+test("a save that already fired is not flushed again on unmount (no duplicate commit)", async () => {
+  const calls: DraftCall[] = [];
+  const api = makeApi(fakeFetch(calls));
+  let editor: TiptapEditor | null = null;
+  const { unmount } = render(
+    <Editor
+      source={pageSource}
+      path={pagePath}
+      api={api}
+      autosaveDelayMs={15}
+      onEditorReady={(created) => {
+        editor = created;
+      }}
+      onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
+    />,
+  );
+  await waitFor(() => expect(editor).not.toBeNull());
+
+  act(() => {
+    editor!.commands.focus("end");
+    editor!.commands.insertContent(" text");
+  });
+
+  // Let the short debounce fire and complete normally…
+  await waitFor(() => expect(calls.length).toBe(1));
+  // …then unmount: nothing is pending, so nothing more may be saved.
+  unmount();
+  await new Promise((r) => setTimeout(r, 60));
+  expect(calls.length).toBe(1);
+});
+
+test("continued typing re-arms the debounce without flushing per keystroke", async () => {
+  const { calls, getEditor } = await mountEditor({ autosaveDelayMs: 40 });
+  const editor = getEditor();
+
+  act(() => {
+    editor.commands.focus("end");
+    editor.commands.insertContent(" a");
+  });
+  await new Promise((r) => setTimeout(r, 10));
+  act(() => {
+    editor.commands.insertContent("b");
+  });
+  await new Promise((r) => setTimeout(r, 10));
+  act(() => {
+    editor.commands.insertContent("c");
+  });
+
+  // Three rapid edits inside one debounce window → exactly one save.
+  await waitFor(() => expect(calls.length).toBe(1));
+  await new Promise((r) => setTimeout(r, 100));
+  expect(calls.length).toBe(1);
+  expect(containsText(calls[0]!.doc, "abc")).toBe(true);
 });
 
 test("onDraftSaved fires with the page path once the debounced save succeeds", async () => {
