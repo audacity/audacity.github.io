@@ -1,6 +1,7 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor as TiptapEditor } from "@tiptap/core";
 import { DragHandle } from "@tiptap/extension-drag-handle-react";
+import type { NestedOptions, RuleContext } from "@tiptap/extension-drag-handle";
 import { offset } from "@floating-ui/dom";
 import type { Node as PMNode } from "@tiptap/pm/model";
 import { TextSelection } from "@tiptap/pm/state";
@@ -85,20 +86,54 @@ const HANDLE_COMPUTE_POSITION_CONFIG = {
  * of its own — the only way to move/duplicate/delete/turn-into it is to hop
  * out to the container's own handle (which acts on the whole container).
  *
- * `NestedOptions.allowedContainers` restricts nested targeting to specific
- * ancestor node types rather than "any depth, anywhere" (its default): the
- * app's only two block-content containers are `admonition` and `tab`
- * (`bulletList`/`orderedList`/`blockquote` already had no reordering UI
- * before this and stay that way — this task's scope is the two named
- * containers, not a general nested-editing overhaul). `onNodeChange` in
- * nested mode reports the SAME `{ node, editor, pos }` shape as top-level
- * mode, just for whichever ancestor the rule-based scorer picks at the
- * cursor position — `handleNodeChange`/`getBlockActions` below need no
- * changes to understand a nested `{node, pos}`, since both already treat
- * `pos` as "wherever this node currently lives," not "must be a doc child."
+ * CANNOT use `NestedOptions.allowedContainers` for "nest only into
+ * admonition/tab": it filters EVERY candidate by "has one of these types as
+ * an ancestor", and a top-level paragraph's only ancestor is `doc` — so
+ * `allowedContainers: ["admonition", "tab"]` rejects every top-level block
+ * and the handle never appears outside those containers at all. The scope
+ * is expressed as scoring rules instead (`nestOnlyInNamedContainers`), which
+ * exclude DEEP candidates outside the two containers while leaving depth-1
+ * blocks untouched.
+ *
+ * `defaultRules: false` because the package's `listWrapperDeprioritize`
+ * default rule EXCLUDES list-wrapper nodes (bulletList/orderedList) as
+ * targets, which would trade the app's long-standing whole-list handle for
+ * per-item handles; `wholeListsOnly` keeps lists moving as one block, the
+ * behavior every version before nested mode had. `onNodeChange` in nested
+ * mode reports the SAME `{ node, editor, pos }` shape as top-level mode,
+ * just for whichever node the rule-based scorer picks at the cursor
+ * position — `handleNodeChange`/`getBlockActions` below need no changes.
  */
-const NESTED_DRAG_HANDLE_OPTIONS = {
-  allowedContainers: ["admonition", "tab"],
+const EXCLUDE = 1000; // >= the scorer's BASE_SCORE, so returning it excludes
+// Exported for dragHandleRules.test.tsx only — not part of the component API.
+export const NESTED_DRAG_HANDLE_OPTIONS: NestedOptions = {
+  defaultRules: false,
+  rules: [
+    {
+      id: "nestOnlyInNamedContainers",
+      // Depth-1 blocks (direct doc children) are always eligible; deeper
+      // candidates only when some real ancestor is an admonition or tab.
+      evaluate: ({ depth, $pos }: RuleContext) => {
+        if (depth <= 1) return 0;
+        for (let d = depth - 1; d >= 1; d -= 1) {
+          const type = $pos.node(d).type.name;
+          if (type === "admonition" || type === "tab") return 0;
+        }
+        return EXCLUDE;
+      },
+    },
+    {
+      id: "wholeListsOnly",
+      // Exclude list items and their inner paragraphs so the scorer settles
+      // on the list wrapper itself — lists move as one block.
+      evaluate: ({ node, parent }: RuleContext) => {
+        const itemTypes = ["listItem", "taskItem"];
+        if (itemTypes.includes(node.type.name)) return EXCLUDE;
+        if (parent && itemTypes.includes(parent.type.name)) return EXCLUDE;
+        return 0;
+      },
+    },
+  ],
 };
 
 /**
