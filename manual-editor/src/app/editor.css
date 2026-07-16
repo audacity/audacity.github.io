@@ -629,6 +629,13 @@ body {
    document text, so no layout changes were needed here. Sized up from the
    original 20×24px to 24×28px (bigger, easier click/hover target, still
    modest against a 1rem document) with `font-size` scaled to match. */
+/* The package's positioned wrapper (className passed to <DragHandle>) —
+   must stay style-neutral so floating-ui's inline top/left/visibility are
+   the only thing controlling it. Sizing lives on the inner button below. */
+.drag-handle-wrapper {
+  pointer-events: auto;
+}
+
 .drag-handle {
   display: flex;
   align-items: center;

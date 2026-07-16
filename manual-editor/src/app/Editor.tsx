@@ -5,6 +5,7 @@ import { offset } from "@floating-ui/dom";
 import type { Node as PMNode } from "@tiptap/pm/model";
 import { TextSelection } from "@tiptap/pm/state";
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -254,6 +255,17 @@ export function Editor({
   // track the hover state afterward, so it stays put even if the mouse
   // later leaves the handle (which clears `hoveredRef` via `onNodeChange`).
   const hoveredRef = useRef<{ node: PMNode; pos: number } | null>(null);
+  // MUST be identity-stable: the <DragHandle> component lists `onNodeChange`
+  // in the effect deps that (un)register its whole ProseMirror plugin and
+  // reset the handle element to visibility:hidden — an inline arrow here
+  // made every Editor re-render (save-status ticks etc.) tear the handle
+  // down mid-hover, leaving it permanently invisible/untracked.
+  const handleNodeChange = useCallback(
+    ({ node, pos }: { node: PMNode | null; pos: number }) => {
+      hoveredRef.current = node ? { node, pos } : null;
+    },
+    [],
+  );
   const [handleMenu, setHandleMenu] = useState<{
     actions: BlockAction[];
     anchorRect: DOMRect;
@@ -538,9 +550,8 @@ export function Editor({
           <DragHandle
             editor={editor}
             computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
-            onNodeChange={({ node, pos }) => {
-              hoveredRef.current = node ? { node, pos } : null;
-            }}
+            onNodeChange={handleNodeChange}
+            className="drag-handle-wrapper"
           >
             <button
               type="button"
