@@ -22,11 +22,13 @@ import { buildAppExtensions } from "./editorExtensions";
 import { parseMdx } from "../mdx/pipeline";
 import { FrontmatterForm } from "./FrontmatterForm";
 import { api as defaultApi, type makeApi } from "./api";
+import type { ManualPageMeta } from "../backend/types";
 import {
   insertImageFromFile,
   pageSlugFromPath,
   registerImageContext,
 } from "./imageUpload";
+import { registerPageContext } from "./mentions/pageMention";
 import { getBlockActions, type BlockAction } from "./blockActions";
 import { getSelectedBlocks } from "./blockSelection";
 import { HandleMenu } from "./HandleMenu";
@@ -170,6 +172,7 @@ export function Editor({
   source,
   path,
   sections = [],
+  pages = [],
   onFrontmatterSourceReady,
   api = defaultApi,
   onDraftSaved,
@@ -189,6 +192,18 @@ export function Editor({
    * it through.
    */
   sections?: string[];
+  /**
+   * Every manual page's metadata, offered to the `@` mention menu
+   * (`mentions/pageMention.ts`'s `PageMention` extension) so typing `@`
+   * can insert a link to any of them. Defaults to `[]` so callers that
+   * don't care about mentions (e.g. node-view tests exercising the editor
+   * in isolation) don't need to wire it through — the menu simply has
+   * nothing to show. Registered into `PageMention`'s per-editor context
+   * below whenever it changes, so a later page-list refresh (e.g. a new
+   * page created while this editor stays open) keeps the mention menu
+   * current.
+   */
+  pages?: ManualPageMeta[];
   /**
    * Optional hook exposing the live serialized frontmatter string to a
    * caller (e.g. a future save action) each time the form data changes.
@@ -390,11 +405,26 @@ export function Editor({
       onCreate: ({ editor: created }) => {
         editorRef.current = created;
         registerImageContext(created, { api, pageSlug });
+        registerPageContext(created, pages);
         onEditorReady?.(created);
       },
     },
     [path],
   );
+
+  // Keeps `PageMention`'s registered page list current across a `pages`
+  // prop change that DOESN'T recreate the editor (`useEditor`'s deps above
+  // are `[path]` only, so `pages` refreshing — e.g. after `App`'s
+  // `handleDraftSaved`/`handleCreatePage` re-fetch the sidebar list — is
+  // exactly that case). `onCreate` above already registers the list this
+  // render started with; this effect re-registers on every subsequent
+  // `pages` change too (a plain `WeakMap.set` — see `registerPageContext`'s
+  // doc comment), so a page created/renamed while this editor stays open is
+  // immediately mentionable without needing to reopen the page.
+  useEffect(() => {
+    if (!editor) return;
+    registerPageContext(editor, pages);
+  }, [editor, pages]);
 
   // The floating multi-block selection bar (`SelectionBar.tsx`,
   // `blockSelection.ts`)'s live "N blocks selected" count. The selection

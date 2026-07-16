@@ -8,6 +8,7 @@ import { ShortcutView } from "./nodeviews/ShortcutView";
 import { TabsView, TabView } from "./nodeviews/TabsView";
 import { LinkShortcut } from "./linkShortcut";
 import { SlashCommand } from "./slash/SlashCommand";
+import { PageMention } from "./mentions/pageMention";
 import { BlockReorder } from "./blockMove";
 import { BlockSelection } from "./blockSelection";
 import { TabEnterGuard } from "./tabKeymap";
@@ -20,12 +21,13 @@ import { TabEnterGuard } from "./tabKeymap";
  * live app renders them as a styled box, keycaps, a read-only "preserved"
  * card, a switchable tab strip, and a captioned image, respectively, instead
  * of bare content. Also appends
- * two plugin-only extensions with no schema footprint of their own —
- * `SlashCommand` (the `/` insert menu) and `LinkShortcut` (⌘K to link the
+ * three plugin-only extensions with no schema footprint of their own —
+ * `SlashCommand` (the `/` insert menu), `PageMention` (the `@` internal-link
+ * insert menu — `./mentions/pageMention`) and `LinkShortcut` (⌘K to link the
  * selection) — which is why they're appended after the `.map()` below rather
  * than folded into it: they don't correspond to any node/mark
  * `buildExtensions()` already builds, so there's nothing to `.extend()`.
- * Since neither adds nodes or marks, `editorExtensions.test.ts`'s schema
+ * Since none add nodes or marks, `editorExtensions.test.ts`'s schema
  * parity assertion (which only compares `buildExtensions()` against this
  * function) is unaffected by their presence. `BlockReorder` (Alt+Up/Down
  * keyboard block moves, from `./blockMove`) is appended for the same
@@ -107,6 +109,7 @@ export function buildAppExtensions(): Extensions {
   return [
     ...extensions,
     SlashCommand,
+    PageMention,
     LinkShortcut,
     BlockReorder,
     BlockSelection,

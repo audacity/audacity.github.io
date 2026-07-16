@@ -293,6 +293,7 @@ export function App({
               source={source}
               path={activePath}
               sections={sections}
+              pages={pages ?? []}
               api={api}
               onDraftSaved={handleDraftSaved}
               onAddSubpage={() => {

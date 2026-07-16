@@ -1029,6 +1029,44 @@ body {
   font-size: 0.85rem;
 }
 
+/* Page mention menu (`@`): shares `.slash-menu`'s floating card chrome
+   (width/max-height/padding/border/shadow — applied via the compound
+   className on the container element itself, see `PageMentionMenu.tsx`) and
+   `.slash-menu__empty`'s "No results" row. Only the per-row layout differs:
+   each row is two STACKED lines (title, then a muted "section · slug" line)
+   rather than the slash menu's single-line label+hint row, so rows get
+   their own `.page-mention-menu__item` class instead of reusing
+   `.slash-menu__item`. */
+.page-mention-menu__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #1f2937;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.page-mention-menu__item:hover,
+.page-mention-menu__item.is-active {
+  background: #e0e7ff;
+}
+
+.page-mention-menu__title {
+  font-weight: 500;
+}
+
+.page-mention-menu__meta {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
 /* Prose styling for the editable ProseMirror document. */
 .ProseMirror {
   /* Full-bleed event surface (Notion-style): block hover-tracking and
