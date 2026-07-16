@@ -1232,6 +1232,47 @@ body {
   font-weight: 600;
 }
 
+/* Wraps a header button together with its (active-tab-only) "×" remove
+   button so the pair lays out as a single flex item within `.tabs__headers`
+   and shares one hover zone — hovering anywhere across the group, not just
+   the × itself, is what reveals it (see `.tabs__remove` below). */
+.tabs__header-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* "×" remove-active-tab button (`TabsView.tsx`'s `tabs-remove-tab`):
+   present only on the active header, quiet/low-opacity until its
+   `.tabs__header-group` is hovered — the familiar browser-tab close-button
+   treatment, so it never competes for attention on a tab the user isn't
+   currently looking at. */
+.tabs__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.3rem;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.35;
+}
+
+.tabs__header-group:hover .tabs__remove {
+  opacity: 1;
+}
+
+.tabs__remove:hover {
+  background: #e2e8f0;
+  color: #1f2937;
+}
+
 /* "+" add-tab button: same subtle ghost-button treatment as the sidebar's
    own quiet actions (`.editor-header__edit`/`.app-sidebar__new-page-button`)
    — a light border and muted label, not a call-to-action. */

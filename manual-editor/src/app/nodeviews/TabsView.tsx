@@ -3,6 +3,8 @@ import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import type { ReactNodeViewProps } from "@tiptap/react";
 import {
   getActiveTabIndex,
+  getActiveTabSnapshot,
+  notifyActiveTabIndex,
   resolveActiveTabIndex,
   setActiveTabIndex,
   subscribeActiveTabIndex,
@@ -42,6 +44,66 @@ function addTab(editor: ReactNodeViewProps["editor"], tabsPos: number): void {
 }
 
 /**
+ * Removes the `tab` child at `tabIndex` from the `tabs` node at `tabsPos`,
+ * in one transaction (so one undo restores it). Two cases:
+ *
+ * - More than one tab left after removal: delete just that child (range
+ *   computed from `tabsPos` + the summed `nodeSize` of its earlier
+ *   siblings, same "walk children to find a target's range" math the
+ *   existing tab-deletion regression test in `nodeviews.test.tsx` uses),
+ *   then move the shared active index (`tabsActiveStore`) to the nearest
+ *   surviving neighbor. `resolveActiveTabIndex(tabIndex, newChildCount)`
+ *   already computes exactly that: it clamps `tabIndex` — now a "hole" —
+ *   down to the last valid index, which lands on the tab that slid into
+ *   the removed one's spot (same index) when one did, or the previous tab
+ *   when the removed tab was last. Always follows with
+ *   `notifyActiveTabIndex` (not just `setActiveTabIndex`, which no-ops
+ *   when the NUMBER doesn't change) because "same index" is exactly the
+ *   common case here — a later sibling sliding into the removed tab's own
+ *   index — and that neighbor's separately-mounted `TabView` still needs
+ *   telling to re-render (see that function's doc comment).
+ * - Exactly one tab left: delete the WHOLE `tabs` node instead of leaving
+ *   an empty group — the schema requires `tab+`, so a tabs block with zero
+ *   tabs isn't a representable (or useful) document state, and "remove the
+ *   last tab" reads as "remove this tab strip" to the user anyway. No
+ *   confirmation prompt: it's a single dispatch, so one Cmd+Z undoes the
+ *   whole thing exactly like removing any other tab.
+ */
+function removeTab(
+  editor: ReactNodeViewProps["editor"],
+  tabsPos: number,
+  tabIndex: number,
+): void {
+  const { state } = editor;
+  const tabsNode = state.doc.nodeAt(tabsPos);
+  if (!tabsNode) return;
+  if (tabIndex < 0 || tabIndex >= tabsNode.childCount) return;
+
+  if (tabsNode.childCount <= 1) {
+    const tr = state.tr.delete(tabsPos, tabsPos + tabsNode.nodeSize);
+    editor.view.dispatch(tr);
+    return;
+  }
+
+  let childPos = tabsPos + 1;
+  for (let i = 0; i < tabIndex; i++) {
+    childPos += tabsNode.child(i).nodeSize;
+  }
+  const childNode = tabsNode.child(tabIndex);
+
+  const tr = state.tr.delete(childPos, childPos + childNode.nodeSize);
+  editor.view.dispatch(tr);
+
+  const newChildCount = tabsNode.childCount - 1;
+  setActiveTabIndex(
+    editor,
+    tabsPos,
+    resolveActiveTabIndex(tabIndex, newChildCount),
+  );
+  notifyActiveTabIndex(editor, tabsPos);
+}
+
+/**
  * Node view for the `tabs` block node (maps to the `Tabs` mdast component;
  * see `registry.ts`). Renders one clickable header per child `tab`, showing
  * its `label` attr (falling back to "Tab N"), and shows only the selected
@@ -64,10 +126,18 @@ export function TabsView({ node, editor, getPos }: ReactNodeViewProps) {
   const tabsPos = getPos() ?? -1;
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const activeIndex = useSyncExternalStore(
+  // Subscribes on the combined index+revision snapshot (not the raw index)
+  // so a forced `notifyActiveTabIndex` (see `removeTab` and that function's
+  // own doc comment) reliably re-renders this component even on the
+  // "removal lands a neighbor on the very same index" coincidence, where
+  // the raw index alone wouldn't look changed. `activeIndex` itself is then
+  // read separately via `getActiveTabIndex` — the snapshot string above
+  // exists purely to drive the subscription, not to branch on.
+  useSyncExternalStore(
     (onChange) => subscribeActiveTabIndex(editor, tabsPos, onChange),
-    () => getActiveTabIndex(editor, tabsPos),
+    () => getActiveTabSnapshot(editor, tabsPos),
   );
+  const activeIndex = getActiveTabIndex(editor, tabsPos);
 
   const labels: (string | null)[] = [];
   node.forEach((child) => {
@@ -123,17 +193,45 @@ export function TabsView({ node, editor, getPos }: ReactNodeViewProps) {
       data-active-index={clampedIndex}
     >
       <div className="tabs__headers" contentEditable={false}>
-        {labels.map((label, index) => (
-          <button
-            key={index}
-            type="button"
-            className="tabs__header"
-            data-active={index === clampedIndex}
-            onClick={() => setActiveTabIndex(editor, tabsPos, index)}
-          >
-            {label || `Tab ${index + 1}`}
-          </button>
-        ))}
+        {labels.map((label, index) => {
+          const isActive = index === clampedIndex;
+          return (
+            <div key={index} className="tabs__header-group">
+              <button
+                type="button"
+                className="tabs__header"
+                data-active={isActive}
+                onClick={() => setActiveTabIndex(editor, tabsPos, index)}
+              >
+                {label || `Tab ${index + 1}`}
+              </button>
+              {/* Only the active header shows the close ("×") button —
+                  browser-tab style: a sibling of the header button (never
+                  nested inside it — a <button> can't validly contain
+                  another), rendered only for the tab currently in view, and
+                  a no-op unless clicked (`stopPropagation` on both
+                  `mouseDown` and `click`, same guard `TabView`'s own
+                  `.tab__label-input` uses) so it never bubbles into the
+                  header's own activation `onClick` or a PM selection. */}
+              {isActive && (
+                <button
+                  type="button"
+                  className="tabs__remove"
+                  data-testid="tabs-remove-tab"
+                  aria-label="Remove tab"
+                  title="Remove tab"
+                  onMouseDown={(event) => event.stopPropagation()}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeTab(editor, tabsPos, index);
+                  }}
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          );
+        })}
         <button
           type="button"
           className="tabs__add"
@@ -177,10 +275,14 @@ export function TabView({
     myIndex = $pos.index();
   }
 
-  const activeIndex = useSyncExternalStore(
+  // See `TabsView`'s identical comment above: subscribes on the combined
+  // snapshot so a forced notify (post-removal, same-index neighbor) isn't
+  // masked by `useSyncExternalStore`'s own unchanged-index short-circuit.
+  useSyncExternalStore(
     (onChange) => subscribeActiveTabIndex(editor, tabsPos, onChange),
-    () => getActiveTabIndex(editor, tabsPos),
+    () => getActiveTabSnapshot(editor, tabsPos),
   );
+  const activeIndex = getActiveTabIndex(editor, tabsPos);
 
   const active = myIndex === activeIndex;
   const label = (node.attrs.label as string | null) ?? "";

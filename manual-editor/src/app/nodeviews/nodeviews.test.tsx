@@ -155,8 +155,12 @@ test("deleting the active (last) tab leaves exactly one panel active, not zero",
   let panels = within(tabs).getAllByTestId("tab");
   expect(panels).toHaveLength(3);
 
-  // Activate the last tab (index 2).
-  const headers = within(tabs).getAllByRole("button");
+  // Activate the last tab (index 2). Scoped to `.tabs__header` (not
+  // `getAllByRole("button")`) so the trailing "+" add-tab button — and,
+  // since Task 1, the active-only "×" remove-tab button — don't shift these
+  // indices off the three actual tab headers (see the first test's own
+  // comment on the same scoping issue).
+  const headers = tabs.querySelectorAll<HTMLButtonElement>(".tabs__header");
   fireEvent.click(headers[2]!);
   await waitFor(() => {
     expect(panels[2]?.getAttribute("data-active")).toBe("true");
@@ -270,6 +274,170 @@ test('"+" add-tab button appends a new tab at the end, labeled "New tab", and ac
   expect(newTab.attrs.label).toBe("New tab");
   expect(newTab.childCount).toBe(1);
   expect(newTab.child(0).type.name).toBe("paragraph");
+});
+
+/** Finds the (first, top-level) `tabs` node in `liveEditor`'s current doc,
+ * same `descendants` walk the tests above already use inline — pulled out
+ * here since the ×-removal tests below need it more than once each (before
+ * removal, after removal, after undo). */
+function findTabsNode(
+  liveEditor: TiptapEditor,
+): ReturnType<TiptapEditor["state"]["doc"]["nodeAt"]> {
+  let tabsNode: ReturnType<TiptapEditor["state"]["doc"]["nodeAt"]> = null;
+  liveEditor.state.doc.descendants((node) => {
+    if (node.type.name === "tabs") {
+      tabsNode = node;
+      return false;
+    }
+    return true;
+  });
+  return tabsNode;
+}
+
+test("the × on the active header removes that tab, activates the nearest neighbor, and one undo restores all three", async () => {
+  let editor: TiptapEditor | null = null;
+  render(
+    <TestHarness
+      source={threeTabSource}
+      onReady={(created) => {
+        editor = created;
+      }}
+    />,
+  );
+  const editorEl = await waitFor(() => screen.getByTestId("editor"));
+  const tabs = await waitFor(() => within(editorEl).getByTestId("tabs"));
+  expect(editor).not.toBeNull();
+  const liveEditor = editor as unknown as TiptapEditor;
+
+  // Activate the MIDDLE tab (macOS, index 1) so its removal exercises the
+  // "a later sibling slides into the removed index" neighbor-activation
+  // branch, not the simpler "removed the last tab" one already covered by
+  // the pre-existing deletion regression test above.
+  let headers = tabs.querySelectorAll<HTMLButtonElement>(".tabs__header");
+  fireEvent.click(headers[1]!);
+  await waitFor(() => {
+    const panels = within(tabs).getAllByTestId("tab");
+    expect(panels[1]?.getAttribute("data-active")).toBe("true");
+  });
+
+  // Only the active header shows a "×" — exactly one in the whole strip.
+  expect(within(tabs).getAllByTestId("tabs-remove-tab")).toHaveLength(1);
+  const removeButton = within(tabs).getByTestId("tabs-remove-tab");
+
+  act(() => {
+    fireEvent.click(removeButton);
+  });
+
+  await waitFor(() => {
+    expect(within(tabs).getAllByTestId("tab")).toHaveLength(2);
+  });
+
+  // Structure: macOS gone, Windows/Linux remain, in original order.
+  headers = tabs.querySelectorAll<HTMLButtonElement>(".tabs__header");
+  expect(Array.from(headers).map((h) => h.textContent)).toEqual([
+    "Windows",
+    "Linux",
+  ]);
+  const tabsNodeAfterRemoval = findTabsNode(liveEditor);
+  expect(tabsNodeAfterRemoval).not.toBeNull();
+  expect(tabsNodeAfterRemoval!.childCount).toBe(2);
+
+  // Neighbor activation: Linux slid into the removed macOS's index (1), so
+  // it — not Windows — is now the active tab. Polled (not read once right
+  // after the length `waitFor` above) for the same passive-effect-timing
+  // reason as the post-undo check further down.
+  await waitFor(() => {
+    const panelsAfterRemoval = within(tabs).getAllByTestId("tab");
+    expect(panelsAfterRemoval[0]?.getAttribute("data-active")).toBe("false");
+    expect(panelsAfterRemoval[1]?.getAttribute("data-active")).toBe("true");
+  });
+
+  // One undo (the removal was a single transaction) restores all three, in
+  // their original order, with the store's active index still sane — in
+  // range for the restored doc, not left dangling past its end. `undo` runs
+  // entirely through ProseMirror's own history plugin, not through this
+  // file's `removeTab`, so it's `TabsView`'s (not any individual `TabView`'s)
+  // state this asserts against: `TabsView` is bound directly to the `tabs`
+  // node itself, so — unlike each `TabView`'s separate React root — it's
+  // guaranteed to recompute its `data-active-index` fresh on every doc
+  // change, undo included.
+  act(() => {
+    liveEditor.commands.undo();
+  });
+
+  await waitFor(() => {
+    expect(within(tabs).getAllByTestId("tab")).toHaveLength(3);
+  });
+
+  headers = tabs.querySelectorAll<HTMLButtonElement>(".tabs__header");
+  expect(Array.from(headers).map((h) => h.textContent)).toEqual([
+    "Windows",
+    "macOS",
+    "Linux",
+  ]);
+  const tabsNodeAfterUndo = findTabsNode(liveEditor);
+  expect(tabsNodeAfterUndo).not.toBeNull();
+  expect(tabsNodeAfterUndo!.childCount).toBe(3);
+
+  const activeIndexAttr = tabs.getAttribute("data-active-index");
+  expect(activeIndexAttr).not.toBeNull();
+  const activeIndex = Number(activeIndexAttr);
+  expect(activeIndex).toBeGreaterThanOrEqual(0);
+  expect(activeIndex).toBeLessThan(3);
+});
+
+/** A single-tab source for the "remove the only tab" test below — the
+ * schema requires `tab+`, so removing the only tab can't leave an empty
+ * `tabs` node; it has to remove the whole block (see `removeTab`'s doc
+ * comment in `TabsView.tsx`). */
+const oneTabSource = `# Test page
+
+<Tabs>
+  <Tab label="Only tab">
+
+Only tab content.
+
+  </Tab>
+</Tabs>
+`;
+
+test("the × on the only tab removes the whole tabs block; undo restores it", async () => {
+  let editor: TiptapEditor | null = null;
+  render(
+    <TestHarness
+      source={oneTabSource}
+      onReady={(created) => {
+        editor = created;
+      }}
+    />,
+  );
+  const editorEl = await waitFor(() => screen.getByTestId("editor"));
+  const tabs = await waitFor(() => within(editorEl).getByTestId("tabs"));
+  expect(editor).not.toBeNull();
+  const liveEditor = editor as unknown as TiptapEditor;
+
+  expect(within(tabs).getAllByTestId("tab")).toHaveLength(1);
+  expect(findTabsNode(liveEditor)).not.toBeNull();
+
+  const removeButton = within(tabs).getByTestId("tabs-remove-tab");
+  act(() => {
+    fireEvent.click(removeButton);
+  });
+
+  await waitFor(() => {
+    expect(within(editorEl).queryByTestId("tabs")).toBeNull();
+  });
+  expect(findTabsNode(liveEditor)).toBeNull();
+
+  act(() => {
+    liveEditor.commands.undo();
+  });
+
+  const restoredTabs = await waitFor(() =>
+    within(editorEl).getByTestId("tabs"),
+  );
+  expect(within(restoredTabs).getAllByTestId("tab")).toHaveLength(1);
+  expect(findTabsNode(liveEditor)).not.toBeNull();
 });
 
 test("preserved node view shows a read-only card with the component name and MDX source", async () => {
