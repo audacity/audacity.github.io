@@ -80,6 +80,10 @@ function firstTextPosIn(editor: Editor, type: string): number {
 }
 
 describe("nested drag-handle scope rules", () => {
+  test("edge detection stays off — the default left-edge deduction excludes depth-2 blocks on the pointer's approach path to the handle, yanking it away", () => {
+    expect(NESTED_DRAG_HANDLE_OPTIONS.edgeDetection).toBe("none");
+  });
+
   test("a top-level paragraph is an eligible drag target (the lost-handles regression)", () => {
     const editor = makeEditor("<p>plain top-level text</p>");
     const types = eligibleTypesAt(editor, 3);

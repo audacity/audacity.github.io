@@ -103,11 +103,25 @@ const HANDLE_COMPUTE_POSITION_CONFIG = {
  * mode reports the SAME `{ node, editor, pos }` shape as top-level mode,
  * just for whichever node the rule-based scorer picks at the cursor
  * position — `handleNodeChange`/`getBlockActions` below need no changes.
+ *
+ * `edgeDetection: "none"` because the default ("left"+"top", 12px
+ * threshold, 500 × depth deduction) makes nested handles UNGRABBABLE: the
+ * handle floats 6px off the block (`HANDLE_COMPUTE_POSITION_CONFIG`'s
+ * `offset.mainAxis`), so the pointer's approach path necessarily crosses
+ * the 12px left-edge zone — where a depth-2 block deducts 1000 (= excluded)
+ * and the target snaps back to the container, yanking the handle away from
+ * under the cursor. (Depth-1 blocks only deduct 500 and survive, which is
+ * why top-level handles never showed the problem.) Without edge detection
+ * the innermost eligible block simply stays targeted; the container itself
+ * is still grabbable via its own non-content chrome (an admonition's
+ * type/title header row, the tabs strip), where `posAtCoords` resolves to
+ * the container node rather than any inner textblock.
  */
 const EXCLUDE = 1000; // >= the scorer's BASE_SCORE, so returning it excludes
 // Exported for dragHandleRules.test.tsx only — not part of the component API.
 export const NESTED_DRAG_HANDLE_OPTIONS: NestedOptions = {
   defaultRules: false,
+  edgeDetection: "none",
   rules: [
     {
       id: "nestOnlyInNamedContainers",
