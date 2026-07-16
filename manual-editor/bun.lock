@@ -5,6 +5,7 @@
     "": {
       "name": "manual-editor",
       "dependencies": {
+        "@floating-ui/dom": "1.8.0",
         "@octokit/rest": "^22.0.1",
         "@tiptap/core": "^3.27.4",
         "@tiptap/extension-drag-handle-react": "3.27.4",

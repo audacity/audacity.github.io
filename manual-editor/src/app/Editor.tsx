@@ -1,8 +1,16 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor as TiptapEditor } from "@tiptap/core";
 import { DragHandle } from "@tiptap/extension-drag-handle-react";
+import { offset } from "@floating-ui/dom";
+import type { Node as PMNode } from "@tiptap/pm/model";
 import { TextSelection } from "@tiptap/pm/state";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from "react";
 import { mdastToDoc } from "../adapter/mdastToDoc";
 import {
   serializeFrontmatter,
@@ -14,9 +22,51 @@ import { parseMdx } from "../mdx/pipeline";
 import { FrontmatterForm } from "./FrontmatterForm";
 import { api as defaultApi, type makeApi } from "./api";
 import { insertImageFromFile, pageSlugFromPath } from "./imageUpload";
+import { getBlockActions, type BlockAction } from "./blockActions";
+import { HandleMenu } from "./HandleMenu";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
 const DEFAULT_ORDER = 99;
+
+/**
+ * Positioning config for the drag handle, handed to
+ * `@tiptap/extension-drag-handle-react`'s `<DragHandle>` as
+ * `computePositionConfig` (it merges this over the package's own
+ * `defaultComputePositionConfig` — `{ placement: "left-start", strategy:
+ * "absolute" }` — before passing the result straight to `floating-ui`'s
+ * `computePosition`).
+ *
+ * Declared at module scope rather than inline in the JSX below: the
+ * `<DragHandle>` component re-registers its whole ProseMirror plugin
+ * (`editor.registerPlugin`/`unregisterPlugin`) every time
+ * `computePositionConfig`'s object identity changes (see its
+ * `useEffect` deps in `node_modules/@tiptap/extension-drag-handle-react`) —
+ * a fresh object literal on every `Editor` render would thrash that
+ * registration on every keystroke.
+ *
+ * `left-start` (the default) top/left-aligns the handle flush against the
+ * hovered block's own bounding rect — exactly right for an atomic block
+ * like `image`/`admonition`/`tabs`, whose rect top IS the visual top of
+ * its content, but visibly high for a text block's FIRST line, since a
+ * line box's top edge sits above the glyphs themselves (half-leading from
+ * `line-height` being taller than the glyphs' em box) — worse still for
+ * headings, whose larger `font-size` before a comparatively tighter
+ * `line-height` produces the widest gap between "line box top" and "visual
+ * text center". The `offset` middleware below only touches the ~4px range
+ * that difference occupies for the common case: `mainAxis` opens a small
+ * breathing gap between the handle and the text edge (Notion-style, rather
+ * than the two visually touching), and a small positive `crossAxis`
+ * (`+`, for a `left-*` placement, moves the floating element DOWN — see
+ * `@floating-ui/core`'s `crossAxis = alignment === 'end' ? -1 : 1` times
+ * `alignmentAxis`) nudges the handle down just enough to read as centered
+ * against a typical paragraph/heading's first line without overshooting
+ * into visibly hanging below an image/callout's flush top edge.
+ */
+const HANDLE_COMPUTE_POSITION_CONFIG = {
+  placement: "left-start" as const,
+  strategy: "absolute" as const,
+  middleware: [offset({ mainAxis: 6, crossAxis: 3 })],
+};
 
 /**
  * Coerces the loosely-typed `parseFrontmatter` output into the form's
@@ -191,6 +241,32 @@ export function Editor({
   // synchronously once the instance exists, before any real user
   // paste/drop can occur, and is re-set on every recreation.
   const editorRef = useRef<TiptapEditor | null>(null);
+
+  // The block-handle context menu (Notion-style: click the drag handle to
+  // open a menu of actions for the block it's hovering). `hoveredRef` tracks
+  // the DragHandle package's currently-hovered `{node, pos}` — via `ref`
+  // rather than `useState` since `onNodeChange` fires on every `mousemove`
+  // over the document, and a re-render per pixel of mouse movement would be
+  // wasteful when nothing visible needs to change until the handle is
+  // actually clicked. `handleMenu` (real `useState`, since it DOES drive a
+  // render) holds a snapshot — the action list plus the handle's own
+  // bounding rect at click time — taken once, on click; the popup doesn't
+  // track the hover state afterward, so it stays put even if the mouse
+  // later leaves the handle (which clears `hoveredRef` via `onNodeChange`).
+  const hoveredRef = useRef<{ node: PMNode; pos: number } | null>(null);
+  const [handleMenu, setHandleMenu] = useState<{
+    actions: BlockAction[];
+    anchorRect: DOMRect;
+  } | null>(null);
+
+  function handleDragHandleClick(event: ReactMouseEvent<HTMLButtonElement>) {
+    const hovered = hoveredRef.current;
+    if (!editor || !hovered) return;
+    setHandleMenu({
+      actions: getBlockActions(editor, hovered.node, hovered.pos),
+      anchorRect: event.currentTarget.getBoundingClientRect(),
+    });
+  }
 
   const editor = useEditor(
     {
@@ -449,15 +525,32 @@ export function Editor({
           />
         ) : null}
       </div>
-      <div className="editor-scroll">
+      <div
+        className="editor-scroll"
+        // A stale menu anchored to a handle rect that's about to scroll out
+        // from under it reads as broken (the popup floats over the wrong
+        // block, or over nothing). Simplest fix: any scroll of the document
+        // pane closes it outright rather than trying to keep it glued to a
+        // moving anchor.
+        onScroll={() => setHandleMenu(null)}
+      >
         {enableDragHandle && editor ? (
-          <DragHandle editor={editor}>
+          <DragHandle
+            editor={editor}
+            computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
+            onNodeChange={({ node, pos }) => {
+              hoveredRef.current = node ? { node, pos } : null;
+            }}
+          >
             <button
               type="button"
               className="drag-handle"
               data-testid="drag-handle"
               aria-label="Drag to move block"
+              aria-haspopup="menu"
+              title="Drag to move · Click for actions"
               tabIndex={-1}
+              onClick={handleDragHandleClick}
             >
               ⠿
             </button>
@@ -465,6 +558,14 @@ export function Editor({
         ) : null}
         <EditorContent editor={editor} />
       </div>
+      {handleMenu && editor ? (
+        <HandleMenu
+          editor={editor}
+          actions={handleMenu.actions}
+          anchorRect={handleMenu.anchorRect}
+          onClose={() => setHandleMenu(null)}
+        />
+      ) : null}
       {/* Floating save-status pill: anchored to the pane's bottom-right
           corner (`.editor-frame` is the positioning context) rather than
           living in the chrome header, so it doesn't compete with page
