@@ -380,6 +380,155 @@ test("movePage: unknown path throws", async () => {
   ).rejects.toThrow();
 });
 
+// ---------------------------------------------------------------------------
+// movePage: same-folder move (Bug 1 regression — must not delete the page)
+// ---------------------------------------------------------------------------
+
+test("movePage: same-folder move (reorder-only) keeps the page alive, updates order, no deletion staged", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: B\nsection: S\norder: 1\n---\n\nBody\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  const moves = await backend.movePage("src/content/manual/a/b.mdx", {
+    folder: "a",
+    order: 9,
+  });
+  expect(moves).toEqual([
+    { from: "src/content/manual/a/b.mdx", to: "src/content/manual/a/b.mdx" },
+  ]);
+  const page = await backend.readPage("src/content/manual/a/b.mdx");
+  expect(page.source).toContain("Body\n");
+  const meta = (await backend.listPages()).find(
+    (p) => p.path === "src/content/manual/a/b.mdx",
+  );
+  expect(meta).toBeDefined();
+  expect(meta!.order).toBe(9);
+});
+
+test("movePage: same-folder move of a parent leaves children untouched (not deleted, content byte-identical)", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: B\nsection: S\norder: 1\n---\n\nParent body\n",
+    },
+    {
+      path: "src/content/manual/a/b/child.mdx",
+      source: "---\ntitle: Child\nsection: S\norder: 1\n---\n\nChild body\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  const moves = await backend.movePage("src/content/manual/a/b.mdx", {
+    folder: "a",
+    order: 4,
+  });
+  expect(moves).toEqual([
+    { from: "src/content/manual/a/b.mdx", to: "src/content/manual/a/b.mdx" },
+    {
+      from: "src/content/manual/a/b/child.mdx",
+      to: "src/content/manual/a/b/child.mdx",
+    },
+  ]);
+  const child = await backend.readPage("src/content/manual/a/b/child.mdx");
+  expect(child.source).toBe(
+    "---\ntitle: Child\nsection: S\norder: 1\n---\n\nChild body\n",
+  );
+  const pages = await backend.listPages();
+  expect(pages.map((p) => p.path).sort()).toEqual(
+    ["src/content/manual/a/b.mdx", "src/content/manual/a/b/child.mdx"].sort(),
+  );
+});
+
+test("movePage: same-folder move with a section change still rewrites descendant frontmatter without deleting", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: B\nsection: Old\norder: 1\n---\n\nParent\n",
+    },
+    {
+      path: "src/content/manual/a/b/child.mdx",
+      source: "---\ntitle: Child\nsection: Old\norder: 1\n---\n\nChild\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await backend.movePage("src/content/manual/a/b.mdx", {
+    folder: "a",
+    order: 1,
+    section: "New",
+  });
+  const pages = await backend.listPages();
+  const parent = pages.find((p) => p.path === "src/content/manual/a/b.mdx")!;
+  expect(parent.section).toBe("New");
+  const child = pages.find(
+    (p) => p.path === "src/content/manual/a/b/child.mdx",
+  )!;
+  expect(child.section).toBe("New");
+});
+
+// ---------------------------------------------------------------------------
+// movePage: destination collision (Bug 2 regression)
+// ---------------------------------------------------------------------------
+
+test("movePage: destination collision with an unrelated page throws and leaves the target unharmed", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: B\nsection: S\norder: 1\n---\n\nMovable\n",
+    },
+    {
+      path: "src/content/manual/c/b.mdx",
+      source: "---\ntitle: Unrelated\nsection: S\norder: 1\n---\n\nOriginal\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await expect(
+    backend.movePage("src/content/manual/a/b.mdx", { folder: "c", order: 1 }),
+  ).rejects.toThrow("Destination already exists: src/content/manual/c/b.mdx");
+
+  // Both pages remain exactly as before.
+  const target = await backend.readPage("src/content/manual/c/b.mdx");
+  expect(target.source).toContain("Unrelated");
+  expect(target.source).toContain("Original");
+  const original = await backend.readPage("src/content/manual/a/b.mdx");
+  expect(original.source).toContain("Movable");
+});
+
+test("movePage: destination collision on a descendant path throws before any writes", async () => {
+  const seed = [
+    {
+      path: "src/content/manual/a/b.mdx",
+      source: "---\ntitle: B\nsection: S\norder: 1\n---\n\nParent\n",
+    },
+    {
+      path: "src/content/manual/a/b/child.mdx",
+      source: "---\ntitle: Child\nsection: S\norder: 1\n---\n\nChild\n",
+    },
+    {
+      path: "src/content/manual/c/b/child.mdx",
+      source:
+        "---\ntitle: Unrelated Child\nsection: S\norder: 1\n---\n\nOther\n",
+    },
+  ];
+  const backend = new InMemoryBackend(seed);
+  await expect(
+    backend.movePage("src/content/manual/a/b.mdx", { folder: "c", order: 1 }),
+  ).rejects.toThrow("Destination already exists");
+
+  // Nothing moved: original pages intact, unrelated page untouched.
+  const pages = await backend.listPages();
+  expect(pages.map((p) => p.path).sort()).toEqual(
+    [
+      "src/content/manual/a/b.mdx",
+      "src/content/manual/a/b/child.mdx",
+      "src/content/manual/c/b/child.mdx",
+    ].sort(),
+  );
+  const unrelated = await backend.readPage("src/content/manual/c/b/child.mdx");
+  expect(unrelated.source).toContain("Unrelated Child");
+});
+
 test("movePage: preserves the .md extension", async () => {
   const seed = [
     {

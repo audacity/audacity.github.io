@@ -9,8 +9,11 @@ import type { MovePageDest } from "../../src/backend/types";
  * Body: `{ path: string, dest: { folder: string, order: number, section?:
  * string, sectionOrder?: number } }`. Validation failures (bad shape, a
  * cycle — moving a folder into its own descendant) all come back as 400s;
- * `movePage`'s own thrown errors (cycle guard, unknown path) are caught and
- * surfaced the same way.
+ * `movePage`'s own thrown errors are caught and mapped: a destination
+ * collision (`movePage` throws "Destination already exists: <path>" when
+ * the target path is already occupied by an unrelated page) surfaces as
+ * 409, so the UI can distinguish "pick a different spot" from a plain
+ * validation error; everything else (cycle guard, unknown path) stays 400.
  */
 export default async (request: Request): Promise<Response> => {
   if (request.method !== "POST") {
@@ -67,6 +70,7 @@ export default async (request: Request): Promise<Response> => {
     return json({ moves });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return json({ error: message }, 400);
+    const status = message.startsWith("Destination already exists") ? 409 : 400;
+    return json({ error: message }, status);
   }
 };

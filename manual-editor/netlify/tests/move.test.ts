@@ -180,6 +180,60 @@ test("move.ts returns 400 on invalid JSON body", async () => {
   expect(res.status).toBe(400);
 });
 
+test("move.ts POST same-folder move (reorder-only) keeps the page alive and updates its order", async () => {
+  const PATH = "src/content/manual/move-fn-test-5/page.mdx";
+  await createDraft(PATH, "Reorderable");
+
+  const res = await moveHandler(
+    new Request("http://localhost/api/move", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        path: PATH,
+        dest: { folder: "move-fn-test-5", order: 9 },
+      }),
+    }),
+  );
+  expect(res.status).toBe(200);
+  const body = (await res.json()) as {
+    moves: Array<{ from: string; to: string }>;
+  };
+  expect(body.moves).toEqual([{ from: PATH, to: PATH }]);
+
+  const pages = await listPages();
+  const page = pages.find((p) => p.path === PATH);
+  expect(page).toBeDefined();
+  expect(page!.order).toBe(9);
+});
+
+test("move.ts POST returns 409 when the destination path is already occupied by an unrelated page", async () => {
+  const SRC = "src/content/manual/move-fn-test-6/page.mdx";
+  const TARGET_DIR = "move-fn-test-6-dest";
+  const TARGET = `src/content/manual/${TARGET_DIR}/page.mdx`;
+  await createDraft(SRC, "Movable");
+  await createDraft(TARGET, "AlreadyThere");
+
+  const res = await moveHandler(
+    new Request("http://localhost/api/move", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        path: SRC,
+        dest: { folder: TARGET_DIR, order: 1 },
+      }),
+    }),
+  );
+  expect(res.status).toBe(409);
+  const body = (await res.json()) as { error: string };
+  expect(body.error).toContain("Destination already exists");
+
+  const pages = await listPages();
+  const target = pages.find((p) => p.path === TARGET);
+  expect(target).toBeDefined();
+  expect(target!.title).toBe("AlreadyThere");
+  expect(pages.find((p) => p.path === SRC)).toBeDefined();
+});
+
 test("move.ts GET is rejected with 405", async () => {
   const res = await moveHandler(
     new Request("http://localhost/api/move", { method: "GET" }),

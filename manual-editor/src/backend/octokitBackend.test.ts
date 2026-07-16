@@ -1157,3 +1157,155 @@ test("movePage: unknown path throws without committing", async () => {
   ).rejects.toThrow();
   expect(calls.some((c) => c.op === "createTree")).toBe(false);
 });
+
+// ---------------------------------------------------------------------------
+// movePage: same-folder move (Bug 1 regression — must not delete the page)
+// ---------------------------------------------------------------------------
+
+test("movePage: same-folder move (reorder-only) writes the content in place, no sha:null entry for that path, page still exists", async () => {
+  const PATH = "src/content/manual/a/b.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PATH]: fm("B", "S", 1) },
+      [DRAFTS]: { [PATH]: fm("B", "S", 1) },
+    },
+  });
+
+  const moves = await backend.movePage(PATH, { folder: "a", order: 9 });
+
+  expect(moves).toEqual([{ from: PATH, to: PATH }]);
+
+  const createTreeCalls = calls.filter((c) => c.op === "createTree");
+  expect(createTreeCalls.length).toBe(1);
+  const tree = (createTreeCalls[0]!.args as any).tree as Array<{
+    path: string;
+    sha?: string | null;
+    content?: string;
+  }>;
+  // Exactly one entry for PATH, and it's a content write, never sha:null.
+  const entriesForPath = tree.filter((t) => t.path === PATH);
+  expect(entriesForPath.length).toBe(1);
+  expect(entriesForPath[0]!.sha).not.toBe(null);
+  expect(entriesForPath[0]!.content).toContain("order: 9");
+
+  // The page is still readable afterwards.
+  const page = await backend.readPage(PATH);
+  expect(page.source).toContain("order: 9");
+});
+
+test("movePage: same-folder move of a parent leaves children untouched (no writes/deletes for them)", async () => {
+  const PARENT = "src/content/manual/a/b.mdx";
+  const CHILD = "src/content/manual/a/b/child.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PARENT]: fm("B", "S", 1), [CHILD]: fm("Child", "S", 1) },
+      [DRAFTS]: { [PARENT]: fm("B", "S", 1), [CHILD]: fm("Child", "S", 1) },
+    },
+  });
+
+  const moves = await backend.movePage(PARENT, { folder: "a", order: 4 });
+
+  expect(moves).toEqual([
+    { from: PARENT, to: PARENT },
+    { from: CHILD, to: CHILD },
+  ]);
+
+  const createTreeCalls = calls.filter((c) => c.op === "createTree");
+  expect(createTreeCalls.length).toBe(1);
+  const tree = (createTreeCalls[0]!.args as any).tree as Array<{
+    path: string;
+    sha?: string | null;
+  }>;
+  // No tree entry at all for the untouched child (no rewrite, no delete).
+  expect(tree.some((t) => t.path === CHILD)).toBe(false);
+
+  const child = await backend.readPage(CHILD);
+  expect(child.source).toBe(fm("Child", "S", 1));
+});
+
+test("movePage: same-folder move with a section change still content-rewrites descendants, no delete entries", async () => {
+  const PARENT = "src/content/manual/a/b.mdx";
+  const CHILD = "src/content/manual/a/b/child.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PARENT]: fm("B", "Old", 1), [CHILD]: fm("Child", "Old", 1) },
+      [DRAFTS]: {
+        [PARENT]: fm("B", "Old", 1),
+        [CHILD]: fm("Child", "Old", 1),
+      },
+    },
+  });
+
+  await backend.movePage(PARENT, { folder: "a", order: 1, section: "New" });
+
+  const createTreeCalls = calls.filter((c) => c.op === "createTree");
+  const tree = (createTreeCalls[0]!.args as any).tree as Array<{
+    path: string;
+    sha?: string | null;
+    content?: string;
+  }>;
+  expect(tree.every((t) => t.sha !== null)).toBe(true); // no deletes at all
+  const childEntry = tree.find((t) => t.path === CHILD)!;
+  expect(childEntry.content).toContain("section: New");
+
+  const child = await backend.readPage(CHILD);
+  expect(child.source).toContain("section: New");
+});
+
+// ---------------------------------------------------------------------------
+// movePage: destination collision (Bug 2 regression)
+// ---------------------------------------------------------------------------
+
+test("movePage: destination collision with an unrelated page throws before committing, target unharmed", async () => {
+  const SRC = "src/content/manual/a/b.mdx";
+  const TARGET = "src/content/manual/c/b.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [SRC]: fm("B", "S", 1), [TARGET]: fm("Unrelated", "S", 1) },
+      [DRAFTS]: { [SRC]: fm("B", "S", 1), [TARGET]: fm("Unrelated", "S", 1) },
+    },
+  });
+
+  await expect(
+    backend.movePage(SRC, { folder: "c", order: 1 }),
+  ).rejects.toThrow(`Destination already exists: ${TARGET}`);
+  expect(calls.some((c) => c.op === "createTree")).toBe(false);
+
+  const target = await backend.readPage(TARGET);
+  expect(target.source).toContain("Unrelated");
+  const original = await backend.readPage(SRC);
+  expect(original.source).toContain("title: B");
+});
+
+test("movePage: destination collision on a descendant path throws before committing", async () => {
+  const PARENT = "src/content/manual/a/b.mdx";
+  const CHILD = "src/content/manual/a/b/child.mdx";
+  const COLLIDING_CHILD = "src/content/manual/c/b/child.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: {
+        [PARENT]: fm("B", "S", 1),
+        [CHILD]: fm("Child", "S", 1),
+        [COLLIDING_CHILD]: fm("Unrelated Child", "S", 1),
+      },
+      [DRAFTS]: {
+        [PARENT]: fm("B", "S", 1),
+        [CHILD]: fm("Child", "S", 1),
+        [COLLIDING_CHILD]: fm("Unrelated Child", "S", 1),
+      },
+    },
+  });
+
+  await expect(
+    backend.movePage(PARENT, { folder: "c", order: 1 }),
+  ).rejects.toThrow(`Destination already exists: ${COLLIDING_CHILD}`);
+  expect(calls.some((c) => c.op === "createTree")).toBe(false);
+
+  const unrelated = await backend.readPage(COLLIDING_CHILD);
+  expect(unrelated.source).toContain("Unrelated Child");
+});

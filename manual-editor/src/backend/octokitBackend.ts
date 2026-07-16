@@ -680,6 +680,18 @@ export class OctokitBackend implements GitHubBackend {
    * where applicable) plus old-path `{sha: null}` deletions, all in one
    * `commitToDrafts` tree — see that method's doc comment for why this is
    * safe as one atomic write.
+   *
+   * Two guards run before any tree item is built:
+   * - Same-path items (`from === to`, i.e. `dest.folder` equals the page's
+   *   current parent folder) are a legal reorder/frontmatter-only move, not
+   *   a relocation — they get a content-only rewrite in place with no
+   *   accompanying `sha: null` delete. Pairing a content entry and a
+   *   `sha: null` entry for the same path in one tree would let the delete
+   *   win and destroy the page.
+   * - Every other target path must be unoccupied (checked against
+   *   `getLivePaths()`); a collision with an unrelated existing page throws
+   *   `Error("Destination already exists: <path>")` rather than silently
+   *   overwriting it.
    */
   async movePage(
     path: string,
@@ -715,19 +727,6 @@ export class OctokitBackend implements GitHubBackend {
       pagePatch.sectionOrder = dest.sectionOrder;
     }
 
-    const tree: DraftTreeItem[] = [
-      {
-        path: newPagePath,
-        mode: "100644",
-        type: "blob",
-        content: rewriteFrontmatter(pageSource, pagePatch),
-      },
-      { path, mode: "100644", type: "blob", sha: null },
-    ];
-    const moves: Array<{ from: string; to: string }> = [
-      { from: path, to: newPagePath },
-    ];
-
     const descendantPatch: Partial<FrontmatterData> = {};
     if (dest.section !== undefined) {
       descendantPatch.section = dest.section;
@@ -736,9 +735,63 @@ export class OctokitBackend implements GitHubBackend {
       }
     }
 
+    const moves: Array<{ from: string; to: string }> = [
+      { from: path, to: newPagePath },
+    ];
+    const descendantMoves: Array<{ from: string; to: string }> = [];
     for (const oldPath of descendantPaths) {
       const rest = oldPath.slice(descendantPrefix.length);
       const newPath = `${prefix}${dest.folder}/${name}/${rest}`;
+      descendantMoves.push({ from: oldPath, to: newPath });
+      moves.push({ from: oldPath, to: newPath });
+    }
+
+    // Destination-collision guard, checked against the live page set before
+    // any tree item is built. `from === to` is the legal same-path
+    // reorder/frontmatter-only move (see below), not a collision with
+    // itself — everything else landing on an already-occupied path is a
+    // real collision with an unrelated page.
+    for (const { from, to } of moves) {
+      if (from === to) continue;
+      if (livePaths.has(to)) {
+        throw new Error(`Destination already exists: ${to}`);
+      }
+    }
+
+    const tree: DraftTreeItem[] = [
+      {
+        path: newPagePath,
+        mode: "100644",
+        type: "blob",
+        content: rewriteFrontmatter(pageSource, pagePatch),
+      },
+    ];
+    // Same-folder move of the page itself: `newPagePath === path` is a
+    // legal reorder/frontmatter-only move, not a relocation — write the
+    // rewritten frontmatter in place and do NOT also stage a `sha: null`
+    // delete for the same path (that would win over the content entry and
+    // destroy the page — see Bug 1).
+    if (newPagePath !== path) {
+      tree.push({ path, mode: "100644", type: "blob", sha: null });
+    }
+
+    for (const { from: oldPath, to: newPath } of descendantMoves) {
+      // A descendant's from/to are identical exactly when the page's own
+      // path is unchanged (same-folder move) — plain no-op unless a
+      // section rewrite applies, in which case it's a content-only write
+      // with no accompanying delete.
+      if (newPath === oldPath) {
+        if (Object.keys(descendantPatch).length > 0) {
+          const source = (await this.readPage(oldPath)).source;
+          tree.push({
+            path: newPath,
+            mode: "100644",
+            type: "blob",
+            content: rewriteFrontmatter(source, descendantPatch),
+          });
+        }
+        continue;
+      }
       const source = (await this.readPage(oldPath)).source;
       const content =
         Object.keys(descendantPatch).length > 0
@@ -746,7 +799,6 @@ export class OctokitBackend implements GitHubBackend {
           : source;
       tree.push({ path: newPath, mode: "100644", type: "blob", content });
       tree.push({ path: oldPath, mode: "100644", type: "blob", sha: null });
-      moves.push({ from: oldPath, to: newPath });
     }
 
     await this.commitToDrafts(tree, `docs: move ${path} -> ${newPagePath}`);

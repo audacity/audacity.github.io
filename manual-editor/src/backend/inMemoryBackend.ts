@@ -129,6 +129,18 @@ export class InMemoryBackend implements GitHubBackend {
     return this.drafts.get(path) ?? this.base.get(path);
   }
 
+  /** Set of paths currently "live" (union of base+drafts, minus staged deletions). */
+  private livePaths(): Set<string> {
+    const live = new Set<string>();
+    for (const p of new Set<string>([
+      ...this.base.keys(),
+      ...this.drafts.keys(),
+    ])) {
+      if (!this.deleted.has(p)) live.add(p);
+    }
+    return live;
+  }
+
   async reorderPages(
     updates: Array<{ path: string; order: number }>,
   ): Promise<void> {
@@ -178,13 +190,6 @@ export class InMemoryBackend implements GitHubBackend {
       pagePatch.sectionOrder = dest.sectionOrder;
     }
 
-    const moves: Array<{ from: string; to: string }> = [
-      { from: path, to: newPagePath },
-    ];
-    const changes: FileChange[] = [
-      { path: newPagePath, content: rewriteFrontmatter(pageSource, pagePatch) },
-    ];
-
     // Descendants only get their frontmatter rewritten when a section is
     // provided (a same-section reorder-only move leaves their content byte-
     // identical, just relocated).
@@ -196,20 +201,65 @@ export class InMemoryBackend implements GitHubBackend {
       }
     }
 
+    const moves: Array<{ from: string; to: string }> = [
+      { from: path, to: newPagePath },
+    ];
+    const descendantMoves: Array<{ from: string; to: string }> = [];
     for (const oldPath of descendantPaths) {
       const rest = oldPath.slice(descendantPrefix.length);
       const newPath = `${prefix}${dest.folder}/${name}/${rest}`;
+      descendantMoves.push({ from: oldPath, to: newPath });
+      moves.push({ from: oldPath, to: newPath });
+    }
+
+    // Destination-collision guard, checked against the live page set before
+    // any write is built. `from === to` is the legal same-path
+    // reorder/frontmatter-only move (see below), not a collision with
+    // itself — everything else landing on an already-occupied path is a
+    // real collision with an unrelated page.
+    const live = this.livePaths();
+    for (const { from, to } of moves) {
+      if (from === to) continue;
+      if (live.has(to)) {
+        throw new Error(`Destination already exists: ${to}`);
+      }
+    }
+
+    const changes: FileChange[] = [
+      { path: newPagePath, content: rewriteFrontmatter(pageSource, pagePatch) },
+    ];
+    // Same-folder move of the page itself: `newPagePath === path` is a
+    // legal reorder/frontmatter-only move, not a relocation — write the
+    // rewritten frontmatter in place and do NOT stage a deletion of the
+    // path we just wrote (that would destroy the page).
+    const toDelete: string[] = newPagePath === path ? [] : [path];
+
+    for (const { from: oldPath, to: newPath } of descendantMoves) {
+      // A descendant's from/to are identical exactly when the page's own
+      // path is unchanged (same-folder move) — plain no-op unless a
+      // section rewrite applies, in which case it's a content-only write
+      // with no accompanying delete.
+      if (newPath === oldPath) {
+        if (Object.keys(descendantPatch).length > 0) {
+          const source = this.currentSource(oldPath)!;
+          changes.push({
+            path: newPath,
+            content: rewriteFrontmatter(source, descendantPatch),
+          });
+        }
+        continue;
+      }
       const source = this.currentSource(oldPath)!;
       const content =
         Object.keys(descendantPatch).length > 0
           ? rewriteFrontmatter(source, descendantPatch)
           : source;
-      moves.push({ from: oldPath, to: newPath });
       changes.push({ path: newPath, content });
+      toDelete.push(oldPath);
     }
 
     await this.saveDraft(changes, `move ${path} -> ${newPagePath}`);
-    for (const { from } of moves) {
+    for (const from of toDelete) {
       await this.deletePage(from);
     }
 
