@@ -297,6 +297,10 @@ function TrackLane({ name = "Audio 1", children }) {
 // (3.2, 100) only produces ~320 samples which TrackNew renders as sparse
 // dots; a longer waveform gives the clip a proper dense peak pattern.
 const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(12);
+// All-zero waveform: stable across renders (no jitter), forces TrackNew to
+// render the clip body (non-empty), but draws no peaks so the sample-dot
+// SVG overlay is visible on top of the clip background.
+const SAMPLE_EDITING_WAVEFORM = new Float32Array(720);
 
 function ClipHandlesDemo({ isActive = true }) {
   const rootRef = useRef(null);
@@ -829,7 +833,7 @@ function SampleEditingDemo({ isActive = true }) {
       name: CLIP_NAME,
       start: 0,
       duration: CANVAS_W / PPS,
-      waveform: [],
+      waveform: SAMPLE_EDITING_WAVEFORM,
     },
   ];
 
