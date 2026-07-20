@@ -115,7 +115,7 @@ function TreeNodeRow({
         )}
         <button
           data-testid={`page-${node.page.slug}`}
-          className="sidebar-tree__page"
+          className={`sidebar-tree__page${node.page.draft ? " sidebar-tree__page--draft" : ""}`}
           aria-current={node.page.path === activePath}
           draggable
           onDragStart={(e) => {
@@ -127,6 +127,12 @@ function TreeNodeRow({
           onClick={() => onSelect(node.page.path)}
         >
           {node.page.title}
+          {node.page.draft ? (
+            <span className="page-list__draft-label" aria-label="Draft page">
+              {" "}
+              Draft
+            </span>
+          ) : null}
           {node.page.hasDraft ? (
             <span
               className="page-list__draft-dot"

@@ -150,6 +150,20 @@ body {
   letter-spacing: 0.04em;
 }
 
+.new-page-dialog__field--checkbox {
+  margin-top: -0.2rem;
+}
+
+.new-page-dialog__field--checkbox label {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .new-page-dialog__field input[type="text"] {
   padding: 0.35rem 0.5rem;
   border: 1px solid #cbd5e1;
@@ -447,6 +461,21 @@ body {
 .page-list__draft-dot {
   color: #4f46e5;
   font-weight: 700;
+}
+
+/* Pages with draft: true in their frontmatter — title in italic, label muted. */
+.sidebar-tree__page--draft {
+  font-style: italic;
+}
+
+.page-list__draft-label {
+  font-style: normal;
+  font-size: 0.7em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted, #888);
+  opacity: 0.8;
 }
 
 .app-main {

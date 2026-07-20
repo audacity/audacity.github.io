@@ -63,6 +63,7 @@ export function NewPageDialog({
         ? (primaryFolderForSection(pages, sectionPrefill) ?? "")
         : ""),
   );
+  const [asDraft, setAsDraft] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const sections = [...new Set(pages.map((p) => p.section))];
@@ -96,6 +97,7 @@ export function NewPageDialog({
       section: trimmedSection,
       order: nextOrder(pages, folderSlug),
       sectionOrder: sectionOrderFor(pages, trimmedSection),
+      draft: asDraft || undefined,
     });
     setError(null);
     onCreate({ path, frontmatter });
@@ -169,6 +171,18 @@ export function NewPageDialog({
           >
             {path}
           </p>
+
+          <div className="new-page-dialog__field new-page-dialog__field--checkbox">
+            <label htmlFor="new-page-draft">
+              <input
+                id="new-page-draft"
+                type="checkbox"
+                checked={asDraft}
+                onChange={(e) => setAsDraft(e.target.checked)}
+              />
+              Mark as draft
+            </label>
+          </div>
 
           {error ? (
             <p
