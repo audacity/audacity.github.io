@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { api as defaultApi, type makeApi, type Me } from "./api";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
@@ -71,8 +71,6 @@ export function App({
     | null
   >(null);
 
-  const editorFlushRef = useRef<(() => Promise<void>) | null>(null);
-
   function openNewPage(parent: ManualPageMeta | null) {
     setNewPageIntent(parent ? { kind: "child", parent } : { kind: "top" });
   }
@@ -100,7 +98,6 @@ export function App({
     setPublishError(null);
     setPublishResult(null);
     try {
-      await editorFlushRef.current?.();
       const result = await api.publish();
       setPublishResult(result);
       api.listPages().then(setPages);
@@ -190,17 +187,9 @@ export function App({
   // (same "always re-fetch rather than patch locally" reasoning as
   // `handleDraftSaved` above — the backend's listing already reflects the
   // deletion by the time `onDeleted` fires).
-  function handleDeleted(deletedPath: string) {
+  function handleDeleted() {
     setSource(null);
     setActivePath(null);
-    // Optimistically drop the page so the sidebar updates instantly — the
-    // GitHub tree API returns a cached ref for a moment after the delete
-    // commit lands, so a bare re-fetch here would briefly show the page as
-    // still present. The background re-fetch corrects any other side effects
-    // (hasDraft dots etc.) once GitHub catches up.
-    setPages((prev) =>
-      prev ? prev.filter((p) => p.path !== deletedPath) : prev,
-    );
     api.listPages().then(setPages);
   }
 
@@ -209,9 +198,6 @@ export function App({
   // `Editor` to gate the header's delete action (deleting a parent would
   // orphan its children in the tree).
   const activeSlug = activeSlugFromPath(activePath);
-  const activePageMeta = activePath
-    ? pages?.find((p) => p.path === activePath)
-    : undefined;
   const hasChildren =
     activeSlug !== null &&
     (pages?.some(
@@ -318,15 +304,13 @@ export function App({
               sections={sections}
               pages={pages ?? []}
               api={api}
-              flushRef={editorFlushRef}
               onDraftSaved={handleDraftSaved}
               onAddSubpage={() => {
                 const meta = pages?.find((p) => p.path === activePath);
                 if (meta) openNewPage(meta);
               }}
               hasChildren={hasChildren}
-              hasDraft={activePageMeta?.hasDraft ?? false}
-              onDeleted={(p) => handleDeleted(p)}
+              onDeleted={handleDeleted}
             />
           ) : (
             <p className="app-main__placeholder">

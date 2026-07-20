@@ -29,7 +29,6 @@ export function NewPageDialog({
   pages,
   parent,
   sectionPrefill,
-  newSection = false,
   onCreate,
   onCancel,
 }: {
@@ -50,18 +49,12 @@ export function NewPageDialog({
    * writer typically only types a title.
    */
   sectionPrefill?: string;
-  /**
-   * When true, the dialog is creating a page in a brand-new section: the
-   * heading reads "New section", the Section input gets autofocus (since
-   * the writer must type the section name first), and no section is prefilled.
-   */
-  newSection?: boolean;
   onCreate: (result: { path: string; frontmatter: string }) => void;
   onCancel: () => void;
 }) {
   const [title, setTitle] = useState("");
-  const [section, setSection] = useState(() =>
-    newSection ? "" : (parent?.section ?? sectionPrefill ?? ""),
+  const [section, setSection] = useState(
+    () => parent?.section ?? sectionPrefill ?? "",
   );
   const [location, setLocation] = useState(
     () =>
@@ -124,9 +117,7 @@ export function NewPageDialog({
             ? `New sub-page of ${parent.title}`
             : sectionPrefill
               ? `New page in ${sectionPrefill}`
-              : newSection
-                ? "New section"
-                : "New page"}
+              : "New page"}
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="new-page-dialog__field">
@@ -148,7 +139,6 @@ export function NewPageDialog({
               required
               list={SECTION_LIST_ID}
               value={section}
-              autoFocus={newSection}
               onChange={(e) => setSection(e.target.value)}
             />
             <datalist id={SECTION_LIST_ID}>

@@ -1,10 +1,4 @@
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { ReactRenderer } from "@tiptap/react";
 import type {
   SuggestionKeyDownProps,
@@ -43,7 +37,6 @@ export const SlashMenuList = forwardRef<
   SlashMenuListProps
 >(function SlashMenuList({ items, command }, ref) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
 
   // A fresh filtered `items` array arrives on every keystroke; reset the
   // selection to the top row so it never points past the new list's end
@@ -51,14 +44,6 @@ export const SlashMenuList = forwardRef<
   useEffect(() => {
     setActiveIndex(0);
   }, [items]);
-
-  // Scroll the active item into view when keyboard navigation moves the
-  // selection outside the visible portion of the menu.
-  useEffect(() => {
-    listRef.current
-      ?.querySelector(".slash-menu__item.is-active")
-      ?.scrollIntoView({ block: "nearest" });
-  }, [activeIndex]);
 
   function selectIndex(index: number) {
     const item = items[index];
@@ -105,12 +90,7 @@ export const SlashMenuList = forwardRef<
   let flatIndex = 0;
 
   return (
-    <div
-      className="slash-menu"
-      data-testid="slash-menu"
-      role="listbox"
-      ref={listRef}
-    >
+    <div className="slash-menu" data-testid="slash-menu" role="listbox">
       {items.length === 0 ? (
         <div className="slash-menu__empty" data-testid="slash-menu-empty">
           No results

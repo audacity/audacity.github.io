@@ -48,7 +48,7 @@ export function insertAdmonition(
     .run();
 }
 
-/** Inserts a `tabs` node with three starter tabs (Windows/macOS/Linux), each with an empty paragraph. */
+/** Inserts a `tabs` node with two starter tabs (Windows/macOS), each with an empty paragraph. */
 export function insertTabs(editor: Editor) {
   editor
     .chain()
@@ -64,11 +64,6 @@ export function insertTabs(editor: Editor) {
         {
           type: "tab",
           attrs: { label: "macOS" },
-          content: [{ type: "paragraph" }],
-        },
-        {
-          type: "tab",
-          attrs: { label: "Linux" },
           content: [{ type: "paragraph" }],
         },
       ],

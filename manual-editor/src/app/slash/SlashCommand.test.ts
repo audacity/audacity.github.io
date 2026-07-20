@@ -86,7 +86,6 @@ test("suggestion.command deletes the trigger range and runs the selected item", 
   expect(tabs?.content?.map((t) => t.attrs?.label)).toEqual([
     "Windows",
     "macOS",
-    "Linux",
   ]);
 
   editor.destroy();

@@ -98,9 +98,7 @@ test("editing content triggers a debounced saveDraftDoc(path, doc, frontmatter) 
   });
 
   await waitFor(() =>
-    expect(screen.getByTestId("save-status").textContent).toBe(
-      "Changes saved ●",
-    ),
+    expect(screen.getByTestId("save-status").textContent).toBe("Saved draft ●"),
   );
 
   expect(calls.length).toBe(1);
@@ -114,7 +112,7 @@ test("editing content triggers a debounced saveDraftDoc(path, doc, frontmatter) 
   expect(containsText(calls[0]!.doc, "EDITED-TEXT")).toBe(true);
 });
 
-test("save status shows Saving changes… while the request is in flight, then Changes saved ● after it resolves", async () => {
+test("save status shows Saving… while the request is in flight, then Saved draft ● after it resolves", async () => {
   const { getEditor } = await mountEditor();
   const editor = getEditor();
 
@@ -124,19 +122,15 @@ test("save status shows Saving changes… while the request is in flight, then C
   });
 
   await waitFor(() =>
-    expect(screen.getByTestId("save-status").textContent).toBe(
-      "Unsaved changes",
-    ),
+    expect(screen.getByTestId("save-status").textContent).toBe("Edited"),
   );
   await waitFor(() =>
-    expect(["Saving changes…", "Changes saved ●"]).toContain(
+    expect(["Saving…", "Saved draft ●"]).toContain(
       screen.getByTestId("save-status").textContent,
     ),
   );
   await waitFor(() =>
-    expect(screen.getByTestId("save-status").textContent).toBe(
-      "Changes saved ●",
-    ),
+    expect(screen.getByTestId("save-status").textContent).toBe("Saved draft ●"),
   );
 });
 

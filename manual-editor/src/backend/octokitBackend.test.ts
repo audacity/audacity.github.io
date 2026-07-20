@@ -803,17 +803,21 @@ test("saveDraft: missing drafts branch is created off base head, then committed 
     "docs: edit a",
   );
 
-  // Squash strategy: get BASE head first (parent), then check DRAFTS for
-  // accumulated tree (404 here), then createTree/createCommit, then
-  // createRef (not updateRef — branch didn't exist).
   expect(calls.map((c) => c.op)).toEqual([
+    "getRef", // heads/DRAFTS -> 404
     "getRef", // heads/BASE
-    "getCommit", // base commit -> base tree sha
-    "getRef", // heads/DRAFTS -> 404 (no branch yet)
+    "createRef", // refs/heads/DRAFTS off base head
+    "getCommit", // drafts head commit -> tree sha
     "createTree",
     "createCommit",
-    "createRef", // refs/heads/DRAFTS with new squashed commit sha
+    "updateRef",
   ]);
+
+  const createRefCall = calls.find((c) => c.op === "createRef")!;
+  expect(createRefCall.args).toEqual({
+    ref: `refs/heads/${DRAFTS}`,
+    sha: `commit-${BASE}-seed`,
+  });
 
   const createTreeCall = calls.find((c) => c.op === "createTree")!;
   expect((createTreeCall.args as any).base_tree).toBe(`tree-${BASE}-seed`);
@@ -827,16 +831,16 @@ test("saveDraft: missing drafts branch is created off base head, then committed 
     `commit-${BASE}-seed`,
   ]);
 
-  // createRef points at the newly created commit (not the old base HEAD).
-  const createRefCall = calls.find((c) => c.op === "createRef")!;
-  expect(createRefCall.args).toMatchObject({ ref: `refs/heads/${DRAFTS}` });
-  expect((createRefCall.args as any).sha).toMatch(/^commit-gen-\d+$/);
-  expect((createRefCall.args as any).sha).not.toBe(`commit-${BASE}-seed`);
-
-  expect(calls.some((c) => c.op === "updateRef")).toBe(false);
+  const updateRefCall = calls.find((c) => c.op === "updateRef")!;
+  expect((updateRefCall.args as any).ref).toBe(`heads/${DRAFTS}`);
+  expect((updateRefCall.args as any).force).toBe(false);
+  // A freshly generated commit sha (the fake threads real state through:
+  // it's whatever `createCommit` returned), and distinct from the old head.
+  expect((updateRefCall.args as any).sha).toMatch(/^commit-gen-\d+$/);
+  expect((updateRefCall.args as any).sha).not.toBe(`commit-${BASE}-seed`);
 });
 
-test("saveDraft: existing drafts branch — squashes onto base head, carries drafts tree, force-updates ref", async () => {
+test("saveDraft: existing drafts branch — no createRef, correct parents from drafts head", async () => {
   const PATH = "src/content/manual/basics/a.mdx";
   const { backend, calls } = writeBackendFor({
     login: "u",
@@ -853,28 +857,20 @@ test("saveDraft: existing drafts branch — squashes onto base head, carries dra
 
   expect(calls.some((c) => c.op === "createRef")).toBe(false);
   expect(calls.map((c) => c.op)).toEqual([
-    "getRef", // heads/BASE
-    "getCommit", // base commit -> base tree sha
     "getRef", // heads/DRAFTS -> found
-    "getCommit", // drafts commit -> drafts tree sha (carries accumulated state)
+    "getCommit",
     "createTree",
     "createCommit",
-    "updateRef", // force: true (squash replaces previous commit)
+    "updateRef",
   ]);
 
-  // Accumulated drafts tree is used as base_tree so prior unsaved changes
-  // from other pages are preserved.
   const createTreeCall = calls.find((c) => c.op === "createTree")!;
   expect((createTreeCall.args as any).base_tree).toBe(`tree-${DRAFTS}-seed`);
 
-  // Parent is BASE head (not drafts head) — the squash.
   const createCommitCall = calls.find((c) => c.op === "createCommit")!;
   expect((createCommitCall.args as any).parents).toEqual([
-    `commit-${BASE}-seed`,
+    `commit-${DRAFTS}-seed`,
   ]);
-
-  const updateRefCall = calls.find((c) => c.op === "updateRef")!;
-  expect((updateRefCall.args as any).force).toBe(true);
 });
 
 test("saveImage: createBlob(base64), tree item uses the returned sha, returns repo-relative path", async () => {
