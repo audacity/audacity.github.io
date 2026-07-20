@@ -297,6 +297,7 @@ function TrackLane({ name = "Audio 1", children }) {
 // (3.2, 100) only produces ~320 samples which TrackNew renders as sparse
 // dots; a longer waveform gives the clip a proper dense peak pattern.
 const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(12);
+const SAMPLE_EDITING_WAVEFORM = generateSpeechWaveform(90);
 
 function ClipHandlesDemo({ isActive = true }) {
   const rootRef = useRef(null);
@@ -335,12 +336,16 @@ function ClipHandlesDemo({ isActive = true }) {
     }
   }
 
+  // Snap to pixel boundaries so the waveform peak mapping only changes on
+  // whole-pixel steps — eliminates sub-pixel aliasing jitter each frame.
+  const stableDuration = Math.round(duration * PPS) / PPS;
+
   const clips = [
     {
       id: 1,
       name: "Take 2",
       start: CLIP_START,
-      duration,
+      duration: stableDuration,
       fullDuration: FULL_DURATION,
       stretchFactor,
       waveform: CLIP_HANDLES_WAVEFORM,
@@ -349,7 +354,7 @@ function ClipHandlesDemo({ isActive = true }) {
   ];
 
   // Cursor sits on the clip's right edge — sells the gesture.
-  const cursorX = (CLIP_START + duration) * PPS;
+  const cursorX = (CLIP_START + stableDuration) * PPS;
   const cursorY = RULER_H + 2 + TRACK_H / 2;
   const isStretching = t < 0.5;
 
@@ -825,6 +830,7 @@ function SampleEditingDemo({ isActive = true }) {
       name: CLIP_NAME,
       start: 0,
       duration: CANVAS_W / PPS,
+      waveform: SAMPLE_EDITING_WAVEFORM,
     },
   ];
 
