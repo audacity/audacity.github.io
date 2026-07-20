@@ -1,6 +1,11 @@
 [build]
   command = "bun run build"
   publish = "dist"
+  # Always build: the editor site lives at the same repo root as the main
+  # marketing site, so Netlify's base-directory change detection skips builds
+  # when only non-editor files change. For a tool used by a small team this
+  # is fine to always rebuild; exit 1 = "changes found, proceed".
+  ignore = "exit 1"
 
 [functions]
   directory = "netlify/functions"

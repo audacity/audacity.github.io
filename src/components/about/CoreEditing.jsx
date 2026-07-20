@@ -803,7 +803,7 @@ function LoopingDemo({ isActive = true }) {
 function SampleEditingDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const t = useLoopProgress(6000, inView && isActive);
+  const t = useLoopProgress(3200, inView && isActive);
   const CANVAS_W = 720;
   const TRACK_H = 280;
   const CLIP_NAME = "TL_Juicy_Drum_Snare_2_84bpm";
@@ -840,33 +840,33 @@ function SampleEditingDemo({ isActive = true }) {
   const easeInOut = (u) =>
     u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
 
-  // Four phases over a 6 s loop:
-  //   0.00–0.20  far       (pointer, cursor stationary)
-  //   0.20–0.40  approach  (pointer → pen as distance drops below PROXIMITY)
-  //   0.40–0.75  drag      (pen, dot moves up and back)
-  //   0.75–0.90  retreat   (pen → pointer as distance rises above PROXIMITY)
-  //   0.90–1.00  far again (pointer, stationary)
+  // Four phases over a 3.2 s loop:
+  //   0.00–0.12  far       (pointer, cursor stationary)
+  //   0.12–0.35  approach  (pointer → pen as distance drops below PROXIMITY)
+  //   0.35–0.72  drag      (pen, dot moves up and back)
+  //   0.72–0.88  retreat   (pen → pointer as distance rises above PROXIMITY)
+  //   0.88–1.00  far again (pointer, stationary)
   let cursorX, cursorY, isPen, dragDotV;
 
-  if (t < 0.2) {
+  if (t < 0.12) {
     cursorX = FAR_X;
     cursorY = FAR_Y;
     isPen = false;
     dragDotV = sampleAt(DRAG_IDX);
-  } else if (t < 0.4) {
-    const p = easeInOut((t - 0.2) / 0.2);
+  } else if (t < 0.35) {
+    const p = easeInOut((t - 0.12) / 0.23);
     cursorX = FAR_X + (DRAG_DOT_X - FAR_X) * p;
     cursorY = FAR_Y + (REST_DOT_Y - FAR_Y) * p;
     isPen = Math.hypot(cursorX - DRAG_DOT_X, cursorY - REST_DOT_Y) < PROXIMITY;
     dragDotV = sampleAt(DRAG_IDX);
-  } else if (t < 0.75) {
-    const dp = Math.sin(((t - 0.4) / 0.35) * Math.PI); // 0 → 1 → 0
+  } else if (t < 0.72) {
+    const dp = Math.sin(((t - 0.35) / 0.37) * Math.PI); // 0 → 1 → 0
     dragDotV = sampleAt(DRAG_IDX) - dp * 0.55;
     cursorX = DRAG_DOT_X;
     cursorY = MID_Y + dragDotV * (CLIP_BODY_H * 0.4);
     isPen = true;
-  } else if (t < 0.9) {
-    const p = easeInOut((t - 0.75) / 0.15);
+  } else if (t < 0.88) {
+    const p = easeInOut((t - 0.72) / 0.16);
     cursorX = DRAG_DOT_X + (FAR_X - DRAG_DOT_X) * p;
     cursorY = REST_DOT_Y + (FAR_Y - REST_DOT_Y) * p;
     isPen = Math.hypot(cursorX - DRAG_DOT_X, cursorY - REST_DOT_Y) < PROXIMITY;
@@ -1309,36 +1309,69 @@ function CoreEditing() {
     };
   }, [isMobile]);
 
+  const goTo = (nextIdx) => {
+    setActiveIdx(nextIdx);
+    const ul = carouselRef.current;
+    if (!ul) return;
+    const card = ul.children[nextIdx];
+    if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  };
+
   return (
     <section
       ref={sectionRef}
       className="bg-background-dark core-editing-section"
     >
       <div className="max-w-[1600px] mx-auto px-6 lg:px-10 shrink-0">
-        <header
+        <div
           ref={headerEntrance.ref}
-          className="max-w-3xl"
+          className="flex items-end gap-20"
           style={headerEntrance.style}
         >
-          <div
-            className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
-            aria-hidden
-          >
-            Core interactions
+          <header className="max-w-3xl shrink-0">
+            <div
+              className="font-mono text-sm tracking-[0.2em] uppercase text-text-contrast/40"
+              aria-hidden
+            >
+              Core interactions
+            </div>
+            <h2 className="mt-4 font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
+              A new editing experience
+            </h2>
+            <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
+              We've paid as much attention to the classics as the new features
+            </p>
+          </header>
+
+          <div className="hidden sm:flex items-center gap-2 shrink-0 pb-1">
+            <button
+              type="button"
+              aria-label="Previous card"
+              onClick={() => goTo((activeIdx - 1 + CARDS.length) % CARDS.length)}
+              className="w-10 h-10 rounded-full border border-white/15 bg-white/[0.06] hover:bg-white/15 text-text-contrast/70 hover:text-text-contrast transition-colors flex items-center justify-center"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button
+              type="button"
+              aria-label="Next card"
+              onClick={() => goTo((activeIdx + 1) % CARDS.length)}
+              className="w-10 h-10 rounded-full border border-white/15 bg-white/[0.06] hover:bg-white/15 text-text-contrast/70 hover:text-text-contrast transition-colors flex items-center justify-center"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
-          <h2 className="mt-4 font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-            A new editing experience
-          </h2>
-          <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
-            We've paid as much attention to the classics as the new features
-          </p>
-        </header>
+        </div>
       </div>
 
       <div className="mt-8 lg:mt-10 flex-1 min-h-0 flex">
         <ul
           ref={carouselRef}
-          className="core-editing-carousel flex flex-col sm:flex-row gap-10 sm:gap-5 lg:gap-7 sm:items-center sm:overflow-x-auto sm:overflow-y-clip sm:snap-x sm:snap-proximity px-6 lg:px-10 scrollbar-hide w-full max-w-[1600px] mx-auto sm:cursor-grab"
+          className="core-editing-carousel flex flex-col sm:flex-row gap-10 sm:gap-5 lg:gap-7 sm:items-center sm:overflow-x-auto sm:overflow-y-clip sm:snap-x sm:snap-proximity px-6 lg:px-10 sm:scroll-pl-6 lg:scroll-pl-10 scrollbar-hide w-full max-w-[1600px] mx-auto sm:cursor-grab"
           style={{
             // Native `overflow-x: auto` on the sm+ carousel handles
             // horizontal swipes; vertical bubbles to the page. Mobile
