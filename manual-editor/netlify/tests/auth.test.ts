@@ -21,6 +21,7 @@ const ENV_KEYS = [
   "GITHUB_CLIENT_SECRET",
   "OAUTH_REDIRECT_URI",
   "SESSION_SECRET",
+  "ALLOWED_GITHUB_LOGINS",
 ] as const;
 
 const PROD_ENV = {
@@ -28,6 +29,7 @@ const PROD_ENV = {
   GITHUB_CLIENT_SECRET: "test-client-secret",
   OAUTH_REDIRECT_URI: "https://example.test/api/auth-callback",
   SESSION_SECRET: "test-session-secret",
+  ALLOWED_GITHUB_LOGINS: "octocat",
 };
 
 /** Runs `fn` with `DEV_AUTH` unset and the OAuth env vars set to test values, restoring everything afterwards. */
@@ -39,6 +41,7 @@ async function withProdEnv(fn: () => void | Promise<void>): Promise<void> {
   process.env.GITHUB_CLIENT_SECRET = PROD_ENV.GITHUB_CLIENT_SECRET;
   process.env.OAUTH_REDIRECT_URI = PROD_ENV.OAUTH_REDIRECT_URI;
   process.env.SESSION_SECRET = PROD_ENV.SESSION_SECRET;
+  process.env.ALLOWED_GITHUB_LOGINS = PROD_ENV.ALLOWED_GITHUB_LOGINS;
   try {
     await fn();
   } finally {
@@ -152,6 +155,46 @@ test("auth-callback happy path: verifies state, exchanges code, sets session coo
     const clearedStateCookie = firstSetCookie(res, "manual_editor_oauth_state");
     expect(clearedStateCookie).toBeTruthy();
     expect(clearedStateCookie).toContain("Max-Age=0");
+  });
+});
+
+test("auth-callback rejects a login not in ALLOWED_GITHUB_LOGINS with 403 and sets no session cookie", async () => {
+  await withProdEnv(async () => {
+    process.env.ALLOWED_GITHUB_LOGINS = "alice,bob";
+    const state = "test-state-value";
+    const cookie = stateCookie(state, PROD_ENV.SESSION_SECRET).split(";")[0];
+    const fetchImpl = mockFetchSequence([
+      { body: { access_token: "gho_mocked_token" } },
+      { body: { login: "mallory" } },
+    ]);
+    const callbackHandler = makeAuthCallback(fetchImpl);
+    const request = requestWithCookie(
+      `http://localhost/api/auth-callback?code=abc123&state=${state}`,
+      cookie,
+    );
+    const res = await callbackHandler(request);
+    expect(res.status).toBe(403);
+    expect(firstSetCookie(res, "manual_editor_session")).toBeUndefined();
+  });
+});
+
+test("auth-callback rejects when ALLOWED_GITHUB_LOGINS is not set", async () => {
+  await withProdEnv(async () => {
+    delete process.env.ALLOWED_GITHUB_LOGINS;
+    const state = "test-state-value";
+    const cookie = stateCookie(state, PROD_ENV.SESSION_SECRET).split(";")[0];
+    const fetchImpl = mockFetchSequence([
+      { body: { access_token: "gho_mocked_token" } },
+      { body: { login: "octocat" } },
+    ]);
+    const callbackHandler = makeAuthCallback(fetchImpl);
+    const request = requestWithCookie(
+      `http://localhost/api/auth-callback?code=abc123&state=${state}`,
+      cookie,
+    );
+    const res = await callbackHandler(request);
+    expect(res.status).toBe(403);
+    expect(firstSetCookie(res, "manual_editor_session")).toBeUndefined();
   });
 });
 

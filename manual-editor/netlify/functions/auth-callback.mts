@@ -86,6 +86,18 @@ export function makeAuthCallback(fetchImpl: typeof fetch = fetch) {
       return json({ error: "user lookup failed" }, 502);
     }
 
+    const allowedRaw = process.env.ALLOWED_GITHUB_LOGINS ?? "";
+    const allowed = allowedRaw
+      .split(",")
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean);
+    if (
+      allowed.length === 0 ||
+      !allowed.includes(userData.login.toLowerCase())
+    ) {
+      return json({ error: "not authorized" }, 403);
+    }
+
     const sessionValue = signSession(
       { token: tokenData.access_token, login: userData.login },
       secret,
