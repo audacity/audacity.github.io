@@ -200,6 +200,14 @@ export class OctokitBackend implements GitHubBackend {
   private repo: string;
   private baseBranch: string;
   private draftsBranch: string;
+  /**
+   * Serialises all calls to `commitToDrafts` so that concurrent writes
+   * (e.g. `saveImage` and a debounced autosave firing at the same time)
+   * never read a stale drafts ref: the second call always reads the ref
+   * *after* the first one's force-push has landed, so its `base_tree` is
+   * always up to date and no changes are silently lost.
+   */
+  private writeLock: Promise<void> = Promise.resolve();
 
   constructor(token: string, opts: OctokitBackendOptions = {}) {
     this.octokit =
@@ -394,6 +402,27 @@ export class OctokitBackend implements GitHubBackend {
   }
 
   /**
+   * Serialising wrapper around `_commitToDrafts`. All callers go through
+   * here so concurrent invocations (e.g. `saveImage` overlapping with a
+   * debounced autosave) are queued and execute one at a time, guaranteeing
+   * that each write reads the latest drafts ref and no force-push silently
+   * overwrites a concurrent one's changes.
+   */
+  private commitToDrafts(
+    tree: DraftTreeItem[],
+    message: string,
+  ): Promise<void> {
+    const result = this.writeLock.then(() =>
+      this._commitToDrafts(tree, message),
+    );
+    this.writeLock = result.then(
+      () => {},
+      () => {},
+    );
+    return result;
+  }
+
+  /**
    * Commits `tree` (a diff, not a full tree — entries merge onto the
    * accumulated drafts tree via `base_tree`) as a single squashed commit
    * on top of the base branch's current HEAD, replacing any previous
@@ -406,10 +435,10 @@ export class OctokitBackend implements GitHubBackend {
    * from other pages. The commit's parent is always base HEAD so the diff
    * presented by any PR viewer covers the full changeset in one commit.
    *
-   * Single-writer assumption (one QA editing at a time): no retry-on-
-   * conflict loop. Errors propagate to the caller.
+   * Always called via `commitToDrafts` (the serialising wrapper) — never
+   * directly — so concurrent callers are always queued.
    */
-  private async commitToDrafts(
+  private async _commitToDrafts(
     tree: DraftTreeItem[],
     message: string,
   ): Promise<void> {
