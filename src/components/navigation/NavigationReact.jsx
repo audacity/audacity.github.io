@@ -5,7 +5,7 @@ import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
 
 function NavigationReact(props) {
-  const { currentURL } = props;
+  const { currentURL, labels = {}, localePrefix = "" } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
 
   function getUrlPath(url) {
@@ -14,10 +14,27 @@ function NavigationReact(props) {
   }
 
   const navLinks = [
-    { href: "/download", linkText: "Downloads", target: "" },
-    { href: "/features/", linkText: "Features", target: "" },
-    { href: "/about", linkText: "Audacity 4", target: "", badge: "New" },
-    { href: "/help", linkText: "Help", target: "" },
+    {
+      href: `${localePrefix}/download`,
+      linkText: labels.downloads ?? "Downloads",
+      target: "",
+    },
+    {
+      href: `${localePrefix}/features/`,
+      linkText: labels.features ?? "Features",
+      target: "",
+    },
+    {
+      href: `${localePrefix}/about`,
+      linkText: "Audacity 4",
+      target: "",
+      badge: labels.new ?? "New",
+    },
+    {
+      href: `${localePrefix}/help`,
+      linkText: labels.help ?? "Help",
+      target: "",
+    },
   ];
 
   function handleHamburgerMenuClick() {
@@ -62,7 +79,10 @@ function NavigationReact(props) {
   return (
     <nav className="z-3 bg-background-dark">
       <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-6 md:px-10 gap-8">
-        <a className="flex w-fit items-center shrink-0" href="/">
+        <a
+          className="flex w-fit items-center shrink-0"
+          href={localePrefix || "/"}
+        >
           <AudacityLogoSVG className="h-8 fill-accent" />
         </a>
 
@@ -72,12 +92,12 @@ function NavigationReact(props) {
 
         <div className="hidden lg:flex flex-1 justify-end items-center gap-5">
           <a
-            href="/cloud-saving"
+            href={`${localePrefix}/cloud-saving`}
             className="font-muse-sans text-16 text-text-contrast hover:text-accent transition-colors"
           >
-            Try Audacity Cloud
+            {labels.tryCloud ?? "Try Audacity Cloud"}
           </a>
-          <SignUpButton onClick={handleButtonClick} />
+          <SignUpButton onClick={handleButtonClick} label={labels.signUp} />
         </div>
 
         <button

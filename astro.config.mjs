@@ -10,6 +10,19 @@ import sitemap from "@astrojs/sitemap";
 import compressor from "astro-compressor";
 export default defineConfig({
   site: "https://www.audacityteam.org",
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "fr", "de", "es"],
+    routing: {
+      prefixDefaultLocale: false,
+      fallbackType: "rewrite",
+    },
+    fallback: {
+      fr: "en",
+      de: "en",
+      es: "en",
+    },
+  },
   integrations: [
     tailwind({
       // Example: Disable injecting a basic `base.css` import on every page.

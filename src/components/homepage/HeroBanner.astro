@@ -3,6 +3,9 @@ import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import HeroSwoosh from "./HeroSwoosh.astro";
+import { useTranslations } from "../../i18n";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <section
@@ -22,17 +25,17 @@ import HeroSwoosh from "./HeroSwoosh.astro";
           <h1
             class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
           >
-            The world's most
+            {t("hero.headline1")}
           </h1>
           <h1
             class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
           >
-            popular audio editing
+            {t("hero.headline2")}
           </h1>
           <h1
             class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
           >
-            and recording app
+            {t("hero.headline3")}
           </h1>
         </div>
 
@@ -45,7 +48,7 @@ import HeroSwoosh from "./HeroSwoosh.astro";
             href="/about"
             class="font-muse-sans text-16 text-text-contrast underline underline-offset-4 decoration-text-contrast/40 hover:text-accent hover:decoration-accent transition-colors"
           >
-            Learn more about Audacity 4
+            {t("hero.learnMore")}
           </a>
         </div>
       </div>

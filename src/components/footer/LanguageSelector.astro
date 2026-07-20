@@ -1,0 +1,62 @@
+---
+import { locales, localeNames, defaultLocale, type Locale } from "../../i18n";
+
+const currentLocale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const currentPath = Astro.url.pathname;
+
+function getLocaleUrl(locale: Locale): string {
+  const stripped = currentPath.replace(/^\/(fr|de|es)/, "") || "/";
+  return locale === defaultLocale ? stripped : `/${locale}${stripped}`;
+}
+
+const current = localeNames[currentLocale];
+---
+
+<div class="relative">
+  <details class="group">
+    <summary
+      class="flex items-center gap-1.5 cursor-pointer list-none text-text-contrast/75 hover:text-accent transition-colors select-none"
+      aria-label="Select language"
+    >
+      <span>{current.flag}</span>
+      <span>{current.name}</span>
+      <span class="text-10 transition-transform group-open:rotate-180">▾</span>
+    </summary>
+
+    <ul
+      class="absolute bottom-full mb-2 left-0 min-w-max bg-background-dark border border-text-contrast/20 rounded py-1 z-50"
+    >
+      {
+        locales.map((locale) => {
+          const info = localeNames[locale];
+          const isActive = locale === currentLocale;
+          return (
+            <li>
+              <a
+                href={getLocaleUrl(locale)}
+                aria-current={isActive ? "true" : undefined}
+                class:list={[
+                  "flex items-center gap-2 px-4 py-1.5 transition-colors",
+                  isActive
+                    ? "text-accent"
+                    : "text-text-contrast/75 hover:text-accent",
+                ]}
+              >
+                <span>{info.flag}</span>
+                <span>{info.name}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </details>
+</div>
+
+<script>
+  document.addEventListener("click", (e) => {
+    document.querySelectorAll<HTMLDetailsElement>("details").forEach((el) => {
+      if (!el.contains(e.target as Node)) el.open = false;
+    });
+  });
+</script>

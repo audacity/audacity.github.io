@@ -1,23 +1,25 @@
 ---
 import { getImage } from "astro:assets";
 import FeaturedVideo from "../video/FeaturedVideo";
+import { useTranslations } from "../../i18n";
+
+const t = useTranslations(Astro.currentLocale);
 
 const releaseVideo = {
-  title: "How we're building Audacity 4",
-  label: "A sneak peek at our development process and new features.",
+  title: t("video.release.title"),
+  label: t("video.release.label"),
   placeholderImage: "https://i.ytimg.com/vi/QYM3TWf_G38/maxresdefault.jpg",
-  imageAltText: "Video thumbnail: How we're building Audacity 4",
+  imageAltText: t("video.release.alt"),
   videoURL: "https://www.youtube-nocookie.com/embed/QYM3TWf_G38?autoplay=1",
 };
 
 const promoVideo = {
   CTA: true,
-  ctaText: "Get it on MuseHub",
+  ctaText: t("video.promo.cta"),
   ctaURL:
     "https://www.musehub.com/plugin/playgrnd-fx?utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-web-playgrnd-fx",
   imageAltText: "Video thumbnail",
-  label:
-    "Install once. Access tons of powerful plugins. Blend for infinite creativity.",
+  label: t("video.promo.label"),
   placeholderImage: "https://i.ytimg.com/vi/UGiJCTu67Ak/maxresdefault.jpg",
   title: "PLAYGRND FX",
   videoURL: "https://www.youtube-nocookie.com/embed/UGiJCTu67Ak?autoplay=1",

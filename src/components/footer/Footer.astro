@@ -7,26 +7,37 @@ import {
 import MuseHubSVG from "../inlineSVG/MuseHubSVG";
 import MuseGroupSVG from "../inlineSVG/MuseGroupSVG";
 import AudioSVG from "../inlineSVG/AudioSVG";
-import MuseWordmarkSVG from "../inlineSVG/MuseWordmarkSVG";
 import FacebookSVG from "../inlineSVG/FacebookSVG";
 import InstagramSVG from "../inlineSVG/InstagramSVG";
 import TwitterSVG from "../inlineSVG/TwitterSVG";
 import YoutubeSVG from "../inlineSVG/YoutubeSVG";
 import DiscordSVG from "../inlineSVG/DiscordSVG";
+import LanguageSelector from "./LanguageSelector.astro";
+import { useTranslations } from "../../i18n";
+
+const t = useTranslations(Astro.currentLocale);
+const localePrefix =
+  Astro.currentLocale && Astro.currentLocale !== "en"
+    ? `/${Astro.currentLocale}`
+    : "";
 
 const links = [
-  { href: "/help", label: "Help" },
-  { href: "/FAQ", label: "FAQ" },
-  { href: "/blog", label: "Blog" },
-  { href: "/cloud-saving", label: "Cloud Saving" },
-  { href: "https://forum.audacityteam.org/", label: "Forum", external: true },
+  { href: "/help", label: t("footer.link.help") },
+  { href: "/FAQ", label: t("footer.link.faq") },
+  { href: "/blog", label: t("footer.link.blog") },
+  { href: "/cloud-saving", label: t("footer.link.cloudSaving") },
+  {
+    href: "https://forum.audacityteam.org/",
+    label: t("footer.link.forum"),
+    external: true,
+  },
   {
     href: "https://merch.audacityteam.org/",
-    label: "Merch",
+    label: t("footer.link.merch"),
     external: true,
     badge: "NEW",
   },
-  { href: "/manual", label: "Manual" },
+  { href: "/manual", label: t("footer.link.manual") },
   { href: "https://audio.com/", label: "Audio.com", external: true },
 ];
 
@@ -34,13 +45,13 @@ const downloads = [
   { href: "/download/windows", label: "Windows" },
   { href: "/download/mac", label: "macOS" },
   { href: "/download/linux", label: "Linux" },
-  { href: "/beta", label: "Beta", id: "beta-link" },
+  { href: "/beta", label: t("footer.download.beta"), id: "beta-link" },
   {
     href: "https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub",
     label: "MuseHub",
     external: true,
   },
-  { href: "/download/openvino", label: "AI plugins" },
+  { href: "/download/openvino", label: t("footer.download.aiPlugins") },
 ];
 
 const social = [
@@ -88,10 +99,6 @@ const activeDownloadCampaign =
     (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
   ) ?? null;
 const hasPreRelease = Boolean(activeDownloadCampaign);
-const activePreReleaseAriaLabel =
-  hasPreRelease && activeDownloadCampaign
-    ? `Link to ${activeDownloadCampaign.label.toLowerCase()} page`
-    : "";
 ---
 
 <footer class="bg-background-dark py-12">
@@ -100,31 +107,13 @@ const activePreReleaseAriaLabel =
       <!-- Brand Column -->
       <div class="flex flex-col justify-between">
         <div>
-          <p class="font-symphony text-64 text-accent">Audacity</p>
+          <p class="font-harmony text-64 text-accent">Audacity</p>
           <p class="text-12 mt-2 text-text-contrast/75">
-            Copyright &copy; <span id="copyright"></span> | Muse Group & contributors.
+            Copyright &copy; <span id="copyright"></span> | {
+              t("footer.copyright")
+            }.
           </p>
         </div>
-        <p class="text-12 text-text-contrast/75 mt-8 lg:mt-0">
-          Website content licensed <a
-            href="https://creativecommons.org/licenses/by/4.0/"
-            class="underline hover:text-accent"
-            rel="license"
-            target="_blank"
-            aria-label="CC-by 4.0">CC-by 4.0</a
-          >. Audacity® software is licensed under the terms of the GNU General
-          Public License, Version 3. Further information about the software
-          license, distribution and acceptable use can be found <a
-            class="underline hover:text-accent"
-            href="https://github.com/audacity/audacity/blob/master/LICENSE.txt"
-            target="_blank"
-            aria-label="in the source code">in the source code</a
-          >. This site is powered by <a
-            href="https://www.netlify.com/"
-            target="_blank"
-            class="underline hover:text-accent">Netlify</a
-          >.
-        </p>
       </div>
 
       <!-- Link Groups Container -->
@@ -133,13 +122,17 @@ const activePreReleaseAriaLabel =
       >
         <!-- Links Column -->
         <div>
-          <p class="font-harmony text-32 text-text-contrast">links</p>
+          <p class="font-harmony text-32 text-text-contrast">
+            {t("footer.nav.links")}
+          </p>
           <ul class="mt-2 space-y-2 md:space-y-0">
             {
               links.map((link) => (
                 <li class="w-fit">
                   <a
-                    href={link.href}
+                    href={
+                      link.external ? link.href : `${localePrefix}${link.href}`
+                    }
                     aria-label={
                       link.external
                         ? `External link to ${link.label}`
@@ -163,13 +156,17 @@ const activePreReleaseAriaLabel =
 
         <!-- Downloads Column -->
         <div>
-          <p class="font-harmony text-32 text-text-contrast">downloads</p>
+          <p class="font-harmony text-32 text-text-contrast">
+            {t("footer.nav.downloads")}
+          </p>
           <ul class="mt-2 space-y-2 md:space-y-0">
             {
               downloads.map((link) => (
                 <li id={link.id} class="w-fit">
                   <a
-                    href={link.href}
+                    href={
+                      link.external ? link.href : `${localePrefix}${link.href}`
+                    }
                     aria-label={
                       link.external
                         ? `External link to ${link.label}`
@@ -188,7 +185,9 @@ const activePreReleaseAriaLabel =
 
         <!-- Social Column -->
         <div>
-          <p class="font-harmony text-32 text-text-contrast">social</p>
+          <p class="font-harmony text-32 text-text-contrast">
+            {t("footer.nav.social")}
+          </p>
           <ul class="mt-2 space-y-2 md:space-y-0">
             {
               social.map((link) => (
@@ -209,13 +208,17 @@ const activePreReleaseAriaLabel =
 
         <!-- Plugins Column -->
         <div>
-          <p class="font-harmony text-32 text-text-contrast">plugins</p>
+          <p class="font-harmony text-32 text-text-contrast">
+            {t("footer.nav.plugins")}
+          </p>
           <ul class="mt-2 space-y-2 md:space-y-0">
             {
               plugins.map((link) => (
                 <li class="w-fit">
                   <a
-                    href={link.href}
+                    href={
+                      link.external ? link.href : `${localePrefix}${link.href}`
+                    }
                     aria-label={
                       link.external
                         ? `External link to ${link.label}`
@@ -234,69 +237,47 @@ const activePreReleaseAriaLabel =
       </div>
     </div>
 
-    <!-- Full Width Section -->
-    <div class="mt-12 pt-8 border-t border-text-contrast/20">
-      <div class="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12">
-        <!-- Social Icons -->
-        <div class="flex gap-4">
-          {
-            social.map((link) => (
-              <a
-                href={link.href}
-                aria-label={`External link to ${link.label}`}
-                target="_blank"
-                class="text-accent hover:text-text-contrast transition-colors"
-              >
-                {link.label === "Facebook" ? (
-                  <FacebookSVG client:load />
-                ) : link.label === "Instagram" ? (
-                  <InstagramSVG client:load />
-                ) : link.label === "X" ? (
-                  <TwitterSVG client:load />
-                ) : link.label === "YouTube" ? (
-                  <YoutubeSVG client:load />
-                ) : link.label === "Discord" ? (
-                  <DiscordSVG client:load />
-                ) : (
-                  link.label
-                )}
-              </a>
-            ))
-          }
-        </div>
-
-        <!-- Description Text -->
-        <div class="lg:w-1/2">
-          <p class="text-[10px] text-text-contrast/75">
-            Audacity is an easy-to-use, multi-track audio editor and recorder
-            for Windows, macOS, GNU/Linux and other operating systems. Audacity
-            is free, open source software.
-          </p>
-        </div>
+    <!-- Social Icons Row -->
+    <div
+      class="mt-12 pt-8 border-t border-text-contrast/20 flex items-center justify-between"
+    >
+      <div class="flex gap-4">
+        {
+          social.map((link) => (
+            <a
+              href={link.href}
+              aria-label={`External link to ${link.label}`}
+              target="_blank"
+              class="text-accent hover:text-text-contrast transition-colors"
+            >
+              {link.label === "Facebook" ? (
+                <FacebookSVG client:load />
+              ) : link.label === "Instagram" ? (
+                <InstagramSVG client:load />
+              ) : link.label === "X" ? (
+                <TwitterSVG client:load />
+              ) : link.label === "YouTube" ? (
+                <YoutubeSVG client:load />
+              ) : link.label === "Discord" ? (
+                <DiscordSVG client:load />
+              ) : (
+                link.label
+              )}
+            </a>
+          ))
+        }
       </div>
+      <LanguageSelector />
     </div>
 
-    <!-- Another Full Width Section -->
-    <div class="mt-8 pt-8 border-t border-text-contrast/20">
-      <div class="grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12">
-        <!-- First Logo -->
-        <div>
-          <MuseGroupSVG />
-        </div>
-
-        <!-- Second, Third, and Fourth Logos -->
-        <div class="flex flex-col sm:flex-row gap-8 justify-between">
-          <div class="flex flex-col sm:flex-row gap-8 items-start">
-            <MuseHubSVG />
-            <AudioSVG />
-          </div>
-          <div class="flex flex-col items-start">
-            <MuseWordmarkSVG />
-            <p class="text-[12px] text-text-contrast/50 mt-2">
-              Inspire the artist. <br /> Unleash their sound.
-            </p>
-          </div>
-        </div>
+    <!-- Logos Row -->
+    <div
+      class="mt-8 pt-8 border-t border-text-contrast/20 grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12 items-center"
+    >
+      <MuseGroupSVG />
+      <div class="flex gap-8 items-center">
+        <MuseHubSVG />
+        <AudioSVG />
       </div>
     </div>
   </div>

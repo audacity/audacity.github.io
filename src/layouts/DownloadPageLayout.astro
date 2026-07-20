@@ -8,6 +8,7 @@ import "../styles/icons.css";
 import { museHubReleases } from "../assets/data/museHubReleases";
 import type { ReleaseInfo } from "../assets/data/audacityReleases";
 import type { MuseHubReleaseInfo } from "../assets/data/museHubReleases";
+import { useTranslations } from "../i18n";
 
 export interface Props {
   title: string;
@@ -29,6 +30,7 @@ const {
   iconName,
   iconColor,
 } = Astro.props;
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -39,17 +41,18 @@ const {
           <Icon name={`fa6-brands:${iconName}`} />
         </div>
         <h1 class="text-center">
-          Download for {`${OS}`}
+          {t("download.downloadFor")}
+          {OS}
         </h1>
         <div
           class="flex flex-col text-center items-center sm:flex-row sm:align-left sm:gap-2"
         >
-          <p>Current version {`${version}`}</p>
+          <p>{t("download.currentVersion")} {version}</p>
           <p class="hidden sm:block">|</p>
           <a
             class="hyperlink"
             href="https://support.audacityteam.org/additional-resources/changelog"
-            >View changelog</a
+            >{t("download.viewChangelog")}</a
           >
         </div>
       </div>
@@ -79,6 +82,8 @@ const {
                 checksum={item.checksum}
                 downloadURL={item.browser_download_url}
                 downloadType={item.type}
+                downloadLabel={t("download.btn")}
+                checksumLabel={t("download.checksum")}
               />
             );
           })
@@ -90,14 +95,14 @@ const {
       <h3
         class="col-start-2 col-span-10 lg:col-start-1 lg:col-span-12 text-18 lg:text-24 text-text-primary font-semibold"
       >
-        Additional resources
+        {t("download.additionalResources")}
       </h3>
       <div
         class="col-start-2 col-span-10 lg:col-start-1 lg:col-span-12 grid grid-cols-12 gap-6 mt-4 md:mt-8"
       >
         <IconLinkCard
           icon="icon-export"
-          title="FFmpeg import/export library"
+          title={t("download.ffmpegDesc")}
           description="An optional library which handles additional file formats (like WMA, M4A, AC3 and others)"
           linkText="Link to FFmpeg library"
           targetURL="https://support.audacityteam.org/basics/installing-ffmpeg"

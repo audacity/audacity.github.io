@@ -2,7 +2,15 @@ import React from "react";
 import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
 function DownloadCard(props) {
-  const { OS, title, downloadURL, downloadType, checksum } = props;
+  const {
+    OS,
+    title,
+    downloadURL,
+    downloadType,
+    checksum,
+    downloadLabel,
+    checksumLabel,
+  } = props;
 
   function handleDownloadButtonClick() {
     trackEvent(
@@ -45,13 +53,13 @@ function DownloadCard(props) {
               : "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
           }
         >
-          Download
+          {downloadLabel ?? "Download"}
         </a>
       </div>
 
       {checksum && (
         <div className="flex flex-col mt-8 border-t pt-4">
-          <p className="font-medium">Checksum:</p>
+          <p className="font-medium">{checksumLabel ?? "Checksum:"}</p>
           <div
             id="checksum"
             className="mt-2 p-2 bg-gray-50 border border-gray-200"

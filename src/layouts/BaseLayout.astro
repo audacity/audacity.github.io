@@ -6,6 +6,7 @@ import CookieConsent from "../components/banner/CookieConsent";
 import PromoBanner from "../components/banner/PromoBanner";
 import Footer from "../components/footer/Footer.astro";
 import NavigationReact from "../components/navigation/NavigationReact";
+import { useTranslations } from "../i18n";
 import { experiments } from "../assets/data/experiments";
 
 export interface Props {
@@ -24,6 +25,20 @@ const {
   canonical,
   image,
 } = Astro.props;
+
+const t = useTranslations(Astro.currentLocale);
+const localePrefix =
+  Astro.currentLocale && Astro.currentLocale !== "en"
+    ? `/${Astro.currentLocale}`
+    : "";
+const navLabels = {
+  downloads: t("nav.downloads"),
+  features: t("nav.features"),
+  help: t("nav.help"),
+  new: t("nav.new"),
+  tryCloud: t("nav.tryCloud"),
+  signUp: t("nav.signUp"),
+};
 
 const ogImage = image || "/apple-touch-icon.png";
 const ogUrl = canonical || Astro.url.href;
@@ -196,7 +211,12 @@ const experimentBootstrapData = experiments.filter(
       >Skip to content</a
     >
     <header id="site-header" class="z-50 sticky left-0 right-0 top-0">
-      <NavigationReact client:load currentURL={Astro.request.url} />
+      <NavigationReact
+        client:load
+        currentURL={Astro.request.url}
+        labels={navLabels}
+        localePrefix={localePrefix}
+      />
       {
         shouldShowPromoBanner && (
           <PromoBanner client:load requestPath={Astro.url.pathname} />

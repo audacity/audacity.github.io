@@ -1,12 +1,15 @@
 ---
 import FeatureCard from "../card/FeatureCard.jsx";
+import { useTranslations } from "../../i18n";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <section class="bg-background-medium py-8 lg:py-12">
   <div class="mx-auto px-6 xs:px-12 md:px-16 max-w-screen-xl">
     <div class="text-center mb-6 md:mb-8 lg:mb-12">
       <h2 class="text-32 text-text-primary font-semibold">
-        All you need to create
+        {t("features.intro")}
       </h2>
     </div>
 
@@ -16,23 +19,23 @@ import FeatureCard from "../card/FeatureCard.jsx";
     >
       <FeatureCard
         icon="icon-monitor"
-        title="Cross-platform"
-        description="Runs on all major operating systems – Windows, MacOS and Linux."
+        title={t("features.crossPlatform.title")}
+        description={t("features.crossPlatform.body")}
       />
       <FeatureCard
         icon="icon-cycle"
-        title="Import, export, convert"
-        description="Audacity supports all major audio formats, allowing you to convert WAV to MP3, FLAC, Ogg and much more."
+        title={t("features.importExport.title")}
+        description={t("features.importExport.body")}
       />
       <FeatureCard
         icon="icon-plug"
-        title="Plugin support"
-        description="Elevate your productions with a vast selection of third-party plugins, including VST3, Nyquist and more."
+        title={t("features.plugins.title")}
+        description={t("features.plugins.body")}
       />
       <FeatureCard
         icon="icon-waveform"
-        title="Deep audio analysis"
-        description="Visualize frequencies in Audacity's Spectrogram view or use scientific Vamp analyzers to make discoveries."
+        title={t("features.analysis.title")}
+        description={t("features.analysis.body")}
       />
     </div>
   </div>

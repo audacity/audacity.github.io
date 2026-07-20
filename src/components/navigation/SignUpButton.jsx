@@ -1,6 +1,6 @@
 import React from "react";
 
-function SignUpButton({ onClick }) {
+function SignUpButton({ onClick, label }) {
   return (
     <a
       href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=Nav_button"
@@ -11,7 +11,7 @@ function SignUpButton({ onClick }) {
         onClick={onClick}
         className="inline-flex items-center justify-center h-9 px-5 font-muse-sans text-16 font-semibold text-text-contrast border border-text-contrast rounded-full hover:bg-text-contrast hover:text-background-dark transition-colors"
       >
-        Sign Up
+        {label ?? "Sign Up"}
       </button>
     </a>
   );

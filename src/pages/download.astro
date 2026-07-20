@@ -9,6 +9,7 @@ import {
   type PreReleaseEntry,
 } from "../assets/data/audacityReleases";
 import ChecksumAccordion from "../components/accordion/ChecksumAccordion";
+import { useTranslations } from "../i18n";
 
 const { version } = audacityReleases;
 const sourceDownloads = audacityReleases.src ?? [];
@@ -17,6 +18,7 @@ const activeDownloadEntries = preReleaseList.filter(
   (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
 );
 const hasDownloadCampaigns = activeDownloadEntries.length > 0;
+const t = useTranslations(Astro.currentLocale);
 
 const formatCampaignLinkLabel = (
   entry: PreReleaseEntry,
@@ -38,22 +40,22 @@ const formatCampaignLinkLabel = (
   >
     <div class="grid grid-cols-12 py-12 gap-y-12">
       <div class="col-start-2 col-span-10 sm:text-center">
-        <h1>Downloads</h1>
+        <h1>{t("download.title")}</h1>
         <div
           class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
         >
-          <p>Current version: {version}</p>
+          <p>{t("download.currentVersion")} {version}</p>
           <p class="hidden sm:block">|</p>
           <a
             class="hyperlink"
             href="https://support.audacityteam.org/additional-resources/changelog"
-            target="_blank">View changelog</a
+            target="_blank">{t("download.viewChangelog")}</a
           >
         </div>
       </div>
       <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
         <h2 class="text-12 uppercase font-normal text-text-primary">
-          Download for
+          {t("download.downloadFor")}
         </h2>
         <div class="flex flex-col gap-4 mt-2">
           <OperatingSystemCard
@@ -78,7 +80,7 @@ const formatCampaignLinkLabel = (
           hasDownloadCampaigns && (
             <div>
               <h2 class="text-12 uppercase font-normal text-text-primary">
-                Pre-release builds
+                {t("download.preRelease")}
               </h2>
               <div class="flex flex-col gap-6 mt-2">
                 {activeDownloadEntries.map((entry) => {
@@ -152,34 +154,38 @@ const formatCampaignLinkLabel = (
           )
         }
         <h2 class="text-12 uppercase font-normal text-text-primary mt-10">
-          Additional resources
+          {t("download.additionalResources")}
         </h2>
         <div class="flex flex-col gap-6 mt-2">
           <div>
-            <h3 class="additional-resource-heading">Offline manual</h3>
+            <h3 class="additional-resource-heading">
+              {t("download.offlineManual")}
+            </h3>
             <div class="gap-2">
               <a
                 class="hyperlink"
                 href="https://github.com/audacity/audacity-manual/releases"
-                >Download Audacity manual</a
+                >{t("download.downloadManual")}</a
               >
               <span class="align-middle icon icon-share text-accent"></span>
             </div>
           </div>
 
           <div>
-            <h3 class="additional-resource-heading">FFmpeg library</h3>
+            <h3 class="additional-resource-heading">{t("download.ffmpeg")}</h3>
             <div class="gap-2">
               <a
                 href="https://support.audacityteam.org/basics/installing-ffmpeg"
-                class="hyperlink">FFmpeg import/export library</a
+                class="hyperlink">{t("download.ffmpegDesc")}</a
               >
               <span class="align-middle icon icon-share text-accent"></span>
             </div>
           </div>
 
           <div>
-            <h3 class="additional-resource-heading">Source code</h3>
+            <h3 class="additional-resource-heading">
+              {t("download.sourceCode")}
+            </h3>
             <div class="flex flex-col gap-2">
               <!-- TODO - Ensure accordions are included in the tab hierarchy -->
               {
@@ -201,13 +207,13 @@ const formatCampaignLinkLabel = (
 
           <div>
             <h3 class="additional-resource-heading">
-              Older versions of Audacity
+              {t("download.olderVersions")}
             </h3>
             <div class="gap-2">
               <a
                 href="https://www.fosshub.com/Audacity-old.html"
                 target="_blank"
-                class="hyperlink">Download older versions from Fosshub</a
+                class="hyperlink">{t("download.olderVersionsFosshub")}</a
               >
               <span class="align-middle icon icon-share text-accent"></span>
             </div>

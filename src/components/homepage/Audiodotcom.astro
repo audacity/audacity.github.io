@@ -6,6 +6,9 @@ import FeaturedVideo from "../video/FeaturedVideo";
 import JoinAudioDotComButton from "../button/JoinAudioDotComButton";
 import AudioComSVG from "../inlineSVG/AudioComSVG";
 import VideoPlaceholder from "../../assets/img/audiocom-placeholder.webp";
+import { useTranslations } from "../../i18n";
+
+const t = useTranslations(Astro.currentLocale);
 
 // Optimize the background image
 const optimizedBg = await getImage({
@@ -57,12 +60,10 @@ const releaseVideo = {
           <h2
             class="text-20 lg:text-32 text-text-primary font-semibold leading-tight"
           >
-            Level up your Audacity
+            {t("audiodotcom.heading")}
           </h2>
           <p class="text-text-primary mt-4">
-            Audio.com, the online companion to Audacity, lets you collaborate on
-            projects, create versioned backups, and easily share and publish
-            your work.
+            {t("audiodotcom.body")}
           </p>
         </div>
 
