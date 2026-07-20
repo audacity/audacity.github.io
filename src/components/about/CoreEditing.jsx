@@ -804,42 +804,26 @@ function SampleEditingDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
   const t = useLoopProgress(4500, inView && isActive);
-  const PPS = 80;
   const CANVAS_W = 720;
   const TRACK_H = 280;
   const CLIP_NAME = "TL_Juicy_Drum_Snare_2_84bpm";
 
-  // Mono sample row. More dots for density closer to the real Audacity
-  // zoomed-in view. One dot is animated being dragged up.
-  const SAMPLE_COUNT = 26;
-  const DRAG_IDX = 12;
+  const SAMPLE_COUNT = 28;
+  const DRAG_IDX = 13;
   const dragOffset = Math.sin(t * Math.PI * 2) * 0.5 + 0.5; // 0→1→0
 
-  // Small quasi-random offsets so the baseline looks organic but nearly flat,
-  // matching the real Audacity screenshot.
   function sampleAt(i) {
-    return Math.sin(i * 0.7) * 0.06 + Math.cos(i * 1.3) * 0.04;
+    return (
+      Math.sin(i * 1.1) * 0.07 +
+      Math.cos(i * 0.7) * 0.05 +
+      Math.sin(i * 2.3) * 0.03
+    );
   }
 
-  // Empty waveform: TrackNew renders the clip body background (giving the
-  // white dots a dark-teal surface to sit against) without drawing any
-  // waveform peaks on top.
-  const clips = [
-    {
-      id: 1,
-      name: CLIP_NAME,
-      start: 0,
-      duration: CANVAS_W / PPS,
-      waveform: [],
-    },
-  ];
-
   const CLIP_HEADER_H = 24;
-  const CLIP_PAD_BOTTOM = 6;
   const CLIP_BODY_TOP = CLIP_HEADER_H + 6;
-  const CLIP_BODY_BOTTOM = TRACK_H - CLIP_PAD_BOTTOM;
+  const CLIP_BODY_BOTTOM = TRACK_H - 6;
   const CLIP_BODY_H = CLIP_BODY_BOTTOM - CLIP_BODY_TOP;
-  // Single centered baseline — mono track, matching the reference screenshot.
   const MID_Y = CLIP_BODY_TOP + CLIP_BODY_H * 0.5;
   const CLIP_LEFT_PAD = 16;
   const CLIP_RIGHT_PAD = 16;
@@ -860,7 +844,7 @@ function SampleEditingDemo({ isActive = true }) {
         y1={MID_Y}
         x2={x}
         y2={y}
-        stroke="rgba(255,255,255,0.55)"
+        stroke="rgba(0,0,0,0.45)"
         strokeWidth={1.5}
       />,
     );
@@ -870,100 +854,123 @@ function SampleEditingDemo({ isActive = true }) {
         cx={x}
         cy={y}
         r={isDragged ? 5 : 3}
-        fill={isDragged ? "#ffffff" : "rgba(255,255,255,0.9)"}
-        stroke={isDragged ? "#7dd3fc" : "none"}
+        fill={isDragged ? "#0c4a6e" : "rgba(0,0,0,0.75)"}
+        stroke={isDragged ? "#fff" : "none"}
         strokeWidth={isDragged ? 2 : 0}
       />,
     );
   }
 
-  // Cursor tracks the dragged sample.
   const cursorX = CLIP_LEFT_PAD + ((DRAG_IDX + 0.5) * usableW) / SAMPLE_COUNT;
   const cursorY = MID_Y + (-0.35 - dragOffset * 0.55) * (CLIP_BODY_H * 0.4);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <div
+      ref={rootRef}
+      className="absolute inset-0 overflow-hidden"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#e0f7fa",
+      }}
+    >
       <div
-        ref={rootRef}
-        className="absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{
-          // Centre the fixed-size clip + overlay block within the card
-          // — previously top-left aligned, which left a big empty
-          // gutter on bigger cards (and stretched the no-viewBox SVG
-          // overlay so the stems and cursor painted at the wrong
-          // coordinates).
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          position: "relative",
+          width: CANVAS_W,
+          height: TRACK_H,
+          flexShrink: 0,
         }}
       >
+        {/* Custom clip shell — full-bleed colored body, no TrackNew waveform */}
         <div
           style={{
-            position: "relative",
-            width: CANVAS_W,
-            height: TRACK_H,
-            flexShrink: 0,
+            position: "absolute",
+            inset: 0,
+            borderRadius: 4,
+            overflow: "hidden",
           }}
         >
-          <TrackNew
-            clips={clips}
-            trackIndex={0}
-            width={CANVAS_W}
-            height={TRACK_H}
-            pixelsPerSecond={PPS}
-            color="cyan"
-            onClipTrimEdge={() => {}}
+          <div
+            style={{
+              height: CLIP_HEADER_H,
+              padding: "0 8px",
+              display: "flex",
+              alignItems: "center",
+              background: "rgba(2, 132, 199, 0.45)",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontFamily: "ui-monospace, monospace",
+                color: "rgba(0,0,0,0.65)",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {CLIP_NAME}
+            </span>
+          </div>
+          <div
+            style={{
+              height: TRACK_H - CLIP_HEADER_H,
+              background: "rgba(2, 132, 199, 0.18)",
+            }}
           />
-          {/* Mono sample-editing overlay — centered baseline, white dots
-              on dark-teal clip body, matching Audacity's zoomed-in view. */}
-          <svg
-            width={CANVAS_W}
-            height={TRACK_H}
-            viewBox={`0 0 ${CANVAS_W} ${TRACK_H}`}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              pointerEvents: "none",
-            }}
-          >
-            <line
-              x1={CLIP_LEFT_PAD}
-              y1={MID_Y}
-              x2={CANVAS_W - CLIP_RIGHT_PAD}
-              y2={MID_Y}
-              stroke="rgba(255,255,255,0.2)"
-              strokeWidth={1}
-            />
-            {stems}
-            {dots}
-          </svg>
-          {/* Cursor over the dragged sample */}
-          <svg
-            aria-hidden
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            style={{
-              position: "absolute",
-              left: cursorX,
-              top: cursorY,
-              transform: "translate(-50%, -50%)",
-              pointerEvents: "none",
-              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
-            }}
-          >
-            <path
-              d="M11 2 L14 5 L12 5 L12 11 L18 11 L18 9 L21 12 L18 15 L18 13 L12 13 L12 19 L14 19 L11 22 L8 19 L10 19 L10 13 L4 13 L4 15 L1 12 L4 9 L4 11 L10 11 L10 5 L8 5 Z"
-              fill="#fff"
-              stroke="#0a0a0a"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
-            />
-          </svg>
         </div>
+
+        {/* Baseline + stems + dots */}
+        <svg
+          width={CANVAS_W}
+          height={TRACK_H}
+          viewBox={`0 0 ${CANVAS_W} ${TRACK_H}`}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <line
+            x1={CLIP_LEFT_PAD}
+            y1={MID_Y}
+            x2={CANVAS_W - CLIP_RIGHT_PAD}
+            y2={MID_Y}
+            stroke="rgba(0,0,0,0.2)"
+            strokeWidth={1}
+          />
+          {stems}
+          {dots}
+        </svg>
+
+        {/* Cursor pinned to dragged dot */}
+        <svg
+          aria-hidden
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          style={{
+            position: "absolute",
+            left: cursorX,
+            top: cursorY,
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
+            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
+          }}
+        >
+          <path
+            d="M11 2 L14 5 L12 5 L12 11 L18 11 L18 9 L21 12 L18 15 L18 13 L12 13 L12 19 L14 19 L11 22 L8 19 L10 19 L10 13 L4 13 L4 15 L1 12 L4 9 L4 11 L10 11 L10 5 L8 5 Z"
+            fill="#fff"
+            stroke="#0a0a0a"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 
