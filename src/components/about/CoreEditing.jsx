@@ -947,6 +947,8 @@ function SampleEditingDemo({ isActive = true }) {
         </svg>
 
         {/* Cursor pinned to dragged dot */}
+        {/* Pen cursor — tip (hotspot) is at SVG coord (1, 21), so offset
+            the element so that point lands exactly on cursorX/cursorY. */}
         <svg
           aria-hidden
           width="22"
@@ -954,15 +956,14 @@ function SampleEditingDemo({ isActive = true }) {
           viewBox="0 0 22 22"
           style={{
             position: "absolute",
-            left: cursorX,
-            top: cursorY,
-            transform: "translate(-50%, -50%)",
+            left: cursorX - 1,
+            top: cursorY - 21,
             pointerEvents: "none",
-            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
+            filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
           }}
         >
           <path
-            d="M11 2 L14 5 L12 5 L12 11 L18 11 L18 9 L21 12 L18 15 L18 13 L12 13 L12 19 L14 19 L11 22 L8 19 L10 19 L10 13 L4 13 L4 15 L1 12 L4 9 L4 11 L10 11 L10 5 L8 5 Z"
+            d="M1 21 L3 21 L20 5 L21 3 L19 2 L2 19 Z"
             fill="#fff"
             stroke="#0a0a0a"
             strokeWidth="1.2"
