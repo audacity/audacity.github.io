@@ -9,7 +9,7 @@ const ITEMS = [
     tag: "Framework",
     headline: "Built on Qt",
     description:
-      "The interface is rebuilt on Qt, one modern codebase that runs native on macOS, Windows and Linux.",
+      "Our interface is rebuilt on Qt, a modern codebase that runs natively on macOS, Windows and Linux.",
   },
   {
     id: "lv2",
@@ -30,7 +30,7 @@ const ITEMS = [
     tag: "License",
     headline: "Free, GPL v3",
     description:
-      "The same free, open-source licence Audacity has always shipped under. Auditable and redistributable.",
+      "The same free, open-source license Audacity has always shipped under. Auditable and redistributable.",
   },
 ];
 

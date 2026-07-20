@@ -70,7 +70,7 @@ function TeamCall() {
           className="mb-8 max-w-2xl"
         >
           <h2 className="font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-            The team behind Audacity 4
+            Meet the team
           </h2>
           <p className="mt-4 text-text-contrast/70 text-base md:text-lg">
             We are fully remote, so a video call is how we see each other most

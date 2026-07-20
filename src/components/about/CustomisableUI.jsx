@@ -1205,7 +1205,7 @@ const CARDS = [
   {
     id: "accent",
     title: "Accent color",
-    description: "Choose an accent color and it applies throughout the app.",
+    description: "Choose an accent color and apply it throughout your app.",
     Demo: AccentDemo,
   },
   {
@@ -1226,7 +1226,7 @@ const CARDS = [
     id: "meter-dock",
     title: "Vertical playback meter",
     description:
-      "The playback meter can now be positioned vertically, using the application's full height.",
+      "The playback meter can now be positioned vertically, making use of the application's full height.",
     Demo: MeterDockDemo,
   },
 ];
@@ -1276,10 +1276,10 @@ function CustomisableUI() {
           style={headerEntrance.style}
         >
           <h2 className="font-harmony text-text-contrast text-4xl md:text-5xl lg:text-6xl leading-[1.05]">
-            Fully customisable UI
+            Fully customizable UI
           </h2>
           <p className="mt-4 text-text-contrast/70 text-base md:text-lg">
-            Set the new UI up however you like, from accent colors to themes.
+            Set up the new UI however you like, from accent colors to themes.
           </p>
         </header>
 

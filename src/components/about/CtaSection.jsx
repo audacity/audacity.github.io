@@ -5,11 +5,11 @@ function CtaSection() {
     <section className="bg-background-dark px-6 lg:px-10 py-28 lg:py-40">
       <div className="max-w-screen-xl mx-auto text-center">
         <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-8xl leading-[1.02] max-w-4xl mx-auto">
-          Free, and always will be.
+          Free for all, forever
         </h2>
         <p className="mt-8 text-text-contrast/70 text-base md:text-lg max-w-2xl mx-auto">
-          Audacity 4 is free, open source, and available now for macOS, Windows,
-          and Linux.
+          Audacity 4 is free, open source, and available for macOS, Windows, and
+          Linux.
         </p>
 
         <div className="mt-10 lg:mt-12 flex flex-wrap items-center justify-center gap-3">

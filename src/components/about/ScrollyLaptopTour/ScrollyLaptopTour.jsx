@@ -1948,6 +1948,14 @@ function DesktopTour() {
               // island stranded in the margin. Still clears the scroll
               // indicators at left: max(2vw, 24px).
               [panelOnRight ? "right" : "left"]: "clamp(88px, 7.5vw, 190px)",
+              // Cap panel width relative to viewport so the text never
+              // overlaps the laptop. The laptop shift is frozen at its
+              // 1300px-reference value on wider screens (see capViewportShift),
+              // so the laptop's left visual edge stays at ~419px at 1440px.
+              // 20vw keeps the panel's right edge clear of that at all
+              // desktop widths; the 27rem cap lets it expand on 4K screens
+              // where the laptop shifts far enough right to make room.
+              maxWidth: "min(20vw, 27rem)",
               transform: "translateY(-50%)",
               opacity: panelOnLeft || panelOnRight ? 1 : 0,
               transition: "opacity 280ms ease-out",

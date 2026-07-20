@@ -33,7 +33,7 @@ export const STOPS = [
     id: "intro",
     eyebrow: "Audacity 4",
     heading: "Welcome to the new Audacity",
-    description: "We built this for you",
+    description: "Built for you",
     // Smaller + lower during the intro so the title sits above the laptop
     // without collision. Scrolling into the workspace stop expands the laptop
     // back to its full tour scale, which reads as a subtle zoom-in.
@@ -46,9 +46,9 @@ export const STOPS = [
   {
     id: "workspace",
     eyebrow: "01",
-    heading: "Don't worry, it's all there!",
+    heading: "The Audacity you love, but better",
     description:
-      "It's still the Audacity you learned, but with a fresh new interface.",
+      "It's still the Audacity you love, but with a fresh new interface.",
     // Per-stop heading tint. Walks a warm→cool pastel sequence so as the
     // reader scrolls the heading swap registers as a hue shift as well as
     // a text change (pink → coral → gold → mint → sky → lavender). All
@@ -84,8 +84,8 @@ export const STOPS = [
   {
     id: "drop-anywhere",
     eyebrow: "03",
-    heading: "Make some room",
-    description: "Clips can be dropped anywhere!",
+    heading: "Flexibility that fits",
+    description: "Clips can be dropped anywhere you like.",
     accentColor: "#F5D97A",
     laptop: { x: "28vw", y: "40px", scale: 1.0 },
     mobileFocus: { x: 42, y: 42, zoom: 1.75 },
@@ -101,7 +101,8 @@ export const STOPS = [
     id: "multi-select",
     eyebrow: "04",
     heading: "All together now",
-    description: "Select multiple clips and move, trim or stretch them as one",
+    description:
+      "Select multiple clips, then move, trim or stretch them as one.",
     accentColor: "#9EE0B8",
     laptop: { x: "22vw", y: "34px", scale: 0.85 },
     mobileFocus: { x: 47, y: 41, zoom: 1.5 },
@@ -116,7 +117,7 @@ export const STOPS = [
     eyebrow: "05",
     heading: "Group clips",
     description:
-      "Select a few clips and choose Group clips from the right-click menu. The group moves, trims and stretches as one until you ungroup it.",
+      'Select your clips and choose "Group clips" from the right-click menu. The group moves, trims, and stretches as one until you ungroup it.',
     accentColor: "#8ECEE8",
     laptop: { x: "22vw", y: "34px", scale: 0.85 },
     mobileFocus: { x: 48, y: 38, zoom: 1.8 },
@@ -140,7 +141,7 @@ export const STOPS = [
   {
     id: "clip-envelopes",
     eyebrow: "06",
-    heading: "Clip gain envelopes",
+    heading: "Gain envelopes",
     description:
       "Switch on the envelope tool and click to add points along a clip. Drag them to set the clip's gain, and it stays with the clip when you move or copy it.",
     accentColor: "#C8B5F5",

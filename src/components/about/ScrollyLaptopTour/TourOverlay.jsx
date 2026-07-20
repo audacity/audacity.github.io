@@ -543,22 +543,11 @@ function DropDemo({ frame }) {
   );
 }
 
-function EnvelopesDemo({ button, frame }) {
+function EnvelopesDemo({ frame }) {
   if (!frame) return null;
-  const lineColor = "#7CC4FF";
 
   return (
     <>
-      {frame.buttonActive && (
-        <div
-          style={rectStyle(button, {
-            border: `1.5px solid ${lineColor}`,
-            borderRadius: 4,
-            boxShadow: `inset 0 0 8px rgba(124,196,255,0.4), 0 0 12px rgba(124,196,255,0.45)`,
-            background: "rgba(124, 196, 255, 0.18)",
-          })}
-        />
-      )}
       <div
         style={{
           position: "absolute",
@@ -871,9 +860,7 @@ function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
       {overlay?.kind === "clip-groups" && (
         <ClipGroupsDemo overlay={overlay} frame={splitFrame} />
       )}
-      {overlay?.kind === "envelopes" && (
-        <EnvelopesDemo button={overlay.button} frame={envelopeFrame} />
-      )}
+      {overlay?.kind === "envelopes" && <EnvelopesDemo frame={envelopeFrame} />}
       {target && (
         <div
           data-tour-target={targetId}

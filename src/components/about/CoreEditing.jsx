@@ -986,7 +986,7 @@ export const CARDS = [
     eyebrow: "Clip handles",
     title: "Trim and stretch handles",
     description:
-      "The top handle trims the clip. The bottom handle stretches it.",
+      "The top handle trims the clip. The bottom handle stretches it. Simple.",
     Demo: ClipHandlesDemo,
   },
   {
@@ -1010,7 +1010,7 @@ export const CARDS = [
     eyebrow: "Looping",
     title: "Loop region controls",
     description:
-      "The loop range now has its own row in the timeline ruler, with a single toggle to turn it on or off.",
+      "The loop range now has its own row in the timeline ruler, and a single toggle can turn it on or off.",
     Demo: LoopingDemo,
   },
   {
@@ -1018,7 +1018,7 @@ export const CARDS = [
     eyebrow: "Sample editing",
     title: "Direct sample editing",
     description:
-      "No need to switch to the Draw or Multi-tool. Zoom all the way in and drag the samples directly.",
+      "No need to switch to the “Draw” or “Multi-tool”. Zoom all the way in and drag samples directly.",
     Demo: SampleEditingDemo,
   },
 ];
@@ -1266,8 +1266,7 @@ function CoreEditing() {
             A new editing experience
           </h2>
           <p className="mt-5 text-text-contrast/70 text-base md:text-lg max-w-2xl">
-            The moves you make every session got the same attention as the new
-            features.
+            We've paid as much attention to the classics as the new features
           </p>
         </header>
       </div>

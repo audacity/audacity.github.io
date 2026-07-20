@@ -10,7 +10,7 @@ export const WORKSPACE_CONFIGS = {
     label: "Classic",
     workspace: "classic",
     blurb:
-      "As close to Audacity 3 as it gets. Cut, copy, paste right in the transport, time in seconds, no tempo to fight with.",
+      "As close to Audacity 3 as it gets. Cut, copy, and paste right in the transport, time in seconds, with no tempo to fight with.",
     duration: 24,
     playheadPosition: 14.0,
     envelopeMode: false,
@@ -232,7 +232,7 @@ export const WORKSPACE_CONFIGS = {
     label: "Modern",
     workspace: "modern",
     blurb:
-      "Envelopes front and centre, cut-copy-paste off the transport. Modern editing trusts you to drag and drop instead.",
+      "Envelopes front and center, cut-copy-paste off the transport. The Modern workspace trusts you to drag and drop.",
     duration: 24,
     playheadPosition: 16.6,
     envelopeMode: true,

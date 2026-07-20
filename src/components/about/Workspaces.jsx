@@ -144,12 +144,12 @@ function Workspaces() {
             style={headerEntrance.style}
           >
             <h2 className="font-harmony text-text-contrast text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-              Pick a workspace, or build your own
+              Choose a workspace or build your own
             </h2>
             <p className="mt-3 sm:mt-6 text-text-contrast/85 text-sm sm:text-base md:text-lg">
-              Each workspace changes the tools in your toolbar, and swaps the
-              ruler between seconds and bars and beats. Build your own to
-              personalise Audacity further.
+              Each workspace changes the tools in your toolbar. It also swaps
+              the ruler between seconds and bars and beats. You can build your
+              own workspace to further personalize Audacity.
             </p>
           </header>
 

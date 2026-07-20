@@ -115,8 +115,7 @@ function EffectWindows() {
             Effects, redesigned
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Every effect window has been rebuilt, inside and out, to match the
-            rest of the app.
+            Every effect window has been rebuilt, inside and out.
           </p>
         </header>
       </div>

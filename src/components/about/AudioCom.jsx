@@ -5,18 +5,18 @@ const PANELS = [
   {
     id: "project-page",
     image: "/audiocom/Project_page.png",
-    eyebrow: "Project page",
-    title: "Keep track of your cloud projects",
+    eyebrow: "Easy to manage",
+    title: "Keep track of your projects",
     description:
-      "Open your cloud projects from the Cloud projects tab, or view them in audio.com.",
+      "Open your projects from the Cloud projects tab, or view them in audio.com.",
   },
   {
     id: "audiocom",
     image: "/audiocom/Audio_com.png",
-    eyebrow: "Audio.com",
+    eyebrow: "Share with ease",
     title: "Publish straight to audio.com",
     description:
-      "Upload your project to your audio.com profile, or export audio directly to your audio.com community.",
+      "Upload your project to your profile, or export audio directly to the audio.com community.",
   },
 ];
 
@@ -66,11 +66,11 @@ function AudioCom() {
           style={headerEntrance.style}
         >
           <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-            Save to the cloud, share to the world.
+            Project paradise
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Save your projects to the cloud, or share your audio with the world,
-            using audio.com.
+            Save to the cloud, share with the world. It's that simple with
+            audio.com
           </p>
         </header>
 
