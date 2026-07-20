@@ -693,11 +693,11 @@ export function Editor({
 
   const saveStatusLabel =
     saveStatus === "saving"
-      ? "Saving…"
+      ? "Saving changes…"
       : saveStatus === "saved"
-        ? "Saved draft ●"
+        ? "Changes saved ●"
         : saveStatus === "dirty"
-          ? "Edited"
+          ? "Unsaved changes"
           : saveStatus === "error"
             ? "Save failed"
             : saveStatus === "delete-error"
@@ -822,7 +822,7 @@ export function Editor({
             </div>
           </div>
           <div className="compare-pane compare-pane--draft">
-            <div className="compare-pane__label">Draft</div>
+            <div className="compare-pane__label">Your changes</div>
             <div className="editor-scroll" onScroll={() => setHandleMenu(null)}>
               {enableDragHandle && editor ? (
                 <DragHandle

@@ -117,7 +117,9 @@ test("the save-status pill hides while idle and exposes the save-status testid o
   });
 
   await waitFor(() =>
-    expect(screen.getByTestId("save-status").textContent).toBe("Edited"),
+    expect(screen.getByTestId("save-status").textContent).toBe(
+      "Unsaved changes",
+    ),
   );
   expect(screen.getByTestId("save-status-pill").className).not.toContain(
     "editor-save-pill--hidden",

@@ -136,7 +136,8 @@ function TreeNodeRow({
           {node.page.hasDraft ? (
             <span
               className="page-list__draft-dot"
-              aria-label="Has unpublished draft"
+              aria-label="Has unsaved changes"
+              title="Unsaved changes"
             >
               {" "}
               ●
