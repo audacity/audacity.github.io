@@ -395,53 +395,63 @@ export class OctokitBackend implements GitHubBackend {
 
   /**
    * Commits `tree` (a diff, not a full tree — entries merge onto the
-   * drafts branch's current tree via `base_tree`) as a single atomic
-   * commit on the drafts branch, creating that branch off the base
-   * branch's head first if it doesn't exist yet.
+   * accumulated drafts tree via `base_tree`) as a single squashed commit
+   * on top of the base branch's current HEAD, replacing any previous
+   * drafts commit rather than appending to it. The drafts branch therefore
+   * always has exactly one commit ahead of base, no matter how many
+   * autosave cycles have fired — clean history, no per-keystroke noise.
+   *
+   * The accumulated drafts tree is still carried forward (used as
+   * `base_tree`) so incremental saves don't lose earlier unsaved changes
+   * from other pages. The commit's parent is always base HEAD so the diff
+   * presented by any PR viewer covers the full changeset in one commit.
    *
    * Single-writer assumption (one QA editing at a time): no retry-on-
-   * conflict loop. If `updateRef` fails (e.g. drafts moved concurrently),
-   * the error just propagates to the caller.
+   * conflict loop. Errors propagate to the caller.
    */
   private async commitToDrafts(
     tree: DraftTreeItem[],
     message: string,
   ): Promise<void> {
-    let draftsHeadSha: string;
+    // Squash parent: always base HEAD, so the drafts branch has one commit.
+    const baseRef = await this.octokit.git.getRef({
+      owner: this.owner,
+      repo: this.repo,
+      ref: `heads/${this.baseBranch}`,
+    });
+    const baseHeadSha = baseRef.data.object.sha;
+    const baseCommit = await this.octokit.git.getCommit({
+      owner: this.owner,
+      repo: this.repo,
+      commit_sha: baseHeadSha,
+    });
+
+    // Carry forward the accumulated drafts tree so this incremental diff
+    // doesn't overwrite earlier unsaved changes. Falls back to base tree
+    // on first save (no drafts branch yet).
+    let draftsTreeSha = baseCommit.data.tree.sha;
+    let draftsBranchExists = false;
     try {
-      const ref = await this.octokit.git.getRef({
+      const draftsRef = await this.octokit.git.getRef({
         owner: this.owner,
         repo: this.repo,
         ref: `heads/${this.draftsBranch}`,
       });
-      draftsHeadSha = ref.data.object.sha;
+      const draftsCommit = await this.octokit.git.getCommit({
+        owner: this.owner,
+        repo: this.repo,
+        commit_sha: draftsRef.data.object.sha,
+      });
+      draftsTreeSha = draftsCommit.data.tree.sha;
+      draftsBranchExists = true;
     } catch (err) {
       if (!isNotFound(err)) throw err;
-      const baseRef = await this.octokit.git.getRef({
-        owner: this.owner,
-        repo: this.repo,
-        ref: `heads/${this.baseBranch}`,
-      });
-      const baseHeadSha = baseRef.data.object.sha;
-      await this.octokit.git.createRef({
-        owner: this.owner,
-        repo: this.repo,
-        ref: `refs/heads/${this.draftsBranch}`,
-        sha: baseHeadSha,
-      });
-      draftsHeadSha = baseHeadSha;
     }
-
-    const headCommit = await this.octokit.git.getCommit({
-      owner: this.owner,
-      repo: this.repo,
-      commit_sha: draftsHeadSha,
-    });
 
     const newTree = await this.octokit.git.createTree({
       owner: this.owner,
       repo: this.repo,
-      base_tree: headCommit.data.tree.sha,
+      base_tree: draftsTreeSha,
       tree,
     });
 
@@ -450,16 +460,25 @@ export class OctokitBackend implements GitHubBackend {
       repo: this.repo,
       message,
       tree: newTree.data.sha,
-      parents: [draftsHeadSha],
+      parents: [baseHeadSha],
     });
 
-    await this.octokit.git.updateRef({
-      owner: this.owner,
-      repo: this.repo,
-      ref: `heads/${this.draftsBranch}`,
-      sha: newCommit.data.sha,
-      force: false,
-    });
+    if (draftsBranchExists) {
+      await this.octokit.git.updateRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `heads/${this.draftsBranch}`,
+        sha: newCommit.data.sha,
+        force: true,
+      });
+    } else {
+      await this.octokit.git.createRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `refs/heads/${this.draftsBranch}`,
+        sha: newCommit.data.sha,
+      });
+    }
   }
 
   async saveDraft(changes: FileChange[], message: string): Promise<void> {
