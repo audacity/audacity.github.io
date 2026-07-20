@@ -803,14 +803,13 @@ function LoopingDemo({ isActive = true }) {
 function SampleEditingDemo({ isActive = true }) {
   const rootRef = useRef(null);
   const inView = useInView(rootRef);
-  const t = useLoopProgress(4500, inView && isActive);
+  const t = useLoopProgress(6000, inView && isActive);
   const CANVAS_W = 720;
   const TRACK_H = 280;
   const CLIP_NAME = "TL_Juicy_Drum_Snare_2_84bpm";
 
   const SAMPLE_COUNT = 28;
   const DRAG_IDX = 13;
-  const dragOffset = Math.sin(t * Math.PI * 2) * 0.5 + 0.5; // 0→1→0
 
   function sampleAt(i) {
     return (
@@ -829,12 +828,61 @@ function SampleEditingDemo({ isActive = true }) {
   const CLIP_RIGHT_PAD = 16;
   const usableW = CANVAS_W - CLIP_LEFT_PAD - CLIP_RIGHT_PAD;
 
+  const DRAG_DOT_X =
+    CLIP_LEFT_PAD + ((DRAG_IDX + 0.5) * usableW) / SAMPLE_COUNT;
+  const REST_DOT_Y = MID_Y + sampleAt(DRAG_IDX) * (CLIP_BODY_H * 0.4);
+  // Cursor starts here — outside the editing range, to the right and below.
+  const FAR_X = DRAG_DOT_X + 100;
+  const FAR_Y = MID_Y + 60;
+  // Distance threshold at which the cursor snaps from pointer → pen.
+  const PROXIMITY = 28;
+
+  const easeInOut = (u) =>
+    u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+
+  // Four phases over a 6 s loop:
+  //   0.00–0.20  far       (pointer, cursor stationary)
+  //   0.20–0.40  approach  (pointer → pen as distance drops below PROXIMITY)
+  //   0.40–0.75  drag      (pen, dot moves up and back)
+  //   0.75–0.90  retreat   (pen → pointer as distance rises above PROXIMITY)
+  //   0.90–1.00  far again (pointer, stationary)
+  let cursorX, cursorY, isPen, dragDotV;
+
+  if (t < 0.2) {
+    cursorX = FAR_X;
+    cursorY = FAR_Y;
+    isPen = false;
+    dragDotV = sampleAt(DRAG_IDX);
+  } else if (t < 0.4) {
+    const p = easeInOut((t - 0.2) / 0.2);
+    cursorX = FAR_X + (DRAG_DOT_X - FAR_X) * p;
+    cursorY = FAR_Y + (REST_DOT_Y - FAR_Y) * p;
+    isPen = Math.hypot(cursorX - DRAG_DOT_X, cursorY - REST_DOT_Y) < PROXIMITY;
+    dragDotV = sampleAt(DRAG_IDX);
+  } else if (t < 0.75) {
+    const dp = Math.sin(((t - 0.4) / 0.35) * Math.PI); // 0 → 1 → 0
+    dragDotV = sampleAt(DRAG_IDX) - dp * 0.55;
+    cursorX = DRAG_DOT_X;
+    cursorY = MID_Y + dragDotV * (CLIP_BODY_H * 0.4);
+    isPen = true;
+  } else if (t < 0.9) {
+    const p = easeInOut((t - 0.75) / 0.15);
+    cursorX = DRAG_DOT_X + (FAR_X - DRAG_DOT_X) * p;
+    cursorY = REST_DOT_Y + (FAR_Y - REST_DOT_Y) * p;
+    isPen = Math.hypot(cursorX - DRAG_DOT_X, cursorY - REST_DOT_Y) < PROXIMITY;
+    dragDotV = sampleAt(DRAG_IDX);
+  } else {
+    cursorX = FAR_X;
+    cursorY = FAR_Y;
+    isPen = false;
+    dragDotV = sampleAt(DRAG_IDX);
+  }
+
   const stems = [];
   const dots = [];
   for (let i = 0; i < SAMPLE_COUNT; i++) {
     const x = CLIP_LEFT_PAD + ((i + 0.5) * usableW) / SAMPLE_COUNT;
-    let v = sampleAt(i);
-    if (i === DRAG_IDX) v = -0.35 - dragOffset * 0.55;
+    const v = i === DRAG_IDX ? dragDotV : sampleAt(i);
     const y = MID_Y + v * (CLIP_BODY_H * 0.4);
     const isDragged = i === DRAG_IDX;
     stems.push(
@@ -860,9 +908,6 @@ function SampleEditingDemo({ isActive = true }) {
       />,
     );
   }
-
-  const cursorX = CLIP_LEFT_PAD + ((DRAG_IDX + 0.5) * usableW) / SAMPLE_COUNT;
-  const cursorY = MID_Y + (-0.35 - dragOffset * 0.55) * (CLIP_BODY_H * 0.4);
 
   return (
     <div
@@ -946,30 +991,54 @@ function SampleEditingDemo({ isActive = true }) {
           {dots}
         </svg>
 
-        {/* Cursor pinned to dragged dot */}
-        {/* Pen cursor — tip (hotspot) is at SVG coord (1, 21), so offset
-            the element so that point lands exactly on cursorX/cursorY. */}
-        <svg
-          aria-hidden
-          width="22"
-          height="22"
-          viewBox="0 0 22 22"
-          style={{
-            position: "absolute",
-            left: cursorX - 1,
-            top: cursorY - 21,
-            pointerEvents: "none",
-            filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
-          }}
-        >
-          <path
-            d="M1 21 L3 21 L20 5 L21 3 L19 2 L2 19 Z"
-            fill="#fff"
-            stroke="#0a0a0a"
-            strokeWidth="1.2"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {/* Cursor: pointer when far, pen when within editing range */}
+        {isPen ? (
+          // Pen — tip hotspot at SVG (1, 21)
+          <svg
+            aria-hidden
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            style={{
+              position: "absolute",
+              left: cursorX - 1,
+              top: cursorY - 21,
+              pointerEvents: "none",
+              filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
+            }}
+          >
+            <path
+              d="M1 21 L3 21 L20 5 L21 3 L19 2 L2 19 Z"
+              fill="#fff"
+              stroke="#0a0a0a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ) : (
+          // Pointer arrow — tip hotspot at SVG (3, 2)
+          <svg
+            aria-hidden
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            style={{
+              position: "absolute",
+              left: cursorX - 3,
+              top: cursorY - 2,
+              pointerEvents: "none",
+              filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
+            }}
+          >
+            <path
+              d="M3 2 L3 15 L6 12 L9 18 L11 17 L8 11 L13 11 Z"
+              fill="#fff"
+              stroke="#0a0a0a"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
       </div>
     </div>
   );
