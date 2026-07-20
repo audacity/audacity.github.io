@@ -788,7 +788,7 @@ test("publish: proceeds to create a PR (no reset) when compareCommits shows a re
   });
 });
 
-test("saveDraft: missing drafts branch is created off base head, then committed — full call order", async () => {
+test("saveDraft: missing drafts branch — falls back to base head as parent, createRef (not updateRef)", async () => {
   const PATH = "src/content/manual/basics/a.mdx";
   const { backend, calls } = writeBackendFor({
     login: "u",
@@ -803,16 +803,14 @@ test("saveDraft: missing drafts branch is created off base head, then committed 
     "docs: edit a",
   );
 
-  // Squash strategy: get BASE head first (parent), then check DRAFTS for
-  // accumulated tree (404 here), then createTree/createCommit, then
-  // createRef (not updateRef — branch didn't exist).
+  // Append strategy: try DRAFTS (404), fall back to BASE, getCommit, createTree/createCommit, createRef.
   expect(calls.map((c) => c.op)).toEqual([
-    "getRef", // heads/BASE
+    "getRef", // heads/DRAFTS -> 404
+    "getRef", // heads/BASE (fallback parent)
     "getCommit", // base commit -> base tree sha
-    "getRef", // heads/DRAFTS -> 404 (no branch yet)
     "createTree",
     "createCommit",
-    "createRef", // refs/heads/DRAFTS with new squashed commit sha
+    "createRef", // refs/heads/DRAFTS off base head
   ]);
 
   const createTreeCall = calls.find((c) => c.op === "createTree")!;
@@ -827,7 +825,6 @@ test("saveDraft: missing drafts branch is created off base head, then committed 
     `commit-${BASE}-seed`,
   ]);
 
-  // createRef points at the newly created commit (not the old base HEAD).
   const createRefCall = calls.find((c) => c.op === "createRef")!;
   expect(createRefCall.args).toMatchObject({ ref: `refs/heads/${DRAFTS}` });
   expect((createRefCall.args as any).sha).toMatch(/^commit-gen-\d+$/);
@@ -836,7 +833,7 @@ test("saveDraft: missing drafts branch is created off base head, then committed 
   expect(calls.some((c) => c.op === "updateRef")).toBe(false);
 });
 
-test("saveDraft: existing drafts branch — squashes onto base head, carries drafts tree, force-updates ref", async () => {
+test("saveDraft: existing drafts branch — appends onto drafts head, carries drafts tree, force: false", async () => {
   const PATH = "src/content/manual/basics/a.mdx";
   const { backend, calls } = writeBackendFor({
     login: "u",
@@ -853,28 +850,25 @@ test("saveDraft: existing drafts branch — squashes onto base head, carries dra
 
   expect(calls.some((c) => c.op === "createRef")).toBe(false);
   expect(calls.map((c) => c.op)).toEqual([
-    "getRef", // heads/BASE
-    "getCommit", // base commit -> base tree sha
-    "getRef", // heads/DRAFTS -> found
-    "getCommit", // drafts commit -> drafts tree sha (carries accumulated state)
+    "getRef", // heads/DRAFTS -> found (parent)
+    "getCommit", // drafts commit -> drafts tree sha
     "createTree",
     "createCommit",
-    "updateRef", // force: true (squash replaces previous commit)
+    "updateRef", // force: false (non-destructive append)
   ]);
 
-  // Accumulated drafts tree is used as base_tree so prior unsaved changes
-  // from other pages are preserved.
+  // Drafts tree is used as base_tree so prior unsaved changes are preserved.
   const createTreeCall = calls.find((c) => c.op === "createTree")!;
   expect((createTreeCall.args as any).base_tree).toBe(`tree-${DRAFTS}-seed`);
 
-  // Parent is BASE head (not drafts head) — the squash.
+  // Parent is DRAFTS head — the append (keeps the original diverge point).
   const createCommitCall = calls.find((c) => c.op === "createCommit")!;
   expect((createCommitCall.args as any).parents).toEqual([
-    `commit-${BASE}-seed`,
+    `commit-${DRAFTS}-seed`,
   ]);
 
   const updateRefCall = calls.find((c) => c.op === "updateRef")!;
-  expect((updateRefCall.args as any).force).toBe(true);
+  expect((updateRefCall.args as any).force).toBe(false);
 });
 
 test("saveImage: createBlob(base64), tree item uses the returned sha, returns repo-relative path", async () => {

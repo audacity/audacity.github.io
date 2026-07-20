@@ -423,42 +423,30 @@ export class OctokitBackend implements GitHubBackend {
   }
 
   /**
-   * Commits `tree` (a diff, not a full tree — entries merge onto the
-   * accumulated drafts tree via `base_tree`) as a single squashed commit
-   * on top of the base branch's current HEAD, replacing any previous
-   * drafts commit rather than appending to it. The drafts branch therefore
-   * always has exactly one commit ahead of base, no matter how many
-   * autosave cycles have fired — clean history, no per-keystroke noise.
+   * Appends `tree` as a new commit on the drafts branch, creating the branch
+   * off base HEAD if it doesn't exist yet.
    *
-   * The accumulated drafts tree is still carried forward (used as
-   * `base_tree`) so incremental saves don't lose earlier unsaved changes
-   * from other pages. The commit's parent is always base HEAD so the diff
-   * presented by any PR viewer covers the full changeset in one commit.
+   * Each call stacks a commit on top of the previous drafts HEAD (or base HEAD
+   * on first save), keeping the branch's original diverge point intact. This
+   * means a PR from drafts → base always diffs from that diverge point and
+   * shows only the accumulated content changes — not any editor-code changes
+   * that landed on base after the branch was created (which a squash approach
+   * would expose by resetting the apparent diverge point to "right now").
    *
-   * Always called via `commitToDrafts` (the serialising wrapper) — never
-   * directly — so concurrent callers are always queued.
+   * `updateRef` uses `force: false` so a stale-read race (two concurrent
+   * writers both reading the same tip) produces a non-fast-forward failure
+   * rather than a silent overwrite. The `writeLock` wrapper around this method
+   * prevents that race within a single backend instance; `force: false` is the
+   * defence-in-depth guard for anything outside that scope.
+   *
+   * Always called via `commitToDrafts` (the serialising wrapper).
    */
   private async _commitToDrafts(
     tree: DraftTreeItem[],
     message: string,
   ): Promise<void> {
-    // Squash parent: always base HEAD, so the drafts branch has one commit.
-    const baseRef = await this.octokit.git.getRef({
-      owner: this.owner,
-      repo: this.repo,
-      ref: `heads/${this.baseBranch}`,
-    });
-    const baseHeadSha = baseRef.data.object.sha;
-    const baseCommit = await this.octokit.git.getCommit({
-      owner: this.owner,
-      repo: this.repo,
-      commit_sha: baseHeadSha,
-    });
-
-    // Carry forward the accumulated drafts tree so this incremental diff
-    // doesn't overwrite earlier unsaved changes. Falls back to base tree
-    // on first save (no drafts branch yet).
-    let draftsTreeSha = baseCommit.data.tree.sha;
+    // Resolve the parent commit: drafts HEAD if the branch exists, else base HEAD.
+    let parentSha: string;
     let draftsBranchExists = false;
     try {
       const draftsRef = await this.octokit.git.getRef({
@@ -466,21 +454,28 @@ export class OctokitBackend implements GitHubBackend {
         repo: this.repo,
         ref: `heads/${this.draftsBranch}`,
       });
-      const draftsCommit = await this.octokit.git.getCommit({
-        owner: this.owner,
-        repo: this.repo,
-        commit_sha: draftsRef.data.object.sha,
-      });
-      draftsTreeSha = draftsCommit.data.tree.sha;
+      parentSha = draftsRef.data.object.sha;
       draftsBranchExists = true;
     } catch (err) {
       if (!isNotFound(err)) throw err;
+      const baseRef = await this.octokit.git.getRef({
+        owner: this.owner,
+        repo: this.repo,
+        ref: `heads/${this.baseBranch}`,
+      });
+      parentSha = baseRef.data.object.sha;
     }
+
+    const parentCommit = await this.octokit.git.getCommit({
+      owner: this.owner,
+      repo: this.repo,
+      commit_sha: parentSha,
+    });
 
     const newTree = await this.octokit.git.createTree({
       owner: this.owner,
       repo: this.repo,
-      base_tree: draftsTreeSha,
+      base_tree: parentCommit.data.tree.sha,
       tree,
     });
 
@@ -489,7 +484,7 @@ export class OctokitBackend implements GitHubBackend {
       repo: this.repo,
       message,
       tree: newTree.data.sha,
-      parents: [baseHeadSha],
+      parents: [parentSha],
     });
 
     if (draftsBranchExists) {
@@ -498,7 +493,7 @@ export class OctokitBackend implements GitHubBackend {
         repo: this.repo,
         ref: `heads/${this.draftsBranch}`,
         sha: newCommit.data.sha,
-        force: true,
+        force: false,
       });
     } else {
       await this.octokit.git.createRef({
