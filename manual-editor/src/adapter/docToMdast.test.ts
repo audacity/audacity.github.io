@@ -346,6 +346,59 @@ test("a standalone image block round-trips as a paragraph containing the image",
   });
 });
 
+test("image with repo-relative src is rewritten to a relative path when pagePath is given", () => {
+  const pagePath = "src/content/manual/basics/recording.mdx";
+  const imageSrc = "src/assets/img/manual/basics/recording/shot-ab12cd.webp";
+  const root = docToMdast(
+    doc([{ type: "image", attrs: { src: imageSrc, alt: "a", title: null } }]),
+    null,
+    pagePath,
+  );
+  const image = (root.children[0] as Paragraph).children[0] as Image;
+  // Page dir: src/content/manual/basics
+  // Image:    src/assets/img/manual/basics/recording/shot-ab12cd.webp
+  // Common prefix: "src" → 3 ups from "content/manual/basics"
+  expect(image.url).toBe(
+    "../../../assets/img/manual/basics/recording/shot-ab12cd.webp",
+  );
+});
+
+test("image with repo-relative src is rewritten correctly for a nested page", () => {
+  const pagePath = "src/content/manual/audio-editing/effects/reverb.mdx";
+  const imageSrc =
+    "src/assets/img/manual/audio-editing/effects/reverb/example-ab12cd.png";
+  const root = docToMdast(
+    doc([{ type: "image", attrs: { src: imageSrc, alt: "b", title: null } }]),
+    null,
+    pagePath,
+  );
+  const image = (root.children[0] as Paragraph).children[0] as Image;
+  // Page dir: src/content/manual/audio-editing/effects
+  // Common prefix: "src" → 4 ups
+  expect(image.url).toBe(
+    "../../../../assets/img/manual/audio-editing/effects/reverb/example-ab12cd.png",
+  );
+});
+
+test("external-URL images are left untouched even when pagePath is given", () => {
+  const root = docToMdast(
+    doc([
+      {
+        type: "image",
+        attrs: {
+          src: "https://example.com/img.png",
+          alt: "ext",
+          title: null,
+        },
+      },
+    ]),
+    null,
+    "src/content/manual/basics/foo.mdx",
+  );
+  const image = (root.children[0] as Paragraph).children[0] as Image;
+  expect(image.url).toBe("https://example.com/img.png");
+});
+
 test("bold, italic, code and link marks rebuild the right mdast wrappers", () => {
   const root = docToMdast(
     doc([

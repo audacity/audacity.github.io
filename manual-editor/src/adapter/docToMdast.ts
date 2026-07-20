@@ -43,6 +43,39 @@ import { stringifyMdx } from "../mdx/pipeline";
 import { type JsxAttr, KNOWN_FLOW } from "./registry";
 import type { PMNodeJSON } from "./mdastToDoc";
 
+const ASSET_REPO_PREFIX = "src/assets/img/manual/";
+
+/**
+ * Converts a repo-relative image path (`src/assets/img/manual/…`) to a
+ * path relative to the MDX file's directory. Astro/Rollup requires relative
+ * or public-URL image paths in MDX; a bare `src/assets/…` is treated as a
+ * module specifier and fails at build time if the file isn't on the exact
+ * branch being built — e.g. on the base branch before a drafts PR is merged.
+ *
+ * Example: page at `src/content/manual/basics/foo.mdx`, image at
+ * `src/assets/img/manual/basics/foo/shot.webp` →
+ * `../../../assets/img/manual/basics/foo/shot.webp`.
+ */
+function assetRepoPathToRelative(pagePath: string, imagePath: string): string {
+  const pageDir = pagePath.slice(0, pagePath.lastIndexOf("/"));
+  const fromParts = pageDir.split("/");
+  const toParts = imagePath.split("/");
+  let common = 0;
+  while (
+    common < fromParts.length &&
+    common < toParts.length &&
+    fromParts[common] === toParts[common]
+  ) {
+    common++;
+  }
+  const ups = fromParts
+    .slice(common)
+    .map(() => "..")
+    .join("/");
+  const rest = toParts.slice(common).join("/");
+  return ups ? `${ups}/${rest}` : rest;
+}
+
 type PMMark = { type: string; attrs?: Record<string, unknown> };
 
 /** Reads a `Record<string, unknown>` value, defaulting to `{}` for missing attrs. */
@@ -78,15 +111,16 @@ function buildJsxAttributes(
  * same-named-but-opposite-direction helper when both modules are open side
  * by side.
  */
-function mapBlocksBack(nodes: PMNodeJSON[]): RootContent[] {
-  return nodes.map(mapBlockBack);
+function mapBlocksBack(nodes: PMNodeJSON[], pagePath?: string): RootContent[] {
+  return nodes.map((n) => mapBlockBack(n, pagePath));
 }
 
 /** Same as `mapBlocksBack`, but typed for the narrower `BlockContent | DefinitionContent` slots (blockquote/listItem/JSX children). Every branch of `mapBlockBack` only ever produces node types that are valid there. */
 function mapBlockChildren(
   nodes: PMNodeJSON[],
+  pagePath?: string,
 ): (BlockContent | DefinitionContent)[] {
-  return mapBlocksBack(nodes) as (BlockContent | DefinitionContent)[];
+  return mapBlocksBack(nodes, pagePath) as (BlockContent | DefinitionContent)[];
 }
 
 /**
@@ -102,11 +136,11 @@ function mapBlockChildren(
  * `docToSource` coverage and the manual corpus spot-check referenced in the
  * task report for how this was found.
  */
-function mapListItemBack(node: PMNodeJSON): ListItem {
+function mapListItemBack(node: PMNodeJSON, pagePath?: string): ListItem {
   return {
     type: "listItem",
     spread: false,
-    children: mapBlockChildren(node.content ?? []),
+    children: mapBlockChildren(node.content ?? [], pagePath),
   };
 }
 
@@ -121,18 +155,26 @@ function mapListItemBack(node: PMNodeJSON): ListItem {
  * single-child paragraph, which is exactly what remark-parse itself
  * produces for a standalone `![alt](src)` line — the precise inverse.
  */
-function mapImageBack(node: PMNodeJSON): Paragraph {
+function mapImageBack(node: PMNodeJSON, pagePath?: string): Paragraph {
   const attrs = attrsOf(node);
+  let url = attrs.src as string;
+  if (
+    pagePath &&
+    typeof url === "string" &&
+    url.startsWith(ASSET_REPO_PREFIX)
+  ) {
+    url = assetRepoPathToRelative(pagePath, url);
+  }
   const image: Image = {
     type: "image",
-    url: attrs.src as string,
+    url,
     alt: (attrs.alt as string | null | undefined) ?? null,
     title: (attrs.title as string | null | undefined) ?? null,
   };
   return { type: "paragraph", children: [image] };
 }
 
-function mapBlockBack(node: PMNodeJSON): RootContent {
+function mapBlockBack(node: PMNodeJSON, pagePath?: string): RootContent {
   switch (node.type) {
     case "heading": {
       const attrs = attrsOf(node);
@@ -153,14 +195,14 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
     case "blockquote":
       return {
         type: "blockquote",
-        children: mapBlockChildren(node.content ?? []),
+        children: mapBlockChildren(node.content ?? [], pagePath),
       };
     case "bulletList":
       return {
         type: "list",
         ordered: false,
         spread: false,
-        children: (node.content ?? []).map(mapListItemBack),
+        children: (node.content ?? []).map((n) => mapListItemBack(n, pagePath)),
       };
     case "orderedList": {
       const attrs = attrsOf(node);
@@ -170,7 +212,7 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
         ordered: true,
         start,
         spread: false,
-        children: (node.content ?? []).map(mapListItemBack),
+        children: (node.content ?? []).map((n) => mapListItemBack(n, pagePath)),
       };
       return list;
     }
@@ -184,7 +226,7 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
       return code;
     }
     case "image":
-      return mapImageBack(node);
+      return mapImageBack(node, pagePath);
     case "horizontalRule": {
       const rule: ThematicBreak = { type: "thematicBreak" };
       return rule;
@@ -197,7 +239,7 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
         type: "mdxJsxFlowElement",
         name: component,
         attributes: buildJsxAttributes(descriptor?.attrs ?? [], attrs),
-        children: mapBlockChildren(node.content ?? []),
+        children: mapBlockChildren(node.content ?? [], pagePath),
       };
       return el;
     }
@@ -206,7 +248,7 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
         type: "mdxJsxFlowElement",
         name: "Tabs",
         attributes: [],
-        children: mapBlockChildren(node.content ?? []),
+        children: mapBlockChildren(node.content ?? [], pagePath),
       };
       return el;
     }
@@ -216,7 +258,7 @@ function mapBlockBack(node: PMNodeJSON): RootContent {
         type: "mdxJsxFlowElement",
         name: "Tab",
         attributes: buildJsxAttributes(["label"], attrs),
-        children: mapBlockChildren(node.content ?? []),
+        children: mapBlockChildren(node.content ?? [], pagePath),
       };
       return el;
     }
@@ -380,13 +422,17 @@ function wrapMark(mark: PMMark, children: PhrasingContent[]): PhrasingContent {
  * frontmatter string (if any) as a leading `yaml` node — the inverse of
  * `mdastToDoc` splitting it out.
  */
-export function docToMdast(doc: PMNodeJSON, frontmatter: string | null): Root {
+export function docToMdast(
+  doc: PMNodeJSON,
+  frontmatter: string | null,
+  pagePath?: string,
+): Root {
   const children: RootContent[] = [];
   if (frontmatter != null) {
     const yaml: Yaml = { type: "yaml", value: frontmatter };
     children.push(yaml);
   }
-  children.push(...mapBlocksBack(doc.content ?? []));
+  children.push(...mapBlocksBack(doc.content ?? [], pagePath));
   return { type: "root", children };
 }
 
@@ -394,10 +440,17 @@ export function docToMdast(doc: PMNodeJSON, frontmatter: string | null): Root {
  * The full fidelity-safe write path: PM doc JSON -> mdast -> MDX source,
  * normalized with the repo's Prettier config so editor output matches
  * hand-authored files.
+ *
+ * `pagePath` is the repo-relative path of the MDX file being saved
+ * (e.g. `"src/content/manual/basics/foo.mdx"`). When provided, any
+ * `src/assets/img/manual/…` image URLs stored in the PM doc are rewritten
+ * to paths relative to that file before serialization, so Astro can resolve
+ * them during `astro build` without Rollup import errors.
  */
 export function docToSource(
   doc: PMNodeJSON,
   frontmatter: string | null,
+  pagePath?: string,
 ): Promise<string> {
-  return formatMdx(stringifyMdx(docToMdast(doc, frontmatter)));
+  return formatMdx(stringifyMdx(docToMdast(doc, frontmatter, pagePath)));
 }
