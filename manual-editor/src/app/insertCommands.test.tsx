@@ -129,6 +129,7 @@ test("insertTabs inserts a tabs node with two starter tab children (Windows/macO
   expect(tabs?.content?.map((t) => t.attrs?.label)).toEqual([
     "Windows",
     "macOS",
+    "Linux",
   ]);
   for (const tab of tabs?.content ?? []) {
     expect(tab.content?.[0]?.type).toBe("paragraph");
