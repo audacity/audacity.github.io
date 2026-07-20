@@ -297,10 +297,6 @@ function TrackLane({ name = "Audio 1", children }) {
 // (3.2, 100) only produces ~320 samples which TrackNew renders as sparse
 // dots; a longer waveform gives the clip a proper dense peak pattern.
 const CLIP_HANDLES_WAVEFORM = generateSpeechWaveform(12);
-// All-zero waveform: stable across renders (no jitter), forces TrackNew to
-// render the clip body (non-empty), but draws no peaks so the sample-dot
-// SVG overlay is visible on top of the clip background.
-const SAMPLE_EDITING_WAVEFORM = new Float32Array(720);
 
 function ClipHandlesDemo({ isActive = true }) {
   const rootRef = useRef(null);
@@ -811,102 +807,79 @@ function SampleEditingDemo({ isActive = true }) {
   const PPS = 80;
   const CANVAS_W = 720;
   const TRACK_H = 280;
-  // Clip name to mimic the real Audacity screenshot the user shared.
   const CLIP_NAME = "TL_Juicy_Drum_Snare_2_84bpm";
 
-  // Stereo sample stems. Each channel has its own baseline (top half &
-  // bottom half of the clip body). A handful of sample points; one is
-  // animated being dragged up to demonstrate sample-level editing.
-  const SAMPLE_COUNT = 14;
-  const DRAG_IDX = 6;
+  // Mono sample row. More dots for density closer to the real Audacity
+  // zoomed-in view. One dot is animated being dragged up.
+  const SAMPLE_COUNT = 26;
+  const DRAG_IDX = 12;
   const dragOffset = Math.sin(t * Math.PI * 2) * 0.5 + 0.5; // 0→1→0
-  function sampleAt(i, channelSeed) {
-    return (
-      Math.sin(i * 0.7 + channelSeed) * 0.22 +
-      Math.cos(i * 0.41 + channelSeed) * 0.15
-    );
+
+  // Small quasi-random offsets so the baseline looks organic but nearly flat,
+  // matching the real Audacity screenshot.
+  function sampleAt(i) {
+    return Math.sin(i * 0.7) * 0.06 + Math.cos(i * 1.3) * 0.04;
   }
 
+  // Empty waveform: TrackNew renders the clip body background (giving the
+  // white dots a dark-teal surface to sit against) without drawing any
+  // waveform peaks on top.
   const clips = [
     {
       id: 1,
       name: CLIP_NAME,
       start: 0,
       duration: CANVAS_W / PPS,
-      waveform: SAMPLE_EDITING_WAVEFORM,
+      waveform: [],
     },
   ];
 
-  // The clip's body starts ~24px below the clip top (header height) and
-  // ends ~6px above the bottom. Calculate the SVG overlay bounds to
-  // match — keeps the sample dots inside the clip body, not over the
-  // header text.
   const CLIP_HEADER_H = 24;
   const CLIP_PAD_BOTTOM = 6;
   const CLIP_BODY_TOP = CLIP_HEADER_H + 6;
   const CLIP_BODY_BOTTOM = TRACK_H - CLIP_PAD_BOTTOM;
   const CLIP_BODY_H = CLIP_BODY_BOTTOM - CLIP_BODY_TOP;
-  // Two channels stacked: top half upper baseline, bottom half lower.
-  const TOP_MID = CLIP_BODY_TOP + CLIP_BODY_H * 0.25;
-  const BOT_MID = CLIP_BODY_TOP + CLIP_BODY_H * 0.75;
+  // Single centered baseline — mono track, matching the reference screenshot.
+  const MID_Y = CLIP_BODY_TOP + CLIP_BODY_H * 0.5;
   const CLIP_LEFT_PAD = 16;
   const CLIP_RIGHT_PAD = 16;
   const usableW = CANVAS_W - CLIP_LEFT_PAD - CLIP_RIGHT_PAD;
 
-  function renderChannel(midY, channelSeed) {
-    const stems = [];
-    const dots = [];
-    for (let i = 0; i < SAMPLE_COUNT; i++) {
-      const x = CLIP_LEFT_PAD + ((i + 0.5) * usableW) / SAMPLE_COUNT;
-      let v = sampleAt(i, channelSeed);
-      if (i === DRAG_IDX && channelSeed === 0) {
-        // Drag this one upward (negative direction) on the top channel.
-        v = -0.35 - dragOffset * 0.55;
-      }
-      const y = midY + v * (CLIP_BODY_H * 0.18);
-      stems.push(
-        <line
-          key={`s${channelSeed}-${i}`}
-          x1={x}
-          y1={midY}
-          x2={x}
-          y2={y}
-          stroke="rgba(8,8,12,0.9)"
-          strokeWidth={1.2}
-        />,
-      );
-      const isDragged = i === DRAG_IDX && channelSeed === 0;
-      dots.push(
-        <circle
-          key={`d${channelSeed}-${i}`}
-          cx={x}
-          cy={y}
-          r={isDragged ? 4 : 2.5}
-          fill={isDragged ? "#fff" : "rgba(8,8,12,0.95)"}
-          stroke={isDragged ? "#fff" : "none"}
-          strokeWidth={isDragged ? 1.5 : 0}
-        />,
-      );
-    }
-    return (
-      <g>
-        <line
-          x1={CLIP_LEFT_PAD}
-          y1={midY}
-          x2={CANVAS_W - CLIP_RIGHT_PAD}
-          y2={midY}
-          stroke="rgba(8,8,12,0.45)"
-          strokeWidth={1}
-        />
-        {stems}
-        {dots}
-      </g>
+  const stems = [];
+  const dots = [];
+  for (let i = 0; i < SAMPLE_COUNT; i++) {
+    const x = CLIP_LEFT_PAD + ((i + 0.5) * usableW) / SAMPLE_COUNT;
+    let v = sampleAt(i);
+    if (i === DRAG_IDX) v = -0.35 - dragOffset * 0.55;
+    const y = MID_Y + v * (CLIP_BODY_H * 0.4);
+    const isDragged = i === DRAG_IDX;
+    stems.push(
+      <line
+        key={`stem-${i}`}
+        x1={x}
+        y1={MID_Y}
+        x2={x}
+        y2={y}
+        stroke="rgba(255,255,255,0.55)"
+        strokeWidth={1.5}
+      />,
+    );
+    dots.push(
+      <circle
+        key={`dot-${i}`}
+        cx={x}
+        cy={y}
+        r={isDragged ? 5 : 3}
+        fill={isDragged ? "#ffffff" : "rgba(255,255,255,0.9)"}
+        stroke={isDragged ? "#7dd3fc" : "none"}
+        strokeWidth={isDragged ? 2 : 0}
+      />,
     );
   }
 
-  // Cursor sits on the dragged sample so it reads as the user editing.
+  // Cursor tracks the dragged sample.
   const cursorX = CLIP_LEFT_PAD + ((DRAG_IDX + 0.5) * usableW) / SAMPLE_COUNT;
-  const cursorY = TOP_MID + (-0.35 - dragOffset * 0.55) * (CLIP_BODY_H * 0.18);
+  const cursorY = MID_Y + (-0.35 - dragOffset * 0.55) * (CLIP_BODY_H * 0.4);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -941,11 +914,8 @@ function SampleEditingDemo({ isActive = true }) {
             color="cyan"
             onClipTrimEdge={() => {}}
           />
-          {/* Sample-editing overlay — sits on top of the clip body
-              and renders the zoomed-in sample stems for both
-              channels. Explicit width/height on the SVG element so it
-              stays at the 720×280 user coordinate space its content
-              was authored against, regardless of card size. */}
+          {/* Mono sample-editing overlay — centered baseline, white dots
+              on dark-teal clip body, matching Audacity's zoomed-in view. */}
           <svg
             width={CANVAS_W}
             height={TRACK_H}
@@ -957,8 +927,16 @@ function SampleEditingDemo({ isActive = true }) {
               pointerEvents: "none",
             }}
           >
-            {renderChannel(TOP_MID, 0)}
-            {renderChannel(BOT_MID, 1.7)}
+            <line
+              x1={CLIP_LEFT_PAD}
+              y1={MID_Y}
+              x2={CANVAS_W - CLIP_RIGHT_PAD}
+              y2={MID_Y}
+              stroke="rgba(255,255,255,0.2)"
+              strokeWidth={1}
+            />
+            {stems}
+            {dots}
           </svg>
           {/* Cursor over the dragged sample */}
           <svg
