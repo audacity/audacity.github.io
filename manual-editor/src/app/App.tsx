@@ -68,7 +68,6 @@ export function App({
     | { kind: "top" }
     | { kind: "child"; parent: ManualPageMeta }
     | { kind: "section"; section: string }
-    | { kind: "section_new" }
     | null
   >(null);
 
@@ -191,9 +190,17 @@ export function App({
   // (same "always re-fetch rather than patch locally" reasoning as
   // `handleDraftSaved` above — the backend's listing already reflects the
   // deletion by the time `onDeleted` fires).
-  function handleDeleted() {
+  function handleDeleted(deletedPath: string) {
     setSource(null);
     setActivePath(null);
+    // Optimistically drop the page so the sidebar updates instantly — the
+    // GitHub tree API returns a cached ref for a moment after the delete
+    // commit lands, so a bare re-fetch here would briefly show the page as
+    // still present. The background re-fetch corrects any other side effects
+    // (hasDraft dots etc.) once GitHub catches up.
+    setPages((prev) =>
+      prev ? prev.filter((p) => p.path !== deletedPath) : prev,
+    );
     api.listPages().then(setPages);
   }
 
@@ -271,26 +278,15 @@ export function App({
       </header>
       <div className="app-body">
         <aside className="app-sidebar">
-          <div className="app-sidebar__new-buttons">
-            <button
-              type="button"
-              className="app-sidebar__new-page-button"
-              data-testid="new-page-button"
-              disabled={pages === null}
-              onClick={() => openNewPage(null)}
-            >
-              + New page
-            </button>
-            <button
-              type="button"
-              className="app-sidebar__new-section-button"
-              data-testid="new-section-button"
-              disabled={pages === null}
-              onClick={() => setNewPageIntent({ kind: "section_new" })}
-            >
-              + New section
-            </button>
-          </div>
+          <button
+            type="button"
+            className="app-sidebar__new-page-button"
+            data-testid="new-page-button"
+            disabled={pages === null}
+            onClick={() => openNewPage(null)}
+          >
+            + New page
+          </button>
           {dropError ? (
             <p className="app-sidebar__drop-error" data-testid="drop-error">
               {dropError}
@@ -326,7 +322,7 @@ export function App({
                 if (meta) openNewPage(meta);
               }}
               hasChildren={hasChildren}
-              onDeleted={handleDeleted}
+              onDeleted={(p) => handleDeleted(p)}
             />
           ) : (
             <p className="app-main__placeholder">
@@ -344,7 +340,6 @@ export function App({
           sectionPrefill={
             newPageIntent.kind === "section" ? newPageIntent.section : undefined
           }
-          newSection={newPageIntent.kind === "section_new"}
           onCreate={handleCreatePage}
           onCancel={() => setNewPageIntent(null)}
         />

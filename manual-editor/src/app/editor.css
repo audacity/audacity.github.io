@@ -84,34 +84,26 @@ body {
 
 /* "+ New page" button: sits above the page list, full-width like the sidebar
    entries it introduces. */
-.app-sidebar__new-buttons {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 0.5rem;
-}
-
-.app-sidebar__new-page-button,
-.app-sidebar__new-section-button {
-  flex: 1;
+.app-sidebar__new-page-button {
   display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
   padding: 0.45rem 0.5rem;
   border: 1px solid #cbd5e1;
   border-radius: 5px;
   background: #ffffff;
   color: #1f2937;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
   text-align: left;
   cursor: pointer;
 }
 
-.app-sidebar__new-page-button:hover:not(:disabled),
-.app-sidebar__new-section-button:hover:not(:disabled) {
+.app-sidebar__new-page-button:hover:not(:disabled) {
   background: #f1f5f9;
 }
 
-.app-sidebar__new-page-button:disabled,
-.app-sidebar__new-section-button:disabled {
+.app-sidebar__new-page-button:disabled {
   color: #94a3b8;
   cursor: not-allowed;
 }

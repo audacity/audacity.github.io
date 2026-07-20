@@ -285,7 +285,7 @@ export function Editor({
    * on unmount (see its cleanup), so no extra guard is needed here for the
    * delete-then-unmount sequence.
    */
-  onDeleted: () => void;
+  onDeleted: (path: string) => void;
   /**
    * Renders the Notion-style block drag handle. Defaults on for the real
    * app; existing suites that mount `Editor` under happy-dom leave it on
@@ -646,7 +646,7 @@ export function Editor({
     setDeleting(true);
     try {
       await api.deletePage(path);
-      onDeleted();
+      onDeleted(path);
     } catch {
       setDeleting(false);
       setConfirmingDelete(false);
