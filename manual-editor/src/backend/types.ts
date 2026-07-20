@@ -49,6 +49,8 @@ export interface GitHubBackend {
   listPages(): Promise<ManualPageMeta[]>;
   /** Reads the drafts-branch version if present, else the base branch. */
   readPage(path: string): Promise<PageContent>;
+  /** Reads the base-branch version only. Returns null if the page is draft-only (not yet published). */
+  readBasePage(path: string): Promise<PageContent | null>;
   /** Commits text changes to the drafts branch (creating it off base if needed). */
   saveDraft(changes: FileChange[], message: string): Promise<void>;
   /** Commits an optimized image to the drafts branch; returns repo-relative path. */

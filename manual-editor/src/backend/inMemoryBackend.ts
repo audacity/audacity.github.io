@@ -82,6 +82,11 @@ export class InMemoryBackend implements GitHubBackend {
     if (source === undefined) throw new Error(`No such page: ${path}`);
     return { path, source };
   }
+  async readBasePage(path: string): Promise<PageContent | null> {
+    const source = this.base.get(path);
+    if (source === undefined) return null;
+    return { path, source };
+  }
   async saveDraft(changes: FileChange[], _message: string): Promise<void> {
     for (const c of changes) {
       this.deleted.delete(c.path);

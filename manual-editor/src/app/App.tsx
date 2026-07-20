@@ -209,6 +209,9 @@ export function App({
   // `Editor` to gate the header's delete action (deleting a parent would
   // orphan its children in the tree).
   const activeSlug = activeSlugFromPath(activePath);
+  const activePageMeta = activePath
+    ? pages?.find((p) => p.path === activePath)
+    : undefined;
   const hasChildren =
     activeSlug !== null &&
     (pages?.some(
@@ -322,6 +325,7 @@ export function App({
                 if (meta) openNewPage(meta);
               }}
               hasChildren={hasChildren}
+              hasDraft={activePageMeta?.hasDraft ?? false}
               onDeleted={(p) => handleDeleted(p)}
             />
           ) : (

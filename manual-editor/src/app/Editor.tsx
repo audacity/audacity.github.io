@@ -34,6 +34,7 @@ import { getBlockActions, type BlockAction } from "./blockActions";
 import { getSelectedBlocks } from "./blockSelection";
 import { HandleMenu } from "./HandleMenu";
 import { SelectionBar } from "./SelectionBar";
+import { ReadOnlyDoc } from "./ReadOnlyDoc";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
 const DEFAULT_ORDER = 99;
@@ -235,6 +236,7 @@ export function Editor({
   onDeleted,
   enableDragHandle = true,
   flushRef,
+  hasDraft = false,
 }: {
   source: string;
   path: string;
@@ -302,6 +304,12 @@ export function Editor({
    * it to ensure unsaved changes are committed before calling publish.
    */
   flushRef?: { current: (() => Promise<void>) | null };
+  /**
+   * True when this page has unpublished changes on the drafts branch. Used
+   * to show/hide the "Compare" toggle in the header — comparing only makes
+   * sense when there's a published version to compare against.
+   */
+  hasDraft?: boolean;
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
@@ -323,6 +331,27 @@ export function Editor({
   // page mount (a fresh `Editor` instance, per the component doc above)
   // starts collapsed.
   const [detailsExpanded, setDetailsExpanded] = useState(false);
+
+  // Compare mode: show published (base branch) alongside the draft side by
+  // side. `baseSource` is null when the page is draft-only (no published
+  // version), "loading" while the fetch is in flight, or the fetched source
+  // string once resolved. Reset to off on `path` change via `useEditor`'s
+  // recreation — but `path` is already the mount key so a fresh Editor
+  // instance always starts with compare off.
+  const [compareMode, setCompareMode] = useState(false);
+  const [baseSource, setBaseSource] = useState<string | null | "loading">(null);
+
+  async function handleToggleCompare() {
+    if (compareMode) {
+      setCompareMode(false);
+      setBaseSource(null);
+      return;
+    }
+    setCompareMode(true);
+    setBaseSource("loading");
+    const content = await api.getBasePage(path);
+    setBaseSource(content ? content.source : null);
+  }
 
   const doc = useMemo(() => {
     const { doc } = mdastToDoc(parseMdx(source));
@@ -703,6 +732,17 @@ export function Editor({
             </button>
           </div>
           <div className="editor-header__actions">
+            {hasDraft ? (
+              <button
+                type="button"
+                data-testid="editor-compare-toggle"
+                className="editor-header__compare"
+                aria-pressed={compareMode}
+                onClick={handleToggleCompare}
+              >
+                {compareMode ? "Close compare" : "Compare"}
+              </button>
+            ) : null}
             <button
               type="button"
               data-testid="editor-add-subpage"
@@ -765,39 +805,86 @@ export function Editor({
           />
         ) : null}
       </div>
-      <div
-        className="editor-scroll"
-        // A stale menu anchored to a handle rect that's about to scroll out
-        // from under it reads as broken (the popup floats over the wrong
-        // block, or over nothing). Simplest fix: any scroll of the document
-        // pane closes it outright rather than trying to keep it glued to a
-        // moving anchor.
-        onScroll={() => setHandleMenu(null)}
-      >
-        {enableDragHandle && editor ? (
-          <DragHandle
-            editor={editor}
-            computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
-            onNodeChange={handleNodeChange}
-            nested={NESTED_DRAG_HANDLE_OPTIONS}
-            className="drag-handle-wrapper"
-          >
-            <button
-              type="button"
-              className="drag-handle"
-              data-testid="drag-handle"
-              aria-label="Drag to move block"
-              aria-haspopup="menu"
-              title="Drag to move · Click for actions"
-              tabIndex={-1}
-              onClick={handleDragHandleClick}
+      {compareMode ? (
+        <div className="editor-compare">
+          <div className="compare-pane compare-pane--published">
+            <div className="compare-pane__label">Published</div>
+            <div className="compare-pane__scroll">
+              {baseSource === "loading" ? (
+                <p className="compare-pane__loading">Loading…</p>
+              ) : baseSource === null ? (
+                <p className="compare-pane__empty">
+                  No published version — this page has not been merged yet.
+                </p>
+              ) : (
+                <ReadOnlyDoc source={baseSource} />
+              )}
+            </div>
+          </div>
+          <div className="compare-pane compare-pane--draft">
+            <div className="compare-pane__label">Draft</div>
+            <div className="editor-scroll" onScroll={() => setHandleMenu(null)}>
+              {enableDragHandle && editor ? (
+                <DragHandle
+                  editor={editor}
+                  computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
+                  onNodeChange={handleNodeChange}
+                  nested={NESTED_DRAG_HANDLE_OPTIONS}
+                  className="drag-handle-wrapper"
+                >
+                  <button
+                    type="button"
+                    className="drag-handle"
+                    data-testid="drag-handle"
+                    aria-label="Drag to move block"
+                    aria-haspopup="menu"
+                    title="Drag to move · Click for actions"
+                    tabIndex={-1}
+                    onClick={handleDragHandleClick}
+                  >
+                    ⠿
+                  </button>
+                </DragHandle>
+              ) : null}
+              <EditorContent editor={editor} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="editor-scroll"
+          // A stale menu anchored to a handle rect that's about to scroll out
+          // from under it reads as broken (the popup floats over the wrong
+          // block, or over nothing). Simplest fix: any scroll of the document
+          // pane closes it outright rather than trying to keep it glued to a
+          // moving anchor.
+          onScroll={() => setHandleMenu(null)}
+        >
+          {enableDragHandle && editor ? (
+            <DragHandle
+              editor={editor}
+              computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
+              onNodeChange={handleNodeChange}
+              nested={NESTED_DRAG_HANDLE_OPTIONS}
+              className="drag-handle-wrapper"
             >
-              ⠿
-            </button>
-          </DragHandle>
-        ) : null}
-        <EditorContent editor={editor} />
-      </div>
+              <button
+                type="button"
+                className="drag-handle"
+                data-testid="drag-handle"
+                aria-label="Drag to move block"
+                aria-haspopup="menu"
+                title="Drag to move · Click for actions"
+                tabIndex={-1}
+                onClick={handleDragHandleClick}
+              >
+                ⠿
+              </button>
+            </DragHandle>
+          ) : null}
+          <EditorContent editor={editor} />
+        </div>
+      )}
       {handleMenu && editor ? (
         <HandleMenu
           editor={editor}

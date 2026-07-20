@@ -355,6 +355,12 @@ export class OctokitBackend implements GitHubBackend {
     return { path, source: baseResult };
   }
 
+  async readBasePage(path: string): Promise<PageContent | null> {
+    const result = await this.tryGetContent(path, this.baseBranch);
+    if (result === "not-found") return null;
+    return { path, source: result };
+  }
+
   private async tryGetContent(
     path: string,
     ref: string,

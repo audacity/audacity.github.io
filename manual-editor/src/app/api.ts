@@ -76,6 +76,10 @@ export function makeApi(f: typeof fetch = fetch) {
       f(`/api/page?path=${encodeURIComponent(path)}`).then((r) =>
         jsonOrThrow<PageContent>(r),
       ),
+    getBasePage: (path: string) =>
+      f(`/api/page?path=${encodeURIComponent(path)}&base=1`).then((r) =>
+        jsonOrThrow<PageContent | null>(r),
+      ),
     saveDraft: (path: string, source: string) =>
       f("/api/draft", {
         method: "POST",

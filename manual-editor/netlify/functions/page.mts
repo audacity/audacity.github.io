@@ -13,7 +13,12 @@ export default async (request: Request): Promise<Response> => {
       return json({ error: "not found" }, 404);
     }
   }
+  const base = url.searchParams.get("base") === "1";
   try {
+    if (base) {
+      const content = await backend.readBasePage(path);
+      return json(content);
+    }
     return json(await backend.readPage(path));
   } catch {
     return json({ error: "not found" }, 404);
