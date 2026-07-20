@@ -8,7 +8,7 @@ import IntroOverlay from "./IntroOverlay.jsx";
 import WorkspaceCanvas from "../workspaces/WorkspaceCanvas.jsx";
 import { WORKSPACE_CONFIGS } from "../workspaces/workspaceConfigs.js";
 import { STOPS } from "./stops.js";
-import { generateDecayingSineWave } from "@dilsonspickles/components";
+import { generateSpeechWaveform } from "@dilsonspickles/components";
 
 // The per-stop laptop shifts (stop.laptop.x, e.g. "28vw") were tuned around
 // a ~1300px canvas. On wider viewports a raw vw shift keeps growing while the
@@ -65,7 +65,7 @@ const S1_START = 0.1;
 const S1_DURATION = 7.2;
 const SPLIT_FRAC_A = 0.35;
 const SPLIT_FRAC_B = 0.7;
-const FULL_S1_WAVEFORM = generateDecayingSineWave(S1_DURATION);
+const FULL_S1_WAVEFORM = generateSpeechWaveform(79);
 const SPLIT_IDX_A = Math.floor(FULL_S1_WAVEFORM.length * SPLIT_FRAC_A);
 const SPLIT_IDX_B = Math.floor(FULL_S1_WAVEFORM.length * SPLIT_FRAC_B);
 const S1_PART_A = FULL_S1_WAVEFORM.slice(0, SPLIT_IDX_A);
@@ -96,7 +96,7 @@ const DROP_END = DROP_START + S1_C_DUR;
 // approach as the split-tool step keeps both halves stable and true to s2's
 // original shape. The middle (DROP_START..DROP_END) is eaten by the dropped
 // clip, so we keep only [0, DROP_START] and [DROP_END, end].
-const FULL_S2_WAVEFORM = generateDecayingSineWave(S2_DURATION);
+const FULL_S2_WAVEFORM = generateSpeechWaveform(83);
 const S2_SPLIT_IDX_A = Math.floor(
   FULL_S2_WAVEFORM.length * ((DROP_START - S2_START) / S2_DURATION),
 );

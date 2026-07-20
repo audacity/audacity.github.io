@@ -167,7 +167,7 @@ function withWaveforms(tracks) {
       if (c.waveform || t.isLabelTrack) return c;
       const seed = Math.max(2, Math.round(c.duration * 4)) + ti + ci;
       let waveform;
-      if (ti % 3 === 1) waveform = generateDecayingSineWave(c.duration);
+      if (ti % 3 === 1) waveform = generateSpeechWaveform(seed + 50);
       else if (ti % 3 === 2 && ci % 2 === 0)
         waveform = generateSineWave(c.duration, 6 + ci);
       else waveform = generateSpeechWaveform(seed);
