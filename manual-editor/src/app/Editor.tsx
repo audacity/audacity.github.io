@@ -234,6 +234,7 @@ export function Editor({
   hasChildren,
   onDeleted,
   enableDragHandle = true,
+  flushRef,
 }: {
   source: string;
   path: string;
@@ -295,6 +296,12 @@ export function Editor({
    * case can still opt out per-test without changing the default.
    */
   enableDragHandle?: boolean;
+  /**
+   * When provided, Editor populates this ref with an async function that
+   * flushes any pending autosave and resolves once the save lands. App uses
+   * it to ensure unsaved changes are committed before calling publish.
+   */
+  flushRef?: { current: (() => Promise<void>) | null };
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
@@ -525,7 +532,19 @@ export function Editor({
   // fire-and-forget (the component may already be gone — no setState), and
   // is nulled the moment the debounce fires normally so a flush never
   // double-saves.
-  const pendingSaveRef = useRef<{ flush: () => void } | null>(null);
+  const pendingSaveRef = useRef<{ flush: () => Promise<void> } | null>(null);
+
+  // Populate flushRef once so App can await any pending save before publishing.
+  useEffect(() => {
+    if (!flushRef) return;
+    flushRef.current = async () => {
+      if (pendingSaveRef.current) await pendingSaveRef.current.flush();
+    };
+    return () => {
+      if (flushRef) flushRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // The debounced autosave itself. `saveVersion` is the trigger: it only
   // increments once an actual edit has happened (content or frontmatter),
@@ -538,13 +557,15 @@ export function Editor({
     pendingSaveRef.current = {
       flush: () => {
         pendingSaveRef.current = null;
-        void api
+        return api
           .saveDraftDoc(
             savingPath,
             editor.getJSON(),
             serializeFrontmatter(frontmatterData),
           )
-          .then(() => onDraftSaved?.(savingPath))
+          .then(() => {
+            onDraftSaved?.(savingPath);
+          })
           .catch(() => {});
       },
     };
@@ -586,7 +607,7 @@ export function Editor({
   // not flush per keystroke; only leaving the page does.
   useEffect(() => {
     return () => {
-      pendingSaveRef.current?.flush();
+      void pendingSaveRef.current?.flush();
     };
   }, [path]);
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api as defaultApi, type makeApi, type Me } from "./api";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
@@ -68,8 +68,11 @@ export function App({
     | { kind: "top" }
     | { kind: "child"; parent: ManualPageMeta }
     | { kind: "section"; section: string }
+    | { kind: "section_new" }
     | null
   >(null);
+
+  const editorFlushRef = useRef<(() => Promise<void>) | null>(null);
 
   function openNewPage(parent: ManualPageMeta | null) {
     setNewPageIntent(parent ? { kind: "child", parent } : { kind: "top" });
@@ -98,6 +101,7 @@ export function App({
     setPublishError(null);
     setPublishResult(null);
     try {
+      await editorFlushRef.current?.();
       const result = await api.publish();
       setPublishResult(result);
       api.listPages().then(setPages);
@@ -267,15 +271,26 @@ export function App({
       </header>
       <div className="app-body">
         <aside className="app-sidebar">
-          <button
-            type="button"
-            className="app-sidebar__new-page-button"
-            data-testid="new-page-button"
-            disabled={pages === null}
-            onClick={() => openNewPage(null)}
-          >
-            + New page
-          </button>
+          <div className="app-sidebar__new-buttons">
+            <button
+              type="button"
+              className="app-sidebar__new-page-button"
+              data-testid="new-page-button"
+              disabled={pages === null}
+              onClick={() => openNewPage(null)}
+            >
+              + New page
+            </button>
+            <button
+              type="button"
+              className="app-sidebar__new-section-button"
+              data-testid="new-section-button"
+              disabled={pages === null}
+              onClick={() => setNewPageIntent({ kind: "section_new" })}
+            >
+              + New section
+            </button>
+          </div>
           {dropError ? (
             <p className="app-sidebar__drop-error" data-testid="drop-error">
               {dropError}
@@ -304,6 +319,7 @@ export function App({
               sections={sections}
               pages={pages ?? []}
               api={api}
+              flushRef={editorFlushRef}
               onDraftSaved={handleDraftSaved}
               onAddSubpage={() => {
                 const meta = pages?.find((p) => p.path === activePath);
@@ -328,6 +344,7 @@ export function App({
           sectionPrefill={
             newPageIntent.kind === "section" ? newPageIntent.section : undefined
           }
+          newSection={newPageIntent.kind === "section_new"}
           onCreate={handleCreatePage}
           onCancel={() => setNewPageIntent(null)}
         />
