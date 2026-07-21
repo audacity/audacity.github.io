@@ -394,29 +394,38 @@ function WorkspaceCanvas({
                   beatsPerMeasure={4}
                 />
                 <div style={{ flex: 1, paddingTop: 2 }}>
-                  {tracks.map((t, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        position: "relative",
-                        height: trackHeights[i],
-                        marginBottom: 2,
-                      }}
-                    >
-                      <TrackNew
-                        clips={t.clips}
-                        trackIndex={t.trackIndex ?? i}
-                        width={canvasW}
-                        height={trackHeights[i]}
-                        pixelsPerSecond={PIXELS_PER_SECOND}
-                        envelopeMode={effectiveEnvelopeMode}
-                        isLabelTrack={t.isLabelTrack}
-                        isSelected={t.isSelected}
-                        isFocused={t.isFocused}
-                        onClipTrimEdge={() => {}}
-                      />
-                    </div>
-                  ))}
+                  {tracks.map((t, i) => {
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          position: "relative",
+                          height: trackHeights[i],
+                          marginBottom: 2,
+                        }}
+                      >
+                        <TrackNew
+                          clips={
+                            effectiveEnvelopeMode
+                              ? t.clips.map((c) => ({
+                                  ...c,
+                                  envelopePoints: c.envelopePoints ?? [],
+                                }))
+                              : t.clips
+                          }
+                          trackIndex={t.trackIndex ?? i}
+                          width={canvasW}
+                          height={trackHeights[i]}
+                          pixelsPerSecond={PIXELS_PER_SECOND}
+                          envelopeMode={effectiveEnvelopeMode}
+                          isLabelTrack={t.isLabelTrack}
+                          isSelected={t.isSelected}
+                          isFocused={t.isFocused}
+                          onClipTrimEdge={() => {}}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
                 <div
                   style={{

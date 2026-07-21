@@ -1738,8 +1738,8 @@ function DesktopTour() {
           s2: { duration: DROP_START - S2_START, waveform: S2_PART_A },
           h2: { selected: false, start: 6.5 },
           g2: { selected: false, start: 9.3 },
-          h3: { selected: true, start: 11.8 },
-          g3: { selected: true, start: 15.2 },
+          h3: { selected: false, start: 11.8 },
+          g3: { selected: false, start: 15.2 },
           sfx1: { selected: false, start: 6.1 },
         });
         setExtraClips({
