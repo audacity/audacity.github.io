@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CreatorWorkflows from "../../components/about/CreatorWorkflows.jsx";
+
+const variants = [
+  { key: "hero", label: "Layout A — Hero + supporting row" },
+  { key: "filmstrip", label: "Layout B — Even filmstrip" },
+  { key: "mosaic", label: "Layout C — Asymmetric mosaic" },
+];
+---
+
+<BaseLayout
+  title="Dev — Creator workflows layout"
+  description="Layout experiments for the photography section."
+  showPromoBanner={false}
+>
+  <div class="dev-bg">
+    {
+      variants.map((v) => (
+        <>
+          <div class="variant-label">{v.label}</div>
+          <CreatorWorkflows variant={v.key} client:visible />
+        </>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style is:global>
+  html {
+    --page-bg: rgb(10, 13, 26);
+  }
+  body {
+    background-color: var(--page-bg) !important;
+  }
+  .dev-bg .bg-background-dark {
+    background-color: transparent !important;
+  }
+  .variant-label {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 40px 0;
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 48px;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ScrollyLaptopTour from "../components/about/ScrollyLaptopTour/ScrollyLaptopTour.jsx";
+import CreatorWorkflows from "../components/about/CreatorWorkflows.jsx";
 import CoreEditing from "../components/about/CoreEditing.jsx";
 import Workspaces from "../components/about/Workspaces.jsx";
 import CustomisableUI from "../components/about/CustomisableUI.jsx";
@@ -38,7 +39,9 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     <div class="about-section about-section--audiocom">
       <AudioCom client:visible />
     </div>
-    <Interstitial from="#141336" to="#0a0912" />
+    <div class="about-section about-section--creators">
+      <CreatorWorkflows variant="hero" client:visible />
+    </div>
     <div class="about-section about-section--effect-windows">
       <EffectWindows client:visible />
     </div>
@@ -152,6 +155,15 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   */
   .about-section--scrolly {
     background-color: #0e0c30;
+  }
+  /*
+    Photography "who it's for" beat — replaces the first swoosh interstitial
+    between AudioCom and the effects section. Carries the same top→bottom
+    colour bridge the interstitial did (AudioCom #141336 → effects #0a0912)
+    so the chapter transition is preserved.
+  */
+  .about-section--creators {
+    background: linear-gradient(to bottom, #141336 0%, #0a0912 100%);
   }
   /*
     CoreEditing → Workspaces → CustomisableUI form one continuous chapter
