@@ -1,7 +1,11 @@
 function CookieConsent() {
+  // Consent must sit above everything (site header z-50, and modals up to
+  // z-index 10001 elsewhere), so pin it to the top of the stack.
+  const TOP_OF_STACK = 2147483647;
   return (
     <div
       id="consent-popup"
+      style={{ zIndex: TOP_OF_STACK }}
       className="bg-white sticky bottom-0 w-full border-t-2 hide"
     >
       <div className="flex flex-col  bg-white  hide max-w-screen-lg xl:max-w-screen-xl mx-auto">
