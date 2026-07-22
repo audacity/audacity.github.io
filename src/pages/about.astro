@@ -103,7 +103,8 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       backdrop-filter 240ms ease;
   }
   #site-header:hover nav,
-  #site-header:focus-within nav {
+  #site-header:focus-within nav,
+  #site-header[data-solid="true"] nav {
     background-color: rgba(10, 13, 22, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -304,6 +305,13 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     function updateHeader() {
       const y = window.scrollY;
       const dy = y - lastY;
+      // Give the nav a translucent, blurred background once it's scrolled off
+      // the hero, so the revealed bar never clashes with content behind it.
+      // Transparent at the very top where it sits over the hero.
+      if (header) {
+        if (y > HIDE_AFTER) header.setAttribute("data-solid", "true");
+        else header.removeAttribute("data-solid");
+      }
       if (Math.abs(dy) < DELTA) return;
       if (y < HIDE_AFTER) scrollHidden = false;
       else if (dy > 0) scrollHidden = true;
@@ -330,6 +338,7 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       });
     }
     window.addEventListener("scroll", onScroll, { passive: true });
+    updateHeader(); // set initial solid/hidden state for the current scroll pos
 
     // Finale swoosh: hold its fan-in until it scrolls into view, then play once.
     const ctaSwoosh = document.querySelector<HTMLElement>("[data-cta-swoosh]");
