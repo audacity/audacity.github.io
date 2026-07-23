@@ -37,6 +37,7 @@ import type {
   MdxJsxTextElement,
 } from "mdast-util-mdx-jsx";
 import { type JsxAttr, KNOWN_FLOW, KNOWN_INLINE } from "./registry";
+import { hasUIExampleVariant, uiExampleMeta } from "../uiExample/meta";
 
 /** ProseMirror's generic node/mark JSON shape (matches `prosemirror-model`'s `NodeJSON`/`Fragment` output). */
 export interface PMNodeJSON {
@@ -356,6 +357,35 @@ function mapFlowJsx(node: MdxJsxFlowElement): PMNodeJSON {
         type: "tab",
         attrs: { label: readStringAttr(node.attributes, "label") },
         content: mapBlocks(node.children as RootContent[]),
+      };
+    }
+    if (descriptor.pmType === "uiExample") {
+      // Fidelity gate: only the exact shape the editor itself emits becomes
+      // an editable node — a known component id, a known variant id, no
+      // children, and no attributes beyond component/variant/interactive/
+      // client:load (all simple, non-expression). Anything else routes to
+      // `preserved` so hand-authored extras are never silently dropped.
+      if (node.children.length > 0) return preserve(node);
+      const pairs = jsxAttrsToPairs(node.attributes);
+      const allowed = new Set([
+        "component",
+        "variant",
+        "interactive",
+        "client:load",
+      ]);
+      if (!pairs || pairs.some((p) => !allowed.has(p.name))) {
+        return preserve(node);
+      }
+      const component = readStringAttr(node.attributes, "component");
+      const variant = readStringAttr(node.attributes, "variant");
+      const meta = component ? uiExampleMeta(component) : undefined;
+      if (!meta || !variant || !hasUIExampleVariant(meta, variant)) {
+        return preserve(node);
+      }
+      const interactive = pairs.some((p) => p.name === "interactive");
+      return {
+        type: "uiExample",
+        attrs: { component, variant, interactive },
       };
     }
   }

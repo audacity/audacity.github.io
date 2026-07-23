@@ -177,6 +177,37 @@ const Image = Node.create({
 });
 
 /**
+ * `uiExample` — block atom for `<UIExample component="…" variant="…" />`,
+ * the curated design-system example block (see
+ * `../uiExample/meta.ts`). `interactive` is stored as a boolean; the
+ * `client:load` Astro directive is DERIVED at serialization time (from
+ * `interactive` or the entry's `needsBrowser` flag), never stored.
+ */
+const UIExample = Node.create({
+  name: "uiExample",
+  group: "block",
+  atom: true,
+  addAttributes() {
+    return {
+      component: { default: undefined, isRequired: true },
+      variant: { default: undefined, isRequired: true },
+      interactive: { default: false },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "div[data-ui-example]" }];
+  },
+  renderHTML({ HTMLAttributes, node }) {
+    return [
+      "div",
+      mergeAttributes(HTMLAttributes, {
+        "data-ui-example": node.attrs.component,
+      }),
+    ];
+  },
+});
+
+/**
  * Builds the full TipTap extension array for the manual editor schema.
  *
  * `StarterKit` (v3) bundles `link` (mark), `bold`, `italic`, `code` and all
@@ -186,5 +217,14 @@ const Image = Node.create({
  * `image` node, so one is defined here.
  */
 export function buildExtensions(): Extensions {
-  return [StarterKit, Admonition, Tabs, Tab, Shortcut, Preserved, Image];
+  return [
+    StarterKit,
+    Admonition,
+    Tabs,
+    Tab,
+    Shortcut,
+    Preserved,
+    Image,
+    UIExample,
+  ];
 }

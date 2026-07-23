@@ -42,6 +42,7 @@ import { formatMdx } from "../mdx/normalize";
 import { stringifyMdx } from "../mdx/pipeline";
 import { type JsxAttr, KNOWN_FLOW } from "./registry";
 import type { PMNodeJSON } from "./mdastToDoc";
+import { uiExampleMeta } from "../uiExample/meta";
 
 const ASSET_REPO_PREFIX = "src/assets/img/manual/";
 
@@ -227,6 +228,42 @@ function mapBlockBack(node: PMNodeJSON, pagePath?: string): RootContent {
     }
     case "image":
       return mapImageBack(node, pagePath);
+    case "uiExample": {
+      const attrs = attrsOf(node);
+      const component = attrs.component as string;
+      const variant = attrs.variant as string;
+      const interactive = attrs.interactive === true;
+      // `client:load` is derived, never stored: interactive blocks always
+      // hydrate; `needsBrowser` entries hydrate even when static (they
+      // cannot server-render). See ../uiExample/meta.ts.
+      const needsClient =
+        interactive || uiExampleMeta(component)?.needsBrowser === true;
+      const attributes: MdxJsxAttribute[] = [
+        { type: "mdxJsxAttribute", name: "component", value: component },
+        { type: "mdxJsxAttribute", name: "variant", value: variant },
+      ];
+      if (interactive) {
+        attributes.push({
+          type: "mdxJsxAttribute",
+          name: "interactive",
+          value: null,
+        });
+      }
+      if (needsClient) {
+        attributes.push({
+          type: "mdxJsxAttribute",
+          name: "client:load",
+          value: null,
+        });
+      }
+      const el: MdxJsxFlowElement = {
+        type: "mdxJsxFlowElement",
+        name: "UIExample",
+        attributes,
+        children: [],
+      };
+      return el;
+    }
     case "horizontalRule": {
       const rule: ThematicBreak = { type: "thematicBreak" };
       return rule;

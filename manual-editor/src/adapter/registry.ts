@@ -25,6 +25,7 @@ export const KNOWN_FLOW = {
   TipsAndTricks: { pmType: "admonition", attrs: [] },
   Tabs: { pmType: "tabs", attrs: [] },
   Tab: { pmType: "tab", attrs: ["label"] },
+  UIExample: { pmType: "uiExample", attrs: ["component", "variant"] },
 } as const satisfies Record<string, ComponentDescriptor>;
 
 export const KNOWN_INLINE = {
