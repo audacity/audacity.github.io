@@ -198,6 +198,35 @@ Rules:
   present.
 - Site wrapper: resolves known id; placeholder for unknown id.
 
+## Implementation amendments (discovered during planning)
+
+Plan: `docs/superpowers/plans/2026-07-23-ui-example-components.md`. Three
+findings during planning amend the letter (not the intent) of this spec:
+
+1. **Static imports, not lazy thunks.** Astro server-renders static-mode
+   examples with `renderToString`, where effects and `React.lazy` never
+   resolve — a lazy-thunk registry would render nothing in static mode.
+   The registry instead uses **static deep subpath imports**
+   (`@dilsonspickles/components/Button`, enabled by the package's `"./*"`
+   export map), which keeps island chunks scoped per component.
+2. **Registry split in three.** The DS package's dist files carry CSS
+   side-effect imports that `bun test` cannot load, so anything the editor
+   test suite touches must not import it. Shape:
+   `manual-editor/src/uiExample/meta.ts` (ids/labels/variants — pure data),
+   root `registryData.ts` (variant props — pure data), root `registry.tsx`
+   (component map — the only DS importer; the editor node view loads it via
+   runtime dynamic import, which also gives tests a mocking seam).
+3. **Seed set is 3, not 8.** Button, Checkbox, Knob ship first — their
+   props were verified against the package's type declarations. The
+   remaining candidates (GhostButton, PanKnob, NumberStepper, FilterChip,
+   MasterMeter) are curation work once the machinery lands.
+
+No `@dilsonspickles/components` entry is added to
+`manual-editor/package.json`: the registry file lives at the repo root, so
+Node resolution finds the root install; the editor's Vite config gains
+`resolve.dedupe: ["react", "react-dom"]` so the DS package shares the
+editor's React copy (19 vs the root's 18) instead of double-bundling.
+
 ## Out of scope (explicitly deferred)
 
 - Whitelisted scalar prop editing (`editableProps`) — phase 2; schema
