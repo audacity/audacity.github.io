@@ -87,4 +87,16 @@ describe("ensureComponentImports", () => {
       ensureComponentImports(src, "src/content/manual/basics/page.mdx"),
     ).toBe(src);
   });
+
+  test("adds the UIExample import for a page using the example block", () => {
+    const source =
+      '---\ntitle: T\n---\n\n<UIExample component="knob" variant="default" />\n';
+    const out = ensureComponentImports(
+      source,
+      "src/content/manual/basics/a.mdx",
+    );
+    expect(out).toContain(
+      'import UIExample from "../../../components/manual/UIExample/UIExample";',
+    );
+  });
 });

@@ -37,6 +37,7 @@ const COMPONENT_MODULES: Record<string, string> = {
   Tabs: "components/manual/Tabs/Tabs.astro",
   Tab: "components/manual/Tabs/Tab.astro",
   Shortcut: "components/manual/Shortcut.jsx",
+  UIExample: "components/manual/UIExample/UIExample",
 };
 
 /**
