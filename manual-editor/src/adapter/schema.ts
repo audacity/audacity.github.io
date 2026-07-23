@@ -189,13 +189,45 @@ const UIExample = Node.create({
   atom: true,
   addAttributes() {
     return {
-      component: { default: undefined, isRequired: true },
-      variant: { default: undefined, isRequired: true },
-      interactive: { default: false },
+      component: {
+        default: undefined,
+        isRequired: true,
+        parseHTML: (element) => element.getAttribute("data-component"),
+        renderHTML: (attributes) => ({
+          "data-component": attributes.component,
+        }),
+      },
+      variant: {
+        default: undefined,
+        isRequired: true,
+        parseHTML: (element) => element.getAttribute("data-variant"),
+        renderHTML: (attributes) => ({
+          "data-variant": attributes.variant,
+        }),
+      },
+      // Explicit boolean coercion: without this, ProseMirror's default
+      // attribute handling round-trips `interactive: true` through the DOM
+      // as the string "true" on clipboard copy/paste (serialize -> parse),
+      // which silently fails downstream `=== true` checks.
+      interactive: {
+        default: false,
+        parseHTML: (element) =>
+          element.getAttribute("data-interactive") === "true",
+        renderHTML: (attributes) => {
+          if (!attributes.interactive) return {};
+          return { "data-interactive": "true" };
+        },
+      },
     };
   },
   parseHTML() {
-    return [{ tag: "div[data-ui-example]" }];
+    // Higher-than-default priority (default is 50): the rendered DOM now
+    // also carries `data-component` (to mirror Admonition's attribute
+    // pattern), which would otherwise tie with Admonition's own
+    // `div[data-component]` parse rule and lose on rule order — the
+    // `data-ui-example` marker must win so a uiExample node never gets
+    // mis-parsed back as an admonition.
+    return [{ tag: "div[data-ui-example]", priority: 60 }];
   },
   renderHTML({ HTMLAttributes, node }) {
     return [

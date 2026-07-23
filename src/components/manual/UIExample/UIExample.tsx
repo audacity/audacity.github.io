@@ -25,7 +25,11 @@ export default function UIExample({
   const resolved = resolveUIExample(component, variant);
   if (!resolved) {
     // Stale reference (registry entry removed after publish): degrade
-    // quietly, never fail the page.
+    // quietly on the page, never fail the build — but still surface a
+    // build warning so the stale reference gets noticed and cleaned up.
+    console.warn(
+      `UIExample: no registry entry for component="${component}" variant="${variant}"; rendering placeholder.`,
+    );
     return <em>Example unavailable</em>;
   }
   const { Component, props } = resolved;

@@ -22,6 +22,11 @@ export function UIExampleView({ node, updateAttributes }: ReactNodeViewProps) {
   const variant = (node.attrs.variant as string) ?? "";
   const interactive = node.attrs.interactive === true;
 
+  // The editor-side meta module (`../../uiExample/meta`) is the
+  // authoritative source for editor chrome — label, variant list, and
+  // whether the interactive toggle is shown. `resolved.meta` from the
+  // dynamically-imported registry below is intentionally unused for this:
+  // it describes the resolved runtime component, not editor UI.
   const meta = uiExampleMeta(component);
   const [resolved, setResolved] = useState<
     ResolvedUIExample | "loading" | null

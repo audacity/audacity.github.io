@@ -11,6 +11,9 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { buildAppExtensions } from "../editorExtensions";
 
+// Warning: bun's `mock.module` patches the process-global module registry,
+// not a file-scoped one — any suite that imports this same registry path
+// within this test process will see this mock too, not just this file.
 mock.module("../../../../src/components/manual/UIExample/registry", () => ({
   resolveUIExample: (component: string, variant: string) =>
     component === "knob"
