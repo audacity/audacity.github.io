@@ -1823,3 +1823,64 @@ body {
 .auth-badge__signout:hover {
   background: #f1f5f9;
 }
+
+/* Curated design-system example block (`uiExample` node). Chrome bar keeps
+   the same quiet, bordered-card language as the preserved block. */
+.ui-example-block {
+  margin: 0.6rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ui-example-block__chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.ui-example-block__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.ui-example-block__variant {
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+
+.ui-example-block__interactive {
+  padding: 0.15rem 0.55rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+}
+
+.ui-example-block__interactive[aria-pressed="true"] {
+  border-color: #4f46e5;
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+.ui-example-block__stage {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.ui-example-block__status {
+  padding: 0.9rem 1.25rem;
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}

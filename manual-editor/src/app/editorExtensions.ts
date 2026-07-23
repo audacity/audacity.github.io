@@ -6,6 +6,7 @@ import { ImageView } from "./nodeviews/ImageView";
 import { PreservedView } from "./nodeviews/PreservedView";
 import { ShortcutView } from "./nodeviews/ShortcutView";
 import { TabsView, TabView } from "./nodeviews/TabsView";
+import { UIExampleView } from "./nodeviews/UIExampleView";
 import { LinkShortcut } from "./linkShortcut";
 import { SlashCommand } from "./slash/SlashCommand";
 import { PageMention } from "./mentions/pageMention";
@@ -100,6 +101,13 @@ export function buildAppExtensions(): Extensions {
       return (extension as Node).extend({
         addNodeView() {
           return ReactNodeViewRenderer(ImageView);
+        },
+      });
+    }
+    if (extension.name === "uiExample") {
+      return (extension as Node).extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(UIExampleView);
         },
       });
     }

@@ -3,6 +3,7 @@ import {
   insertAdmonition,
   insertShortcut,
   insertTabs,
+  insertUIExample,
   setCodeBlock,
   setHeading,
   setParagraph,
@@ -10,6 +11,7 @@ import {
   toggleOrderedList,
 } from "../insertCommands";
 import { insertImageViaPicker } from "../imageUpload";
+import { UI_EXAMPLE_META } from "../../uiExample/meta";
 
 /**
  * A single row in the `/` slash menu. `group` controls the section it's
@@ -22,7 +24,7 @@ import { insertImageViaPicker } from "../imageUpload";
 export interface SlashItem {
   id: string;
   label: string;
-  group: "Basic blocks" | "Manual blocks";
+  group: "Basic blocks" | "Manual blocks" | "Audacity UI";
   hint?: string;
   keywords: string[];
   run(editor: Editor): void;
@@ -34,7 +36,7 @@ export interface SlashItem {
  * floating toolbar used to call — so slash insert behavior is provably
  * identical to what the old toolbar buttons inserted.
  */
-export const SLASH_ITEMS: SlashItem[] = [
+const STATIC_ITEMS: SlashItem[] = [
   {
     id: "text",
     label: "Text",
@@ -139,6 +141,23 @@ export const SLASH_ITEMS: SlashItem[] = [
     run: (editor) => insertShortcut(editor),
   },
 ];
+
+/**
+ * "Audacity UI" rows are generated from the curated metadata so the menu
+ * and the registry can never drift: adding an entry to UI_EXAMPLE_META is
+ * all it takes to surface it here (id prefixed `ui-` to avoid colliding
+ * with hand-written item ids).
+ */
+const UI_EXAMPLE_ITEMS: SlashItem[] = UI_EXAMPLE_META.map((meta) => ({
+  id: `ui-${meta.id}`,
+  label: meta.label,
+  group: "Audacity UI",
+  hint: meta.hint,
+  keywords: meta.keywords,
+  run: (editor) => insertUIExample(editor, meta.id, meta.variants[0]!.id),
+}));
+
+export const SLASH_ITEMS: SlashItem[] = [...STATIC_ITEMS, ...UI_EXAMPLE_ITEMS];
 
 /**
  * Case-insensitive filter over `SLASH_ITEMS`, matching against the label or

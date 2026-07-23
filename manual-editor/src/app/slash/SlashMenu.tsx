@@ -29,7 +29,11 @@ export interface SlashMenuListHandle {
 }
 
 /** Declared group order the menu renders sections in — matches `SLASH_ITEMS`'. */
-const GROUP_ORDER: SlashItem["group"][] = ["Basic blocks", "Manual blocks"];
+const GROUP_ORDER: SlashItem["group"][] = [
+  "Basic blocks",
+  "Manual blocks",
+  "Audacity UI",
+];
 
 /**
  * The slash menu's popup list: grouped sections with headers, a

@@ -112,3 +112,23 @@ export function toggleOrderedList(editor: Editor) {
 export function setCodeBlock(editor: Editor) {
   editor.chain().focus().setCodeBlock().run();
 }
+
+/**
+ * Inserts a curated design-system example block (`uiExample` node) with the
+ * given component id and variant id (callers pass the entry's first —
+ * default — variant), static by default. See `../uiExample/meta.ts`.
+ */
+export function insertUIExample(
+  editor: Editor,
+  component: string,
+  variant: string,
+) {
+  editor
+    .chain()
+    .focus()
+    .insertContent({
+      type: "uiExample",
+      attrs: { component, variant, interactive: false },
+    })
+    .run();
+}

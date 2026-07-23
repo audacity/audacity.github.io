@@ -1,5 +1,6 @@
 import { expect, test } from "bun:test";
 import { filterSlashItems, SLASH_ITEMS } from "./slashItems";
+import { UI_EXAMPLE_META } from "../../uiExample/meta";
 
 const EXPECTED_IDS = [
   "text",
@@ -16,14 +17,17 @@ const EXPECTED_IDS = [
   "best-practice",
   "tabs",
   "shortcut",
+  ...UI_EXAMPLE_META.map((meta) => `ui-${meta.id}`),
 ];
 
-test("registry contains all 14 required items with unique ids", () => {
-  expect(SLASH_ITEMS).toHaveLength(14);
+test("registry contains all required items with unique ids", () => {
+  expect(SLASH_ITEMS).toHaveLength(EXPECTED_IDS.length);
   expect(SLASH_ITEMS.map((item) => item.id).sort()).toEqual(
     [...EXPECTED_IDS].sort(),
   );
-  expect(new Set(SLASH_ITEMS.map((item) => item.id)).size).toBe(14);
+  expect(new Set(SLASH_ITEMS.map((item) => item.id)).size).toBe(
+    EXPECTED_IDS.length,
+  );
 });
 
 test("basic-block items are in the 'Basic blocks' group and manual-block items are in 'Manual blocks'", () => {
@@ -109,4 +113,18 @@ test("filterSlashItems('tab') matches Tabs via label", () => {
 test("filterSlashItems('screenshot') and filterSlashItems('img') both match Image via its keyword list", () => {
   expect(filterSlashItems("screenshot").map((r) => r.id)).toEqual(["image"]);
   expect(filterSlashItems("img").map((r) => r.id)).toEqual(["image"]);
+});
+
+test("every curated UI example appears in the Audacity UI group", () => {
+  for (const meta of UI_EXAMPLE_META) {
+    const item = SLASH_ITEMS.find((i) => i.id === `ui-${meta.id}`);
+    expect(item).toBeDefined();
+    expect(item!.group).toBe("Audacity UI");
+    expect(item!.label).toBe(meta.label);
+  }
+});
+
+test("filtering by a UI example keyword finds it", () => {
+  const hits = filterSlashItems("knob");
+  expect(hits.some((i) => i.id === "ui-knob")).toBe(true);
 });
