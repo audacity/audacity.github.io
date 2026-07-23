@@ -97,5 +97,3 @@ Audacity 4 has higher system requirements than Audacity 3, mostly due to [Qt's p
 Last updated 2 months ago
 
 Was this helpful?
-
-/
