@@ -5,6 +5,7 @@ import type {
   SuggestionProps,
 } from "@tiptap/suggestion";
 import type { ManualPageMeta } from "../../backend/types";
+import { computeMenuPosition } from "../menuPosition";
 
 /** The `props.command` payload shape `pageMention.ts` configures the suggestion plugin with. */
 export interface PageMentionSelection {
@@ -123,6 +124,8 @@ export const PageMentionMenuList = forwardRef<
  * machinery to `slash/SlashMenu.tsx`'s `renderSlashMenu` — see that
  * function's doc comment for the per-frame repositioning/lifecycle details;
  * only the rendered component and prop/selection types differ here.
+ * Placement (including the flip-above-when-near-the-bottom behaviour) is
+ * shared via `computeMenuPosition` — see `../menuPosition.ts`.
  */
 export function renderPageMentionMenu() {
   let component: ReactRenderer<
@@ -138,8 +141,13 @@ export function renderPageMentionMenu() {
     if (!rect) return;
     const element = component.element as HTMLElement;
     element.style.position = "fixed";
-    element.style.left = `${rect.left}px`;
-    element.style.top = `${rect.bottom}px`;
+    const { left, top } = computeMenuPosition(
+      rect,
+      { width: element.offsetWidth, height: element.offsetHeight },
+      { width: window.innerWidth, height: window.innerHeight },
+    );
+    element.style.left = `${left}px`;
+    element.style.top = `${top}px`;
   }
 
   return {

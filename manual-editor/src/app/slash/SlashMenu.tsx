@@ -11,6 +11,7 @@ import type {
   SuggestionProps,
 } from "@tiptap/suggestion";
 import type { SlashItem } from "./slashItems";
+import { computeMenuPosition } from "../menuPosition";
 
 /** The `props.command` payload shape `SlashCommand.ts` configures the suggestion plugin with. */
 export interface SlashCommandSelection {
@@ -159,6 +160,9 @@ export const SlashMenuList = forwardRef<
  * `@tiptap/suggestion`'s `suggestion.ts`), and the returned lifecycle
  * object is reused across every subsequent trigger session — so `component`
  * is a session-scoped mutable closure variable, nulled out in `onExit`.
+ *
+ * Placement (below the caret, flipping above near the viewport's bottom edge)
+ * is delegated to `computeMenuPosition` — see `../menuPosition.ts`.
  */
 export function renderSlashMenu() {
   let component: ReactRenderer<SlashMenuListHandle, SlashMenuListProps> | null =
@@ -172,8 +176,13 @@ export function renderSlashMenu() {
     if (!rect) return;
     const element = component.element as HTMLElement;
     element.style.position = "fixed";
-    element.style.left = `${rect.left}px`;
-    element.style.top = `${rect.bottom}px`;
+    const { left, top } = computeMenuPosition(
+      rect,
+      { width: element.offsetWidth, height: element.offsetHeight },
+      { width: window.innerWidth, height: window.innerHeight },
+    );
+    element.style.left = `${left}px`;
+    element.style.top = `${top}px`;
   }
 
   return {
