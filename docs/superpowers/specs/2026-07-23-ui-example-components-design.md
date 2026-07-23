@@ -200,6 +200,15 @@ Rules:
 
 ## Implementation amendments (discovered during planning)
 
+**Amendment 4 (adjudicated 2026-07-24, Alex):** Byte-stable round-trips
+apply to **editor-emitted** forms. A hand-authored `<UIExample>` in
+non-canonical shape (reordered attributes, quoted `interactive` value) is
+accepted as an editable block and canonicalized on the next save — chosen
+over routing it to a read-only preserved card, since the semantics are
+identical and editability matters more than preserving benign formatting.
+Tags the adapter genuinely can't represent (unknown ids, extra attributes,
+children, expressions) still route to `preserved` verbatim.
+
 Plan: `docs/superpowers/plans/2026-07-23-ui-example-components.md`. Three
 findings during planning amend the letter (not the intent) of this spec:
 
