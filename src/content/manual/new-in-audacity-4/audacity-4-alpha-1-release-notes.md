@@ -14,8 +14,6 @@ The first alpha version of Audacity 4 is intended as an early preview and feedba
 
 Audacity 4 alpha 1 is not yet published.
 
-##
-
 [](https://support.audacityteam.org/au4/new-in-audacity-4/audacity-4-alpha-1-release-notes#what-am-i-testing-in-this-build)
 
 What am I testing in this build?
@@ -99,3 +97,5 @@ Audacity 4 has higher system requirements than Audacity 3, mostly due to [Qt's p
 Last updated 2 months ago
 
 Was this helpful?
+
+/
