@@ -36,11 +36,11 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     <div class="about-section about-section--customisable-ui">
       <CustomisableUI client:visible />
     </div>
-    <div class="about-section about-section--audiocom">
-      <AudioCom client:visible />
-    </div>
     <div class="about-section about-section--creators">
       <CreatorWorkflows variant="fullbleed" client:visible />
+    </div>
+    <div class="about-section about-section--audiocom">
+      <AudioCom client:visible />
     </div>
     <div class="about-section about-section--effect-windows">
       <EffectWindows client:visible />
@@ -162,13 +162,12 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     background-color: #0e0c30;
   }
   /*
-    Photography "who it's for" beat — replaces the first swoosh interstitial
-    between AudioCom and the effects section. Carries the same top→bottom
-    colour bridge the interstitial did (AudioCom #141336 → effects #0a0912)
-    so the chapter transition is preserved.
+    Photography "who it's for" beat. Sits between Customisable UI and AudioCom,
+    carrying a top→bottom colour bridge (Customisable UI #1c164e → AudioCom
+    #141336) so the chapter transition into AudioCom stays seamless.
   */
   .about-section--creators {
-    background: linear-gradient(to bottom, #141336 0%, #0a0912 100%);
+    background: linear-gradient(to bottom, #1c164e 0%, #141336 100%);
   }
   /*
     CoreEditing → Workspaces → CustomisableUI form one continuous chapter

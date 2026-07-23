@@ -86,37 +86,36 @@ function CreatorWorkflows({ variant = "hero" }) {
   ];
 
   return (
-    <section className="bg-background-dark py-24 lg:py-32">
+    <section className="bg-background-dark py-16 lg:py-24">
       <Contained>
         <header ref={header.ref} style={header.style} className="max-w-3xl">
-          <div className="font-mono text-xs tracking-[0.3em] uppercase text-text-contrast/40">
-            Made for every workflow
-          </div>
-          <h2 className="mt-4 font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+          <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
             Built for the way you work
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            From restoring old recordings to making music, cutting podcasts, and
-            editing audio for video — it's built for the full range of everyday
-            audio work.
+            It's built for the full range of everyday audio work, from restoring
+            old recordings to making music, cutting podcasts, and editing audio
+            for video.
           </p>
         </header>
       </Contained>
 
       {variant === "fullbleed" && (
-        <div className="mt-12 lg:mt-16 flex flex-col">
-          {/* cinematic anchor, edge to edge */}
+        <div className="mt-8 lg:mt-12 flex flex-col">
+          {/* cinematic anchor, edge to edge — letterboxed: a wide ratio plus a
+              viewport-height cap so it stays a short cinematic band instead of
+              a full-width image growing to ~800px tall on wide screens. */}
           <Tile
             creator={source}
             idx={0}
-            ratio="9 / 5"
+            ratio="24 / 9"
             bleed
-            className="w-full"
+            className="w-full max-h-[42vh]"
           />
           {/* seamless supporting band */}
           <div className="grid grid-cols-1 sm:grid-cols-3">
             {supporting.map((c, i) => (
-              <Tile key={c.id} creator={c} idx={i + 1} ratio="3 / 2" bleed />
+              <Tile key={c.id} creator={c} idx={i + 1} ratio="16 / 9" bleed />
             ))}
           </div>
         </div>
