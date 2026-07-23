@@ -79,3 +79,33 @@ export function computeMenuPosition(
 
   return { left, top };
 }
+
+/**
+ * Positions a live popup `element` (a `fixed`-position card already appended
+ * to the document) against the caret rect returned by `clientRect`, using
+ * `computeMenuPosition` with the element's current rendered size and viewport.
+ *
+ * This reads layout (`offsetWidth`/`offsetHeight`), so it must run after the
+ * menu's content has actually rendered. That's the catch: TipTap's
+ * `ReactRenderer` commits the popup's contents via a React portal on a later
+ * tick, so on first open the element is still empty (height 0) during the
+ * synchronous pass — which would make the flip-above check think it always
+ * fits below. Callers therefore run this once synchronously (cheap, correct
+ * once the height is known) AND again inside `requestAnimationFrame`, by which
+ * point the portal has committed and `offsetHeight` is the real height.
+ */
+export function positionMenuElement(
+  element: HTMLElement,
+  clientRect: (() => DOMRect | null) | null | undefined,
+): void {
+  const rect = clientRect?.();
+  if (!rect) return;
+  element.style.position = "fixed";
+  const { left, top } = computeMenuPosition(
+    rect,
+    { width: element.offsetWidth, height: element.offsetHeight },
+    { width: window.innerWidth, height: window.innerHeight },
+  );
+  element.style.left = `${left}px`;
+  element.style.top = `${top}px`;
+}

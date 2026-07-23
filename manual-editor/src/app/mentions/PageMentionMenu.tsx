@@ -5,7 +5,7 @@ import type {
   SuggestionProps,
 } from "@tiptap/suggestion";
 import type { ManualPageMeta } from "../../backend/types";
-import { computeMenuPosition } from "../menuPosition";
+import { positionMenuElement } from "../menuPosition";
 
 /** The `props.command` payload shape `pageMention.ts` configures the suggestion plugin with. */
 export interface PageMentionSelection {
@@ -137,17 +137,15 @@ export function renderPageMentionMenu() {
     props: SuggestionProps<ManualPageMeta, PageMentionSelection>,
   ) {
     if (!component) return;
-    const rect = props.clientRect?.();
-    if (!rect) return;
     const element = component.element as HTMLElement;
-    element.style.position = "fixed";
-    const { left, top } = computeMenuPosition(
-      rect,
-      { width: element.offsetWidth, height: element.offsetHeight },
-      { width: window.innerWidth, height: window.innerHeight },
-    );
-    element.style.left = `${left}px`;
-    element.style.top = `${top}px`;
+    positionMenuElement(element, props.clientRect);
+    // Re-measure next frame: on first open the menu's content is committed by
+    // a React portal on a later tick, so the synchronous pass above sees a
+    // zero-height (empty) element and can't yet decide whether to flip above.
+    requestAnimationFrame(() => {
+      if (!component) return;
+      positionMenuElement(element, props.clientRect);
+    });
   }
 
   return {
