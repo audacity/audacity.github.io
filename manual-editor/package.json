@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.mdx.json && tsc --noEmit"
   },
   "dependencies": {
+    "@dilsonspickles/components": "0.10.1",
     "@floating-ui/dom": "1.8.0",
     "@octokit/rest": "^22.0.1",
     "@tiptap/core": "^3.27.4",

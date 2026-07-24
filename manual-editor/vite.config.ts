@@ -6,11 +6,18 @@ export default defineConfig({
   plugins: [react()],
   build: { outDir: "dist", emptyOutDir: true },
   resolve: {
-    // The registry chunk (repo-root src/components/manual/UIExample/…)
-    // resolves @dilsonspickles/components from the ROOT node_modules, whose
-    // peer react would otherwise also come from root (React 18) while the
-    // editor bundles its own React 19 — two React copies break hooks.
-    dedupe: ["react", "react-dom"],
+    // Dedupe forces these packages to resolve from the EDITOR's own
+    // node_modules regardless of where the importing file lives — needed
+    // because the registry chunk (repo-root src/components/manual/
+    // UIExample/…) would otherwise resolve from the ROOT node_modules,
+    // which (a) holds React 18 while the editor bundles React 19 (two React
+    // copies break hooks), and (b) doesn't exist at all on the editor's
+    // Netlify site, where only manual-editor/ dependencies are installed.
+    // The DS package is deduped (not aliased): dedupe goes through normal
+    // package resolution, so its exports map still resolves the deep
+    // subpath imports (@dilsonspickles/components/Button → dist/Button.mjs)
+    // that a filesystem prefix alias would break.
+    dedupe: ["react", "react-dom", "@dilsonspickles/components"],
   },
   server: {
     port: 5273,
