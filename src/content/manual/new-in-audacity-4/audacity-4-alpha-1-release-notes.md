@@ -1,7 +1,6 @@
 ---
 title: Audacity 4 Alpha 1 release notes
 description: The first alpha version of Audacity 4 is intended as an early
-  preview and feedback opportunity on some core interactions we have designed.
 section: new in Audacity 4
 sectionOrder: 2
 order: 1
@@ -15,8 +14,6 @@ The first alpha version of Audacity 4 is intended as an early preview and feedba
 
 Audacity 4 alpha 1 is not yet published.
 
-##
-
 [](https://support.audacityteam.org/au4/new-in-audacity-4/audacity-4-alpha-1-release-notes#what-am-i-testing-in-this-build)
 
 What am I testing in this build?
@@ -29,8 +26,6 @@ The purpose of this early-stage alpha release is to provide a build for our comm
 - Exporting projects and audio files
 - Customising the interface to your liking
 - Anything related to the interface (dialogs, popups, entering text values, viewing on multiple monitors, etc.)
-
-##
 
 [](https://support.audacityteam.org/au4/new-in-audacity-4/audacity-4-alpha-1-release-notes#we-want-your-feedback)
 
