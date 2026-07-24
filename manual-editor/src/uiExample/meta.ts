@@ -78,6 +78,58 @@ export const UI_EXAMPLE_META: UIExampleMeta[] = [
       { id: "at-75", label: "At 75%" },
     ],
   },
+  {
+    id: "ghost-button",
+    label: "Ghost button",
+    keywords: ["ghost", "icon", "toolbar", "button", "menu"],
+    allowInteractive: true,
+    variants: [
+      { id: "default", label: "Default" },
+      { id: "with-label", label: "With label" },
+      { id: "active", label: "Active" },
+    ],
+  },
+  {
+    id: "pan-knob",
+    label: "Pan knob",
+    keywords: ["pan", "knob", "stereo", "balance", "left", "right"],
+    allowInteractive: true,
+    variants: [
+      { id: "center", label: "Centered" },
+      { id: "panned-left", label: "Panned left" },
+      { id: "panned-right", label: "Panned right" },
+    ],
+  },
+  {
+    id: "number-stepper",
+    label: "Number stepper",
+    keywords: ["number", "stepper", "input", "increment", "bpm"],
+    allowInteractive: true,
+    variants: [
+      { id: "default", label: "Default" },
+      { id: "disabled", label: "Disabled" },
+    ],
+  },
+  {
+    id: "filter-chip",
+    label: "Filter chip",
+    keywords: ["filter", "chip", "tag", "toggle", "pill"],
+    allowInteractive: true,
+    variants: [
+      { id: "default", label: "Default" },
+      { id: "selected", label: "Selected" },
+    ],
+  },
+  {
+    id: "master-meter",
+    label: "Master meter",
+    keywords: ["meter", "master", "level", "db", "clipping", "volume"],
+    allowInteractive: true,
+    variants: [
+      { id: "default", label: "Default" },
+      { id: "clipping", label: "Clipping" },
+    ],
+  },
 ];
 
 export function uiExampleMeta(id: string): UIExampleMeta | undefined {

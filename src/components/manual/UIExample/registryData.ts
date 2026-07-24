@@ -37,6 +37,46 @@ export const UI_EXAMPLE_VARIANT_PROPS: Record<
     default: { value: 50, min: 0, max: 100, label: "Gain" },
     "at-75": { value: 75, min: 0, max: 100, label: "Gain" },
   },
+  "ghost-button": {
+    default: { size: "medium" },
+    "with-label": { size: "medium", label: "Effects" },
+    active: { size: "medium", active: true },
+  },
+  "pan-knob": {
+    center: { value: 0, label: "Pan" },
+    "panned-left": { value: -75, label: "Pan" },
+    "panned-right": { value: 75, label: "Pan" },
+  },
+  "number-stepper": {
+    default: { defaultValue: "120", step: 1, width: 72 },
+    disabled: { defaultValue: "120", disabled: true, width: 72 },
+  },
+  "filter-chip": {
+    default: { label: "Effects" },
+    selected: { label: "Effects", selected: true },
+  },
+  "master-meter": {
+    // `resizable: false`: the meter sits inside the page column, which
+    // already controls its width — the drag grip would fight the layout.
+    default: {
+      levelLeft: -12,
+      levelRight: -9,
+      recentPeakLeft: -6,
+      recentPeakRight: -4,
+      volume: 0.8,
+      resizable: false,
+    },
+    clipping: {
+      levelLeft: -1,
+      levelRight: 0,
+      clippedLeft: true,
+      clippedRight: true,
+      recentPeakLeft: 0,
+      recentPeakRight: 0,
+      volume: 1,
+      resizable: false,
+    },
+  },
 };
 
 export function resolveUIExampleProps(

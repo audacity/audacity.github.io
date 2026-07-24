@@ -18,6 +18,11 @@ import type { ComponentType } from "react";
 import { Button } from "@dilsonspickles/components/Button";
 import { Checkbox } from "@dilsonspickles/components/Checkbox";
 import { Knob } from "@dilsonspickles/components/Knob";
+import { GhostButton } from "@dilsonspickles/components/GhostButton";
+import { PanKnob } from "@dilsonspickles/components/PanKnob";
+import { NumberStepper } from "@dilsonspickles/components/NumberStepper";
+import { FilterChip } from "@dilsonspickles/components/FilterChip";
+import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
 import { resolveUIExampleProps, uiExampleMeta } from "./registryData";
 import type { UIExampleMeta } from "../../../../manual-editor/src/uiExample/meta";
 
@@ -27,6 +32,11 @@ const COMPONENTS: Record<string, AnyComponent> = {
   button: Button as unknown as AnyComponent,
   checkbox: Checkbox as unknown as AnyComponent,
   knob: Knob as unknown as AnyComponent,
+  "ghost-button": GhostButton as unknown as AnyComponent,
+  "pan-knob": PanKnob as unknown as AnyComponent,
+  "number-stepper": NumberStepper as unknown as AnyComponent,
+  "filter-chip": FilterChip as unknown as AnyComponent,
+  "master-meter": MasterMeter as unknown as AnyComponent,
 };
 
 export interface ResolvedUIExample {
