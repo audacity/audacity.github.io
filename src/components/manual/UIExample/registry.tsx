@@ -15,6 +15,13 @@
  * it with a runtime dynamic import for exactly this reason.
  */
 import type { ComponentType } from "react";
+// The package's GLOBAL stylesheet: theme custom properties and the icon
+// @font-face. Per-component CSS (auto-imported by each dist module) depends
+// on these — without this import components render as collapsed layouts and
+// tofu-box icon glyphs. Importing it here covers both consumers: the site
+// (static import via UIExample.tsx) and the editor (arrives with the
+// dynamically imported registry chunk).
+import "@dilsonspickles/components/style.css";
 import { Button } from "@dilsonspickles/components/Button";
 import { Checkbox } from "@dilsonspickles/components/Checkbox";
 import { Knob } from "@dilsonspickles/components/Knob";
