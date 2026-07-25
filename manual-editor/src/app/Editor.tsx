@@ -560,6 +560,17 @@ export function Editor({
     };
   }, [editor]);
 
+  // True from the moment `handleConfirmReset` starts discarding through
+  // either a successful reset (component unmounts shortly after, via
+  // `App` clearing `source`) or a failed one (reset back to `false` in the
+  // catch block, once the autosave protection has been re-armed). Guards
+  // the three paths that could otherwise arm/fire a NEW save after the
+  // discard and resurrect the very edits the reset just threw away —
+  // violating the invariant on `inFlightSaveRef` below: `handleUpdate`
+  // (an edit typed during the reset network round-trip), the
+  // flush-on-unmount effect, and the `pagehide` handler.
+  const resettingRef = useRef(false);
+
   // Marks the doc dirty (and (re)arms the autosave debounce below) on every
   // content-changing transaction. Registered/torn down per `editor`
   // instance, which is recreated whenever `path` changes (see `useEditor`'s
@@ -568,6 +579,10 @@ export function Editor({
   useEffect(() => {
     if (!editor) return;
     const handleUpdate = () => {
+      // A reset in flight already discarded the pending save; an edit
+      // typed during that network round-trip must not re-arm it (see
+      // `resettingRef`'s doc comment).
+      if (resettingRef.current) return;
       setSaveStatus("dirty");
       setSaveVersion((v) => v + 1);
     };
@@ -579,10 +594,14 @@ export function Editor({
 
   // A pending (armed-but-unfired) autosave, exposed so the flush effect
   // below can fire it early when the page unmounts/switches. `flush()`
-  // captures the freshest doc/frontmatter at flush time, saves
-  // fire-and-forget (the component may already be gone — no setState), and
-  // is nulled the moment the debounce fires normally so a flush never
-  // double-saves.
+  // clears the timer (so it can never also fire normally and double-save),
+  // captures the freshest doc/frontmatter at flush time, and saves
+  // fire-and-forget (the component may already be gone — no setState).
+  // `discard()` also clears the timer but does NOT fire a save — used by
+  // the reset flow to drop an armed autosave outright rather than let it
+  // land. Both null this ref out immediately (see each's body), and it's
+  // also nulled the moment the debounce fires normally, so nothing after
+  // either path can double-fire the same timer.
   const pendingSaveRef = useRef<{
     flush: () => Promise<void>;
     discard: () => void;
@@ -680,6 +699,10 @@ export function Editor({
   // not flush per keystroke; only leaving the page does.
   useEffect(() => {
     return () => {
+      // A reset in flight already discarded the pending save (and the
+      // successful path unmounts this very component right after) — don't
+      // let the unmount flush resurrect it. See `resettingRef`'s doc comment.
+      if (resettingRef.current) return;
       void pendingSaveRef.current?.flush();
     };
   }, [path]);
@@ -692,6 +715,9 @@ export function Editor({
   useEffect(() => {
     if (!editor) return;
     const handlePageHide = () => {
+      // Same guard as the unmount flush above — see `resettingRef`'s doc
+      // comment.
+      if (resettingRef.current) return;
       if (!pendingSaveRef.current) return;
       pendingSaveRef.current = null;
       void fetch("/api/draft", {
@@ -730,6 +756,12 @@ export function Editor({
 
   async function handleConfirmReset() {
     setResetting(true);
+    // Set FIRST, before the discard: from this point until it's cleared,
+    // `handleUpdate`/the unmount flush/`pagehide` all refuse to arm or fire
+    // a new save (see `resettingRef`'s doc comment) — closing the window
+    // where an edit typed during the network round-trip below, or the
+    // unmount `onReset` triggers, could resurrect the discarded content.
+    resettingRef.current = true;
     // Ordering contract (see the reset spec): discard any pending debounced
     // save so it can never fire after the reset, then wait out a save
     // already on the wire so the reset commit is guaranteed to land last.
@@ -741,9 +773,17 @@ export function Editor({
       await api.resetPage(path);
       onReset?.(path);
     } catch {
+      resettingRef.current = false;
       setResetting(false);
       setConfirmingReset(false);
       setSaveStatus("reset-error");
+      // The discarded edits are still present in the doc but now
+      // untracked (no timer, no pendingSaveRef) — re-arm autosave
+      // protection for them so a subsequent navigation-away doesn't
+      // silently lose them. The debounce below re-reads the current doc
+      // when it fires, so this replays the still-present edit, not the
+      // discarded one.
+      setSaveVersion((v) => v + 1);
     }
   }
 

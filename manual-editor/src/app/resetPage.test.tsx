@@ -30,11 +30,15 @@ interface RecordedCall {
 /**
  * Records /api/draft and /api/reset calls in arrival order. `draftGate`
  * (when provided) delays draft responses until the test resolves it —
- * simulating an in-flight save.
+ * simulating an in-flight save. `resetGate` (when provided) does the same
+ * for /api/reset. `resetStatus` (default 200) lets a test force the reset
+ * request to fail.
  */
 function fakeFetch(
   calls: RecordedCall[],
   draftGate?: Promise<void>,
+  resetGate?: Promise<void>,
+  resetStatus = 200,
 ): typeof fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) => {
     const url = String(input);
@@ -48,6 +52,13 @@ function fakeFetch(
     }
     if (url.startsWith("/api/reset")) {
       calls.push({ url: "/api/reset", body });
+      if (resetGate) await resetGate;
+      if (resetStatus !== 200) {
+        return new Response(JSON.stringify({ error: "reset failed" }), {
+          status: resetStatus,
+          headers: { "content-type": "application/json" },
+        });
+      }
       return new Response(
         JSON.stringify({ path: pagePath, source: pageSource }),
         { headers: { "content-type": "application/json" } },
@@ -61,10 +72,12 @@ async function mountEditor(
   overrides: Partial<Parameters<typeof Editor>[0]> = {},
   calls: RecordedCall[] = [],
   draftGate?: Promise<void>,
+  resetGate?: Promise<void>,
+  resetStatus = 200,
 ) {
-  const api = makeApi(fakeFetch(calls, draftGate));
+  const api = makeApi(fakeFetch(calls, draftGate, resetGate, resetStatus));
   let editor: TiptapEditor | null = null;
-  render(
+  const rendered = render(
     <Editor
       source={pageSource}
       path={pagePath}
@@ -82,7 +95,11 @@ async function mountEditor(
     />,
   );
   await waitFor(() => expect(editor).not.toBeNull());
-  return { calls, getEditor: () => editor as unknown as TiptapEditor };
+  return {
+    calls,
+    getEditor: () => editor as unknown as TiptapEditor,
+    unmount: rendered.unmount,
+  };
 }
 
 test("reset button shows only when hasDraft AND existsOnBase", async () => {
@@ -113,7 +130,9 @@ test("clicking reset shows the confirm step; cancel returns without any API call
 test("confirming reset DISCARDS a pending autosave: reset fires, the draft save never does", async () => {
   const resets: string[] = [];
   const { calls, getEditor } = await mountEditor({
-    autosaveDelayMs: 5000, // long debounce: stays pending until reset
+    autosaveDelayMs: 200, // short enough that a broken (no-op) discard
+    // would still fire the draft save well within the post-reset settle
+    // window below, catching a discard that silently left the timer armed.
     onReset: (p) => resets.push(p),
   });
   const editor = getEditor();
@@ -127,10 +146,9 @@ test("confirming reset DISCARDS a pending autosave: reset fires, the draft save 
   fireEvent.click(screen.getByTestId("editor-reset-confirm"));
 
   await waitFor(() => expect(resets).toEqual([pagePath]));
-  // Give the (discarded) debounce ample time to have fired if the discard
-  // were broken — autosaveDelayMs is 5s, but a broken discard-as-flush
-  // would fire immediately.
-  await new Promise((r) => setTimeout(r, 100));
+  // Settle past the (discarded) debounce's original 200ms delay: a broken
+  // discard-as-no-op would fire the draft save inside this window.
+  await new Promise((r) => setTimeout(r, 350));
   expect(calls.map((c) => c.url)).toEqual(["/api/reset"]);
 });
 
@@ -169,4 +187,82 @@ test("confirming reset during an in-flight save waits for it to settle first", a
   releaseDraft();
   await waitFor(() => expect(resets).toEqual([pagePath]));
   expect(calls.map((c) => c.url)).toEqual(["/api/draft", "/api/reset"]);
+});
+
+test("post-confirm typing cannot resurrect the discarded edit (Fix 1: resettingRef guard)", async () => {
+  let releaseReset!: () => void;
+  const resetGate = new Promise<void>((resolve) => {
+    releaseReset = resolve;
+  });
+  const resets: string[] = [];
+  const calls: RecordedCall[] = [];
+  const { getEditor, unmount } = await mountEditor(
+    { autosaveDelayMs: 30, onReset: (p) => resets.push(p) },
+    calls,
+    undefined,
+    resetGate,
+  );
+  const editor = getEditor();
+
+  act(() => {
+    editor.commands.focus("end");
+    editor.commands.insertContent(" doomed edit");
+  });
+
+  fireEvent.click(screen.getByTestId("editor-reset-page"));
+  fireEvent.click(screen.getByTestId("editor-reset-confirm"));
+
+  // While the /api/reset response is gated (reset still in flight), type
+  // ANOTHER edit. Without the `resettingRef` guard this would bump
+  // `saveVersion` and arm a fresh autosave.
+  act(() => {
+    editor.commands.insertContent(" resurrection attempt");
+  });
+
+  releaseReset();
+  await waitFor(() => expect(resets).toEqual([pagePath]));
+
+  // Mirrors `App` unmounting the Editor once `onReset` fires. Without the
+  // guard on the flush-on-unmount effect, this unmount would flush the
+  // edit typed above straight to `/api/draft`, resurrecting it after the
+  // reset commit.
+  unmount();
+
+  await new Promise((r) => setTimeout(r, 100));
+  expect(calls.map((c) => c.url)).toEqual(["/api/reset"]);
+});
+
+test("failed reset re-arms autosave protection for the still-present edit (Fix 2)", async () => {
+  const calls: RecordedCall[] = [];
+  const { getEditor } = await mountEditor(
+    { autosaveDelayMs: 100 },
+    calls,
+    undefined,
+    undefined,
+    500, // /api/reset fails
+  );
+  const editor = getEditor();
+
+  act(() => {
+    editor.commands.focus("end");
+    editor.commands.insertContent(" edit that must survive");
+  });
+
+  // Reset+confirm immediately, before the 100ms debounce fires, so the
+  // edit is discarded (not autosaved) ahead of the failed reset.
+  fireEvent.click(screen.getByTestId("editor-reset-page"));
+  fireEvent.click(screen.getByTestId("editor-reset-confirm"));
+
+  await waitFor(() =>
+    expect(screen.getByTestId("save-status").textContent).toBe("Reset failed"),
+  );
+
+  // The re-arm bumps `saveVersion`, so a fresh autosave for the
+  // still-present edit should fire shortly after the failed reset.
+  await waitFor(
+    () => expect(calls.some((c) => c.url === "/api/draft")).toBe(true),
+    { timeout: 500 },
+  );
+
+  expect(calls.map((c) => c.url)).toEqual(["/api/reset", "/api/draft"]);
 });
