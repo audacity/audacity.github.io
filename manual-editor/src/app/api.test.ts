@@ -53,6 +53,27 @@ test("saveDraft posts path and source as JSON", async () => {
   });
 });
 
+test("resetPage posts path and returns the restored page", async () => {
+  const fetchMock = mock(
+    async () =>
+      new Response(
+        JSON.stringify({ path: "src/content/manual/x/y.mdx", source: "S" }),
+        { headers: { "content-type": "application/json" } },
+      ),
+  );
+  const api = makeApi(fetchMock as unknown as typeof fetch);
+  const restored = await api.resetPage("src/content/manual/x/y.mdx");
+  expect(restored).toEqual({
+    path: "src/content/manual/x/y.mdx",
+    source: "S",
+  });
+  expect(fetchMock).toHaveBeenCalledWith("/api/reset", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ path: "src/content/manual/x/y.mdx" }),
+  });
+});
+
 test("publish posts to /api/publish and returns parsed json", async () => {
   const fetchMock = mock(
     async () =>

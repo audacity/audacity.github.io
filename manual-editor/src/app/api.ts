@@ -80,6 +80,18 @@ export function makeApi(f: typeof fetch = fetch) {
       f(`/api/page?path=${encodeURIComponent(path)}&base=1`).then((r) =>
         jsonOrThrow<PageContent | null>(r),
       ),
+    /**
+     * `POST /api/reset` — discards the page's drafts-branch changes and
+     * restores the published (base-branch) version. Returns the restored
+     * content. See Editor.tsx's reset flow for the autosave-ordering
+     * contract around calling this.
+     */
+    resetPage: (path: string) =>
+      f("/api/reset", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ path }),
+      }).then((r) => jsonOrThrow<PageContent>(r)),
     saveDraft: (path: string, source: string) =>
       f("/api/draft", {
         method: "POST",
