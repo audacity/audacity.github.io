@@ -10,6 +10,12 @@ export interface ManualPageMeta {
   draft: boolean;
   /** True if this page has unpublished changes on the drafts branch. */
   hasDraft: boolean;
+  /**
+   * True if the page exists on the base branch (i.e. has a published
+   * version). Absent/false for draft-only pages — the editor's
+   * "Reset to published" action is only offered when true.
+   */
+  existsOnBase?: boolean;
 }
 
 export interface PageContent {
@@ -51,6 +57,13 @@ export interface GitHubBackend {
   readPage(path: string): Promise<PageContent>;
   /** Reads the base-branch version only. Returns null if the page is draft-only (not yet published). */
   readBasePage(path: string): Promise<PageContent | null>;
+  /**
+   * Restores `path` on the drafts branch to its base-branch content, as one
+   * commit ("docs: reset <path> to published"). Returns the restored page.
+   * Throws if the page has never been published (no base version) — the UI
+   * never offers reset for that case.
+   */
+  resetPage(path: string): Promise<PageContent>;
   /** Commits text changes to the drafts branch (creating it off base if needed). */
   saveDraft(changes: FileChange[], message: string): Promise<void>;
   /** Commits an optimized image to the drafts branch; returns repo-relative path. */

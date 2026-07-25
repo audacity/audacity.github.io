@@ -292,10 +292,15 @@ export class OctokitBackend implements GitHubBackend {
     }
     const draftsTree = await this.getManualTree(this.draftsBranch);
 
-    const entries: { path: string; sha: string; hasDraft: boolean }[] = [];
+    const entries: {
+      path: string;
+      sha: string;
+      hasDraft: boolean;
+      existsOnBase: boolean;
+    }[] = [];
     if (!draftsTree) {
       for (const [path, sha] of baseTree) {
-        entries.push({ path, sha, hasDraft: false });
+        entries.push({ path, sha, hasDraft: false, existsOnBase: true });
       }
     } else {
       const allPaths = new Set<string>([
@@ -311,7 +316,7 @@ export class OctokitBackend implements GitHubBackend {
         if (inBase && !inDrafts) continue;
         const sha = inDrafts ? draftsTree.get(path)! : baseTree.get(path)!;
         const hasDraft = inDrafts && (!inBase || baseTree.get(path) !== sha);
-        entries.push({ path, sha, hasDraft });
+        entries.push({ path, sha, hasDraft, existsOnBase: inBase });
       }
     }
 
@@ -324,6 +329,7 @@ export class OctokitBackend implements GitHubBackend {
       chunk.forEach((e, idx) => {
         const meta = metaFromSource(e.path, sources[idx]!);
         meta.hasDraft = e.hasDraft;
+        meta.existsOnBase = e.existsOnBase;
         pages.push(meta);
       });
     }
@@ -367,6 +373,23 @@ export class OctokitBackend implements GitHubBackend {
     const result = await this.tryGetContent(path, this.baseBranch);
     if (result === "not-found") return null;
     return { path, source: result };
+  }
+
+  /**
+   * Restores `path` on the drafts branch to its base-branch content, as one
+   * append-only commit riding the same serialized machinery as autosave.
+   * Throws for never-published pages — the UI never offers that case.
+   */
+  async resetPage(path: string): Promise<PageContent> {
+    const base = await this.readBasePage(path);
+    if (base === null) {
+      throw new Error(`Cannot reset — page has never been published: ${path}`);
+    }
+    await this.commitToDrafts(
+      [{ path, mode: "100644", type: "blob", content: base.source }],
+      `docs: reset ${path} to published`,
+    );
+    return base;
   }
 
   private async tryGetContent(

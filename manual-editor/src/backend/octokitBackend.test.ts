@@ -536,6 +536,26 @@ test("listPages: drafts branch — new draft-only file is listed with hasDraft t
   expect(created.title).toBe("New Page");
 });
 
+test("listPages: existsOnBase is true for a base-modified page and false for a draft-only page", async () => {
+  const { backend } = backendFor({
+    login: "u",
+    branches: {
+      [BASE]: {
+        "src/content/manual/basics/a.mdx": fm("A", "Basics", 1),
+      },
+      [DRAFTS]: {
+        "src/content/manual/basics/a.mdx": fm("A Edited", "Basics", 1),
+        "src/content/manual/basics/new.mdx": fm("New Page", "Basics", 2),
+      },
+    },
+  });
+  const pages = await backend.listPages();
+  const a = pages.find((p) => p.slug === "basics/a")!;
+  expect(a.existsOnBase).toBe(true);
+  const created = pages.find((p) => p.slug === "basics/new")!;
+  expect(created.existsOnBase).toBe(false);
+});
+
 test("listPages: file deleted on drafts (present in base, absent from drafts tree) is excluded", async () => {
   const { backend } = backendFor({
     login: "u",
@@ -658,6 +678,58 @@ test("readPage: throws when missing everywhere and there is no drafts branch", a
   await expect(
     backend.readPage("src/content/manual/basics/nope.mdx"),
   ).rejects.toThrow();
+});
+
+// ---------------------------------------------------------------------------
+// resetPage
+// ---------------------------------------------------------------------------
+
+test("resetPage: commits the base content onto drafts and returns it", async () => {
+  const PATH = "src/content/manual/basics/a.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: { [PATH]: fm("A", "Basics", 1) },
+      [DRAFTS]: { [PATH]: "edited content" },
+    },
+  });
+
+  const restored = await backend.resetPage(PATH);
+
+  expect(restored.path).toBe(PATH);
+  expect(restored.source).toBe(fm("A", "Basics", 1));
+
+  const createTreeCall = calls.find((c) => c.op === "createTree")!;
+  expect((createTreeCall.args as any).tree).toEqual([
+    {
+      path: PATH,
+      mode: "100644",
+      type: "blob",
+      content: fm("A", "Basics", 1),
+    },
+  ]);
+  const createCommitCall = calls.find((c) => c.op === "createCommit")!;
+  expect((createCommitCall.args as any).message).toBe(
+    `docs: reset ${PATH} to published`,
+  );
+  const updateRefCall = calls.find((c) => c.op === "updateRef")!;
+  expect((updateRefCall.args as any).force).toBe(false);
+});
+
+test("resetPage: throws for a page absent from base, with no commit calls", async () => {
+  const PATH = "src/content/manual/basics/new.mdx";
+  const { backend, calls } = writeBackendFor({
+    login: "u",
+    branches: {
+      [BASE]: {},
+      [DRAFTS]: { [PATH]: "draft-only content" },
+    },
+  });
+
+  await expect(backend.resetPage(PATH)).rejects.toThrow(
+    `Cannot reset — page has never been published: ${PATH}`,
+  );
+  expect(calls.some((c) => c.op === "createCommit")).toBe(false);
 });
 
 test("publish: returns the existing open PR without creating a new one", async () => {

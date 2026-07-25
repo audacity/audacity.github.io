@@ -66,6 +66,7 @@ export class InMemoryBackend implements GitHubBackend {
       const current = this.drafts.get(path) ?? this.base.get(path)!;
       const meta = metaFromSource(path, current);
       meta.hasDraft = this.drafts.has(path);
+      meta.existsOnBase = this.base.has(path);
       pages.push(meta);
     }
     return pages.sort(
@@ -85,6 +86,18 @@ export class InMemoryBackend implements GitHubBackend {
   async readBasePage(path: string): Promise<PageContent | null> {
     const source = this.base.get(path);
     if (source === undefined) return null;
+    return { path, source };
+  }
+  async resetPage(path: string): Promise<PageContent> {
+    const source = this.base.get(path);
+    if (source === undefined) {
+      throw new Error(`Cannot reset — page has never been published: ${path}`);
+    }
+    // Restoring = dropping the draft overlay (and any staged deletion) so
+    // reads fall back to base — the in-memory equivalent of committing the
+    // base content onto the drafts branch.
+    this.drafts.delete(path);
+    this.deleted.delete(path);
     return { path, source };
   }
   async saveDraft(changes: FileChange[], _message: string): Promise<void> {
