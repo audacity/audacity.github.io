@@ -33,9 +33,13 @@ export default function UIExample({
     return <em>Example unavailable</em>;
   }
   const { Component, props } = resolved;
+  // Containment matches the manual's other block components (see
+  // Callout.astro's `border rounded-lg … my-6 not-prose` idiom), in a
+  // neutral palette so the example itself carries the color. `not-prose`
+  // keeps the page's typographic styles from leaking into the specimen.
   return (
     <div
-      className="ui-example"
+      className="ui-example not-prose my-6 flex justify-center rounded-lg border border-slate-200 bg-slate-50 px-6 py-8"
       style={interactive ? undefined : { pointerEvents: "none" }}
     >
       <Component {...props} />
