@@ -322,6 +322,15 @@ export function Editor({
   /**
    * Called with `path` after a successful reset. App responds by
    * re-fetching the page (fresh Editor mount) and refreshing the sidebar.
+   *
+   * Contract: on success `resettingRef` is deliberately never reset back to
+   * `false` (see its doc comment) — the caller MUST respond to `onReset` by
+   * unmounting this `Editor` instance (`App` does this by clearing `source`
+   * back to `null`, which triggers the re-fetch above and a fresh mount). A
+   * caller that instead keeps the same instance mounted after `onReset`
+   * fires would leave autosave permanently disabled for it: `handleUpdate`,
+   * `handleFrontmatterChange`, the unmount flush, and `pagehide` all stay
+   * guarded forever, since nothing ever clears the ref again.
    */
   onReset?: (path: string) => void;
 }) {
@@ -564,11 +573,12 @@ export function Editor({
   // either a successful reset (component unmounts shortly after, via
   // `App` clearing `source`) or a failed one (reset back to `false` in the
   // catch block, once the autosave protection has been re-armed). Guards
-  // the three paths that could otherwise arm/fire a NEW save after the
+  // the four paths that could otherwise arm/fire a NEW save after the
   // discard and resurrect the very edits the reset just threw away —
-  // violating the invariant on `inFlightSaveRef` below: `handleUpdate`
-  // (an edit typed during the reset network round-trip), the
-  // flush-on-unmount effect, and the `pagehide` handler.
+  // violating the invariant on `inFlightSaveRef` below: `handleUpdate` (a
+  // content edit typed during the reset network round-trip),
+  // `handleFrontmatterChange` (a frontmatter form edit during the same
+  // window), the flush-on-unmount effect, and the `pagehide` handler.
   const resettingRef = useRef(false);
 
   // Marks the doc dirty (and (re)arms the autosave debounce below) on every
@@ -788,6 +798,12 @@ export function Editor({
   }
 
   function handleFrontmatterChange(next: FrontmatterData) {
+    // A reset in flight already discarded the pending save; a frontmatter
+    // edit made during that network round-trip must not re-arm it, same as
+    // a content edit (see `resettingRef`'s doc comment) — the whole edit is
+    // inert during a reset, so this drops it rather than just skipping the
+    // save-arming tail.
+    if (resettingRef.current) return;
     setFrontmatterData(next);
     onFrontmatterSourceReady?.(serializeFrontmatter(next));
     setSaveStatus("dirty");

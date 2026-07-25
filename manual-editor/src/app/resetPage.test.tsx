@@ -266,3 +266,46 @@ test("failed reset re-arms autosave protection for the still-present edit (Fix 2
 
   expect(calls.map((c) => c.url)).toEqual(["/api/reset", "/api/draft"]);
 });
+
+test("post-confirm frontmatter edit cannot resurrect the discarded edit (Fix: handleFrontmatterChange guard)", async () => {
+  let releaseReset!: () => void;
+  const resetGate = new Promise<void>((resolve) => {
+    releaseReset = resolve;
+  });
+  const resets: string[] = [];
+  const calls: RecordedCall[] = [];
+  const { getEditor, unmount } = await mountEditor(
+    { autosaveDelayMs: 30, onReset: (p) => resets.push(p) },
+    calls,
+    undefined,
+    resetGate,
+  );
+  const editor = getEditor();
+
+  // Open the frontmatter form so the title input is reachable.
+  fireEvent.click(screen.getByTestId("edit-page-details"));
+
+  act(() => {
+    editor.commands.focus("end");
+    editor.commands.insertContent(" doomed edit");
+  });
+
+  fireEvent.click(screen.getByTestId("editor-reset-page"));
+  fireEvent.click(screen.getByTestId("editor-reset-confirm"));
+
+  // While the /api/reset response is gated (reset still in flight), edit
+  // the frontmatter title. Without the `handleFrontmatterChange` guard
+  // this would bump `saveVersion` and arm a fresh autosave.
+  fireEvent.change(screen.getByLabelText(/title/i), {
+    target: { value: "Resurrected Title" },
+  });
+
+  releaseReset();
+  await waitFor(() => expect(resets).toEqual([pagePath]));
+
+  // Mirrors `App` unmounting the Editor once `onReset` fires.
+  unmount();
+
+  await new Promise((r) => setTimeout(r, 350));
+  expect(calls.map((c) => c.url)).toEqual(["/api/reset"]);
+});
