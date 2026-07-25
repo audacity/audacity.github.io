@@ -237,6 +237,8 @@ export function Editor({
   enableDragHandle = true,
   flushRef,
   hasDraft = false,
+  existsOnBase = false,
+  onReset,
 }: {
   source: string;
   path: string;
@@ -310,12 +312,30 @@ export function Editor({
    * sense when there's a published version to compare against.
    */
   hasDraft?: boolean;
+  /**
+   * True when the page exists on the base branch (has a published
+   * version). With `hasDraft`, gates the header's "Reset to published"
+   * action — a never-published page has nothing to reset to (Delete page
+   * covers discarding it).
+   */
+  existsOnBase?: boolean;
+  /**
+   * Called with `path` after a successful reset. App responds by
+   * re-fetching the page (fresh Editor mount) and refreshing the sidebar.
+   */
+  onReset?: (path: string) => void;
 }) {
   const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
     toFrontmatterData(parseFrontmatter(source).data),
   );
   const [saveStatus, setSaveStatus] = useState<
-    "idle" | "dirty" | "saving" | "saved" | "error" | "delete-error"
+    | "idle"
+    | "dirty"
+    | "saving"
+    | "saved"
+    | "error"
+    | "delete-error"
+    | "reset-error"
   >("idle");
   const [saveVersion, setSaveVersion] = useState(0);
   // Header delete action's tiny local state machine: plain button ->
@@ -326,6 +346,8 @@ export function Editor({
   // styling rather than inventing a second error affordance).
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmingReset, setConfirmingReset] = useState(false);
+  const [resetting, setResetting] = useState(false);
   // Collapses the frontmatter form behind an "Edit details" toggle so the
   // header's default state is a single tidy title row. No persistence: each
   // page mount (a fresh `Editor` instance, per the component doc above)
@@ -561,7 +583,16 @@ export function Editor({
   // fire-and-forget (the component may already be gone — no setState), and
   // is nulled the moment the debounce fires normally so a flush never
   // double-saves.
-  const pendingSaveRef = useRef<{ flush: () => Promise<void> } | null>(null);
+  const pendingSaveRef = useRef<{
+    flush: () => Promise<void>;
+    discard: () => void;
+  } | null>(null);
+
+  // The autosave request currently on the wire (null when none). The reset
+  // flow awaits its settlement so a save can never land AFTER the reset
+  // commit and resurrect the discarded edits (append-only branch — later
+  // commit wins).
+  const inFlightSaveRef = useRef<Promise<unknown> | null>(null);
 
   // Populate flushRef once so App can await any pending save before publishing.
   useEffect(() => {
@@ -583,10 +614,33 @@ export function Editor({
     if (saveVersion === 0 || !editor) return;
     const savingPath = path;
     let cancelled = false;
+    const timer = setTimeout(() => {
+      pendingSaveRef.current = null;
+      void (async () => {
+        setSaveStatus("saving");
+        try {
+          const request = api.saveDraftDoc(
+            savingPath,
+            editor.getJSON(),
+            serializeFrontmatter(frontmatterData),
+          );
+          inFlightSaveRef.current = request;
+          await request;
+          if (cancelled) return;
+          setSaveStatus("saved");
+          onDraftSaved?.(savingPath);
+        } catch {
+          if (!cancelled) setSaveStatus("error");
+        } finally {
+          inFlightSaveRef.current = null;
+        }
+      })();
+    }, autosaveDelayMs);
     pendingSaveRef.current = {
       flush: () => {
+        clearTimeout(timer);
         pendingSaveRef.current = null;
-        return api
+        const request = api
           .saveDraftDoc(
             savingPath,
             editor.getJSON(),
@@ -596,26 +650,16 @@ export function Editor({
             onDraftSaved?.(savingPath);
           })
           .catch(() => {});
+        inFlightSaveRef.current = request.finally(() => {
+          inFlightSaveRef.current = null;
+        });
+        return request;
+      },
+      discard: () => {
+        clearTimeout(timer);
+        pendingSaveRef.current = null;
       },
     };
-    const timer = setTimeout(() => {
-      pendingSaveRef.current = null;
-      void (async () => {
-        setSaveStatus("saving");
-        try {
-          await api.saveDraftDoc(
-            savingPath,
-            editor.getJSON(),
-            serializeFrontmatter(frontmatterData),
-          );
-          if (cancelled) return;
-          setSaveStatus("saved");
-          onDraftSaved?.(savingPath);
-        } catch {
-          if (!cancelled) setSaveStatus("error");
-        }
-      })();
-    }, autosaveDelayMs);
     return () => {
       cancelled = true;
       clearTimeout(timer);
@@ -684,6 +728,25 @@ export function Editor({
     }
   }
 
+  async function handleConfirmReset() {
+    setResetting(true);
+    // Ordering contract (see the reset spec): discard any pending debounced
+    // save so it can never fire after the reset, then wait out a save
+    // already on the wire so the reset commit is guaranteed to land last.
+    pendingSaveRef.current?.discard();
+    if (inFlightSaveRef.current) {
+      await inFlightSaveRef.current.catch(() => {});
+    }
+    try {
+      await api.resetPage(path);
+      onReset?.(path);
+    } catch {
+      setResetting(false);
+      setConfirmingReset(false);
+      setSaveStatus("reset-error");
+    }
+  }
+
   function handleFrontmatterChange(next: FrontmatterData) {
     setFrontmatterData(next);
     onFrontmatterSourceReady?.(serializeFrontmatter(next));
@@ -702,7 +765,9 @@ export function Editor({
             ? "Save failed"
             : saveStatus === "delete-error"
               ? "Delete failed"
-              : "";
+              : saveStatus === "reset-error"
+                ? "Reset failed"
+                : "";
 
   return (
     <div className="editor-frame" data-testid="editor">
@@ -732,6 +797,42 @@ export function Editor({
             </button>
           </div>
           <div className="editor-header__actions">
+            {hasDraft && existsOnBase ? (
+              confirmingReset ? (
+                <span className="editor-header__delete-confirm">
+                  <span className="editor-header__delete-confirm-label">
+                    Discard your changes and restore the published version?
+                  </span>
+                  <button
+                    type="button"
+                    data-testid="editor-reset-confirm"
+                    className="editor-header__delete-confirm-button"
+                    disabled={resetting}
+                    onClick={handleConfirmReset}
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="editor-reset-cancel"
+                    className="editor-header__delete-cancel-button"
+                    disabled={resetting}
+                    onClick={() => setConfirmingReset(false)}
+                  >
+                    Cancel
+                  </button>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  data-testid="editor-reset-page"
+                  className="editor-header__reset"
+                  onClick={() => setConfirmingReset(true)}
+                >
+                  Reset to published
+                </button>
+              )
+            ) : null}
             {hasDraft ? (
               <button
                 type="button"

@@ -607,6 +607,24 @@ body {
   color: #4f46e5;
 }
 
+/* Header "Reset to published": same secondary chrome as Compare. */
+.editor-header__reset {
+  flex: 0 0 auto;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.editor-header__reset:hover {
+  background: #f1f5f9;
+}
+
 /* Header "Add sub-page" action: small secondary button. */
 .editor-header__add-subpage {
   flex: 0 0 auto;

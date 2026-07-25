@@ -204,6 +204,15 @@ export function App({
     api.listPages().then(setPages);
   }
 
+  // After a successful reset: re-fetch the page through the same load path
+  // as selecting it (fresh Editor mount showing the restored content), and
+  // refresh the sidebar so the unsaved-changes dot clears.
+  function handleReset(path: string) {
+    setSource(null);
+    api.getPage(path).then((page) => setSource(page.source));
+    api.listPages().then(setPages);
+  }
+
   // The active page's children, derived from the flat page list: any other
   // page whose slug is nested under the active page's slug. Passed to
   // `Editor` to gate the header's delete action (deleting a parent would
@@ -326,6 +335,8 @@ export function App({
               }}
               hasChildren={hasChildren}
               hasDraft={activePageMeta?.hasDraft ?? false}
+              existsOnBase={activePageMeta?.existsOnBase ?? false}
+              onReset={handleReset}
               onDeleted={(p) => handleDeleted(p)}
             />
           ) : (
