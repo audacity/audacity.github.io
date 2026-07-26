@@ -18,6 +18,11 @@ import {
   hasUIExampleVariant,
   uiExampleMeta,
 } from "../../../../manual-editor/src/uiExample/meta";
+import {
+  CLIP_WAVEFORM_LEFT,
+  CLIP_WAVEFORM_MONO,
+  CLIP_WAVEFORM_RIGHT,
+} from "./waveformData";
 
 export const UI_EXAMPLE_VARIANT_PROPS: Record<
   string,
@@ -75,6 +80,42 @@ export const UI_EXAMPLE_VARIANT_PROPS: Record<
       recentPeakRight: 0,
       volume: 1,
       resizable: false,
+    },
+  },
+  clip: {
+    default: {
+      name: "Vocals",
+      width: 520,
+      height: 140,
+      waveformData: CLIP_WAVEFORM_MONO,
+    },
+    selected: {
+      name: "Vocals",
+      width: 520,
+      height: 140,
+      waveformData: CLIP_WAVEFORM_MONO,
+      selected: true,
+    },
+    "with-envelope": {
+      name: "Vocals",
+      width: 520,
+      height: 140,
+      waveformData: CLIP_WAVEFORM_MONO,
+      showEnvelope: true,
+      clipDuration: 3,
+      envelope: [
+        { time: 0, db: 0 },
+        { time: 1.2, db: -6 },
+        { time: 2, db: -3 },
+        { time: 3, db: -12 },
+      ],
+    },
+    stereo: {
+      name: "Vocals",
+      width: 520,
+      height: 140,
+      waveformLeft: CLIP_WAVEFORM_LEFT,
+      waveformRight: CLIP_WAVEFORM_RIGHT,
     },
   },
 };

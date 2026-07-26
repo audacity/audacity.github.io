@@ -30,6 +30,7 @@ import { PanKnob } from "@dilsonspickles/components/PanKnob";
 import { NumberStepper } from "@dilsonspickles/components/NumberStepper";
 import { FilterChip } from "@dilsonspickles/components/FilterChip";
 import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
+import { Clip } from "@dilsonspickles/components/Clip";
 import { resolveUIExampleProps, uiExampleMeta } from "./registryData";
 import type { UIExampleMeta } from "../../../../manual-editor/src/uiExample/meta";
 
@@ -44,6 +45,7 @@ const COMPONENTS: Record<string, AnyComponent> = {
   "number-stepper": NumberStepper as unknown as AnyComponent,
   "filter-chip": FilterChip as unknown as AnyComponent,
   "master-meter": MasterMeter as unknown as AnyComponent,
+  clip: Clip as unknown as AnyComponent,
 };
 
 export interface ResolvedUIExample {

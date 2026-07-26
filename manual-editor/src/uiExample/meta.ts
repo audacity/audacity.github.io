@@ -36,9 +36,9 @@ export interface UIExampleMeta {
   allowInteractive: boolean;
   /**
    * Component cannot server-render (canvas/effect drawing): the serializer
-   * emits `client:load` even for static inserts. No seed entry sets this
-   * yet — the first curated entry that does MUST add the round-trip test
-   * covering the static+client:load form (see Task 2 note).
+   * emits `client:load` even for static inserts.
+   * First set by the `clip` entry; the static+client:load round-trip is
+   * covered in `../adapter/uiExampleRoundtrip.test.ts`.
    */
   needsBrowser?: boolean;
   /** First variant is the default used on insert. Never empty. */
@@ -128,6 +128,19 @@ export const UI_EXAMPLE_META: UIExampleMeta[] = [
     variants: [
       { id: "default", label: "Default" },
       { id: "clipping", label: "Clipping" },
+    ],
+  },
+  {
+    id: "clip",
+    label: "Clip",
+    keywords: ["clip", "waveform", "audio", "envelope", "stereo", "vocals"],
+    allowInteractive: true,
+    needsBrowser: true,
+    variants: [
+      { id: "default", label: "Default" },
+      { id: "selected", label: "Selected" },
+      { id: "with-envelope", label: "With envelope" },
+      { id: "stereo", label: "Stereo" },
     ],
   },
 ];

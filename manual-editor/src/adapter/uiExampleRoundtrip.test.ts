@@ -110,3 +110,33 @@ test('quoted interactive="true" parses to a boolean and normalizes to bare inter
     '<UIExample component="knob" variant="default" interactive client:load />\n',
   );
 });
+
+// needsBrowser (first real entry: clip — canvas-drawn, cannot SSR): static
+// inserts still hydrate, so client:load is emitted even without
+// `interactive`. This is the derivation branch deferred (with a standing
+// code note) since the UIExample build.
+test("static clip round-trips byte-stable with derived client:load", async () => {
+  const src = '<UIExample component="clip" variant="default" client:load />\n';
+  const node = firstNode(src);
+  expect(node.type).toBe("uiExample");
+  expect(node.attrs).toEqual({
+    component: "clip",
+    variant: "default",
+    interactive: false,
+  });
+  expect(await roundTrip(src)).toBe(src);
+});
+
+test("interactive clip round-trips byte-stable", async () => {
+  const src =
+    '<UIExample component="clip" variant="with-envelope" interactive client:load />\n';
+  expect(firstNode(src).attrs?.interactive).toBe(true);
+  expect(await roundTrip(src)).toBe(src);
+});
+
+test("a static clip missing client:load gains it on save (derived attribute)", async () => {
+  const src = '<UIExample component="clip" variant="default" />\n';
+  expect(await roundTrip(src)).toBe(
+    '<UIExample component="clip" variant="default" client:load />\n',
+  );
+});

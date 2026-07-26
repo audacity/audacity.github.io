@@ -235,7 +235,9 @@ function mapBlockBack(node: PMNodeJSON, pagePath?: string): RootContent {
       const interactive = attrs.interactive === true;
       // `client:load` is derived, never stored: interactive blocks always
       // hydrate; `needsBrowser` entries hydrate even when static (they
-      // cannot server-render). See ../uiExample/meta.ts.
+      // cannot server-render). See ../uiExample/meta.ts. This static
+      // (non-interactive) `needsBrowser` branch is covered by the `clip`
+      // round-trip tests in ./uiExampleRoundtrip.test.ts.
       const needsClient =
         interactive || uiExampleMeta(component)?.needsBrowser === true;
       const attributes: MdxJsxAttribute[] = [
