@@ -10,8 +10,11 @@
  * meta entry/variant has props here.
  *
  * Complex generated data (waveforms, envelope points) must not be computed
- * here via DS imports — when the first such entry is curated, add a lazy
- * per-entry props loader in `registry.tsx` instead.
+ * here via DS imports. The established pattern (see the `clip` entry): a
+ * deterministic generator script (`scripts/generate-ui-example-waveforms.ts`)
+ * commits the data to a pure-data module (`./waveformData.ts`), imported
+ * here like any other value. Follow it for future rich-data entries
+ * (MixerChannel, EnvelopeOverlay, PianoRoll, …).
  */
 import {
   UI_EXAMPLE_META,
