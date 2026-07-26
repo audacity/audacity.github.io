@@ -118,6 +118,37 @@ const HANDLE_COMPUTE_POSITION_CONFIG = {
  * type/title header row, the tabs strip), where `posAtCoords` resolves to
  * the container node rather than any inner textblock.
  */
+/**
+ * In-flight autosave requests, keyed by page path — MODULE scope, not
+ * per-instance: a page-switch flush outlives its Editor instance, and the
+ * reset flow on a freshly remounted instance must still be able to await
+ * it (invariant: no save may land after the reset commit). Promises are
+ * self-removing on settlement; a Set (not a single slot) so overlapping
+ * saves (slow timer save + publish flush) are all tracked — an older save
+ * settling can never unregister a newer one.
+ */
+const inFlightSavesByPath = new Map<string, Set<Promise<unknown>>>();
+
+function registerInFlightSave(path: string, request: Promise<unknown>): void {
+  let set = inFlightSavesByPath.get(path);
+  if (!set) {
+    set = new Set();
+    inFlightSavesByPath.set(path, set);
+  }
+  set.add(request);
+  void request.finally(() => {
+    set.delete(request);
+    if (set.size === 0) inFlightSavesByPath.delete(path);
+  });
+}
+
+/** Resolves once every currently in-flight save for `path` has settled. */
+function awaitInFlightSaves(path: string): Promise<unknown> {
+  const set = inFlightSavesByPath.get(path);
+  if (!set || set.size === 0) return Promise.resolve();
+  return Promise.allSettled([...set]);
+}
+
 const EXCLUDE = 1000; // >= the scorer's BASE_SCORE, so returning it excludes
 // Exported for dragHandleRules.test.tsx only — not part of the component API.
 export const NESTED_DRAG_HANDLE_OPTIONS: NestedOptions = {
@@ -575,7 +606,8 @@ export function Editor({
   // catch block, once the autosave protection has been re-armed). Guards
   // the four paths that could otherwise arm/fire a NEW save after the
   // discard and resurrect the very edits the reset just threw away —
-  // violating the invariant on `inFlightSaveRef` below: `handleUpdate` (a
+  // violating the invariant on the module-scope in-flight-save registry
+  // above (`registerInFlightSave`/`awaitInFlightSaves`): `handleUpdate` (a
   // content edit typed during the reset network round-trip),
   // `handleFrontmatterChange` (a frontmatter form edit during the same
   // window), the flush-on-unmount effect, and the `pagehide` handler.
@@ -617,12 +649,6 @@ export function Editor({
     discard: () => void;
   } | null>(null);
 
-  // The autosave request currently on the wire (null when none). The reset
-  // flow awaits its settlement so a save can never land AFTER the reset
-  // commit and resurrect the discarded edits (append-only branch — later
-  // commit wins).
-  const inFlightSaveRef = useRef<Promise<unknown> | null>(null);
-
   // Populate flushRef once so App can await any pending save before publishing.
   useEffect(() => {
     if (!flushRef) return;
@@ -653,15 +679,13 @@ export function Editor({
             editor.getJSON(),
             serializeFrontmatter(frontmatterData),
           );
-          inFlightSaveRef.current = request;
+          registerInFlightSave(savingPath, request);
           await request;
           if (cancelled) return;
           setSaveStatus("saved");
           onDraftSaved?.(savingPath);
         } catch {
           if (!cancelled) setSaveStatus("error");
-        } finally {
-          inFlightSaveRef.current = null;
         }
       })();
     }, autosaveDelayMs);
@@ -679,9 +703,7 @@ export function Editor({
             onDraftSaved?.(savingPath);
           })
           .catch(() => {});
-        inFlightSaveRef.current = request.finally(() => {
-          inFlightSaveRef.current = null;
-        });
+        registerInFlightSave(savingPath, request);
         return request;
       },
       discard: () => {
@@ -776,9 +798,7 @@ export function Editor({
     // save so it can never fire after the reset, then wait out a save
     // already on the wire so the reset commit is guaranteed to land last.
     pendingSaveRef.current?.discard();
-    if (inFlightSaveRef.current) {
-      await inFlightSaveRef.current.catch(() => {});
-    }
+    await awaitInFlightSaves(path);
     try {
       await api.resetPage(path);
       onReset?.(path);

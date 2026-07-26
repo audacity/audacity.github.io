@@ -267,6 +267,51 @@ test("failed reset re-arms autosave protection for the still-present edit (Fix 2
   expect(calls.map((c) => c.url)).toEqual(["/api/reset", "/api/draft"]);
 });
 
+test("cross-instance flush: reset on a freshly remounted instance still awaits a save that outlived the OLD instance (Fix 2: module-scope registry)", async () => {
+  let releaseDraft!: () => void;
+  const draftGate = new Promise<void>((resolve) => {
+    releaseDraft = resolve;
+  });
+  const calls: RecordedCall[] = [];
+
+  // Long debounce: the timer never fires on its own within this test, so
+  // the ONLY way the draft save goes out is the unmount-flush effect below.
+  const first = await mountEditor({ autosaveDelayMs: 5000 }, calls, draftGate);
+  const editor1 = first.getEditor();
+
+  act(() => {
+    editor1.commands.focus("end");
+    editor1.commands.insertContent(" edit that outlives this instance");
+  });
+
+  // Unmounting fires the pending autosave (gated by draftGate) instead of
+  // dropping it — see the unmount-flush effect's doc comment in Editor.tsx.
+  // The request lands on the wire and is registered in the module-scope
+  // registry keyed by `pagePath`, which survives this instance going away.
+  first.unmount();
+  expect(calls.map((c) => c.url)).toEqual(["/api/draft"]);
+
+  // A fresh Editor instance for the SAME path: brand-new (empty)
+  // per-instance refs. Without the module-scope registry this instance has
+  // no way to know about the old instance's still-in-flight save.
+  const resets: string[] = [];
+  const second = await mountEditor({ onReset: (p) => resets.push(p) }, calls);
+
+  fireEvent.click(screen.getByTestId("editor-reset-page"));
+  fireEvent.click(screen.getByTestId("editor-reset-confirm"));
+
+  // The reset request must NOT be issued while the old instance's save is
+  // still unresolved.
+  await new Promise((r) => setTimeout(r, 50));
+  expect(calls.map((c) => c.url)).toEqual(["/api/draft"]);
+
+  releaseDraft();
+  await waitFor(() => expect(resets).toEqual([pagePath]));
+  expect(calls.map((c) => c.url)).toEqual(["/api/draft", "/api/reset"]);
+
+  second.unmount();
+});
+
 test("post-confirm frontmatter edit cannot resurrect the discarded edit (Fix: handleFrontmatterChange guard)", async () => {
   let releaseReset!: () => void;
   const resetGate = new Promise<void>((resolve) => {

@@ -947,7 +947,8 @@ body {
 }
 
 .editor-topbar__save-status--error,
-.editor-topbar__save-status--delete-error {
+.editor-topbar__save-status--delete-error,
+.editor-topbar__save-status--reset-error {
   color: #dc2626;
 }
 

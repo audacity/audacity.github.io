@@ -72,6 +72,14 @@ export function App({
   >(null);
 
   const editorFlushRef = useRef<(() => Promise<void>) | null>(null);
+  // Latest-value ref for `activePath`, read by callbacks that arrive after a
+  // network round-trip (`handleReset`/`handleDeleted`) so a stale closure
+  // can't apply a response for a page the writer has since navigated away
+  // from onto whatever page is now active. Assigned in the render body below
+  // (not an effect) so it's current even for a callback that fires
+  // synchronously within the same render pass.
+  const activePathRef = useRef(activePath);
+  activePathRef.current = activePath;
 
   function openNewPage(parent: ManualPageMeta | null) {
     setNewPageIntent(parent ? { kind: "child", parent } : { kind: "top" });
@@ -191,8 +199,17 @@ export function App({
   // `handleDraftSaved` above — the backend's listing already reflects the
   // deletion by the time `onDeleted` fires).
   function handleDeleted(deletedPath: string) {
-    setSource(null);
-    setActivePath(null);
+    // `onDeleted` arrives after a network round-trip; if the writer selected
+    // a different page while the delete was in flight, `deletedPath` is no
+    // longer the active page — clearing the editor here would blank the NEW
+    // page instead of just closing the one that got deleted. The optimistic
+    // list filter and background refresh below are unconditional: the page
+    // really is gone either way, so the sidebar must reflect that regardless
+    // of what's currently open.
+    if (activePathRef.current === deletedPath) {
+      setSource(null);
+      setActivePath(null);
+    }
     // Optimistically drop the page so the sidebar updates instantly — the
     // GitHub tree API returns a cached ref for a moment after the delete
     // commit lands, so a bare re-fetch here would briefly show the page as
@@ -207,10 +224,24 @@ export function App({
   // After a successful reset: re-fetch the page through the same load path
   // as selecting it (fresh Editor mount showing the restored content), and
   // refresh the sidebar so the unsaved-changes dot clears.
+  //
+  // `onReset` arrives after a network round-trip; if the writer selected a
+  // different page while the reset was in flight, `path` is stale — blindly
+  // clearing `source` would blank the NEW page, and re-fetching the OLD
+  // page's content would then apply it over whatever the writer has since
+  // navigated to (one keystroke there would autosave it under the wrong
+  // path). `listPages` always runs (the sidebar's `hasDraft` dot must clear
+  // regardless of what's active), but the editor mutation bails out entirely
+  // if `path` is already stale by the time this fires, and re-checks again
+  // after `getPage` resolves — the writer may navigate away a SECOND time
+  // during that fetch.
   function handleReset(path: string) {
-    setSource(null);
-    api.getPage(path).then((page) => setSource(page.source));
     api.listPages().then(setPages);
+    if (activePathRef.current !== path) return;
+    setSource(null);
+    api.getPage(path).then((page) => {
+      if (activePathRef.current === path) setSource(page.source);
+    });
   }
 
   // The active page's children, derived from the flat page list: any other
