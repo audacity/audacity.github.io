@@ -53,6 +53,27 @@ test("saveDraft posts path and source as JSON", async () => {
   });
 });
 
+test("saveDraftDoc resolves the committed source from the response", async () => {
+  const fetchMock = mock(
+    async () =>
+      new Response(JSON.stringify({ ok: true, source: "ASSEMBLED" }), {
+        headers: { "content-type": "application/json" },
+      }),
+  );
+  const api = makeApi(fetchMock as unknown as typeof fetch);
+  const result = await api.saveDraftDoc("a.mdx", { type: "doc" }, "---\n---\n");
+  expect(result.source).toBe("ASSEMBLED");
+  expect(fetchMock).toHaveBeenCalledWith("/api/draft", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      path: "a.mdx",
+      doc: { type: "doc" },
+      frontmatter: "---\n---\n",
+    }),
+  });
+});
+
 test("resetPage posts path and returns the restored page", async () => {
   const fetchMock = mock(
     async () =>

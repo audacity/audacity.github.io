@@ -78,5 +78,7 @@ export default async (request: Request): Promise<Response> => {
     [{ path, content: withImports }],
     "edit via manual editor",
   );
-  return json({ ok: true });
+  // `source` = the exact content committed (imports injected) — the client
+  // records it for stale-read protection (see the save-safety spec).
+  return json({ ok: true, source: withImports });
 };

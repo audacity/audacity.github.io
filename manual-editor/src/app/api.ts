@@ -113,7 +113,7 @@ export function makeApi(f: typeof fetch = fetch) {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ path, doc, frontmatter }),
-      }).then((r) => jsonOrThrow<{ ok: true }>(r)),
+      }).then((r) => jsonOrThrow<{ ok: true; source: string }>(r)),
     publish: () =>
       f("/api/publish", { method: "POST" }).then((r) =>
         jsonOrThrow<PublishResult>(r),

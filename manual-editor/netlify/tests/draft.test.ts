@@ -41,8 +41,10 @@ test("draft.ts runs docToSource server-side and saves a draft on the dev backend
     }),
   );
   expect(res.status).toBe(200);
-  const body = (await res.json()) as { ok: boolean };
+  const body = (await res.json()) as { ok: boolean; source: string };
   expect(body.ok).toBe(true);
+  expect(typeof body.source).toBe("string");
+  expect(body.source).toContain("Edited body");
 
   const after = await listPages();
   const targetAfter = after.find((p) => p.path === target!.path);
