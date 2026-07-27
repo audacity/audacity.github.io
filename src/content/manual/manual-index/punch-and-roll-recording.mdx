@@ -11,20 +11,22 @@ import Notes from "../../../components/manual/Notes.astro";
 
 ## Adjusting settings before you record
 
-#### Latency correction:
+<Notes>
+
+**Adjusting settings before you record.**
+
+**Latency Correction**
 
 It is a _pre-requesite_ that you tune the [Latency correction](https://support.audacityteam.org/troubleshooting/solving-recording-problems/latency-compensation) setting for your audio interface so that play-back and recording are synchronized.
 
 Failure to do this may result in unwanted bursts of audio at the splice point, especially if you are not using headphones.
 
-#### Pre-roll and Crossfade
+**Pre-roll and Crossfade**
 
 You may wish to adjust the pre-roll duration and crossfade duration in [Recording Preferences](https://manual.audacityteam.org/man/recording_preferences.html) to suit your personal preferences:
 
 1. Pre-roll is the amount of existing audio, in seconds, that will be played before the repair recording starts. The default is five seconds.
-2. Crossfade is the length of crossfade, in milliseconds, that Audacity will apply at the splice point to smooth the transition. The default is ten milliseconds.
-
-<Notes>
+2. Crossfade is the length of crossfade, in milliseconds, that Audacity will apply at the splice point to smooth the transition. The default is ten millisecon
 
 </Notes>
 
@@ -48,7 +50,7 @@ You may wish to use a selection and play it, extending or shrinking it to find a
 
 ### Using Lead-In Record
 
-The command Recording > Lead-In Record can be used to start Lead-In recording, but it is more easily done with the keyboard shortcut Shift + D. You can, if you wish, reassign this shortcut to another key or key combination of your choosing using [Shortcut Preferences](https://manual.audacityteam.org/man/keyboard_preferences.html), located in Edit -> Preferences -> Shortcuts
+The command Recording > Lead-In Record can be used to start Lead-In recording, but it is more easily done with the keyboard shortcut <Shortcut client:load keys="Shift+D" />. You can, if you wish, reassign this shortcut to another key or key combination of your choosing using [Shortcut Preferences](https://manual.audacityteam.org/man/keyboard_preferences.html), located in Edit -> Preferences -> Shortcuts
 
 The Lead-In edit will:
 
