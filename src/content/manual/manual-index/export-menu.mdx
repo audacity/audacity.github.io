@@ -5,6 +5,8 @@ sectionOrder: 120
 order: 1
 ---
 
+import Notes from "../../../components/manual/Notes.astro";
+
 # **Export Menu**
 
 Dialog menu that allows to configure export
@@ -13,19 +15,19 @@ Dialog menu that allows to configure export
 
 Dialog menu that allows you to export files with ffmpeg, LAME and native libraries into a specific location with settings.
 
-**Type**
+## **Type**
 
-- Full project&#x20;
+### Full project&#x20;
 
 Choosing this will export the entire project less any tracks that are grayed-out by use of the&#x20;
 
 Mute or Solo buttons in the tracks and are inaudible on playback.
 
-- Selection
+### Selection
 
 When choosing this, Audacity will Export the selection region from **_all_** selected tracks even if some if those tracks are grayed-out by use of the [Mute](https://manual.audacityteam.org/man/audio_tracks.html#panel) or [Solo](https://manual.audacityteam.org/man/audio_tracks.html#panel) buttons in the tracks and are inaudible on playback.&#x20;
 
-- Looping region
+### Looping region
 
 Exports all of the tracks in the defined looped region within the project view
 
@@ -57,11 +59,15 @@ Some formats offer options for making settings like _quality_ or _encoding_.
 
 Export options vary from one audio format to another
 
+<Notes>
+
 ​[Custom FFmpeg Export Options](https://manual.audacityteam.org/man/custom_ffmpeg_export_options.html) for details on how you can export a specific codec in a specific format container
 
 ​[Exporting using an external encoder Program](https://manual.audacityteam.org/man/exporting_to_an_external_program.html) for details of how to export audio for use in an external encoder
 
-**Audio options**
+</Notes>
+
+## **Audio options**
 
 **Channels**
 
