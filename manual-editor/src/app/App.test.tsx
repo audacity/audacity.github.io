@@ -1,8 +1,12 @@
-import { expect, test } from "bun:test";
+import { beforeEach, expect, test } from "bun:test";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { App } from "./App";
 import { makeApi } from "./api";
 import type { ManualPageMeta, PageContent } from "../backend/types";
+
+beforeEach(() => {
+  localStorage.clear();
+});
 
 const pages: ManualPageMeta[] = [
   {
@@ -179,4 +183,84 @@ test("a reset that resolves after the writer navigates away does not stomp the n
 
   const heading = screen.getByTestId("editor").querySelector(".ProseMirror h1");
   expect(heading?.textContent).toBe("Page B");
+});
+
+/**
+ * Save-safety spec, feature B (App-side half): `handleSelect` prefers a
+ * fresh local record over the server response when they differ — GitHub's
+ * read API lags its writes, so right after a save the server can still
+ * serve the pre-save content. `takeFresherLocalCopy` (Task 1) is the pure
+ * decision function; these tests prove `App.tsx` actually calls it in the
+ * page-select path.
+ */
+const STALE_READ_KEY = `manual-editor:lastSave:${pages[0]!.path}`;
+
+test("selecting a page with a fresh local record that differs from the server shows the recorded content, not the server's", async () => {
+  localStorage.setItem(
+    STALE_READ_KEY,
+    JSON.stringify({ source: "# Recorded Marker\n", at: Date.now() }),
+  );
+  render(<App api={makeApi(fakeFetch())} />);
+  const button = await waitFor(() =>
+    screen.getByTestId("page-basics/installing-ffmpeg"),
+  );
+  fireEvent.click(button);
+  const editor = await waitFor(() => screen.getByTestId("editor"));
+  await waitFor(() => {
+    const heading = editor.querySelector(".ProseMirror h1");
+    expect(heading?.textContent).toBe("Recorded Marker");
+  });
+});
+
+test("selecting a page with an expired local record shows the server's content", async () => {
+  localStorage.setItem(
+    STALE_READ_KEY,
+    JSON.stringify({
+      source: "# Recorded Marker\n",
+      at: Date.now() - 121_000,
+    }),
+  );
+  render(<App api={makeApi(fakeFetch())} />);
+  const button = await waitFor(() =>
+    screen.getByTestId("page-basics/installing-ffmpeg"),
+  );
+  fireEvent.click(button);
+  const editor = await waitFor(() => screen.getByTestId("editor"));
+  await waitFor(() => {
+    const heading = editor.querySelector(".ProseMirror h1");
+    expect(heading?.textContent).toBe("Installing FFmpeg");
+  });
+});
+
+/**
+ * Save-safety spec, feature B: a completed reset must invalidate any
+ * recorded local copy for that page — otherwise the stale-read protection
+ * above would resurrect the just-discarded draft on the writer's next
+ * reload, defeating the whole point of resetting.
+ */
+test("a completed reset clears the page's recorded local save", async () => {
+  const resetKey = `manual-editor:lastSave:${resetPageA.path}`;
+  render(<App api={makeApi(fakeFetchForLateReset())} />);
+
+  fireEvent.click(await waitFor(() => screen.getByTestId("page-a")));
+  await waitFor(() => {
+    const heading = screen
+      .getByTestId("editor")
+      .querySelector(".ProseMirror h1");
+    expect(heading?.textContent).toBe("Page A");
+  });
+
+  // Simulate a just-prior autosave having recorded a local copy (the thing
+  // stale-read protection would otherwise resurrect on a later reload) —
+  // seeded after page-select so it doesn't itself trigger the stale-read
+  // path this test isn't exercising.
+  localStorage.setItem(
+    resetKey,
+    JSON.stringify({ source: "# Discarded Draft\n", at: Date.now() }),
+  );
+
+  fireEvent.click(screen.getByTestId("editor-reset-page"));
+  fireEvent.click(screen.getByTestId("editor-reset-confirm"));
+
+  await waitFor(() => expect(localStorage.getItem(resetKey)).toBeNull());
 });

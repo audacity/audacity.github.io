@@ -47,9 +47,10 @@ function fakeFetch(calls: DraftCall[]): typeof fetch {
     if (url.startsWith("/api/draft")) {
       const body = JSON.parse(String(init?.body)) as DraftCall;
       calls.push(body);
-      return new Response(JSON.stringify({ ok: true }), {
-        headers: { "content-type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ ok: true, source: "SAVED-SOURCE" }),
+        { headers: { "content-type": "application/json" } },
+      );
     }
     throw new Error(`unexpected fetch in autosave test: ${url}`);
   }) as typeof fetch;

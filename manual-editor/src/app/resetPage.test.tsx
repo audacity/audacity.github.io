@@ -46,9 +46,10 @@ function fakeFetch(
     if (url.startsWith("/api/draft")) {
       calls.push({ url: "/api/draft", body });
       if (draftGate) await draftGate;
-      return new Response(JSON.stringify({ ok: true }), {
-        headers: { "content-type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ ok: true, source: "SAVED-SOURCE" }),
+        { headers: { "content-type": "application/json" } },
+      );
     }
     if (url.startsWith("/api/reset")) {
       calls.push({ url: "/api/reset", body });
@@ -230,6 +231,51 @@ test("post-confirm typing cannot resurrect the discarded edit (Fix 1: resettingR
 
   await new Promise((r) => setTimeout(r, 100));
   expect(calls.map((c) => c.url)).toEqual(["/api/reset"]);
+});
+
+/**
+ * Save-safety spec, feature A: the beforeunload guard is keyed on
+ * `saveStatus`, not on "were there ever unsaved changes" — during a
+ * deliberate reset the doc is dirty (a discarded edit) but the writer is
+ * choosing to leave the changes behind on purpose, so no prompt should
+ * fire. `resettingRef` (set the instant confirm is clicked, before the
+ * gated `/api/reset` round-trip resolves) is what the guard checks.
+ */
+test("beforeunload is not blocked while a reset is gated in flight, even though the doc is dirty", async () => {
+  let releaseReset!: () => void;
+  const resetGate = new Promise<void>((resolve) => {
+    releaseReset = resolve;
+  });
+  const resets: string[] = [];
+  const { getEditor } = await mountEditor(
+    { autosaveDelayMs: 5000, onReset: (p) => resets.push(p) },
+    [],
+    undefined,
+    resetGate,
+  );
+  const editor = getEditor();
+
+  act(() => {
+    editor.commands.focus("end");
+    editor.commands.insertContent(" doomed edit");
+  });
+  await waitFor(() =>
+    expect(screen.getByTestId("save-status").textContent).toBe(
+      "Unsaved changes",
+    ),
+  );
+
+  fireEvent.click(screen.getByTestId("editor-reset-page"));
+  fireEvent.click(screen.getByTestId("editor-reset-confirm"));
+
+  // Reset is gated (in flight) but `resettingRef` is already set —
+  // beforeunload must not be prevented.
+  const event = new Event("beforeunload", { cancelable: true });
+  window.dispatchEvent(event);
+  expect(event.defaultPrevented).toBe(false);
+
+  releaseReset();
+  await waitFor(() => expect(resets).toEqual([pagePath]));
 });
 
 test("failed reset re-arms autosave protection for the still-present edit (Fix 2)", async () => {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { api as defaultApi, type makeApi, type Me } from "./api";
+import { clearLastSave, takeFresherLocalCopy } from "./lastSave";
 import { Editor } from "./Editor";
 import { PageList } from "./PageList";
 import { NewPageDialog } from "./NewPageDialog";
@@ -123,7 +124,12 @@ export function App({
   function handleSelect(path: string) {
     setActivePath(path);
     setSource(null);
-    api.getPage(path).then((page) => setSource(page.source));
+    api.getPage(path).then((page) => {
+      // Stale-read protection (save-safety spec): a fresh local record that
+      // differs from the server response means GitHub's read cache is
+      // behind our own last save — show what was actually saved.
+      setSource(takeFresherLocalCopy(path, page.source) ?? page.source);
+    });
   }
 
   // `PageList`'s `onDropPlan` (see `treeDnd.ts`'s `computeDrop`): executes
@@ -206,6 +212,7 @@ export function App({
     // list filter and background refresh below are unconditional: the page
     // really is gone either way, so the sidebar must reflect that regardless
     // of what's currently open.
+    clearLastSave(deletedPath);
     if (activePathRef.current === deletedPath) {
       setSource(null);
       setActivePath(null);
@@ -236,6 +243,7 @@ export function App({
   // after `getPage` resolves — the writer may navigate away a SECOND time
   // during that fetch.
   function handleReset(path: string) {
+    clearLastSave(path);
     api.listPages().then(setPages);
     if (activePathRef.current !== path) return;
     setSource(null);

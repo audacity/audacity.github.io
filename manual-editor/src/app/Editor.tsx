@@ -35,6 +35,7 @@ import { getSelectedBlocks } from "./blockSelection";
 import { HandleMenu } from "./HandleMenu";
 import { SelectionBar } from "./SelectionBar";
 import { ReadOnlyDoc } from "./ReadOnlyDoc";
+import { recordLastSave } from "./lastSave";
 
 /** Matches the manual content collection schema's `sectionOrder`/`order` default. */
 const DEFAULT_ORDER = 99;
@@ -680,7 +681,8 @@ export function Editor({
             serializeFrontmatter(frontmatterData),
           );
           registerInFlightSave(savingPath, request);
-          await request;
+          const result = await request;
+          recordLastSave(savingPath, result.source);
           if (cancelled) return;
           setSaveStatus("saved");
           onDraftSaved?.(savingPath);
@@ -699,7 +701,8 @@ export function Editor({
             editor.getJSON(),
             serializeFrontmatter(frontmatterData),
           )
-          .then(() => {
+          .then((result) => {
+            recordLastSave(savingPath, result.source);
             onDraftSaved?.(savingPath);
           })
           .catch(() => {});
@@ -772,6 +775,25 @@ export function Editor({
     // enough, and the doc JSON is read live from the editor at fire time.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, path, saveVersion]);
+
+  // Save-safety spec, feature A: while there are unsaved or in-flight
+  // changes, leaving the page asks for confirmation (browser-native
+  // prompt). Skipped during a deliberate reset — that flow is discarding
+  // the changes on purpose. The pagehide keepalive below still fires if
+  // the writer leaves anyway.
+  useEffect(() => {
+    if (saveStatus !== "dirty" && saveStatus !== "saving") return;
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (resettingRef.current) return;
+      event.preventDefault();
+      // Legacy engines require returnValue for the prompt to appear.
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [saveStatus]);
 
   async function handleConfirmDelete() {
     setDeleting(true);
