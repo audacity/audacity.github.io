@@ -137,10 +137,21 @@ function registerInFlightSave(path: string, request: Promise<unknown>): void {
     inFlightSavesByPath.set(path, set);
   }
   set.add(request);
-  void request.finally(() => {
-    set.delete(request);
-    if (set.size === 0) inFlightSavesByPath.delete(path);
-  });
+  // `.finally()` returns a NEW promise that adopts `request`'s rejection —
+  // a failed autosave's rejection is already handled where `request` itself
+  // is awaited (the debounce timer's own try/catch, or `flush()`'s
+  // `.catch(() => {})`), but that doesn't mark THIS derived promise's
+  // rejection as handled too. Left unguarded, a failed autosave (exercised
+  // by Fix 4's new "error" test coverage) throws an unhandled promise
+  // rejection here on every failure. The `.catch` below exists purely to
+  // absorb that — the cleanup itself doesn't care whether `request`
+  // resolved or rejected.
+  void request
+    .finally(() => {
+      set.delete(request);
+      if (set.size === 0) inFlightSavesByPath.delete(path);
+    })
+    .catch(() => {});
 }
 
 /** Resolves once every currently in-flight save for `path` has settled. */
@@ -781,8 +792,20 @@ export function Editor({
   // prompt). Skipped during a deliberate reset — that flow is discarding
   // the changes on purpose. The pagehide keepalive below still fires if
   // the writer leaves anyway.
+  //
+  // "error": the save failed, the changes are still only in this tab —
+  // the debounce timer already fired (nulling `pendingSaveRef`, see the
+  // autosave effect's catch block above), so neither this prompt nor the
+  // `pagehide` keepalive has anything to act on unless this state is
+  // guarded here too; without it, a failed autosave silently drops the
+  // guard and the writer can navigate away believing nothing is at risk.
   useEffect(() => {
-    if (saveStatus !== "dirty" && saveStatus !== "saving") return;
+    if (
+      saveStatus !== "dirty" &&
+      saveStatus !== "saving" &&
+      saveStatus !== "error"
+    )
+      return;
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (resettingRef.current) return;
       event.preventDefault();

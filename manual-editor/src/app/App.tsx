@@ -125,6 +125,11 @@ export function App({
     setActivePath(path);
     setSource(null);
     api.getPage(path).then((page) => {
+      // Staleness guard (same reasoning as `handleReset`): `getPage` arrives
+      // after a network round-trip, so a rapid A->B selection can have this
+      // late response for A land after B is already active — applying it
+      // here would overwrite B's just-loaded source with A's.
+      if (activePathRef.current !== path) return;
       // Stale-read protection (save-safety spec): a fresh local record that
       // differs from the server response means GitHub's read cache is
       // behind our own last save — show what was actually saved.
@@ -152,11 +157,24 @@ export function App({
     try {
       if (plan.kind === "reorder") {
         await api.reorder(plan.updates);
+        // Invariant (same as handleReset/handleDeleted): any writer that
+        // rewrites a page's file server-side — bypassing saveDraftDoc —
+        // must invalidate that page's lastSave record, or a fresh autosave
+        // record (written up to 120s ago) outvotes the server's correctly
+        // rewritten content on the next select, and the next autosave
+        // silently reverts this reorder.
+        for (const { path } of plan.updates) clearLastSave(path);
       } else {
         const moves = await api.movePage(plan.path, plan.dest);
         if (plan.alsoReorder.length > 0) {
           await api.reorder(plan.alsoReorder);
         }
+        // Same invariant as the reorder branch above: `movePage` rewrites
+        // every moved page's frontmatter (and `reorder` above rewrites the
+        // rest of the destination arrangement) server-side, outside
+        // saveDraftDoc — invalidate lastSave for all of them.
+        for (const { from } of moves) clearLastSave(from);
+        for (const { path } of plan.alsoReorder) clearLastSave(path);
         const hit = activePath
           ? moves.find((m) => m.from === activePath)
           : undefined;

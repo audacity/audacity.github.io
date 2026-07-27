@@ -61,7 +61,7 @@ export function takeFresherLocalCopy(
     }
     if (
       typeof record?.source !== "string" ||
-      typeof record?.at !== "number" ||
+      !Number.isFinite(record?.at) ||
       Date.now() - record.at > FRESHNESS_WINDOW_MS
     ) {
       localStorage.removeItem(keyFor(path));

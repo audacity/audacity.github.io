@@ -1,5 +1,11 @@
 import { beforeEach, expect, test } from "bun:test";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { App } from "./App";
 import { makeApi } from "./api";
 import type { ManualPageMeta, PageContent } from "../backend/types";
@@ -263,4 +269,99 @@ test("a completed reset clears the page's recorded local save", async () => {
   fireEvent.click(screen.getByTestId("editor-reset-confirm"));
 
   await waitFor(() => expect(localStorage.getItem(resetKey)).toBeNull());
+});
+
+/**
+ * Final-review Fix 1: `handleDropPlan`'s `reorder`/`move` branches rewrite
+ * page files server-side (order/frontmatter) WITHOUT going through
+ * `saveDraftDoc` — so a fresh `lastSave` record (written by a recent
+ * autosave) must be invalidated for every path the API call rewrites, or it
+ * outvotes the correctly-reordered server content on the next select and
+ * the next autosave silently reverts the reorder.
+ *
+ * Driven through the rendered `PageList` (via its `onDropPlan` prop, wired
+ * up by `App`) rather than calling `handleDropPlan` directly — `App` doesn't
+ * expose it, and this exercises the real drag -> `computeDrop` -> API ->
+ * invalidation path. `dataTransferStub`/`dragOver` below mirror
+ * `PageList.test.tsx`'s existing drag-simulation idiom exactly (same
+ * happy-dom caveats documented there: `dataTransfer` round-trips through
+ * `fireEvent.dragStart`/`.drop`, but `dragover`'s `clientY` only survives a
+ * raw `dispatchEvent(new MouseEvent(...))`).
+ */
+function dataTransferStub() {
+  return { effectAllowed: "", setData: () => {}, getData: () => "" };
+}
+
+function dragOver(row: Element, clientY: number) {
+  act(() => {
+    row.dispatchEvent(
+      new MouseEvent("dragover", { bubbles: true, cancelable: true, clientY }),
+    );
+  });
+}
+
+const reorderPageA: ManualPageMeta = {
+  slug: "a",
+  path: "src/content/manual/a.mdx",
+  title: "Page A",
+  section: "Basics",
+  sectionOrder: 0,
+  order: 1,
+  draft: false,
+  hasDraft: false,
+};
+
+const reorderPageB: ManualPageMeta = {
+  slug: "b",
+  path: "src/content/manual/b.mdx",
+  title: "Page B",
+  section: "Basics",
+  sectionOrder: 0,
+  order: 2,
+  draft: false,
+  hasDraft: false,
+};
+
+function fakeFetchForReorder(): typeof fetch {
+  return (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url.startsWith("/api/pages")) {
+      return new Response(JSON.stringify([reorderPageA, reorderPageB]), {
+        headers: { "content-type": "application/json" },
+      });
+    }
+    if (url.startsWith("/api/reorder")) {
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { "content-type": "application/json" },
+      });
+    }
+    throw new Error(`unexpected fetch in reorder test: ${url}`);
+  }) as typeof fetch;
+}
+
+test("a reorder drop invalidates the recorded local save for every rewritten path (Fix 1)", async () => {
+  const keyA = `manual-editor:lastSave:${reorderPageA.path}`;
+  const keyB = `manual-editor:lastSave:${reorderPageB.path}`;
+  // Seed both as if a recent autosave had just recorded them — the thing
+  // that must be invalidated so it can't outvote the reordered server
+  // content on the next select.
+  localStorage.setItem(
+    keyA,
+    JSON.stringify({ source: "# Stale A\n", at: Date.now() }),
+  );
+  localStorage.setItem(
+    keyB,
+    JSON.stringify({ source: "# Stale B\n", at: Date.now() }),
+  );
+
+  render(<App api={makeApi(fakeFetchForReorder())} />);
+  const rowA = await waitFor(() => screen.getByTestId("page-a"));
+
+  fireEvent.dragStart(rowA, { dataTransfer: dataTransferStub() });
+  const targetRow = screen.getByTestId("page-b").closest(".sidebar-tree__row")!;
+  dragOver(targetRow, 10); // positive -> "after"
+  fireEvent.drop(targetRow);
+
+  await waitFor(() => expect(localStorage.getItem(keyA)).toBeNull());
+  expect(localStorage.getItem(keyB)).toBeNull();
 });

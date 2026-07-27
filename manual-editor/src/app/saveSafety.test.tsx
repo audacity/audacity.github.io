@@ -110,3 +110,52 @@ test("a successful autosave records the committed source", async () => {
   expect(record.source).toBe("COMMITTED-SOURCE");
   expect(typeof record.at).toBe("number");
 });
+
+/**
+ * Final-review Fix 4: a FAILED autosave (`saveStatus === "error"`) still
+ * leaves unsaved changes sitting only in this tab — the debounce timer
+ * already fired and nulled `pendingSaveRef`, so nothing else protects them.
+ * Before the fix, the beforeunload effect's guard (`saveStatus === "dirty"
+ * || saveStatus === "saving"`) let the writer navigate away unprompted the
+ * moment a save failed.
+ */
+function failingDraftFetch(): typeof fetch {
+  return (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url.startsWith("/api/draft")) {
+      return new Response(JSON.stringify({ error: "boom" }), {
+        status: 500,
+        headers: { "content-type": "application/json" },
+      });
+    }
+    throw new Error(`unexpected fetch: ${url}`);
+  }) as typeof fetch;
+}
+
+test("beforeunload stays blocked after a failed autosave (Fix 4)", async () => {
+  const api = makeApi(failingDraftFetch());
+  let editor: TiptapEditor | null = null;
+  render(
+    <Editor
+      source={pageSource}
+      path={pagePath}
+      api={api}
+      autosaveDelayMs={20}
+      onEditorReady={(created) => {
+        editor = created;
+      }}
+      onAddSubpage={() => {}}
+      hasChildren={false}
+      onDeleted={() => {}}
+    />,
+  );
+  await waitFor(() => expect(editor).not.toBeNull());
+  act(() => {
+    (editor as unknown as TiptapEditor).commands.focus("end");
+    (editor as unknown as TiptapEditor).commands.insertContent(" edit");
+  });
+  await waitFor(() =>
+    expect(screen.getByTestId("save-status").textContent).toBe("Save failed"),
+  );
+  expect(fireBeforeUnload()).toBe(true);
+});
