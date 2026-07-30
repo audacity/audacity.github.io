@@ -75,7 +75,10 @@ test.describe("audio.com CTA — Matomo click tracking", () => {
       expect(trackEventCalls).toHaveLength(1);
       const [, category, action, name] = trackEventCalls[0];
       expect(category).toBe("CTA Button");
-      expect(action).toMatch(/^audio\.com CTA/);
+      // Fully anchored: trackEvent appends "(branch: ...)" to whatever action
+      // string it's given, so a prefix-only match would still pass if the
+      // action were accidentally renamed (e.g. "audio.com CTA renamed").
+      expect(action).toMatch(/^audio\.com CTA \(branch: .+\)$/);
       // Exact match, not just "truthy" — a silent fallback to the
       // component's default label ("audio.com block CTA") would blend this
       // placement's data with ~16 months of pre-fix unlabeled events.
