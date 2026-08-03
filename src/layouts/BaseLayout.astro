@@ -16,6 +16,7 @@ export interface Props {
   showPromoBanner?: boolean;
   canonical?: string;
   image?: string;
+  transparentNav?: boolean;
 }
 const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
@@ -24,6 +25,7 @@ const {
   showPromoBanner = true,
   canonical,
   image,
+  transparentNav = false,
 } = Astro.props;
 
 const t = useTranslations(Astro.currentLocale);
@@ -66,7 +68,7 @@ const experimentBootstrapData = experiments.filter(
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-transparent-nav={transparentNav || undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -75,6 +77,39 @@ const experimentBootstrapData = experiments.filter(
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <style is:global>
       @import "../styles/input.css";
+    </style>
+    <style is:global>
+      #site-header {
+        transition: transform 280ms ease;
+        will-change: transform;
+      }
+      #site-header[data-hidden="true"] {
+        transform: translateY(-100%);
+      }
+      html[data-transparent-nav] #site-header {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: transparent;
+        transition:
+          transform 280ms ease,
+          background-color 240ms ease,
+          backdrop-filter 240ms ease;
+      }
+      html[data-transparent-nav] #site-header nav {
+        background-color: transparent;
+        transition:
+          background-color 240ms ease,
+          backdrop-filter 240ms ease;
+      }
+      html[data-transparent-nav] #site-header:hover nav,
+      html[data-transparent-nav] #site-header:focus-within nav,
+      html[data-transparent-nav] #site-header[data-solid="true"] nav {
+        background-color: rgba(10, 13, 22, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
     </style>
     <meta name="generator" content={Astro.generator} />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -233,5 +268,56 @@ const experimentBootstrapData = experiments.filter(
     }
     <CookieConsent client:load />
     <script src="../assets/js/cookieConsent.js"></script>
+    <script>
+      const header = document.getElementById("site-header");
+      let lastY = window.scrollY;
+      let scrollHidden = false;
+      let mouseAtTop = false;
+      const HIDE_AFTER = 80;
+      const MOUSE_REVEAL_AT = 80;
+      const DELTA = 6;
+
+      function applyHeaderState() {
+        if (!header) return;
+        const shouldHide = scrollHidden && !mouseAtTop;
+        if (shouldHide) header.setAttribute("data-hidden", "true");
+        else header.removeAttribute("data-hidden");
+      }
+
+      function updateHeader() {
+        const y = window.scrollY;
+        const dy = y - lastY;
+        if (header) {
+          if (y > HIDE_AFTER) header.setAttribute("data-solid", "true");
+          else header.removeAttribute("data-solid");
+        }
+        if (Math.abs(dy) < DELTA) return;
+        if (y < HIDE_AFTER) scrollHidden = false;
+        else if (dy > 0) scrollHidden = true;
+        else if (dy < 0) scrollHidden = false;
+        lastY = y;
+        applyHeaderState();
+      }
+
+      function onMouseMove(e: MouseEvent) {
+        const near = e.clientY < MOUSE_REVEAL_AT;
+        if (near !== mouseAtTop) {
+          mouseAtTop = near;
+          applyHeaderState();
+        }
+      }
+      window.addEventListener("mousemove", onMouseMove, { passive: true });
+
+      let raf: number | null = null;
+      function onScroll() {
+        if (raf !== null) return;
+        raf = requestAnimationFrame(() => {
+          updateHeader();
+          raf = null;
+        });
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      updateHeader();
+    </script>
   </body>
 </html>
