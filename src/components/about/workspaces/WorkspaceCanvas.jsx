@@ -113,10 +113,10 @@ function TransportRow({ config }) {
       onShareClick={NOOP}
       onExportAudioClick={NOOP}
       onExportLoopRegionClick={NOOP}
-      masterLevelLeft={-12}
-      masterLevelRight={-14}
-      masterRecentPeakLeft={-8}
-      masterRecentPeakRight={-10}
+      masterLevelLeft={-Infinity}
+      masterLevelRight={-Infinity}
+      masterRecentPeakLeft={-Infinity}
+      masterRecentPeakRight={-Infinity}
       masterVolume={0.8}
     />
   );
