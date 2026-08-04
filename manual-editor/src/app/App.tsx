@@ -5,6 +5,7 @@ import { Editor } from "./Editor";
 import { PageList } from "./PageList";
 import { NewPageDialog } from "./NewPageDialog";
 import type { DropPlan } from "./treeDnd";
+import { applyDropPlan } from "./optimisticDrop";
 import type { ManualPageMeta, PublishResult } from "../backend/types";
 
 const MANUAL_PREFIX = "src/content/manual/";
@@ -154,6 +155,19 @@ export function App({
       return;
     }
     setDropError(null);
+
+    // Optimistic update: reflect the drop in the sidebar immediately rather
+    // than waiting for the write AND the follow-up `listPages` refetch to
+    // resolve. In production those are several serialized GitHub commits plus
+    // a full tree re-read — the multi-second stall a QA report flagged as the
+    // move "not working", most visibly when dragging pages between sections.
+    // `applyDropPlan` predicts the same result the server produces; the write
+    // below stays authoritative — on success the background `listPages`
+    // reconciles (draft dots, any prediction gap), on failure we roll back to
+    // this pre-drop snapshot.
+    const snapshot = pages;
+    if (snapshot) setPages(applyDropPlan(snapshot, plan));
+
     try {
       if (plan.kind === "reorder") {
         await api.reorder(plan.updates);
@@ -184,6 +198,9 @@ export function App({
       }
       api.listPages().then(setPages);
     } catch (err) {
+      // Write failed — undo the optimistic move so the sidebar can't show a
+      // change the server never accepted.
+      if (snapshot) setPages(snapshot);
       const message = err instanceof Error ? err.message : String(err);
       setDropError(stripStatusPrefix(message));
     }

@@ -365,3 +365,137 @@ test("a reorder drop invalidates the recorded local save for every rewritten pat
   await waitFor(() => expect(localStorage.getItem(keyA)).toBeNull());
   expect(localStorage.getItem(keyB)).toBeNull();
 });
+
+/**
+ * Optimistic drag & drop (the fix for the QA "moving pages lags / looks
+ * broken" report): the sidebar must reflect a drop the instant it lands, not
+ * after the write + `listPages` refetch resolve. These tests gate the write
+ * behind an unresolved promise and assert the sidebar has already changed
+ * while the network call is still in flight — and that a failed write rolls
+ * the optimistic change back.
+ */
+function deferred<T>() {
+  let resolve!: (v: T) => void;
+  let reject!: (e: unknown) => void;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+  return { promise, resolve, reject };
+}
+
+/** Document-order list of the page-row testids currently rendered. */
+function pageRowOrder(): string[] {
+  return Array.from(document.querySelectorAll('[data-testid^="page-"]')).map(
+    (el) => el.getAttribute("data-testid")!,
+  );
+}
+
+test("a reorder drop updates the sidebar order BEFORE the /api/reorder write resolves (optimistic)", async () => {
+  const gate = deferred<Response>();
+  const fetchImpl = (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url.startsWith("/api/pages")) {
+      return new Response(JSON.stringify([reorderPageA, reorderPageB]), {
+        headers: { "content-type": "application/json" },
+      });
+    }
+    if (url.startsWith("/api/reorder")) return gate.promise; // stays pending
+    throw new Error(`unexpected fetch: ${url}`);
+  }) as typeof fetch;
+
+  render(<App api={makeApi(fetchImpl)} />);
+  const rowA = await waitFor(() => screen.getByTestId("page-a"));
+  expect(pageRowOrder()).toEqual(["page-a", "page-b"]);
+
+  fireEvent.dragStart(rowA, { dataTransfer: dataTransferStub() });
+  const targetRow = screen.getByTestId("page-b").closest(".sidebar-tree__row")!;
+  dragOver(targetRow, 10); // positive -> "after"
+  fireEvent.drop(targetRow);
+
+  // The write is still pending (gate never resolved), yet the order has
+  // already flipped — this is the whole point of the optimistic update.
+  expect(pageRowOrder()).toEqual(["page-b", "page-a"]);
+});
+
+test("a failed reorder write rolls the optimistic sidebar change back", async () => {
+  const fetchImpl = (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url.startsWith("/api/pages")) {
+      return new Response(JSON.stringify([reorderPageA, reorderPageB]), {
+        headers: { "content-type": "application/json" },
+      });
+    }
+    if (url.startsWith("/api/reorder")) {
+      return new Response("boom", { status: 500 });
+    }
+    throw new Error(`unexpected fetch: ${url}`);
+  }) as typeof fetch;
+
+  render(<App api={makeApi(fetchImpl)} />);
+  const rowA = await waitFor(() => screen.getByTestId("page-a"));
+
+  fireEvent.dragStart(rowA, { dataTransfer: dataTransferStub() });
+  const targetRow = screen.getByTestId("page-b").closest(".sidebar-tree__row")!;
+  dragOver(targetRow, 10);
+  fireEvent.drop(targetRow);
+
+  // Optimistically flipped...
+  expect(pageRowOrder()).toEqual(["page-b", "page-a"]);
+  // ...then the 500 lands and the sidebar reverts to the pre-drop order.
+  await waitFor(() => expect(pageRowOrder()).toEqual(["page-a", "page-b"]));
+});
+
+const crossSectionBasics: ManualPageMeta = {
+  slug: "basics/intro",
+  path: "src/content/manual/basics/intro.mdx",
+  title: "Intro",
+  section: "Basics",
+  sectionOrder: 0,
+  order: 1,
+  draft: false,
+  hasDraft: false,
+};
+
+const crossSectionAdvanced: ManualPageMeta = {
+  slug: "advanced/setup",
+  path: "src/content/manual/advanced/setup.mdx",
+  title: "Setup",
+  section: "Advanced",
+  sectionOrder: 1,
+  order: 1,
+  draft: false,
+  hasDraft: false,
+};
+
+test("dragging a page into another SECTION relocates it in the sidebar before /api/move resolves (the QA-reported case)", async () => {
+  const gate = deferred<Response>();
+  const fetchImpl = (async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url.startsWith("/api/pages")) {
+      return new Response(
+        JSON.stringify([crossSectionBasics, crossSectionAdvanced]),
+        { headers: { "content-type": "application/json" } },
+      );
+    }
+    if (url.startsWith("/api/move")) return gate.promise; // stays pending
+    throw new Error(`unexpected fetch: ${url}`);
+  }) as typeof fetch;
+
+  render(<App api={makeApi(fetchImpl)} />);
+  const draggedRow = await waitFor(() =>
+    screen.getByTestId("page-basics/intro"),
+  );
+
+  fireEvent.dragStart(draggedRow, { dataTransfer: dataTransferStub() });
+  const targetRow = screen
+    .getByTestId("page-advanced/setup")
+    .closest(".sidebar-tree__row")!;
+  dragOver(targetRow, 10); // drop after the Advanced-section page
+  fireEvent.drop(targetRow);
+
+  // /api/move is still in flight, but the page has already moved into the
+  // Advanced folder (new slug advanced/intro) and left Basics — no waiting.
+  expect(screen.getByTestId("page-advanced/intro")).toBeDefined();
+  expect(screen.queryByTestId("page-basics/intro")).toBeNull();
+});
