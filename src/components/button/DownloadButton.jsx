@@ -50,9 +50,10 @@ function DownloadButton({ surface } = {}) {
     <a
       key={link.osClass}
       onClick={() => handleButtonClick(link)}
-      className={`os-specific ${link.osClass} text-white font-semibold hover:underline`}
+      className={`os-specific ${link.osClass} text-white text-sm hover:bg-black/25 gap-2 outline outline-1 rounded-2xl py-2 px-4`}
       href={link.href}
     >
+      <span className="icon icon-import"></span>
       Download without MuseHub
     </a>
   );

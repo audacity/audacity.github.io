@@ -60,9 +60,8 @@ function DownloadMuseHubButton({ surface } = {}) {
       className={`os-specific ${link.osClass} py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit`}
       href={link.href}
     >
-      <span className="icon icon-import"></span>
       <p>
-        <span className="font-semibold">
+        <span className="text-lg font-semibold">
           Download Audacity {audacityReleases.version}
         </span>
         <br />
