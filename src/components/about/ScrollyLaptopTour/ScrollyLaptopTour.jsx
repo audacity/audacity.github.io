@@ -1813,12 +1813,14 @@ function DesktopTour() {
   let transform;
   let laptopTransition;
   if (isMobile) {
-    const focus = stop.mobileFocus ?? { x: 50, y: 50, zoom: 1 };
-    const shiftX = 50 - focus.x;
-    const shiftY = 50 - focus.y;
-    transform = `translate(${shiftX}%, ${shiftY}%) scale(${focus.zoom})`;
-    // Longer, slower-in-slower-out ease so the pan/zoom reads as a
-    // camera move rather than an abrupt jump.
+    // Mobile: show the whole DAW fit-to-width, no per-stop camera zoom.
+    // The canvas is a fixed 1280px layout scaled to ~450px on a phone, so
+    // the old translate+scale focus (up to 2.4x) cropped UI chrome
+    // mid-element — the Tracks menu, track headers and toolbar got sliced
+    // and overflowed the frame. Keeping the laptop at rest (scale 1) leaves
+    // the interface whole and legible; each stop's TourOverlay still
+    // highlights its region, so the tour still reads stop to stop.
+    transform = "translate(0, 0) scale(1)";
     laptopTransition = "transform 900ms cubic-bezier(0.65, 0.05, 0.36, 1)";
   } else {
     transform = `translate3d(${capViewportShift(stop.laptop.x)}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
