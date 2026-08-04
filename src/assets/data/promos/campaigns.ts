@@ -116,6 +116,25 @@ export const campaignBannerPromos: Record<string, PromoData> = {
       link: "https://www.musehub.com/plugin/viator-voice-denoiser?utm_source=au-web-banner-mh-web&utm_medium=viator-voice-denoiser&utm_campaign=au-web-banner-mh-web-viator-voice-denoiser&utm_id=au-web-banner",
     },
   },
+  soapVoiceCleaner: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-08-10",
+    endDate: "2026-08-24",
+    message:
+      "SOAP Voice Cleaner: Professional spoken voice in 3 simple clicks!",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "SOAP Voice Cleaner MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner",
+    },
+  },
 };
 
 export const campaignVideoPromos: Record<string, PromoData> = {
