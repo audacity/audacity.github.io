@@ -81,6 +81,18 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
     */
     overflow-x: hidden;
   }
+  /*
+    Each section component uses bg-background-dark as its own default
+    background, but on this page every section has a bespoke wrapper colour
+    (see .about-section--* rules below). Making the component sections
+    transparent lets those wrapper colours show through — that's what
+    creates the colour-per-chapter scroll effect. The CTA section's
+    bg-background-dark section must also be transparent so the HeroSwoosh
+    (positioned at z-index 0 behind it) remains visible.
+  */
+  .scroll-bg-page .bg-background-dark {
+    background-color: transparent !important;
+  }
   .about-section {
     position: relative;
   }
