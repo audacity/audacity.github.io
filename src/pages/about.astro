@@ -93,6 +93,19 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   .scroll-bg-page .bg-background-dark {
     background-color: transparent !important;
   }
+  /*
+    Clip horizontal overflow at the page container level. This contains
+    elements (LaptopFrame base at 108% width, WorkspaceCanvas initial
+    1280px paint) that briefly exceed the viewport before JS scales
+    them down. overflow-x: clip prunes without creating a scroll
+    container, so position: sticky inside keeps working correctly.
+    Placed here rather than on .about-section--scrolly alone because the
+    bg-background-dark transparency rule can prevent child clip contexts
+    from being promoted, allowing overflow to escape.
+  */
+  .scroll-bg-page {
+    overflow-x: clip;
+  }
   .about-section {
     position: relative;
   }
@@ -140,7 +153,6 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
   */
   .about-section--scrolly {
     background-color: #0e0c30;
-    overflow-x: clip;
   }
   /*
     Photography "who it's for" beat. Sits between Customisable UI and AudioCom,
