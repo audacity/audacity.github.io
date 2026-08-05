@@ -135,9 +135,13 @@ function renderProjectToolbar({
   workspaceKey,
   workspaceOptions,
   onWorkspaceChange,
+  workspaceOverride,
 }) {
   const hasPicker =
     workspaceKey && workspaceOptions?.length && onWorkspaceChange;
+  const label = workspaceOverride
+    ? workspaceOverride.charAt(0).toUpperCase() + workspaceOverride.slice(1)
+    : config.label;
   const workspaceSelector = hasPicker
     ? {
         value: workspaceKey,
@@ -146,7 +150,7 @@ function renderProjectToolbar({
       }
     : {
         value: "current",
-        options: [{ value: "current", label: config.label }],
+        options: [{ value: "current", label }],
         onChange: NOOP,
       };
 
@@ -339,6 +343,7 @@ function WorkspaceCanvas({
               workspaceKey,
               workspaceOptions,
               onWorkspaceChange,
+              workspaceOverride,
             })}
             <TransportRow
               config={{ ...config, envelopeMode: effectiveEnvelopeMode }}
