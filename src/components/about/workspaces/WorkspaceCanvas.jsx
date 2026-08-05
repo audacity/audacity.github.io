@@ -18,6 +18,29 @@ import {
 } from "@dilsonspickles/components";
 
 const NATIVE_W = 1280;
+
+const ENVELOPE_POINT_SIZES = {
+  outerRadius: 5,
+  innerRadius: 0,
+  outerRadiusHover: 6,
+  innerRadiusHover: 0,
+  lineWidth: 2,
+  solidCircle: {
+    fillColor: "#b8ff00",
+    strokeColor: "#b8ff00",
+    strokeWidth: 0,
+    radius: 4.5,
+    radiusHover: 5.5,
+    cursorFollowerRadius: 3.5,
+    useDualRingCursorFollower: false,
+    breakLineAtCursor: false,
+    whiteCenterOnHover: {
+      innerRadius: 0,
+      outerRadius: 1.5,
+      blackRadius: 3.5,
+    },
+  },
+};
 const NATIVE_H = 720;
 const RULER_H = 40;
 const PIXELS_PER_SECOND = 40;
@@ -427,6 +450,7 @@ function WorkspaceCanvas({
                           height={trackHeights[i]}
                           pixelsPerSecond={PIXELS_PER_SECOND}
                           envelopeMode={effectiveEnvelopeMode}
+                          envelopePointSizes={ENVELOPE_POINT_SIZES}
                           isLabelTrack={t.isLabelTrack}
                           isSelected={t.isSelected}
                           isFocused={t.isFocused}

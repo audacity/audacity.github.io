@@ -231,6 +231,99 @@ const ArrowCursor = () => (
   </svg>
 );
 
+const CrosshairCursor = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    <line
+      x1="12"
+      y1="1"
+      x2="12"
+      y2="8"
+      stroke="#000"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="12"
+      y1="16"
+      x2="12"
+      y2="23"
+      stroke="#000"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="1"
+      y1="12"
+      x2="8"
+      y2="12"
+      stroke="#000"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="16"
+      y1="12"
+      x2="23"
+      y2="12"
+      stroke="#000"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="12"
+      y1="1"
+      x2="12"
+      y2="8"
+      stroke="#fff"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="12"
+      y1="16"
+      x2="12"
+      y2="23"
+      stroke="#fff"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="1"
+      y1="12"
+      x2="8"
+      y2="12"
+      stroke="#fff"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="16"
+      y1="12"
+      x2="23"
+      y2="12"
+      stroke="#fff"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="2.5"
+      fill="none"
+      stroke="#000"
+      strokeWidth="1.8"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="2.5"
+      fill="none"
+      stroke="#fff"
+      strokeWidth="0.9"
+    />
+  </svg>
+);
+
 const HAND_CURSOR_IMG = {
   display: "block",
   userSelect: "none",
@@ -545,25 +638,27 @@ function DropDemo({ frame }) {
 
 function EnvelopesDemo({ frame }) {
   if (!frame) return null;
+  const isCrosshair = frame.cursor === "crosshair";
+  const offset = isCrosshair ? "-12px, -12px" : "-3px, -2px";
+  const origin = isCrosshair ? "12px 12px" : "3px 3px";
 
   return (
-    <>
-      <div
-        style={{
-          position: "absolute",
-          left: `${frame.x}%`,
-          top: `${frame.y}%`,
-          opacity: frame.opacity,
-          transform: `translate(-3px, -2px) ${frame.clicking ? "scale(0.82)" : ""}`,
-          transformOrigin: "3px 3px",
-          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
-          pointerEvents: "none",
-          zIndex: 30,
-        }}
-      >
-        <ArrowCursor />
-      </div>
-    </>
+    <div
+      style={{
+        position: "absolute",
+        left: `${frame.x}%`,
+        top: `${frame.y}%`,
+        opacity: frame.opacity,
+        transform: `translate(${offset}) ${!isCrosshair && frame.clicking ? "scale(0.82)" : ""}`,
+        transformOrigin: origin,
+        filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+        pointerEvents: "none",
+        zIndex: 30,
+        transition: "none",
+      }}
+    >
+      {isCrosshair ? <CrosshairCursor /> : <ArrowCursor />}
+    </div>
   );
 }
 

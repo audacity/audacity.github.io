@@ -1615,6 +1615,7 @@ function DesktopTour() {
         let buttonActive = false;
         let envOn = false;
         let points = [];
+        let cursor = "arrow";
 
         if (t < 0.08) {
           // drift in + fade in at park (ease-out: decelerates into place)
@@ -1653,7 +1654,10 @@ function DesktopTour() {
           clicking = t < 0.3;
           buttonActive = true;
           envOn = true;
-          if (t > 0.3) points = [pA];
+          if (t > 0.3) {
+            points = [pA];
+            cursor = "crosshair";
+          }
         } else if (t < 0.41) {
           // travel to point B position
           const p = easeOutCubic((t - 0.32) / 0.09);
@@ -1671,6 +1675,7 @@ function DesktopTour() {
           clicking = t < 0.43;
           buttonActive = true;
           envOn = true;
+          cursor = "crosshair";
           points = [pA];
           if (t > 0.43) points.push({ time: pointBTime, db: 0 });
         } else if (t < 0.58) {
@@ -1681,6 +1686,7 @@ function DesktopTour() {
           opacity = 1;
           buttonActive = true;
           envOn = true;
+          cursor = "crosshair";
           points = [pA, { time: pointBTime, db: lerp(0, -25, p) }];
         } else if (t < 0.72) {
           // hold, admire the curve
@@ -1689,6 +1695,7 @@ function DesktopTour() {
           opacity = 1;
           buttonActive = true;
           envOn = true;
+          cursor = "crosshair";
           points = [pA, pBLow];
         } else if (t < 0.83) {
           // travel back to envelope button
@@ -1719,7 +1726,7 @@ function DesktopTour() {
           opacity = 0;
         }
 
-        setEnvelopeFrame({ x, y, opacity, clicking, buttonActive });
+        setEnvelopeFrame({ x, y, opacity, clicking, buttonActive, cursor });
         setEnvelopeMode(envOn);
         const focusClip = envOn && t > 0.21 && t < 0.87;
 
