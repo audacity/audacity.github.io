@@ -316,9 +316,14 @@ function ClipHandlesDemo({ isActive = true }) {
   const CLICK_END = 0.14;
   const FADE_START = 0.88;
 
-  // Rest position of the clip's right edge and the cursor park offset.
+  // Handle icons sit outside the clip's right edge.
+  // CSS: right:-26px on a 22px-wide button → center is 15px right of clip edge.
+  // Trim handle: top:28px + half height(10) = 38px from clip top.
+  // Stretch handle: top:60px + half height(10) = 70px from clip top.
+  const HANDLE_X_OFFSET = 15;
   const edgeAtRest = (CLIP_START + FULL_DURATION) * PPS;
-  const parkX = edgeAtRest + 50;
+  const handleAtRest = edgeAtRest + HANDLE_X_OFFSET;
+  const parkX = handleAtRest + 50;
 
   // --- clip state ---
   let duration = FULL_DURATION;
@@ -346,41 +351,43 @@ function ClipHandlesDemo({ isActive = true }) {
   // Snap to pixel boundaries — eliminates sub-pixel aliasing jitter.
   const stableDuration = Math.round(duration * PPS) / PPS;
 
+  const isStretch = t < 0.5;
+
   // --- cursor state (shared logic for both halves) ---
   const halfP = t < 0.5 ? t / 0.5 : (t - 0.5) / 0.5;
-  const exactEdge = (CLIP_START + duration) * PPS;
+  const exactHandle = (CLIP_START + duration) * PPS + HANDLE_X_OFFSET;
 
   let cursorOpacity = 0;
   let cursorX = parkX;
   let cursorScale = 1;
 
   if (halfP < 0.06) {
-    // Fade in + approach (cursor drifts from park → handle)
+    // Fade in + approach (cursor drifts from park → handle icon)
     const q = ease(halfP / 0.06);
     cursorOpacity = q;
-    cursorX = parkX + (edgeAtRest - parkX) * q;
+    cursorX = parkX + (handleAtRest - parkX) * q;
   } else if (halfP < 0.1) {
     // Hover at handle before clicking
     cursorOpacity = 1;
-    cursorX = edgeAtRest;
+    cursorX = handleAtRest;
   } else if (halfP < CLICK_END) {
     // Click pulse — brief scale-down-and-return
     cursorOpacity = 1;
-    cursorX = edgeAtRest;
+    cursorX = handleAtRest;
     const clickP = (halfP - 0.1) / (CLICK_END - 0.1);
     cursorScale = 1 - 0.15 * Math.sin(clickP * Math.PI);
   } else if (halfP < FADE_START) {
-    // Drag — cursor tracks the clip edge
+    // Drag — cursor tracks the handle icon
     cursorOpacity = 1;
-    cursorX = exactEdge;
+    cursorX = exactHandle;
   } else {
     // Fade out while clip finishes returning
     cursorOpacity = Math.max(0, 1 - (halfP - FADE_START) / (1 - FADE_START));
-    cursorX = exactEdge;
+    cursorX = exactHandle;
   }
 
-  const isStretch = t < 0.5;
-  const cursorY = RULER_H + 2 + TRACK_H / 2;
+  // Y: stretch handle is at clip top + 70px, trim handle at clip top + 38px.
+  const cursorY = RULER_H + 2 + (isStretch ? 70 : 38);
 
   const clips = [
     {
