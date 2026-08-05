@@ -306,38 +306,81 @@ function ClipHandlesDemo({ isActive = true }) {
   const FULL_DURATION = 3.2;
   const RULER_H = 40;
   const CANVAS_W = 720;
-  // Tall single track so the one clip fills the height-capped card instead
-  // of leaving a big empty lane below it.
   const TRACK_H = 320;
-  // Clip pinned at the left; the right edge animates.
   const CLIP_START = 0.4;
-
-  // Two-phase loop: 0-0.5 STRETCH (right edge out + back), 0.5-1 TRIM
-  // (right edge in + back).
-  let duration = FULL_DURATION;
-  let stretchFactor = 1;
   const ease = (u) => (u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2);
 
+  // Within each half the cursor runs: approach (0→CLICK_END) then drag
+  // (CLICK_END→FADE_START) then fade (FADE_START→1). The clip holds still
+  // during the approach window so the cursor can arrive before anything moves.
+  const CLICK_END = 0.14;
+  const FADE_START = 0.88;
+
+  // Rest position of the clip's right edge and the cursor park offset.
+  const edgeAtRest = (CLIP_START + FULL_DURATION) * PPS;
+  const parkX = edgeAtRest + 50;
+
+  // --- clip state ---
+  let duration = FULL_DURATION;
+  let stretchFactor = 1;
+
   if (t < 0.5) {
-    const p = t / 0.5;
-    if (p < 0.5) {
-      stretchFactor = 1 + 0.4 * ease(p * 2);
-    } else {
-      stretchFactor = 1 + 0.4 * ease((1 - p) * 2);
+    const halfP = t / 0.5;
+    if (halfP >= CLICK_END) {
+      const p = (halfP - CLICK_END) / (1 - CLICK_END);
+      stretchFactor =
+        p < 0.5 ? 1 + 0.4 * ease(p * 2) : 1 + 0.4 * ease((1 - p) * 2);
+      duration = FULL_DURATION * stretchFactor;
     }
-    duration = FULL_DURATION * stretchFactor;
   } else {
-    const p = (t - 0.5) / 0.5;
-    if (p < 0.5) {
-      duration = FULL_DURATION * (1 - 0.35 * ease(p * 2));
-    } else {
-      duration = FULL_DURATION * (1 - 0.35 * ease((1 - p) * 2));
+    const halfP = (t - 0.5) / 0.5;
+    if (halfP >= CLICK_END) {
+      const p = (halfP - CLICK_END) / (1 - CLICK_END);
+      duration =
+        p < 0.5
+          ? FULL_DURATION * (1 - 0.35 * ease(p * 2))
+          : FULL_DURATION * (1 - 0.35 * ease((1 - p) * 2));
     }
   }
 
-  // Snap to pixel boundaries so the waveform peak mapping only changes on
-  // whole-pixel steps — eliminates sub-pixel aliasing jitter each frame.
+  // Snap to pixel boundaries — eliminates sub-pixel aliasing jitter.
   const stableDuration = Math.round(duration * PPS) / PPS;
+
+  // --- cursor state (shared logic for both halves) ---
+  const halfP = t < 0.5 ? t / 0.5 : (t - 0.5) / 0.5;
+  const exactEdge = (CLIP_START + duration) * PPS;
+
+  let cursorOpacity = 0;
+  let cursorX = parkX;
+  let cursorScale = 1;
+
+  if (halfP < 0.06) {
+    // Fade in + approach (cursor drifts from park → handle)
+    const q = ease(halfP / 0.06);
+    cursorOpacity = q;
+    cursorX = parkX + (edgeAtRest - parkX) * q;
+  } else if (halfP < 0.1) {
+    // Hover at handle before clicking
+    cursorOpacity = 1;
+    cursorX = edgeAtRest;
+  } else if (halfP < CLICK_END) {
+    // Click pulse — brief scale-down-and-return
+    cursorOpacity = 1;
+    cursorX = edgeAtRest;
+    const clickP = (halfP - 0.1) / (CLICK_END - 0.1);
+    cursorScale = 1 - 0.15 * Math.sin(clickP * Math.PI);
+  } else if (halfP < FADE_START) {
+    // Drag — cursor tracks the clip edge
+    cursorOpacity = 1;
+    cursorX = exactEdge;
+  } else {
+    // Fade out while clip finishes returning
+    cursorOpacity = Math.max(0, 1 - (halfP - FADE_START) / (1 - FADE_START));
+    cursorX = exactEdge;
+  }
+
+  const isStretch = t < 0.5;
+  const cursorY = RULER_H + 2 + TRACK_H / 2;
 
   const clips = [
     {
@@ -352,21 +395,12 @@ function ClipHandlesDemo({ isActive = true }) {
     },
   ];
 
-  // Cursor sits on the clip's right edge — sells the gesture.
-  const cursorX = (CLIP_START + stableDuration) * PPS;
-  const cursorY = RULER_H + 2 + TRACK_H / 2;
-  const isStretching = t < 0.5;
-
   return (
     <ThemeProvider theme={darkTheme}>
       <div
         ref={rootRef}
         className="absolute inset-0 bg-[#171F25] overflow-hidden"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: 0,
-        }}
+        style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
         <TimelineRuler
           width={CANVAS_W}
@@ -389,8 +423,7 @@ function ClipHandlesDemo({ isActive = true }) {
           </div>
         </div>
 
-        {/* Faux cursor pinned to the clip's right edge. Stretch arrow
-            when stretching, east-resize when trimming. */}
+        {/* Animated cursor: approaches the handle, clicks, drags, fades out. */}
         <svg
           aria-hidden
           width="22"
@@ -400,12 +433,14 @@ function ClipHandlesDemo({ isActive = true }) {
             position: "absolute",
             left: cursorX,
             top: cursorY,
-            transform: "translate(-50%, -50%)",
+            opacity: cursorOpacity,
+            transform: `translate(-50%, -50%) scale(${cursorScale})`,
+            transformOrigin: "50% 50%",
             pointerEvents: "none",
             filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
           }}
         >
-          {isStretching ? (
+          {isStretch ? (
             <path
               d="M2 11 L7 7 L7 9 L15 9 L15 7 L20 11 L15 15 L15 13 L7 13 L7 15 Z"
               fill="#fff"
@@ -1314,7 +1349,12 @@ function CoreEditing() {
     const ul = carouselRef.current;
     if (!ul) return;
     const card = ul.children[nextIdx];
-    if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    if (card)
+      card.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
   };
 
   return (
@@ -1347,11 +1387,25 @@ function CoreEditing() {
             <button
               type="button"
               aria-label="Previous card"
-              onClick={() => goTo((activeIdx - 1 + CARDS.length) % CARDS.length)}
+              onClick={() =>
+                goTo((activeIdx - 1 + CARDS.length) % CARDS.length)
+              }
               className="w-10 h-10 rounded-full border border-white/15 bg-white/[0.06] hover:bg-white/15 text-text-contrast/70 hover:text-text-contrast transition-colors flex items-center justify-center"
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden
+              >
+                <path
+                  d="M10 3L5 8l5 5"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
             <button
@@ -1360,8 +1414,20 @@ function CoreEditing() {
               onClick={() => goTo((activeIdx + 1) % CARDS.length)}
               className="w-10 h-10 rounded-full border border-white/15 bg-white/[0.06] hover:bg-white/15 text-text-contrast/70 hover:text-text-contrast transition-colors flex items-center justify-center"
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden
+              >
+                <path
+                  d="M6 3l5 5-5 5"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
           </div>
