@@ -580,9 +580,15 @@ function LabelsDemo({ isActive = true }) {
 
   return (
     <ThemeProvider theme={darkTheme}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            ".labels-demo .label-marker__label-text { color: #111 !important; }",
+        }}
+      />
       <div
         ref={rootRef}
-        className="absolute inset-0 bg-[#171F25] overflow-hidden"
+        className="labels-demo absolute inset-0 bg-[#171F25] overflow-hidden"
         style={{ display: "flex", flexDirection: "column", minHeight: 0 }}
       >
         <div style={{ flex: 1, paddingTop: 8 }}>
@@ -592,7 +598,6 @@ function LabelsDemo({ isActive = true }) {
               position: "relative",
               height: LABEL_TRACK_H,
               borderBottom: "1px solid rgba(255,255,255,0.06)",
-              "--label-marker-text": "#111",
             }}
           >
             {LABELS.map((l) => {
