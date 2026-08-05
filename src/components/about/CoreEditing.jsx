@@ -592,6 +592,7 @@ function LabelsDemo({ isActive = true }) {
               position: "relative",
               height: LABEL_TRACK_H,
               borderBottom: "1px solid rgba(255,255,255,0.06)",
+              "--label-marker-text": "#111",
             }}
           >
             {LABELS.map((l) => {
