@@ -583,7 +583,7 @@ function LabelsDemo({ isActive = true }) {
       <style
         dangerouslySetInnerHTML={{
           __html:
-            ".labels-demo .label-marker__label-text { color: #111 !important; }",
+            ".labels-demo .label-marker__label-text { color: #111 !important; } .labels-demo .label-marker--point .label-marker__label-box { padding: 2px; }",
         }}
       />
       <div
