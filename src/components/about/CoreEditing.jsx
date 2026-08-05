@@ -438,6 +438,7 @@ function ClipHandlesDemo({ isActive = true }) {
             transformOrigin: "50% 50%",
             pointerEvents: "none",
             filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
+            zIndex: 30,
           }}
         >
           {isStretch ? (
