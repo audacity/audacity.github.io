@@ -135,7 +135,7 @@ export const STOPS = [
       // Where the context menu opens. "Group clips" is the 4th item.
       menuPos: { x: 50.7, y: 27.8 },
       groupItemX: 51.7,
-      groupItemY: 40.7,
+      groupItemY: 43.5,
     },
   },
   {
