@@ -295,7 +295,9 @@ function WorkspaceCanvas({
             // `.playhead-cursor` at z-index 1000, and the override
             // earlier pushes selected clips to 9999 — without this rule
             // the cursor disappears behind any selected clip it crosses.
-            ".workspace-canvas .playhead-cursor{z-index:10001!important;}",
+            ".workspace-canvas .playhead-cursor{z-index:10001!important;}" +
+            // Hide the Export tab — the feature isn't available yet.
+            ".workspace-canvas .project-toolbar__left .tab:nth-child(3){display:none!important;}",
         }}
       />
       <div
