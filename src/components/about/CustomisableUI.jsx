@@ -1195,6 +1195,14 @@ function MeterDockDemo() {
             pointer-events: none;
             filter: drop-shadow(0 0 0 rgba(91,163,245,0));
           }
+          .meter-dock [aria-label="Playback volume settings"] {
+            transition: opacity 360ms ease, transform 720ms ${EASE};
+          }
+          .meter-dock[data-vertical="true"] [aria-label="Playback volume settings"] {
+            opacity: 0;
+            transform: translate(16px, 14px) scale(0.92);
+            pointer-events: none;
+          }
         `}</style>
       </div>
     </ThemeProvider>
