@@ -63,7 +63,7 @@ const NOOP = () => {};
   (loop region, snap, etc.) have somewhere to land — none of it does
   real work, this is a marketing mockup.
 */
-function TransportRow({ config }) {
+function TransportRow({ config, workspaceOverride }) {
   const tb = config.toolbar || {};
   const timeCodeFormat = tb.timeCodeFormat || "hh:mm:ss";
   const [loopRegionEnabled, setLoopRegionEnabled] = useState(false);
@@ -74,7 +74,7 @@ function TransportRow({ config }) {
   // corresponding tool layout internally. Each workspace config opts into a
   // value ('classic' | 'spectral-editing' | 'modern' | 'music'); presets
   // without a 1:1 package equivalent (e.g. 'custom') fall back to classic.
-  const workspace = config.workspace || "classic";
+  const workspace = workspaceOverride || config.workspace || "classic";
 
   return (
     <TransportToolbar
@@ -181,6 +181,7 @@ function WorkspaceCanvas({
   clipOverrides,
   extraClips,
   envelopeModeOverride,
+  workspaceOverride,
   compact = false,
   workspaceKey,
   workspaceOptions,
@@ -341,6 +342,7 @@ function WorkspaceCanvas({
             })}
             <TransportRow
               config={{ ...config, envelopeMode: effectiveEnvelopeMode }}
+              workspaceOverride={workspaceOverride}
             />
 
             <div

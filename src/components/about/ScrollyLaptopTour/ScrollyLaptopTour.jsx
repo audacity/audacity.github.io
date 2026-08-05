@@ -1927,6 +1927,7 @@ function DesktopTour() {
                 clipOverrides={clipOverrides}
                 extraClips={extraClips}
                 envelopeModeOverride={envelopeMode}
+                workspaceOverride="modern"
                 splitToolActive={!!splitFrame?.buttonActive}
               />
               <TourOverlay
