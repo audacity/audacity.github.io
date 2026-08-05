@@ -302,7 +302,7 @@ function DesktopTour() {
     mq.addEventListener("change", compute);
     return () => mq.removeEventListener("change", compute);
   }, []);
-  const config = WORKSPACE_CONFIGS.modern;
+  const config = WORKSPACE_CONFIGS.podcast;
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
   const introStop = STOPS.find((s) => s.panelSide === "intro") ?? STOPS[0];
