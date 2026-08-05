@@ -11,7 +11,6 @@ import {
   PlayheadCursor,
   MasterMeter,
   MasterMeterVertical,
-  ToolButton,
   ThemeProvider,
   darkTheme,
   lightTheme,
@@ -1152,8 +1151,8 @@ function MeterDockDemo() {
                 style={{
                   width: VERT_METER_W,
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  alignItems: "stretch",
+                  justifyContent: "center",
                   opacity: isVertical ? 1 : 0,
                   transform: isVertical
                     ? "translate(0, 0) scale(1)"
@@ -1166,13 +1165,6 @@ function MeterDockDemo() {
                     : "drop-shadow(0 0 0 rgba(91,163,245,0))",
                 }}
               >
-                <div style={{ padding: "6px 0 4px" }}>
-                  <ToolButton
-                    icon="volume"
-                    ariaLabel="Playback volume settings (dock)"
-                    onClick={NOOP}
-                  />
-                </div>
                 <MasterMeterVertical
                   levelLeft={levels.levelLeft}
                   levelRight={levels.levelRight}
