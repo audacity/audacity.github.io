@@ -858,7 +858,9 @@ function SampleEditingDemo({ isActive = true }) {
   const CLIP_NAME = "TL_Juicy_Drum_Snare_2_84bpm";
 
   const SAMPLE_COUNT = 28;
-  const DRAG_IDX = 13;
+  // Range of samples the pen draws across
+  const DRAW_START = 5;
+  const DRAW_END = 21;
 
   function sampleAt(i) {
     return (
@@ -866,6 +868,12 @@ function SampleEditingDemo({ isActive = true }) {
       Math.cos(i * 0.7) * 0.05 +
       Math.sin(i * 2.3) * 0.03
     );
+  }
+
+  // Smooth arch the pen draws — peaks at the midpoint of the range
+  function drawnValue(i) {
+    const frac = (i - DRAW_START) / (DRAW_END - DRAW_START);
+    return -0.52 * Math.sin(frac * Math.PI);
   }
 
   const CLIP_HEADER_H = 24;
@@ -877,63 +885,66 @@ function SampleEditingDemo({ isActive = true }) {
   const CLIP_RIGHT_PAD = 16;
   const usableW = CANVAS_W - CLIP_LEFT_PAD - CLIP_RIGHT_PAD;
 
-  const DRAG_DOT_X =
-    CLIP_LEFT_PAD + ((DRAG_IDX + 0.5) * usableW) / SAMPLE_COUNT;
-  const REST_DOT_Y = MID_Y + sampleAt(DRAG_IDX) * (CLIP_BODY_H * 0.4);
-  // Cursor starts here — outside the editing range, to the right and below.
-  const FAR_X = DRAG_DOT_X + 100;
-  const FAR_Y = MID_Y + 60;
-  // Distance threshold at which the cursor snaps from pointer → pen.
-  const PROXIMITY = 28;
+  const sampleX = (i) => CLIP_LEFT_PAD + ((i + 0.5) * usableW) / SAMPLE_COUNT;
+  const DRAW_START_X = sampleX(DRAW_START);
+  const DRAW_START_Y = MID_Y; // drawnValue at frac=0 is 0
+  const DRAW_END_X = sampleX(DRAW_END);
+  const DRAW_END_Y = MID_Y; // drawnValue at frac=1 is 0
+  const FAR_X = DRAW_END_X + 90;
+  const FAR_Y = MID_Y + 55;
+  const PROXIMITY = 30;
 
   const easeInOut = (u) =>
     u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
 
-  // Four phases over a 3.2 s loop:
-  //   0.00–0.12  far       (pointer, cursor stationary)
-  //   0.12–0.35  approach  (pointer → pen as distance drops below PROXIMITY)
-  //   0.35–0.72  drag      (pen, dot moves up and back)
-  //   0.72–0.88  retreat   (pen → pointer as distance rises above PROXIMITY)
-  //   0.88–1.00  far again (pointer, stationary)
-  let cursorX, cursorY, isPen, dragDotV;
+  // Phases over a 3.2 s loop:
+  //   0.00–0.10  far       (pointer, stationary right of draw range)
+  //   0.10–0.28  approach  (pointer → pen, sweeping to DRAW_START)
+  //   0.28–0.72  draw      (pen sweeps left→right across DRAW_START..DRAW_END)
+  //   0.72–0.85  retreat   (pen → pointer, DRAW_END back to FAR)
+  //   0.85–1.00  far again (pointer, drawn samples remain visible)
+  let cursorX, cursorY, isPen, penSamplePos;
 
-  if (t < 0.12) {
+  if (t < 0.1) {
     cursorX = FAR_X;
     cursorY = FAR_Y;
     isPen = false;
-    dragDotV = sampleAt(DRAG_IDX);
-  } else if (t < 0.35) {
-    const p = easeInOut((t - 0.12) / 0.23);
-    cursorX = FAR_X + (DRAG_DOT_X - FAR_X) * p;
-    cursorY = FAR_Y + (REST_DOT_Y - FAR_Y) * p;
-    isPen = Math.hypot(cursorX - DRAG_DOT_X, cursorY - REST_DOT_Y) < PROXIMITY;
-    dragDotV = sampleAt(DRAG_IDX);
+    penSamplePos = DRAW_START - 1; // no samples drawn yet
+  } else if (t < 0.28) {
+    const p = easeInOut((t - 0.1) / 0.18);
+    cursorX = FAR_X + (DRAW_START_X - FAR_X) * p;
+    cursorY = FAR_Y + (DRAW_START_Y - FAR_Y) * p;
+    isPen =
+      Math.hypot(cursorX - DRAW_START_X, cursorY - DRAW_START_Y) < PROXIMITY;
+    penSamplePos = DRAW_START - 1;
   } else if (t < 0.72) {
-    const dp = Math.sin(((t - 0.35) / 0.37) * Math.PI); // 0 → 1 → 0
-    dragDotV = sampleAt(DRAG_IDX) - dp * 0.55;
-    cursorX = DRAG_DOT_X;
-    cursorY = MID_Y + dragDotV * (CLIP_BODY_H * 0.4);
+    const p = easeInOut((t - 0.28) / 0.44);
+    penSamplePos = DRAW_START + p * (DRAW_END - DRAW_START);
+    const frac = p;
+    cursorX = DRAW_START_X + (DRAW_END_X - DRAW_START_X) * p;
+    cursorY = MID_Y + -0.52 * Math.sin(frac * Math.PI) * (CLIP_BODY_H * 0.4);
     isPen = true;
-  } else if (t < 0.88) {
-    const p = easeInOut((t - 0.72) / 0.16);
-    cursorX = DRAG_DOT_X + (FAR_X - DRAG_DOT_X) * p;
-    cursorY = REST_DOT_Y + (FAR_Y - REST_DOT_Y) * p;
-    isPen = Math.hypot(cursorX - DRAG_DOT_X, cursorY - REST_DOT_Y) < PROXIMITY;
-    dragDotV = sampleAt(DRAG_IDX);
+  } else if (t < 0.85) {
+    const p = easeInOut((t - 0.72) / 0.13);
+    cursorX = DRAW_END_X + (FAR_X - DRAW_END_X) * p;
+    cursorY = DRAW_END_Y + (FAR_Y - DRAW_END_Y) * p;
+    isPen = Math.hypot(cursorX - DRAW_END_X, cursorY - DRAW_END_Y) < PROXIMITY;
+    penSamplePos = DRAW_END; // all drawn
   } else {
     cursorX = FAR_X;
     cursorY = FAR_Y;
     isPen = false;
-    dragDotV = sampleAt(DRAG_IDX);
+    penSamplePos = DRAW_END;
   }
 
   const stems = [];
   const dots = [];
   for (let i = 0; i < SAMPLE_COUNT; i++) {
-    const x = CLIP_LEFT_PAD + ((i + 0.5) * usableW) / SAMPLE_COUNT;
-    const v = i === DRAG_IDX ? dragDotV : sampleAt(i);
+    const x = sampleX(i);
+    const inRange = i >= DRAW_START && i <= DRAW_END;
+    const isDrawn = inRange && i <= penSamplePos;
+    const v = isDrawn ? drawnValue(i) : sampleAt(i);
     const y = MID_Y + v * (CLIP_BODY_H * 0.4);
-    const isDragged = i === DRAG_IDX;
     stems.push(
       <line
         key={`stem-${i}`}
@@ -946,150 +957,112 @@ function SampleEditingDemo({ isActive = true }) {
       />,
     );
     dots.push(
-      <circle
-        key={`dot-${i}`}
-        cx={x}
-        cy={y}
-        r={isDragged ? 5 : 3}
-        fill={isDragged ? "#0c4a6e" : "rgba(0,0,0,0.75)"}
-        stroke={isDragged ? "#fff" : "none"}
-        strokeWidth={isDragged ? 2 : 0}
-      />,
+      <circle key={`dot-${i}`} cx={x} cy={y} r={3} fill="rgba(0,0,0,0.75)" />,
     );
   }
 
   return (
-    <div
-      ref={rootRef}
-      className="absolute inset-0 overflow-hidden"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#e0f7fa",
-      }}
-    >
+    <ThemeProvider theme={darkTheme}>
       <div
+        ref={rootRef}
+        className="absolute inset-0 overflow-hidden"
         style={{
-          position: "relative",
-          width: CANVAS_W,
-          height: TRACK_H,
-          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#171F25",
         }}
       >
-        {/* Custom clip shell — full-bleed colored body, no TrackNew waveform */}
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: 4,
-            overflow: "hidden",
+            position: "relative",
+            width: CANVAS_W,
+            height: TRACK_H,
+            flexShrink: 0,
           }}
         >
-          <div
+          <Clip
+            color="cyan"
+            name={CLIP_NAME}
+            width={CANVAS_W}
+            height={TRACK_H}
+          />
+
+          {/* Baseline + stems + dots overlaid on the Clip component */}
+          <svg
+            width={CANVAS_W}
+            height={TRACK_H}
+            viewBox={`0 0 ${CANVAS_W} ${TRACK_H}`}
             style={{
-              height: CLIP_HEADER_H,
-              padding: "0 8px",
-              display: "flex",
-              alignItems: "center",
-              background: "rgba(2, 132, 199, 0.45)",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              pointerEvents: "none",
             }}
           >
-            <span
+            <line
+              x1={CLIP_LEFT_PAD}
+              y1={MID_Y}
+              x2={CANVAS_W - CLIP_RIGHT_PAD}
+              y2={MID_Y}
+              stroke="rgba(0,0,0,0.2)"
+              strokeWidth={1}
+            />
+            {stems}
+            {dots}
+          </svg>
+
+          {/* Cursor: pointer when far, pen when within editing range */}
+          {isPen ? (
+            // Pen — tip hotspot at SVG (1, 21)
+            <svg
+              aria-hidden
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
               style={{
-                fontSize: 11,
-                fontFamily: "ui-monospace, monospace",
-                color: "rgba(0,0,0,0.65)",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
+                position: "absolute",
+                left: cursorX - 1,
+                top: cursorY - 21,
+                pointerEvents: "none",
+                filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
               }}
             >
-              {CLIP_NAME}
-            </span>
-          </div>
-          <div
-            style={{
-              height: TRACK_H - CLIP_HEADER_H,
-              background: "rgba(2, 132, 199, 0.18)",
-            }}
-          />
+              <path
+                d="M1 21 L3 21 L20 5 L21 3 L19 2 L2 19 Z"
+                fill="#fff"
+                stroke="#0a0a0a"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            // Pointer arrow — tip hotspot at SVG (3, 2)
+            <svg
+              aria-hidden
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              style={{
+                position: "absolute",
+                left: cursorX - 3,
+                top: cursorY - 2,
+                pointerEvents: "none",
+                filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
+              }}
+            >
+              <path
+                d="M3 2 L3 15 L6 12 L9 18 L11 17 L8 11 L13 11 Z"
+                fill="#fff"
+                stroke="#0a0a0a"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </div>
-
-        {/* Baseline + stems + dots */}
-        <svg
-          width={CANVAS_W}
-          height={TRACK_H}
-          viewBox={`0 0 ${CANVAS_W} ${TRACK_H}`}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            pointerEvents: "none",
-          }}
-        >
-          <line
-            x1={CLIP_LEFT_PAD}
-            y1={MID_Y}
-            x2={CANVAS_W - CLIP_RIGHT_PAD}
-            y2={MID_Y}
-            stroke="rgba(0,0,0,0.2)"
-            strokeWidth={1}
-          />
-          {stems}
-          {dots}
-        </svg>
-
-        {/* Cursor: pointer when far, pen when within editing range */}
-        {isPen ? (
-          // Pen — tip hotspot at SVG (1, 21)
-          <svg
-            aria-hidden
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            style={{
-              position: "absolute",
-              left: cursorX - 1,
-              top: cursorY - 21,
-              pointerEvents: "none",
-              filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
-            }}
-          >
-            <path
-              d="M1 21 L3 21 L20 5 L21 3 L19 2 L2 19 Z"
-              fill="#fff"
-              stroke="#0a0a0a"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
-            />
-          </svg>
-        ) : (
-          // Pointer arrow — tip hotspot at SVG (3, 2)
-          <svg
-            aria-hidden
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            style={{
-              position: "absolute",
-              left: cursorX - 3,
-              top: cursorY - 2,
-              pointerEvents: "none",
-              filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
-            }}
-          >
-            <path
-              d="M3 2 L3 15 L6 12 L9 18 L11 17 L8 11 L13 11 Z"
-              fill="#fff"
-              stroke="#0a0a0a"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
