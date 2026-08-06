@@ -79,6 +79,9 @@ export const firstPartyPromos: Record<string, PromoData> = {
     type: "exit-popup",
     isActive: true,
     priority: 50,
+    // Both slash forms: suppressOnPaths matches the pathname exactly, unlike
+    // routeAllowlist's prefix matching.
+    suppressOnPaths: ["/about", "/about/"],
     message:
       "Use Audio.com to back up your projects, and share them from anywhere!",
     cta: {
