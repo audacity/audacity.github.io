@@ -2,15 +2,23 @@ import React, { useEffect, useRef } from "react";
 import { useEntrance } from "../../hooks/useEntrance.js";
 
 const EFFECTS = [
-  { id: "compressor", name: "Compressor", image: "/effects/Compressor.png" },
+  { id: "compressor", name: "Compressor", image: "/effects/Compressor.webp" },
   {
     id: "filter-curve",
     name: "Filter Curve",
-    image: "/effects/Filter_curve.png",
+    image: "/effects/Filter_curve.webp",
   },
-  { id: "graphic-eq", name: "Graphic EQ", image: "/effects/Graphic_EQ.png" },
-  { id: "limiter", name: "Limiter", image: "/effects/Limiter.png" },
-  { id: "reverb", name: "Reverb", image: "/effects/Reverb.png" },
+  { id: "graphic-eq", name: "Graphic EQ", image: "/effects/Graphic_EQ.webp" },
+  // Smallest source of the set (496px wide). At full card width it upscales
+  // past its native size and goes soft, so it's held back to sit within its
+  // own pixels like the others do.
+  {
+    id: "limiter",
+    name: "Limiter",
+    image: "/effects/Limiter.webp",
+    scale: 0.7,
+  },
+  { id: "reverb", name: "Reverb", image: "/effects/Reverb.webp" },
 ];
 
 function EffectCard({ effect }) {
@@ -24,6 +32,19 @@ function EffectCard({ effect }) {
           decoding="async"
           className="effect-image"
           draggable={false}
+          style={
+            effect.scale
+              ? {
+                  // Centre the held-back image in the full-size card box so
+                  // the row's rhythm and caption positions stay aligned.
+                  width: `${effect.scale * 100}%`,
+                  height: `${effect.scale * 100}%`,
+                  position: "absolute",
+                  inset: 0,
+                  margin: "auto",
+                }
+              : undefined
+          }
         />
       </div>
       <div className="mt-6 text-center">
