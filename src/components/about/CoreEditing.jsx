@@ -430,12 +430,20 @@ function ClipHandlesDemo({ isActive = true }) {
           </div>
         </div>
 
-        {/* Animated cursor: approaches the handle, clicks, drags, fades out. */}
-        <svg
+        {/* Animated cursor: approaches the handle, clicks, drags, fades out.
+            Artwork is the app's own 32px cursor set; both variants are drawn
+            centred on their hotspot, so translate(-50%, -50%) lands them on
+            the clip edge. */}
+        <img
           aria-hidden
+          alt=""
+          src={
+            isStretch
+              ? "/about/cursors/ClipStretchRight.png"
+              : "/about/cursors/ClipTrimRight.png"
+          }
           width="22"
           height="22"
-          viewBox="0 0 22 22"
           style={{
             position: "absolute",
             left: cursorX,
@@ -447,25 +455,7 @@ function ClipHandlesDemo({ isActive = true }) {
             filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))",
             zIndex: 30,
           }}
-        >
-          {isStretch ? (
-            <path
-              d="M2 11 L7 7 L7 9 L15 9 L15 7 L20 11 L15 15 L15 13 L7 13 L7 15 Z"
-              fill="#fff"
-              stroke="#0a0a0a"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
-            />
-          ) : (
-            <path
-              d="M11 4 L14 7 L12 7 L12 15 L14 15 L11 18 L8 15 L10 15 L10 7 L8 7 Z"
-              fill="#fff"
-              stroke="#0a0a0a"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
-            />
-          )}
-        </svg>
+        />
       </div>
     </ThemeProvider>
   );
@@ -1014,28 +1004,25 @@ function SampleEditingDemo({ isActive = true }) {
 
           {/* Cursor: pointer when far, pen when within editing range */}
           {isPen ? (
-            // Pen — tip hotspot at SVG (1, 21)
-            <svg
+            // Pen — MusescoreIcon EF63, rasterised at 3x. The glyph is an
+            // outline, so it's flood-filled to an opaque body with its
+            // linework kept in white, matching the black-fill/white-edge
+            // treatment of the clip cursors. Tip is the bottom-left corner:
+            // (0, 21.7) within the 22px box.
+            <img
               aria-hidden
+              alt=""
+              src="/about/cursors/DrawPen.png"
               width="22"
               height="22"
-              viewBox="0 0 22 22"
               style={{
                 position: "absolute",
-                left: cursorX - 1,
-                top: cursorY - 21,
+                left: cursorX,
+                top: cursorY - 21.7,
                 pointerEvents: "none",
                 filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))",
               }}
-            >
-              <path
-                d="M1 21 L3 21 L20 5 L21 3 L19 2 L2 19 Z"
-                fill="#fff"
-                stroke="#0a0a0a"
-                strokeWidth="1.2"
-                strokeLinejoin="round"
-              />
-            </svg>
+            />
           ) : (
             // Pointer arrow — tip hotspot at SVG (3, 2)
             <svg
