@@ -803,8 +803,8 @@ function LoopingDemo({ isActive = true }) {
               right stalk at the end position. Both lifted above the
               clips with a high z-index. */}
           {[
-            { time: LOOP_START, offset: 10 },
-            { time: LOOP_END, offset: -10 },
+            { time: LOOP_START, offset: 12 },
+            { time: LOOP_END, offset: 12 },
           ].map(({ time, offset }) => (
             <div
               key={time}

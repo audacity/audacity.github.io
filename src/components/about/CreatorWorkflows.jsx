@@ -18,18 +18,18 @@ const CREATORS = [
   {
     id: "music",
     src: "/about/creators/music.jpg",
-    label: "Recording & editing music",
+    label: "Recording and editing music",
     source: true,
   },
   {
     id: "restoring",
     src: "/about/creators/restoring.jpg",
-    label: "Cleaning up & restoring audio",
+    label: "Cleaning up and restoring audio",
   },
   {
     id: "podcast",
     src: "/about/creators/podcast.jpg",
-    label: "Podcasts & spoken-word",
+    label: "Podcasts and spoken-word",
   },
   {
     id: "video",
@@ -90,12 +90,12 @@ function CreatorWorkflows({ variant = "hero" }) {
       <Contained>
         <header ref={header.ref} style={header.style} className="max-w-3xl">
           <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-            Built for the way you work
+            Inspired by you
           </h2>
           <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            It's built for the full range of everyday audio work, from restoring
-            old recordings to making music, cutting podcasts, and editing audio
-            for video.
+            Audacity 4 is built for the full range of everyday audio work, from
+            restoring old recordings to making music, cutting podcasts, and
+            editing audio for video.
           </p>
         </header>
       </Contained>
