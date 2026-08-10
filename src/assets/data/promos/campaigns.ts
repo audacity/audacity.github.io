@@ -132,7 +132,26 @@ export const campaignBannerPromos: Record<string, PromoData> = {
     },
     cta: {
       text: "Get it on MuseHub",
-      link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_source=au-web-banner-mh-web&utm_medium=soap-voice-cleaner&utm_campaign=au-web-banner-mh-web-soap-voice-cleaner&utm_id=au-web-banner",
+      link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_040826_crosslink&utm_content=au_web_banner",
+    },
+  },
+  extract: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-08-24",
+    endDate: "2026-09-07",
+    message:
+      "Extract:Dialogue 2: The AI tool for dialogue cleanup and restoration. Isolate, control, and refine speech in real time.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Extract MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/extractdialogue-2",
     },
   },
 };
