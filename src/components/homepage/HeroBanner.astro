@@ -1,14 +1,14 @@
 ---
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
+import AudacityMockUp from "../../assets/img/HeroBannerImageAu4.webp";
 import HeroSwoosh from "./HeroSwoosh.astro";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
 ---
 
-<section id="main" class="py-8 md:py-12 lg:py-16 bg-background-dark">
+<section id="main" class="py-8 md:py-12 lg:py-16 bg-background-deep">
   <div
     class="mx-auto max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-xl px-6 md:px-16"
   >
@@ -17,21 +17,14 @@ const t = useTranslations(Astro.currentLocale);
       <div
         class="flex flex-col text-center lg:text-left lg:w-2/5 gap-6 md:gap-8 lg:gap-10 xl:gap-14"
       >
-        <div class="flex flex-col gap-0">
+        <div class="flex flex-col gap-3 md:gap-4">
+          <p class="font-sans text-18 text-text-contrast/60">
+            {t("hero.eyebrow")}
+          </p>
           <h1
-            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
+            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight"
           >
-            {t("hero.headline1")}
-          </h1>
-          <h1
-            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
-          >
-            {t("hero.headline2")}
-          </h1>
-          <h1
-            class="font-harmony text-32 sm:text-40 md:text-48 lg:text-56 xl:text-64 text-text-contrast leading-tight whitespace-nowrap"
-          >
-            {t("hero.headline3")}
+            {t("hero.headline")}
           </h1>
         </div>
 

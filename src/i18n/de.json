@@ -22,10 +22,9 @@
   "nav.tryCloud": "Audacity Cloud ausprobieren",
   "nav.signUp": "Registrieren",
 
-  "hero.headline1": "Die weltweit",
-  "hero.headline2": "beliebteste App zum Bearbeiten",
-  "hero.headline3": "und Aufnehmen von Audio",
-  "hero.learnMore": "Mehr über Audacity 4 erfahren",
+  "hero.eyebrow": "Über 100 Mio. Downloads seit 2000",
+  "hero.headline": "Die weltweit beliebteste App zum Bearbeiten und Aufnehmen von Audio",
+  "hero.learnMore": "Mehr über die Funktionen erfahren",
 
   "features.intro": "Alles, was Sie zum Erstellen brauchen",
   "features.crossPlatform.title": "Plattformübergreifend",
@@ -111,5 +110,17 @@
   "video.release.label": "Ein erster Blick auf unseren Entwicklungsprozess und neue Funktionen.",
   "video.release.alt": "Videovorschaubild: Wie wir Audacity 4 entwickeln",
   "video.promo.label": "Einmal installieren. Zugang zu unzähligen leistungsstarken Plugins. Kombinieren für grenzenlose Kreativität.",
-  "video.promo.cta": "Jetzt auf MuseHub holen"
+  "video.promo.cta": "Jetzt auf MuseHub holen",
+
+  "release.heading": "Unsere neueste Version",
+  "release.body": "Audacity 4 ist intuitiv, anpassbar und flexibler als je zuvor. Zu den neuen Funktionen gehören eine überarbeitete Oberfläche, Workspaces und Verbesserungen für produktiveres Arbeiten.",
+
+  "plugins.heading": "Die Top-5-Plugins für Audacity 4",
+  "plugins.poweredBy": "bereitgestellt von MuseHub",
+  "plugins.openvino": "Sammlung von KI-Werkzeugen für die Bearbeitung",
+  "plugins.musefx": "Unverzichtbare Sammlung von Mix-Effekten",
+  "plugins.landrfxVoice": "Verleiht Ihren Gesangsspuren den letzten Schliff",
+  "plugins.soapVoiceCleaner": "Professioneller Klang für Sprachaufnahmen",
+  "plugins.graillon": "Gesangstuner in Echtzeit",
+  "plugins.badgeAlt": "Auf MuseHub herunterladen"
 }

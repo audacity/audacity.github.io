@@ -16,6 +16,7 @@ function FeaturedVideo(props) {
     ctaURL = "",
     textColor = "text-text-primary",
     matomoEventName,
+    playButton = "youtube",
   } = props;
 
   function handleVideoClick() {
@@ -66,11 +67,26 @@ function FeaturedVideo(props) {
             onClick={() => handleVideoClick()}
             onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
           />
-          <img
-            src={ytLogo.src}
-            alt="YouTube logo"
-            className="yt-logo w-24 h-24 [grid-area:main] pointer-events-none"
-          />
+          {playButton === "accent" ? (
+            <span
+              aria-hidden="true"
+              className="flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-accent [grid-area:main] pointer-events-none"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-7 h-7 lg:w-9 lg:h-9 ml-1 text-white"
+              >
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </span>
+          ) : (
+            <img
+              src={ytLogo.src}
+              alt="YouTube logo"
+              className="yt-logo w-24 h-24 [grid-area:main] pointer-events-none"
+            />
+          )}
         </div>
       )}
       {label && <p className={`text-16 leading-snug ${textColor}`}>{label}</p>}

@@ -22,10 +22,9 @@
   "nav.tryCloud": "Essayer Audacity Cloud",
   "nav.signUp": "S'inscrire",
 
-  "hero.headline1": "L'application d'édition",
-  "hero.headline2": "audio et d'enregistrement",
-  "hero.headline3": "la plus populaire au monde",
-  "hero.learnMore": "En savoir plus sur Audacity 4",
+  "hero.eyebrow": "Plus de 100 M de téléchargements depuis 2000",
+  "hero.headline": "L'application d'édition audio et d'enregistrement la plus populaire au monde",
+  "hero.learnMore": "En savoir plus sur les fonctionnalités",
 
   "features.intro": "Tout ce dont vous avez besoin pour créer",
   "features.crossPlatform.title": "Multiplateforme",
@@ -111,5 +110,17 @@
   "video.release.label": "Un avant-goût de notre processus de développement et des nouvelles fonctionnalités.",
   "video.release.alt": "Miniature vidéo : Comment nous construisons Audacity 4",
   "video.promo.label": "Installez une fois. Accédez à des tonnes de plugins puissants. Mélangez pour une créativité infinie.",
-  "video.promo.cta": "Obtenez-le sur MuseHub"
+  "video.promo.cta": "Obtenez-le sur MuseHub",
+
+  "release.heading": "Notre dernière version",
+  "release.body": "Audacity 4 est intuitif, personnalisable et plus flexible que jamais. Parmi les nouveautés : une interface repensée, les Workspaces et des améliorations de productivité.",
+
+  "plugins.heading": "Top 5 des plugins pour Audacity 4",
+  "plugins.poweredBy": "propulsé par MuseHub",
+  "plugins.openvino": "Ensemble d'outils d'IA pour l'édition",
+  "plugins.musefx": "Collection essentielle d'effets de mixage",
+  "plugins.landrfxVoice": "Peaufinez vos pistes vocales",
+  "plugins.soapVoiceCleaner": "Une voix parlée au son professionnel",
+  "plugins.graillon": "Accordeur vocal en temps réel",
+  "plugins.badgeAlt": "Télécharger sur MuseHub"
 }

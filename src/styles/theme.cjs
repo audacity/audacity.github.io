@@ -12,6 +12,7 @@ module.exports = {
       light: "#F1F0F5", // Light background colour
       medium: "#E6E4EE", // Medium background colour
       dark: "#261F43", // Dark background colour
+      deep: "#0C013A", // Deep background colour — Audacity 4 release hero
     },
     // Legacy primary brand colors (consider deprecating)
     primary: {
