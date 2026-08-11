@@ -5,7 +5,12 @@ import "@fontsource-variable/signika";
 import "../../styles/fonts.css";
 
 function NavigationReact(props) {
-  const { currentURL, labels = {}, localePrefix = "" } = props;
+  const {
+    currentURL,
+    labels = {},
+    localePrefix = "",
+    backgroundClass = "bg-background-dark",
+  } = props;
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
 
   function getUrlPath(url) {
@@ -77,7 +82,7 @@ function NavigationReact(props) {
   }
 
   return (
-    <nav className="z-3 bg-background-dark">
+    <nav className={`z-3 ${backgroundClass}`}>
       <div className="flex h-14 items-center max-w-screen-2xl mx-auto px-6 md:px-10 gap-8">
         <a
           className="flex w-fit items-center shrink-0"

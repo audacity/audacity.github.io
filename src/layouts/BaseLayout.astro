@@ -17,6 +17,13 @@ export interface Props {
   canonical?: string;
   image?: string;
   transparentNav?: boolean;
+  /** Tailwind bg-* class for the nav bar. Set it to match the page's own hero
+   * so the nav reads as one field with it instead of a separate bar. */
+  navBackgroundClass?: string;
+  /** Swap the nav's solid background for a translucent blur once scrolled, so
+   * the sticky bar stops hard-cutting whatever passes under it. Independent of
+   * transparentNav — the nav keeps its own background at rest. */
+  blurNavOnScroll?: boolean;
 }
 const {
   title = "Audacity | Free Audio editor, recorder, music making and more!",
@@ -26,6 +33,8 @@ const {
   canonical,
   image,
   transparentNav = false,
+  navBackgroundClass = "bg-background-dark",
+  blurNavOnScroll = false,
 } = Astro.props;
 
 const t = useTranslations(Astro.currentLocale);
@@ -68,7 +77,11 @@ const experimentBootstrapData = experiments.filter(
 ---
 
 <!doctype html>
-<html lang="en" data-transparent-nav={transparentNav || undefined}>
+<html
+  lang="en"
+  data-transparent-nav={transparentNav || undefined}
+  data-blur-nav={blurNavOnScroll || undefined}
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -106,6 +119,25 @@ const experimentBootstrapData = experiments.filter(
       html[data-transparent-nav] #site-header:hover nav,
       html[data-transparent-nav] #site-header:focus-within nav,
       html[data-transparent-nav] #site-header[data-solid="true"] nav {
+        background-color: rgba(10, 13, 22, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /*
+        Keeps the nav's own solid background at rest, then swaps it for a
+        translucent blur once scrolled. Without this the sticky bar slices
+        straight through whatever scrolls under it — most visibly the hero
+        laptop. No :hover/:focus-within trigger here (unlike the transparent
+        variant above): the nav is already opaque at rest, so those would only
+        cause a pointless colour flicker at the top of the page.
+      */
+      html[data-blur-nav] #site-header nav {
+        transition:
+          background-color 240ms ease,
+          backdrop-filter 240ms ease;
+      }
+      html[data-blur-nav] #site-header[data-solid="true"] nav {
         background-color: rgba(10, 13, 22, 0.85);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
@@ -251,6 +283,7 @@ const experimentBootstrapData = experiments.filter(
         currentURL={Astro.request.url}
         labels={navLabels}
         localePrefix={localePrefix}
+        backgroundClass={navBackgroundClass}
       />
       {
         shouldShowPromoBanner && (
