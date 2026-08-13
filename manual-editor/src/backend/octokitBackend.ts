@@ -215,7 +215,7 @@ export class OctokitBackend implements GitHubBackend {
       (new Octokit({ auth: token }) as unknown as MinimalOctokit);
     this.owner = opts.owner ?? "audacity";
     this.repo = opts.repo ?? "audacity.github.io";
-    this.baseBranch = opts.baseBranch ?? "release/audacity-4";
+    this.baseBranch = opts.baseBranch ?? "manual/main";
     this.draftsBranch = opts.draftsBranch ?? "manual/editor-drafts";
   }
 
