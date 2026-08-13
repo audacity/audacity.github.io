@@ -36,9 +36,9 @@ function NavigationReact(props) {
       badge: labels.new ?? "New",
     },
     {
-      href: `${localePrefix}/help`,
+      href: "https://support.audacityteam.org",
       linkText: labels.help ?? "Help",
-      target: "",
+      target: "_blank",
     },
   ];
 
