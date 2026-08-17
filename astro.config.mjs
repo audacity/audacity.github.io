@@ -55,7 +55,14 @@ export default defineConfig({
       ],
     },
     optimizeDeps: {
-      include: ["@dilsonspickles/components"],
+      /*
+        react/react-dom must be pre-bundled alongside the design system, not
+        just the package on its own. Left out, ThemeProvider inside
+        @dilsonspickles/components resolves a second, null React and throws
+        "Cannot read properties of null (reading 'useMemo')" during hydration,
+        which takes down every island on /about that uses it.
+      */
+      include: ["@dilsonspickles/components", "react", "react-dom"],
     },
     build: {
       assets: "assets",
