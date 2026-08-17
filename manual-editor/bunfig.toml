@@ -1,2 +1,0 @@
-[test]
-preload = ["./src/app/test-setup.ts"]

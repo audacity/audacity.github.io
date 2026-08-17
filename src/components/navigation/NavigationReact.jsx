@@ -62,7 +62,7 @@ function NavigationReact(props) {
       >
         {navLink.linkText}
         {navLink.badge && (
-          <span className="inline-flex items-center justify-center rounded-full bg-accent text-background-dark text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 leading-none">
+          <span className="inline-flex items-center justify-center rounded-full bg-lavender-200 text-background-deep text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 leading-none">
             {navLink.badge}
           </span>
         )}
@@ -151,7 +151,7 @@ function NavigationReact(props) {
             >
               {navLink.linkText}
               {navLink.badge && (
-                <span className="inline-flex items-center justify-center rounded-full bg-accent text-background-dark text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 leading-none">
+                <span className="inline-flex items-center justify-center rounded-full bg-lavender-200 text-background-deep text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 leading-none">
                   {navLink.badge}
                 </span>
               )}

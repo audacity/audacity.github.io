@@ -4,7 +4,6 @@ import { useEntrance } from "../../hooks/useEntrance.js";
 const PANELS = [
   {
     id: "project-page",
-    image: "/audiocom/Project_page.png",
     eyebrow: "Easy to manage",
     title: "Keep track of your projects",
     description:
@@ -12,7 +11,6 @@ const PANELS = [
   },
   {
     id: "audiocom",
-    image: "/audiocom/Audio_com.png",
     eyebrow: "Share with ease",
     title: "Publish straight to audio.com",
     description:
@@ -20,7 +18,7 @@ const PANELS = [
   },
 ];
 
-function AudioComPanel({ panel, idx }) {
+function AudioComPanel({ panel, idx, src }) {
   const entrance = useEntrance({ delayMs: 120 + idx * 110 });
   return (
     <article
@@ -30,7 +28,7 @@ function AudioComPanel({ panel, idx }) {
     >
       <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
         <img
-          src={panel.image}
+          src={src}
           alt={`${panel.title} — ${panel.eyebrow}`}
           loading="lazy"
           decoding="async"
@@ -55,7 +53,7 @@ function AudioComPanel({ panel, idx }) {
   );
 }
 
-function AudioCom() {
+function AudioCom({ images = {} }) {
   const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
@@ -76,7 +74,12 @@ function AudioCom() {
 
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {PANELS.map((panel, idx) => (
-            <AudioComPanel key={panel.id} panel={panel} idx={idx} />
+            <AudioComPanel
+              key={panel.id}
+              panel={panel}
+              src={images[panel.id]}
+              idx={idx}
+            />
           ))}
         </div>
       </div>

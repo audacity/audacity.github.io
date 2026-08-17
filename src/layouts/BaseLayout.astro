@@ -85,6 +85,29 @@ const experimentBootstrapData = experiments.filter(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    {
+      /*
+      Scroll-in entrance animations render their elements at opacity 0 and only
+      reveal them once React has hydrated and an IntersectionObserver has
+      fired. This script is what makes that safe: the gate below is only armed
+      when scripting is available, so a visitor without JS gets the content
+      unanimated rather than a blank page. It must stay inline and stay here,
+      above the stylesheet, so the gate is set before first paint — otherwise
+      the page paints visible and then blinks out.
+
+      The timeout is a backstop for the case JS runs but hydration never
+      completes (a chunk that fails to load, a throw inside a provider). Rather
+      than leave the visitor looking at nothing, drop the gate and show
+      everything. Four seconds is far longer than a healthy hydration and far
+      shorter than a visitor's patience.
+    */
+    }
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      setTimeout(function () {
+        document.documentElement.classList.add("entrance-timeout");
+      }, 4000);
+    </script>
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -301,6 +324,7 @@ const experimentBootstrapData = experiments.filter(
     }
     <CookieConsent client:load />
     <script src="../assets/js/cookieConsent.js"></script>
+    <script src="../assets/js/entrance.js"></script>
     <script>
       const header = document.getElementById("site-header");
       let lastY = window.scrollY;

@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ScrollyLaptopTour from "../components/about/ScrollyLaptopTour/ScrollyLaptopTour.jsx";
 import CreatorWorkflows from "../components/about/CreatorWorkflows.jsx";
+import { optimiseCreators } from "../components/about/creators.js";
+import { optimisePanelImages } from "../components/about/panelImages.js";
 import CoreEditing from "../components/about/CoreEditing.jsx";
 import Workspaces from "../components/about/Workspaces.jsx";
 import CustomisableUI from "../components/about/CustomisableUI.jsx";
@@ -16,6 +18,9 @@ import "@dilsonspickles/components/style.css";
 
 const pageTitle = "Audacity ® | Audacity 4";
 const pageDescription = "Flagship tour of what's new in Audacity 4.";
+
+const creators = await optimiseCreators();
+const panelImages = await optimisePanelImages();
 ---
 
 <BaseLayout
@@ -38,16 +43,20 @@ const pageDescription = "Flagship tour of what's new in Audacity 4.";
       <CustomisableUI client:visible />
     </div>
     <div class="about-section about-section--creators">
-      <CreatorWorkflows variant="fullbleed" client:visible />
+      <CreatorWorkflows
+        variant="fullbleed"
+        creators={creators}
+        client:visible
+      />
     </div>
     <div class="about-section about-section--audiocom">
-      <AudioCom client:visible />
+      <AudioCom images={panelImages} client:visible />
     </div>
     <div class="about-section about-section--effect-windows">
       <EffectWindows client:visible />
     </div>
     <div class="about-section about-section--musehub">
-      <MuseHub client:visible />
+      <MuseHub images={panelImages} client:visible />
     </div>
     <div class="about-section about-section--under-the-hood">
       <UnderTheHood client:visible />

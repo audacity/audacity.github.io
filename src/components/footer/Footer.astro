@@ -12,7 +12,6 @@ import InstagramSVG from "../inlineSVG/InstagramSVG";
 import TwitterSVG from "../inlineSVG/TwitterSVG";
 import YoutubeSVG from "../inlineSVG/YoutubeSVG";
 import DiscordSVG from "../inlineSVG/DiscordSVG";
-import LanguageSelector from "./LanguageSelector.astro";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
@@ -37,7 +36,11 @@ const links = [
     external: true,
     badge: "NEW",
   },
-  { href: "/manual", label: t("footer.link.manual") },
+  {
+    href: "https://manual.audacityteam.org/",
+    label: t("footer.link.manual"),
+    external: true,
+  },
   { href: "https://audio.com/", label: "Audio.com", external: true },
 ];
 
@@ -267,7 +270,6 @@ const hasPreRelease = Boolean(activeDownloadCampaign);
           ))
         }
       </div>
-      <LanguageSelector />
     </div>
 
     <!-- Logos Row -->

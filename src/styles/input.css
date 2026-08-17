@@ -79,3 +79,62 @@
     }
   }
 }
+
+/*
+  Entrance-animation gate.
+
+  useEntrance renders elements hidden until they scroll into view, but that
+  hidden state is expressed as calc() against this variable rather than a
+  literal 0 — so the same inline style resolves to "visible" whenever the gate
+  is absent. Undefined here on purpose: the inline script in BaseLayout adds
+  .js before first paint, which is the only thing that arms it.
+
+  Result: no JavaScript, or JavaScript that loads but never hydrates (see the
+  .entrance-timeout backstop), and the page renders with the animation simply
+  not happening — instead of 160 elements stuck at opacity 0.
+*/
+html.js {
+  --entrance-gate: 1;
+}
+html.entrance-timeout {
+  --entrance-gate: 0;
+}
+
+/*
+  Declarative scroll-in entrance for .astro markup, mirroring what the
+  useEntrance hook does for the React islands on /about. Mark a single element
+  with data-entrance, or a container with data-entrance-group to bring in its
+  direct children one after another.
+
+  The hidden state is deliberately expressed on the element and the group's
+  children directly, rather than applied by script, so it exists from first
+  paint and nothing flashes visible before being hidden. Both read the same
+  --entrance-gate as the hook, so the no-JS fallback and the .entrance-timeout
+  backstop cover these too.
+*/
+[data-entrance],
+[data-entrance-group] > * {
+  opacity: calc(1 - var(--entrance-gate, 0));
+  transform: translateY(calc(var(--entrance-gate, 0) * 24px));
+  transition:
+    opacity 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--entrance-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-entrance].is-in,
+[data-entrance-group] > .is-in {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-entrance],
+  [data-entrance-group] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

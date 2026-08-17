@@ -2,7 +2,6 @@
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImageAu4.webp";
-import HeroSwoosh from "./HeroSwoosh.astro";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
@@ -55,12 +54,6 @@ const museHubURL =
 
       <!-- Right Column - Image -->
       <div class="lg:w-3/5 flex items-center justify-center relative">
-        <div
-          class="pointer-events-none absolute inset-0 -inset-x-6 lg:-inset-x-12 -inset-y-8 lg:-inset-y-16 z-0"
-          aria-hidden="true"
-        >
-          <HeroSwoosh />
-        </div>
         <Image
           src={AudacityMockUp}
           alt="A laptop showing the Audacity application"

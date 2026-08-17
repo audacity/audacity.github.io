@@ -62,13 +62,22 @@ export function useEntrance({
   // empty style means the element renders at its natural state, with
   // no transition applied — so even the change from "pre-mount false"
   // to "post-mount reduced" snaps instantly rather than animating.
+  // The pre-entrance values are expressed against --entrance-gate rather than
+  // written literally. The gate is only defined once the inline script in
+  // BaseLayout has added .js to <html>, so it falls back to 0 here and these
+  // resolve to opacity 1 / no transform — the element renders normally when
+  // scripting is unavailable or hydration never completes. With the gate
+  // armed they resolve to exactly what they did before.
+  const hiddenOpacity = "calc(1 - var(--entrance-gate, 0))";
+  const hiddenTransform =
+    `translateY(calc(var(--entrance-gate, 0) * ${offsetY}px)) ` +
+    `scale(calc(1 - var(--entrance-gate, 0) * ${(1 - scaleFrom).toFixed(4)}))`;
+
   const style = reducedMotion
     ? {}
     : {
-        opacity: hasEntered ? 1 : 0,
-        transform: hasEntered
-          ? "translateY(0) scale(1)"
-          : `translateY(${offsetY}px) scale(${scaleFrom})`,
+        opacity: hasEntered ? 1 : hiddenOpacity,
+        transform: hasEntered ? "translateY(0) scale(1)" : hiddenTransform,
         transition: `opacity ${fadeMs}ms ${easing}, transform ${durationMs}ms ${easing}`,
         transitionDelay: hasEntered ? `${delayMs}ms` : "0ms",
         willChange: hasEntered ? "auto" : "opacity, transform",
