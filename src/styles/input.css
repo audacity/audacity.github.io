@@ -79,3 +79,23 @@
     }
   }
 }
+
+/*
+  Entrance-animation gate.
+
+  useEntrance renders elements hidden until they scroll into view, but that
+  hidden state is expressed as calc() against this variable rather than a
+  literal 0 — so the same inline style resolves to "visible" whenever the gate
+  is absent. Undefined here on purpose: the inline script in BaseLayout adds
+  .js before first paint, which is the only thing that arms it.
+
+  Result: no JavaScript, or JavaScript that loads but never hydrates (see the
+  .entrance-timeout backstop), and the page renders with the animation simply
+  not happening — instead of 160 elements stuck at opacity 0.
+*/
+html.js {
+  --entrance-gate: 1;
+}
+html.entrance-timeout {
+  --entrance-gate: 0;
+}
