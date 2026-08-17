@@ -14,30 +14,6 @@ import { useEntrance } from "../../hooks/useEntrance.js";
     - "filmstrip" → four equal tiles in a row
     - "mosaic"    → asymmetric bento (large source + stacked supporters)
 */
-const CREATORS = [
-  {
-    id: "music",
-    src: "/about/creators/music.jpg",
-    label: "Recording and editing music",
-    source: true,
-  },
-  {
-    id: "restoring",
-    src: "/about/creators/restoring.jpg",
-    label: "Cleaning up and restoring audio",
-  },
-  {
-    id: "podcast",
-    src: "/about/creators/podcast.jpg",
-    label: "Podcasts and spoken-word",
-  },
-  {
-    id: "video",
-    src: "/about/creators/video.jpg",
-    label: "Editing audio for video",
-  },
-];
-
 function Tile({
   creator,
   idx,
@@ -59,6 +35,9 @@ function Tile({
         alt={creator.label}
         loading="lazy"
         decoding="async"
+        style={
+          creator.position ? { objectPosition: creator.position } : undefined
+        }
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -78,12 +57,17 @@ function Contained({ children }) {
   );
 }
 
-function CreatorWorkflows({ variant = "hero" }) {
+/*
+  `creators` comes from optimiseCreators() in creators.js, run by the .astro
+  caller — this component can't optimise its own images because <Image /> is
+  .astro-only and this ships to the browser.
+*/
+function CreatorWorkflows({ variant = "hero", creators = [] }) {
   const header = useEntrance();
-  const [source, ...supporting] = [
-    CREATORS.find((c) => c.source),
-    ...CREATORS.filter((c) => !c.source),
-  ];
+  const source = creators.find((c) => c.source);
+  const supporting = creators.filter((c) => !c.source);
+
+  if (!source || supporting.length < 3) return null;
 
   return (
     <section className="bg-background-dark py-16 lg:py-24">

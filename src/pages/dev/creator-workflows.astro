@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import CreatorWorkflows from "../../components/about/CreatorWorkflows.jsx";
+import { optimiseCreators } from "../../components/about/creators.js";
 
 const variants = [
   { key: "fullbleed", label: "Layout D — Full-bleed (edge to edge)" },
@@ -8,6 +9,8 @@ const variants = [
   { key: "filmstrip", label: "Layout B — Even filmstrip" },
   { key: "mosaic", label: "Layout C — Asymmetric mosaic" },
 ];
+
+const creators = await optimiseCreators();
 ---
 
 <BaseLayout
@@ -20,7 +23,11 @@ const variants = [
       variants.map((v) => (
         <>
           <div class="variant-label">{v.label}</div>
-          <CreatorWorkflows variant={v.key} client:visible />
+          <CreatorWorkflows
+            variant={v.key}
+            creators={creators}
+            client:visible
+          />
         </>
       ))
     }
