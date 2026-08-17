@@ -14,6 +14,9 @@ module.exports = {
       dark: "#261F43", // Dark background colour
       deep: "#0C013A", // Deep background colour — Audacity 4 release hero
     },
+    lavender: {
+      200: "#CBC3FF", // Lavender 200 — Audacity 4 "New" nav badge
+    },
     // Legacy primary brand colors (consider deprecating)
     primary: {
       DEFAULT: "#1D4ED8", // blue-700
