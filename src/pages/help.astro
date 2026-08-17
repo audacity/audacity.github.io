@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Audacity ® | Help";
+const pageDescription =
+  "Find Audacity guides, the manual, community support, and other resources.";
+
+interface HelpEntry {
+  title: string;
+  description: string;
+  href: string;
+  external?: boolean;
+}
+
+const primary: HelpEntry[] = [
+  {
+    title: "Getting started",
+    description:
+      "Brand new to Audacity? Eight short steps from install to first export.",
+    href: "/learn",
+  },
+  {
+    title: "How-to tutorials",
+    description:
+      "Task-focused guides covering every common workflow: record, edit, effects, export, convert.",
+    href: "/tutorials",
+  },
+  {
+    title: "Manual",
+    description:
+      "The complete reference for every menu, toolbar, and effect in Audacity 4.",
+    href: "/manual",
+  },
+  {
+    title: "FAQ",
+    description: "Quick answers to the most common questions about Audacity.",
+    href: "/FAQ",
+  },
+];
+
+const community: HelpEntry[] = [
+  {
+    title: "Audacity Forum",
+    description: "Community discussion, troubleshooting, and feature talk.",
+    href: "https://forum.audacityteam.org/",
+    external: true,
+  },
+  {
+    title: "Audacity Discord",
+    description: "Live chat with users, contributors, and the team.",
+    href: "https://discord.gg/audacity",
+    external: true,
+  },
+  {
+    title: "GitHub issues",
+    description: "Report a bug or request a feature on the Audacity repo.",
+    href: "https://github.com/audacity/audacity/issues",
+    external: true,
+  },
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto px-6 py-12 space-y-12">
+    <header class="max-w-2xl">
+      <h1 class="text-4xl lg:text-5xl">Help</h1>
+      <p class="text-lg text-gray-600 mt-3">
+        Pick a starting point. The manual covers everything in depth; the
+        getting-started guides walk you through the basics; the community is
+        here when you need a person.
+      </p>
+    </header>
+
+    <section aria-labelledby="help-primary">
+      <h2 id="help-primary" class="text-2xl mb-4">Guides &amp; reference</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {
+          primary.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="block h-full p-5 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+              >
+                <p class="text-lg font-semibold text-gray-900">{item.title}</p>
+                <p class="text-sm text-gray-600 mt-2">{item.description}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section aria-labelledby="help-community">
+      <h2 id="help-community" class="text-2xl mb-4">Community &amp; support</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {
+          community.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener" : undefined}
+                class="block h-full p-5 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+              >
+                <p class="text-lg font-semibold text-gray-900">{item.title}</p>
+                <p class="text-sm text-gray-600 mt-2">{item.description}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

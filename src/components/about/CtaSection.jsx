@@ -20,9 +20,7 @@ function CtaSection() {
             Download Audacity 4
           </a>
           <a
-            href="https://manual.audacityteam.org/"
-            target="_blank"
-            rel="noopener"
+            href="/manual"
             className="inline-flex items-center justify-center rounded-full border border-white/20 text-text-contrast px-7 py-3.5 font-muse-sans text-base hover:border-white/40 transition-colors"
           >
             Read the manual

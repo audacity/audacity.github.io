@@ -1,0 +1,89 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+
+const entries = (await getCollection("manual", ({ data }) => !data.draft)).sort(
+  (a, b) => {
+    if (a.data.sectionOrder !== b.data.sectionOrder) {
+      return a.data.sectionOrder - b.data.sectionOrder;
+    }
+    return a.data.order - b.data.order;
+  },
+);
+
+const index = entries.findIndex((e) => e.slug === currentSlug);
+const prev = index > 0 ? entries[index - 1] : null;
+const next =
+  index >= 0 && index < entries.length - 1 ? entries[index + 1] : null;
+---
+
+{
+  (prev || next) && (
+    <nav
+      class="not-prose mt-12 pt-6 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-2 gap-4"
+      aria-label="Manual pagination"
+    >
+      {prev ? (
+        <a
+          href={`/manual/${prev.slug}`}
+          class="group flex flex-col gap-1 rounded-lg border border-gray-200 hover:border-blue-700 px-4 py-3 transition-colors"
+        >
+          <span class="text-xs uppercase tracking-wide text-gray-500 inline-flex items-center gap-1">
+            <svg
+              class="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Previous
+          </span>
+          <span class="text-base font-semibold text-gray-900 group-hover:text-blue-700">
+            {prev.data.title}
+          </span>
+        </a>
+      ) : (
+        <span />
+      )}
+      {next ? (
+        <a
+          href={`/manual/${next.slug}`}
+          class="group flex flex-col gap-1 rounded-lg border border-gray-200 hover:border-blue-700 px-4 py-3 transition-colors text-right sm:items-end"
+        >
+          <span class="text-xs uppercase tracking-wide text-gray-500 inline-flex items-center gap-1">
+            Next
+            <svg
+              class="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </span>
+          <span class="text-base font-semibold text-gray-900 group-hover:text-blue-700">
+            {next.data.title}
+          </span>
+        </a>
+      ) : (
+        <span />
+      )}
+    </nav>
+  )
+}

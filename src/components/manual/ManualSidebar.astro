@@ -1,0 +1,169 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import ManualSearch from "./ManualSearch.astro";
+import ManualSidebarTree, { type TreeNode } from "./ManualSidebarTree.astro";
+
+interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+
+type Entry = CollectionEntry<"manual">;
+
+const allEntries = await getCollection("manual", ({ data }) => !data.draft);
+
+const grouped = new Map<string, { sectionOrder: number; entries: Entry[] }>();
+for (const entry of allEntries) {
+  const existing = grouped.get(entry.data.section);
+  if (existing) {
+    existing.entries.push(entry);
+  } else {
+    grouped.set(entry.data.section, {
+      sectionOrder: entry.data.sectionOrder,
+      entries: [entry],
+    });
+  }
+}
+
+/**
+ * Build a nested tree from a flat list of entries by using the slug path as
+ * the hierarchy. An entry whose slug is `foo/bar/baz` becomes a child of
+ * `foo/bar` if that entry exists in the set, otherwise of `foo`, otherwise
+ * a root.
+ */
+function buildTree(entries: Entry[]): TreeNode[] {
+  const sorted = [...entries].sort((a, b) => {
+    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+    return a.slug.localeCompare(b.slug);
+  });
+
+  const nodes = new Map<string, TreeNode>();
+  for (const entry of sorted) {
+    nodes.set(entry.slug, {
+      title: entry.data.title,
+      slug: entry.slug,
+      order: entry.data.order,
+      children: [],
+      entry,
+    });
+  }
+
+  const roots: TreeNode[] = [];
+  for (const entry of sorted) {
+    const node = nodes.get(entry.slug)!;
+    const parts = entry.slug.split("/");
+    let attached = false;
+    for (let i = parts.length - 1; i > 0; i--) {
+      const parentSlug = parts.slice(0, i).join("/");
+      const parent = nodes.get(parentSlug);
+      if (parent) {
+        parent.children.push(node);
+        attached = true;
+        break;
+      }
+    }
+    if (!attached) roots.push(node);
+  }
+  return roots;
+}
+
+const sections = Array.from(grouped.entries())
+  .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
+  .map(([name, { entries }]) => ({
+    name,
+    tree: buildTree(entries),
+  }));
+---
+
+<div class="space-y-6">
+  <ManualSearch />
+
+  <nav aria-label="Manual" class="text-sm">
+    <ul class="mb-6 space-y-1">
+      <li>
+        <a
+          href="/manual"
+          class:list={[
+            "block py-1",
+            currentSlug === ""
+              ? "text-blue-700 font-semibold"
+              : "text-gray-700 hover:text-blue-700",
+          ]}
+        >
+          Home
+        </a>
+      </li>
+    </ul>
+
+    {
+      sections.map((section) => (
+        <div class="mb-4">
+          <ManualSidebarTree
+            nodes={section.tree}
+            currentSlug={currentSlug}
+            depth={0}
+          />
+        </div>
+      ))
+    }
+  </nav>
+</div>
+
+<style is:global>
+  /* Hide children of a collapsed tree node; rotate the chevron when open. */
+  .manual-tree__item[data-state="closed"] > .manual-tree {
+    display: none;
+  }
+  .manual-tree__item[data-state="open"] > div > .manual-tree__toggle svg {
+    transform: rotate(0deg);
+  }
+  .manual-tree__item[data-state="closed"] > div > .manual-tree__toggle svg {
+    transform: rotate(-90deg);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const STORAGE_KEY = "manual-tree-state";
+    let stored = {};
+    try {
+      stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    } catch (e) {
+      stored = {};
+    }
+
+    function setState(item, state) {
+      item.dataset.state = state;
+      const slug = item.dataset.slug;
+      if (slug) {
+        stored[slug] = state;
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+        } catch (e) {}
+      }
+    }
+
+    // Apply stored overrides on top of the server-rendered initial state.
+    document
+      .querySelectorAll('.manual-tree__item[data-has-children="true"]')
+      .forEach((item) => {
+        const slug = item.dataset.slug;
+        if (slug && stored[slug] === "open") item.dataset.state = "open";
+        else if (slug && stored[slug] === "closed")
+          item.dataset.state = "closed";
+      });
+
+    // Toggle on chevron click.
+    document.querySelectorAll("[data-tree-toggle]").forEach((toggle) => {
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        const item = toggle.closest(".manual-tree__item");
+        if (!item) return;
+        const next = item.dataset.state === "open" ? "closed" : "open";
+        setState(item, next);
+      });
+    });
+  })();
+</script>

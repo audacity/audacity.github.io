@@ -1,0 +1,438 @@
+import { useEffect, useRef, useState } from "react";
+import { api as defaultApi, type makeApi, type Me } from "./api";
+import { clearLastSave, takeFresherLocalCopy } from "./lastSave";
+import { Editor } from "./Editor";
+import { PageList } from "./PageList";
+import { NewPageDialog } from "./NewPageDialog";
+import type { DropPlan } from "./treeDnd";
+import { applyDropPlan } from "./optimisticDrop";
+import type { ManualPageMeta, PublishResult } from "../backend/types";
+
+const MANUAL_PREFIX = "src/content/manual/";
+
+/**
+ * Strips the content-collection path prefix/extension to recover the slug —
+ * mirrors `PageList.tsx`'s `activeSlugFromPath` (kept local rather than
+ * shared since both are small and independently testable).
+ */
+function activeSlugFromPath(activePath: string | null): string | null {
+  if (!activePath) return null;
+  let slug = activePath;
+  if (slug.startsWith(MANUAL_PREFIX)) {
+    slug = slug.slice(MANUAL_PREFIX.length);
+  }
+  slug = slug.replace(/\.mdx?$/, "");
+  return slug;
+}
+
+/**
+ * `api.ts`'s `jsonOrThrow` throws `` `${status} ${message}` `` (e.g. "409
+ * Nothing to publish — no draft changes") so callers that need the status
+ * code can get at it — but that numeric prefix is an implementation detail
+ * of the transport, not something a writer should see in the UI. Strips a
+ * leading `"<digits> "` for display only; leaves anything that doesn't
+ * match untouched (defensive — a non-`Error` rejection stringifies without
+ * that prefix).
+ */
+function stripStatusPrefix(message: string): string {
+  return message.replace(/^\d+ /, "");
+}
+
+export function App({
+  api = defaultApi,
+  user,
+}: {
+  /** Injectable for tests; defaults to the real fetch-backed client. */
+  api?: ReturnType<typeof makeApi>;
+  /**
+   * Supplied by `AuthGate` (see `main.tsx`) once `/api/auth-me` resolves;
+   * optional here so `App.test.tsx`'s direct `<App/>` renders (no
+   * `AuthGate` involved) are unaffected. `undefined` simply renders the
+   * top-bar actions empty, same as before this prop existed.
+   */
+  user?: Me;
+} = {}) {
+  const [pages, setPages] = useState<ManualPageMeta[] | null>(null);
+  const [activePath, setActivePath] = useState<string | null>(null);
+  const [source, setSource] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
+  const [publishResult, setPublishResult] = useState<PublishResult | null>(
+    null,
+  );
+  const [publishError, setPublishError] = useState<string | null>(null);
+  const [dropError, setDropError] = useState<string | null>(null);
+  // What the new-page dialog is creating (`null` = dialog closed):
+  // "top" = a page anywhere (the sidebar's global "+ New page"),
+  // "child" = a sub-page of `parent` (per-page and editor-header "+"),
+  // "section" = a top-level page prefilled for a sidebar group (the
+  // per-section header "+").
+  const [newPageIntent, setNewPageIntent] = useState<
+    | { kind: "top" }
+    | { kind: "child"; parent: ManualPageMeta }
+    | { kind: "section"; section: string }
+    | null
+  >(null);
+
+  const editorFlushRef = useRef<(() => Promise<void>) | null>(null);
+  // Latest-value ref for `activePath`, read by callbacks that arrive after a
+  // network round-trip (`handleReset`/`handleDeleted`) so a stale closure
+  // can't apply a response for a page the writer has since navigated away
+  // from onto whatever page is now active. Assigned in the render body below
+  // (not an effect) so it's current even for a callback that fires
+  // synchronously within the same render pass.
+  const activePathRef = useRef(activePath);
+  activePathRef.current = activePath;
+
+  function openNewPage(parent: ManualPageMeta | null) {
+    setNewPageIntent(parent ? { kind: "child", parent } : { kind: "top" });
+  }
+
+  // Signs the session out and reloads: simplest way back to `AuthGate`'s
+  // sign-in card, since a fresh full-page load re-mounts `AuthGate` and
+  // re-runs its `/api/auth-me` check from scratch (now 401, cookie cleared).
+  function handleSignOut() {
+    api.logout().then(() => {
+      window.location.reload();
+    });
+  }
+
+  useEffect(() => {
+    api.listPages().then(setPages);
+  }, [api]);
+
+  // Opens/reuses the drafts -> base PR. After success, re-fetches the page
+  // list so the sidebar's `hasDraft` dots reflect what just landed on the
+  // drafts branch — on the dev backend `publish()` clears drafts entirely,
+  // so dots disappear; on the real backend they persist until the PR is
+  // merged, which is correct and deliberately not special-cased here.
+  async function handlePublish() {
+    setPublishing(true);
+    setPublishError(null);
+    setPublishResult(null);
+    try {
+      await editorFlushRef.current?.();
+      const result = await api.publish();
+      setPublishResult(result);
+      api.listPages().then(setPages);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setPublishError(stripStatusPrefix(message));
+    } finally {
+      setPublishing(false);
+    }
+  }
+
+  function handleSelect(path: string) {
+    setActivePath(path);
+    setSource(null);
+    api.getPage(path).then((page) => {
+      // Staleness guard (same reasoning as `handleReset`): `getPage` arrives
+      // after a network round-trip, so a rapid A->B selection can have this
+      // late response for A land after B is already active — applying it
+      // here would overwrite B's just-loaded source with A's.
+      if (activePathRef.current !== path) return;
+      // Stale-read protection (save-safety spec): a fresh local record that
+      // differs from the server response means GitHub's read cache is
+      // behind our own last save — show what was actually saved.
+      setSource(takeFresherLocalCopy(path, page.source) ?? page.source);
+    });
+  }
+
+  // `PageList`'s `onDropPlan` (see `treeDnd.ts`'s `computeDrop`): executes
+  // whatever the drop resolved to, then re-fetches the page list so the
+  // sidebar reflects the new order/parent. A "move" plan may carry a
+  // same-list `alsoReorder` batch (renumbering the OTHER members of the
+  // destination arrangement) that must land after the move itself. If the
+  // page currently open got moved, `moves` (old->new path pairs, moved page
+  // first, descendants included) tells us its new path — reselect it via
+  // `handleSelect` so the open editor re-fetches the now-correct source
+  // (the move rewrites that page's own frontmatter) rather than pointing at
+  // a path that no longer exists.
+  async function handleDropPlan(plan: DropPlan) {
+    if (plan.kind === "noop") return;
+    if (plan.kind === "blocked") {
+      setDropError(plan.reason);
+      return;
+    }
+    setDropError(null);
+
+    // Optimistic update: reflect the drop in the sidebar immediately rather
+    // than waiting for the write AND the follow-up `listPages` refetch to
+    // resolve. In production those are several serialized GitHub commits plus
+    // a full tree re-read — the multi-second stall a QA report flagged as the
+    // move "not working", most visibly when dragging pages between sections.
+    // `applyDropPlan` predicts the same result the server produces; the write
+    // below stays authoritative — on success the background `listPages`
+    // reconciles (draft dots, any prediction gap), on failure we roll back to
+    // this pre-drop snapshot.
+    const snapshot = pages;
+    if (snapshot) setPages(applyDropPlan(snapshot, plan));
+
+    try {
+      if (plan.kind === "reorder") {
+        await api.reorder(plan.updates);
+        // Invariant (same as handleReset/handleDeleted): any writer that
+        // rewrites a page's file server-side — bypassing saveDraftDoc —
+        // must invalidate that page's lastSave record, or a fresh autosave
+        // record (written up to 120s ago) outvotes the server's correctly
+        // rewritten content on the next select, and the next autosave
+        // silently reverts this reorder.
+        for (const { path } of plan.updates) clearLastSave(path);
+      } else {
+        const moves = await api.movePage(plan.path, plan.dest);
+        if (plan.alsoReorder.length > 0) {
+          await api.reorder(plan.alsoReorder);
+        }
+        // Same invariant as the reorder branch above: `movePage` rewrites
+        // every moved page's frontmatter (and `reorder` above rewrites the
+        // rest of the destination arrangement) server-side, outside
+        // saveDraftDoc — invalidate lastSave for all of them.
+        for (const { from } of moves) clearLastSave(from);
+        for (const { path } of plan.alsoReorder) clearLastSave(path);
+        const hit = activePath
+          ? moves.find((m) => m.from === activePath)
+          : undefined;
+        if (hit && hit.to !== activePath) {
+          handleSelect(hit.to);
+        }
+      }
+      api.listPages().then(setPages);
+    } catch (err) {
+      // Write failed — undo the optimistic move so the sidebar can't show a
+      // change the server never accepted.
+      if (snapshot) setPages(snapshot);
+      const message = err instanceof Error ? err.message : String(err);
+      setDropError(stripStatusPrefix(message));
+    }
+  }
+
+  // After a successful autosave (see `Editor`'s debounce effect), re-fetch
+  // the page list so the sidebar's `hasDraft` ● dot reflects the new draft.
+  // Simplest-correct: the in-memory dev backend already recomputes
+  // `hasDraft` on every `listPages()` call, so a re-fetch is always right
+  // rather than trying to keep a locally-patched copy in sync.
+  function handleDraftSaved(_path: string) {
+    api.listPages().then(setPages);
+  }
+
+  // `NewPageDialog`'s submit handler: writes an empty draft doc at the
+  // composed path, re-fetches the page list (so the new draft-only page
+  // shows up in the sidebar per Task 1's `hasDraft`/draft-listing work),
+  // then opens it in the editor the same way clicking a sidebar entry does.
+  async function handleCreatePage({
+    path,
+    frontmatter,
+  }: {
+    path: string;
+    frontmatter: string;
+  }) {
+    const emptyDoc = { type: "doc", content: [{ type: "paragraph" }] };
+    await api.saveDraftDoc(path, emptyDoc, frontmatter);
+    const fresh = await api.listPages();
+    setPages(fresh);
+    handleSelect(path);
+    setNewPageIntent(null);
+  }
+
+  // After a successful `Editor` header delete: the deleted page is gone, so
+  // clear the editor back to the placeholder view and re-fetch the page list
+  // (same "always re-fetch rather than patch locally" reasoning as
+  // `handleDraftSaved` above — the backend's listing already reflects the
+  // deletion by the time `onDeleted` fires).
+  function handleDeleted(deletedPath: string) {
+    // `onDeleted` arrives after a network round-trip; if the writer selected
+    // a different page while the delete was in flight, `deletedPath` is no
+    // longer the active page — clearing the editor here would blank the NEW
+    // page instead of just closing the one that got deleted. The optimistic
+    // list filter and background refresh below are unconditional: the page
+    // really is gone either way, so the sidebar must reflect that regardless
+    // of what's currently open.
+    clearLastSave(deletedPath);
+    if (activePathRef.current === deletedPath) {
+      setSource(null);
+      setActivePath(null);
+    }
+    // Optimistically drop the page so the sidebar updates instantly — the
+    // GitHub tree API returns a cached ref for a moment after the delete
+    // commit lands, so a bare re-fetch here would briefly show the page as
+    // still present. The background re-fetch corrects any other side effects
+    // (hasDraft dots etc.) once GitHub catches up.
+    setPages((prev) =>
+      prev ? prev.filter((p) => p.path !== deletedPath) : prev,
+    );
+    api.listPages().then(setPages);
+  }
+
+  // After a successful reset: re-fetch the page through the same load path
+  // as selecting it (fresh Editor mount showing the restored content), and
+  // refresh the sidebar so the unsaved-changes dot clears.
+  //
+  // `onReset` arrives after a network round-trip; if the writer selected a
+  // different page while the reset was in flight, `path` is stale — blindly
+  // clearing `source` would blank the NEW page, and re-fetching the OLD
+  // page's content would then apply it over whatever the writer has since
+  // navigated to (one keystroke there would autosave it under the wrong
+  // path). `listPages` always runs (the sidebar's `hasDraft` dot must clear
+  // regardless of what's active), but the editor mutation bails out entirely
+  // if `path` is already stale by the time this fires, and re-checks again
+  // after `getPage` resolves — the writer may navigate away a SECOND time
+  // during that fetch.
+  function handleReset(path: string) {
+    clearLastSave(path);
+    api.listPages().then(setPages);
+    if (activePathRef.current !== path) return;
+    setSource(null);
+    api.getPage(path).then((page) => {
+      if (activePathRef.current === path) setSource(page.source);
+    });
+  }
+
+  // The active page's children, derived from the flat page list: any other
+  // page whose slug is nested under the active page's slug. Passed to
+  // `Editor` to gate the header's delete action (deleting a parent would
+  // orphan its children in the tree).
+  const activeSlug = activeSlugFromPath(activePath);
+  const activePageMeta = activePath
+    ? pages?.find((p) => p.path === activePath)
+    : undefined;
+  const hasChildren =
+    activeSlug !== null &&
+    (pages?.some(
+      (p) => p.slug !== activeSlug && p.slug.startsWith(activeSlug + "/"),
+    ) ??
+      false);
+
+  // Unique section names across the loaded page list, in first-seen order —
+  // offered to `FrontmatterForm` as autocomplete for the Section field so an
+  // edit can reuse an existing section instead of retyping it.
+  const sections = pages ? [...new Set(pages.map((p) => p.section))] : [];
+
+  return (
+    <div className="app-shell">
+      <header className="app-topbar">
+        <h1 className="app-topbar__title">Audacity Manual Editor</h1>
+        <div className="app-topbar__actions">
+          <div className="app-topbar__publish">
+            <button
+              type="button"
+              className="app-topbar__publish-button"
+              data-testid="publish-button"
+              disabled={publishing}
+              onClick={handlePublish}
+            >
+              {publishing ? "Publishing…" : "Publish"}
+            </button>
+            {publishResult ? (
+              <a
+                className="app-topbar__publish-result"
+                data-testid="publish-result"
+                href={publishResult.prUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {`PR #${publishResult.prNumber} opened ↗`}
+              </a>
+            ) : null}
+            {publishError ? (
+              <span
+                className="app-topbar__publish-error"
+                data-testid="publish-error"
+              >
+                {publishError}
+              </span>
+            ) : null}
+          </div>
+          {user ? (
+            <div className="auth-badge">
+              <span
+                className="auth-badge__login"
+                data-testid="auth-badge-login"
+              >
+                {user.login}
+              </span>
+              <button
+                type="button"
+                className="auth-badge__signout"
+                data-testid="auth-signout"
+                onClick={handleSignOut}
+              >
+                Sign out
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </header>
+      <div className="app-body">
+        <aside className="app-sidebar">
+          <button
+            type="button"
+            className="app-sidebar__new-page-button"
+            data-testid="new-page-button"
+            disabled={pages === null}
+            onClick={() => openNewPage(null)}
+          >
+            + New page
+          </button>
+          {dropError ? (
+            <p className="app-sidebar__drop-error" data-testid="drop-error">
+              {dropError}
+            </p>
+          ) : null}
+          {pages === null ? (
+            <p className="app-sidebar__loading">Loading…</p>
+          ) : (
+            <PageList
+              pages={pages}
+              onSelect={handleSelect}
+              activePath={activePath}
+              onAddSubpage={(p) => openNewPage(p)}
+              onAddToSection={(section) =>
+                setNewPageIntent({ kind: "section", section })
+              }
+              onDropPlan={handleDropPlan}
+            />
+          )}
+        </aside>
+        <main className="app-main">
+          {source !== null && activePath !== null ? (
+            <Editor
+              source={source}
+              path={activePath}
+              sections={sections}
+              pages={pages ?? []}
+              api={api}
+              flushRef={editorFlushRef}
+              onDraftSaved={handleDraftSaved}
+              onAddSubpage={() => {
+                const meta = pages?.find((p) => p.path === activePath);
+                if (meta) openNewPage(meta);
+              }}
+              hasChildren={hasChildren}
+              hasDraft={activePageMeta?.hasDraft ?? false}
+              existsOnBase={activePageMeta?.existsOnBase ?? false}
+              onReset={handleReset}
+              onDeleted={(p) => handleDeleted(p)}
+            />
+          ) : (
+            <p className="app-main__placeholder">
+              Select a page from the list to start editing.
+            </p>
+          )}
+        </main>
+      </div>
+      {newPageIntent !== null && pages !== null ? (
+        <NewPageDialog
+          pages={pages}
+          parent={
+            newPageIntent.kind === "child" ? newPageIntent.parent : undefined
+          }
+          sectionPrefill={
+            newPageIntent.kind === "section" ? newPageIntent.section : undefined
+          }
+          onCreate={handleCreatePage}
+          onCancel={() => setNewPageIntent(null)}
+        />
+      ) : null}
+    </div>
+  );
+}

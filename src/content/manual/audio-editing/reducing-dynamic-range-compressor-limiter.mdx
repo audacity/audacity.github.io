@@ -1,0 +1,44 @@
+---
+title: Reducing dynamic range (Compressor / Limiter)
+description: ""
+section: Audio Editing
+sectionOrder: 4
+order: 3
+---
+
+A high [dynamic range](https://en.wikipedia.org/wiki/Dynamic_range_compression) can lead to quiet parts of a track being too quiet compared to its loud parts, causing the listener to constantly adjust the volume to keep things at an acceptable level. Audacity has several tools to help reduce the dynamic range and increase the loudness of a track.
+
+## Compressor
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FUrjp09fCFYrIcGwTCqnW%252FAudacity4_47NDb3klpc.png%3Falt%3Dmedia%26token%3D391b1d00-b14e-4a05-ae26-7d3562597463&width=768&dpr=3&quality=100&sign=8d6cec15&sv=2)
+
+Audacity's compressor
+
+This effect can be found in **Effects** button -> **Add Effect** button -> **Audacity** \-> **Compressor**, or as a destructive effect in **Effect -> Volume and Compression -> Compressor.**
+
+The compressor can be used to reduce the dynamic range by a certain ratio for all sounds that exceed the threshold. Doing so will make the resulting audio quieter, so you need to add make-up gain to make up for that - or, alternatively, normalize your track in a second step. The knee width and smoothing parameters are there to reduce distortion.
+
+### Best practices
+
+-   To get started, try a **factory preset** from the **preset dropdown**. This effect comes with useful presets for a variety of content.
+    
+-   Use this effect as a [master effect or realtime effect](https://support.audacityteam.org/au4/audio-editing/using-realtime-effects) to see a graph of it working in realtime. In the example shown above, you can see the effect engaging three times (where the yellow line goes down)
+    
+-   Lower the threshold if the compressor isn't doing anything. However, you typically don't want the compressor to _always_ be engaged.
+    
+
+## Limiter
+
+![](https://support.audacityteam.org/~gitbook/image?url=https%3A%2F%2F2905281570-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FEnNXGrLkN0pXlkzzS7cM%252Fuploads%252FPmzPpS4kNC9uOMc0IB4q%252FAudacity4_ytuAxQqden.png%3Falt%3Dmedia%26token%3D1eb6aa91-b0c9-48ba-8b40-423ffb44ee7c&width=768&dpr=3&quality=100&sign=d321b406&sv=2)
+
+Audacity's limiter
+
+A limiter is effectively identical to a compressor, with the difference that it's much harsher: While a compressor uses a low ratio and may let a sound exceed the line drawn on the curve temporarily, a limiter does not allow any sound to exceed the threshold.
+
+### Best practices
+
+-   To get started, try a **factory preset** from the **Presets & settings** button. This effect comes with useful presets for a variety of content.
+    
+-   Use this effect as a [master effect](https://support.audacityteam.org/au4/audio-editing/using-realtime-effects) to see a graph of it working in realtime, and to prevent your project from clipping.
+    
+-   Typically, limiters are used as a "last line of defense" to prevent clipping.

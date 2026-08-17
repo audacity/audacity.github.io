@@ -1,0 +1,115 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  minDepth?: number;
+  maxDepth?: number;
+}
+
+const { headings, minDepth = 2, maxDepth = 3 } = Astro.props;
+
+const items = headings.filter(
+  (h) => h.depth >= minDepth && h.depth <= maxDepth,
+);
+---
+
+{
+  items.length > 0 && (
+    <nav aria-labelledby="on-this-page-title" class="text-sm">
+      <h2
+        id="on-this-page-title"
+        class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3"
+      >
+        On this page
+      </h2>
+      <ul class="space-y-1 border-l border-gray-200">
+        {items.map((heading) => (
+          <li>
+            <a
+              href={`#${heading.slug}`}
+              data-on-this-page-link
+              data-target-id={heading.slug}
+              class:list={[
+                "block py-1 -ml-px border-l border-transparent text-gray-600 hover:text-blue-700 hover:border-blue-700 transition-colors",
+                heading.depth === 2 ? "pl-4" : "pl-7 text-gray-500",
+              ]}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>(
+    "[data-on-this-page-link]",
+  );
+  if (links.length > 0) {
+    const linkById = new Map<string, HTMLAnchorElement>();
+    const ids: string[] = [];
+    links.forEach((link) => {
+      const id = link.dataset.targetId;
+      if (!id) return;
+      linkById.set(id, link);
+      ids.push(id);
+    });
+
+    const activeClasses = ["text-blue-700", "border-blue-700", "font-medium"];
+
+    let currentId: string | null = null;
+    const setActive = (id: string | null) => {
+      if (id === currentId) return;
+      if (currentId) {
+        linkById.get(currentId)?.classList.remove(...activeClasses);
+      }
+      if (id) {
+        linkById.get(id)?.classList.add(...activeClasses);
+      }
+      currentId = id;
+    };
+
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (entry.isIntersecting) visible.add(id);
+          else visible.delete(id);
+        }
+        // Pick the first heading (in document order) that is currently in view.
+        const next = ids.find((id) => visible.has(id));
+        if (next) {
+          setActive(next);
+        } else {
+          // Nothing in view (between headings) — keep the last heading above
+          // the viewport active.
+          const headings = ids
+            .map((id) => document.getElementById(id))
+            .filter((el): el is HTMLElement => el !== null);
+          const scrollY = window.scrollY + 120;
+          let above: string | null = null;
+          for (const el of headings) {
+            if (el.getBoundingClientRect().top + window.scrollY <= scrollY) {
+              above = el.id;
+            } else break;
+          }
+          setActive(above);
+        }
+      },
+      {
+        // Trigger when a heading crosses the top portion of the viewport.
+        rootMargin: "-80px 0px -70% 0px",
+        threshold: 0,
+      },
+    );
+
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+</script>

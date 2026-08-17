@@ -1,0 +1,111 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = "Best practices", class: className = "" } = Astro.props;
+---
+
+<aside class:list={["best-practices not-prose", className]}>
+  <div class="best-practices__header">
+    <span class="best-practices__badge" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </span>
+    <p class="best-practices__title">{title}</p>
+  </div>
+  <div class="best-practices__body">
+    <slot />
+  </div>
+</aside>
+
+<style is:global>
+  .best-practices {
+    border: 1px solid rgb(16 185 129 / 0.4);
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .best-practices__header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    background-color: rgb(16 185 129);
+    color: white;
+  }
+
+  .best-practices__badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: white;
+    color: rgb(16 185 129);
+  }
+
+  .best-practices__badge svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .best-practices__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+  }
+
+  .best-practices__body {
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: rgb(31 41 55);
+    line-height: 1.6;
+  }
+
+  .best-practices__body > * + * {
+    margin-top: 1rem;
+  }
+
+  .best-practices__body > :first-child {
+    margin-top: 0;
+  }
+
+  .best-practices__body > :last-child {
+    margin-bottom: 0;
+  }
+
+  .best-practices__body p {
+    margin: 0;
+  }
+
+  .best-practices__body ul,
+  .best-practices__body ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .best-practices__body li + li {
+    margin-top: 0.25rem;
+  }
+
+  .best-practices__body img {
+    margin: 0.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

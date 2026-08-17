@@ -1,0 +1,115 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = "Tips and tricks", class: className = "" } = Astro.props;
+---
+
+<aside class:list={["tips-and-tricks not-prose", className]}>
+  <div class="tips-and-tricks__header">
+    <span class="tips-and-tricks__badge" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M9 18h6"></path>
+        <path d="M10 22h4"></path>
+        <path
+          d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"
+        ></path>
+      </svg>
+    </span>
+    <p class="tips-and-tricks__title">{title}</p>
+  </div>
+  <div class="tips-and-tricks__body">
+    <slot />
+  </div>
+</aside>
+
+<style is:global>
+  .tips-and-tricks {
+    border: 1px solid rgb(99 102 241 / 0.4);
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .tips-and-tricks__header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    background-color: rgb(99 102 241);
+    color: white;
+  }
+
+  .tips-and-tricks__badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: white;
+    color: rgb(99 102 241);
+  }
+
+  .tips-and-tricks__badge svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .tips-and-tricks__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+  }
+
+  .tips-and-tricks__body {
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: rgb(31 41 55);
+    line-height: 1.6;
+  }
+
+  .tips-and-tricks__body > * + * {
+    margin-top: 1rem;
+  }
+
+  .tips-and-tricks__body > :first-child {
+    margin-top: 0;
+  }
+
+  .tips-and-tricks__body > :last-child {
+    margin-bottom: 0;
+  }
+
+  .tips-and-tricks__body p {
+    margin: 0;
+  }
+
+  .tips-and-tricks__body ul,
+  .tips-and-tricks__body ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .tips-and-tricks__body li + li {
+    margin-top: 0.25rem;
+  }
+
+  .tips-and-tricks__body img {
+    margin: 0.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

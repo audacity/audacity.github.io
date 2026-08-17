@@ -1,0 +1,38 @@
+---
+interface Props {
+  type?: "info" | "tip" | "warning";
+  title?: string;
+}
+
+const { type = "info", title } = Astro.props;
+
+const styles = {
+  info: {
+    container: "bg-blue-50 border-blue-200 text-blue-900",
+    icon: "text-blue-700",
+    defaultTitle: "Note",
+  },
+  tip: {
+    container: "bg-emerald-50 border-emerald-200 text-emerald-900",
+    icon: "text-emerald-700",
+    defaultTitle: "Tip",
+  },
+  warning: {
+    container: "bg-amber-50 border-amber-200 text-amber-900",
+    icon: "text-amber-700",
+    defaultTitle: "Warning",
+  },
+};
+
+const style = styles[type];
+const heading = title ?? style.defaultTitle;
+---
+
+<aside
+  class:list={["border rounded-lg px-4 py-3 my-6 not-prose", style.container]}
+>
+  <p class:list={["font-semibold mb-1", style.icon]}>{heading}</p>
+  <div class="text-sm">
+    <slot />
+  </div>
+</aside>

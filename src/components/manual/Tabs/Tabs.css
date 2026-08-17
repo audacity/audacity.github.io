@@ -1,0 +1,56 @@
+/* Tabbed container for manual pages with per-OS or per-variant content. */
+
+.manual-tabs {
+  margin: 1.5rem 0;
+  border: 1px solid rgb(209 213 219);
+  border-radius: 0.5rem;
+  background-color: white;
+  overflow: hidden;
+}
+
+.manual-tabs__tablist {
+  display: flex;
+  border-bottom: 1px solid rgb(229 231 235);
+  background-color: rgb(249 250 251);
+}
+
+.manual-tabs__tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  background-color: transparent;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(75 85 99);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition:
+    color 0.1s ease,
+    border-color 0.1s ease;
+  text-align: center;
+}
+
+.manual-tabs__tab:hover {
+  color: rgb(29 78 216);
+}
+
+.manual-tabs__tab--active {
+  color: rgb(29 78 216);
+  border-bottom-color: rgb(29 78 216);
+  background-color: white;
+}
+
+.manual-tabs__tab:focus-visible {
+  outline: 2px solid rgb(29 78 216);
+  outline-offset: -2px;
+}
+
+.manual-tabs__panel {
+  padding: 1rem 1.25rem;
+}
+
+.manual-tabs__panel[hidden] {
+  display: none;
+}

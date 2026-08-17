@@ -1,0 +1,1150 @@
+import { EditorContent, useEditor } from "@tiptap/react";
+import type { Editor as TiptapEditor } from "@tiptap/core";
+import { DragHandle } from "@tiptap/extension-drag-handle-react";
+import type { NestedOptions, RuleContext } from "@tiptap/extension-drag-handle";
+import { offset } from "@floating-ui/dom";
+import type { Node as PMNode } from "@tiptap/pm/model";
+import { TextSelection } from "@tiptap/pm/state";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from "react";
+import { mdastToDoc } from "../adapter/mdastToDoc";
+import {
+  serializeFrontmatter,
+  type FrontmatterData,
+} from "../adapter/frontmatterSerialize";
+import { parseFrontmatter } from "../backend/frontmatter";
+import { buildAppExtensions } from "./editorExtensions";
+import { parseMdx } from "../mdx/pipeline";
+import { FrontmatterForm } from "./FrontmatterForm";
+import { api as defaultApi, type makeApi } from "./api";
+import type { ManualPageMeta } from "../backend/types";
+import {
+  insertImageFromFile,
+  pageSlugFromPath,
+  registerImageContext,
+} from "./imageUpload";
+import { registerPageContext } from "./mentions/pageMention";
+import { getBlockActions, type BlockAction } from "./blockActions";
+import { getSelectedBlocks } from "./blockSelection";
+import { HandleMenu } from "./HandleMenu";
+import { SelectionBar } from "./SelectionBar";
+import { ReadOnlyDoc } from "./ReadOnlyDoc";
+import { recordLastSave } from "./lastSave";
+
+/** Matches the manual content collection schema's `sectionOrder`/`order` default. */
+const DEFAULT_ORDER = 99;
+
+/**
+ * Positioning config for the drag handle, handed to
+ * `@tiptap/extension-drag-handle-react`'s `<DragHandle>` as
+ * `computePositionConfig` (it merges this over the package's own
+ * `defaultComputePositionConfig` — `{ placement: "left-start", strategy:
+ * "absolute" }` — before passing the result straight to `floating-ui`'s
+ * `computePosition`).
+ *
+ * Declared at module scope rather than inline in the JSX below: the
+ * `<DragHandle>` component re-registers its whole ProseMirror plugin
+ * (`editor.registerPlugin`/`unregisterPlugin`) every time
+ * `computePositionConfig`'s object identity changes (see its
+ * `useEffect` deps in `node_modules/@tiptap/extension-drag-handle-react`) —
+ * a fresh object literal on every `Editor` render would thrash that
+ * registration on every keystroke.
+ *
+ * `left-start` (the default) top/left-aligns the handle flush against the
+ * hovered block's own bounding rect — exactly right for an atomic block
+ * like `image`/`admonition`/`tabs`, whose rect top IS the visual top of
+ * its content, but visibly high for a text block's FIRST line, since a
+ * line box's top edge sits above the glyphs themselves (half-leading from
+ * `line-height` being taller than the glyphs' em box) — worse still for
+ * headings, whose larger `font-size` before a comparatively tighter
+ * `line-height` produces the widest gap between "line box top" and "visual
+ * text center". The `offset` middleware below only touches the ~4px range
+ * that difference occupies for the common case: `mainAxis` opens a small
+ * breathing gap between the handle and the text edge (Notion-style, rather
+ * than the two visually touching), and a small positive `crossAxis`
+ * (`+`, for a `left-*` placement, moves the floating element DOWN — see
+ * `@floating-ui/core`'s `crossAxis = alignment === 'end' ? -1 : 1` times
+ * `alignmentAxis`) nudges the handle down just enough to read as centered
+ * against a typical paragraph/heading's first line without overshooting
+ * into visibly hanging below an image/callout's flush top edge.
+ */
+const HANDLE_COMPUTE_POSITION_CONFIG = {
+  placement: "left-start" as const,
+  strategy: "absolute" as const,
+  middleware: [offset({ mainAxis: 6, crossAxis: 3 })],
+};
+
+/**
+ * `<DragHandle>`'s `nested` prop (`boolean | NestedOptions`, see
+ * `@tiptap/extension-drag-handle`'s `normalizeNestedOptions`): `false`
+ * (the default) only ever reports top-level `doc` children through
+ * `onNodeChange`, so a block INSIDE an `admonition`/`tab` body has no handle
+ * of its own — the only way to move/duplicate/delete/turn-into it is to hop
+ * out to the container's own handle (which acts on the whole container).
+ *
+ * CANNOT use `NestedOptions.allowedContainers` for "nest only into
+ * admonition/tab": it filters EVERY candidate by "has one of these types as
+ * an ancestor", and a top-level paragraph's only ancestor is `doc` — so
+ * `allowedContainers: ["admonition", "tab"]` rejects every top-level block
+ * and the handle never appears outside those containers at all. The scope
+ * is expressed as scoring rules instead (`nestOnlyInNamedContainers`), which
+ * exclude DEEP candidates outside the two containers while leaving depth-1
+ * blocks untouched.
+ *
+ * `defaultRules: false` because the package's `listWrapperDeprioritize`
+ * default rule EXCLUDES list-wrapper nodes (bulletList/orderedList) as
+ * targets, which would trade the app's long-standing whole-list handle for
+ * per-item handles; `wholeListsOnly` keeps lists moving as one block, the
+ * behavior every version before nested mode had. `onNodeChange` in nested
+ * mode reports the SAME `{ node, editor, pos }` shape as top-level mode,
+ * just for whichever node the rule-based scorer picks at the cursor
+ * position — `handleNodeChange`/`getBlockActions` below need no changes.
+ *
+ * `edgeDetection: "none"` because the default ("left"+"top", 12px
+ * threshold, 500 × depth deduction) makes nested handles UNGRABBABLE: the
+ * handle floats 6px off the block (`HANDLE_COMPUTE_POSITION_CONFIG`'s
+ * `offset.mainAxis`), so the pointer's approach path necessarily crosses
+ * the 12px left-edge zone — where a depth-2 block deducts 1000 (= excluded)
+ * and the target snaps back to the container, yanking the handle away from
+ * under the cursor. (Depth-1 blocks only deduct 500 and survive, which is
+ * why top-level handles never showed the problem.) Without edge detection
+ * the innermost eligible block simply stays targeted; the container itself
+ * is still grabbable via its own non-content chrome (an admonition's
+ * type/title header row, the tabs strip), where `posAtCoords` resolves to
+ * the container node rather than any inner textblock.
+ */
+/**
+ * In-flight autosave requests, keyed by page path — MODULE scope, not
+ * per-instance: a page-switch flush outlives its Editor instance, and the
+ * reset flow on a freshly remounted instance must still be able to await
+ * it (invariant: no save may land after the reset commit). Promises are
+ * self-removing on settlement; a Set (not a single slot) so overlapping
+ * saves (slow timer save + publish flush) are all tracked — an older save
+ * settling can never unregister a newer one.
+ */
+const inFlightSavesByPath = new Map<string, Set<Promise<unknown>>>();
+
+function registerInFlightSave(path: string, request: Promise<unknown>): void {
+  let set = inFlightSavesByPath.get(path);
+  if (!set) {
+    set = new Set();
+    inFlightSavesByPath.set(path, set);
+  }
+  set.add(request);
+  // `.finally()` returns a NEW promise that adopts `request`'s rejection —
+  // a failed autosave's rejection is already handled where `request` itself
+  // is awaited (the debounce timer's own try/catch, or `flush()`'s
+  // `.catch(() => {})`), but that doesn't mark THIS derived promise's
+  // rejection as handled too. Left unguarded, a failed autosave (exercised
+  // by Fix 4's new "error" test coverage) throws an unhandled promise
+  // rejection here on every failure. The `.catch` below exists purely to
+  // absorb that — the cleanup itself doesn't care whether `request`
+  // resolved or rejected.
+  void request
+    .finally(() => {
+      set.delete(request);
+      if (set.size === 0) inFlightSavesByPath.delete(path);
+    })
+    .catch(() => {});
+}
+
+/** Resolves once every currently in-flight save for `path` has settled. */
+function awaitInFlightSaves(path: string): Promise<unknown> {
+  const set = inFlightSavesByPath.get(path);
+  if (!set || set.size === 0) return Promise.resolve();
+  return Promise.allSettled([...set]);
+}
+
+const EXCLUDE = 1000; // >= the scorer's BASE_SCORE, so returning it excludes
+// Exported for dragHandleRules.test.tsx only — not part of the component API.
+export const NESTED_DRAG_HANDLE_OPTIONS: NestedOptions = {
+  defaultRules: false,
+  edgeDetection: "none",
+  rules: [
+    {
+      id: "nestOnlyInNamedContainers",
+      // Depth-1 blocks (direct doc children) are always eligible; deeper
+      // candidates only when some real ancestor is an admonition or tab.
+      evaluate: ({ depth, $pos }: RuleContext) => {
+        if (depth <= 1) return 0;
+        for (let d = depth - 1; d >= 1; d -= 1) {
+          const type = $pos.node(d).type.name;
+          if (type === "admonition" || type === "tab") return 0;
+        }
+        return EXCLUDE;
+      },
+    },
+    {
+      id: "wholeListsOnly",
+      // Exclude list items and their inner paragraphs so the scorer settles
+      // on the list wrapper itself — lists move as one block.
+      evaluate: ({ node, parent }: RuleContext) => {
+        const itemTypes = ["listItem", "taskItem"];
+        if (itemTypes.includes(node.type.name)) return EXCLUDE;
+        if (parent && itemTypes.includes(parent.type.name)) return EXCLUDE;
+        return 0;
+      },
+    },
+  ],
+};
+
+/**
+ * Coerces the loosely-typed `parseFrontmatter` output into the form's
+ * `FrontmatterData` shape, filling in the same defaults the content
+ * collection schema applies (`src/content/config.ts` in the main repo) so
+ * the form always starts from a valid, schema-consistent record even for a
+ * page missing optional keys.
+ */
+function toFrontmatterData(data: Record<string, unknown>): FrontmatterData {
+  return {
+    title: typeof data.title === "string" ? data.title : "",
+    description:
+      typeof data.description === "string" && data.description !== ""
+        ? data.description
+        : undefined,
+    section: typeof data.section === "string" ? data.section : "",
+    sectionOrder:
+      typeof data.sectionOrder === "number" ? data.sectionOrder : DEFAULT_ORDER,
+    order: typeof data.order === "number" ? data.order : DEFAULT_ORDER,
+    draft: data.draft === true,
+  };
+}
+
+/**
+ * Mounts a live TipTap editor (plus its frontmatter form) for a single
+ * manual page.
+ *
+ * Converts the page's raw MDX `source` into a ProseMirror doc via the
+ * adapter (`parseMdx` -> `mdastToDoc`) and hands it to `useEditor` as
+ * initial content. `path` is the recreation key: a new page selection gets
+ * a fresh editor instance rather than reusing/patching the previous one.
+ * `App` only ever renders `Editor` once `source` is loaded (clearing it back
+ * to `null` — and unmounting `Editor` — between page selections), so plain
+ * `useState` initializers below are safe: each page selection is a genuine
+ * fresh mount, not a prop update on a persisting instance.
+ *
+ * Frontmatter is parsed into structured `FrontmatterData` (via
+ * `parseFrontmatter` + `toFrontmatterData`) and driven by `FrontmatterForm`,
+ * replacing the original raw frontmatter string entirely — metadata edits
+ * now persist. `serializeFrontmatter(frontmatterData)` is exposed via
+ * `onFrontmatterSourceReady`, and also feeds D6's autosave path below.
+ *
+ * D6 autosave: any editor content change (`editor.on("update")`) or
+ * frontmatter form change bumps `saveVersion`, which (re)arms a debounce
+ * timer (`autosaveDelayMs`, default 8s — each fire is a git commit on the
+ * drafts branch, and the original 1.2s default produced dozens of
+ * commits per editing session; a pending save is flushed rather than lost
+ * on page switch and tab close, see the flush/pagehide effects). When it
+ * fires, the current PM doc JSON + serialized frontmatter are posted via
+ * `api.saveDraftDoc(path, doc, frontmatter)` to `/api/draft`, which calls
+ * the real `docToSource(doc, frontmatter)` — never hand-assembled — on the
+ * *server* to build the final MDX before committing it to the dev backend.
+ * This save path deliberately does NOT call `docToSource` (or import
+ * anything from `../adapter/docToMdast`) here in browser code: `docToSource`
+ * -> `formatMdx` (`../mdx/normalize.ts`) does `import path from "node:path"`
+ * and resolves the repo's `.prettierrc.json` off disk at module scope, both
+ * Bun/Node-only — bundled into the client and evaluated in a real browser,
+ * that import throws immediately (Vite's `node:path` browser shim throws on
+ * property access), which took down the entire app (blank page, nothing
+ * rendered) the moment this module was reachable from `Editor.tsx`'s import
+ * graph. Netlify functions run under Bun/Node, so the exact same
+ * `docToSource` call is safe and correct there — see `draft.ts`.
+ *
+ * The effect closes over `path` from its own render, and its cleanup
+ * (unmount, or a `saveVersion`/`path` change before the timer fires) both
+ * cancels the pending timeout and flips a `cancelled` flag so an in-flight
+ * save from a page that's since been navigated away from can't clobber the
+ * new page's status indicator — see the effect body. On success,
+ * `onDraftSaved(path)` lets `App` know to refresh the page list's
+ * `hasDraft` dot.
+ */
+export function Editor({
+  source,
+  path,
+  sections = [],
+  pages = [],
+  onFrontmatterSourceReady,
+  api = defaultApi,
+  onDraftSaved,
+  autosaveDelayMs = 8000,
+  onEditorReady,
+  onAddSubpage,
+  hasChildren,
+  onDeleted,
+  enableDragHandle = true,
+  flushRef,
+  hasDraft = false,
+  existsOnBase = false,
+  onReset,
+}: {
+  source: string;
+  path: string;
+  /**
+   * Existing section names across the manual, for the form's datalist.
+   * Defaults to `[]` so callers that don't care about the datalist (e.g.
+   * node-view tests exercising the editor in isolation) don't need to wire
+   * it through.
+   */
+  sections?: string[];
+  /**
+   * Every manual page's metadata, offered to the `@` mention menu
+   * (`mentions/pageMention.ts`'s `PageMention` extension) so typing `@`
+   * can insert a link to any of them. Defaults to `[]` so callers that
+   * don't care about mentions (e.g. node-view tests exercising the editor
+   * in isolation) don't need to wire it through — the menu simply has
+   * nothing to show. Registered into `PageMention`'s per-editor context
+   * below whenever it changes, so a later page-list refresh (e.g. a new
+   * page created while this editor stays open) keeps the mention menu
+   * current.
+   */
+  pages?: ManualPageMeta[];
+  /**
+   * Optional hook exposing the live serialized frontmatter string to a
+   * caller (e.g. a future save action) each time the form data changes.
+   */
+  onFrontmatterSourceReady?: (frontmatterSource: string) => void;
+  /** Injectable for tests; defaults to the real fetch-backed client. */
+  api?: ReturnType<typeof makeApi>;
+  /** Called with `path` after a debounced autosave succeeds. */
+  onDraftSaved?: (path: string) => void;
+  /** Debounce idle time before autosaving, in ms. Overridable for tests. */
+  autosaveDelayMs?: number;
+  /** Test-only hook exposing the live TipTap instance once created. */
+  onEditorReady?: (editor: TiptapEditor) => void;
+  /** Called when the header's "Add sub-page" button is clicked. */
+  onAddSubpage: () => void;
+  /**
+   * True when the active page has sub-pages. Blocks deletion (the header's
+   * "Delete page" button renders disabled with a guard tooltip) since
+   * deleting a parent would orphan its children in the tree.
+   */
+  hasChildren: boolean;
+  /**
+   * Called after a successful `api.deletePage(path)`. `App` responds by
+   * clearing `source`/`activePath`, which unmounts this `Editor` instance —
+   * the debounce effect above already cancels any in-flight/pending autosave
+   * on unmount (see its cleanup), so no extra guard is needed here for the
+   * delete-then-unmount sequence.
+   */
+  onDeleted: (path: string) => void;
+  /**
+   * Renders the Notion-style block drag handle. Defaults on for the real
+   * app; existing suites that mount `Editor` under happy-dom leave it on
+   * too — `@tiptap/extension-drag-handle-react` registers its plugin (and
+   * portals its handle content) without touching `floating-ui`'s DOM
+   * measurement APIs until an actual pointer interaction occurs, which
+   * happy-dom tolerates fine. The prop exists so a real-browser-only edge
+   * case can still opt out per-test without changing the default.
+   */
+  enableDragHandle?: boolean;
+  /**
+   * When provided, Editor populates this ref with an async function that
+   * flushes any pending autosave and resolves once the save lands. App uses
+   * it to ensure unsaved changes are committed before calling publish.
+   */
+  flushRef?: { current: (() => Promise<void>) | null };
+  /**
+   * True when this page has unpublished changes on the drafts branch. Used
+   * to show/hide the "Compare" toggle in the header — comparing only makes
+   * sense when there's a published version to compare against.
+   */
+  hasDraft?: boolean;
+  /**
+   * True when the page exists on the base branch (has a published
+   * version). With `hasDraft`, gates the header's "Reset to published"
+   * action — a never-published page has nothing to reset to (Delete page
+   * covers discarding it).
+   */
+  existsOnBase?: boolean;
+  /**
+   * Called with `path` after a successful reset. App responds by
+   * re-fetching the page (fresh Editor mount) and refreshing the sidebar.
+   *
+   * Contract: on success `resettingRef` is deliberately never reset back to
+   * `false` (see its doc comment) — the caller MUST respond to `onReset` by
+   * unmounting this `Editor` instance (`App` does this by clearing `source`
+   * back to `null`, which triggers the re-fetch above and a fresh mount). A
+   * caller that instead keeps the same instance mounted after `onReset`
+   * fires would leave autosave permanently disabled for it: `handleUpdate`,
+   * `handleFrontmatterChange`, the unmount flush, and `pagehide` all stay
+   * guarded forever, since nothing ever clears the ref again.
+   */
+  onReset?: (path: string) => void;
+}) {
+  const [frontmatterData, setFrontmatterData] = useState<FrontmatterData>(() =>
+    toFrontmatterData(parseFrontmatter(source).data),
+  );
+  const [saveStatus, setSaveStatus] = useState<
+    | "idle"
+    | "dirty"
+    | "saving"
+    | "saved"
+    | "error"
+    | "delete-error"
+    | "reset-error"
+  >("idle");
+  const [saveVersion, setSaveVersion] = useState(0);
+  // Header delete action's tiny local state machine: plain button ->
+  // (click) -> inline confirm -> (confirm) -> `api.deletePage` in flight ->
+  // success calls `onDeleted` (which unmounts this component via `App`
+  // clearing `source`), failure falls back to the plain button with
+  // `saveStatus` flipped to "error" (reusing the existing save-status
+  // styling rather than inventing a second error affordance).
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmingReset, setConfirmingReset] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  // Collapses the frontmatter form behind an "Edit details" toggle so the
+  // header's default state is a single tidy title row. No persistence: each
+  // page mount (a fresh `Editor` instance, per the component doc above)
+  // starts collapsed.
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
+
+  // Compare mode: show published (base branch) alongside the draft side by
+  // side. `baseSource` is null when the page is draft-only (no published
+  // version), "loading" while the fetch is in flight, or the fetched source
+  // string once resolved. Reset to off on `path` change via `useEditor`'s
+  // recreation — but `path` is already the mount key so a fresh Editor
+  // instance always starts with compare off.
+  const [compareMode, setCompareMode] = useState(false);
+  const [baseSource, setBaseSource] = useState<string | null | "loading">(null);
+
+  async function handleToggleCompare() {
+    if (compareMode) {
+      setCompareMode(false);
+      setBaseSource(null);
+      return;
+    }
+    setCompareMode(true);
+    setBaseSource("loading");
+    const content = await api.getBasePage(path);
+    setBaseSource(content ? content.source : null);
+  }
+
+  const doc = useMemo(() => {
+    const { doc } = mdastToDoc(parseMdx(source));
+    return doc;
+    // `path` is included so a same-source-different-path edge case (unlikely
+    // in practice, since App clears `source` between selections) still
+    // recomputes rather than reusing a stale doc.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [source, path]);
+
+  const pageSlug = useMemo(() => pageSlugFromPath(path), [path]);
+
+  // `handlePaste`/`handleDrop` below are captured into `editorProps` at
+  // editor-CREATION time (i.e. whenever `[path]` — `useEditor`'s deps array
+  // — changes), same as the autosave effect's closed-over `api`/
+  // `onDraftSaved`/etc (see that effect's comment). But the TipTap `Editor`
+  // instance itself doesn't exist yet while `useEditor`'s options object is
+  // being built — it's the return value of the very call below — so
+  // `insertImageFromFile` (which needs a real `Editor` to `.chain()` off of)
+  // can't close over it directly. `editorRef` bridges that: `onCreate` fires
+  // synchronously once the instance exists, before any real user
+  // paste/drop can occur, and is re-set on every recreation. `onCreate` also
+  // calls `registerImageContext` with this same `api`/`pageSlug` pair, for
+  // the same underlying reason: the slash menu's "Image" item
+  // (`slash/slashItems.ts`) only receives the bare `Editor` instance from
+  // `SlashItem.run(editor)`, with no way to reach this component's `api`/
+  // `pageSlug` closure directly.
+  const editorRef = useRef<TiptapEditor | null>(null);
+
+  // The block-handle context menu (Notion-style: click the drag handle to
+  // open a menu of actions for the block it's hovering). `hoveredRef` tracks
+  // the DragHandle package's currently-hovered `{node, pos}` — via `ref`
+  // rather than `useState` since `onNodeChange` fires on every `mousemove`
+  // over the document, and a re-render per pixel of mouse movement would be
+  // wasteful when nothing visible needs to change until the handle is
+  // actually clicked. `handleMenu` (real `useState`, since it DOES drive a
+  // render) holds a snapshot — the action list plus the handle's own
+  // bounding rect at click time — taken once, on click; the popup doesn't
+  // track the hover state afterward, so it stays put even if the mouse
+  // later leaves the handle (which clears `hoveredRef` via `onNodeChange`).
+  const hoveredRef = useRef<{ node: PMNode; pos: number } | null>(null);
+  // MUST be identity-stable: the <DragHandle> component lists `onNodeChange`
+  // in the effect deps that (un)register its whole ProseMirror plugin and
+  // reset the handle element to visibility:hidden — an inline arrow here
+  // made every Editor re-render (save-status ticks etc.) tear the handle
+  // down mid-hover, leaving it permanently invisible/untracked.
+  const handleNodeChange = useCallback(
+    ({ node, pos }: { node: PMNode | null; pos: number }) => {
+      hoveredRef.current = node ? { node, pos } : null;
+    },
+    [],
+  );
+  const [handleMenu, setHandleMenu] = useState<{
+    actions: BlockAction[];
+    anchorRect: DOMRect;
+  } | null>(null);
+
+  function handleDragHandleClick(event: ReactMouseEvent<HTMLButtonElement>) {
+    const hovered = hoveredRef.current;
+    if (!editor || !hovered) return;
+    setHandleMenu({
+      actions: getBlockActions(editor, hovered.node, hovered.pos),
+      anchorRect: event.currentTarget.getBoundingClientRect(),
+    });
+  }
+
+  const editor = useEditor(
+    {
+      extensions: buildAppExtensions(),
+      content: doc,
+      editorProps: {
+        // Pasted image(s) (e.g. a copied screenshot): runs the alt-prompt ->
+        // upload -> insert flow for the FIRST image file and reports the
+        // paste handled (`true`) so ProseMirror doesn't also fall through to
+        // its default text-insertion behavior for the same clipboard event.
+        // Anything without an image file (plain text, a copied block, ...)
+        // returns `false` for ProseMirror's default handling. The flow
+        // itself runs fire-and-forget (`void`) since this hook must answer
+        // synchronously.
+        handlePaste(_view, event) {
+          const files = event.clipboardData?.files;
+          if (!files) return false;
+          for (const file of Array.from(files)) {
+            if (file.type.startsWith("image/")) {
+              const liveEditor = editorRef.current;
+              if (liveEditor) {
+                void insertImageFromFile(liveEditor, api, pageSlug, file);
+              }
+              return true;
+            }
+          }
+          return false;
+        },
+        // Dropped image file(s) (e.g. dragged in from the Finder/desktop):
+        // same flow as paste above, but first moves the selection to the
+        // drop position (`view.posAtCoords`) so the image lands where the
+        // user actually dropped it rather than wherever the caret happened
+        // to be.
+        //
+        // `moved` is ProseMirror's own flag for "this drop is an in-editor
+        // drag completing" (e.g. the Notion-style `DragHandle` block-move
+        // above, or plain text/node drag-reordering) — it's `true` only for
+        // drags that STARTED inside this same ProseMirror view, and such
+        // drags never carry `dataTransfer.files` (there's no OS file
+        // involved). Returning `false` immediately whenever `moved` is true
+        // is therefore a pure guard against ever intercepting that path: it
+        // hands the event straight back to ProseMirror's own default
+        // drop-to-move handling, unexamined, before this code ever looks at
+        // `dataTransfer` — the block drag-handle's DnD is untouched.
+        handleDrop(view, event, _slice, moved) {
+          if (moved) return false;
+          const files = event.dataTransfer?.files;
+          if (!files) return false;
+          for (const file of Array.from(files)) {
+            if (file.type.startsWith("image/")) {
+              event.preventDefault();
+              const liveEditor = editorRef.current;
+              if (liveEditor) {
+                const coords = view.posAtCoords({
+                  left: event.clientX,
+                  top: event.clientY,
+                });
+                if (coords) {
+                  const { state } = view;
+                  view.dispatch(
+                    state.tr.setSelection(
+                      TextSelection.near(state.doc.resolve(coords.pos)),
+                    ),
+                  );
+                }
+                void insertImageFromFile(liveEditor, api, pageSlug, file);
+              }
+              return true;
+            }
+          }
+          return false;
+        },
+      },
+      onCreate: ({ editor: created }) => {
+        editorRef.current = created;
+        registerImageContext(created, { api, pageSlug });
+        registerPageContext(created, pages);
+        onEditorReady?.(created);
+      },
+    },
+    [path],
+  );
+
+  // Keeps `PageMention`'s registered page list current across a `pages`
+  // prop change that DOESN'T recreate the editor (`useEditor`'s deps above
+  // are `[path]` only, so `pages` refreshing — e.g. after `App`'s
+  // `handleDraftSaved`/`handleCreatePage` re-fetch the sidebar list — is
+  // exactly that case). `onCreate` above already registers the list this
+  // render started with; this effect re-registers on every subsequent
+  // `pages` change too (a plain `WeakMap.set` — see `registerPageContext`'s
+  // doc comment), so a page created/renamed while this editor stays open is
+  // immediately mentionable without needing to reopen the page.
+  useEffect(() => {
+    if (!editor) return;
+    registerPageContext(editor, pages);
+  }, [editor, pages]);
+
+  // The floating multi-block selection bar (`SelectionBar.tsx`,
+  // `blockSelection.ts`)'s live "N blocks selected" count. The selection
+  // itself lives entirely in the `blockSelection` ProseMirror plugin's own
+  // state (a `DecorationSet`, not React state — see that module's doc
+  // comment for why), so this component only needs a *read* of it to decide
+  // whether/what to render; `editor.on("transaction")` fires after EVERY
+  // dispatched transaction (content edits, selection-only toggle/range/clear
+  // metas, undo/redo — anything), which is what keeps this count in sync
+  // with clicks that never touch `editor.on("update")` (that event only
+  // fires for document-CHANGING transactions, and toggling a block into the
+  // selection dispatches a metadata-only transaction with no document
+  // change at all).
+  const [selectedBlockCount, setSelectedBlockCount] = useState(0);
+  useEffect(() => {
+    if (!editor) return;
+    const handleTransaction = () => {
+      setSelectedBlockCount(getSelectedBlocks(editor).length);
+    };
+    editor.on("transaction", handleTransaction);
+    return () => {
+      editor.off("transaction", handleTransaction);
+    };
+  }, [editor]);
+
+  // True from the moment `handleConfirmReset` starts discarding through
+  // either a successful reset (component unmounts shortly after, via
+  // `App` clearing `source`) or a failed one (reset back to `false` in the
+  // catch block, once the autosave protection has been re-armed). Guards
+  // the four paths that could otherwise arm/fire a NEW save after the
+  // discard and resurrect the very edits the reset just threw away —
+  // violating the invariant on the module-scope in-flight-save registry
+  // above (`registerInFlightSave`/`awaitInFlightSaves`): `handleUpdate` (a
+  // content edit typed during the reset network round-trip),
+  // `handleFrontmatterChange` (a frontmatter form edit during the same
+  // window), the flush-on-unmount effect, and the `pagehide` handler.
+  const resettingRef = useRef(false);
+
+  // Marks the doc dirty (and (re)arms the autosave debounce below) on every
+  // content-changing transaction. Registered/torn down per `editor`
+  // instance, which is recreated whenever `path` changes (see `useEditor`'s
+  // deps above), so a stale listener never fires against a page that's no
+  // longer mounted.
+  useEffect(() => {
+    if (!editor) return;
+    const handleUpdate = () => {
+      // A reset in flight already discarded the pending save; an edit
+      // typed during that network round-trip must not re-arm it (see
+      // `resettingRef`'s doc comment).
+      if (resettingRef.current) return;
+      setSaveStatus("dirty");
+      setSaveVersion((v) => v + 1);
+    };
+    editor.on("update", handleUpdate);
+    return () => {
+      editor.off("update", handleUpdate);
+    };
+  }, [editor]);
+
+  // A pending (armed-but-unfired) autosave, exposed so the flush effect
+  // below can fire it early when the page unmounts/switches. `flush()`
+  // clears the timer (so it can never also fire normally and double-save),
+  // captures the freshest doc/frontmatter at flush time, and saves
+  // fire-and-forget (the component may already be gone — no setState).
+  // `discard()` also clears the timer but does NOT fire a save — used by
+  // the reset flow to drop an armed autosave outright rather than let it
+  // land. Both null this ref out immediately (see each's body), and it's
+  // also nulled the moment the debounce fires normally, so nothing after
+  // either path can double-fire the same timer.
+  const pendingSaveRef = useRef<{
+    flush: () => Promise<void>;
+    discard: () => void;
+  } | null>(null);
+
+  // Populate flushRef once so App can await any pending save before publishing.
+  useEffect(() => {
+    if (!flushRef) return;
+    flushRef.current = async () => {
+      if (pendingSaveRef.current) await pendingSaveRef.current.flush();
+    };
+    return () => {
+      if (flushRef) flushRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // The debounced autosave itself. `saveVersion` is the trigger: it only
+  // increments once an actual edit has happened (content or frontmatter),
+  // so the initial mount (`saveVersion === 0`) never autosaves an unedited
+  // page. Re-running effects re-arm the timer, which is the debounce.
+  useEffect(() => {
+    if (saveVersion === 0 || !editor) return;
+    const savingPath = path;
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      pendingSaveRef.current = null;
+      void (async () => {
+        setSaveStatus("saving");
+        try {
+          const request = api.saveDraftDoc(
+            savingPath,
+            editor.getJSON(),
+            serializeFrontmatter(frontmatterData),
+          );
+          registerInFlightSave(savingPath, request);
+          const result = await request;
+          recordLastSave(savingPath, result.source);
+          if (cancelled) return;
+          setSaveStatus("saved");
+          onDraftSaved?.(savingPath);
+        } catch {
+          if (!cancelled) setSaveStatus("error");
+        }
+      })();
+    }, autosaveDelayMs);
+    pendingSaveRef.current = {
+      flush: () => {
+        clearTimeout(timer);
+        pendingSaveRef.current = null;
+        const request = api
+          .saveDraftDoc(
+            savingPath,
+            editor.getJSON(),
+            serializeFrontmatter(frontmatterData),
+          )
+          .then((result) => {
+            recordLastSave(savingPath, result.source);
+            onDraftSaved?.(savingPath);
+          })
+          .catch(() => {});
+        registerInFlightSave(savingPath, request);
+        return request;
+      },
+      discard: () => {
+        clearTimeout(timer);
+        pendingSaveRef.current = null;
+      },
+    };
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+    // `editor`, `frontmatterData`, `api`, `onDraftSaved`, `autosaveDelayMs`
+    // are deliberately read from this render's closure rather than listed:
+    // any of them changing mid-debounce is already covered by `saveVersion`
+    // (content/frontmatter edits) or `path` (page switch) re-arming the
+    // timer with fresh values.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveVersion, path]);
+
+  // Flushes a pending autosave instead of dropping it when the page
+  // unmounts or switches (`path` change unmounts the editor instance):
+  // with a several-second debounce, cancelling silently would lose the
+  // writer's last edits every time they click another page in the sidebar.
+  // Deliberately NOT keyed on `saveVersion` — re-arming while typing must
+  // not flush per keystroke; only leaving the page does.
+  useEffect(() => {
+    return () => {
+      // A reset in flight already discarded the pending save (and the
+      // successful path unmounts this very component right after) — don't
+      // let the unmount flush resurrect it. See `resettingRef`'s doc comment.
+      if (resettingRef.current) return;
+      void pendingSaveRef.current?.flush();
+    };
+  }, [path]);
+
+  // Same protection for closing/reloading the whole tab: `pagehide` is the
+  // last reliable moment to get bytes out. `fetch` with `keepalive` lets
+  // the request outlive the page (same-origin cookies included) — the
+  // pending flush's normal `api.saveDraftDoc` path may be killed mid-flight
+  // by the unload, so this posts the payload directly.
+  useEffect(() => {
+    if (!editor) return;
+    const handlePageHide = () => {
+      // Same guard as the unmount flush above — see `resettingRef`'s doc
+      // comment.
+      if (resettingRef.current) return;
+      if (!pendingSaveRef.current) return;
+      pendingSaveRef.current = null;
+      void fetch("/api/draft", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path,
+          doc: editor.getJSON(),
+          frontmatter: serializeFrontmatter(frontmatterData),
+        }),
+      }).catch(() => {});
+    };
+    window.addEventListener("pagehide", handlePageHide);
+    return () => {
+      window.removeEventListener("pagehide", handlePageHide);
+    };
+    // Closure freshness for `frontmatterData` follows the same reasoning as
+    // the autosave effect above; `saveVersion` re-renders keep it current
+    // enough, and the doc JSON is read live from the editor at fire time.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, path, saveVersion]);
+
+  // Save-safety spec, feature A: while there are unsaved or in-flight
+  // changes, leaving the page asks for confirmation (browser-native
+  // prompt). Skipped during a deliberate reset — that flow is discarding
+  // the changes on purpose. The pagehide keepalive below still fires if
+  // the writer leaves anyway.
+  //
+  // "error": the save failed, the changes are still only in this tab —
+  // the debounce timer already fired (nulling `pendingSaveRef`, see the
+  // autosave effect's catch block above), so neither this prompt nor the
+  // `pagehide` keepalive has anything to act on unless this state is
+  // guarded here too; without it, a failed autosave silently drops the
+  // guard and the writer can navigate away believing nothing is at risk.
+  useEffect(() => {
+    if (
+      saveStatus !== "dirty" &&
+      saveStatus !== "saving" &&
+      saveStatus !== "error"
+    )
+      return;
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (resettingRef.current) return;
+      event.preventDefault();
+      // Legacy engines require returnValue for the prompt to appear.
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [saveStatus]);
+
+  async function handleConfirmDelete() {
+    setDeleting(true);
+    try {
+      await api.deletePage(path);
+      onDeleted(path);
+    } catch {
+      setDeleting(false);
+      setConfirmingDelete(false);
+      // Distinct from autosave "error": nothing was edited — the DELETE failed.
+      setSaveStatus("delete-error");
+    }
+  }
+
+  async function handleConfirmReset() {
+    setResetting(true);
+    // Set FIRST, before the discard: from this point until it's cleared,
+    // `handleUpdate`/the unmount flush/`pagehide` all refuse to arm or fire
+    // a new save (see `resettingRef`'s doc comment) — closing the window
+    // where an edit typed during the network round-trip below, or the
+    // unmount `onReset` triggers, could resurrect the discarded content.
+    resettingRef.current = true;
+    // Ordering contract (see the reset spec): discard any pending debounced
+    // save so it can never fire after the reset, then wait out a save
+    // already on the wire so the reset commit is guaranteed to land last.
+    pendingSaveRef.current?.discard();
+    await awaitInFlightSaves(path);
+    try {
+      await api.resetPage(path);
+      onReset?.(path);
+    } catch {
+      resettingRef.current = false;
+      setResetting(false);
+      setConfirmingReset(false);
+      setSaveStatus("reset-error");
+      // The discarded edits are still present in the doc but now
+      // untracked (no timer, no pendingSaveRef) — re-arm autosave
+      // protection for them so a subsequent navigation-away doesn't
+      // silently lose them. The debounce below re-reads the current doc
+      // when it fires, so this replays the still-present edit, not the
+      // discarded one.
+      setSaveVersion((v) => v + 1);
+    }
+  }
+
+  function handleFrontmatterChange(next: FrontmatterData) {
+    // A reset in flight already discarded the pending save; a frontmatter
+    // edit made during that network round-trip must not re-arm it, same as
+    // a content edit (see `resettingRef`'s doc comment) — the whole edit is
+    // inert during a reset, so this drops it rather than just skipping the
+    // save-arming tail.
+    if (resettingRef.current) return;
+    setFrontmatterData(next);
+    onFrontmatterSourceReady?.(serializeFrontmatter(next));
+    setSaveStatus("dirty");
+    setSaveVersion((v) => v + 1);
+  }
+
+  const saveStatusLabel =
+    saveStatus === "saving"
+      ? "Saving changes…"
+      : saveStatus === "saved"
+        ? "Changes saved ●"
+        : saveStatus === "dirty"
+          ? "Unsaved changes"
+          : saveStatus === "error"
+            ? "Save failed"
+            : saveStatus === "delete-error"
+              ? "Delete failed"
+              : saveStatus === "reset-error"
+                ? "Reset failed"
+                : "";
+
+  return (
+    <div className="editor-frame" data-testid="editor">
+      {/* Full-bleed chrome header: page metadata reads as app chrome, not
+          as part of the rich-text document. Stays put while the document
+          scrolls below it. */}
+      <div className="editor-header">
+        <div className="editor-header__row">
+          <div className="editor-header__title-group">
+            <h1 className="editor-header__title" data-testid="page-title">
+              {frontmatterData.title.trim() ? (
+                frontmatterData.title
+              ) : (
+                <span className="editor-header__title--placeholder">
+                  Untitled
+                </span>
+              )}
+            </h1>
+            <button
+              type="button"
+              data-testid="edit-page-details"
+              className="editor-header__edit"
+              aria-expanded={detailsExpanded}
+              onClick={() => setDetailsExpanded((expanded) => !expanded)}
+            >
+              {detailsExpanded ? "Done" : "✎ Edit details"}
+            </button>
+          </div>
+          <div className="editor-header__actions">
+            {hasDraft && existsOnBase ? (
+              confirmingReset ? (
+                <span className="editor-header__delete-confirm">
+                  <span className="editor-header__delete-confirm-label">
+                    Discard your changes and restore the published version?
+                  </span>
+                  <button
+                    type="button"
+                    data-testid="editor-reset-confirm"
+                    className="editor-header__delete-confirm-button"
+                    disabled={resetting}
+                    onClick={handleConfirmReset}
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="editor-reset-cancel"
+                    className="editor-header__delete-cancel-button"
+                    disabled={resetting}
+                    onClick={() => setConfirmingReset(false)}
+                  >
+                    Cancel
+                  </button>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  data-testid="editor-reset-page"
+                  className="editor-header__reset"
+                  onClick={() => setConfirmingReset(true)}
+                >
+                  Reset to published
+                </button>
+              )
+            ) : null}
+            {hasDraft ? (
+              <button
+                type="button"
+                data-testid="editor-compare-toggle"
+                className="editor-header__compare"
+                aria-pressed={compareMode}
+                onClick={handleToggleCompare}
+              >
+                {compareMode ? "Close compare" : "Compare"}
+              </button>
+            ) : null}
+            <button
+              type="button"
+              data-testid="editor-add-subpage"
+              className="editor-header__add-subpage"
+              onClick={onAddSubpage}
+            >
+              Add sub-page
+            </button>
+            {hasChildren ? (
+              <button
+                type="button"
+                data-testid="editor-delete-page"
+                className="editor-header__delete"
+                disabled
+                title="Delete or move its sub-pages first"
+              >
+                Delete page
+              </button>
+            ) : confirmingDelete ? (
+              <span className="editor-header__delete-confirm">
+                <span className="editor-header__delete-confirm-label">
+                  Delete this page?
+                </span>
+                <button
+                  type="button"
+                  data-testid="editor-delete-confirm"
+                  className="editor-header__delete-confirm-button"
+                  disabled={deleting}
+                  onClick={handleConfirmDelete}
+                >
+                  Delete
+                </button>
+                <button
+                  type="button"
+                  data-testid="editor-delete-cancel"
+                  className="editor-header__delete-cancel-button"
+                  disabled={deleting}
+                  onClick={() => setConfirmingDelete(false)}
+                >
+                  Cancel
+                </button>
+              </span>
+            ) : (
+              <button
+                type="button"
+                data-testid="editor-delete-page"
+                className="editor-header__delete"
+                onClick={() => setConfirmingDelete(true)}
+              >
+                Delete page
+              </button>
+            )}
+          </div>
+        </div>
+        {detailsExpanded ? (
+          <FrontmatterForm
+            data={frontmatterData}
+            sections={sections}
+            onChange={handleFrontmatterChange}
+          />
+        ) : null}
+      </div>
+      {compareMode ? (
+        <div className="editor-compare">
+          <div className="compare-pane compare-pane--published">
+            <div className="compare-pane__label">Published</div>
+            <div className="compare-pane__scroll">
+              {baseSource === "loading" ? (
+                <p className="compare-pane__loading">Loading…</p>
+              ) : baseSource === null ? (
+                <p className="compare-pane__empty">
+                  No published version — this page has not been merged yet.
+                </p>
+              ) : (
+                <ReadOnlyDoc source={baseSource} />
+              )}
+            </div>
+          </div>
+          <div className="compare-pane compare-pane--draft">
+            <div className="compare-pane__label">Your changes</div>
+            <div className="editor-scroll" onScroll={() => setHandleMenu(null)}>
+              {enableDragHandle && editor ? (
+                <DragHandle
+                  editor={editor}
+                  computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
+                  onNodeChange={handleNodeChange}
+                  nested={NESTED_DRAG_HANDLE_OPTIONS}
+                  className="drag-handle-wrapper"
+                >
+                  <button
+                    type="button"
+                    className="drag-handle"
+                    data-testid="drag-handle"
+                    aria-label="Drag to move block"
+                    aria-haspopup="menu"
+                    title="Drag to move · Click for actions"
+                    tabIndex={-1}
+                    onClick={handleDragHandleClick}
+                  >
+                    ⠿
+                  </button>
+                </DragHandle>
+              ) : null}
+              <EditorContent editor={editor} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="editor-scroll"
+          // A stale menu anchored to a handle rect that's about to scroll out
+          // from under it reads as broken (the popup floats over the wrong
+          // block, or over nothing). Simplest fix: any scroll of the document
+          // pane closes it outright rather than trying to keep it glued to a
+          // moving anchor.
+          onScroll={() => setHandleMenu(null)}
+        >
+          {enableDragHandle && editor ? (
+            <DragHandle
+              editor={editor}
+              computePositionConfig={HANDLE_COMPUTE_POSITION_CONFIG}
+              onNodeChange={handleNodeChange}
+              nested={NESTED_DRAG_HANDLE_OPTIONS}
+              className="drag-handle-wrapper"
+            >
+              <button
+                type="button"
+                className="drag-handle"
+                data-testid="drag-handle"
+                aria-label="Drag to move block"
+                aria-haspopup="menu"
+                title="Drag to move · Click for actions"
+                tabIndex={-1}
+                onClick={handleDragHandleClick}
+              >
+                ⠿
+              </button>
+            </DragHandle>
+          ) : null}
+          <EditorContent editor={editor} />
+        </div>
+      )}
+      {handleMenu && editor ? (
+        <HandleMenu
+          editor={editor}
+          actions={handleMenu.actions}
+          anchorRect={handleMenu.anchorRect}
+          onClose={() => setHandleMenu(null)}
+        />
+      ) : null}
+      {/* Floating multi-block selection bar: bottom-center of `.editor-frame`
+          (the save pill above owns the bottom-right corner, so the two never
+          collide) — see `SelectionBar.tsx`. Unmounted outright (not just
+          hidden) while nothing's selected, same treatment as `handleMenu`
+          above. */}
+      {selectedBlockCount > 0 && editor ? (
+        <SelectionBar editor={editor} count={selectedBlockCount} />
+      ) : null}
+      {/* Floating save-status pill: anchored to the pane's bottom-right
+          corner (`.editor-frame` is the positioning context) rather than
+          living in the chrome header, so it doesn't compete with page
+          metadata for header space. Always rendered (so `save-status`
+          keeps a stable DOM presence for existing assertions that read its
+          `textContent` while idle) but visually hidden via
+          `editor-save-pill--hidden` when there's nothing to show. */}
+      <div
+        className={
+          saveStatusLabel
+            ? "editor-save-pill"
+            : "editor-save-pill editor-save-pill--hidden"
+        }
+        data-testid="save-status-pill"
+      >
+        <span
+          data-testid="save-status"
+          className={`editor-topbar__save-status editor-topbar__save-status--${saveStatus}`}
+        >
+          {saveStatusLabel}
+        </span>
+      </div>
+    </div>
+  );
+}

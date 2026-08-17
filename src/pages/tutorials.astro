@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Audacity ® | How-to tutorials";
+const pageDescription =
+  "Task-focused tutorials covering every common Audacity workflow — recording, editing, effects, exporting, and converting.";
+
+interface Category {
+  title: string;
+  description: string;
+  href: string;
+}
+
+const categories: Category[] = [
+  {
+    title: "Recording",
+    description:
+      "Record voice, instruments, desktop audio, multi-track sessions, and more.",
+    href: "/tutorials/record",
+  },
+  {
+    title: "Editing",
+    description:
+      "Cut, copy, paste, trim, split, and rearrange audio without losing quality.",
+    href: "/tutorials/edit",
+  },
+  {
+    title: "Effects",
+    description:
+      "Use compression, EQ, reverb, noise reduction, and other realtime effects.",
+    href: "/tutorials/effects",
+  },
+  {
+    title: "Mixing & mastering",
+    description:
+      "Balance levels, master the mix, and prepare audio for release.",
+    href: "/tutorials/mix",
+  },
+  {
+    title: "Exporting",
+    description:
+      "Export to MP3, WAV, FLAC, Opus, and other formats with the right settings.",
+    href: "/tutorials/export",
+  },
+  {
+    title: "Converting",
+    description:
+      "Convert between audio formats and resample at different rates.",
+    href: "/tutorials/convert",
+  },
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto px-6 py-12 space-y-12">
+    <header class="max-w-2xl">
+      <h1 class="text-4xl lg:text-5xl">How-to tutorials</h1>
+      <p class="text-lg text-gray-600 mt-3">
+        Short, task-focused guides for everything you can do in Audacity. Browse
+        by category or search to find the exact workflow you need.
+      </p>
+    </header>
+
+    <section>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {
+          categories.map((category) => (
+            <li>
+              <a
+                href={category.href}
+                class="block h-full p-5 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+              >
+                <p class="text-lg font-semibold text-gray-900">
+                  {category.title}
+                </p>
+                <p class="text-sm text-gray-600 mt-2">{category.description}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

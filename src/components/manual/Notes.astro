@@ -1,0 +1,115 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = "Notes", class: className = "" } = Astro.props;
+---
+
+<aside class:list={["manual-notes not-prose", className]}>
+  <div class="manual-notes__header">
+    <span class="manual-notes__badge" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+        ></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="9" y1="13" x2="15" y2="13"></line>
+        <line x1="9" y1="17" x2="13" y2="17"></line>
+      </svg>
+    </span>
+    <p class="manual-notes__title">{title}</p>
+  </div>
+  <div class="manual-notes__body">
+    <slot />
+  </div>
+</aside>
+
+<style is:global>
+  .manual-notes {
+    border: 1px solid rgb(59 130 246 / 0.4);
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .manual-notes__header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    background-color: rgb(59 130 246);
+    color: white;
+  }
+
+  .manual-notes__badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background-color: white;
+    color: rgb(59 130 246);
+  }
+
+  .manual-notes__badge svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .manual-notes__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+  }
+
+  .manual-notes__body {
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: rgb(31 41 55);
+    line-height: 1.6;
+  }
+
+  .manual-notes__body > * + * {
+    margin-top: 1rem;
+  }
+
+  .manual-notes__body > :first-child {
+    margin-top: 0;
+  }
+
+  .manual-notes__body > :last-child {
+    margin-bottom: 0;
+  }
+
+  .manual-notes__body p {
+    margin: 0;
+  }
+
+  .manual-notes__body ul,
+  .manual-notes__body ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .manual-notes__body li + li {
+    margin-top: 0.25rem;
+  }
+
+  .manual-notes__body img {
+    margin: 0.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

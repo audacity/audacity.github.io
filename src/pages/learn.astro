@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Audacity ® | Getting started";
+const pageDescription =
+  "Brand new to Audacity? A short, guided path through the essentials: install, record, edit, export.";
+
+interface Step {
+  number: number;
+  title: string;
+  description: string;
+  href?: string;
+}
+
+const steps: Step[] = [
+  {
+    number: 1,
+    title: "Install Audacity",
+    description:
+      "Download Audacity for Windows, macOS, or Linux and run the installer.",
+    href: "/download",
+  },
+  {
+    number: 2,
+    title: "Connect your microphone",
+    description:
+      "USB, 3.5mm, or XLR — set up the right input so Audacity hears you.",
+  },
+  {
+    number: 3,
+    title: "Make your first recording",
+    description:
+      "Press record, check the level, and stop. Listen back to confirm the take.",
+  },
+  {
+    number: 4,
+    title: "Cut, move, and arrange clips",
+    description:
+      "Trim silence, drag clips into the right place, split where you need to.",
+  },
+  {
+    number: 5,
+    title: "Apply your first effect",
+    description:
+      "Add a compressor or a touch of EQ as a realtime effect on a track.",
+  },
+  {
+    number: 6,
+    title: "Save your project",
+    description:
+      "Keep the editable .aup3 project file or save to the cloud for backup.",
+  },
+  {
+    number: 7,
+    title: "Export your audio",
+    description: "Mix down to MP3, WAV, FLAC, or any format you need to share.",
+  },
+  {
+    number: 8,
+    title: "Where to go next",
+    description:
+      "Dive into the manual, browse tutorials, or join the community.",
+  },
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-xl mx-auto px-6 py-12 space-y-12">
+    <header class="max-w-2xl">
+      <h1 class="text-4xl lg:text-5xl">Getting started with Audacity</h1>
+      <p class="text-lg text-gray-600 mt-3">
+        Eight short steps to take you from nothing installed to a finished audio
+        file. Skip any step you already know.
+      </p>
+    </header>
+
+    <ol class="space-y-4 max-w-3xl">
+      {
+        steps.map((step) => {
+          const Tag = step.href ? "a" : "div";
+          const linkProps = step.href ? { href: step.href } : {};
+          return (
+            <li>
+              <Tag
+                {...linkProps}
+                class="flex gap-5 p-5 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+              >
+                <span class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-700 text-white text-base font-semibold">
+                  {step.number}
+                </span>
+                <span>
+                  <p class="text-lg font-semibold text-gray-900">
+                    {step.title}
+                  </p>
+                  <p class="text-sm text-gray-600 mt-1">{step.description}</p>
+                </span>
+              </Tag>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </main>
+</BaseLayout>

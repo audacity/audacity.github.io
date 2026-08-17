@@ -1,0 +1,55 @@
+---
+title: Interactive components demo
+description: A pressure-test of what MDX lets us do inside the manual.
+section: Demos
+sectionOrder: 99
+order: 1
+---
+
+import AudacityButton from "../../../components/manual/AudacityButton.jsx";
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+import Callout from "../../../components/manual/Callout.astro";
+
+This page exists to show what we can do once the manual uses MDX. Every component below lives in the codebase and can be reused across the manual.
+
+## Inline buttons
+
+Click the record button to start a new recording:
+
+<AudacityButton client:load icon="icon-microphone" label="Record" tooltip="Record (R)" />
+
+Press the same button again to stop. (This demo just flashes — a real one could play a sound, animate, or update state.)
+
+A toggleable button works the same way. Click to enable monitoring:
+
+<AudacityButton client:load icon="icon-waveform" label="Monitor input" tooltip="Toggle monitoring" toggleable />
+
+Buttons can also live inline mid-sentence, like this <AudacityButton client:load icon="icon-cycle" label="Loop" toggleable /> one, right in the flow of a paragraph.
+
+## Keyboard shortcuts
+
+Use <Shortcut client:load keys="cmd+z" /> to undo, and <Shortcut client:load keys="cmd+shift+z" /> to redo. The shortcut auto-formats per OS — macOS readers see <Shortcut client:load keys="cmd" />, everyone else sees Ctrl.
+
+## Callouts
+
+<Callout type="tip">
+  Callouts are static — no JavaScript required. They're rendered at build time.
+</Callout>
+
+<Callout type="warning" title="Heads up">
+  You can override the default title and pass any markdown content inside.
+</Callout>
+
+<Callout type="info">
+  Use these sparingly. Manuals that overuse callouts train readers to skip them.
+</Callout>
+
+## What this proves
+
+- Components compose freely inside prose.
+- Static components (Callout) ship zero JS. Interactive ones (AudacityButton, Shortcut) hydrate only where used.
+- Writers use one syntax — Markdown — and reach for components when they need them.
+
+## What we'd build next
+
+Real Audacity UI primitives that mirror the app: transport bar, track header, menu strip, dialog box, mini timeline. Once those exist, manual pages stop describing the UI and start showing it.

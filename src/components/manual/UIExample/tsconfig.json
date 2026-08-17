@@ -1,0 +1,18 @@
+{
+  // Standalone on purpose — do NOT extend the root tsconfig. These files are
+  // bundled by TWO Vite projects: the Astro site (repo root) and the manual
+  // editor (manual-editor/, deployed on a Netlify site that installs ONLY
+  // manual-editor's dependencies). Vite's transform discovers the nearest
+  // tsconfig per file; the root one extends "astro/tsconfigs/strict", which
+  // isn't resolvable in the editor's build context and fails its deploy
+  // ("Tsconfig not found astro/tsconfigs/strict"). This shadow config keeps
+  // transform settings self-contained for both builds. Project-level
+  // typechecking (root astro check / manual-editor tsc) is unaffected —
+  // those use their own project configs.
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true
+  }
+}
