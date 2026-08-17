@@ -4,7 +4,6 @@ import { useEntrance } from "../../hooks/useEntrance.js";
 const PANELS = [
   {
     id: "effects",
-    image: "/museHub/MuseHub_effects.png",
     eyebrow: "Get Effects",
     title: "Browse everything we've got",
     description:
@@ -12,7 +11,6 @@ const PANELS = [
   },
   {
     id: "plugin",
-    image: "/museHub/MuseHub_plugin.png",
     eyebrow: "Smooth and simple",
     title: "Runs right in Audacity",
     description:
@@ -20,7 +18,7 @@ const PANELS = [
   },
 ];
 
-function MuseHubPanel({ panel, idx }) {
+function MuseHubPanel({ panel, idx, src }) {
   const entrance = useEntrance({ delayMs: 120 + idx * 110 });
   return (
     <article
@@ -30,7 +28,7 @@ function MuseHubPanel({ panel, idx }) {
     >
       <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
         <img
-          src={panel.image}
+          src={src}
           alt={`${panel.title} — ${panel.eyebrow}`}
           loading="lazy"
           decoding="async"
@@ -55,7 +53,7 @@ function MuseHubPanel({ panel, idx }) {
   );
 }
 
-function MuseHub() {
+function MuseHub({ images = {} }) {
   const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
@@ -76,7 +74,12 @@ function MuseHub() {
 
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {PANELS.map((panel, idx) => (
-            <MuseHubPanel key={panel.id} panel={panel} idx={idx} />
+            <MuseHubPanel
+              key={panel.id}
+              panel={panel}
+              src={images[panel.id]}
+              idx={idx}
+            />
           ))}
         </div>
       </div>
