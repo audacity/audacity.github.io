@@ -12,7 +12,6 @@ import InstagramSVG from "../inlineSVG/InstagramSVG";
 import TwitterSVG from "../inlineSVG/TwitterSVG";
 import YoutubeSVG from "../inlineSVG/YoutubeSVG";
 import DiscordSVG from "../inlineSVG/DiscordSVG";
-import LanguageSelector from "./LanguageSelector.astro";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
@@ -275,7 +274,6 @@ const hasPreRelease = Boolean(activeDownloadCampaign);
           ))
         }
       </div>
-      <LanguageSelector />
     </div>
 
     <!-- Logos Row -->

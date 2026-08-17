@@ -1,19 +1,23 @@
 import en from "./en.json";
-import fr from "./fr.json";
-import de from "./de.json";
-import es from "./es.json";
 
-const translations = { en, fr, de, es } as const;
+/*
+  English-only for the Audacity 4 release. The de/fr/es dictionaries and the
+  footer's language selector live on the i18n/main branch until the copy has
+  been through a translator — shipping machine-drafted marketing copy was the
+  thing to avoid, not the plumbing.
+
+  useTranslations keeps its signature and every t() call site keeps working, so
+  restoring the other locales is a matter of adding the imports back here and
+  widening the locales array in astro.config.mjs.
+*/
+const translations = { en } as const;
 
 export type Locale = keyof typeof translations;
-export const locales: Locale[] = ["en", "fr", "de", "es"];
+export const locales: Locale[] = ["en"];
 export const defaultLocale: Locale = "en";
 
 export const localeNames: Record<Locale, { name: string; flag: string }> = {
   en: { name: "English", flag: "🇬🇧" },
-  fr: { name: "Français", flag: "🇫🇷" },
-  de: { name: "Deutsch", flag: "🇩🇪" },
-  es: { name: "Español", flag: "🇪🇸" },
 };
 
 export function useTranslations(locale: string | undefined) {

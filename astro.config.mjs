@@ -10,17 +10,16 @@ import sitemap from "@astrojs/sitemap";
 import compressor from "astro-compressor";
 export default defineConfig({
   site: "https://www.audacityteam.org",
+  /*
+    English only for the Audacity 4 release. fr/de/es and their fallback map
+    live on the i18n/main branch; widening this array and restoring the
+    dictionaries in src/i18n/index.ts is all that's needed to bring them back.
+  */
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "fr", "de", "es"],
+    locales: ["en"],
     routing: {
       prefixDefaultLocale: false,
-      fallbackType: "rewrite",
-    },
-    fallback: {
-      fr: "en",
-      de: "en",
-      es: "en",
     },
   },
   integrations: [
