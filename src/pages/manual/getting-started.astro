@@ -1,5 +1,7 @@
 ---
 import ManualLayout from "../../layouts/ManualLayout.astro";
+import ManualLandingHeader from "../../components/manual/ManualLandingHeader.astro";
+import { getCollection } from "astro:content";
 
 /*
   Landing for the Getting started stream — the eight-step path that used to
@@ -16,6 +18,13 @@ interface Step {
   description: string;
   href?: string;
 }
+
+const pageCount = (
+  await getCollection(
+    "manual",
+    ({ data }) => !data.draft && data.stream === "getting-started",
+  )
+).length;
 
 const steps: Step[] = [
   {
@@ -81,37 +90,39 @@ const steps: Step[] = [
   description="New to Audacity? Eight short steps from installing it to exporting your first recording."
   stream="getting-started"
 >
-  <header class="mb-8">
-    <h1 class="text-4xl lg:text-5xl">Getting started</h1>
-    <p class="text-lg text-gray-600 mt-2">
-      Never opened Audacity before? Follow these eight steps in order and you'll
-      have recorded, edited and exported something by the end. About twenty
-      minutes.
-    </p>
-  </header>
+  <ManualLandingHeader
+    stream="getting-started"
+    title="Getting started"
+    description="Never opened Audacity before? Follow these eight steps in order and you'll have recorded, edited and exported something by the end."
+    count={pageCount}
+    meta={["8 steps", "About twenty minutes"]}
+  />
 
   <ol class="space-y-3 mb-12 list-none pl-0">
     {
       steps.map((step) => (
-        <li class="flex gap-4 rounded-lg border border-gray-200 p-4">
-          <span
-            aria-hidden="true"
-            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-700"
+        <li>
+          {/* The whole card is the link — a title-only target is a small hit
+              area for what is the primary action on this page. */}
+          <a
+            href={step.href}
+            class="flex gap-4 rounded-lg border border-gray-200 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/40"
           >
-            {step.number}
-          </span>
-          <div>
-            <h2 class="text-base font-semibold text-gray-900 m-0">
-              {step.href ? (
-                <a href={step.href} class="hover:text-blue-700">
-                  {step.title}
-                </a>
-              ) : (
-                step.title
-              )}
-            </h2>
-            <p class="mt-1 text-sm text-gray-600 m-0">{step.description}</p>
-          </div>
+            <span
+              aria-hidden="true"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-700"
+            >
+              {step.number}
+            </span>
+            <span class="block">
+              <span class="block text-base font-semibold text-gray-900">
+                {step.title}
+              </span>
+              <span class="mt-1 block text-sm text-gray-600">
+                {step.description}
+              </span>
+            </span>
+          </a>
         </li>
       ))
     }

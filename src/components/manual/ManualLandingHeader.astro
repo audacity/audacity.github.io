@@ -1,0 +1,62 @@
+---
+import { STREAMS, type StreamId } from "./streams";
+
+/*
+  Banner header for the manual's landing pages.
+
+  Gives each landing the same shape: a mark, the section name, what it's for,
+  and how much of it there is. The count is the honest bit — a reader deciding
+  whether to start the getting-started path benefits from knowing it's eight
+  steps, and a section with two pages shouldn't pretend otherwise.
+*/
+interface Props {
+  stream?: StreamId;
+  title: string;
+  description: string;
+  /* Published pages behind this landing, shown as a count. */
+  count?: number;
+  /* Optional extra facts, e.g. "About twenty minutes". */
+  meta?: string[];
+}
+
+const { stream, title, description, count, meta = [] } = Astro.props;
+
+const accent: Record<string, string> = {
+  "getting-started": "from-emerald-50 to-white border-emerald-100",
+  "how-to": "from-blue-50 to-white border-blue-100",
+  reference: "from-violet-50 to-white border-violet-100",
+};
+const tone = stream ? accent[stream] : "from-gray-50 to-white border-gray-200";
+
+const facts = [
+  ...(typeof count === "number"
+    ? [`${count} ${count === 1 ? "page" : "pages"}`]
+    : []),
+  ...meta,
+];
+---
+
+<header
+  class:list={[
+    "not-prose mb-10 rounded-xl border bg-gradient-to-br p-6 sm:p-8",
+    tone,
+  ]}
+>
+  <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+    Audacity 4 manual
+  </p>
+
+  <h1 class="mt-2 text-4xl lg:text-5xl text-gray-900">{title}</h1>
+
+  <p class="mt-3 max-w-2xl text-lg text-gray-600">{description}</p>
+
+  {
+    facts.length > 0 && (
+      <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-500">
+        {facts.map((f) => (
+          <li>{f}</li>
+        ))}
+      </ul>
+    )
+  }
+</header>

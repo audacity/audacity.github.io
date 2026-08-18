@@ -1,5 +1,6 @@
 ---
 import ManualLayout from "../../layouts/ManualLayout.astro";
+import ManualLandingHeader from "../../components/manual/ManualLandingHeader.astro";
 import { getCollection } from "astro:content";
 import UIMap from "../../components/manual/UIMap.jsx";
 import ManualToolbarDemo from "../../components/manual/Toolbar/ManualToolbarDemo.jsx";
@@ -73,13 +74,15 @@ const sections = Array.from(grouped.entries())
   description="Every menu, toolbar and panel in Audacity 4, described in detail."
   stream="reference"
 >
-  <header class="mb-8">
-    <h1 class="text-4xl lg:text-5xl">Reference</h1>
-    <p class="text-lg text-gray-600 mt-2">
-      What every part of Audacity 4 does. Click the interface below to jump
-      straight to a control, or browse the sections.
-    </p>
-  </header>
+  <ManualLandingHeader
+    stream="reference"
+    title="Reference"
+    description="What every part of Audacity 4 does. Click the interface below to jump straight to a control, or browse the sections."
+    count={pages.length}
+    meta={[
+      `${sections.length} ${sections.length === 1 ? "section" : "sections"}`,
+    ]}
+  />
 
   <section aria-labelledby="toolbar-heading" class="mb-12">
     <h2 id="toolbar-heading" class="text-2xl">Click an interface</h2>

@@ -1,5 +1,6 @@
 ---
 import ManualLayout from "../../layouts/ManualLayout.astro";
+import ManualLandingHeader from "../../components/manual/ManualLandingHeader.astro";
 import { getCollection } from "astro:content";
 
 /*
@@ -46,15 +47,21 @@ const sections = Array.from(grouped.entries())
   description="Task-focused guides for Audacity 4 — recording, editing, effects, exporting and more."
   stream="how-to"
 >
-  <header class="mb-8">
-    <h1 class="text-4xl lg:text-5xl">How-to guides</h1>
-    <p class="text-lg text-gray-600 mt-2">
-      Short, task-focused guides for when you know roughly what you want to do
-      and need the steps. If you've never used Audacity before, start with
-      <a href="/manual/getting-started" class="hyperlink">Getting started</a>
-      instead.
-    </p>
-  </header>
+  <ManualLandingHeader
+    stream="how-to"
+    title="How-to guides"
+    description="Short, task-focused guides for when you know roughly what you want to do and need the steps."
+    count={pages.length}
+    meta={[
+      `${sections.length} ${sections.length === 1 ? "category" : "categories"}`,
+    ]}
+  />
+
+  <p class="mb-8 text-gray-600">
+    Never used Audacity before? Start with
+    <a href="/manual/getting-started" class="hyperlink">Getting started</a>
+    instead.
+  </p>
 
   {
     sections.map((section) => (
