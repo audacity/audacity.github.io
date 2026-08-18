@@ -65,10 +65,10 @@ const lastUpdatedISO = lastUpdated.toISOString();
         />
       </aside>
       <article
-        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-span-5 prose prose-blue"
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 prose prose-blue prose-lg"
         data-pagefind-body
       >
-        <h1>{entry.data.title}</h1>
+        <h1 class="text-4xl lg:text-5xl">{entry.data.title}</h1>
         {
           entry.data.description && (
             <p class="lead text-lg text-gray-600">{entry.data.description}</p>
