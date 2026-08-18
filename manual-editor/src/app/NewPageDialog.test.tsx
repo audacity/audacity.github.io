@@ -8,6 +8,7 @@ const pages: ManualPageMeta[] = [
     slug: "basics/installing-ffmpeg",
     path: "src/content/manual/basics/installing-ffmpeg.mdx",
     title: "Installing FFmpeg",
+    stream: "reference",
     section: "Basics",
     sectionOrder: 0,
     order: 3,
@@ -18,6 +19,7 @@ const pages: ManualPageMeta[] = [
     slug: "audio-editing/trimming",
     path: "src/content/manual/audio-editing/trimming.mdx",
     title: "Trimming Audio",
+    stream: "reference",
     section: "Audio Editing",
     sectionOrder: 1,
     order: 1,
@@ -189,4 +191,83 @@ test("sectionPrefill for a section with no pages leaves Location empty (falls ba
   expect(screen.getByTestId("new-page-path-preview").textContent).toBe(
     "src/content/manual/brand-new-section/first-page.mdx",
   );
+});
+
+/*
+  Regression: creating a page from inside a non-reference section used to file
+  it under Reference. The dialog defaulted its stream correctly but never wrote
+  it into the frontmatter, so every new page silently took the schema default.
+*/
+const gettingStartedPages: ManualPageMeta[] = [
+  {
+    slug: "getting-started/install-audacity",
+    path: "src/content/manual/getting-started/install-audacity.mdx",
+    title: "Install Audacity",
+    stream: "getting-started",
+    section: "First steps",
+    sectionOrder: 10,
+    order: 1,
+    draft: false,
+    hasDraft: false,
+  },
+];
+
+test("a page created in a getting-started section is written with that stream", () => {
+  let created: { path: string; frontmatter: string } | null = null;
+  render(
+    <NewPageDialog
+      pages={gettingStartedPages}
+      sectionPrefill="First steps"
+      onCreate={(page) => {
+        created = page;
+      }}
+      onCancel={() => {}}
+    />,
+  );
+
+  fireEvent.change(screen.getByLabelText("Title"), {
+    target: { value: "Connect your microphone" },
+  });
+  fireEvent.submit(
+    screen.getByTestId("new-page-dialog").querySelector("form")!,
+  );
+
+  expect(created).not.toBeNull();
+  expect(created!.frontmatter).toContain("stream: getting-started");
+});
+
+test("the stream select defaults to the prefilled section's stream", () => {
+  render(
+    <NewPageDialog
+      pages={gettingStartedPages}
+      sectionPrefill="First steps"
+      onCreate={() => {}}
+      onCancel={() => {}}
+    />,
+  );
+  expect((screen.getByLabelText("Stream") as HTMLSelectElement).value).toBe(
+    "getting-started",
+  );
+});
+
+test("a reference page omits the stream line, keeping the corpus byte-identical", () => {
+  let created: { path: string; frontmatter: string } | null = null;
+  render(
+    <NewPageDialog
+      pages={pages}
+      sectionPrefill="Audio Editing"
+      onCreate={(page) => {
+        created = page;
+      }}
+      onCancel={() => {}}
+    />,
+  );
+  fireEvent.change(screen.getByLabelText("Title"), {
+    target: { value: "Some Reference Page" },
+  });
+  fireEvent.submit(
+    screen.getByTestId("new-page-dialog").querySelector("form")!,
+  );
+
+  expect(created!.frontmatter).not.toContain("stream:");
 });

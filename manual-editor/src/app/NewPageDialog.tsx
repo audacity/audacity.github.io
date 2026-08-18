@@ -119,6 +119,7 @@ export function NewPageDialog({
 
     const frontmatter = serializeFrontmatter({
       title: trimmedTitle,
+      stream,
       section: trimmedSection,
       order: nextOrder(pages, folderSlug),
       sectionOrder: sectionOrderFor(pages, trimmedSection),
