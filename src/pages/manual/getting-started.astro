@@ -1,0 +1,145 @@
+---
+import ManualLayout from "../../layouts/ManualLayout.astro";
+import { getCollection } from "astro:content";
+
+/*
+  Landing for the Getting started stream — the eight-step path that used to
+  live at /learn, now inside the manual so the reader keeps the sidebar,
+  search and switcher rather than leaving the docs and coming back.
+
+  Steps are a fixed path rather than generated from the collection: this is a
+  tutorial, so the order is the argument. Each step links to its page once one
+  exists, and reads as plain text until then.
+*/
+interface Step {
+  number: number;
+  title: string;
+  description: string;
+  href?: string;
+}
+
+const steps: Step[] = [
+  {
+    number: 1,
+    title: "Install Audacity",
+    description:
+      "Download Audacity for Windows, macOS, or Linux and run the installer.",
+    href: "/download",
+  },
+  {
+    number: 2,
+    title: "Connect your microphone",
+    description:
+      "USB, 3.5mm, or XLR — set up the right input so Audacity hears you.",
+  },
+  {
+    number: 3,
+    title: "Make your first recording",
+    description:
+      "Press record, check the level, and stop. Listen back to confirm the take.",
+  },
+  {
+    number: 4,
+    title: "Cut, move, and arrange clips",
+    description:
+      "Trim silence, drag clips into the right place, split where you need to.",
+  },
+  {
+    number: 5,
+    title: "Apply your first effect",
+    description:
+      "Add a compressor or a touch of EQ as a realtime effect on a track.",
+  },
+  {
+    number: 6,
+    title: "Save your project",
+    description:
+      "Keep the editable .aup3 project file or save to the cloud for backup.",
+  },
+  {
+    number: 7,
+    title: "Export your audio",
+    description: "Mix down to MP3, WAV, FLAC, or any format you need to share.",
+  },
+  {
+    number: 8,
+    title: "Where to go next",
+    description:
+      "Dive into the manual, browse the how-to guides, or join the community.",
+  },
+];
+
+/* Anything already filed into this stream, listed below the path. */
+const pages = (
+  await getCollection(
+    "manual",
+    ({ data }) => !data.draft && data.stream === "getting-started",
+  )
+).sort((a, b) => a.data.order - b.data.order);
+---
+
+<ManualLayout
+  title="Audacity ® Manual | Getting started"
+  description="New to Audacity? Eight short steps from installing it to exporting your first recording."
+  stream="getting-started"
+>
+  <header class="mb-8">
+    <h1 class="text-4xl lg:text-5xl">Getting started</h1>
+    <p class="text-lg text-gray-600 mt-2">
+      Never opened Audacity before? Follow these eight steps in order and you'll
+      have recorded, edited and exported something by the end. About twenty
+      minutes.
+    </p>
+  </header>
+
+  <ol class="space-y-3 mb-12 list-none pl-0">
+    {
+      steps.map((step) => (
+        <li class="flex gap-4 rounded-lg border border-gray-200 p-4">
+          <span
+            aria-hidden="true"
+            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-700"
+          >
+            {step.number}
+          </span>
+          <div>
+            <h2 class="text-base font-semibold text-gray-900 m-0">
+              {step.href ? (
+                <a href={step.href} class="hover:text-blue-700">
+                  {step.title}
+                </a>
+              ) : (
+                step.title
+              )}
+            </h2>
+            <p class="mt-1 text-sm text-gray-600 m-0">{step.description}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  {
+    pages.length > 0 && (
+      <section aria-labelledby="gs-pages">
+        <h2 id="gs-pages" class="text-2xl">
+          In this section
+        </h2>
+        <ul class="mt-4 space-y-2">
+          {pages.map((p) => (
+            <li>
+              <a href={`/manual/${p.slug}`} class="hover:text-blue-700">
+                {p.data.title}
+              </a>
+              {p.data.description && (
+                <span class="block text-sm text-gray-600">
+                  {p.data.description}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</ManualLayout>

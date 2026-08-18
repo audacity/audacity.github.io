@@ -1,0 +1,42 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import ManualSidebar from "../components/manual/ManualSidebar.astro";
+import type { StreamId } from "../components/manual/streams";
+
+/*
+  Shared chrome for the manual's non-article pages — the front door and the
+  three stream landings. Article pages keep their own layout in
+  pages/manual/[...slug].astro because they also carry on-this-page and
+  pagination.
+*/
+interface Props {
+  title: string;
+  description: string;
+  /* Which stream's contents the sidebar should show. Omitted on the front
+     door, where the sidebar falls back to its default. */
+  stream?: StreamId;
+  /* Marks the sidebar's "Manual home" link as current. */
+  isHome?: boolean;
+}
+
+const { title, description, stream, isHome = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} showPromoBanner={false}>
+  <main id="main" class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 pb-32">
+      <aside
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
+      >
+        <ManualSidebar
+          currentSlug={isHome ? "" : `#${stream}`}
+          currentStream={stream}
+        />
+      </aside>
+
+      <article class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6">
+        <slot />
+      </article>
+    </div>
+  </main>
+</BaseLayout>

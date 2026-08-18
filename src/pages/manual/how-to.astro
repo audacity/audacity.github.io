@@ -1,0 +1,83 @@
+---
+import ManualLayout from "../../layouts/ManualLayout.astro";
+import { getCollection } from "astro:content";
+
+/*
+  Landing for the How-to stream: a task index grouped by section.
+
+  Generated from the collection rather than a hand-written category list —
+  /tutorials hardcoded six categories that no page was actually filed under,
+  so it could only ever drift. Grouping on the `section` frontmatter means the
+  index is always what's really there, and re-sectioning a page updates this
+  page for free.
+*/
+const pages = await getCollection(
+  "manual",
+  ({ data }) => !data.draft && data.stream === "how-to",
+);
+
+const grouped = new Map<
+  string,
+  { sectionOrder: number; pages: typeof pages }
+>();
+for (const p of pages) {
+  const g = grouped.get(p.data.section);
+  if (g) g.pages.push(p);
+  else
+    grouped.set(p.data.section, {
+      sectionOrder: p.data.sectionOrder,
+      pages: [p],
+    });
+}
+
+const sections = Array.from(grouped.entries())
+  .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
+  .map(([name, { pages }]) => ({
+    name,
+    pages: pages.sort((a, b) => {
+      if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+      return a.data.title.localeCompare(b.data.title);
+    }),
+  }));
+---
+
+<ManualLayout
+  title="Audacity ® Manual | How-to guides"
+  description="Task-focused guides for Audacity 4 — recording, editing, effects, exporting and more."
+  stream="how-to"
+>
+  <header class="mb-8">
+    <h1 class="text-4xl lg:text-5xl">How-to guides</h1>
+    <p class="text-lg text-gray-600 mt-2">
+      Short, task-focused guides for when you know roughly what you want to do
+      and need the steps. If you've never used Audacity before, start with
+      <a href="/manual/getting-started" class="hyperlink">Getting started</a>
+      instead.
+    </p>
+  </header>
+
+  {
+    sections.map((section) => (
+      <section class="mb-10">
+        <h2 class="text-2xl">{section.name}</h2>
+        <ul class="mt-4 space-y-3">
+          {section.pages.map((p) => (
+            <li>
+              <a
+                href={`/manual/${p.slug}`}
+                class="font-medium hover:text-blue-700"
+              >
+                {p.data.title}
+              </a>
+              {p.data.description && (
+                <span class="block text-sm text-gray-600">
+                  {p.data.description}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</ManualLayout>

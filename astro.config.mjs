@@ -15,6 +15,15 @@ export default defineConfig({
     live on the i18n/main branch; widening this array and restoring the
     dictionaries in src/i18n/index.ts is all that's needed to bring them back.
   */
+  /*
+    The getting-started path and the how-to index moved inside the manual so
+    readers keep the sidebar, search and stream switcher. These keep any
+    existing links working.
+  */
+  redirects: {
+    "/learn": "/manual/getting-started",
+    "/tutorials": "/manual/how-to",
+  },
   i18n: {
     defaultLocale: "en",
     locales: ["en"],

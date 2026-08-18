@@ -18,7 +18,7 @@ export interface StreamEntryPoint {
   label: string;
   blurb: string;
   count: number;
-  href?: string;
+  href: string;
 }
 
 export async function getStreamEntryPoints(): Promise<StreamEntryPoint[]> {
@@ -37,7 +37,7 @@ export async function getStreamEntryPoints(): Promise<StreamEntryPoint[]> {
       label: s.label,
       blurb: s.blurb,
       count: pages.length,
-      href: pages[0] ? `/manual/${pages[0].slug}` : undefined,
+      href: `/manual/${s.id}`,
     };
   });
 }
