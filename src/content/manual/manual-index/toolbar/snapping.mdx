@@ -5,5 +5,29 @@ sectionOrder: 60
 order: 24
 draft: false
 ---
+Controls whether edits snap to a grid, and how fine that grid is. Two
+controls sit side by side in the Transport Toolbar: a **Snap** mode selector
+and a subdivision selector.
 
-_This page is a stub. Content coming soon._
+## The two controls
+
+- **Snap** — whether snapping applies at all, and what it snaps to.
+- **Subdivision** — how fine the grid is when snapping is on.
+
+With snapping on, dragging a clip, moving a selection edge or positioning the
+cursor lands on the nearest grid line rather than an arbitrary point. That's
+what makes edits line up with a beat or a whole second instead of landing a
+few samples out.
+
+## Which grid
+
+The grid follows the timeline's current format. Working in minutes and
+seconds, snapping targets time divisions; working in beats and measures, it
+targets musical divisions and respects the project tempo and time signature.
+See [Tempo](/manual/manual-index/toolbar/tempo) and
+[Time Signature](/manual/manual-index/toolbar/time-signature) for those, and
+the Timeline pages for switching the ruler between the two formats.
+
+## Where to find it
+
+To the right of the timecode display, before the level meters.

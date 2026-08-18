@@ -5,5 +5,24 @@ sectionOrder: 60
 order: 7
 draft: false
 ---
+import UIExample from "../../../../components/manual/UIExample/UIExample";
 
-_This page is a stub. Content coming soon._
+Turns the loop region on and off. Unlike Play, Stop and Record, this is a
+toggle: it stays lit while looping is on, and the button reflects that state
+rather than firing once and returning to rest.
+
+<UIExample component="transport-button" variant="play" />
+
+## Using it
+
+With looping on, playback repeats the loop region rather than continuing to
+the end of the project. The region itself is set on the timeline — see the
+Timeline pages for creating and clearing a loop region, and for whether
+creating a loop also changes your selection.
+
+Turning looping off leaves the region defined but inactive, so you can switch
+it back on without setting it up again.
+
+## Where to find it
+
+Last button in the transport group, after Rewind to End.

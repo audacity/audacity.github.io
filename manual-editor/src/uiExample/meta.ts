@@ -58,6 +58,18 @@ export const UI_EXAMPLE_META: UIExampleMeta[] = [
     ],
   },
   {
+    id: "transport-button",
+    label: "Transport button",
+    keywords: ["transport", "play", "stop", "record", "toolbar", "button"],
+    allowInteractive: false,
+    variants: [
+      { id: "play", label: "Play" },
+      { id: "stop", label: "Stop" },
+      { id: "record", label: "Record" },
+      { id: "disabled", label: "Disabled" },
+    ],
+  },
+  {
     id: "checkbox",
     label: "Checkbox",
     keywords: ["checkbox", "check", "toggle", "tick"],

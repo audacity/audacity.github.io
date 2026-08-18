@@ -36,6 +36,12 @@ export const UI_EXAMPLE_VARIANT_PROPS: Record<
     secondary: { variant: "secondary", children: "Cancel" },
     disabled: { variant: "primary", children: "Export", disabled: true },
   },
+  "transport-button": {
+    play: { icon: "play", "aria-label": "Play" },
+    stop: { icon: "stop", "aria-label": "Stop" },
+    record: { icon: "record", "aria-label": "Record" },
+    disabled: { icon: "play", "aria-label": "Play", disabled: true },
+  },
   checkbox: {
     checked: { checked: true, "aria-label": "Enable option" },
     unchecked: { checked: false, "aria-label": "Enable option" },

@@ -22,6 +22,7 @@ import type { ComponentType } from "react";
 // (static import via UIExample.tsx) and the editor (arrives with the
 // dynamically imported registry chunk).
 import "@dilsonspickles/components/style.css";
+import { TransportButton } from "@dilsonspickles/components/TransportButton";
 import { Button } from "@dilsonspickles/components/Button";
 import { Checkbox } from "@dilsonspickles/components/Checkbox";
 import { Knob } from "@dilsonspickles/components/Knob";
@@ -38,6 +39,7 @@ type AnyComponent = ComponentType<Record<string, unknown>>;
 
 const COMPONENTS: Record<string, AnyComponent> = {
   button: Button as unknown as AnyComponent,
+  "transport-button": TransportButton as unknown as AnyComponent,
   checkbox: Checkbox as unknown as AnyComponent,
   knob: Knob as unknown as AnyComponent,
   "ghost-button": GhostButton as unknown as AnyComponent,
