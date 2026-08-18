@@ -38,7 +38,7 @@ export const UI_EXAMPLE_VARIANT_PROPS: Record<
   },
   "transport-button": {
     play: { icon: "play", ariaLabel: "Play" },
-    playing: { icon: "play", ariaLabel: "Play", active: true },
+    playing: { icon: "pause", ariaLabel: "Pause" },
     stop: { icon: "stop", ariaLabel: "Stop" },
     record: { icon: "record", ariaLabel: "Record" },
     recording: { icon: "record", ariaLabel: "Stop recording", recording: true },

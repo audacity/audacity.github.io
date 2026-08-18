@@ -138,3 +138,23 @@ html.entrance-timeout {
     transition: none;
   }
 }
+
+/*
+  Design-system icon colour fix.
+
+  @dilsonspickles/components inlines Icon.css — which sets `.icon { color:
+  inherit }` — into all 45 component bundles that use an icon. `.icon` and
+  `.transport-button__icon` are both single-class selectors, so which one wins
+  is decided by whichever bundle Vite happens to emit last, not by intent.
+  When a later `.icon` wins, the transport button's icon silently ignores
+  --transport-icon-color and inherits the surrounding text colour instead —
+  visible on manual pages as a dark icon on the red recording button, where it
+  should be white.
+
+  Restating the rule with two classes (0,2,0) puts it above every single-class
+  `.icon` regardless of order. Remove this once the design system scopes or
+  de-duplicates its Icon.css.
+*/
+.transport-button .transport-button__icon {
+  color: var(--transport-icon-color);
+}
