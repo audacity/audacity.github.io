@@ -7,7 +7,7 @@
     "start": "astro dev",
     "pull-campaigns": "bun run scripts/pull-campaigns.ts",
     "snapshot:workspaces": "bun run scripts/snapshot-workspaces.ts",
-    "test": "bun test src scripts",
+    "test": "bun test ./src ./scripts",
     "test:e2e": "playwright test",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
