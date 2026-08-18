@@ -148,6 +148,34 @@ export function App({
   // `handleSelect` so the open editor re-fetches the now-correct source
   // (the move rewrites that page's own frontmatter) rather than pointing at
   // a path that no longer exists.
+  /*
+    Renaming a section rewrites `section` on every page in the group. There is
+    no section entity to rename — the name exists only as a string repeated in
+    each page's frontmatter — so this is a batch write, and doing it page by
+    page in the form risks missing one and silently splitting the group in two.
+
+    Scoped by stream: the same section name can exist in more than one, and
+    renaming How-to's "new in Audacity 4" must leave Reference's alone.
+  */
+  async function handleRenameSection(stream: string, from: string) {
+    const to = window.prompt(`Rename section "${from}" to:`, from);
+    if (to === null) return;
+    const trimmed = to.trim();
+    if (trimmed === "" || trimmed === from) return;
+
+    setDropError(null);
+    try {
+      const paths = await api.renameSection({ stream, from, to: trimmed });
+      // Same invariant as the drop handler: these pages were rewritten
+      // server-side, outside saveDraftDoc, so a stale lastSave record would
+      // outvote the rename on the next select.
+      for (const path of paths) clearLastSave(path);
+      api.listPages().then(setPages);
+    } catch (err) {
+      setDropError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
   async function handleDropPlan(plan: DropPlan) {
     if (plan.kind === "noop") return;
     if (plan.kind === "blocked") {
@@ -390,6 +418,7 @@ export function App({
                 setNewPageIntent({ kind: "section", section })
               }
               onDropPlan={handleDropPlan}
+              onRenameSection={handleRenameSection}
             />
           )}
         </aside>

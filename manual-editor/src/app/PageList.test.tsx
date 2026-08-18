@@ -36,6 +36,7 @@ test("nests children under their parent and toggles expansion", () => {
       onAddSubpage={() => {}}
       onAddToSection={() => {}}
       onDropPlan={() => {}}
+      onRenameSection={() => {}}
     />,
   );
   // Parent visible; children collapsed (parent not on active path):
@@ -55,6 +56,7 @@ test("auto-expands the active page's ancestors", () => {
       onAddSubpage={() => {}}
       onAddToSection={() => {}}
       onDropPlan={() => {}}
+      onRenameSection={() => {}}
     />,
   );
   // Child is visible without manual expansion because it's the active page:
@@ -71,6 +73,7 @@ test("selecting a node calls onSelect with its path", () => {
       onAddSubpage={() => {}}
       onAddToSection={() => {}}
       onDropPlan={() => {}}
+      onRenameSection={() => {}}
     />,
   );
   fireEvent.click(getByTestId("page-pmm"));
@@ -87,6 +90,7 @@ test("clicking a node's add-subpage button calls onAddSubpage with that page", (
       onAddSubpage={(p) => added.push(p.slug)}
       onAddToSection={() => {}}
       onDropPlan={() => {}}
+      onRenameSection={() => {}}
     />,
   );
   fireEvent.click(getByTestId("add-subpage-pmm"));
@@ -137,6 +141,7 @@ test("page buttons are draggable", () => {
       onAddSubpage={() => {}}
       onAddToSection={() => {}}
       onDropPlan={() => {}}
+      onRenameSection={() => {}}
     />,
   );
   expect(getByTestId("page-pmm").getAttribute("draggable")).toBe("true");
@@ -153,6 +158,7 @@ test("dragging a root page and dropping it after a sibling invokes onDropPlan wi
       onAddSubpage={() => {}}
       onAddToSection={() => {}}
       onDropPlan={(plan) => plans.push(plan)}
+      onRenameSection={() => {}}
     />,
   );
 
@@ -184,6 +190,7 @@ test("dropping a page onto its own descendant is blocked and never calls onDropP
       onAddSubpage={() => {}}
       onAddToSection={() => {}}
       onDropPlan={(plan) => plans.push(plan)}
+      onRenameSection={() => {}}
     />,
   );
 
@@ -217,6 +224,7 @@ test("each section header has a '+' that calls onAddToSection with the section n
       onAddSubpage={() => {}}
       onAddToSection={(s) => added.push(s)}
       onDropPlan={() => {}}
+      onRenameSection={() => {}}
     />,
   );
   const buttons = getAllByTestId("section-add-page");

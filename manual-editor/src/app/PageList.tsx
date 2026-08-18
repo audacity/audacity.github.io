@@ -189,6 +189,7 @@ export function PageList({
   onAddSubpage,
   onAddToSection,
   onDropPlan,
+  onRenameSection,
 }: {
   pages: ManualPageMeta[];
   onSelect: (path: string) => void;
@@ -200,6 +201,9 @@ export function PageList({
    */
   onAddToSection: (section: string) => void;
   onDropPlan: (plan: DropPlan) => void;
+  /** Rename a whole section group. Scoped by stream — the same section name
+      can exist in more than one. */
+  onRenameSection: (stream: string, from: string) => void;
 }) {
   const streams = buildStreamTrees(pages);
   // Ancestor-expansion and drop-target logic works over sections regardless of
@@ -330,6 +334,16 @@ export function PageList({
                   onClick={() => onAddToSection(section)}
                 >
                   +
+                </button>
+                <button
+                  type="button"
+                  className="sidebar-section__add"
+                  data-testid="section-rename"
+                  aria-label={`Rename ${section}`}
+                  title={`Rename ${section}`}
+                  onClick={() => onRenameSection(streamTree.stream, section)}
+                >
+                  ✎
                 </button>
               </div>
               <ul className="sidebar-tree">

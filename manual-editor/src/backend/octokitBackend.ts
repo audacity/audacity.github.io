@@ -810,6 +810,31 @@ export class OctokitBackend implements GitHubBackend {
     await this.commitToDrafts(tree, "docs: reorder pages");
   }
 
+  async renameSection(opts: {
+    stream: string;
+    from: string;
+    to: string;
+  }): Promise<string[]> {
+    const pages = await this.listPages();
+    const affected = pages.filter(
+      (p) => p.stream === opts.stream && p.section === opts.from,
+    );
+    if (affected.length === 0) return [];
+
+    const tree: DraftTreeItem[] = [];
+    for (const page of affected) {
+      const { source } = await this.readPage(page.path);
+      tree.push({
+        path: page.path,
+        mode: "100644",
+        type: "blob",
+        content: rewriteFrontmatter(source, { section: opts.to }),
+      });
+    }
+    await this.commitToDrafts(tree, `docs: rename section to ${opts.to}`);
+    return affected.map((p) => p.path);
+  }
+
   /**
    * Set of manual paths currently "live" (visible in `listPages`/readable):
    * everything on the drafts branch if it exists, plus everything on base

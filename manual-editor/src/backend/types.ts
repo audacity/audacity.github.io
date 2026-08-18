@@ -96,6 +96,19 @@ export interface GitHubBackend {
   /** Rewrite `order` frontmatter on each path. One commit. */
   reorderPages(updates: Array<{ path: string; order: number }>): Promise<void>;
   /**
+   * Rename a section: rewrite `section` on every page carrying `from` within
+   * `stream`. One commit. Returns the paths changed.
+   *
+   * Scoped by stream because a section name isn't unique across the manual —
+   * "new in Audacity 4" exists in both How-to and Reference, and renaming one
+   * must not touch the other.
+   */
+  renameSection(opts: {
+    stream: string;
+    from: string;
+    to: string;
+  }): Promise<string[]>;
+  /**
    * Move a page and all its descendants to a new folder. Rewrites the moved
    * page's frontmatter (order; section/sectionOrder when provided). Returns
    * the old→new path mapping (moved page first).

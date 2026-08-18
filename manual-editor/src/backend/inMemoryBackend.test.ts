@@ -618,3 +618,70 @@ test("a move within one stream leaves the stream alone", async () => {
   expect(moved!.stream).toBe("getting-started");
   expect(moved!.section).toBe("Later steps");
 });
+
+test("renameSection rewrites every page in the group", async () => {
+  const backend = new InMemoryBackend([
+    {
+      path: "src/content/manual/a/one.mdx",
+      source:
+        "---\ntitle: One\nstream: how-to\nsection: new in Audacity 4\n---\n\nBody.\n",
+    },
+    {
+      path: "src/content/manual/a/two.mdx",
+      source:
+        "---\ntitle: Two\nstream: how-to\nsection: new in Audacity 4\n---\n\nBody.\n",
+    },
+  ]);
+
+  const paths = await backend.renameSection({
+    stream: "how-to",
+    from: "new in Audacity 4",
+    to: "Customising Audacity",
+  });
+
+  expect(paths).toHaveLength(2);
+  const pages = await backend.listPages();
+  expect(pages.every((p) => p.section === "Customising Audacity")).toBe(true);
+});
+
+test("renameSection leaves the same section name in another stream alone", async () => {
+  const backend = new InMemoryBackend([
+    {
+      path: "src/content/manual/a/howto.mdx",
+      source:
+        "---\ntitle: Howto\nstream: how-to\nsection: new in Audacity 4\n---\n\nBody.\n",
+    },
+    {
+      path: "src/content/manual/a/notes.mdx",
+      source: "---\ntitle: Notes\nsection: new in Audacity 4\n---\n\nBody.\n",
+    },
+  ]);
+
+  await backend.renameSection({
+    stream: "how-to",
+    from: "new in Audacity 4",
+    to: "Customising Audacity",
+  });
+
+  const pages = await backend.listPages();
+  const howto = pages.find((p) => p.slug === "a/howto")!;
+  const notes = pages.find((p) => p.slug === "a/notes")!;
+  expect(howto.section).toBe("Customising Audacity");
+  expect(notes.section).toBe("new in Audacity 4");
+  expect(notes.stream).toBe("reference");
+});
+
+test("renameSection on a group with no pages changes nothing", async () => {
+  const backend = new InMemoryBackend([
+    {
+      path: "src/content/manual/a/one.mdx",
+      source: "---\ntitle: One\nsection: Toolbar\n---\n\nBody.\n",
+    },
+  ]);
+  const paths = await backend.renameSection({
+    stream: "how-to",
+    from: "Nothing Here",
+    to: "Whatever",
+  });
+  expect(paths).toEqual([]);
+});

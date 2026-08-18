@@ -145,6 +145,19 @@ export function makeApi(f: typeof fetch = fetch) {
         )
         .then((body) => body.moves),
     /**
+     * `POST /api/rename-section` — rewrites `section` on every page in a
+     * group, scoped to one stream. Returns the paths changed so the caller
+     * can tell whether anything matched.
+     */
+    renameSection: (opts: { stream: string; from: string; to: string }) =>
+      f("/api/rename-section", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(opts),
+      })
+        .then((r) => jsonOrThrow<{ paths: string[] }>(r))
+        .then((body) => body.paths),
+    /**
      * `POST /api/image` — uploads an image for insertion into `pageSlug`.
      * Reads `blob` to a base64 string client-side (`blobToBase64` above;
      * browser-safe, no `Buffer`) since the server-side sharp optimization

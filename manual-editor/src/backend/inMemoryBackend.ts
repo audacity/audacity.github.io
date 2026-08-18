@@ -179,6 +179,28 @@ export class InMemoryBackend implements GitHubBackend {
     await this.saveDraft(changes, "reorder pages");
   }
 
+  async renameSection(opts: {
+    stream: string;
+    from: string;
+    to: string;
+  }): Promise<string[]> {
+    const pages = await this.listPages();
+    const affected = pages.filter(
+      (p) => p.stream === opts.stream && p.section === opts.from,
+    );
+    if (affected.length === 0) return [];
+
+    const changes: FileChange[] = affected.map((p) => {
+      const source = this.currentSource(p.path)!;
+      return {
+        path: p.path,
+        content: rewriteFrontmatter(source, { section: opts.to }),
+      };
+    });
+    await this.saveDraft(changes, `rename section to ${opts.to}`);
+    return affected.map((p) => p.path);
+  }
+
   async movePage(
     path: string,
     dest: MovePageDest,
