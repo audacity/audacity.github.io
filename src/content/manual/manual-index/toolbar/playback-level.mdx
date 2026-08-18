@@ -5,5 +5,35 @@ sectionOrder: 60
 order: 26
 draft: false
 ---
+import UIExample from "../../../../components/manual/UIExample/UIExample";
+import Callout from "../../../../components/manual/Callout.astro";
 
-_This page is a stub. Content coming soon._
+Opens the playback volume settings, which set how loudly Audacity plays back.
+The master meter sits alongside it, showing the level going out.
+
+<UIExample component="tool-button" variant="volume" />
+
+Playback volume only affects what you hear — it does not change the audio in
+your project, and it is not applied to anything you export.
+
+## The master meter
+
+<UIExample component="master-meter" variant="default" />
+
+The meter turns red when the signal clips:
+
+<UIExample component="master-meter" variant="clipping" />
+
+The volume menu can also switch the meter between a **horizontal** meter in
+the toolbar and a **vertical** one shown alongside the tracks.
+
+## Where to find it
+
+At the right-hand end of the Transport Toolbar, after the microphone
+settings. It is present in every workspace.
+
+<Callout type="tip">
+  Clipping on the master meter means the mix is too loud, not that a
+  particular track is — lower the track faders rather than the playback
+  volume, which does not change the exported file.
+</Callout>

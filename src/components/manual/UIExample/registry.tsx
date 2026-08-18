@@ -24,6 +24,8 @@ import type { ComponentType } from "react";
 import "@dilsonspickles/components/style.css";
 import { TransportButton } from "@dilsonspickles/components/TransportButton";
 import { Button } from "@dilsonspickles/components/Button";
+import { ToolButton } from "@dilsonspickles/components/ToolButton";
+import { ToggleToolButton } from "@dilsonspickles/components/ToggleToolButton";
 import { Checkbox } from "@dilsonspickles/components/Checkbox";
 import { Knob } from "@dilsonspickles/components/Knob";
 import { GhostButton } from "@dilsonspickles/components/GhostButton";
@@ -40,6 +42,8 @@ type AnyComponent = ComponentType<Record<string, unknown>>;
 const COMPONENTS: Record<string, AnyComponent> = {
   button: Button as unknown as AnyComponent,
   "transport-button": TransportButton as unknown as AnyComponent,
+  "tool-button": ToolButton as unknown as AnyComponent,
+  "toggle-tool-button": ToggleToolButton as unknown as AnyComponent,
   checkbox: Checkbox as unknown as AnyComponent,
   knob: Knob as unknown as AnyComponent,
   "ghost-button": GhostButton as unknown as AnyComponent,

@@ -36,12 +36,52 @@ export const UI_EXAMPLE_VARIANT_PROPS: Record<
     secondary: { variant: "secondary", children: "Cancel" },
     disabled: { variant: "primary", children: "Export", disabled: true },
   },
+  /*
+    Icons and labels mirror TransportToolbar's own calls, so an example on a
+    manual page reads the same as the button in the app.
+  */
+  "tool-button": {
+    "zoom-in": { icon: "zoom-in", ariaLabel: "Zoom in" },
+    "zoom-out": { icon: "zoom-out", ariaLabel: "Zoom out" },
+    "fit-selection": { icon: "zoom-to-selection", ariaLabel: "Fit selection" },
+    "fit-project": { icon: "zoom-to-fit", ariaLabel: "Fit project" },
+    "zoom-toggle": { icon: "zoom-toggle", ariaLabel: "Zoom toggle" },
+    cut: { icon: "cut", ariaLabel: "Cut" },
+    copy: { icon: "copy", ariaLabel: "Copy" },
+    paste: { icon: "paste", ariaLabel: "Paste" },
+    trim: { icon: "trim", ariaLabel: "Trim" },
+    silence: { icon: "silence", ariaLabel: "Silence" },
+    microphone: { icon: "microphone", ariaLabel: "Microphone settings" },
+    volume: { icon: "volume", ariaLabel: "Playback volume settings" },
+    disabled: { icon: "cut", ariaLabel: "Cut", disabled: true },
+  },
+  "toggle-tool-button": {
+    envelope: { icon: "automation", ariaLabel: "Clip envelope" },
+    "envelope-on": {
+      icon: "automation",
+      ariaLabel: "Clip envelope",
+      isActive: true,
+    },
+    split: { icon: "split", ariaLabel: "Cut / Split" },
+    "split-on": { icon: "split", ariaLabel: "Cut / Split", isActive: true },
+    spectral: { icon: "spectrogram", ariaLabel: "Spectral view" },
+    "spectral-on": {
+      icon: "spectrogram",
+      ariaLabel: "Spectral view",
+      isActive: true,
+    },
+    waveform: { icon: "waveform", ariaLabel: "Waveform" },
+  },
   "transport-button": {
     play: { icon: "play", ariaLabel: "Play" },
     playing: { icon: "pause", ariaLabel: "Pause" },
     stop: { icon: "stop", ariaLabel: "Stop" },
     record: { icon: "record", ariaLabel: "Record" },
     recording: { icon: "record", ariaLabel: "Stop recording", recording: true },
+    "step-backward": { icon: "skip-back", ariaLabel: "Step backward" },
+    "step-forward": { icon: "skip-forward", ariaLabel: "Step forward" },
+    loop: { icon: "loop", ariaLabel: "Loop" },
+    "loop-on": { icon: "loop", ariaLabel: "Loop", active: true },
     disabled: { icon: "play", ariaLabel: "Play", disabled: true },
   },
   checkbox: {

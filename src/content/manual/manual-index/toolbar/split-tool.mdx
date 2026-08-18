@@ -5,5 +5,21 @@ sectionOrder: 60
 order: 9
 draft: false
 ---
+import UIExample from "../../../../components/manual/UIExample/UIExample";
 
-_This page is a stub. Content coming soon._
+Turns on the split tool. While it is on, clicking a clip splits it at that
+point instead of selecting it. The button is labelled **Cut / Split** in the
+toolbar.
+
+<UIExample component="toggle-tool-button" variant="split" />
+
+It is a toggle and stays pressed while the tool is active:
+
+<UIExample component="toggle-tool-button" variant="split-on" />
+
+The current design gives it the **S** key.
+
+## Where to find it
+
+In the tools group, next to Clip envelope. It appears in the Classic, Modern
+and Music workspaces.

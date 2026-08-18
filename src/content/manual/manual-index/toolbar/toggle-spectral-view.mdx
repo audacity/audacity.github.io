@@ -5,5 +5,27 @@ sectionOrder: 60
 order: 10
 draft: false
 ---
+import UIExample from "../../../../components/manual/UIExample/UIExample";
 
-_This page is a stub. Content coming soon._
+Switches the track display from a waveform to a spectrogram, which shows
+frequency against time instead of amplitude against time. The button is
+labelled **Spectral view** in the toolbar.
+
+<UIExample component="toggle-tool-button" variant="spectral" />
+
+It is a toggle and stays pressed while spectral view is on:
+
+<UIExample component="toggle-tool-button" variant="spectral-on" />
+
+## In the Spectral editing workspace
+
+That workspace is already in spectral view, so instead of a Spectral view
+button it offers the reverse — a **Waveform** button that takes you back:
+
+<UIExample component="toggle-tool-button" variant="waveform" />
+
+## Where to find it
+
+In the tools group. It appears in the Classic and Modern workspaces; the
+Music workspace leaves it out, and Spectral editing replaces it with the
+Waveform toggle described above.
