@@ -64,8 +64,10 @@ export const UI_EXAMPLE_META: UIExampleMeta[] = [
     allowInteractive: false,
     variants: [
       { id: "play", label: "Play" },
+      { id: "playing", label: "Playing" },
       { id: "stop", label: "Stop" },
       { id: "record", label: "Record" },
+      { id: "recording", label: "Recording" },
       { id: "disabled", label: "Disabled" },
     ],
   },
