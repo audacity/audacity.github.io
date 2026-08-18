@@ -15,11 +15,9 @@ interface Props {
   /* Which stream's contents the sidebar should show. Omitted on the front
      door, where the sidebar falls back to its default. */
   stream?: StreamId;
-  /* Marks the sidebar's "Manual home" link as current. */
-  isHome?: boolean;
 }
 
-const { title, description, stream, isHome = false } = Astro.props;
+const { title, description, stream } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} showPromoBanner={false}>
@@ -28,10 +26,7 @@ const { title, description, stream, isHome = false } = Astro.props;
       <aside
         class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
       >
-        <ManualSidebar
-          currentSlug={isHome ? "" : `#${stream}`}
-          currentStream={stream}
-        />
+        <ManualSidebar currentSlug={`#${stream}`} currentStream={stream} />
       </aside>
 
       <article class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6">

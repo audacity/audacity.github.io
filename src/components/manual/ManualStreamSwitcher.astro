@@ -4,14 +4,9 @@ import { getStreamEntryPoints } from "./streamEntries";
 
 interface Props {
   current: StreamId;
-  /* On the manual's front door there's no page being read, so picking a mode
-     means "take me there" — the tabs stay ordinary links. On a content page
-     the reader is mid-article and only wants a different contents list, so the
-     switch happens in place. */
-  isHome?: boolean;
 }
 
-const { current, isHome = false } = Astro.props;
+const { current } = Astro.props;
 
 /*
   A stream with no published pages is shown but not linked — better to say the
@@ -21,12 +16,7 @@ const { current, isHome = false } = Astro.props;
 const streams = await getStreamEntryPoints();
 ---
 
-<nav
-  aria-label="Documentation sections"
-  class="mb-6"
-  data-stream-nav
-  data-home={isHome ? "true" : "false"}
->
+<nav aria-label="Documentation sections" class="mb-6">
   {
     /*
     Boxed so the three modes read as one control rather than three loose
@@ -52,7 +42,6 @@ const streams = await getStreamEntryPoints();
             ) : (
               <a
                 href={s.href}
-                data-stream-tab={s.id}
                 aria-current={isCurrent ? "true" : undefined}
                 class:list={[
                   "flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors",
@@ -84,42 +73,3 @@ const streams = await getStreamEntryPoints();
   tree navigates as usual, and that page's own stream then drives the sidebar.
 */
 }
-<script>
-  const nav = document.querySelector("[data-stream-nav]");
-  // On the front door the links navigate; only enhance on content pages.
-  const enhance = nav?.getAttribute("data-home") !== "true";
-  const tabs = enhance
-    ? document.querySelectorAll("[data-stream-tab]")
-    : ([] as unknown as NodeListOf<Element>);
-  const panels = document.querySelectorAll("[data-stream-panel]");
-
-  function show(stream: string) {
-    panels.forEach((p) => {
-      const el = p as HTMLElement;
-      el.hidden = el.dataset.streamPanel !== stream;
-    });
-    tabs.forEach((t) => {
-      const el = t as HTMLElement;
-      const active = el.dataset.streamTab === stream;
-      el.setAttribute("aria-current", active ? "true" : "false");
-      el.classList.toggle("bg-white", active);
-      el.classList.toggle("shadow-sm", active);
-      el.classList.toggle("text-blue-700", active);
-      el.classList.toggle("font-semibold", active);
-      el.classList.toggle("text-gray-600", !active);
-    });
-  }
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", (event) => {
-      const stream = (tab as HTMLElement).dataset.streamTab;
-      if (!stream) return;
-      // Let modified clicks (new tab, download) behave normally.
-      const e = event as MouseEvent;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)
-        return;
-      event.preventDefault();
-      show(stream);
-    });
-  });
-</script>
