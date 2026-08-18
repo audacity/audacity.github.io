@@ -55,7 +55,7 @@ const lastUpdatedISO = lastUpdated.toISOString();
   showPromoBanner={false}
 >
   <main id="main" class="max-w-screen-2xl mx-auto">
-    <div class="grid grid-cols-12 gap-x-8 pt-8 pb-32">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 lg:pt-14 pb-32">
       <aside
         class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
       >
@@ -68,12 +68,31 @@ const lastUpdatedISO = lastUpdated.toISOString();
         class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 prose prose-blue prose-lg max-w-none"
         data-pagefind-body
       >
-        <h1 class="text-4xl lg:text-5xl">{entry.data.title}</h1>
         {
-          entry.data.description && (
-            <p class="lead text-lg text-gray-600">{entry.data.description}</p>
-          )
+          /*
+          The title gets its own block rather than sitting straight on top of
+          the body copy: an eyebrow to say where you are, room to breathe under
+          the heading, and a rule separating the page's identity from its
+          content — the same job the banner does on the landings.
+        */
         }
+        <header class="not-prose mb-10 border-b border-gray-200 pb-8">
+          <p
+            class="text-xs font-semibold uppercase tracking-wide text-gray-500"
+          >
+            {entry.data.section}
+          </p>
+          <h1 class="mt-3 text-4xl lg:text-5xl text-gray-900">
+            {entry.data.title}
+          </h1>
+          {
+            entry.data.description && (
+              <p class="mt-4 max-w-2xl text-lg text-gray-600">
+                {entry.data.description}
+              </p>
+            )
+          }
+        </header>
         <Content />
         {
           children.length > 0 && (
