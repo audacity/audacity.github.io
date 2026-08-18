@@ -1,20 +1,27 @@
 ---
 import { getCollection } from "astro:content";
+import { DEFAULT_STREAM, type StreamId } from "./streams";
 
 interface Props {
   currentSlug: string;
+  /* Prev/next stay within one documentation mode — walking off the end of the
+     tutorials into the middle of the reference would be disorienting. */
+  currentStream?: StreamId;
 }
 
-const { currentSlug } = Astro.props;
+const { currentSlug, currentStream = DEFAULT_STREAM } = Astro.props;
 
-const entries = (await getCollection("manual", ({ data }) => !data.draft)).sort(
-  (a, b) => {
-    if (a.data.sectionOrder !== b.data.sectionOrder) {
-      return a.data.sectionOrder - b.data.sectionOrder;
-    }
-    return a.data.order - b.data.order;
-  },
-);
+const entries = (
+  await getCollection(
+    "manual",
+    ({ data }) => !data.draft && data.stream === currentStream,
+  )
+).sort((a, b) => {
+  if (a.data.sectionOrder !== b.data.sectionOrder) {
+    return a.data.sectionOrder - b.data.sectionOrder;
+  }
+  return a.data.order - b.data.order;
+});
 
 const index = entries.findIndex((e) => e.slug === currentSlug);
 const prev = index > 0 ? entries[index - 1] : null;

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import ManualStreamCards from "../../components/manual/ManualStreamCards.astro";
 import UIMap from "../../components/manual/UIMap.jsx";
 import ManualToolbarDemo from "../../components/manual/Toolbar/ManualToolbarDemo.jsx";
 import "@dilsonspickles/components/style.css";
@@ -60,6 +61,8 @@ const projectHotspots: Array<{
             to that part of the interface.
           </p>
         </header>
+
+        <ManualStreamCards />
 
         <section aria-labelledby="toolbar-heading" class="mb-12">
           <h2 id="toolbar-heading" class="text-2xl">Click an interface</h2>

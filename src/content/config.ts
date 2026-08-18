@@ -21,6 +21,21 @@ const blogCollection = defineCollection({
     }),
 });
 
+/*
+  The three documentation modes. A page's stream decides which sidebar it
+  appears in, not where its file lives — re-filing a page is a one-line
+  frontmatter change rather than a move, so the taxonomy stays cheap to
+  revise.
+
+  Defaults to "reference" so every page written before streams existed keeps
+  its current home without being touched.
+*/
+export const MANUAL_STREAMS = [
+  "getting-started",
+  "how-to",
+  "reference",
+] as const;
+
 const manualCollection = defineCollection({
   type: "content",
   schema: z.object({
@@ -30,6 +45,7 @@ const manualCollection = defineCollection({
     sectionOrder: z.number().default(99),
     order: z.number().default(99),
     draft: z.boolean().default(false),
+    stream: z.enum(MANUAL_STREAMS).default("reference"),
   }),
 });
 

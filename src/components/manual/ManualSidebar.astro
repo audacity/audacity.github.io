@@ -3,16 +3,24 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import ManualSearch from "./ManualSearch.astro";
 import ManualSidebarTree, { type TreeNode } from "./ManualSidebarTree.astro";
+import ManualStreamSwitcher from "./ManualStreamSwitcher.astro";
+import { DEFAULT_STREAM, type StreamId } from "./streams";
 
 interface Props {
   currentSlug: string;
+  /* Which documentation mode the reader is in. The sidebar shows only that
+     stream's pages; the switcher above moves between them. */
+  currentStream?: StreamId;
 }
 
-const { currentSlug } = Astro.props;
+const { currentSlug, currentStream = DEFAULT_STREAM } = Astro.props;
 
 type Entry = CollectionEntry<"manual">;
 
-const allEntries = await getCollection("manual", ({ data }) => !data.draft);
+const allEntries = await getCollection(
+  "manual",
+  ({ data }) => !data.draft && data.stream === currentStream,
+);
 
 const grouped = new Map<string, { sectionOrder: number; entries: Entry[] }>();
 for (const entry of allEntries) {
@@ -79,6 +87,8 @@ const sections = Array.from(grouped.entries())
 
 <div class="space-y-6">
   <ManualSearch />
+
+  <ManualStreamSwitcher current={currentStream} />
 
   <nav aria-label="Manual" class="text-sm">
     <ul class="mb-6 space-y-1">

@@ -22,7 +22,10 @@ const { Content, headings } = await entry.render();
 // Immediate children: slug starts with `${entry.slug}/` and has no further
 // nesting beyond that. Used to render an in-page "Pages in this section"
 // list on parent pages.
-const allEntries = await getCollection("manual", ({ data }) => !data.draft);
+const allEntries = await getCollection(
+  "manual",
+  ({ data }) => !data.draft && data.stream === entry.data.stream,
+);
 const childPrefix = `${entry.slug}/`;
 const children = allEntries
   .filter((e) => {
@@ -56,7 +59,10 @@ const lastUpdatedISO = lastUpdated.toISOString();
       <aside
         class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
       >
-        <ManualSidebar currentSlug={entry.slug} />
+        <ManualSidebar
+          currentSlug={entry.slug}
+          currentStream={entry.data.stream}
+        />
       </aside>
       <article
         class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-span-5 prose prose-blue"
@@ -92,7 +98,10 @@ const lastUpdatedISO = lastUpdated.toISOString();
             </ul>
           )
         }
-        <ManualPagination currentSlug={entry.slug} />
+        <ManualPagination
+          currentSlug={entry.slug}
+          currentStream={entry.data.stream}
+        />
         <p class="not-prose mt-8 text-xs text-gray-500">
           Last updated <time datetime={lastUpdatedISO}>{lastUpdatedLabel}</time>
         </p>
