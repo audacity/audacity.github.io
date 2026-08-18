@@ -29,7 +29,17 @@ const { title, description, stream } = Astro.props;
         <ManualSidebar currentSlug={`#${stream}`} currentStream={stream} />
       </aside>
 
-      <article class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6">
+      {
+        /*
+        Same columns as an article page, including at xl where article pages
+        shift left to clear the on-this-page rail. The rail's two columns are
+        simply empty here — the content sitting in the same place on every
+        manual page matters more than filling the width.
+      */
+      }
+      <article
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6"
+      >
         <slot />
       </article>
     </div>
