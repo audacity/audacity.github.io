@@ -93,7 +93,12 @@ const sections = Array.from(grouped.entries())
   <nav aria-label="Manual" class="text-sm">
     {
       sections.map((section) => (
-        <div class="mb-4">
+        <div class="mb-5">
+          {/* Section names were only ever used for ordering; printing them is
+              what makes a group read as a group rather than a gap. */}
+          <h2 class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-500">
+            {section.name}
+          </h2>
           <ManualSidebarTree
             nodes={section.tree}
             currentSlug={currentSlug}

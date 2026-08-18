@@ -1,6 +1,5 @@
 ---
 import ManualLayout from "../../layouts/ManualLayout.astro";
-import { getCollection } from "astro:content";
 
 /*
   Landing for the Getting started stream — the eight-step path that used to
@@ -22,60 +21,59 @@ const steps: Step[] = [
   {
     number: 1,
     title: "Install Audacity",
+    href: "/manual/getting-started/install-audacity",
     description:
       "Download Audacity for Windows, macOS, or Linux and run the installer.",
-    href: "/download",
   },
   {
     number: 2,
     title: "Connect your microphone",
+    href: "/manual/getting-started/connect-your-microphone",
     description:
       "USB, 3.5mm, or XLR — set up the right input so Audacity hears you.",
   },
   {
     number: 3,
     title: "Make your first recording",
+    href: "/manual/getting-started/make-your-first-recording",
     description:
       "Press record, check the level, and stop. Listen back to confirm the take.",
   },
   {
     number: 4,
     title: "Cut, move, and arrange clips",
+    href: "/manual/getting-started/cut-move-and-arrange-clips",
     description:
       "Trim silence, drag clips into the right place, split where you need to.",
   },
   {
     number: 5,
     title: "Apply your first effect",
+    href: "/manual/getting-started/apply-your-first-effect",
     description:
       "Add a compressor or a touch of EQ as a realtime effect on a track.",
   },
   {
     number: 6,
     title: "Save your project",
+    href: "/manual/getting-started/save-your-project",
     description:
       "Keep the editable .aup3 project file or save to the cloud for backup.",
   },
   {
     number: 7,
     title: "Export your audio",
+    href: "/manual/getting-started/export-your-audio",
     description: "Mix down to MP3, WAV, FLAC, or any format you need to share.",
   },
   {
     number: 8,
     title: "Where to go next",
+    href: "/manual/getting-started/where-to-go-next",
     description:
       "Dive into the manual, browse the how-to guides, or join the community.",
   },
 ];
-
-/* Anything already filed into this stream, listed below the path. */
-const pages = (
-  await getCollection(
-    "manual",
-    ({ data }) => !data.draft && data.stream === "getting-started",
-  )
-).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <ManualLayout
@@ -118,28 +116,4 @@ const pages = (
       ))
     }
   </ol>
-
-  {
-    pages.length > 0 && (
-      <section aria-labelledby="gs-pages">
-        <h2 id="gs-pages" class="text-2xl">
-          In this section
-        </h2>
-        <ul class="mt-4 space-y-2">
-          {pages.map((p) => (
-            <li>
-              <a href={`/manual/${p.slug}`} class="hover:text-blue-700">
-                {p.data.title}
-              </a>
-              {p.data.description && (
-                <span class="block text-sm text-gray-600">
-                  {p.data.description}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
 </ManualLayout>
