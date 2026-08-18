@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { DEFAULT_STREAM, STREAMS, type StreamId } from "./streams";
 import type { ManualPageMeta } from "../backend/types";
 import { serializeFrontmatter } from "../adapter/frontmatterSerialize";
 import {
@@ -60,6 +61,19 @@ export function NewPageDialog({
   onCancel: () => void;
 }) {
   const [title, setTitle] = useState("");
+  /*
+    Defaults to whichever stream the surrounding pages are in, so creating a
+    page from inside Getting started doesn't silently file it under Reference —
+    which is what happened before this field existed.
+  */
+  const [stream, setStream] = useState<StreamId>(() => {
+    const sibling = parent
+      ? pages.find((p) => p.slug === parent.slug)
+      : sectionPrefill
+        ? pages.find((p) => p.section === sectionPrefill)
+        : undefined;
+    return (sibling?.stream as StreamId) ?? DEFAULT_STREAM;
+  });
   const [section, setSection] = useState(() =>
     newSection ? "" : (parent?.section ?? sectionPrefill ?? ""),
   );
@@ -73,7 +87,11 @@ export function NewPageDialog({
   const [asDraft, setAsDraft] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const sections = [...new Set(pages.map((p) => p.section))];
+  // Only sections already used within the chosen stream — offering Reference's
+  // 17 section names while filing a getting-started page is noise.
+  const sections = [
+    ...new Set(pages.filter((p) => p.stream === stream).map((p) => p.section)),
+  ];
   const folders = existingFolders(pages);
 
   // An unfilled Location falls back to the section's own slug, so a page in
@@ -138,6 +156,21 @@ export function NewPageDialog({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+          </div>
+
+          <div className="new-page-dialog__field">
+            <label htmlFor="new-page-stream">Stream</label>
+            <select
+              id="new-page-stream"
+              value={stream}
+              onChange={(e) => setStream(e.target.value as StreamId)}
+            >
+              {STREAMS.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="new-page-dialog__field">

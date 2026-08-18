@@ -231,6 +231,51 @@ body {
   color: #64748b;
 }
 
+/* Stream group: the level above sections, mirroring the site's stream
+   switcher. Given a heavier header and a rule so the three groups read as
+   distinct territories in a sidebar that's otherwise a flat list of sections.
+   Empty streams still render — a page can't be dragged somewhere invisible. */
+.sidebar-stream {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-stream__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sidebar-stream__header h2 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.sidebar-stream__count {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.sidebar-stream__empty {
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Section headers sit inside a stream now, so the first-section margin reset
+   is scoped to the stream rather than the whole nav. */
+.sidebar-stream section:first-of-type .sidebar-section__header {
+  margin-top: 0.5rem;
+}
+
 /* Section group header row: title + the hover-revealed per-section "+"
    (PageList's `onAddToSection`). The h2's old vertical margins live here
    now so the "+" stays vertically centered against the title. */

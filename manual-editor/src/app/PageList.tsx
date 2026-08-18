@@ -1,6 +1,7 @@
 import { useEffect, useState, type DragEvent } from "react";
 import type { ManualPageMeta } from "../backend/types";
-import { buildManualTree, type TreeNode } from "./manualTree";
+import { buildStreamTrees, type TreeNode } from "./manualTree";
+import { streamLabel } from "./streams";
 import { computeDrop, type DropPlan, type DropZone } from "./treeDnd";
 
 const MANUAL_PREFIX = "src/content/manual/";
@@ -200,7 +201,11 @@ export function PageList({
   onAddToSection: (section: string) => void;
   onDropPlan: (plan: DropPlan) => void;
 }) {
-  const sections = buildManualTree(pages);
+  const streams = buildStreamTrees(pages);
+  // Ancestor-expansion and drop-target logic works over sections regardless of
+  // which stream they're in, so flatten once here rather than threading the
+  // stream level through everything below it.
+  const sections = streams.flatMap((s) => s.sections);
   const [draggedSlug, setDraggedSlug] = useState<string | null>(null);
   const [dropTarget, setDropTarget] = useState<{
     slug: string;
@@ -291,46 +296,65 @@ export function PageList({
 
   return (
     <nav aria-label="Manual pages">
-      {sections.map(({ section, nodes }) => (
-        <section key={section}>
-          {/* Hover-revealed "+" (see .sidebar-section__add in editor.css)
+      {streams.map((streamTree) => (
+        <div
+          key={streamTree.stream}
+          className="sidebar-stream"
+          data-stream={streamTree.stream}
+        >
+          {/* All three streams are always shown, empty ones included — a page
+              can't be dragged into a group that isn't rendered. */}
+          <div className="sidebar-stream__header">
+            <h2>{streamLabel(streamTree.stream)}</h2>
+            <span className="sidebar-stream__count">{streamTree.count}</span>
+          </div>
+
+          {streamTree.sections.length === 0 && (
+            <p className="sidebar-stream__empty">No pages yet</p>
+          )}
+
+          {streamTree.sections.map(({ section, nodes }) => (
+            <section key={section}>
+              {/* Hover-revealed "+" (see .sidebar-section__add in editor.css)
               rather than a permanent ghost row per group: the sidebar is
               dense already, and this matches the app's subtle-until-hover
               affordances (sub-page "+", drag handles). */}
-          <div className="sidebar-section__header">
-            <h2>{section}</h2>
-            <button
-              type="button"
-              className="sidebar-section__add"
-              data-testid="section-add-page"
-              aria-label={`Add page to ${section}`}
-              title={`Add page to ${section}`}
-              onClick={() => onAddToSection(section)}
-            >
-              +
-            </button>
-          </div>
-          <ul className="sidebar-tree">
-            {nodes.map((node) => (
-              <TreeNodeRow
-                key={node.page.path}
-                node={node}
-                depth={0}
-                expanded={expanded}
-                onToggle={toggle}
-                onSelect={onSelect}
-                onAddSubpage={onAddSubpage}
-                activePath={activePath}
-                draggedSlug={draggedSlug}
-                dropTarget={dropTarget}
-                onRowDragStart={handleRowDragStart}
-                onRowDragOver={handleRowDragOver}
-                onRowDrop={handleRowDrop}
-                onRowDragEnd={handleRowDragEnd}
-              />
-            ))}
-          </ul>
-        </section>
+              <div className="sidebar-section__header">
+                <h2>{section}</h2>
+                <button
+                  type="button"
+                  className="sidebar-section__add"
+                  data-testid="section-add-page"
+                  aria-label={`Add page to ${section}`}
+                  title={`Add page to ${section}`}
+                  onClick={() => onAddToSection(section)}
+                >
+                  +
+                </button>
+              </div>
+              <ul className="sidebar-tree">
+                {nodes.map((node) => (
+                  <TreeNodeRow
+                    key={node.page.path}
+                    node={node}
+                    depth={0}
+                    expanded={expanded}
+                    onToggle={toggle}
+                    onSelect={onSelect}
+                    onAddSubpage={onAddSubpage}
+                    activePath={activePath}
+                    draggedSlug={draggedSlug}
+                    dropTarget={dropTarget}
+                    onRowDragStart={handleRowDragStart}
+                    onRowDragOver={handleRowDragOver}
+                    onRowDrop={handleRowDrop}
+                    onRowDragEnd={handleRowDragEnd}
+                  />
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       ))}
     </nav>
   );

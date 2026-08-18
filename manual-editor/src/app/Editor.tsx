@@ -208,6 +208,7 @@ function toFrontmatterData(data: Record<string, unknown>): FrontmatterData {
       typeof data.description === "string" && data.description !== ""
         ? data.description
         : undefined,
+    stream: typeof data.stream === "string" ? data.stream : undefined,
     section: typeof data.section === "string" ? data.section : "",
     sectionOrder:
       typeof data.sectionOrder === "number" ? data.sectionOrder : DEFAULT_ORDER,

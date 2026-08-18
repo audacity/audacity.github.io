@@ -1,4 +1,5 @@
 import type { ManualPageMeta } from "../backend/types";
+import { STREAMS, DEFAULT_STREAM, type StreamId } from "./streams";
 
 export interface TreeNode {
   page: ManualPageMeta;
@@ -9,6 +10,13 @@ export interface SectionTree {
   section: string;
   sectionOrder: number;
   nodes: TreeNode[];
+}
+
+export interface StreamTree {
+  stream: StreamId;
+  sections: SectionTree[];
+  /** Total pages in this stream, including nested children. */
+  count: number;
 }
 
 /**
@@ -88,4 +96,31 @@ export function buildManualTree(pages: ManualPageMeta[]): SectionTree[] {
       sectionOrder,
       nodes: buildTree(sectionPages),
     }));
+}
+
+/**
+ * Groups the manual by stream, then by section within each stream — the same
+ * shape the site presents (stream switcher > section > nested pages).
+ *
+ * All three streams are always returned, in schema order, even when empty: the
+ * editor's job is filing pages, and you can't drag a page into a stream that
+ * isn't on screen. An unrecognised stream value falls back to the schema
+ * default rather than creating a fourth group.
+ */
+export function buildStreamTrees(pages: ManualPageMeta[]): StreamTree[] {
+  const byStream = new Map<StreamId, ManualPageMeta[]>();
+  for (const s of STREAMS) byStream.set(s.id, []);
+
+  for (const page of pages) {
+    const id = (
+      byStream.has(page.stream as StreamId) ? page.stream : DEFAULT_STREAM
+    ) as StreamId;
+    byStream.get(id)!.push(page);
+  }
+
+  return STREAMS.map((s) => ({
+    stream: s.id,
+    sections: buildManualTree(byStream.get(s.id)!),
+    count: byStream.get(s.id)!.length,
+  }));
 }

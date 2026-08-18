@@ -2,13 +2,14 @@ import {
   collapseNewlines,
   type FrontmatterData,
 } from "../adapter/frontmatterSerialize";
+import { DEFAULT_STREAM, STREAMS } from "./streams";
 
 /** `<datalist>` id backing the Section field's autocomplete (see the input below). */
 const SECTION_LIST_ID = "frontmatter-form-sections";
 
 /**
  * Controlled form for a manual page's frontmatter metadata (title,
- * description, section, section/page order, draft flag). Mounted above the
+ * description, stream, section, section/page order, draft flag). Mounted above the
  * toolbar/editor in `Editor.tsx`, which owns the `FrontmatterData` state
  * this reads and writes via `onChange`; the resulting
  * `serializeFrontmatter(data)` string is what D6's save path substitutes for
@@ -59,6 +60,26 @@ export function FrontmatterForm({
           value={data.description ?? ""}
           onChange={(e) => set("description", collapseNewlines(e.target.value))}
         />
+      </div>
+
+      <div className="frontmatter-form__field">
+        <label htmlFor="frontmatter-stream">Stream</label>
+        {/*
+            Sits above Section because it's the broader decision: which of the
+            manual's three parts the page belongs to. A select rather than free
+            text — unlike Section, the values are fixed by the content schema.
+          */}
+        <select
+          id="frontmatter-stream"
+          value={data.stream ?? DEFAULT_STREAM}
+          onChange={(e) => set("stream", e.target.value)}
+        >
+          {STREAMS.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.label}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="frontmatter-form__field">
