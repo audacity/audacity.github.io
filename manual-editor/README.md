@@ -142,10 +142,10 @@ until it's configured.
 `OctokitBackend`'s constructor (`src/backend/octokitBackend.ts`) defaults to:
 
 - **Repo:** `audacity/audacity.github.io`
-- **Base branch:** `manual/main` — pages are read from here when there's
-  no draft, and PRs target this branch. This was `release/audacity-4` until
-  the manual came off the release branch for the Audacity 4 ship; the manual
-  and its `/help`, `/learn` and `/tutorials` hubs now live only here.
+- **Base branch:** `release/audacity-4` — pages are read from here when there's
+  no draft, and PRs target this branch. The manual briefly lived on a separate
+  `manual/main` branch while it was too unfinished to ship; it came back to
+  release once it had to launch with Audacity 4.
 - **Drafts branch:** `manual/editor-drafts` — a single shared branch (no
   per-user branches; single-writer assumption, documented in
   `commitToDrafts`'s doc comment) that all in-progress edits accumulate on.
@@ -153,7 +153,7 @@ until it's configured.
   the base branch's head the first time it's needed.
 
 Clicking "Publish" (`publish()`) opens a PR from `manual/editor-drafts` onto
-`manual/main` (or returns the existing open one if there already is
+`release/audacity-4` (or returns the existing open one if there already is
 one) — it does not merge automatically. Merging is a manual step in GitHub,
 same as any other PR. Any merge strategy works: a merge commit self-heals
 the drafts branch automatically (its history remains an ancestor-plus-more
@@ -173,12 +173,13 @@ on the GitHub account that signed in.
 
 Because the manual's content lives in the main site's repo
 (`src/content/manual/**`, `src/assets/img/manual/**`) and that PR targets the
-main site's `manual/main` branch, if the main marketing site has
+main site's `release/audacity-4` branch, if the main marketing site has
 Netlify deploy previews enabled for that repo/branch, the PR's deploy preview
 renders the updated manual pages (`src/pages/manual`) — a reviewer can read
 the actual rendered change before merging, on the main site, not the editor.
-Note that `src/pages/manual` exists only on `manual/main`: a preview built
-from `release/audacity-4` renders no manual at all.
+Unwritten pages carry `draft: true` and are filtered out of the routes, the
+sidebar and the pagination, so a stub never reaches the built site — writing a
+page and publishing it are the same action.
 
 ### 4. Function bundling (prettier config)
 
