@@ -17,16 +17,39 @@ const releaseVideo = {
   videoURL: `https://www.youtube-nocookie.com/embed/${RELEASE_VIDEO_ID}?autoplay=1`,
 };
 
+const MUSEHUB_UTM =
+  "utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-top-5-plugins";
+
+/** Tag a MuseHub plugin URL with the section's campaign params. */
+function museHubLink(slug: string) {
+  return `https://www.musehub.com/plugin/${slug}?${MUSEHUB_UTM}`;
+}
+
 const plugins = [
-  { name: "OpenVino", key: "plugins.openvino" },
-  { name: "MuseFX", key: "plugins.musefx" },
-  { name: "LandrFX Voice", key: "plugins.landrfxVoice" },
-  { name: "Soap Voice Cleaner", key: "plugins.soapVoiceCleaner" },
-  { name: "Graillon 3", key: "plugins.graillon" },
+  {
+    name: "OpenVino",
+    key: "plugins.openvino",
+    href: museHubLink("openvino-ai-tools"),
+  },
+  { name: "MuseFX", key: "plugins.musefx", href: museHubLink("musefx") },
+  {
+    name: "LandrFX Voice",
+    key: "plugins.landrfxVoice",
+    href: museHubLink("landr-fx-voice"),
+  },
+  {
+    name: "Soap Voice Cleaner",
+    key: "plugins.soapVoiceCleaner",
+    href: museHubLink("soap-voice-cleaner"),
+  },
+  {
+    name: "Graillon 3",
+    key: "plugins.graillon",
+    href: museHubLink("graillon-3"),
+  },
 ] as const;
 
-const museHubURL =
-  "https://www.musehub.com/?utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-top-5-plugins";
+const museHubURL = `https://www.musehub.com/?${MUSEHUB_UTM}`;
 ---
 
 <section class="bg-background-light">
@@ -68,7 +91,14 @@ const museHubURL =
           {
             plugins.map((plugin) => (
               <li class="text-20 lg:text-24 leading-[1.4] text-gray-900">
-                <span class="font-semibold text-accent">{plugin.name}.</span>{" "}
+                <a
+                  href={plugin.href}
+                  class="font-semibold text-accent underline decoration-transparent hover:decoration-current transition-colors"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {plugin.name}.
+                </a>{" "}
                 {t(plugin.key)}
               </li>
             ))
