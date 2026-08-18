@@ -11,6 +11,7 @@ function page(
     slug,
     path: `src/content/manual/${slug}.mdx`,
     title: slug.split("/").pop()!,
+    stream: "reference",
     section: extra.section ?? "S",
     sectionOrder: extra.sectionOrder ?? 1,
     order: extra.order ?? 1,
@@ -342,4 +343,83 @@ test("root-level into a leaf root page: the leaf becomes a parent", () => {
     dest: { folder: "basics/a", order: 1 },
     alsoReorder: [],
   });
+});
+
+/*
+  Cross-stream drags are the re-filing workflow: deciding a page belongs in
+  How-to rather than Reference and dragging it there. The plan has to carry
+  `stream`, or the page moves in the sidebar and springs back on reload.
+*/
+const crossStreamPages: ManualPageMeta[] = [
+  {
+    slug: "reference/toolbar",
+    path: "src/content/manual/reference/toolbar.mdx",
+    title: "Toolbar",
+    stream: "reference",
+    section: "Toolbar",
+    sectionOrder: 1,
+    order: 1,
+    draft: false,
+    hasDraft: false,
+  },
+  {
+    slug: "howto/recording",
+    path: "src/content/manual/howto/recording.mdx",
+    title: "Recording",
+    stream: "how-to",
+    section: "Tasks",
+    sectionOrder: 2,
+    order: 1,
+    draft: false,
+    hasDraft: false,
+  },
+];
+
+test("dropping a page into another stream rewrites its stream", () => {
+  const plan = computeDrop(
+    crossStreamPages,
+    "reference/toolbar",
+    "howto/recording",
+    "into",
+  );
+  expect(plan.kind).toBe("move");
+  if (plan.kind !== "move") return;
+  expect(plan.dest.stream).toBe("how-to");
+  expect(plan.dest.section).toBe("Tasks");
+});
+
+test("dropping before a page in another stream rewrites its stream", () => {
+  const plan = computeDrop(
+    crossStreamPages,
+    "reference/toolbar",
+    "howto/recording",
+    "before",
+  );
+  expect(plan.kind).toBe("move");
+  if (plan.kind !== "move") return;
+  expect(plan.dest.stream).toBe("how-to");
+});
+
+test("a move within one stream doesn't touch the stream field", () => {
+  const sameStream: ManualPageMeta[] = [
+    { ...crossStreamPages[0] },
+    {
+      ...crossStreamPages[0],
+      slug: "reference/timeline",
+      path: "src/content/manual/reference/timeline.mdx",
+      title: "Timeline",
+      section: "Timeline",
+      sectionOrder: 2,
+      order: 1,
+    },
+  ];
+  const plan = computeDrop(
+    sameStream,
+    "reference/toolbar",
+    "reference/timeline",
+    "into",
+  );
+  expect(plan.kind).toBe("move");
+  if (plan.kind !== "move") return;
+  expect(plan.dest.stream).toBeUndefined();
 });

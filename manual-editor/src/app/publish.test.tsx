@@ -16,6 +16,7 @@ const pages: ManualPageMeta[] = [
     slug: "basics/installing-ffmpeg",
     path: "src/content/manual/basics/installing-ffmpeg.mdx",
     title: "Installing FFmpeg",
+    stream: "reference",
     section: "Basics",
     sectionOrder: 0,
     order: 0,

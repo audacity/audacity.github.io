@@ -21,6 +21,7 @@ function meta(
   return {
     slug,
     title: slug,
+    stream: "reference",
     section: "Basics",
     sectionOrder: 0,
     order: 1,

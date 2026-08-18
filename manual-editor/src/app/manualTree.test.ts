@@ -10,6 +10,7 @@ function page(
     slug,
     path: `src/content/manual/${slug}.mdx`,
     title: slug.split("/").pop()!,
+    stream: "reference",
     section: extra.section ?? "S",
     sectionOrder: extra.sectionOrder ?? 1,
     order: extra.order ?? 1,

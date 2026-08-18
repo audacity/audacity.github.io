@@ -1,5 +1,9 @@
 import type { ManualPageMeta } from "../backend/types";
-import { buildManualTree, type SectionTree, type TreeNode } from "./manualTree";
+import {
+  buildStreamTrees,
+  type SectionTree,
+  type TreeNode,
+} from "./manualTree";
 
 /** Repo-relative prefix all manual content lives under (mirrors `PageList.tsx`,
  * `newPagePath.ts`). */
@@ -17,6 +21,7 @@ export type DropPlan =
       dest: {
         folder: string;
         order: number;
+        stream?: string;
         section?: string;
         sectionOrder?: number;
       };
@@ -147,12 +152,14 @@ function computeInto(draggedLoc: Location, targetLoc: Location): DropPlan {
 
   const order = target.children.length + 1;
   const sameSection = target.page.section === dragged.page.section;
+  const sameStream = target.page.stream === dragged.page.stream;
   return {
     kind: "move",
     path: dragged.page.path,
     dest: {
       folder: target.page.slug,
       order,
+      ...(sameStream ? {} : { stream: target.page.stream }),
       ...(sameSection
         ? {}
         : {
@@ -193,6 +200,7 @@ function computeBeforeAfter(
     ? targetLoc.parent.page.slug
     : folderOf(target.page.path);
   const sameSection = target.page.section === dragged.page.section;
+  const sameStream = target.page.stream === dragged.page.stream;
   const { arrangement, order } = insertDragged(others, dragged, insertIndex);
 
   return {
@@ -201,6 +209,7 @@ function computeBeforeAfter(
     dest: {
       folder,
       order,
+      ...(sameStream ? {} : { stream: target.page.stream }),
       ...(sameSection
         ? {}
         : {
@@ -233,7 +242,13 @@ export function computeDrop(
     };
   }
 
-  const sections = buildManualTree(pages);
+  /*
+    Built per stream, then flattened. Grouping by section name alone would
+    merge two same-named sections from different streams into one group, and
+    the sibling arithmetic below would then compute orders against pages the
+    writer can't even see in that part of the sidebar.
+  */
+  const sections = buildStreamTrees(pages).flatMap((s) => s.sections);
   const draggedLoc = locate(sections, draggedSlug);
   const targetLoc = locate(sections, targetSlug);
   if (!draggedLoc || !targetLoc) {

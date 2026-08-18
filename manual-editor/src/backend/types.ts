@@ -48,6 +48,9 @@ export interface MovePageDest {
   /** Destination folder relative to `src/content/manual`; "" is not allowed. */
   folder: string;
   order: number;
+  /** Set when crossing streams; applies to descendants too. A page's children
+      belong to the same part of the manual as their parent. */
+  stream?: string;
   /** Set when crossing sections; applies to descendants too. */
   section?: string;
   sectionOrder?: number;

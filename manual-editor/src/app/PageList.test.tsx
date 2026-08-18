@@ -11,6 +11,7 @@ function page(
     slug,
     path: `src/content/manual/${slug}.mdx`,
     title: slug.split("/").pop()!,
+    stream: "reference",
     section: "PMM",
     sectionOrder: 1,
     order: 1,

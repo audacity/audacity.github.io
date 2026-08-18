@@ -83,6 +83,7 @@ const parent: ManualPageMeta = {
   slug: "manual-index/project-management-menu/home",
   path: "src/content/manual/manual-index/project-management-menu/home.mdx",
   title: "Home",
+  stream: "reference",
   section: "Project Management Menu",
   sectionOrder: 5,
   order: 2,

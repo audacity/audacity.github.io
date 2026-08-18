@@ -888,12 +888,14 @@ export class OctokitBackend implements GitHubBackend {
 
     const newPagePath = `${prefix}${dest.folder}/${name}.${ext}`;
     const pagePatch: Partial<FrontmatterData> = { order: dest.order };
+    if (dest.stream !== undefined) pagePatch.stream = dest.stream;
     if (dest.section !== undefined) pagePatch.section = dest.section;
     if (dest.sectionOrder !== undefined) {
       pagePatch.sectionOrder = dest.sectionOrder;
     }
 
     const descendantPatch: Partial<FrontmatterData> = {};
+    if (dest.stream !== undefined) descendantPatch.stream = dest.stream;
     if (dest.section !== undefined) {
       descendantPatch.section = dest.section;
       if (dest.sectionOrder !== undefined) {
