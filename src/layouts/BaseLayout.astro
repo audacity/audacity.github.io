@@ -348,10 +348,22 @@ const experimentBootstrapData = experiments.filter(
           if (y > HIDE_AFTER) header.setAttribute("data-solid", "true");
           else header.removeAttribute("data-solid");
         }
+        /*
+          Near the top the nav is always shown, and this has to be decided
+          before the sub-DELTA bail-out below. Otherwise drifting back to the
+          top in steps smaller than DELTA — trackpad momentum tailing off does
+          exactly that — returns early every time, so the unhide never runs and
+          the nav stays translated off-screen at scrollY 0 with no way back
+          except a hard scroll or a mouse move into the top 80px.
+        */
+        if (y < HIDE_AFTER) {
+          scrollHidden = false;
+          lastY = y;
+          applyHeaderState();
+          return;
+        }
         if (Math.abs(dy) < DELTA) return;
-        if (y < HIDE_AFTER) scrollHidden = false;
-        else if (dy > 0) scrollHidden = true;
-        else if (dy < 0) scrollHidden = false;
+        scrollHidden = dy > 0;
         lastY = y;
         applyHeaderState();
       }

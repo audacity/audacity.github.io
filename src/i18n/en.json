@@ -24,7 +24,6 @@
 
   "hero.eyebrow": "100M+ downloads since 2000",
   "hero.headline": "The world's most popular audio editing and recording app",
-  "hero.learnMore": "Learn more about features",
   "hero.museHubDistributor": "MuseHub is the official distributor of Audacity",
 
   "features.intro": "All you need to create",
@@ -115,6 +114,7 @@
 
   "release.heading": "Our latest release",
   "release.body": "Audacity 4 is intuitive, customizable, and more flexible than ever. New features include an updated UI, Workspaces and productivity improvements.",
+  "release.learnMore": "Learn more about features",
 
   "plugins.heading": "Top-5 plugins for Audacity 4",
   "plugins.poweredBy": "powered by MuseHub",

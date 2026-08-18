@@ -76,6 +76,12 @@ const museHubURL = `https://www.musehub.com/?${MUSEHUB_UTM}`;
         <p class="text-16 leading-snug text-text-primary">
           {t("release.body")}
         </p>
+        <a
+          href="/about"
+          class="w-fit font-muse-sans text-16 text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
+        >
+          {t("release.learnMore")}
+        </a>
       </div>
 
       <!-- Top-5 plugins -->
@@ -93,7 +99,7 @@ const museHubURL = `https://www.musehub.com/?${MUSEHUB_UTM}`;
               <li class="text-18 lg:text-20 leading-[1.4] text-gray-900">
                 <a
                   href={plugin.href}
-                  class="font-semibold text-accent underline decoration-transparent hover:decoration-current transition-colors"
+                  class="font-semibold text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
                   target="_blank"
                   rel="noopener"
                 >

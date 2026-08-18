@@ -1,4 +1,5 @@
 ---
+import DownloadButton from "../button/DownloadButton";
 import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
 import { Image } from "astro:assets";
 import AudacityMockUp from "../../assets/img/HeroBannerImageAu4.webp";
@@ -43,12 +44,10 @@ const museHubURL =
           >
             {t("hero.museHubDistributor")}
           </a>
-          <a
-            href="/about"
-            class="font-muse-sans text-16 text-text-contrast underline underline-offset-4 decoration-text-contrast/40 hover:text-accent hover:decoration-accent transition-colors"
-          >
-            {t("hero.learnMore")}
-          </a>
+          <DownloadButton client:load />
+          <noscript>
+            <DownloadButton client:load />
+          </noscript>
         </div>
       </div>
 
