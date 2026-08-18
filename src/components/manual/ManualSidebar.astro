@@ -4,7 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import ManualSearch from "./ManualSearch.astro";
 import ManualSidebarTree, { type TreeNode } from "./ManualSidebarTree.astro";
 import ManualStreamSwitcher from "./ManualStreamSwitcher.astro";
-import { DEFAULT_STREAM, type StreamId } from "./streams";
+import { DEFAULT_STREAM, STREAMS, type StreamId } from "./streams";
 
 interface Props {
   currentSlug: string;
@@ -17,72 +17,82 @@ const { currentSlug, currentStream = DEFAULT_STREAM } = Astro.props;
 
 type Entry = CollectionEntry<"manual">;
 
-const allEntries = await getCollection(
-  "manual",
-  ({ data }) => !data.draft && data.stream === currentStream,
-);
+const allEntries = await getCollection("manual", ({ data }) => !data.draft);
 
-const grouped = new Map<string, { sectionOrder: number; entries: Entry[] }>();
-for (const entry of allEntries) {
-  const existing = grouped.get(entry.data.section);
-  if (existing) {
-    existing.entries.push(entry);
-  } else {
-    grouped.set(entry.data.section, {
-      sectionOrder: entry.data.sectionOrder,
-      entries: [entry],
-    });
-  }
-}
-
-/**
- * Build a nested tree from a flat list of entries by using the slug path as
- * the hierarchy. An entry whose slug is `foo/bar/baz` becomes a child of
- * `foo/bar` if that entry exists in the set, otherwise of `foo`, otherwise
- * a root.
- */
-function buildTree(entries: Entry[]): TreeNode[] {
-  const sorted = [...entries].sort((a, b) => {
-    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-    return a.slug.localeCompare(b.slug);
-  });
-
-  const nodes = new Map<string, TreeNode>();
-  for (const entry of sorted) {
-    nodes.set(entry.slug, {
-      title: entry.data.title,
-      slug: entry.slug,
-      order: entry.data.order,
-      children: [],
-      entry,
-    });
-  }
-
-  const roots: TreeNode[] = [];
-  for (const entry of sorted) {
-    const node = nodes.get(entry.slug)!;
-    const parts = entry.slug.split("/");
-    let attached = false;
-    for (let i = parts.length - 1; i > 0; i--) {
-      const parentSlug = parts.slice(0, i).join("/");
-      const parent = nodes.get(parentSlug);
-      if (parent) {
-        parent.children.push(node);
-        attached = true;
-        break;
-      }
+/*
+  Sections are built for every stream, not just the current one, so all three
+  trees are in the DOM and switching between them is a class toggle rather than
+  a navigation — no request, no flash. The cost is a slightly larger page; the
+  trees are link lists, so it's cheap.
+*/
+function sectionsFor(entries: Entry[]) {
+  const grouped = new Map<string, { sectionOrder: number; entries: Entry[] }>();
+  for (const entry of entries) {
+    const existing = grouped.get(entry.data.section);
+    if (existing) {
+      existing.entries.push(entry);
+    } else {
+      grouped.set(entry.data.section, {
+        sectionOrder: entry.data.sectionOrder,
+        entries: [entry],
+      });
     }
-    if (!attached) roots.push(node);
   }
-  return roots;
+
+  /**
+   * Build a nested tree from a flat list of entries by using the slug path as
+   * the hierarchy. An entry whose slug is `foo/bar/baz` becomes a child of
+   * `foo/bar` if that entry exists in the set, otherwise of `foo`, otherwise
+   * a root.
+   */
+  function buildTree(entries: Entry[]): TreeNode[] {
+    const sorted = [...entries].sort((a, b) => {
+      if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+      return a.slug.localeCompare(b.slug);
+    });
+
+    const nodes = new Map<string, TreeNode>();
+    for (const entry of sorted) {
+      nodes.set(entry.slug, {
+        title: entry.data.title,
+        slug: entry.slug,
+        order: entry.data.order,
+        children: [],
+        entry,
+      });
+    }
+
+    const roots: TreeNode[] = [];
+    for (const entry of sorted) {
+      const node = nodes.get(entry.slug)!;
+      const parts = entry.slug.split("/");
+      let attached = false;
+      for (let i = parts.length - 1; i > 0; i--) {
+        const parentSlug = parts.slice(0, i).join("/");
+        const parent = nodes.get(parentSlug);
+        if (parent) {
+          parent.children.push(node);
+          attached = true;
+          break;
+        }
+      }
+      if (!attached) roots.push(node);
+    }
+    return roots;
+  }
+
+  return Array.from(grouped.entries())
+    .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
+    .map(([name, { entries }]) => ({
+      name,
+      tree: buildTree(entries),
+    }));
 }
 
-const sections = Array.from(grouped.entries())
-  .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
-  .map(([name, { entries }]) => ({
-    name,
-    tree: buildTree(entries),
-  }));
+const panels = STREAMS.map((s) => ({
+  id: s.id,
+  sections: sectionsFor(allEntries.filter((e) => e.data.stream === s.id)),
+}));
 ---
 
 <div class="space-y-6">
@@ -108,13 +118,17 @@ const sections = Array.from(grouped.entries())
     </ul>
 
     {
-      sections.map((section) => (
-        <div class="mb-4">
-          <ManualSidebarTree
-            nodes={section.tree}
-            currentSlug={currentSlug}
-            depth={0}
-          />
+      panels.map((panel) => (
+        <div data-stream-panel={panel.id} hidden={panel.id !== currentStream}>
+          {panel.sections.map((section) => (
+            <div class="mb-4">
+              <ManualSidebarTree
+                nodes={section.tree}
+                currentSlug={currentSlug}
+                depth={0}
+              />
+            </div>
+          ))}
         </div>
       ))
     }

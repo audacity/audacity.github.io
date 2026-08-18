@@ -47,7 +47,8 @@ const streams = STREAMS.map((s) => {
             ) : (
               <a
                 href={`/manual/${s.firstSlug}`}
-                aria-current={isCurrent ? "page" : undefined}
+                data-stream-tab={s.id}
+                aria-current={isCurrent ? "true" : undefined}
                 class:list={[
                   "flex items-center justify-between rounded px-2 py-1.5 text-sm transition-colors",
                   isCurrent
@@ -65,3 +66,49 @@ const streams = STREAMS.map((s) => {
     }
   </ul>
 </nav>
+
+{
+  /*
+  Progressive enhancement. Without JS these stay ordinary links and switching
+  streams is a normal navigation — the same behaviour as before. With JS the
+  click is intercepted and the already-rendered panel is revealed instead, so
+  changing tabs is instant and the page never reloads.
+
+  The URL is deliberately left alone: the reader is still on the same page, and
+  only the contents list has changed. Following a link from the newly shown
+  tree navigates as usual, and that page's own stream then drives the sidebar.
+*/
+}
+<script>
+  const tabs = document.querySelectorAll("[data-stream-tab]");
+  const panels = document.querySelectorAll("[data-stream-panel]");
+
+  function show(stream: string) {
+    panels.forEach((p) => {
+      const el = p as HTMLElement;
+      el.hidden = el.dataset.streamPanel !== stream;
+    });
+    tabs.forEach((t) => {
+      const el = t as HTMLElement;
+      const active = el.dataset.streamTab === stream;
+      el.setAttribute("aria-current", active ? "true" : "false");
+      el.classList.toggle("bg-blue-50", active);
+      el.classList.toggle("text-blue-700", active);
+      el.classList.toggle("font-semibold", active);
+      el.classList.toggle("text-gray-700", !active);
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (event) => {
+      const stream = (tab as HTMLElement).dataset.streamTab;
+      if (!stream) return;
+      // Let modified clicks (new tab, download) behave normally.
+      const e = event as MouseEvent;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)
+        return;
+      event.preventDefault();
+      show(stream);
+    });
+  });
+</script>
