@@ -32,9 +32,10 @@ export default async (request: Request): Promise<Response> => {
     return json({ error: "path (string) and dest (object) required" }, 400);
   }
 
-  const { folder, order, section, sectionOrder } = dest as {
+  const { folder, order, stream, section, sectionOrder } = dest as {
     folder?: unknown;
     order?: unknown;
+    stream?: unknown;
     section?: unknown;
     sectionOrder?: unknown;
   };
@@ -44,6 +45,9 @@ export default async (request: Request): Promise<Response> => {
   }
   if (typeof order !== "number") {
     return json({ error: "dest.order (number) required" }, 400);
+  }
+  if (stream !== undefined && typeof stream !== "string") {
+    return json({ error: "dest.stream must be a string when provided" }, 400);
   }
   if (section !== undefined && typeof section !== "string") {
     return json({ error: "dest.section must be a string when provided" }, 400);
@@ -61,6 +65,7 @@ export default async (request: Request): Promise<Response> => {
   const validatedDest: MovePageDest = {
     folder,
     order,
+    ...(stream !== undefined ? { stream } : {}),
     ...(section !== undefined ? { section } : {}),
     ...(sectionOrder !== undefined ? { sectionOrder } : {}),
   };
