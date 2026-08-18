@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getStreamEntryPoints } from "../components/manual/streamEntries";
 
 const pageTitle = "Audacity ® | Help";
 const pageDescription =
@@ -12,24 +13,34 @@ interface HelpEntry {
   external?: boolean;
 }
 
+/*
+  The three documentation cards point straight into the manual at the matching
+  stream, so the reader lands with that section's contents already selected
+  rather than at a generic index. Falls back to the manual's front door if a
+  stream has nothing published yet.
+*/
+const streamHrefs = Object.fromEntries(
+  (await getStreamEntryPoints()).map((s) => [s.id, s.href ?? "/manual"]),
+);
+
 const primary: HelpEntry[] = [
   {
     title: "Getting started",
     description:
       "Brand new to Audacity? Eight short steps from install to first export.",
-    href: "/learn",
+    href: streamHrefs["getting-started"],
   },
   {
     title: "How-to tutorials",
     description:
       "Task-focused guides covering every common workflow: record, edit, effects, export, convert.",
-    href: "/tutorials",
+    href: streamHrefs["how-to"],
   },
   {
     title: "Manual",
     description:
       "The complete reference for every menu, toolbar, and effect in Audacity 4.",
-    href: "/manual",
+    href: streamHrefs["reference"],
   },
   {
     title: "FAQ",

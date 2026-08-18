@@ -1,34 +1,21 @@
 ---
-import { getCollection } from "astro:content";
-import { STREAMS } from "./streams";
+import { getStreamEntryPoints } from "./streamEntries";
 
 /*
   Landing-page entry points into the three documentation modes, in the shape
   Astro's own docs use: name the mode, say who it's for, link in. A mode with
   nothing published yet says so plainly rather than linking to an empty page.
 */
-const entries = await getCollection("manual", ({ data }) => !data.draft);
-
-const cards = STREAMS.map((s) => {
-  const pages = entries
-    .filter((e) => e.data.stream === s.id)
-    .sort((a, b) => {
-      if (a.data.sectionOrder !== b.data.sectionOrder)
-        return a.data.sectionOrder - b.data.sectionOrder;
-      if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-      return a.slug.localeCompare(b.slug);
-    });
-  return { ...s, count: pages.length, firstSlug: pages[0]?.slug };
-});
+const cards = await getStreamEntryPoints();
 ---
 
 <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 not-prose mb-10">
   {
     cards.map((c) => (
       <li>
-        {c.firstSlug ? (
+        {c.href ? (
           <a
-            href={`/manual/${c.firstSlug}`}
+            href={c.href}
             class="flex h-full flex-col rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:bg-blue-50/40 transition-colors"
           >
             <span class="font-semibold text-gray-900">{c.label}</span>

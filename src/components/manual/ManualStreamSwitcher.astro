@@ -1,6 +1,6 @@
 ---
-import { getCollection } from "astro:content";
-import { STREAMS, type StreamId } from "./streams";
+import { type StreamId } from "./streams";
+import { getStreamEntryPoints } from "./streamEntries";
 
 interface Props {
   current: StreamId;
@@ -18,19 +18,7 @@ const { current, isHome = false } = Astro.props;
   section exists and is empty than to hide it and have readers wonder where the
   tutorials went. Once a page is filed into it, it becomes a link on its own.
 */
-const entries = await getCollection("manual", ({ data }) => !data.draft);
-
-const streams = STREAMS.map((s) => {
-  const pages = entries
-    .filter((e) => e.data.stream === s.id)
-    .sort((a, b) => {
-      if (a.data.sectionOrder !== b.data.sectionOrder)
-        return a.data.sectionOrder - b.data.sectionOrder;
-      if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-      return a.slug.localeCompare(b.slug);
-    });
-  return { ...s, count: pages.length, firstSlug: pages[0]?.slug };
-});
+const streams = await getStreamEntryPoints();
 ---
 
 <nav
@@ -43,7 +31,7 @@ const streams = STREAMS.map((s) => {
     {
       streams.map((s) => {
         const isCurrent = s.id === current;
-        const isEmpty = s.count === 0;
+        const isEmpty = !s.href;
         return (
           <li>
             {isEmpty ? (
@@ -56,7 +44,7 @@ const streams = STREAMS.map((s) => {
               </span>
             ) : (
               <a
-                href={`/manual/${s.firstSlug}`}
+                href={s.href}
                 data-stream-tab={s.id}
                 aria-current={isCurrent ? "true" : undefined}
                 class:list={[
