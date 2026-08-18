@@ -210,6 +210,7 @@ export class InMemoryBackend implements GitHubBackend {
 
     const newPagePath = `${prefix}${dest.folder}/${name}.${ext}`;
     const pagePatch: Partial<FrontmatterData> = { order: dest.order };
+    if (dest.stream !== undefined) pagePatch.stream = dest.stream;
     if (dest.section !== undefined) pagePatch.section = dest.section;
     if (dest.sectionOrder !== undefined) {
       pagePatch.sectionOrder = dest.sectionOrder;
@@ -219,6 +220,7 @@ export class InMemoryBackend implements GitHubBackend {
     // provided (a same-section reorder-only move leaves their content byte-
     // identical, just relocated).
     const descendantPatch: Partial<FrontmatterData> = {};
+    if (dest.stream !== undefined) descendantPatch.stream = dest.stream;
     if (dest.section !== undefined) {
       descendantPatch.section = dest.section;
       if (dest.sectionOrder !== undefined) {

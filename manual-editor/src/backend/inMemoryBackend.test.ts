@@ -569,3 +569,52 @@ test("movePage: preserves the .md extension", async () => {
   );
   expect(page).toBeDefined();
 });
+
+/*
+  Cross-stream moves are the editor's re-filing operation. This backend is what
+  local dev runs against, so a gap here means the feature looks broken while
+  working in production — which is how this one was found.
+*/
+test("movePage rewrites the stream when the destination is in another one", async () => {
+  const backend = new InMemoryBackend([
+    {
+      path: "src/content/manual/ref/toolbar.mdx",
+      source: "---\ntitle: Toolbar\nsection: Toolbar\n---\n\nBody.\n",
+    },
+  ]);
+
+  await backend.movePage("src/content/manual/ref/toolbar.mdx", {
+    folder: "howto",
+    order: 1,
+    stream: "how-to",
+    section: "Tasks",
+  });
+
+  const pages = await backend.listPages();
+  const moved = pages.find((p) => p.slug === "howto/toolbar");
+  expect(moved).toBeDefined();
+  expect(moved!.stream).toBe("how-to");
+  expect(moved!.section).toBe("Tasks");
+});
+
+test("a move within one stream leaves the stream alone", async () => {
+  const backend = new InMemoryBackend([
+    {
+      path: "src/content/manual/gs/one.mdx",
+      source:
+        "---\ntitle: One\nstream: getting-started\nsection: First steps\n---\n\nBody.\n",
+    },
+  ]);
+
+  await backend.movePage("src/content/manual/gs/one.mdx", {
+    folder: "gs-two",
+    order: 2,
+    section: "Later steps",
+  });
+
+  const moved = (await backend.listPages()).find(
+    (p) => p.slug === "gs-two/one",
+  );
+  expect(moved!.stream).toBe("getting-started");
+  expect(moved!.section).toBe("Later steps");
+});
