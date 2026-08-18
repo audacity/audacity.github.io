@@ -98,25 +98,36 @@ const panels = STREAMS.map((s) => ({
 <div class="space-y-6">
   <ManualSearch />
 
-  <ManualStreamSwitcher current={currentStream} />
+  {
+    /*
+    The fixed point of the sidebar. Sits above the switcher rather than
+    between it and the tree, so there's always one obvious way back to the
+    front door no matter how deep the reader has gone.
+  */
+  }
+  <a
+    href="/manual"
+    aria-current={currentSlug === "" ? "page" : undefined}
+    class:list={[
+      "flex items-center gap-2 text-sm font-medium transition-colors",
+      currentSlug === ""
+        ? "text-blue-700"
+        : "text-gray-600 hover:text-blue-700",
+    ]}
+  >
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      class="h-3.5 w-3.5 shrink-0 fill-current"
+    >
+      <path d="M10.3 3.3 5.6 8l4.7 4.7-1.1 1.1L3.4 8l5.8-5.8z"></path>
+    </svg>
+    Manual home
+  </a>
+
+  <ManualStreamSwitcher current={currentStream} isHome={currentSlug === ""} />
 
   <nav aria-label="Manual" class="text-sm">
-    <ul class="mb-6 space-y-1">
-      <li>
-        <a
-          href="/manual"
-          class:list={[
-            "block py-1",
-            currentSlug === ""
-              ? "text-blue-700 font-semibold"
-              : "text-gray-700 hover:text-blue-700",
-          ]}
-        >
-          Home
-        </a>
-      </li>
-    </ul>
-
     {
       panels.map((panel) => (
         <div data-stream-panel={panel.id} hidden={panel.id !== currentStream}>

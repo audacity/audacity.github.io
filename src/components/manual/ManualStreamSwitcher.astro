@@ -4,9 +4,14 @@ import { STREAMS, type StreamId } from "./streams";
 
 interface Props {
   current: StreamId;
+  /* On the manual's front door there's no page being read, so picking a mode
+     means "take me there" — the tabs stay ordinary links. On a content page
+     the reader is mid-article and only wants a different contents list, so the
+     switch happens in place. */
+  isHome?: boolean;
 }
 
-const { current } = Astro.props;
+const { current, isHome = false } = Astro.props;
 
 /*
   A stream with no published pages is shown but not linked — better to say the
@@ -28,7 +33,12 @@ const streams = STREAMS.map((s) => {
 });
 ---
 
-<nav aria-label="Documentation sections" class="mb-6">
+<nav
+  aria-label="Documentation sections"
+  class="mb-6"
+  data-stream-nav
+  data-home={isHome ? "true" : "false"}
+>
   <ul class="space-y-1">
     {
       streams.map((s) => {
@@ -80,7 +90,12 @@ const streams = STREAMS.map((s) => {
 */
 }
 <script>
-  const tabs = document.querySelectorAll("[data-stream-tab]");
+  const nav = document.querySelector("[data-stream-nav]");
+  // On the front door the links navigate; only enhance on content pages.
+  const enhance = nav?.getAttribute("data-home") !== "true";
+  const tabs = enhance
+    ? document.querySelectorAll("[data-stream-tab]")
+    : ([] as unknown as NodeListOf<Element>);
   const panels = document.querySelectorAll("[data-stream-panel]");
 
   function show(stream: string) {
