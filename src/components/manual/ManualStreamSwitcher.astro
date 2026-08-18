@@ -27,7 +27,14 @@ const streams = await getStreamEntryPoints();
   data-stream-nav
   data-home={isHome ? "true" : "false"}
 >
-  <ul class="space-y-1">
+  {
+    /*
+    Boxed so the three modes read as one control rather than three loose
+    links sitting above the contents tree — the reader needs to see at a
+    glance that these are alternatives to each other.
+  */
+  }
+  <ul class="space-y-0.5 rounded-lg border border-gray-200 bg-gray-50 p-1">
     {
       streams.map((s) => {
         const isCurrent = s.id === current;
@@ -36,7 +43,7 @@ const streams = await getStreamEntryPoints();
           <li>
             {isEmpty ? (
               <span
-                class="flex items-center justify-between rounded px-2 py-1.5 text-sm text-gray-400 cursor-default"
+                class="flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm text-gray-400 cursor-default"
                 title="No pages published in this section yet"
               >
                 {s.label}
@@ -48,10 +55,10 @@ const streams = await getStreamEntryPoints();
                 data-stream-tab={s.id}
                 aria-current={isCurrent ? "true" : undefined}
                 class:list={[
-                  "flex items-center justify-between rounded px-2 py-1.5 text-sm transition-colors",
+                  "flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors",
                   isCurrent
-                    ? "bg-blue-50 text-blue-700 font-semibold"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-blue-700",
+                    ? "bg-white text-blue-700 font-semibold shadow-sm"
+                    : "text-gray-600 hover:bg-white/70 hover:text-blue-700",
                 ]}
               >
                 {s.label}
@@ -95,10 +102,11 @@ const streams = await getStreamEntryPoints();
       const el = t as HTMLElement;
       const active = el.dataset.streamTab === stream;
       el.setAttribute("aria-current", active ? "true" : "false");
-      el.classList.toggle("bg-blue-50", active);
+      el.classList.toggle("bg-white", active);
+      el.classList.toggle("shadow-sm", active);
       el.classList.toggle("text-blue-700", active);
       el.classList.toggle("font-semibold", active);
-      el.classList.toggle("text-gray-700", !active);
+      el.classList.toggle("text-gray-600", !active);
     });
   }
 
