@@ -16,6 +16,9 @@
 export interface FrontmatterData {
   title: string;
   description?: string;
+  /** Documentation stream. Omitted when "reference", matching the schema
+      default and keeping the existing corpus byte-identical. */
+  stream?: string;
   section: string;
   sectionOrder?: number;
   order?: number;
@@ -24,6 +27,9 @@ export interface FrontmatterData {
 
 /** `sectionOrder`/`order` both default to 99 in the collection schema. */
 const DEFAULT_ORDER = 99;
+
+/** `stream` defaults to "reference" in the collection schema. */
+const DEFAULT_STREAM = "reference";
 
 /** Leading characters that give a plain (unquoted) YAML scalar a different meaning. */
 const LEADING_SPECIAL = /^[#\-?:,[\]{}&*!|>'"%@`]/;
@@ -95,7 +101,8 @@ function scalar(value: string): string {
 
 /**
  * Serializes `data` to a `---\n...\n---\n` YAML frontmatter block, with keys
- * in a fixed order: title, description, section, sectionOrder, order, draft.
+ * in a fixed order: title, description, stream, section, sectionOrder, order,
+ * draft.
  *
  * Omission rules (deliberately asymmetric with the schema's defaults, to
  * match how the existing corpus is hand-authored — see the task report):
@@ -105,6 +112,8 @@ function scalar(value: string): string {
  * - `sectionOrder`/`order` are omitted when equal to the schema default
  *   (99) and emitted as bare unquoted numbers otherwise, keeping freshly
  *   authored files as clean as hand-written ones.
+ * - `stream` is omitted when "reference" (the schema default), so the 200-odd
+ *   reference pages that never named a stream stay byte-identical.
  * - `draft` is omitted when false/undefined and emitted as `draft: true`
  *   only when true, matching the corpus convention where the vast majority
  *   of files have no `draft` line at all.
@@ -116,6 +125,10 @@ export function serializeFrontmatter(data: FrontmatterData): string {
 
   if (data.description) {
     lines.push(`description: ${scalar(data.description)}`);
+  }
+
+  if (data.stream && data.stream !== DEFAULT_STREAM) {
+    lines.push(`stream: ${scalar(data.stream)}`);
   }
 
   lines.push(`section: ${scalar(data.section)}`);

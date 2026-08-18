@@ -23,6 +23,7 @@ function coerce(data: Record<string, unknown>): FrontmatterData {
     title: typeof data.title === "string" ? data.title : "",
     description:
       typeof data.description === "string" ? data.description : undefined,
+    stream: typeof data.stream === "string" ? data.stream : undefined,
     section: typeof data.section === "string" ? data.section : "",
     sectionOrder:
       typeof data.sectionOrder === "number" ? data.sectionOrder : undefined,

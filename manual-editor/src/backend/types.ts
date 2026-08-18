@@ -4,6 +4,9 @@ export interface ManualPageMeta {
   /** Repo-relative path, e.g. "src/content/manual/basics/installing-ffmpeg.mdx". */
   path: string;
   title: string;
+  /** Which documentation stream the page belongs to — the level above
+      `section`. Defaults to "reference", matching the content schema. */
+  stream: string;
   section: string;
   sectionOrder: number;
   order: number;

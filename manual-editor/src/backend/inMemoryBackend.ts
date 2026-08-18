@@ -8,6 +8,7 @@ import type {
   PublishResult,
 } from "./types";
 import { parseFrontmatter } from "./frontmatter";
+import { DEFAULT_STREAM, isStreamId } from "../app/streams";
 import { rewriteFrontmatter } from "./frontmatterRewrite";
 import type { FrontmatterData } from "../adapter/frontmatterSerialize";
 import { listManualFiles, readManualFile, manualDir } from "../mdx/corpus";
@@ -34,6 +35,7 @@ export function metaFromSource(path: string, source: string): ManualPageMeta {
     slug: slugOf(path),
     path,
     title: typeof data.title === "string" ? data.title : slugOf(path),
+    stream: isStreamId(data.stream) ? data.stream : DEFAULT_STREAM,
     section: typeof data.section === "string" ? data.section : "Uncategorized",
     sectionOrder:
       typeof data.sectionOrder === "number" ? data.sectionOrder : 99,

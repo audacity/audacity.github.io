@@ -10,8 +10,6 @@ draft: false
 
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
-import Tabs from "../../../components/manual/Tabs/Tabs.astro";
-import Tab from "../../../components/manual/Tabs/Tab.astro";
 import BestPractices from "../../../components/manual/BestPractices.astro";
 import Pitfalls from "../../../components/manual/Pitfalls.astro";
 
@@ -42,32 +40,30 @@ Go to the [download page](/download) and choose the build for your operating
 system. The page detects your platform and offers the right one first, but
 every build is listed if you need a different one.
 
-<Tabs>
-  <Tab label="Windows">
-    Download the `.exe` installer. Both 64-bit and 32-bit builds are listed —
-    choose 64-bit unless you know the machine is 32-bit.
+### Windows
 
-    Once it's downloaded, double-click the file and follow the prompts. You can
-    accept every default; the installer will suggest a location and create a
-    Start menu entry.
-  </Tab>
+Download the `.exe` installer. Both 64-bit and 32-bit builds are listed — choose
+64-bit unless you know the machine is 32-bit.
 
-  <Tab label="macOS">
-    Download the `.dmg` disk image, then open it and drag the Audacity icon
-    into your Applications folder.
+Once it's downloaded, double-click the file and follow the prompts. You can
+accept every default; the installer will suggest a location and create a Start
+menu entry.
 
-    The first time you open it, macOS may warn that the application was
-    downloaded from the internet. Choose **Open** to confirm.
-  </Tab>
+### macOS
 
-  <Tab label="Linux">
-    Audacity is available as an AppImage, and through most distribution package
-    managers.
+Download the `.dmg` disk image, then open it and drag the Audacity icon into
+your Applications folder.
 
-    The AppImage needs no installation — make it executable and run it. Package
-    manager versions may lag behind the current release.
-  </Tab>
-</Tabs>
+The first time you open it, macOS may warn that the application was downloaded
+from the internet. Choose **Open** to confirm.
+
+### Linux
+
+Audacity is available as an AppImage, and through most distribution package
+managers.
+
+The AppImage needs no installation — make it executable and run it. Package
+manager versions may lag behind the current release.
 
 ## Open Audacity for the first time
 
@@ -95,16 +91,15 @@ If you get that far, the install worked and you're ready to
 [connect your microphone](/manual/getting-started/connect-your-microphone).
 
 <BestPractices>
-  - Download from audacityteam.org rather than a third-party mirror — builds
-    elsewhere are sometimes bundled with software you didn't ask for.
-  - Keep the installer file until you've confirmed Audacity opens, in case you
-    need to run it again.
+Download from audacityteam.org rather than a third-party mirror — builds hosted
+elsewhere are sometimes bundled with software you didn't ask for. Keep the
+installer file until you've confirmed Audacity opens, in case you need to run
+it again.
 </BestPractices>
 
 <Pitfalls>
-  - Installing over a much older version can carry settings forward that no
-    longer apply. If Audacity behaves oddly after an upgrade, resetting
-    preferences is usually the fastest fix.
-  - On managed machines, an install that appears to succeed but leaves no
-    application behind usually means it was blocked by policy.
+Installing over a much older version can carry settings forward that no longer
+apply. If Audacity behaves oddly after an upgrade, resetting preferences is
+usually the fastest fix. On managed machines, an install that appears to
+succeed but leaves no application behind has usually been blocked by policy.
 </Pitfalls>
