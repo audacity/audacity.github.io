@@ -3,14 +3,14 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 300 (297 published, 132 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 312 (309 published, 132 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
 | Menu items | 120 | 113 | 4 | 0 | 3 |
 | Effects | 54 | 1 | 40 | 13 | 0 |
-| Preference pages | 11 | 1 | 1 | 9 | 0 |
-| Target-state topics (AU3 manual) | 46 | 23 | 5 | 18 | 0 |
+| Preference pages | 11 | 11 | 0 | 0 | 0 |
+| Target-state topics (AU3 manual) | 46 | 24 | 5 | 17 | 0 |
 | Shortcuts (inline mentions) | 175 | 105 | — | 70 | — |
 
 ## Menu items
@@ -241,17 +241,17 @@ has no real content yet.
 
 | Page | Id | Status | Page |
 | --- | --- | --- | --- |
-| General | `general` | ❌ missing | — |
-| Appearance | `appearance` | ❌ missing | — |
-| Audio settings | `audio-settings` | ❌ missing | — |
-| Audio editing | `editing` | ❌ missing | — |
-| Playback/Recording | `playback-recording` | ❌ missing | — |
-| Spectral display | `spectral-display` | ❌ missing | — |
-| Music | `music` | 🚧 stub | [manual-index/workspaces/music](../src/content/manual/manual-index/workspaces/music.mdx) |
-| Cloud | `cloud` | ❌ missing | — |
-| Shortcuts | `shortcuts` | ❌ missing | — |
-| Plugins | `plugin` | ✅ written (heading) | [new-in-audacity-4/audacity-3-to-4-transition-guide](../src/content/manual/new-in-audacity-4/audacity-3-to-4-transition-guide.mdx) |
-| Advanced options | `advanced` | ❌ missing | — |
+| General | `general` | ✅ written | [manual-index/preferences/general](../src/content/manual/manual-index/preferences/general.mdx) |
+| Appearance | `appearance` | ✅ written | [manual-index/preferences/appearance](../src/content/manual/manual-index/preferences/appearance.mdx) |
+| Audio settings | `audio-settings` | ✅ written | [manual-index/preferences/audio-settings](../src/content/manual/manual-index/preferences/audio-settings.mdx) |
+| Audio editing | `editing` | ✅ written | [manual-index/preferences/editing](../src/content/manual/manual-index/preferences/editing.mdx) |
+| Playback/Recording | `playback-recording` | ✅ written | [manual-index/preferences/playback-recording](../src/content/manual/manual-index/preferences/playback-recording.mdx) |
+| Spectral display | `spectral-display` | ✅ written | [manual-index/preferences/spectral-display](../src/content/manual/manual-index/preferences/spectral-display.mdx) |
+| Music | `music` | ✅ written | [manual-index/preferences/music](../src/content/manual/manual-index/preferences/music.mdx) |
+| Cloud | `cloud` | ✅ written | [manual-index/preferences/cloud](../src/content/manual/manual-index/preferences/cloud.mdx) |
+| Shortcuts | `shortcuts` | ✅ written | [manual-index/preferences/shortcuts](../src/content/manual/manual-index/preferences/shortcuts.mdx) |
+| Plugins | `plugin` | ✅ written | [manual-index/preferences/plugin](../src/content/manual/manual-index/preferences/plugin.mdx) |
+| Advanced options | `advanced` | ✅ written | [manual-index/preferences/advanced](../src/content/manual/manual-index/preferences/advanced.mdx) |
 
 ## Shortcuts
 
@@ -395,7 +395,7 @@ not yet known whether AU4 has the feature at all.
 | Selecting audio | getting-started | applies | ✅ written | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
 | Undo, redo and history | reference | applies | ✅ written | [manual-index/header/edit/undo](../src/content/manual/manual-index/header/edit/undo.mdx) |
 | Customising the layout (workspaces) | reference | changed | ✅ written | [manual-index/header/view/workspaces](../src/content/manual/manual-index/header/view/workspaces.mdx) |
-| Themes and appearance | reference | changed | ❌ missing | — |
+| Themes and appearance | reference | changed | ✅ written | [manual-index/preferences/appearance](../src/content/manual/manual-index/preferences/appearance.mdx) |
 | FAQ | how-to | applies | ✅ written (outside collection) | `/FAQ` (site page, indexed in help search) |
 | Punch-in repair of recording fluffs | how-to | applies | 🚧 stub | [manual-index/punch-and-roll-recording](../src/content/manual/manual-index/punch-and-roll-recording.mdx) |
 | Mixing voice with background music | how-to | applies | ❌ missing | — |
@@ -558,7 +558,7 @@ None.
 - `manual-index/workspaces/modern`
 - `manual-index/workspaces/music`
 
-### Pages with defaulted stream (280) — proposed assignment
+### Pages with defaulted stream (292) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -762,6 +762,18 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/hotbar/get-effects` | reference |
 | `manual-index/hotbar/share-audio` | reference |
 | `manual-index/import` | reference |
+| `manual-index/preferences` | reference |
+| `manual-index/preferences/advanced` | reference |
+| `manual-index/preferences/appearance` | reference |
+| `manual-index/preferences/audio-settings` | reference |
+| `manual-index/preferences/cloud` | reference |
+| `manual-index/preferences/editing` | reference |
+| `manual-index/preferences/general` | reference |
+| `manual-index/preferences/music` | reference |
+| `manual-index/preferences/playback-recording` | reference |
+| `manual-index/preferences/plugin` | reference |
+| `manual-index/preferences/shortcuts` | reference |
+| `manual-index/preferences/spectral-display` | reference |
 | `manual-index/project-management-menu` | reference |
 | `manual-index/project-management-menu/home` | reference |
 | `manual-index/project-management-menu/home/cloud-projects-and-audio-files` | reference |
@@ -846,7 +858,7 @@ sidebars and belongs in its own reviewed change.
 | `special-uses/expected-uses` | how-to |
 | `special-uses/info-for-system-administrators` | how-to |
 
-## Next pages to write (36 candidates)
+## Next pages to write (27 candidates)
 
 1. effect **DTMF Tones** (builtin)
 2. effect **Remove DC offset** (builtin)
@@ -861,6 +873,6 @@ sidebars and belongs in its own reviewed change.
 11. effect **Sample data Import** (nyquist)
 12. effect **Tremolo** (nyquist)
 13. effect **Vocoder** (nyquist)
-14. preferences page **General** (`general`)
-15. preferences page **Appearance** (`appearance`)
+14. topic **Mouse bindings** (reference, target-state checklist)
+15. topic **Audacity waveform** (reference, target-state checklist)
 
