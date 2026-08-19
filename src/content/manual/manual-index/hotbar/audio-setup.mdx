@@ -3,7 +3,40 @@ title: "Audio Setup"
 section: "Hotbar"
 sectionOrder: 50
 order: 2
+description: Choose the audio host, the playback and recording devices, and the number of recording channels.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Opens a menu for picking the audio hardware Audacity uses. Every list in it
+is built from the devices your computer reports, so what you see depends on
+what is connected.
+
+## Where to find it
+
+**Hotbar → Audio setup**, in the bar across the top of the project window.
+
+## What the menu contains
+
+- **Host** — the audio system Audacity talks to. Which hosts are offered
+  depends on your operating system.
+- **Playback device** — where audio plays. The list opens with a **System
+  default** entry, which names the device it currently resolves to,
+  followed by each available output.
+- **Recording device** — the same, for inputs.
+- **Recording channels** — 1 (Mono) Recording channel or 2 (Stereo)
+  Recording channels, up to the number your recording device offers.
+- **Rescan audio devices** — rebuild the device lists. Use it after
+  plugging in or unplugging an interface.
+- **Audio settings** — opens Preferences at the Audio settings page.
+
+## Notes
+
+- The device and host currently in use are ticked.
+- The menu rebuilds itself whenever the device list or the audio
+  configuration changes, so it stays in step with the hardware.
+
+## Related
+
+- [Audio settings](/manual/manual-index/preferences/audio-settings)
+- [Playback/Recording](/manual/manual-index/preferences/playback-recording)
+- [Connect your microphone](/manual/getting-started/connect-your-microphone)

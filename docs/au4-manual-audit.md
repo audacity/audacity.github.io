@@ -3,15 +3,15 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 322 (319 published, 48 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 322 (319 published, 33 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
-| Menu items | 120 | 116 | 1 | 0 | 3 |
+| Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 45 | 9 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
 | Target-state topics (AU3 manual) | 46 | 26 | 3 | 17 | 0 |
-| Shortcuts (inline mentions) | 175 | 105 | — | 70 | — |
+| Shortcuts (inline mentions) | 175 | 106 | — | 69 | — |
 
 ## Menu items
 
@@ -30,7 +30,7 @@ has no real content yet.
 | File | Export audio… | `export-audio` | ✅ written | [manual-index/header/file/export-audio](../src/content/manual/manual-index/header/file/export-audio.mdx) |
 | File → Export other | Export labels | `export-labels` | ✅ written | [manual-index/track-control-panel/label-track-item/additional-options/export-labels](../src/content/manual/manual-index/track-control-panel/label-track-item/additional-options/export-labels.mdx) |
 | File → Export other | Export MIDI | `export-midi` | ✅ written (heading) | [manual-index/header/file/export-other](../src/content/manual/manual-index/header/file/export-other.mdx) |
-| File | Share audio | `file-share-audio` | 🚧 stub | [manual-index/hotbar/share-audio](../src/content/manual/manual-index/hotbar/share-audio.mdx) |
+| File | Share audio | `file-share-audio` | ✅ written | [manual-index/hotbar/share-audio](../src/content/manual/manual-index/hotbar/share-audio.mdx) |
 | File | Close project | `file-close` | ✅ written | [manual-index/header/file/close-project](../src/content/manual/manual-index/header/file/close-project.mdx) |
 | File | Exit | `quit` | ✅ written | [manual-index/header/file/quit-audacity](../src/content/manual/manual-index/header/file/quit-audacity.mdx) |
 | Edit | Undo | `action://trackedit/undo` | ✅ written | [manual-index/header/edit/undo](../src/content/manual/manual-index/header/edit/undo.mdx) |
@@ -264,7 +264,6 @@ prose, both directions.
 - `Ctrl+Shift+P` — Open pitch and speed dialog
 - `Shift+,` — cursor-long-jump-left
 - `Shift+.` — cursor-long-jump-right
-- `Ctrl+Shift+X` — Cut and close gap (per track)
 - `Ctrl+Del` / `Ctrl+Backspace` — Delete and close gap (all tracks)
 - `Ctrl+Shift+F` — fit-v
 - `Shift+N` — input-channels
@@ -417,9 +416,8 @@ None.
 
 None.
 
-### Stub pages (48)
+### Stub pages (33)
 
-- `manual-index/cut-tool`
 - `manual-index/egat`
 - `manual-index/egat/analyzers`
 - `manual-index/egat/analyzers/beat-finder`
@@ -451,22 +449,8 @@ None.
 - `manual-index/egat/generators`
 - `manual-index/egat/nyquist`
 - `manual-index/export-menu`
-- `manual-index/header`
-- `manual-index/hotbar`
-- `manual-index/hotbar/audio-setup`
-- `manual-index/hotbar/get-effects`
-- `manual-index/hotbar/share-audio`
 - `manual-index/import`
-- `manual-index/project-management-menu/home`
-- `manual-index/project-management-menu/home/cloud-projects-and-audio-files`
-- `manual-index/project-management-menu/home/new-and-recent`
-- `manual-index/project-management-menu/project`
-- `manual-index/project-management-menu/publish`
 - `manual-index/punch-and-roll-recording`
-- `manual-index/workspaces/creating-new-workspaces`
-- `manual-index/workspaces/edit-workspaces`
-- `manual-index/workspaces/modern`
-- `manual-index/workspaces/music`
 
 ### Pages with defaulted stream (302) — proposed assignment
 
