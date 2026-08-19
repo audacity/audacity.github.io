@@ -4,14 +4,29 @@ import BaseLayout from "./BaseLayout.astro";
 interface Props {
   frontmatter: {
     title: string;
+    /*
+      Opt in to the Pagefind index. Off by default: this layout also carries
+      the legal pages (CLA, privacy, cookies, VPAT), and surfacing those in
+      help search is noise. The FAQ sets it to true.
+    */
+    searchable?: boolean;
+    searchType?: string;
   };
 }
 
 const { frontmatter } = Astro.props;
+const indexed = frontmatter.searchable === true;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <article id="main" class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue">
-   <slot />
+  <article
+    id="main"
+    class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue"
+    data-pagefind-body={indexed ? true : undefined}
+    data-pagefind-filter={indexed
+      ? `type:${frontmatter.searchType ?? "FAQ"}`
+      : undefined}
+  >
+    <slot />
   </article>
 </BaseLayout>

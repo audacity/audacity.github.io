@@ -1,6 +1,8 @@
 ---
 layout: "../layouts/PageLayout.astro"
 title: Audacity ® | Frequently Asked Questions
+searchable: true
+searchType: FAQ
 ---
 
 ## About Audacity

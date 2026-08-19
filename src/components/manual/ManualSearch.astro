@@ -1,12 +1,34 @@
 ---
 // Pagefind Default UI — single input with dropdown results. Bundle is
 // generated at build time by `pagefind --site dist`.
+//
+// Used in the manual sidebar and on the /help hub. The hub searches the whole
+// index (manual, FAQ, features, blog); the sidebar narrows to the manual, so
+// searching from inside the manual keeps finding manual pages.
+interface Props {
+  placeholder?: string;
+  /** Restrict results to one `type:` filter value, or omit to search everything. */
+  filterType?: string;
+  id?: string;
+}
+
+const {
+  placeholder = "Search the manual\u2026",
+  filterType,
+  id = "manual-search",
+} = Astro.props;
 ---
 
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 <script is:inline src="/pagefind/pagefind-ui.js"></script>
 
-<div id="manual-search" class="manual-search-wrapper"></div>
+<div
+  id={id}
+  class="manual-search-wrapper"
+  data-placeholder={placeholder}
+  data-filter-type={filterType}
+>
+</div>
 
 <style is:global>
   /* The wrapper is the positioning context for the floating results panel. */
@@ -26,8 +48,8 @@
   }
   .manual-search-wrapper .pagefind-ui__search-input:focus {
     outline: none;
-    border-color: rgb(29 78 216);
-    box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2);
+    border-color: #ff3254;
+    box-shadow: 0 0 0 2px rgba(255, 50, 84, 0.25);
   }
   .manual-search-wrapper .pagefind-ui__search-clear {
     right: 0.5rem;
@@ -60,24 +82,28 @@
     display: none;
   }
   .manual-search-wrapper .pagefind-ui__result-title a {
-    color: rgb(29 78 216);
+    color: #ff3254;
   }
 </style>
 
 <script is:inline>
   (function () {
     function init() {
-      var mount = document.getElementById("manual-search");
+      var mount = document.querySelector(
+        "[data-placeholder].manual-search-wrapper",
+      );
       if (!mount) return;
       if (typeof window.PagefindUI !== "function") return;
       try {
+        var filterType = mount.getAttribute("data-filter-type");
         new window.PagefindUI({
-          element: "#manual-search",
+          element: "#" + mount.id,
           showSubResults: true,
           showImages: false,
           excerptLength: 20,
           resetStyles: false,
-          placeholder: "Search the manual…",
+          placeholder: mount.getAttribute("data-placeholder"),
+          filters: filterType ? { type: [filterType] } : undefined,
         });
       } catch (err) {
         console.error("[ManualSearch] PagefindUI failed to initialize:", err);

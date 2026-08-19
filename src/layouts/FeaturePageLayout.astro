@@ -21,6 +21,8 @@ const { title, description, canonical, image } = Astro.props;
   <slot name="hero" />
   <article
     class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue prose-feature lg:prose-lg max-w-screen-md"
+    data-pagefind-body
+    data-pagefind-filter="type:Features"
   >
     <OsToggle />
     <slot />
