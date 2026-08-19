@@ -70,7 +70,16 @@ export default defineConfig({
         "Cannot read properties of null (reading 'useMemo')" during hydration,
         which takes down every island on /about that uses it.
       */
-      include: ["@dilsonspickles/components", "react", "react-dom"],
+      include: [
+        "@dilsonspickles/components",
+        // Deep-subpath imports optimize as separate dep entries; any added
+        // while the dev server runs land in a second optimize pass with
+        // their own React copy and hydration dies on "null useState".
+        // Pre-bundling them keeps every island on the one shared React.
+        "@dilsonspickles/components/TrackControlPanel",
+        "react",
+        "react-dom",
+      ],
     },
     build: {
       assets: "assets",

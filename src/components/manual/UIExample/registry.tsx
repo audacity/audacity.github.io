@@ -1,8 +1,9 @@
 // src/components/manual/UIExample/registry.tsx
 /**
- * Component map for the curated UI examples. This is the ONLY module
- * allowed to import `@dilsonspickles/components`, and it must do so via
- * deep subpaths (`@dilsonspickles/components/Button`) so a hydrated island
+ * Component map for the curated UI examples. This module and the
+ * interactive islands under `../interactive/` are the ONLY places allowed
+ * to import `@dilsonspickles/components`, and they must do so via deep
+ * subpaths (`@dilsonspickles/components/Button`) so a hydrated island
  * bundles only the components it uses — never the package index, which
  * pulls every chunk and stylesheet.
  *
