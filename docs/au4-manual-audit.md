@@ -3,14 +3,14 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 322 (319 published, 3 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 322 (319 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
 | Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 28 | 1 | 17 | 0 |
+| Target-state topics (AU3 manual) | 46 | 29 | 0 | 17 | 0 |
 | Shortcuts (inline mentions) | 175 | 106 | — | 69 | — |
 
 ## Menu items
@@ -390,7 +390,7 @@ not yet known whether AU4 has the feature at all.
 | Customising the layout (workspaces) | reference | changed | ✅ written | [manual-index/header/view/workspaces](../src/content/manual/manual-index/header/view/workspaces.mdx) |
 | Themes and appearance | reference | changed | ✅ written | [manual-index/preferences/appearance](../src/content/manual/manual-index/preferences/appearance.mdx) |
 | FAQ | how-to | applies | ✅ written (outside collection) | `/FAQ` (site page, indexed in help search) |
-| Punch-in repair of recording fluffs | how-to | applies | 🚧 stub | [manual-index/punch-and-roll-recording](../src/content/manual/manual-index/punch-and-roll-recording.mdx) |
+| Punch-in repair of recording fluffs | how-to | applies | ✅ written | [manual-index/punch-and-roll-recording](../src/content/manual/manual-index/punch-and-roll-recording.mdx) |
 | Mixing voice with background music | how-to | applies | ❌ missing | — |
 | Using multi-track | how-to | applies | ❌ missing | — |
 | Recording multi-track overdubs | how-to | applies | ❌ missing | — |
@@ -416,11 +416,8 @@ None.
 
 None.
 
-### Stub pages (3)
+### Stub pages (0)
 
-- `manual-index/export-menu`
-- `manual-index/import`
-- `manual-index/punch-and-roll-recording`
 
 ### Pages with defaulted stream (302) — proposed assignment
 
