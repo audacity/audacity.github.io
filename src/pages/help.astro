@@ -2,6 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getStreamEntryPoints } from "../components/manual/streamEntries";
 import HelpSearch from "../components/help/HelpSearch.astro";
+import ForumSVG from "../components/inlineSVG/ForumSVG";
+import DiscordSVG from "../components/inlineSVG/DiscordSVG";
+import GithubSVG from "../components/inlineSVG/GithubSVG";
 
 const pageTitle = "Audacity ® | Help";
 const pageDescription =
@@ -12,6 +15,8 @@ interface HelpEntry {
   description: string;
   href: string;
   external?: boolean;
+  /* Rendered statically — these are pure SVG, so no client directive. */
+  icon: (props: { className?: string }) => any;
 }
 
 /*
@@ -29,18 +34,21 @@ const streams = await getStreamEntryPoints();
 const community: HelpEntry[] = [
   {
     title: "Audacity Forum",
+    icon: ForumSVG,
     description: "Community discussion, troubleshooting, and feature talk.",
     href: "https://forum.audacityteam.org/",
     external: true,
   },
   {
     title: "Audacity Discord",
+    icon: DiscordSVG,
     description: "Live chat with users, contributors, and the team.",
     href: "https://discord.gg/audacity",
     external: true,
   },
   {
     title: "GitHub issues",
+    icon: GithubSVG,
     description: "Report a bug or request a feature on the Audacity repo.",
     href: "https://github.com/audacity/audacity/issues",
     external: true,
@@ -162,7 +170,8 @@ const community: HelpEntry[] = [
                   rel={item.external ? "noopener" : undefined}
                   class="group block h-full p-5 rounded-lg border border-text-primary/15 hover:border-accent hover:bg-accent/5 transition-colors"
                 >
-                  <p class="text-18 font-semibold text-text-primary group-hover:text-accent transition-colors">
+                  <p class="flex items-center gap-2.5 text-18 font-semibold text-text-primary group-hover:text-accent transition-colors">
+                    <item.icon className="h-5 w-5 shrink-0 fill-current" />
                     {item.title}
                   </p>
                   <p class="text-16 text-text-primary/60 mt-2">
