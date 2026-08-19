@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+    The site is a light-only design: it has no dark palette, and its text
+    colours (text-primary is a near-black navy) assume a light ground.
+
+    Without this declaration a browser set to dark mode paints its own dark
+    canvas behind any section that doesn't set a background of its own, and
+    that navy text becomes unreadable on it. Declaring the scheme tells the
+    browser not to, and painting body explicitly means no page depends on
+    the canvas colour in the first place.
+  */
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-background-light text-text-primary;
+  }
+
   .hyperlink {
     @apply text-accent underline hover:opacity-80;
   }
