@@ -5,6 +5,7 @@ import ManualSearch from "./ManualSearch.astro";
 import ManualSidebarTree, { type TreeNode } from "./ManualSidebarTree.astro";
 import ManualStreamSwitcher from "./ManualStreamSwitcher.astro";
 import { DEFAULT_STREAM, type StreamId } from "./streams";
+import { VIRTUAL_MANUAL_ENTRIES } from "./virtualEntries";
 
 interface Props {
   currentSlug: string;
@@ -15,12 +16,35 @@ interface Props {
 
 const { currentSlug, currentStream = DEFAULT_STREAM } = Astro.props;
 
-type Entry = CollectionEntry<"manual">;
+/* The tree only ever reads slug + data.{title,section,sectionOrder,order},
+   so pages that live outside the collection (the generated shortcuts
+   reference) join in as structurally-equal entries rather than pretending
+   to be CollectionEntry. */
+type Entry = Pick<CollectionEntry<"manual">, "slug"> & {
+  data: Pick<
+    CollectionEntry<"manual">["data"],
+    "title" | "section" | "sectionOrder" | "order"
+  >;
+};
 
-const allEntries = await getCollection(
+const collectionEntries = await getCollection(
   "manual",
   ({ data }) => !data.draft && data.stream === currentStream,
 );
+
+const virtualEntries: Entry[] = VIRTUAL_MANUAL_ENTRIES.filter(
+  (v) => v.stream === currentStream,
+).map((v) => ({
+  slug: v.slug,
+  data: {
+    title: v.title,
+    section: v.section,
+    sectionOrder: v.sectionOrder,
+    order: v.order,
+  },
+}));
+
+const allEntries: Entry[] = [...collectionEntries, ...virtualEntries];
 
 const grouped = new Map<string, { sectionOrder: number; entries: Entry[] }>();
 for (const entry of allEntries) {
@@ -54,7 +78,6 @@ function buildTree(entries: Entry[]): TreeNode[] {
       slug: entry.slug,
       order: entry.data.order,
       children: [],
-      entry,
     });
   }
 

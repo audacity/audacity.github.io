@@ -1,12 +1,9 @@
 ---
-import type { CollectionEntry } from "astro:content";
-
 export interface TreeNode {
   title: string;
   slug: string;
   order: number;
   children: TreeNode[];
-  entry: CollectionEntry<"manual">;
 }
 
 interface Props {

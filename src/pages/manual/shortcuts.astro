@@ -1,0 +1,186 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ManualSidebar from "../../components/manual/ManualSidebar.astro";
+import ManualOnThisPage from "../../components/manual/ManualOnThisPage.astro";
+import Shortcut from "../../components/Shortcut.astro";
+import OsToggle from "../../components/OsToggle.astro";
+import shortcuts from "../../data/au4/shortcuts.json";
+import actions from "../../data/au4/actions.json";
+import meta from "../../data/au4/meta.json";
+
+/*
+  The consolidated keyboard-shortcuts reference, generated from Audacity 4's
+  own defaults (src/data/au4, regenerate with `bun run extract:au4`).
+
+  Lives outside the content collection: the rows come from JSON, not MDX,
+  and a collection stub would both collide with the [...slug].astro route
+  and drag generated content into the manual-editor round-trip corpus. The
+  sidebar picks it up via virtualEntries.ts.
+*/
+
+type Row = {
+  title: string;
+  description: string | null;
+  sequences: string[];
+};
+
+const actionsByCode = new Map(actions.map((a) => [a.code, a]));
+
+/* One display group per source module; nav-* shortcuts have no UiAction and
+   form their own group. Order is reading order, not alphabet: transport
+   first, editing next, housekeeping last. */
+const MODULE_GROUPS: Array<{ id: string; label: string }> = [
+  { id: "playback", label: "Playback" },
+  { id: "record", label: "Recording" },
+  { id: "trackedit", label: "Editing" },
+  { id: "projectscene", label: "Tracks and clips" },
+  { id: "spectrogram", label: "Spectrogram" },
+  { id: "effects", label: "Effects" },
+  { id: "project", label: "Project and files" },
+  { id: "cloud", label: "Cloud" },
+  { id: "appshell", label: "Application" },
+  { id: "navigation", label: "Keyboard navigation" },
+  { id: "other", label: "Other" },
+];
+
+/** "sel-next-clip" / "action://playback/pause" → "Sel next clip" / "Pause". */
+function humanize(code: string): string {
+  const tail = code.replace(/^action:\/\/[^/]+\//, "").replace(/^nav-/, "");
+  const text = tail.replace(/-/g, " ").trim();
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+const groups = new Map<string, Row[]>();
+for (const shortcut of shortcuts) {
+  if (shortcut.sequences.length === 0) continue;
+  if (shortcut.sourceGroup === "Dev") continue;
+
+  const action = actionsByCode.get(shortcut.action);
+  const groupId = action
+    ? action.module
+    : shortcut.action.startsWith("nav-")
+      ? "navigation"
+      : "other";
+
+  const rows = groups.get(groupId) ?? [];
+  rows.push({
+    title: (action?.title ?? humanize(shortcut.action)).replace(/&(?!&)/g, ""),
+    description:
+      action?.description && action.description !== action.title
+        ? action.description
+        : null,
+    sequences: shortcut.sequences,
+  });
+  groups.set(groupId, rows);
+}
+
+const sections = MODULE_GROUPS.filter((g) => groups.has(g.id)).map((g) => ({
+  ...g,
+  rows: groups.get(g.id)!.sort((a, b) => a.title.localeCompare(b.title)),
+}));
+
+const totalCount = sections.reduce((n, s) => n + s.rows.length, 0);
+
+const headings = sections.map((s) => ({
+  depth: 2,
+  slug: s.id,
+  text: s.label,
+}));
+---
+
+<BaseLayout
+  title="Audacity ® Manual | Keyboard shortcuts"
+  description="Every default keyboard shortcut in Audacity 4, generated from the app's own configuration."
+  showPromoBanner={false}
+>
+  <main id="main" class="max-w-screen-2xl mx-auto">
+    <div class="grid grid-cols-12 gap-x-8 pt-8 lg:pt-14 pb-32">
+      <aside
+        class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
+      >
+        <ManualSidebar currentSlug="shortcuts" currentStream="reference" />
+      </aside>
+      <article
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 prose prose-blue prose-lg max-w-none"
+        data-pagefind-body
+        data-pagefind-filter="type:Manual"
+      >
+        <header class="not-prose mb-10 border-b border-gray-200 pb-8">
+          <p
+            class="text-xs font-semibold uppercase tracking-wide text-gray-500"
+          >
+            Reference
+          </p>
+          <h1 class="mt-3 text-4xl lg:text-5xl text-gray-900">
+            Keyboard shortcuts
+          </h1>
+          <p class="mt-4 max-w-2xl text-lg text-gray-600">
+            All {totalCount} default shortcuts in Audacity 4. Shortcuts can be customised
+            in Preferences → Shortcuts.
+          </p>
+        </header>
+
+        <OsToggle />
+
+        {
+          sections.map((section) => (
+            <section aria-labelledby={section.id}>
+              <h2 id={section.id}>{section.label}</h2>
+              <table class="not-prose w-full text-base">
+                <thead>
+                  <tr class="border-b border-gray-200 text-left">
+                    <th class="py-2 pr-4 font-semibold text-gray-900">
+                      Action
+                    </th>
+                    <th class="py-2 font-semibold text-gray-900">Shortcut</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {section.rows.map((row) => (
+                    <tr class="border-b border-gray-100 align-top">
+                      <td class="py-2.5 pr-4">
+                        <span class="text-gray-900">{row.title}</span>
+                        {row.description && (
+                          <span class="block text-sm text-gray-500">
+                            {row.description}
+                          </span>
+                        )}
+                      </td>
+                      <td class="py-2.5 whitespace-nowrap">
+                        {row.sequences.map((seq, i) => (
+                          <Fragment>
+                            {i > 0 && (
+                              <span class="mx-1 text-sm text-gray-400">or</span>
+                            )}
+                            <Shortcut keys={seq} />
+                          </Fragment>
+                        ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))
+        }
+
+        <p class="not-prose mt-12 text-xs text-gray-500">
+          Generated from Audacity <code>{meta.au4Commit.slice(0, 10)}</code> — regenerate
+          with <code>bun run extract:au4</code>.
+        </p>
+      </article>
+      <aside
+        class="hidden xl:block xl:col-start-11 xl:col-span-2 sticky top-20 self-start"
+      >
+        <ManualOnThisPage headings={headings} />
+      </aside>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* Offset anchor scrolling so headings clear the sticky site header. */
+  main .prose :is(h2, h3)[id] {
+    scroll-margin-top: 5rem;
+  }
+</style>
