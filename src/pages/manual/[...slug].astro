@@ -6,7 +6,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
 import ManualOnThisPage from "../../components/manual/ManualOnThisPage.astro";
 import ManualPagination from "../../components/manual/ManualPagination.astro";
+import ManualBackLink from "../../components/manual/ManualBackLink.astro";
 import { getLastUpdated } from "../../utils/lastUpdated";
+import { STREAMS } from "../../components/manual/streams";
 
 export async function getStaticPaths() {
   const entries = await getCollection("manual", ({ data }) => !data.draft);
@@ -78,6 +80,13 @@ const lastUpdatedISO = lastUpdated.toISOString();
         */
         }
         <header class="not-prose mb-10 border-b border-gray-200 pb-8">
+          <div class="mb-4">
+            <ManualBackLink
+              fallbackHref={`/manual/${entry.data.stream}`}
+              fallbackLabel={STREAMS.find((s) => s.id === entry.data.stream)
+                ?.label ?? "Manual"}
+            />
+          </div>
           <p
             class="text-xs font-semibold uppercase tracking-wide text-gray-500"
           >
