@@ -72,10 +72,11 @@ export default defineConfig({
       */
       include: [
         "@dilsonspickles/components",
-        // Deep-subpath imports optimize as separate dep entries; any added
-        // while the dev server runs land in a second optimize pass with
-        // their own React copy and hydration dies on "null useState".
-        // Pre-bundling them keeps every island on the one shared React.
+        // Deep-subpath island imports must be pre-bundled in the SAME
+        // optimize pass as react. A subpath first discovered while the dev
+        // server is running lands in a second pass with its own React copy,
+        // and every island on the page dies on "null useState" — add new
+        // interactive-island subpaths here BEFORE starting the server.
         "@dilsonspickles/components/TrackControlPanel",
         "react",
         "react-dom",
