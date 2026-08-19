@@ -3,7 +3,23 @@ title: "Set Selection to Loop"
 section: "Timeline"
 sectionOrder: 20
 order: 10
+description: Make the selection match the current loop region.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Replaces the current selection with the loop region: the time selection is
+set to the region's start and end, across every track in the project. Use it
+when you have found the right passage by ear with the loop and now want to
+edit or apply an effect to it.
+
+## Where to find it
+
+Right-click the timeline ruler and choose **Set selection to loop**.
+
+## Notes
+
+- This selects all tracks, not only the ones that were selected before.
+- To go the other way and take the loop region from the selection, use
+  [Set loop region to selection](/manual/manual-index/timeline/set-loop-region-to-selection).
+- To have this happen automatically whenever the loop region changes, turn on
+  [Creating a loop also selects audio](/manual/manual-index/timeline/creating-a-loop-also-selects-audio).

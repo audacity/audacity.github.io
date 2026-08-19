@@ -3,7 +3,15 @@ title: "Change Speed and Pitch"
 section: "EGAT"
 sectionOrder: 140
 order: 34
+description: Not available in Audacity 4.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Change Speed was an Audacity 3 effect that resampled the selection, so speed and pitch moved together in the way a tape machine changes both at once. **Audacity 4 does not ship it**, and there is no Change Speed entry in the Effect menu.
+
+## What to use instead
+
+- **[Sliding stretch](/manual/manual-index/egat/effects/pitch-and-tempo/sliding-stretch)** changes tempo and pitch in one pass. To imitate the tape effect, move the tempo and pitch controls together rather than one alone; to slide the speed gradually across the selection, set different initial and final values.
+- **[Change pitch](/manual/manual-index/egat/effects/pitch-and-tempo/change-pitch)** shifts pitch on its own, with the duration untouched.
+
+Unlike Change Speed, both of these use time stretching rather than resampling, so pitch and duration are independent settings rather than two consequences of one control.

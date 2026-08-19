@@ -3,14 +3,14 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 312 (309 published, 132 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 322 (319 published, 48 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
-| Menu items | 120 | 113 | 4 | 0 | 3 |
-| Effects | 54 | 1 | 40 | 13 | 0 |
+| Menu items | 120 | 116 | 1 | 0 | 3 |
+| Effects | 54 | 45 | 9 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 24 | 5 | 17 | 0 |
+| Target-state topics (AU3 manual) | 46 | 26 | 3 | 17 | 0 |
 | Shortcuts (inline mentions) | 175 | 105 | — | 70 | — |
 
 ## Menu items
@@ -28,7 +28,7 @@ has no real content yet.
 | File | Save as… | `file-save-as` | ✅ written | [manual-index/header/file/save-as](../src/content/manual/manual-index/header/file/save-as.mdx) |
 | File | Update cloud audio preview | `audacity://cloud/update-audio-preview` | ✅ written | [manual-index/header/file/update-cloud-audio-preview](../src/content/manual/manual-index/header/file/update-cloud-audio-preview.mdx) |
 | File | Export audio… | `export-audio` | ✅ written | [manual-index/header/file/export-audio](../src/content/manual/manual-index/header/file/export-audio.mdx) |
-| File → Export other | Export labels | `export-labels` | 🚧 stub | [manual-index/track-control-panel/label-track-item/additional-options/export-labels](../src/content/manual/manual-index/track-control-panel/label-track-item/additional-options/export-labels.mdx) |
+| File → Export other | Export labels | `export-labels` | ✅ written | [manual-index/track-control-panel/label-track-item/additional-options/export-labels](../src/content/manual/manual-index/track-control-panel/label-track-item/additional-options/export-labels.mdx) |
 | File → Export other | Export MIDI | `export-midi` | ✅ written (heading) | [manual-index/header/file/export-other](../src/content/manual/manual-index/header/file/export-other.mdx) |
 | File | Share audio | `file-share-audio` | 🚧 stub | [manual-index/hotbar/share-audio](../src/content/manual/manual-index/hotbar/share-audio.mdx) |
 | File | Close project | `file-close` | ✅ written | [manual-index/header/file/close-project](../src/content/manual/manual-index/header/file/close-project.mdx) |
@@ -69,9 +69,9 @@ has no real content yet.
 | Select → Audio clips | Previous clip _(disabled)_ | `select-previous-clip` | ✅ written | [manual-index/header/select/audio-clips](../src/content/manual/manual-index/header/select/audio-clips.mdx) |
 | Select → Audio clips | Next clip _(disabled)_ | `select-next-clip` | ✅ written | [manual-index/header/select/audio-clips](../src/content/manual/manual-index/header/select/audio-clips.mdx) |
 | Select → Spectral | Toggle spectral selection _(disabled)_ | `toggle-spectral-selection` | ✅ written | [manual-index/header/select/spectral](../src/content/manual/manual-index/header/select/spectral.mdx) |
-| Select → Looping | Toggle loop region | `toggle-loop-region` | ✅ written | [manual-index/toolbar/toggle-loop-region](../src/content/manual/manual-index/toolbar/toggle-loop-region.mdx) |
-| Select → Looping | Clear loop region | `clear-loop-region` | 🚧 stub | [manual-index/timeline/clear-loop-region](../src/content/manual/manual-index/timeline/clear-loop-region.mdx) |
-| Select → Looping | Set loop region to selection | `set-loop-region-to-selection` | 🚧 stub | [manual-index/timeline/set-loop-region-to-selection](../src/content/manual/manual-index/timeline/set-loop-region-to-selection.mdx) |
+| Select → Looping | Toggle loop region | `toggle-loop-region` | ✅ written | [manual-index/timeline/toggle-loop-region](../src/content/manual/manual-index/timeline/toggle-loop-region.mdx) |
+| Select → Looping | Clear loop region | `clear-loop-region` | ✅ written | [manual-index/timeline/clear-loop-region](../src/content/manual/manual-index/timeline/clear-loop-region.mdx) |
+| Select → Looping | Set loop region to selection | `set-loop-region-to-selection` | ✅ written | [manual-index/timeline/set-loop-region-to-selection](../src/content/manual/manual-index/timeline/set-loop-region-to-selection.mdx) |
 | Select → Looping | Set loop region in out | `set-loop-region-in-out` | ✅ written | [manual-index/header/select/looping](../src/content/manual/manual-index/header/select/looping.mdx) |
 | Select | Move cursor to closest zero crossing | `zero-cross` | ✅ written | [manual-index/header/select/move-cursor-to-zero-crossing](../src/content/manual/manual-index/header/select/move-cursor-to-zero-crossing.mdx) |
 | View → Zoom | Zoom in | `zoom-in` | ✅ written | [manual-index/header/view/zoom/zoom-in](../src/content/manual/manual-index/header/view/zoom/zoom-in.mdx) |
@@ -164,77 +164,71 @@ has no real content yet.
 
 | Effect | Family | Kind | Status | Page |
 | --- | --- | --- | --- | --- |
-| Amplify | builtin | effect | 🚧 stub | [manual-index/egat/effects/volume-and-compression/amplify](../src/content/manual/manual-index/egat/effects/volume-and-compression/amplify.mdx) |
-| Bass and Treble | builtin | effect | 🚧 stub | [manual-index/egat/effects/eq-and-filters/bass-and-treble](../src/content/manual/manual-index/egat/effects/eq-and-filters/bass-and-treble.mdx) |
-| Change pitch | builtin | effect | 🚧 stub | [manual-index/egat/effects/pitch-and-tempo/change-pitch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/change-pitch.mdx) |
-| Chirp | builtin | effect | 🚧 stub | [manual-index/egat/generators/chirp](../src/content/manual/manual-index/egat/generators/chirp.mdx) |
-| Click removal | builtin | effect | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/click-removal](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/click-removal.mdx) |
-| Compressor | builtin | effect | 🚧 stub | [manual-index/egat/effects/realtime-effects/compressor](../src/content/manual/manual-index/egat/effects/realtime-effects/compressor.mdx) |
-| DTMF Tones | builtin | generator | ❌ missing | — |
+| Amplify | builtin | effect | ✅ written | [manual-index/egat/effects/volume-and-compression/amplify](../src/content/manual/manual-index/egat/effects/volume-and-compression/amplify.mdx) |
+| Bass and Treble | builtin | effect | ✅ written | [manual-index/egat/effects/eq-and-filters/bass-and-treble](../src/content/manual/manual-index/egat/effects/eq-and-filters/bass-and-treble.mdx) |
+| Change pitch | builtin | effect | ✅ written | [manual-index/egat/effects/pitch-and-tempo/change-pitch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/change-pitch.mdx) |
+| Chirp | builtin | effect | ✅ written | [manual-index/egat/generators/chirp](../src/content/manual/manual-index/egat/generators/chirp.mdx) |
+| Click removal | builtin | effect | ✅ written | [manual-index/egat/effects/noise-removal-and-repair/click-removal](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/click-removal.mdx) |
+| Compressor | builtin | effect | ✅ written | [manual-index/egat/effects/volume-and-compression/compressor](../src/content/manual/manual-index/egat/effects/volume-and-compression/compressor.mdx) |
+| DTMF Tones | builtin | generator | ✅ written | [manual-index/egat/generators/dtmf-generator](../src/content/manual/manual-index/egat/generators/dtmf-generator.mdx) |
 | Fade In | builtin | effect | 🚧 stub | [manual-index/egat/effects/fading/fade-in](../src/content/manual/manual-index/egat/effects/fading/fade-in.mdx) |
 | Fade Out | builtin | effect | 🚧 stub | [manual-index/egat/effects/fading/fade-out](../src/content/manual/manual-index/egat/effects/fading/fade-out.mdx) |
-| Filter Curve EQ | builtin | effect | 🚧 stub | [manual-index/egat/effects/eq-and-filters/filter-curve-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/filter-curve-eq.mdx) |
-| Graphic EQ | builtin | effect | 🚧 stub | [manual-index/egat/effects/eq-and-filters/graphic-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/graphic-eq.mdx) |
+| Filter Curve EQ | builtin | effect | ✅ written | [manual-index/egat/effects/eq-and-filters/filter-curve-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/filter-curve-eq.mdx) |
+| Graphic EQ | builtin | effect | ✅ written | [manual-index/egat/effects/eq-and-filters/graphic-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/graphic-eq.mdx) |
 | Invert | builtin | effect | 🚧 stub | [manual-index/egat/effects/special/invert](../src/content/manual/manual-index/egat/effects/special/invert.mdx) |
-| Limiter | builtin | effect | 🚧 stub | [manual-index/egat/effects/realtime-effects/limiter](../src/content/manual/manual-index/egat/effects/realtime-effects/limiter.mdx) |
-| Loudness Normalization | builtin | effect | 🚧 stub | [manual-index/egat/effects/volume-and-compression/loudness-normalisation](../src/content/manual/manual-index/egat/effects/volume-and-compression/loudness-normalisation.mdx) |
-| Noise | builtin | generator | 🚧 stub | [manual-index/egat/generators/noise](../src/content/manual/manual-index/egat/generators/noise.mdx) |
-| Noise reduction | builtin | effect | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/noise-reduction](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-reduction.mdx) |
-| Normalize | builtin | effect | 🚧 stub | [manual-index/egat/effects/volume-and-compression/normalize](../src/content/manual/manual-index/egat/effects/volume-and-compression/normalize.mdx) |
-| Paulstretch | builtin | effect | 🚧 stub | [manual-index/egat/effects/pitch-and-tempo/paulstretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/paulstretch.mdx) |
-| Remove DC offset | builtin | effect | ❌ missing | — |
-| Repair | builtin | effect | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/repair](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/repair.mdx) |
+| Limiter | builtin | effect | ✅ written | [manual-index/egat/effects/volume-and-compression/limiter](../src/content/manual/manual-index/egat/effects/volume-and-compression/limiter.mdx) |
+| Loudness Normalization | builtin | effect | ✅ written | [manual-index/egat/effects/volume-and-compression/loudness-normalisation](../src/content/manual/manual-index/egat/effects/volume-and-compression/loudness-normalisation.mdx) |
+| Noise | builtin | generator | ✅ written | [manual-index/egat/generators/noise](../src/content/manual/manual-index/egat/generators/noise.mdx) |
+| Noise reduction | builtin | effect | ✅ written | [manual-index/egat/effects/noise-removal-and-repair/noise-reduction](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-reduction.mdx) |
+| Normalize | builtin | effect | ✅ written | [manual-index/egat/effects/volume-and-compression/normalize](../src/content/manual/manual-index/egat/effects/volume-and-compression/normalize.mdx) |
+| Paulstretch | builtin | effect | ✅ written | [manual-index/egat/effects/pitch-and-tempo/paulstretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/paulstretch.mdx) |
+| Remove DC offset | builtin | effect | ✅ written | [manual-index/egat/effects/special/remove-dc-offset](../src/content/manual/manual-index/egat/effects/special/remove-dc-offset.mdx) |
+| Repair | builtin | effect | ✅ written | [manual-index/egat/effects/noise-removal-and-repair/repair](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/repair.mdx) |
 | Reverb | builtin | effect | 🚧 stub | [manual-index/egat/effects/delay-and-reverb/reverb](../src/content/manual/manual-index/egat/effects/delay-and-reverb/reverb.mdx) |
 | Reverse | builtin | effect | 🚧 stub | [manual-index/egat/effects/special/reverse](../src/content/manual/manual-index/egat/effects/special/reverse.mdx) |
-| Silence | builtin | generator | ✅ written | [manual-index/toolbar/silence](../src/content/manual/manual-index/toolbar/silence.mdx) |
-| Sliding stretch | builtin | effect | 🚧 stub | [manual-index/egat/effects/pitch-and-tempo/sliding-stretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/sliding-stretch.mdx) |
-| Tone | builtin | effect | 🚧 stub | [manual-index/egat/generators/tone](../src/content/manual/manual-index/egat/generators/tone.mdx) |
+| Silence | builtin | generator | ✅ written | [manual-index/egat/generators/silence](../src/content/manual/manual-index/egat/generators/silence.mdx) |
+| Sliding stretch | builtin | effect | ✅ written | [manual-index/egat/effects/pitch-and-tempo/sliding-stretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/sliding-stretch.mdx) |
+| Tone | builtin | effect | ✅ written | [manual-index/egat/generators/tone](../src/content/manual/manual-index/egat/generators/tone.mdx) |
 | Truncate silence | builtin | effect | 🚧 stub | [manual-index/egat/effects/special/truncate-silence](../src/content/manual/manual-index/egat/effects/special/truncate-silence.mdx) |
-| Adjustable fade | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/adjustable-fade](../src/content/manual/manual-index/egat/effects/fading/adjustable-fade.mdx) |
-| Amplify selection | nyquist | process | ❌ missing | — |
-| Amplify selection center frequency | nyquist | process | ❌ missing | — |
+| Adjustable fade | nyquist | process | ✅ written | [manual-index/egat/effects/fading/adjustable-fade](../src/content/manual/manual-index/egat/effects/fading/adjustable-fade.mdx) |
+| Amplify selection | nyquist | process | ✅ written | [manual-index/egat/effects/spectral-tools/spectral-edit-shelves](../src/content/manual/manual-index/egat/effects/spectral-tools/spectral-edit-shelves.mdx) |
+| Amplify selection center frequency | nyquist | process | ✅ written | [manual-index/egat/effects/spectral-tools/spectral-edit-parametric-eq](../src/content/manual/manual-index/egat/effects/spectral-tools/spectral-edit-parametric-eq.mdx) |
 | Beat finder | nyquist | analyze | 🚧 stub | [manual-index/egat/analyzers/beat-finder](../src/content/manual/manual-index/egat/analyzers/beat-finder.mdx) |
-| Clip fix | nyquist | process | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/clip-fix](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/clip-fix.mdx) |
-| Crossfade clips | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/crossfade-clips](../src/content/manual/manual-index/egat/effects/fading/crossfade-clips.mdx) |
-| Crossfade tracks | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/crossfade-tracks](../src/content/manual/manual-index/egat/effects/fading/crossfade-tracks.mdx) |
-| Delay | nyquist | process | 🚧 stub | [manual-index/egat/effects/delay-and-reverb/delay](../src/content/manual/manual-index/egat/effects/delay-and-reverb/delay.mdx) |
-| Delete selection | nyquist | process | ❌ missing | — |
-| Delete selection center frequency | nyquist | process | ❌ missing | — |
-| High-pass filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/high-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/high-pass-filter.mdx) |
+| Clip fix | nyquist | process | ✅ written | [manual-index/egat/effects/noise-removal-and-repair/clip-fix](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/clip-fix.mdx) |
+| Crossfade clips | nyquist | process | ✅ written | [manual-index/egat/effects/fading/crossfade-clips](../src/content/manual/manual-index/egat/effects/fading/crossfade-clips.mdx) |
+| Crossfade tracks | nyquist | process | ✅ written | [manual-index/egat/effects/fading/crossfade-tracks](../src/content/manual/manual-index/egat/effects/fading/crossfade-tracks.mdx) |
+| Delay | nyquist | process | ✅ written | [manual-index/egat/effects/delay-and-reverb/delay](../src/content/manual/manual-index/egat/effects/delay-and-reverb/delay.mdx) |
+| Delete selection | nyquist | process | ✅ written | [manual-index/egat/effects/spectral-tools/spectral-delete](../src/content/manual/manual-index/egat/effects/spectral-tools/spectral-delete.mdx) |
+| Delete selection center frequency | nyquist | process | ✅ written | [manual-index/egat/effects/spectral-tools/spectral-edit-multi-tool](../src/content/manual/manual-index/egat/effects/spectral-tools/spectral-edit-multi-tool.mdx) |
+| High-pass filter | nyquist | process | ✅ written | [manual-index/egat/effects/eq-and-filters/high-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/high-pass-filter.mdx) |
 | Label sounds | nyquist | analyze | 🚧 stub | [manual-index/egat/analyzers/label-sounds](../src/content/manual/manual-index/egat/analyzers/label-sounds.mdx) |
-| Legacy limiter | nyquist | process | ❌ missing | — |
-| Low-pass filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/low-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/low-pass-filter.mdx) |
+| Legacy limiter | nyquist | process | ✅ written | [manual-index/egat/effects/legacy/legacy-limiter](../src/content/manual/manual-index/egat/effects/legacy/legacy-limiter.mdx) |
+| Low-pass filter | nyquist | process | ✅ written | [manual-index/egat/effects/eq-and-filters/low-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/low-pass-filter.mdx) |
 | Measure RMS | nyquist | analyze | 🚧 stub | [manual-index/egat/analyzers/measure-rms](../src/content/manual/manual-index/egat/analyzers/measure-rms.mdx) |
-| Noise gate | nyquist | process | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/noise-gate](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-gate.mdx) |
-| Notch filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/notch-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/notch-filter.mdx) |
-| Nyquist plugin installer | nyquist | tool | ❌ missing | — |
-| Pluck | nyquist | generate | 🚧 stub | [manual-index/egat/generators/pluck](../src/content/manual/manual-index/egat/generators/pluck.mdx) |
-| Regular interval labels | nyquist | tool | ❌ missing | — |
-| Rhythm track | nyquist | generate | 🚧 stub | [manual-index/egat/generators/rhythm-track](../src/content/manual/manual-index/egat/generators/rhythm-track.mdx) |
-| Risset drum | nyquist | generate | 🚧 stub | [manual-index/egat/generators/risset-drum](../src/content/manual/manual-index/egat/generators/risset-drum.mdx) |
-| Sample data export | nyquist | tool | ❌ missing | — |
-| Sample data Import | nyquist | tool | ❌ missing | — |
-| Shelf filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/shelf-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/shelf-filter.mdx) |
-| Studio fade out | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/studio-fade-out](../src/content/manual/manual-index/egat/effects/fading/studio-fade-out.mdx) |
-| Tremolo | nyquist | process | ❌ missing | — |
-| Vocoder | nyquist | process | ❌ missing | — |
+| Noise gate | nyquist | process | ✅ written | [manual-index/egat/effects/noise-removal-and-repair/noise-gate](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-gate.mdx) |
+| Notch filter | nyquist | process | ✅ written | [manual-index/egat/effects/eq-and-filters/notch-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/notch-filter.mdx) |
+| Nyquist plugin installer | nyquist | tool | ✅ written | [manual-index/egat/tools/nyquist-plugin-installer](../src/content/manual/manual-index/egat/tools/nyquist-plugin-installer.mdx) |
+| Pluck | nyquist | generate | ✅ written | [manual-index/egat/generators/pluck](../src/content/manual/manual-index/egat/generators/pluck.mdx) |
+| Regular interval labels | nyquist | tool | ✅ written | [manual-index/egat/tools/regular-interval-labels](../src/content/manual/manual-index/egat/tools/regular-interval-labels.mdx) |
+| Rhythm track | nyquist | generate | ✅ written | [manual-index/egat/generators/rhythm-track](../src/content/manual/manual-index/egat/generators/rhythm-track.mdx) |
+| Risset drum | nyquist | generate | ✅ written | [manual-index/egat/generators/risset-drum](../src/content/manual/manual-index/egat/generators/risset-drum.mdx) |
+| Sample data export | nyquist | tool | ✅ written | [manual-index/egat/tools/sample-data-export](../src/content/manual/manual-index/egat/tools/sample-data-export.mdx) |
+| Sample data Import | nyquist | tool | ✅ written | [manual-index/egat/tools/sample-data-import](../src/content/manual/manual-index/egat/tools/sample-data-import.mdx) |
+| Shelf filter | nyquist | process | ✅ written | [manual-index/egat/effects/eq-and-filters/shelf-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/shelf-filter.mdx) |
+| Studio fade out | nyquist | process | ✅ written | [manual-index/egat/effects/fading/studio-fade-out](../src/content/manual/manual-index/egat/effects/fading/studio-fade-out.mdx) |
+| Tremolo | nyquist | process | ✅ written | [manual-index/egat/effects/distortion-and-modulation/tremolo](../src/content/manual/manual-index/egat/effects/distortion-and-modulation/tremolo.mdx) |
+| Vocoder | nyquist | process | ✅ written | [manual-index/egat/effects/distortion-and-modulation/vocoder](../src/content/manual/manual-index/egat/effects/distortion-and-modulation/vocoder.mdx) |
 
 ### Effect-ish pages matching no current AU4 effect (stale?)
 
 - `manual-index/egat/analyzers/contrast-analyzer` (“Contrast Analyzer”)
 - `manual-index/egat/analyzers/find-clipping` (“Find Clipping”)
 - `manual-index/egat/effects/delay-and-reverb/echo` (“Echo”)
-- `manual-index/egat/effects/legacy` (“Legacy”)
 - `manual-index/egat/effects/pitch-and-tempo/change-speed-and-pitch` (“Change Speed and Pitch”)
 - `manual-index/egat/effects/pitch-and-tempo/change-tempo` (“Change Tempo”)
 - `manual-index/egat/effects/special/repeat` (“Repeat”)
 - `manual-index/egat/effects/special/vocal-reduction-and-isolation` (“Vocal Reduction and Isolation”)
-- `manual-index/egat/effects/spectral-tools/spectral-delete` (“Spectral Delete”)
-- `manual-index/egat/effects/spectral-tools/spectral-edit-multi-tool` (“Spectral Edit Multi-Tool”)
-- `manual-index/egat/effects/spectral-tools/spectral-edit-parametric-eq` (“Spectral Edit Parametric EQ”)
-- `manual-index/egat/effects/spectral-tools/spectral-edit-shelves` (“Spectral Edit Shelves”)
 - `manual-index/egat/effects/volume-and-compression/auto-duck` (“Auto Duck”)
-- `manual-index/egat/generators/dtmf-generator` (“DTMF Generator”)
 - `manual-index/egat/nyquist` (“Nyquist”)
 
 ## Preferences
@@ -376,7 +370,7 @@ not yet known whether AU4 has the feature at all.
 | Managing effects, generators and analyzers | reference | changed | ✅ written | [manual-index/header/effect/plugin-manager](../src/content/manual/manual-index/header/effect/plugin-manager.mdx) |
 | Macros | reference | verify | ✅ written | [manual-index/header/tools/macros](../src/content/manual/manual-index/header/tools/macros.mdx) |
 | Nyquist | reference | applies | 🚧 stub | [manual-index/egat/nyquist](../src/content/manual/manual-index/egat/nyquist.mdx) |
-| Audio tracks | reference | applies | 🚧 stub | [manual-index/track-control-panel](../src/content/manual/manual-index/track-control-panel.mdx) |
+| Audio tracks | reference | applies | ✅ written | [manual-index/track-control-panel](../src/content/manual/manual-index/track-control-panel.mdx) |
 | Audacity waveform | reference | applies | ❌ missing | — |
 | Spectrogram view | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Tracks and clips | reference | applies | ✅ written | [manual-index/header/edit/clip](../src/content/manual/manual-index/header/edit/clip.mdx) |
@@ -384,7 +378,7 @@ not yet known whether AU4 has the feature at all.
 | Note (MIDI) tracks | reference | verify | ❌ missing | — |
 | Time tracks | reference | verify | ❌ missing | — |
 | Mixer board | reference | verify | ❌ missing | — |
-| Timeline | reference | applies | 🚧 stub | [manual-index/timeline](../src/content/manual/manual-index/timeline.mdx) |
+| Timeline | reference | applies | ✅ written | [manual-index/timeline](../src/content/manual/manual-index/timeline.mdx) |
 | Volume envelopes | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Glossary | reference | applies | ✅ written | [glossary](../src/content/manual/glossary.mdx) |
 | Importing audio | getting-started | applies | ✅ written | [manual-index/header/file/import](../src/content/manual/manual-index/header/file/import.mdx) |
@@ -423,7 +417,7 @@ None.
 
 None.
 
-### Stub pages (132)
+### Stub pages (48)
 
 - `manual-index/cut-tool`
 - `manual-index/egat`
@@ -435,37 +429,13 @@ None.
 - `manual-index/egat/analyzers/measure-rms`
 - `manual-index/egat/effects`
 - `manual-index/egat/effects/delay-and-reverb`
-- `manual-index/egat/effects/delay-and-reverb/delay`
-- `manual-index/egat/effects/delay-and-reverb/echo`
 - `manual-index/egat/effects/delay-and-reverb/reverb`
 - `manual-index/egat/effects/eq-and-filters`
-- `manual-index/egat/effects/eq-and-filters/bass-and-treble`
-- `manual-index/egat/effects/eq-and-filters/filter-curve-eq`
-- `manual-index/egat/effects/eq-and-filters/graphic-eq`
-- `manual-index/egat/effects/eq-and-filters/high-pass-filter`
-- `manual-index/egat/effects/eq-and-filters/low-pass-filter`
-- `manual-index/egat/effects/eq-and-filters/notch-filter`
-- `manual-index/egat/effects/eq-and-filters/shelf-filter`
 - `manual-index/egat/effects/fading`
-- `manual-index/egat/effects/fading/adjustable-fade`
-- `manual-index/egat/effects/fading/crossfade-clips`
-- `manual-index/egat/effects/fading/crossfade-tracks`
 - `manual-index/egat/effects/fading/fade-in`
 - `manual-index/egat/effects/fading/fade-out`
-- `manual-index/egat/effects/fading/studio-fade-out`
-- `manual-index/egat/effects/legacy`
 - `manual-index/egat/effects/noise-removal-and-repair`
-- `manual-index/egat/effects/noise-removal-and-repair/click-removal`
-- `manual-index/egat/effects/noise-removal-and-repair/clip-fix`
-- `manual-index/egat/effects/noise-removal-and-repair/noise-gate`
-- `manual-index/egat/effects/noise-removal-and-repair/noise-reduction`
-- `manual-index/egat/effects/noise-removal-and-repair/repair`
 - `manual-index/egat/effects/pitch-and-tempo`
-- `manual-index/egat/effects/pitch-and-tempo/change-pitch`
-- `manual-index/egat/effects/pitch-and-tempo/change-speed-and-pitch`
-- `manual-index/egat/effects/pitch-and-tempo/change-tempo`
-- `manual-index/egat/effects/pitch-and-tempo/paulstretch`
-- `manual-index/egat/effects/pitch-and-tempo/sliding-stretch`
 - `manual-index/egat/effects/realtime-effects`
 - `manual-index/egat/effects/realtime-effects/compressor`
 - `manual-index/egat/effects/realtime-effects/limiter`
@@ -477,27 +447,8 @@ None.
 - `manual-index/egat/effects/special/truncate-silence`
 - `manual-index/egat/effects/special/vocal-reduction-and-isolation`
 - `manual-index/egat/effects/spectral-tools`
-- `manual-index/egat/effects/spectral-tools/spectral-delete`
-- `manual-index/egat/effects/spectral-tools/spectral-edit-multi-tool`
-- `manual-index/egat/effects/spectral-tools/spectral-edit-parametric-eq`
-- `manual-index/egat/effects/spectral-tools/spectral-edit-shelves`
 - `manual-index/egat/effects/volume-and-compression`
-- `manual-index/egat/effects/volume-and-compression/amplify`
-- `manual-index/egat/effects/volume-and-compression/auto-duck`
-- `manual-index/egat/effects/volume-and-compression/compressor`
-- `manual-index/egat/effects/volume-and-compression/limiter`
-- `manual-index/egat/effects/volume-and-compression/loudness-normalisation`
-- `manual-index/egat/effects/volume-and-compression/normalize`
 - `manual-index/egat/generators`
-- `manual-index/egat/generators/chirp`
-- `manual-index/egat/generators/dtmf-generator`
-- `manual-index/egat/generators/noise`
-- `manual-index/egat/generators/pluck`
-- `manual-index/egat/generators/rhythm-track`
-- `manual-index/egat/generators/risset-drum`
-- `manual-index/egat/generators/silence`
-- `manual-index/egat/generators/tone`
-- `manual-index/egat/generators/tone-1`
 - `manual-index/egat/nyquist`
 - `manual-index/export-menu`
 - `manual-index/header`
@@ -512,53 +463,12 @@ None.
 - `manual-index/project-management-menu/project`
 - `manual-index/project-management-menu/publish`
 - `manual-index/punch-and-roll-recording`
-- `manual-index/time-toolbar`
-- `manual-index/timeline`
-- `manual-index/timeline/beats-and-measures`
-- `manual-index/timeline/clear-loop-region`
-- `manual-index/timeline/click-ruler-to-start-playback`
-- `manual-index/timeline/creating-a-loop-also-selects-audio`
-- `manual-index/timeline/minutes-and-seconds`
-- `manual-index/timeline/pinned-playhead`
-- `manual-index/timeline/set-loop-region-to-selection`
-- `manual-index/timeline/set-selection-to-loop`
-- `manual-index/timeline/show-vertical-rulers`
-- `manual-index/timeline/toggle-loop-region`
-- `manual-index/timeline/update-display-while-playing`
-- `manual-index/track-control-panel`
-- `manual-index/track-control-panel/add-track`
-- `manual-index/track-control-panel/audio-track-item`
-- `manual-index/track-control-panel/audio-track-item/additional-options`
-- `manual-index/track-control-panel/audio-track-item/additional-options/format-rate-and-resampling`
-- `manual-index/track-control-panel/audio-track-item/additional-options/meters-and-monitoring`
-- `manual-index/track-control-panel/audio-track-item/additional-options/move-track`
-- `manual-index/track-control-panel/audio-track-item/additional-options/renaming-duplication-and-deletion-of-tracks`
-- `manual-index/track-control-panel/audio-track-item/additional-options/show-vertical-rulers`
-- `manual-index/track-control-panel/audio-track-item/additional-options/split-stereo-to-center-mono`
-- `manual-index/track-control-panel/audio-track-item/additional-options/split-stereo-to-l-r-mono`
-- `manual-index/track-control-panel/audio-track-item/additional-options/swap-stereo-channels`
-- `manual-index/track-control-panel/audio-track-item/additional-options/track-color`
-- `manual-index/track-control-panel/audio-track-item/additional-options/track-view`
-- `manual-index/track-control-panel/audio-track-item/effects`
-- `manual-index/track-control-panel/audio-track-item/mute`
-- `manual-index/track-control-panel/audio-track-item/panning`
-- `manual-index/track-control-panel/audio-track-item/solo`
-- `manual-index/track-control-panel/audio-track-item/volume`
-- `manual-index/track-control-panel/audio-track-item/vu-meters`
-- `manual-index/track-control-panel/label-track-item`
-- `manual-index/track-control-panel/label-track-item/add-labels`
-- `manual-index/track-control-panel/label-track-item/additional-options`
-- `manual-index/track-control-panel/label-track-item/additional-options/export-labels`
-- `manual-index/track-control-panel/label-track-item/additional-options/move-track`
-- `manual-index/track-control-panel/label-track-item/additional-options/renaming-duplication-and-deletion-of-labels`
-- `manual-index/track-control-panel/label-track-item/additional-options/track-color`
-- `manual-index/vertical-rulers`
 - `manual-index/workspaces/creating-new-workspaces`
 - `manual-index/workspaces/edit-workspaces`
 - `manual-index/workspaces/modern`
 - `manual-index/workspaces/music`
 
-### Pages with defaulted stream (292) — proposed assignment
+### Pages with defaulted stream (302) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -586,6 +496,9 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/egat/effects/delay-and-reverb/delay` | reference |
 | `manual-index/egat/effects/delay-and-reverb/echo` | reference |
 | `manual-index/egat/effects/delay-and-reverb/reverb` | reference |
+| `manual-index/egat/effects/distortion-and-modulation` | reference |
+| `manual-index/egat/effects/distortion-and-modulation/tremolo` | reference |
+| `manual-index/egat/effects/distortion-and-modulation/vocoder` | reference |
 | `manual-index/egat/effects/eq-and-filters` | reference |
 | `manual-index/egat/effects/eq-and-filters/bass-and-treble` | reference |
 | `manual-index/egat/effects/eq-and-filters/filter-curve-eq` | reference |
@@ -602,6 +515,7 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/egat/effects/fading/fade-out` | reference |
 | `manual-index/egat/effects/fading/studio-fade-out` | reference |
 | `manual-index/egat/effects/legacy` | reference |
+| `manual-index/egat/effects/legacy/legacy-limiter` | reference |
 | `manual-index/egat/effects/noise-removal-and-repair` | reference |
 | `manual-index/egat/effects/noise-removal-and-repair/click-removal` | reference |
 | `manual-index/egat/effects/noise-removal-and-repair/clip-fix` | reference |
@@ -620,6 +534,7 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/egat/effects/realtime-effects/reverb` | reference |
 | `manual-index/egat/effects/special` | reference |
 | `manual-index/egat/effects/special/invert` | reference |
+| `manual-index/egat/effects/special/remove-dc-offset` | reference |
 | `manual-index/egat/effects/special/repeat` | reference |
 | `manual-index/egat/effects/special/reverse` | reference |
 | `manual-index/egat/effects/special/truncate-silence` | reference |
@@ -647,6 +562,11 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/egat/generators/tone` | reference |
 | `manual-index/egat/generators/tone-1` | reference |
 | `manual-index/egat/nyquist` | reference |
+| `manual-index/egat/tools` | reference |
+| `manual-index/egat/tools/nyquist-plugin-installer` | reference |
+| `manual-index/egat/tools/regular-interval-labels` | reference |
+| `manual-index/egat/tools/sample-data-export` | reference |
+| `manual-index/egat/tools/sample-data-import` | reference |
 | `manual-index/export-menu` | reference |
 | `manual-index/header` | reference |
 | `manual-index/header/analyze` | reference |
@@ -858,21 +778,20 @@ sidebars and belongs in its own reviewed change.
 | `special-uses/expected-uses` | how-to |
 | `special-uses/info-for-system-administrators` | how-to |
 
-## Next pages to write (27 candidates)
+## Next pages to write (14 candidates)
 
-1. effect **DTMF Tones** (builtin)
-2. effect **Remove DC offset** (builtin)
-3. effect **Amplify selection** (nyquist)
-4. effect **Amplify selection center frequency** (nyquist)
-5. effect **Delete selection** (nyquist)
-6. effect **Delete selection center frequency** (nyquist)
-7. effect **Legacy limiter** (nyquist)
-8. effect **Nyquist plugin installer** (nyquist)
-9. effect **Regular interval labels** (nyquist)
-10. effect **Sample data export** (nyquist)
-11. effect **Sample data Import** (nyquist)
-12. effect **Tremolo** (nyquist)
-13. effect **Vocoder** (nyquist)
-14. topic **Mouse bindings** (reference, target-state checklist)
-15. topic **Audacity waveform** (reference, target-state checklist)
+1. topic **Mouse bindings** (reference, target-state checklist)
+2. topic **Audacity waveform** (reference, target-state checklist)
+3. topic **Basic audio editing** (getting-started, target-state checklist)
+4. topic **Mixing voice with background music** (how-to, target-state checklist)
+5. topic **Using multi-track** (how-to, target-state checklist)
+6. topic **Recording multi-track overdubs** (how-to, target-state checklist)
+7. topic **Making ringtones and IVR messages** (how-to, target-state checklist)
+8. topic **Copying tapes and LPs to computer** (how-to, target-state checklist)
+9. topic **Splitting a recording into separate tracks** (how-to, target-state checklist)
+10. topic **Click and pop removal** (how-to, target-state checklist)
+11. topic **Noise reduction and removal** (how-to, target-state checklist)
+12. topic **Vocal removal and isolation** (how-to, target-state checklist)
+13. topic **Audiobook mastering** (how-to, target-state checklist)
+14. topic **Editing audio (tutorial)** (how-to, target-state checklist)
 

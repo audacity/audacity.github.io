@@ -3,7 +3,37 @@ title: "Risset Drum"
 section: "EGAT"
 sectionOrder: 140
 order: 10
+description: Generate a synthesised drum tone built from inharmonic partials and a noise band.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Generates a drum sound of the kind described by Jean-Claude Risset: a set of
+inharmonic partials over a low fundamental, mixed with a narrow band of
+noise, all decaying together. The result sits somewhere between a bell and a
+drum and is easy to tune, so it works well for percussion and for
+sound-design material.
+
+## Where to find it
+
+The **Generate** menu.
+
+## Controls
+
+- **Frequency (Hz)** — 50 to 2000, default 100. The fundamental pitch of the
+  drum.
+- **Decay (seconds)** — 0.1 to 60, default 2. How long the sound takes to die
+  away; this is also the length of the generated audio.
+- **Center frequency of noise (Hz)** — 100 to 5000, default 500. Where the
+  noise component sits.
+- **Width of noise band (Hz)** — 10 to 1000, default 400. How broad that
+  noise band is.
+- **Amount of noise in mix (percent)** — 0 to 100, default 25. How much noise
+  is blended with the tonal part.
+- **Amplitude (0 - 1)** — 0 to 1, default 0.8. The peak level of the result.
+
+## Notes
+
+More noise and a wider band give a drier, more percussive attack; less noise
+leaves the inharmonic tone exposed and the sound turns bell-like. A short
+decay with the fundamental low gives a usable kick, while longer decays drift
+towards a gong.

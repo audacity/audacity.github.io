@@ -3,7 +3,26 @@ title: "Format, Rate and Resampling"
 section: "Track Control Panel"
 sectionOrder: 10
 order: 20
+description: Set a track's sample format and sample rate, or resample its audio.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+The last group of the track menu holds three items that deal with how a
+track's audio is stored.
+
+**Format:** is a submenu offering **16-bit PCM**, **24-bit PCM** and **32-bit
+Float**. The one in use is ticked, and the submenu's own title shows it — for
+example *Format: 32-bit Float*.
+
+**Rate:** is a submenu listing the sample rates your current audio device
+supports, plus **Other…** for a rate that is not on the list. As with Format,
+the title shows the track's current rate — for example *Rate: 44100 Hz* — and
+the rate in use is ticked. If the track is at a rate the device does not
+offer, **Other…** is the item shown as ticked.
+
+**Resample track…** converts the audio in the track to a different sample
+rate.
+
+## Notes
+
+Format and Rate are both disabled while a recording is in progress.

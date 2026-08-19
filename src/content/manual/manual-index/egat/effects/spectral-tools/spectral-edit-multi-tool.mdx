@@ -1,9 +1,41 @@
 ---
-title: "Spectral Edit Multi-Tool"
+title: "Delete selection center frequency"
 section: "EGAT"
 sectionOrder: 140
 order: 64
+description: Notch out the centre frequency of a spectral selection, or filter above or below it.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Removes the centre frequency of a spectral selection with a notch filter as
+wide as the selection. If the selection has only one frequency bound rather
+than two, the effect filters everything above or below it instead, so a
+single command covers notching, high-pass and low-pass work on a spectral
+selection.
+
+## Where to find it
+
+**Effect → Spectral tools → Delete selection center frequency**.
+
+There are no settings: the filtering is decided entirely by the selection.
+
+## Making the selection
+
+The track must be showing a spectrogram before you can make a spectral
+selection — see
+[Toggle Spectral View](/manual/manual-index/toolbar/toggle-spectral-view).
+Drag in the spectrogram to mark a time range and a frequency range, then
+apply the effect.
+
+## Notes
+
+Which filter is used depends on the bounds you set. With both an upper and a
+lower bound, a notch is applied at the centre frequency, its width taken from
+the selection. With only an upper bound the audio is high-passed; with only a
+lower bound it is low-passed.
+
+A 10 ms fade at each end of the selection keeps the transition smooth.
+
+A very low lower bound combined with a very wide selection cannot be turned
+into workable notch settings; the effect then reports an error and suggests
+raising the low frequency bound or narrowing the selection.

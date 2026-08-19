@@ -1,0 +1,22 @@
+---
+title: "Remove DC offset"
+section: "EGAT"
+sectionOrder: 140
+order: 61.5
+description: Re-centre audio that is sitting above or below the zero line.
+draft: false
+---
+
+DC offset is a constant bias in a recording that lifts or drops the whole waveform away from the centre line. It usually comes from the recording hardware. Remove DC offset measures that bias across the selection and subtracts it, centring the audio on 0.0 vertically.
+
+## Where to find it
+
+**Effect → Remove DC offset**, with audio selected. There is no dialog: the effect applies as soon as you choose it.
+
+## Notes
+
+You can usually see the problem before you hear it: zoom out and the waveform is visibly not centred on the middle of the track.
+
+An offset wastes headroom, because one side of the waveform hits full scale before the other does, and it can produce a click wherever a clip starts or ends. Clearing it early avoids both.
+
+The same correction is available as the **Remove DC offset (center on 0.0 vertically)** checkbox inside **[Normalize](/manual/manual-index/egat/effects/volume-and-compression/normalize)**, where it is on by default. Use this standalone effect when you want the centring and nothing else.
