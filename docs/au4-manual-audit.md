@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 245 (242 published, 186 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 246 (243 published, 186 stubs) · extraction warnings: 0
 
 | Category                    | Total | Written | Stub | Missing | Won't document |
 | --------------------------- | ----- | ------- | ---- | ------- | -------------- |
@@ -394,9 +394,7 @@ None.
 
 ### Dead internal links
 
-- `getting-started/install-audacity` → `/manual/basics/audacity-3-to-4-transition-guide`
-- `src/pages/manual/reference.astro` → `/manual/interface/project-toolbar`
-- `src/pages/manual/reference.astro` → `/manual/interface/tools-toolbar`
+None.
 
 ### Stub pages (186)
 
