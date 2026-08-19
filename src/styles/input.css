@@ -57,6 +57,22 @@
     @apply font-semibold text-18 text-text-primary;
   }
 
+  /* OS-aware keyboard shortcut visibility.
+
+     Shortcut.astro renders both a .shortcut-win and a .shortcut-mac variant;
+     the inline script in BaseLayout sets data-os on <html> before first
+     paint and these rules show only the matching one. Default (no JS):
+     Windows shortcuts shown, Mac hidden. */
+  .shortcut-mac {
+    display: none;
+  }
+  html[data-os="mac"] .shortcut-mac {
+    display: inline;
+  }
+  html[data-os="mac"] .shortcut-win {
+    display: none;
+  }
+
   .skip-to-content {
     position: fixed;
     background-color: #ff3254;
