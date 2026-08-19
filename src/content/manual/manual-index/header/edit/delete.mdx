@@ -3,7 +3,23 @@ title: "Delete"
 section: "Header"
 sectionOrder: 30
 order: 21
+description: Remove the selected audio, leaving a gap where it was.
 draft: false
 ---
+import Shortcut from "../../../../../components/manual/Shortcut.jsx";
 
-_This page is a stub. Content coming soon._
+Removes the selected audio without putting it on the clipboard. It works on
+a time selection, on selected clips, or on selected labels.
+
+## Where to find it
+
+**Edit → Delete**, or press <Shortcut client:load keys="del" /> or
+<Shortcut client:load keys="backspace" />.
+
+## Notes
+
+Delete leaves a gap: everything after the deleted audio stays where it is.
+To pull the later audio left and close the gap, use
+[Delete and Close Gap (per track)](/manual/manual-index/header/edit/delete-and-close-gap-per-track)
+instead. If nothing is selected, Audacity shows a message asking you to
+select the audio to delete first.

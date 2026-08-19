@@ -3,7 +3,23 @@ title: "Split Clips at Silences"
 section: "Header"
 sectionOrder: 30
 order: 29
+description: Split clips into separate clips wherever the audio falls silent.
 draft: false
 ---
+import Shortcut from "../../../../../../components/manual/Shortcut.jsx";
 
-_This page is a stub. Content coming soon._
+Splits clips into separate clips at their stretches of silence. Handy for
+breaking a long recording — a dictation session, say, or an album side —
+into one clip per take or song.
+
+## Where to find it
+
+**Edit → Clip → Split clips at silences**, or press
+<Shortcut client:load keys="cmd+alt+j" />.
+
+## Notes
+
+With a time selection, the command works on the selected range of each
+selected track; with clips selected, it works on those clips. No audio is
+removed — the silent stretches simply become the boundaries between the new
+clips.

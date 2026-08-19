@@ -3,7 +3,23 @@ title: "Quit Audacity"
 section: "Header"
 sectionOrder: 30
 order: 14
+description: Close every project and exit Audacity.
 draft: false
 ---
+import Shortcut from "../../../../../components/manual/Shortcut.jsx";
 
-_This page is a stub. Content coming soon._
+Exits Audacity. Every open window's project is closed in turn, and any
+project with unsaved changes asks whether to save first — choosing **Cancel**
+in any of those prompts stops the exit and leaves Audacity running.
+
+## Where to find it
+
+**File → Exit**, or press <Shortcut client:load keys="cmd+q" />.
+
+## Notes
+
+- Unavailable while recording — stop the recording first.
+
+## Related
+
+- [Close project](/manual/manual-index/header/file/close-project)

@@ -3,7 +3,22 @@ title: "Trim Clip"
 section: "Header"
 sectionOrder: 30
 order: 26
+description: Keep the selected audio and remove the rest of the clip.
 draft: false
 ---
+import Shortcut from "../../../../../../components/manual/Shortcut.jsx";
 
-_This page is a stub. Content coming soon._
+Trims the clip down to the selection: the audio inside the selection is
+kept, and the rest of the clip is removed. The same operation is available
+as the [Trim](/manual/manual-index/toolbar/trim) toolbar button.
+
+## Where to find it
+
+**Edit → Clip → Trim clip**, or press <Shortcut client:load keys="cmd+t" />.
+
+## Notes
+
+Trim is the opposite of
+[Silence Audio](/manual/manual-index/header/edit/silence-audio): Trim keeps
+the selection and discards the rest, Silence keeps the rest and empties the
+selection.
