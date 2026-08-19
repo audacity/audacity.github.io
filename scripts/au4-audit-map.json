@@ -1,1 +1,10 @@
-{}
+{
+  "topic:shortcuts": {
+    "status": "external",
+    "note": "`/manual/shortcuts` (generated from src/data/au4)"
+  },
+  "topic:faq": {
+    "status": "external",
+    "note": "`/FAQ` (site page, indexed in help search)"
+  }
+}

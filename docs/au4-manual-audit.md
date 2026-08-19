@@ -5,140 +5,141 @@
 
 Audacity source: `2f42f1c968` · manual pages: 246 (243 published, 186 stubs) · extraction warnings: 0
 
-| Category                    | Total | Written | Stub | Missing | Won't document |
-| --------------------------- | ----- | ------- | ---- | ------- | -------------- |
-| Menu items                  | 120   | 9       | 34   | 77      | 0              |
-| Effects                     | 54    | 1       | 40   | 13      | 0              |
-| Preference pages            | 11    | 1       | 1    | 9       | 0              |
-| Shortcuts (inline mentions) | 175   | 78      | —    | 97      | —              |
+| Category | Total | Written | Stub | Missing | Won't document |
+| --- | --- | --- | --- | --- | --- |
+| Menu items | 120 | 9 | 34 | 77 | 0 |
+| Effects | 54 | 1 | 40 | 13 | 0 |
+| Preference pages | 11 | 1 | 1 | 9 | 0 |
+| Target-state topics (AU3 manual) | 46 | 15 | 9 | 22 | 0 |
+| Shortcuts (inline mentions) | 175 | 78 | — | 97 | — |
 
 ## Menu items
 
 Every leaf item in the AU4 menu bar. “Stub” means a page exists but
 has no real content yet.
 
-| Menu path                          | Item                                          | Action code                               | Status     | Page                                                                                                                                                                                               |
-| ---------------------------------- | --------------------------------------------- | ----------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| File                               | New…                                          | `file-new`                                | 🚧 stub    | [manual-index/header/file/new](../src/content/manual/manual-index/header/file/new.mdx)                                                                                                             |
-| File                               | Open…                                         | `file-open`                               | 🚧 stub    | [manual-index/header/file/open](../src/content/manual/manual-index/header/file/open.mdx)                                                                                                           |
-| File                               | Import…                                       | `project-import`                          | 🚧 stub    | [manual-index/header/file/import](../src/content/manual/manual-index/header/file/import.mdx)                                                                                                       |
-| File                               | Save                                          | `file-save`                               | ❌ missing | —                                                                                                                                                                                                  |
-| File                               | Save to cloud…                                | `file-save-to-cloud`                      | ❌ missing | —                                                                                                                                                                                                  |
-| File                               | Save as…                                      | `file-save-as`                            | 🚧 stub    | [manual-index/header/file/save-as](../src/content/manual/manual-index/header/file/save-as.mdx)                                                                                                     |
-| File                               | Update cloud audio preview                    | `audacity://cloud/update-audio-preview`   | ❌ missing | —                                                                                                                                                                                                  |
-| File                               | Export audio…                                 | `export-audio`                            | 🚧 stub    | [manual-index/header/file/export-audio](../src/content/manual/manual-index/header/file/export-audio.mdx)                                                                                           |
-| File → Export other                | Export labels                                 | `export-labels`                           | 🚧 stub    | [manual-index/track-control-panel/label-track-item/additional-options/export-labels](../src/content/manual/manual-index/track-control-panel/label-track-item/additional-options/export-labels.mdx) |
-| File → Export other                | Export MIDI                                   | `export-midi`                             | ❌ missing | —                                                                                                                                                                                                  |
-| File                               | Share audio                                   | `file-share-audio`                        | 🚧 stub    | [manual-index/hotbar/share-audio](../src/content/manual/manual-index/hotbar/share-audio.mdx)                                                                                                       |
-| File                               | Close project                                 | `file-close`                              | 🚧 stub    | [manual-index/header/file/close-project](../src/content/manual/manual-index/header/file/close-project.mdx)                                                                                         |
-| File                               | Exit                                          | `quit`                                    | ❌ missing | —                                                                                                                                                                                                  |
-| Edit                               | Undo                                          | `action://trackedit/undo`                 | 🚧 stub    | [manual-index/header/edit/undo](../src/content/manual/manual-index/header/edit/undo.mdx)                                                                                                           |
-| Edit                               | Redo                                          | `action://trackedit/redo`                 | 🚧 stub    | [manual-index/header/edit/redo](../src/content/manual/manual-index/header/edit/redo.mdx)                                                                                                           |
-| Edit                               | Cut                                           | `action://cut`                            | ✅ written | [manual-index/toolbar/cut](../src/content/manual/manual-index/toolbar/cut.mdx)                                                                                                                     |
-| Edit                               | Copy                                          | `action://copy`                           | ✅ written | [manual-index/toolbar/copy](../src/content/manual/manual-index/toolbar/copy.mdx)                                                                                                                   |
-| Edit                               | Paste                                         | `action://paste`                          | ✅ written | [manual-index/toolbar/paste](../src/content/manual/manual-index/toolbar/paste.mdx)                                                                                                                 |
-| Edit                               | Delete                                        | `action://delete`                         | 🚧 stub    | [manual-index/header/edit/delete](../src/content/manual/manual-index/header/edit/delete.mdx)                                                                                                       |
-| Edit                               | Duplicate                                     | `duplicate`                               | 🚧 stub    | [manual-index/header/edit/duplicate](../src/content/manual/manual-index/header/edit/duplicate.mdx)                                                                                                 |
-| Edit                               | Delete and close gap (per track)              | `delete-per-track-ripple`                 | 🚧 stub    | [manual-index/header/edit/delete-and-close-gap-per-track](../src/content/manual/manual-index/header/edit/delete-and-close-gap-per-track.mdx)                                                       |
-| Edit → Clip                        | Rename clip                                   | `rename-item`                             | 🚧 stub    | [manual-index/header/edit/clip/rename-clip](../src/content/manual/manual-index/header/edit/clip/rename-clip.mdx)                                                                                   |
-| Edit → Clip                        | Trim clip                                     | `trim-clip`                               | 🚧 stub    | [manual-index/header/edit/clip/trim-clip](../src/content/manual/manual-index/header/edit/clip/trim-clip.mdx)                                                                                       |
-| Edit → Clip                        | Split                                         | `split`                                   | 🚧 stub    | [manual-index/header/edit/clip/split](../src/content/manual/manual-index/header/edit/clip/split.mdx)                                                                                               |
-| Edit → Clip                        | Split into new track                          | `split-into-new-track`                    | 🚧 stub    | [manual-index/header/edit/clip/split-into-new-track](../src/content/manual/manual-index/header/edit/clip/split-into-new-track.mdx)                                                                 |
-| Edit → Clip                        | Split clips at silences                       | `disjoin`                                 | 🚧 stub    | [manual-index/header/edit/clip/split-clips-at-silences](../src/content/manual/manual-index/header/edit/clip/split-clips-at-silences.mdx)                                                           |
-| Edit → Clip                        | Join selected clips                           | `join`                                    | 🚧 stub    | [manual-index/header/edit/clip/join-selected-clips](../src/content/manual/manual-index/header/edit/clip/join-selected-clips.mdx)                                                                   |
-| Edit → Clip                        | Group clips                                   | `group-clips`                             | 🚧 stub    | [manual-index/header/edit/clip/group-clips](../src/content/manual/manual-index/header/edit/clip/group-clips.mdx)                                                                                   |
-| Edit → Clip                        | Ungroup clips                                 | `ungroup-clips`                           | ❌ missing | —                                                                                                                                                                                                  |
-| Edit → Label                       | Add label                                     | `label-add`                               | ❌ missing | —                                                                                                                                                                                                  |
-| Edit → Label                       | Rename label                                  | `rename-item`                             | ❌ missing | —                                                                                                                                                                                                  |
-| Edit → Label                       | Paste new label                               | `paste-new-label`                         | ❌ missing | —                                                                                                                                                                                                  |
-| Edit → Label                       | Manage labels                                 | `open-label-editor`                       | ❌ missing | —                                                                                                                                                                                                  |
-| Edit                               | Silence audio                                 | `silence-audio-selection`                 | ❌ missing | —                                                                                                                                                                                                  |
-| Edit                               | Metadata editor                               | `open-metadata-editor`                    | ❌ missing | —                                                                                                                                                                                                  |
-| Edit                               | Preferences                                   | `preference-dialog`                       | ❌ missing | —                                                                                                                                                                                                  |
-| Select                             | Select all                                    | `select-all`                              | 🚧 stub    | [manual-index/header/select/select-all](../src/content/manual/manual-index/header/select/select-all.mdx)                                                                                           |
-| Select                             | Clear selection                               | `clear-selection`                         | 🚧 stub    | [manual-index/header/select/clear-selection](../src/content/manual/manual-index/header/select/clear-selection.mdx)                                                                                 |
-| Select                             | Select all tracks                             | `select-all-tracks`                       | 🚧 stub    | [manual-index/header/select/select-all-tracks](../src/content/manual/manual-index/header/select/select-all-tracks.mdx)                                                                             |
-| Select → Region                    | Left of playback position                     | `select-left-of-playback-position`        | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Region                    | Right of playback position                    | `select-right-of-playback-position`       | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Region                    | Track start to cursor                         | `select-track-start-to-cursor`            | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Region                    | Cursor to track end                           | `select-cursor-to-track-end`              | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Region                    | Track start to end                            | `select-track-start-to-end`               | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Audio clips               | Previous clip boundary to cursor _(disabled)_ | `select-previous-clip-boundary-to-cursor` | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Audio clips               | Cursor to next clip boundary _(disabled)_     | `select-cursor-to-next-clip-boundary`     | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Audio clips               | Previous clip _(disabled)_                    | `select-previous-clip`                    | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Audio clips               | Next clip _(disabled)_                        | `select-next-clip`                        | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Spectral                  | Toggle spectral selection _(disabled)_        | `toggle-spectral-selection`               | ❌ missing | —                                                                                                                                                                                                  |
-| Select → Looping                   | Toggle loop region                            | `toggle-loop-region`                      | ✅ written | [manual-index/toolbar/toggle-loop-region](../src/content/manual/manual-index/toolbar/toggle-loop-region.mdx)                                                                                       |
-| Select → Looping                   | Clear loop region                             | `clear-loop-region`                       | 🚧 stub    | [manual-index/timeline/clear-loop-region](../src/content/manual/manual-index/timeline/clear-loop-region.mdx)                                                                                       |
-| Select → Looping                   | Set loop region to selection                  | `set-loop-region-to-selection`            | 🚧 stub    | [manual-index/timeline/set-loop-region-to-selection](../src/content/manual/manual-index/timeline/set-loop-region-to-selection.mdx)                                                                 |
-| Select → Looping                   | Set loop region in out                        | `set-loop-region-in-out`                  | ❌ missing | —                                                                                                                                                                                                  |
-| Select                             | Move cursor to closest zero crossing          | `zero-cross`                              | ❌ missing | —                                                                                                                                                                                                  |
-| View → Zoom                        | Zoom in                                       | `zoom-in`                                 | ✅ written | [manual-index/toolbar/zoom-in](../src/content/manual/manual-index/toolbar/zoom-in.mdx)                                                                                                             |
-| View → Zoom                        | Zoom out                                      | `zoom-out`                                | ✅ written | [manual-index/toolbar/zoom-out](../src/content/manual/manual-index/toolbar/zoom-out.mdx)                                                                                                           |
-| View → Zoom                        | Zoom default                                  | `zoom-default`                            | ❌ missing | —                                                                                                                                                                                                  |
-| View → Zoom                        | Zoom to selection                             | `zoom-to-selection`                       | ✅ written | [manual-index/toolbar/zoom-to-selection](../src/content/manual/manual-index/toolbar/zoom-to-selection.mdx)                                                                                         |
-| View → Zoom                        | Zoom toggle                                   | `zoom-toggle`                             | ✅ written | [manual-index/toolbar/zoom-toggle](../src/content/manual/manual-index/toolbar/zoom-toggle.mdx)                                                                                                     |
-| View → Zoom                        | Zoom to fit project                           | `zoom-to-fit-project`                     | ✅ written | [manual-index/toolbar/zoom-to-fit-project](../src/content/manual/manual-index/toolbar/zoom-to-fit-project.mdx)                                                                                     |
-| View → Zoom                        | Collapse all tracks                           | `collapse-all-tracks`                     | ❌ missing | —                                                                                                                                                                                                  |
-| View → Zoom                        | Expand all tracks                             | `expand-all-tracks`                       | ❌ missing | —                                                                                                                                                                                                  |
-| View → Skip to                     | Skip to selection start _(disabled)_          | `skip-to-selection-start`                 | ❌ missing | —                                                                                                                                                                                                  |
-| View → Skip to                     | Skip to selection end _(disabled)_            | `skip-to-selection-end`                   | ❌ missing | —                                                                                                                                                                                                  |
-| View                               | Show effects panel                            | `toggle-effects`                          | ❌ missing | —                                                                                                                                                                                                  |
-| View                               | Show label editor                             | `open-label-editor`                       | 🚧 stub    | [manual-index/header/view/show-label-editor](../src/content/manual/manual-index/header/view/show-label-editor.mdx)                                                                                 |
-| View                               | Show metadata editor                          | `open-metadata-editor`                    | 🚧 stub    | [manual-index/header/view/show-metadata-editor](../src/content/manual/manual-index/header/view/show-metadata-editor.mdx)                                                                           |
-| View                               | Show history                                  | `toggle-history`                          | 🚧 stub    | [manual-index/header/view/show-history](../src/content/manual/manual-index/header/view/show-history.mdx)                                                                                           |
-| View                               | Full screen                                   | `fullscreen`                              | ❌ missing | —                                                                                                                                                                                                  |
-| View                               | Show clipping in waveform                     | `toggle-clipping-in-waveform`             | 🚧 stub    | [manual-index/header/view/show-clipping-in-waveform](../src/content/manual/manual-index/header/view/show-clipping-in-waveform.mdx)                                                                 |
-| View                               | Show RMS in waveform                          | `toggle-rms-in-waveform`                  | 🚧 stub    | [manual-index/header/view/show-rms-in-waveform](../src/content/manual/manual-index/header/view/show-rms-in-waveform.mdx)                                                                           |
-| View                               | Show vertical rulers                          | `toggle-vertical-rulers`                  | 🚧 stub    | [manual-index/header/view/show-vertical-rulers](../src/content/manual/manual-index/header/view/show-vertical-rulers.mdx)                                                                           |
-| View                               | Restore the default layout                    | `dock-restore-default-layout`             | 🚧 stub    | [manual-index/header/view/restore-the-default-layout](../src/content/manual/manual-index/header/view/restore-the-default-layout.mdx)                                                               |
-| Record                             | Record on current track                       | `record-on-current-track`                 | ❌ missing | —                                                                                                                                                                                                  |
-| Record                             | Record on new track                           | `record-on-new-track`                     | ❌ missing | —                                                                                                                                                                                                  |
-| Record                             | Lead-in Recording                             | `action://record/lead-in-recording`       | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks                             | New mono track                                | `new-mono-track`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks                             | New stereo track                              | `new-stereo-track`                        | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks                             | New label track                               | `new-label-track`                         | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks                             | Duplicate                                     | `duplicate-track`                         | 🚧 stub    | [manual-index/header/edit/duplicate](../src/content/manual/manual-index/header/edit/duplicate.mdx)                                                                                                 |
-| Tracks                             | Remove tracks                                 | `remove-tracks`                           | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks                             | Mix-down to…                                  | `mixdown-to`                              | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align end to end _(disabled)_                 | `align-end-to-end`                        | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align together _(disabled)_                   | `align-together`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align start to zero _(disabled)_              | `align-start-to-zero`                     | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align start to playhead _(disabled)_          | `align-start-to-playhead`                 | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align start to selection end _(disabled)_     | `align-start-to-selection-end`            | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align end to playhead _(disabled)_            | `align-end-to-playhead`                   | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Align content             | Align end to selection end _(disabled)_       | `align-end-to-selection-end`              | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Sort tracks               | Sort by time _(disabled)_                     | `sort-by-time`                            | ❌ missing | —                                                                                                                                                                                                  |
-| Tracks → Sort tracks               | Sort by name _(disabled)_                     | `sort-by-name`                            | ❌ missing | —                                                                                                                                                                                                  |
-| Generate                           | Plugin manager                                | `plugin-manager`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Effect                             | Plugin manager                                | `plugin-manager`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Effect                             | Add track effects                             | `add-realtime-effects`                    | ❌ missing | —                                                                                                                                                                                                  |
-| Effect                             | Repeat last effect                            | `repeat-last-effect`                      | ❌ missing | —                                                                                                                                                                                                  |
-| Analyze                            | Plugin manager                                | `plugin-manager`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Analyze                            | Contrast analyzer                             | `contrast-analyzer`                       | 🚧 stub    | [manual-index/egat/analyzers/contrast-analyzer](../src/content/manual/manual-index/egat/analyzers/contrast-analyzer.mdx)                                                                           |
-| Analyze                            | Plot spectrum                                 | `plot-spectrum`                           | ❌ missing | —                                                                                                                                                                                                  |
-| Tools                              | Plugin manager                                | `plugin-manager`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Tools                              | Manage macros                                 | `manage-macros`                           | ❌ missing | —                                                                                                                                                                                                  |
-| Tools → Macros                     | Apply macros palette _(disabled)_             | `apply-macros-palette`                    | ❌ missing | —                                                                                                                                                                                                  |
-| Tools → Macros                     | Macro fade ends _(disabled)_                  | `macro-fade-ends`                         | ❌ missing | —                                                                                                                                                                                                  |
-| Tools → Macros                     | Macro MP3 conversion _(disabled)_             | `macro-mp3-conversion`                    | ❌ missing | —                                                                                                                                                                                                  |
-| Tools                              | Raw data import                               | `raw-data-import`                         | ❌ missing | —                                                                                                                                                                                                  |
-| Tools                              | Reset configuration                           | `reset-configuration`                     | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | check-update                                  | `check-update`                            | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | Tutorials                                     | `tutorials`                               | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | Online handbook                               | `online-handbook`                         | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics                 | diagnostic-save-diagnostic-files _(disabled)_ | `diagnostic-save-diagnostic-files`        | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics → System        | diagnostic-show-paths _(disabled)_            | `diagnostic-show-paths`                   | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics → System        | diagnostic-show-profiler _(disabled)_         | `diagnostic-show-profiler`                | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics → Accessibility | diagnostic-show-navigation-tree _(disabled)_  | `diagnostic-show-navigation-tree`         | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics → Accessibility | diagnostic-show-accessible-tree _(disabled)_  | `diagnostic-show-accessible-tree`         | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics → Accessibility | diagnostic-accessible-tree-dump _(disabled)_  | `diagnostic-accessible-tree-dump`         | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics → Testflow      | testflow-show-scripts _(disabled)_            | `testflow-show-scripts`                   | ❌ missing | —                                                                                                                                                                                                  |
-| Help → Diagnostics                 | multiwindows-dev-show-info _(disabled)_       | `multiwindows-dev-show-info`              | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | Link account                                  | `link-account`                            | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | About Audacity…                               | `about-audacity`                          | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | About Qt…                                     | `about-qt`                                | ❌ missing | —                                                                                                                                                                                                  |
-| Help                               | Revert to factory settings                    | `revert-factory`                          | ❌ missing | —                                                                                                                                                                                                  |
+| Menu path | Item | Action code | Status | Page |
+| --- | --- | --- | --- | --- |
+| File | New… | `file-new` | 🚧 stub | [manual-index/header/file/new](../src/content/manual/manual-index/header/file/new.mdx) |
+| File | Open… | `file-open` | 🚧 stub | [manual-index/header/file/open](../src/content/manual/manual-index/header/file/open.mdx) |
+| File | Import… | `project-import` | 🚧 stub | [manual-index/header/file/import](../src/content/manual/manual-index/header/file/import.mdx) |
+| File | Save | `file-save` | ❌ missing | — |
+| File | Save to cloud… | `file-save-to-cloud` | ❌ missing | — |
+| File | Save as… | `file-save-as` | 🚧 stub | [manual-index/header/file/save-as](../src/content/manual/manual-index/header/file/save-as.mdx) |
+| File | Update cloud audio preview | `audacity://cloud/update-audio-preview` | ❌ missing | — |
+| File | Export audio… | `export-audio` | 🚧 stub | [manual-index/header/file/export-audio](../src/content/manual/manual-index/header/file/export-audio.mdx) |
+| File → Export other | Export labels | `export-labels` | 🚧 stub | [manual-index/track-control-panel/label-track-item/additional-options/export-labels](../src/content/manual/manual-index/track-control-panel/label-track-item/additional-options/export-labels.mdx) |
+| File → Export other | Export MIDI | `export-midi` | ❌ missing | — |
+| File | Share audio | `file-share-audio` | 🚧 stub | [manual-index/hotbar/share-audio](../src/content/manual/manual-index/hotbar/share-audio.mdx) |
+| File | Close project | `file-close` | 🚧 stub | [manual-index/header/file/close-project](../src/content/manual/manual-index/header/file/close-project.mdx) |
+| File | Exit | `quit` | ❌ missing | — |
+| Edit | Undo | `action://trackedit/undo` | 🚧 stub | [manual-index/header/edit/undo](../src/content/manual/manual-index/header/edit/undo.mdx) |
+| Edit | Redo | `action://trackedit/redo` | 🚧 stub | [manual-index/header/edit/redo](../src/content/manual/manual-index/header/edit/redo.mdx) |
+| Edit | Cut | `action://cut` | ✅ written | [manual-index/toolbar/cut](../src/content/manual/manual-index/toolbar/cut.mdx) |
+| Edit | Copy | `action://copy` | ✅ written | [manual-index/toolbar/copy](../src/content/manual/manual-index/toolbar/copy.mdx) |
+| Edit | Paste | `action://paste` | ✅ written | [manual-index/toolbar/paste](../src/content/manual/manual-index/toolbar/paste.mdx) |
+| Edit | Delete | `action://delete` | 🚧 stub | [manual-index/header/edit/delete](../src/content/manual/manual-index/header/edit/delete.mdx) |
+| Edit | Duplicate | `duplicate` | 🚧 stub | [manual-index/header/edit/duplicate](../src/content/manual/manual-index/header/edit/duplicate.mdx) |
+| Edit | Delete and close gap (per track) | `delete-per-track-ripple` | 🚧 stub | [manual-index/header/edit/delete-and-close-gap-per-track](../src/content/manual/manual-index/header/edit/delete-and-close-gap-per-track.mdx) |
+| Edit → Clip | Rename clip | `rename-item` | 🚧 stub | [manual-index/header/edit/clip/rename-clip](../src/content/manual/manual-index/header/edit/clip/rename-clip.mdx) |
+| Edit → Clip | Trim clip | `trim-clip` | 🚧 stub | [manual-index/header/edit/clip/trim-clip](../src/content/manual/manual-index/header/edit/clip/trim-clip.mdx) |
+| Edit → Clip | Split | `split` | 🚧 stub | [manual-index/header/edit/clip/split](../src/content/manual/manual-index/header/edit/clip/split.mdx) |
+| Edit → Clip | Split into new track | `split-into-new-track` | 🚧 stub | [manual-index/header/edit/clip/split-into-new-track](../src/content/manual/manual-index/header/edit/clip/split-into-new-track.mdx) |
+| Edit → Clip | Split clips at silences | `disjoin` | 🚧 stub | [manual-index/header/edit/clip/split-clips-at-silences](../src/content/manual/manual-index/header/edit/clip/split-clips-at-silences.mdx) |
+| Edit → Clip | Join selected clips | `join` | 🚧 stub | [manual-index/header/edit/clip/join-selected-clips](../src/content/manual/manual-index/header/edit/clip/join-selected-clips.mdx) |
+| Edit → Clip | Group clips | `group-clips` | 🚧 stub | [manual-index/header/edit/clip/group-clips](../src/content/manual/manual-index/header/edit/clip/group-clips.mdx) |
+| Edit → Clip | Ungroup clips | `ungroup-clips` | ❌ missing | — |
+| Edit → Label | Add label | `label-add` | ❌ missing | — |
+| Edit → Label | Rename label | `rename-item` | ❌ missing | — |
+| Edit → Label | Paste new label | `paste-new-label` | ❌ missing | — |
+| Edit → Label | Manage labels | `open-label-editor` | ❌ missing | — |
+| Edit | Silence audio | `silence-audio-selection` | ❌ missing | — |
+| Edit | Metadata editor | `open-metadata-editor` | ❌ missing | — |
+| Edit | Preferences | `preference-dialog` | ❌ missing | — |
+| Select | Select all | `select-all` | 🚧 stub | [manual-index/header/select/select-all](../src/content/manual/manual-index/header/select/select-all.mdx) |
+| Select | Clear selection | `clear-selection` | 🚧 stub | [manual-index/header/select/clear-selection](../src/content/manual/manual-index/header/select/clear-selection.mdx) |
+| Select | Select all tracks | `select-all-tracks` | 🚧 stub | [manual-index/header/select/select-all-tracks](../src/content/manual/manual-index/header/select/select-all-tracks.mdx) |
+| Select → Region | Left of playback position | `select-left-of-playback-position` | ❌ missing | — |
+| Select → Region | Right of playback position | `select-right-of-playback-position` | ❌ missing | — |
+| Select → Region | Track start to cursor | `select-track-start-to-cursor` | ❌ missing | — |
+| Select → Region | Cursor to track end | `select-cursor-to-track-end` | ❌ missing | — |
+| Select → Region | Track start to end | `select-track-start-to-end` | ❌ missing | — |
+| Select → Audio clips | Previous clip boundary to cursor _(disabled)_ | `select-previous-clip-boundary-to-cursor` | ❌ missing | — |
+| Select → Audio clips | Cursor to next clip boundary _(disabled)_ | `select-cursor-to-next-clip-boundary` | ❌ missing | — |
+| Select → Audio clips | Previous clip _(disabled)_ | `select-previous-clip` | ❌ missing | — |
+| Select → Audio clips | Next clip _(disabled)_ | `select-next-clip` | ❌ missing | — |
+| Select → Spectral | Toggle spectral selection _(disabled)_ | `toggle-spectral-selection` | ❌ missing | — |
+| Select → Looping | Toggle loop region | `toggle-loop-region` | ✅ written | [manual-index/toolbar/toggle-loop-region](../src/content/manual/manual-index/toolbar/toggle-loop-region.mdx) |
+| Select → Looping | Clear loop region | `clear-loop-region` | 🚧 stub | [manual-index/timeline/clear-loop-region](../src/content/manual/manual-index/timeline/clear-loop-region.mdx) |
+| Select → Looping | Set loop region to selection | `set-loop-region-to-selection` | 🚧 stub | [manual-index/timeline/set-loop-region-to-selection](../src/content/manual/manual-index/timeline/set-loop-region-to-selection.mdx) |
+| Select → Looping | Set loop region in out | `set-loop-region-in-out` | ❌ missing | — |
+| Select | Move cursor to closest zero crossing | `zero-cross` | ❌ missing | — |
+| View → Zoom | Zoom in | `zoom-in` | ✅ written | [manual-index/toolbar/zoom-in](../src/content/manual/manual-index/toolbar/zoom-in.mdx) |
+| View → Zoom | Zoom out | `zoom-out` | ✅ written | [manual-index/toolbar/zoom-out](../src/content/manual/manual-index/toolbar/zoom-out.mdx) |
+| View → Zoom | Zoom default | `zoom-default` | ❌ missing | — |
+| View → Zoom | Zoom to selection | `zoom-to-selection` | ✅ written | [manual-index/toolbar/zoom-to-selection](../src/content/manual/manual-index/toolbar/zoom-to-selection.mdx) |
+| View → Zoom | Zoom toggle | `zoom-toggle` | ✅ written | [manual-index/toolbar/zoom-toggle](../src/content/manual/manual-index/toolbar/zoom-toggle.mdx) |
+| View → Zoom | Zoom to fit project | `zoom-to-fit-project` | ✅ written | [manual-index/toolbar/zoom-to-fit-project](../src/content/manual/manual-index/toolbar/zoom-to-fit-project.mdx) |
+| View → Zoom | Collapse all tracks | `collapse-all-tracks` | ❌ missing | — |
+| View → Zoom | Expand all tracks | `expand-all-tracks` | ❌ missing | — |
+| View → Skip to | Skip to selection start _(disabled)_ | `skip-to-selection-start` | ❌ missing | — |
+| View → Skip to | Skip to selection end _(disabled)_ | `skip-to-selection-end` | ❌ missing | — |
+| View | Show effects panel | `toggle-effects` | ❌ missing | — |
+| View | Show label editor | `open-label-editor` | 🚧 stub | [manual-index/header/view/show-label-editor](../src/content/manual/manual-index/header/view/show-label-editor.mdx) |
+| View | Show metadata editor | `open-metadata-editor` | 🚧 stub | [manual-index/header/view/show-metadata-editor](../src/content/manual/manual-index/header/view/show-metadata-editor.mdx) |
+| View | Show history | `toggle-history` | 🚧 stub | [manual-index/header/view/show-history](../src/content/manual/manual-index/header/view/show-history.mdx) |
+| View | Full screen | `fullscreen` | ❌ missing | — |
+| View | Show clipping in waveform | `toggle-clipping-in-waveform` | 🚧 stub | [manual-index/header/view/show-clipping-in-waveform](../src/content/manual/manual-index/header/view/show-clipping-in-waveform.mdx) |
+| View | Show RMS in waveform | `toggle-rms-in-waveform` | 🚧 stub | [manual-index/header/view/show-rms-in-waveform](../src/content/manual/manual-index/header/view/show-rms-in-waveform.mdx) |
+| View | Show vertical rulers | `toggle-vertical-rulers` | 🚧 stub | [manual-index/header/view/show-vertical-rulers](../src/content/manual/manual-index/header/view/show-vertical-rulers.mdx) |
+| View | Restore the default layout | `dock-restore-default-layout` | 🚧 stub | [manual-index/header/view/restore-the-default-layout](../src/content/manual/manual-index/header/view/restore-the-default-layout.mdx) |
+| Record | Record on current track | `record-on-current-track` | ❌ missing | — |
+| Record | Record on new track | `record-on-new-track` | ❌ missing | — |
+| Record | Lead-in Recording | `action://record/lead-in-recording` | ❌ missing | — |
+| Tracks | New mono track | `new-mono-track` | ❌ missing | — |
+| Tracks | New stereo track | `new-stereo-track` | ❌ missing | — |
+| Tracks | New label track | `new-label-track` | ❌ missing | — |
+| Tracks | Duplicate | `duplicate-track` | 🚧 stub | [manual-index/header/edit/duplicate](../src/content/manual/manual-index/header/edit/duplicate.mdx) |
+| Tracks | Remove tracks | `remove-tracks` | ❌ missing | — |
+| Tracks | Mix-down to… | `mixdown-to` | ❌ missing | — |
+| Tracks → Align content | Align end to end _(disabled)_ | `align-end-to-end` | ❌ missing | — |
+| Tracks → Align content | Align together _(disabled)_ | `align-together` | ❌ missing | — |
+| Tracks → Align content | Align start to zero _(disabled)_ | `align-start-to-zero` | ❌ missing | — |
+| Tracks → Align content | Align start to playhead _(disabled)_ | `align-start-to-playhead` | ❌ missing | — |
+| Tracks → Align content | Align start to selection end _(disabled)_ | `align-start-to-selection-end` | ❌ missing | — |
+| Tracks → Align content | Align end to playhead _(disabled)_ | `align-end-to-playhead` | ❌ missing | — |
+| Tracks → Align content | Align end to selection end _(disabled)_ | `align-end-to-selection-end` | ❌ missing | — |
+| Tracks → Sort tracks | Sort by time _(disabled)_ | `sort-by-time` | ❌ missing | — |
+| Tracks → Sort tracks | Sort by name _(disabled)_ | `sort-by-name` | ❌ missing | — |
+| Generate | Plugin manager | `plugin-manager` | ❌ missing | — |
+| Effect | Plugin manager | `plugin-manager` | ❌ missing | — |
+| Effect | Add track effects | `add-realtime-effects` | ❌ missing | — |
+| Effect | Repeat last effect | `repeat-last-effect` | ❌ missing | — |
+| Analyze | Plugin manager | `plugin-manager` | ❌ missing | — |
+| Analyze | Contrast analyzer | `contrast-analyzer` | 🚧 stub | [manual-index/egat/analyzers/contrast-analyzer](../src/content/manual/manual-index/egat/analyzers/contrast-analyzer.mdx) |
+| Analyze | Plot spectrum | `plot-spectrum` | ❌ missing | — |
+| Tools | Plugin manager | `plugin-manager` | ❌ missing | — |
+| Tools | Manage macros | `manage-macros` | ❌ missing | — |
+| Tools → Macros | Apply macros palette _(disabled)_ | `apply-macros-palette` | ❌ missing | — |
+| Tools → Macros | Macro fade ends _(disabled)_ | `macro-fade-ends` | ❌ missing | — |
+| Tools → Macros | Macro MP3 conversion _(disabled)_ | `macro-mp3-conversion` | ❌ missing | — |
+| Tools | Raw data import | `raw-data-import` | ❌ missing | — |
+| Tools | Reset configuration | `reset-configuration` | ❌ missing | — |
+| Help | check-update | `check-update` | ❌ missing | — |
+| Help | Tutorials | `tutorials` | ❌ missing | — |
+| Help | Online handbook | `online-handbook` | ❌ missing | — |
+| Help → Diagnostics | diagnostic-save-diagnostic-files _(disabled)_ | `diagnostic-save-diagnostic-files` | ❌ missing | — |
+| Help → Diagnostics → System | diagnostic-show-paths _(disabled)_ | `diagnostic-show-paths` | ❌ missing | — |
+| Help → Diagnostics → System | diagnostic-show-profiler _(disabled)_ | `diagnostic-show-profiler` | ❌ missing | — |
+| Help → Diagnostics → Accessibility | diagnostic-show-navigation-tree _(disabled)_ | `diagnostic-show-navigation-tree` | ❌ missing | — |
+| Help → Diagnostics → Accessibility | diagnostic-show-accessible-tree _(disabled)_ | `diagnostic-show-accessible-tree` | ❌ missing | — |
+| Help → Diagnostics → Accessibility | diagnostic-accessible-tree-dump _(disabled)_ | `diagnostic-accessible-tree-dump` | ❌ missing | — |
+| Help → Diagnostics → Testflow | testflow-show-scripts _(disabled)_ | `testflow-show-scripts` | ❌ missing | — |
+| Help → Diagnostics | multiwindows-dev-show-info _(disabled)_ | `multiwindows-dev-show-info` | ❌ missing | — |
+| Help | Link account | `link-account` | ❌ missing | — |
+| Help | About Audacity… | `about-audacity` | ❌ missing | — |
+| Help | About Qt… | `about-qt` | ❌ missing | — |
+| Help | Revert to factory settings | `revert-factory` | ❌ missing | — |
 
 ### Commented-out upstream (do not document as present)
 
@@ -161,62 +162,62 @@ has no real content yet.
 
 ## Effects, generators, analyzers and tools
 
-| Effect                             | Family  | Kind      | Status     | Page                                                                                                                                                                         |
-| ---------------------------------- | ------- | --------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Amplify                            | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/volume-and-compression/amplify](../src/content/manual/manual-index/egat/effects/volume-and-compression/amplify.mdx)                               |
-| Bass and Treble                    | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/bass-and-treble](../src/content/manual/manual-index/egat/effects/eq-and-filters/bass-and-treble.mdx)                               |
-| Change pitch                       | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/pitch-and-tempo/change-pitch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/change-pitch.mdx)                                   |
-| Chirp                              | builtin | effect    | 🚧 stub    | [manual-index/egat/generators/chirp](../src/content/manual/manual-index/egat/generators/chirp.mdx)                                                                           |
-| Click removal                      | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/noise-removal-and-repair/click-removal](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/click-removal.mdx)               |
-| Compressor                         | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/realtime-effects/compressor](../src/content/manual/manual-index/egat/effects/realtime-effects/compressor.mdx)                                     |
-| DTMF Tones                         | builtin | generator | ❌ missing | —                                                                                                                                                                            |
-| Fade In                            | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/fading/fade-in](../src/content/manual/manual-index/egat/effects/fading/fade-in.mdx)                                                               |
-| Fade Out                           | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/fading/fade-out](../src/content/manual/manual-index/egat/effects/fading/fade-out.mdx)                                                             |
-| Filter Curve EQ                    | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/filter-curve-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/filter-curve-eq.mdx)                               |
-| Graphic EQ                         | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/graphic-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/graphic-eq.mdx)                                         |
-| Invert                             | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/special/invert](../src/content/manual/manual-index/egat/effects/special/invert.mdx)                                                               |
-| Limiter                            | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/realtime-effects/limiter](../src/content/manual/manual-index/egat/effects/realtime-effects/limiter.mdx)                                           |
-| Loudness Normalization             | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/volume-and-compression/loudness-normalisation](../src/content/manual/manual-index/egat/effects/volume-and-compression/loudness-normalisation.mdx) |
-| Noise                              | builtin | generator | 🚧 stub    | [manual-index/egat/generators/noise](../src/content/manual/manual-index/egat/generators/noise.mdx)                                                                           |
-| Noise reduction                    | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/noise-removal-and-repair/noise-reduction](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-reduction.mdx)           |
-| Normalize                          | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/volume-and-compression/normalize](../src/content/manual/manual-index/egat/effects/volume-and-compression/normalize.mdx)                           |
-| Paulstretch                        | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/pitch-and-tempo/paulstretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/paulstretch.mdx)                                     |
-| Remove DC offset                   | builtin | effect    | ❌ missing | —                                                                                                                                                                            |
-| Repair                             | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/noise-removal-and-repair/repair](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/repair.mdx)                             |
-| Reverb                             | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/delay-and-reverb/reverb](../src/content/manual/manual-index/egat/effects/delay-and-reverb/reverb.mdx)                                             |
-| Reverse                            | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/special/reverse](../src/content/manual/manual-index/egat/effects/special/reverse.mdx)                                                             |
-| Silence                            | builtin | generator | ✅ written | [manual-index/toolbar/silence](../src/content/manual/manual-index/toolbar/silence.mdx)                                                                                       |
-| Sliding stretch                    | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/pitch-and-tempo/sliding-stretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/sliding-stretch.mdx)                             |
-| Tone                               | builtin | effect    | 🚧 stub    | [manual-index/egat/generators/tone](../src/content/manual/manual-index/egat/generators/tone.mdx)                                                                             |
-| Truncate silence                   | builtin | effect    | 🚧 stub    | [manual-index/egat/effects/special/truncate-silence](../src/content/manual/manual-index/egat/effects/special/truncate-silence.mdx)                                           |
-| Adjustable fade                    | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/fading/adjustable-fade](../src/content/manual/manual-index/egat/effects/fading/adjustable-fade.mdx)                                               |
-| Amplify selection                  | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
-| Amplify selection center frequency | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
-| Beat finder                        | nyquist | analyze   | 🚧 stub    | [manual-index/egat/analyzers/beat-finder](../src/content/manual/manual-index/egat/analyzers/beat-finder.mdx)                                                                 |
-| Clip fix                           | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/noise-removal-and-repair/clip-fix](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/clip-fix.mdx)                         |
-| Crossfade clips                    | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/fading/crossfade-clips](../src/content/manual/manual-index/egat/effects/fading/crossfade-clips.mdx)                                               |
-| Crossfade tracks                   | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/fading/crossfade-tracks](../src/content/manual/manual-index/egat/effects/fading/crossfade-tracks.mdx)                                             |
-| Delay                              | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/delay-and-reverb/delay](../src/content/manual/manual-index/egat/effects/delay-and-reverb/delay.mdx)                                               |
-| Delete selection                   | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
-| Delete selection center frequency  | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
-| High-pass filter                   | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/high-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/high-pass-filter.mdx)                             |
-| Label sounds                       | nyquist | analyze   | 🚧 stub    | [manual-index/egat/analyzers/label-sounds](../src/content/manual/manual-index/egat/analyzers/label-sounds.mdx)                                                               |
-| Legacy limiter                     | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
-| Low-pass filter                    | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/low-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/low-pass-filter.mdx)                               |
-| Measure RMS                        | nyquist | analyze   | 🚧 stub    | [manual-index/egat/analyzers/measure-rms](../src/content/manual/manual-index/egat/analyzers/measure-rms.mdx)                                                                 |
-| Noise gate                         | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/noise-removal-and-repair/noise-gate](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-gate.mdx)                     |
-| Notch filter                       | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/notch-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/notch-filter.mdx)                                     |
-| Nyquist plugin installer           | nyquist | tool      | ❌ missing | —                                                                                                                                                                            |
-| Pluck                              | nyquist | generate  | 🚧 stub    | [manual-index/egat/generators/pluck](../src/content/manual/manual-index/egat/generators/pluck.mdx)                                                                           |
-| Regular interval labels            | nyquist | tool      | ❌ missing | —                                                                                                                                                                            |
-| Rhythm track                       | nyquist | generate  | 🚧 stub    | [manual-index/egat/generators/rhythm-track](../src/content/manual/manual-index/egat/generators/rhythm-track.mdx)                                                             |
-| Risset drum                        | nyquist | generate  | 🚧 stub    | [manual-index/egat/generators/risset-drum](../src/content/manual/manual-index/egat/generators/risset-drum.mdx)                                                               |
-| Sample data export                 | nyquist | tool      | ❌ missing | —                                                                                                                                                                            |
-| Sample data Import                 | nyquist | tool      | ❌ missing | —                                                                                                                                                                            |
-| Shelf filter                       | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/eq-and-filters/shelf-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/shelf-filter.mdx)                                     |
-| Studio fade out                    | nyquist | process   | 🚧 stub    | [manual-index/egat/effects/fading/studio-fade-out](../src/content/manual/manual-index/egat/effects/fading/studio-fade-out.mdx)                                               |
-| Tremolo                            | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
-| Vocoder                            | nyquist | process   | ❌ missing | —                                                                                                                                                                            |
+| Effect | Family | Kind | Status | Page |
+| --- | --- | --- | --- | --- |
+| Amplify | builtin | effect | 🚧 stub | [manual-index/egat/effects/volume-and-compression/amplify](../src/content/manual/manual-index/egat/effects/volume-and-compression/amplify.mdx) |
+| Bass and Treble | builtin | effect | 🚧 stub | [manual-index/egat/effects/eq-and-filters/bass-and-treble](../src/content/manual/manual-index/egat/effects/eq-and-filters/bass-and-treble.mdx) |
+| Change pitch | builtin | effect | 🚧 stub | [manual-index/egat/effects/pitch-and-tempo/change-pitch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/change-pitch.mdx) |
+| Chirp | builtin | effect | 🚧 stub | [manual-index/egat/generators/chirp](../src/content/manual/manual-index/egat/generators/chirp.mdx) |
+| Click removal | builtin | effect | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/click-removal](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/click-removal.mdx) |
+| Compressor | builtin | effect | 🚧 stub | [manual-index/egat/effects/realtime-effects/compressor](../src/content/manual/manual-index/egat/effects/realtime-effects/compressor.mdx) |
+| DTMF Tones | builtin | generator | ❌ missing | — |
+| Fade In | builtin | effect | 🚧 stub | [manual-index/egat/effects/fading/fade-in](../src/content/manual/manual-index/egat/effects/fading/fade-in.mdx) |
+| Fade Out | builtin | effect | 🚧 stub | [manual-index/egat/effects/fading/fade-out](../src/content/manual/manual-index/egat/effects/fading/fade-out.mdx) |
+| Filter Curve EQ | builtin | effect | 🚧 stub | [manual-index/egat/effects/eq-and-filters/filter-curve-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/filter-curve-eq.mdx) |
+| Graphic EQ | builtin | effect | 🚧 stub | [manual-index/egat/effects/eq-and-filters/graphic-eq](../src/content/manual/manual-index/egat/effects/eq-and-filters/graphic-eq.mdx) |
+| Invert | builtin | effect | 🚧 stub | [manual-index/egat/effects/special/invert](../src/content/manual/manual-index/egat/effects/special/invert.mdx) |
+| Limiter | builtin | effect | 🚧 stub | [manual-index/egat/effects/realtime-effects/limiter](../src/content/manual/manual-index/egat/effects/realtime-effects/limiter.mdx) |
+| Loudness Normalization | builtin | effect | 🚧 stub | [manual-index/egat/effects/volume-and-compression/loudness-normalisation](../src/content/manual/manual-index/egat/effects/volume-and-compression/loudness-normalisation.mdx) |
+| Noise | builtin | generator | 🚧 stub | [manual-index/egat/generators/noise](../src/content/manual/manual-index/egat/generators/noise.mdx) |
+| Noise reduction | builtin | effect | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/noise-reduction](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-reduction.mdx) |
+| Normalize | builtin | effect | 🚧 stub | [manual-index/egat/effects/volume-and-compression/normalize](../src/content/manual/manual-index/egat/effects/volume-and-compression/normalize.mdx) |
+| Paulstretch | builtin | effect | 🚧 stub | [manual-index/egat/effects/pitch-and-tempo/paulstretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/paulstretch.mdx) |
+| Remove DC offset | builtin | effect | ❌ missing | — |
+| Repair | builtin | effect | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/repair](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/repair.mdx) |
+| Reverb | builtin | effect | 🚧 stub | [manual-index/egat/effects/delay-and-reverb/reverb](../src/content/manual/manual-index/egat/effects/delay-and-reverb/reverb.mdx) |
+| Reverse | builtin | effect | 🚧 stub | [manual-index/egat/effects/special/reverse](../src/content/manual/manual-index/egat/effects/special/reverse.mdx) |
+| Silence | builtin | generator | ✅ written | [manual-index/toolbar/silence](../src/content/manual/manual-index/toolbar/silence.mdx) |
+| Sliding stretch | builtin | effect | 🚧 stub | [manual-index/egat/effects/pitch-and-tempo/sliding-stretch](../src/content/manual/manual-index/egat/effects/pitch-and-tempo/sliding-stretch.mdx) |
+| Tone | builtin | effect | 🚧 stub | [manual-index/egat/generators/tone](../src/content/manual/manual-index/egat/generators/tone.mdx) |
+| Truncate silence | builtin | effect | 🚧 stub | [manual-index/egat/effects/special/truncate-silence](../src/content/manual/manual-index/egat/effects/special/truncate-silence.mdx) |
+| Adjustable fade | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/adjustable-fade](../src/content/manual/manual-index/egat/effects/fading/adjustable-fade.mdx) |
+| Amplify selection | nyquist | process | ❌ missing | — |
+| Amplify selection center frequency | nyquist | process | ❌ missing | — |
+| Beat finder | nyquist | analyze | 🚧 stub | [manual-index/egat/analyzers/beat-finder](../src/content/manual/manual-index/egat/analyzers/beat-finder.mdx) |
+| Clip fix | nyquist | process | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/clip-fix](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/clip-fix.mdx) |
+| Crossfade clips | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/crossfade-clips](../src/content/manual/manual-index/egat/effects/fading/crossfade-clips.mdx) |
+| Crossfade tracks | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/crossfade-tracks](../src/content/manual/manual-index/egat/effects/fading/crossfade-tracks.mdx) |
+| Delay | nyquist | process | 🚧 stub | [manual-index/egat/effects/delay-and-reverb/delay](../src/content/manual/manual-index/egat/effects/delay-and-reverb/delay.mdx) |
+| Delete selection | nyquist | process | ❌ missing | — |
+| Delete selection center frequency | nyquist | process | ❌ missing | — |
+| High-pass filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/high-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/high-pass-filter.mdx) |
+| Label sounds | nyquist | analyze | 🚧 stub | [manual-index/egat/analyzers/label-sounds](../src/content/manual/manual-index/egat/analyzers/label-sounds.mdx) |
+| Legacy limiter | nyquist | process | ❌ missing | — |
+| Low-pass filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/low-pass-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/low-pass-filter.mdx) |
+| Measure RMS | nyquist | analyze | 🚧 stub | [manual-index/egat/analyzers/measure-rms](../src/content/manual/manual-index/egat/analyzers/measure-rms.mdx) |
+| Noise gate | nyquist | process | 🚧 stub | [manual-index/egat/effects/noise-removal-and-repair/noise-gate](../src/content/manual/manual-index/egat/effects/noise-removal-and-repair/noise-gate.mdx) |
+| Notch filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/notch-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/notch-filter.mdx) |
+| Nyquist plugin installer | nyquist | tool | ❌ missing | — |
+| Pluck | nyquist | generate | 🚧 stub | [manual-index/egat/generators/pluck](../src/content/manual/manual-index/egat/generators/pluck.mdx) |
+| Regular interval labels | nyquist | tool | ❌ missing | — |
+| Rhythm track | nyquist | generate | 🚧 stub | [manual-index/egat/generators/rhythm-track](../src/content/manual/manual-index/egat/generators/rhythm-track.mdx) |
+| Risset drum | nyquist | generate | 🚧 stub | [manual-index/egat/generators/risset-drum](../src/content/manual/manual-index/egat/generators/risset-drum.mdx) |
+| Sample data export | nyquist | tool | ❌ missing | — |
+| Sample data Import | nyquist | tool | ❌ missing | — |
+| Shelf filter | nyquist | process | 🚧 stub | [manual-index/egat/effects/eq-and-filters/shelf-filter](../src/content/manual/manual-index/egat/effects/eq-and-filters/shelf-filter.mdx) |
+| Studio fade out | nyquist | process | 🚧 stub | [manual-index/egat/effects/fading/studio-fade-out](../src/content/manual/manual-index/egat/effects/fading/studio-fade-out.mdx) |
+| Tremolo | nyquist | process | ❌ missing | — |
+| Vocoder | nyquist | process | ❌ missing | — |
 
 ### Effect-ish pages matching no current AU4 effect (stale?)
 
@@ -238,19 +239,19 @@ has no real content yet.
 
 ## Preferences
 
-| Page               | Id                   | Status               | Page                                                                                                                               |
-| ------------------ | -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| General            | `general`            | ❌ missing           | —                                                                                                                                  |
-| Appearance         | `appearance`         | ❌ missing           | —                                                                                                                                  |
-| Audio settings     | `audio-settings`     | ❌ missing           | —                                                                                                                                  |
-| Audio editing      | `editing`            | ❌ missing           | —                                                                                                                                  |
-| Playback/Recording | `playback-recording` | ❌ missing           | —                                                                                                                                  |
-| Spectral display   | `spectral-display`   | ❌ missing           | —                                                                                                                                  |
-| Music              | `music`              | 🚧 stub              | [manual-index/workspaces/music](../src/content/manual/manual-index/workspaces/music.mdx)                                           |
-| Cloud              | `cloud`              | ❌ missing           | —                                                                                                                                  |
-| Shortcuts          | `shortcuts`          | ❌ missing           | —                                                                                                                                  |
-| Plugins            | `plugin`             | ✅ written (heading) | [new-in-audacity-4/audacity-3-to-4-transition-guide](../src/content/manual/new-in-audacity-4/audacity-3-to-4-transition-guide.mdx) |
-| Advanced options   | `advanced`           | ❌ missing           | —                                                                                                                                  |
+| Page | Id | Status | Page |
+| --- | --- | --- | --- |
+| General | `general` | ❌ missing | — |
+| Appearance | `appearance` | ❌ missing | — |
+| Audio settings | `audio-settings` | ❌ missing | — |
+| Audio editing | `editing` | ❌ missing | — |
+| Playback/Recording | `playback-recording` | ❌ missing | — |
+| Spectral display | `spectral-display` | ❌ missing | — |
+| Music | `music` | 🚧 stub | [manual-index/workspaces/music](../src/content/manual/manual-index/workspaces/music.mdx) |
+| Cloud | `cloud` | ❌ missing | — |
+| Shortcuts | `shortcuts` | ❌ missing | — |
+| Plugins | `plugin` | ✅ written (heading) | [new-in-audacity-4/audacity-3-to-4-transition-guide](../src/content/manual/new-in-audacity-4/audacity-3-to-4-transition-guide.mdx) |
+| Advanced options | `advanced` | ❌ missing | — |
 
 ## Shortcuts
 
@@ -385,6 +386,62 @@ checked.
 - `ctrl+y` on `accessibility/toolbars-and-panels`
 - `shift+[` on `accessibility/track-view`
 - `shift+]` on `accessibility/track-view`
+
+## Target-state topics (from the AU3 manual)
+
+The topics manual.audacityteam.org covers, mapped to Audacity 4 —
+the breadth a complete manual needs beyond the app's own surface.
+Curated in scripts/au3-topic-checklist.json; “verify” means it is
+not yet known whether AU4 has the feature at all.
+
+| Topic | Stream | AU4 status | Coverage | Page |
+| --- | --- | --- | --- | --- |
+| Audacity projects | getting-started | applies | ✅ written | [manual-index/project-management-menu](../src/content/manual/manual-index/project-management-menu.mdx) |
+| How to use Audacity | getting-started | applies | ✅ written | [getting-started/install-audacity](../src/content/manual/getting-started/install-audacity.mdx) |
+| Preferences | reference | applies | ❌ missing | — |
+| Toolbars overview | reference | changed | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
+| Keyboard shortcut reference | reference | applies | ✅ written (outside collection) | `/manual/shortcuts` (generated from src/data/au4) |
+| Mouse bindings | reference | applies | ❌ missing | — |
+| Index of effects, generators and analyzers | reference | applies | 🚧 stub | [manual-index/egat](../src/content/manual/manual-index/egat.mdx) |
+| Managing effects, generators and analyzers | reference | changed | ❌ missing | — |
+| Macros | reference | verify | ❌ missing | — |
+| Nyquist | reference | applies | 🚧 stub | [manual-index/egat/nyquist](../src/content/manual/manual-index/egat/nyquist.mdx) |
+| Audio tracks | reference | applies | 🚧 stub | [manual-index/track-control-panel](../src/content/manual/manual-index/track-control-panel.mdx) |
+| Audacity waveform | reference | applies | ❌ missing | — |
+| Spectrogram view | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
+| Tracks and clips | reference | applies | 🚧 stub | [manual-index/header/edit/clip](../src/content/manual/manual-index/header/edit/clip.mdx) |
+| Label tracks | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
+| Note (MIDI) tracks | reference | verify | ❌ missing | — |
+| Time tracks | reference | verify | ❌ missing | — |
+| Mixer board | reference | verify | ❌ missing | — |
+| Timeline | reference | applies | 🚧 stub | [manual-index/timeline](../src/content/manual/manual-index/timeline.mdx) |
+| Volume envelopes | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
+| Glossary | reference | applies | ✅ written | [glossary](../src/content/manual/glossary.mdx) |
+| Importing audio | getting-started | applies | 🚧 stub | [manual-index/header/file/import](../src/content/manual/manual-index/header/file/import.mdx) |
+| Exporting audio | getting-started | applies | ✅ written | [basics/saving-and-exporting-projects](../src/content/manual/basics/saving-and-exporting-projects.mdx) |
+| Recording | getting-started | applies | ✅ written | [manual-index/toolbar/record](../src/content/manual/manual-index/toolbar/record.mdx) |
+| Playing audio | getting-started | applies | ✅ written | [manual-index/toolbar/play](../src/content/manual/manual-index/toolbar/play.mdx) |
+| Basic audio editing | getting-started | applies | ❌ missing | — |
+| Selecting audio | getting-started | applies | 🚧 stub | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
+| Undo, redo and history | reference | applies | 🚧 stub | [manual-index/header/edit/undo](../src/content/manual/manual-index/header/edit/undo.mdx) |
+| Customising the layout (workspaces) | reference | changed | ✅ written | [manual-index/workspaces](../src/content/manual/manual-index/workspaces.mdx) |
+| Themes and appearance | reference | changed | ❌ missing | — |
+| FAQ | how-to | applies | ✅ written (outside collection) | `/FAQ` (site page, indexed in help search) |
+| Punch-in repair of recording fluffs | how-to | applies | 🚧 stub | [manual-index/punch-and-roll-recording](../src/content/manual/manual-index/punch-and-roll-recording.mdx) |
+| Mixing voice with background music | how-to | applies | ❌ missing | — |
+| Using multi-track | how-to | applies | ❌ missing | — |
+| Recording multi-track overdubs | how-to | applies | ❌ missing | — |
+| Making ringtones and IVR messages | how-to | applies | ❌ missing | — |
+| Copying tapes and LPs to computer | how-to | applies | ❌ missing | — |
+| Splitting a recording into separate tracks | how-to | applies | ❌ missing | — |
+| Recording streaming audio playing on the computer | how-to | applies | ✅ written | [basics/recording-desktop-audio](../src/content/manual/basics/recording-desktop-audio.mdx) |
+| Click and pop removal | how-to | applies | ❌ missing | — |
+| Noise reduction and removal | how-to | applies | ❌ missing | — |
+| Vocal removal and isolation | how-to | applies | ❌ missing | — |
+| Looping | how-to | applies | ✅ written | [manual-index/toolbar/toggle-loop-region](../src/content/manual/manual-index/toolbar/toggle-loop-region.mdx) |
+| Spectral analysis | how-to | applies | ❌ missing | — |
+| Audiobook mastering | how-to | applies | ❌ missing | — |
+| Editing audio (tutorial) | how-to | applies | ❌ missing | — |
 
 ## Site-internal debt
 
@@ -590,236 +647,236 @@ None.
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
 
-| Page                                                                                                               | Proposed stream                 |
-| ------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
-| `accessibility/index`                                                                                              | reference                       |
-| `accessibility/modals-and-menus`                                                                                   | reference                       |
-| `accessibility/navigation-model`                                                                                   | reference                       |
-| `accessibility/toolbars-and-panels`                                                                                | reference                       |
-| `accessibility/track-view`                                                                                         | reference                       |
-| `alex/alex-s-test-page`                                                                                            | review for removal              |
-| `demo/interactive-components`                                                                                      | review for removal              |
-| `demo/project-window`                                                                                              | review for removal              |
-| `manual-index/cut-tool`                                                                                            | reference                       |
-| `manual-index/egat`                                                                                                | reference                       |
-| `manual-index/egat/analyzers`                                                                                      | reference                       |
-| `manual-index/egat/analyzers/beat-finder`                                                                          | reference                       |
-| `manual-index/egat/analyzers/contrast-analyzer`                                                                    | reference                       |
-| `manual-index/egat/analyzers/find-clipping`                                                                        | reference                       |
-| `manual-index/egat/analyzers/label-sounds`                                                                         | reference                       |
-| `manual-index/egat/analyzers/measure-rms`                                                                          | reference                       |
-| `manual-index/egat/effects`                                                                                        | reference                       |
-| `manual-index/egat/effects/delay-and-reverb`                                                                       | reference                       |
-| `manual-index/egat/effects/delay-and-reverb/delay`                                                                 | reference                       |
-| `manual-index/egat/effects/delay-and-reverb/echo`                                                                  | reference                       |
-| `manual-index/egat/effects/delay-and-reverb/reverb`                                                                | reference                       |
-| `manual-index/egat/effects/eq-and-filters`                                                                         | reference                       |
-| `manual-index/egat/effects/eq-and-filters/bass-and-treble`                                                         | reference                       |
-| `manual-index/egat/effects/eq-and-filters/filter-curve-eq`                                                         | reference                       |
-| `manual-index/egat/effects/eq-and-filters/graphic-eq`                                                              | reference                       |
-| `manual-index/egat/effects/eq-and-filters/high-pass-filter`                                                        | reference                       |
-| `manual-index/egat/effects/eq-and-filters/low-pass-filter`                                                         | reference                       |
-| `manual-index/egat/effects/eq-and-filters/notch-filter`                                                            | reference                       |
-| `manual-index/egat/effects/eq-and-filters/shelf-filter`                                                            | reference                       |
-| `manual-index/egat/effects/fading`                                                                                 | reference                       |
-| `manual-index/egat/effects/fading/adjustable-fade`                                                                 | reference                       |
-| `manual-index/egat/effects/fading/crossfade-clips`                                                                 | reference                       |
-| `manual-index/egat/effects/fading/crossfade-tracks`                                                                | reference                       |
-| `manual-index/egat/effects/fading/fade-in`                                                                         | reference                       |
-| `manual-index/egat/effects/fading/fade-out`                                                                        | reference                       |
-| `manual-index/egat/effects/fading/studio-fade-out`                                                                 | reference                       |
-| `manual-index/egat/effects/legacy`                                                                                 | reference                       |
-| `manual-index/egat/effects/noise-removal-and-repair`                                                               | reference                       |
-| `manual-index/egat/effects/noise-removal-and-repair/click-removal`                                                 | reference                       |
-| `manual-index/egat/effects/noise-removal-and-repair/clip-fix`                                                      | reference                       |
-| `manual-index/egat/effects/noise-removal-and-repair/noise-gate`                                                    | reference                       |
-| `manual-index/egat/effects/noise-removal-and-repair/noise-reduction`                                               | reference                       |
-| `manual-index/egat/effects/noise-removal-and-repair/repair`                                                        | reference                       |
-| `manual-index/egat/effects/pitch-and-tempo`                                                                        | reference                       |
-| `manual-index/egat/effects/pitch-and-tempo/change-pitch`                                                           | reference                       |
-| `manual-index/egat/effects/pitch-and-tempo/change-speed-and-pitch`                                                 | reference                       |
-| `manual-index/egat/effects/pitch-and-tempo/change-tempo`                                                           | reference                       |
-| `manual-index/egat/effects/pitch-and-tempo/paulstretch`                                                            | reference                       |
-| `manual-index/egat/effects/pitch-and-tempo/sliding-stretch`                                                        | reference                       |
-| `manual-index/egat/effects/realtime-effects`                                                                       | reference                       |
-| `manual-index/egat/effects/realtime-effects/compressor`                                                            | reference                       |
-| `manual-index/egat/effects/realtime-effects/limiter`                                                               | reference                       |
-| `manual-index/egat/effects/realtime-effects/reverb`                                                                | reference                       |
-| `manual-index/egat/effects/special`                                                                                | reference                       |
-| `manual-index/egat/effects/special/invert`                                                                         | reference                       |
-| `manual-index/egat/effects/special/repeat`                                                                         | reference                       |
-| `manual-index/egat/effects/special/reverse`                                                                        | reference                       |
-| `manual-index/egat/effects/special/truncate-silence`                                                               | reference                       |
-| `manual-index/egat/effects/special/vocal-reduction-and-isolation`                                                  | reference                       |
-| `manual-index/egat/effects/spectral-tools`                                                                         | reference                       |
-| `manual-index/egat/effects/spectral-tools/spectral-delete`                                                         | reference                       |
-| `manual-index/egat/effects/spectral-tools/spectral-edit-multi-tool`                                                | reference                       |
-| `manual-index/egat/effects/spectral-tools/spectral-edit-parametric-eq`                                             | reference                       |
-| `manual-index/egat/effects/spectral-tools/spectral-edit-shelves`                                                   | reference                       |
-| `manual-index/egat/effects/volume-and-compression`                                                                 | reference                       |
-| `manual-index/egat/effects/volume-and-compression/amplify`                                                         | reference                       |
-| `manual-index/egat/effects/volume-and-compression/auto-duck`                                                       | reference                       |
-| `manual-index/egat/effects/volume-and-compression/compressor`                                                      | reference                       |
-| `manual-index/egat/effects/volume-and-compression/limiter`                                                         | reference                       |
-| `manual-index/egat/effects/volume-and-compression/loudness-normalisation`                                          | reference                       |
-| `manual-index/egat/effects/volume-and-compression/normalize`                                                       | reference                       |
-| `manual-index/egat/generators`                                                                                     | reference                       |
-| `manual-index/egat/generators/chirp`                                                                               | reference                       |
-| `manual-index/egat/generators/dtmf-generator`                                                                      | reference                       |
-| `manual-index/egat/generators/noise`                                                                               | reference                       |
-| `manual-index/egat/generators/pluck`                                                                               | reference                       |
-| `manual-index/egat/generators/rhythm-track`                                                                        | reference                       |
-| `manual-index/egat/generators/risset-drum`                                                                         | reference                       |
-| `manual-index/egat/generators/silence`                                                                             | reference                       |
-| `manual-index/egat/generators/tone`                                                                                | reference                       |
-| `manual-index/egat/generators/tone-1`                                                                              | reference                       |
-| `manual-index/egat/nyquist`                                                                                        | reference                       |
-| `manual-index/export-menu`                                                                                         | reference                       |
-| `manual-index/header`                                                                                              | reference                       |
-| `manual-index/header/edit`                                                                                         | reference                       |
-| `manual-index/header/edit/clip`                                                                                    | reference                       |
-| `manual-index/header/edit/clip/group-clips`                                                                        | reference                       |
-| `manual-index/header/edit/clip/join-selected-clips`                                                                | reference                       |
-| `manual-index/header/edit/clip/rename-clip`                                                                        | reference                       |
-| `manual-index/header/edit/clip/split`                                                                              | reference                       |
-| `manual-index/header/edit/clip/split-clips-at-silences`                                                            | reference                       |
-| `manual-index/header/edit/clip/split-into-new-track`                                                               | reference                       |
-| `manual-index/header/edit/clip/trim-clip`                                                                          | reference                       |
-| `manual-index/header/edit/copy`                                                                                    | reference                       |
-| `manual-index/header/edit/cut`                                                                                     | reference                       |
-| `manual-index/header/edit/delete`                                                                                  | reference                       |
-| `manual-index/header/edit/delete-and-close-gap-per-track`                                                          | reference                       |
-| `manual-index/header/edit/duplicate`                                                                               | reference                       |
-| `manual-index/header/edit/paste`                                                                                   | reference                       |
-| `manual-index/header/edit/redo`                                                                                    | reference                       |
-| `manual-index/header/edit/undo`                                                                                    | reference                       |
-| `manual-index/header/effect`                                                                                       | reference                       |
-| `manual-index/header/file`                                                                                         | reference                       |
-| `manual-index/header/file/close-project`                                                                           | reference                       |
-| `manual-index/header/file/export-audio`                                                                            | reference                       |
-| `manual-index/header/file/export-other`                                                                            | reference                       |
-| `manual-index/header/file/import`                                                                                  | reference                       |
-| `manual-index/header/file/import-1`                                                                                | reference                       |
-| `manual-index/header/file/new`                                                                                     | reference                       |
-| `manual-index/header/file/open`                                                                                    | reference                       |
-| `manual-index/header/file/open-recent`                                                                             | reference                       |
-| `manual-index/header/file/quit-audacity`                                                                           | reference                       |
-| `manual-index/header/file/save-as`                                                                                 | reference                       |
-| `manual-index/header/file/save-backup`                                                                             | reference                       |
-| `manual-index/header/file/save-project`                                                                            | reference                       |
-| `manual-index/header/generate`                                                                                     | reference                       |
-| `manual-index/header/record`                                                                                       | reference                       |
-| `manual-index/header/record/page-2`                                                                                | reference                       |
-| `manual-index/header/select`                                                                                       | reference                       |
-| `manual-index/header/select/clear-selection`                                                                       | reference                       |
-| `manual-index/header/select/looping`                                                                               | reference                       |
-| `manual-index/header/select/move-cursor-to-zero-crossing`                                                          | reference                       |
-| `manual-index/header/select/region`                                                                                | reference                       |
-| `manual-index/header/select/select-all`                                                                            | reference                       |
-| `manual-index/header/select/select-all-tracks`                                                                     | reference                       |
-| `manual-index/header/tracks`                                                                                       | reference                       |
-| `manual-index/header/view`                                                                                         | reference                       |
-| `manual-index/header/view/fullscreen`                                                                              | reference                       |
-| `manual-index/header/view/restore-the-default-layout`                                                              | reference                       |
-| `manual-index/header/view/show-clipping-in-waveform`                                                               | reference                       |
-| `manual-index/header/view/show-history`                                                                            | reference                       |
-| `manual-index/header/view/show-label-editor`                                                                       | reference                       |
-| `manual-index/header/view/show-metadata-editor`                                                                    | reference                       |
-| `manual-index/header/view/show-rms-in-waveform`                                                                    | reference                       |
-| `manual-index/header/view/show-vertical-rulers`                                                                    | reference                       |
-| `manual-index/header/view/skip-to`                                                                                 | reference                       |
-| `manual-index/header/view/workspaces`                                                                              | reference                       |
-| `manual-index/header/view/zoom`                                                                                    | reference                       |
-| `manual-index/hotbar`                                                                                              | reference                       |
-| `manual-index/hotbar/audio-setup`                                                                                  | reference                       |
-| `manual-index/hotbar/get-effects`                                                                                  | reference                       |
-| `manual-index/hotbar/share-audio`                                                                                  | reference                       |
-| `manual-index/import`                                                                                              | reference                       |
-| `manual-index/project-management-menu`                                                                             | reference                       |
-| `manual-index/project-management-menu/home`                                                                        | reference                       |
-| `manual-index/project-management-menu/home/cloud-projects-and-audio-files`                                         | reference                       |
-| `manual-index/project-management-menu/home/new-and-recent`                                                         | reference                       |
-| `manual-index/project-management-menu/project`                                                                     | reference                       |
-| `manual-index/project-management-menu/publish`                                                                     | reference                       |
-| `manual-index/punch-and-roll-recording`                                                                            | reference                       |
-| `manual-index/time-toolbar`                                                                                        | reference                       |
-| `manual-index/timeline`                                                                                            | reference                       |
-| `manual-index/timeline/beats-and-measures`                                                                         | reference                       |
-| `manual-index/timeline/clear-loop-region`                                                                          | reference                       |
-| `manual-index/timeline/click-ruler-to-start-playback`                                                              | reference                       |
-| `manual-index/timeline/creating-a-loop-also-selects-audio`                                                         | reference                       |
-| `manual-index/timeline/minutes-and-seconds`                                                                        | reference                       |
-| `manual-index/timeline/pinned-playhead`                                                                            | reference                       |
-| `manual-index/timeline/set-loop-region-to-selection`                                                               | reference                       |
-| `manual-index/timeline/set-selection-to-loop`                                                                      | reference                       |
-| `manual-index/timeline/show-vertical-rulers`                                                                       | reference                       |
-| `manual-index/timeline/toggle-loop-region`                                                                         | reference                       |
-| `manual-index/timeline/update-display-while-playing`                                                               | reference                       |
-| `manual-index/toolbar`                                                                                             | reference                       |
-| `manual-index/toolbar/clip-gain`                                                                                   | reference                       |
-| `manual-index/toolbar/copy`                                                                                        | reference                       |
-| `manual-index/toolbar/cut`                                                                                         | reference                       |
-| `manual-index/toolbar/paste`                                                                                       | reference                       |
-| `manual-index/toolbar/play`                                                                                        | reference                       |
-| `manual-index/toolbar/playback-level`                                                                              | reference                       |
-| `manual-index/toolbar/record`                                                                                      | reference                       |
-| `manual-index/toolbar/record-level`                                                                                | reference                       |
-| `manual-index/toolbar/rewind-to-end`                                                                               | reference                       |
-| `manual-index/toolbar/rewind-to-start`                                                                             | reference                       |
-| `manual-index/toolbar/silence`                                                                                     | reference                       |
-| `manual-index/toolbar/snapping`                                                                                    | reference                       |
-| `manual-index/toolbar/split-tool`                                                                                  | reference                       |
-| `manual-index/toolbar/stop`                                                                                        | reference                       |
-| `manual-index/toolbar/tempo`                                                                                       | reference                       |
-| `manual-index/toolbar/time-signature`                                                                              | reference                       |
-| `manual-index/toolbar/timecode`                                                                                    | reference                       |
-| `manual-index/toolbar/toggle-loop-region`                                                                          | reference                       |
-| `manual-index/toolbar/toggle-spectral-view`                                                                        | reference                       |
-| `manual-index/toolbar/trim`                                                                                        | reference                       |
-| `manual-index/toolbar/zoom-in`                                                                                     | reference                       |
-| `manual-index/toolbar/zoom-out`                                                                                    | reference                       |
-| `manual-index/toolbar/zoom-to-fit-project`                                                                         | reference                       |
-| `manual-index/toolbar/zoom-to-selection`                                                                           | reference                       |
-| `manual-index/toolbar/zoom-toggle`                                                                                 | reference                       |
-| `manual-index/track-control-panel`                                                                                 | reference                       |
-| `manual-index/track-control-panel/add-track`                                                                       | reference                       |
-| `manual-index/track-control-panel/audio-track-item`                                                                | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options`                                             | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/format-rate-and-resampling`                  | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/meters-and-monitoring`                       | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/move-track`                                  | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/renaming-duplication-and-deletion-of-tracks` | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/show-vertical-rulers`                        | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/split-stereo-to-center-mono`                 | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/split-stereo-to-l-r-mono`                    | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/swap-stereo-channels`                        | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/track-color`                                 | reference                       |
-| `manual-index/track-control-panel/audio-track-item/additional-options/track-view`                                  | reference                       |
-| `manual-index/track-control-panel/audio-track-item/effects`                                                        | reference                       |
-| `manual-index/track-control-panel/audio-track-item/mute`                                                           | reference                       |
-| `manual-index/track-control-panel/audio-track-item/panning`                                                        | reference                       |
-| `manual-index/track-control-panel/audio-track-item/solo`                                                           | reference                       |
-| `manual-index/track-control-panel/audio-track-item/volume`                                                         | reference                       |
-| `manual-index/track-control-panel/audio-track-item/vu-meters`                                                      | reference                       |
-| `manual-index/track-control-panel/label-track-item`                                                                | reference                       |
-| `manual-index/track-control-panel/label-track-item/add-labels`                                                     | reference                       |
-| `manual-index/track-control-panel/label-track-item/additional-options`                                             | reference                       |
-| `manual-index/track-control-panel/label-track-item/additional-options/export-labels`                               | reference                       |
-| `manual-index/track-control-panel/label-track-item/additional-options/move-track`                                  | reference                       |
-| `manual-index/track-control-panel/label-track-item/additional-options/renaming-duplication-and-deletion-of-labels` | reference                       |
-| `manual-index/track-control-panel/label-track-item/additional-options/track-color`                                 | reference                       |
-| `manual-index/vertical-rulers`                                                                                     | reference                       |
-| `manual-index/workspaces`                                                                                          | reference                       |
-| `manual-index/workspaces/classic`                                                                                  | reference                       |
-| `manual-index/workspaces/creating-new-workspaces`                                                                  | reference                       |
-| `manual-index/workspaces/edit-workspaces`                                                                          | reference                       |
-| `manual-index/workspaces/modern`                                                                                   | reference                       |
-| `manual-index/workspaces/music`                                                                                    | reference                       |
-| `new-in-audacity-4/audacity-4-alpha-1-release-notes`                                                               | extract from manual (June note) |
-| `special-uses/expected-uses`                                                                                       | how-to                          |
-| `special-uses/info-for-system-administrators`                                                                      | how-to                          |
+| Page | Proposed stream |
+| --- | --- |
+| `accessibility/index` | reference |
+| `accessibility/modals-and-menus` | reference |
+| `accessibility/navigation-model` | reference |
+| `accessibility/toolbars-and-panels` | reference |
+| `accessibility/track-view` | reference |
+| `alex/alex-s-test-page` | review for removal |
+| `demo/interactive-components` | review for removal |
+| `demo/project-window` | review for removal |
+| `manual-index/cut-tool` | reference |
+| `manual-index/egat` | reference |
+| `manual-index/egat/analyzers` | reference |
+| `manual-index/egat/analyzers/beat-finder` | reference |
+| `manual-index/egat/analyzers/contrast-analyzer` | reference |
+| `manual-index/egat/analyzers/find-clipping` | reference |
+| `manual-index/egat/analyzers/label-sounds` | reference |
+| `manual-index/egat/analyzers/measure-rms` | reference |
+| `manual-index/egat/effects` | reference |
+| `manual-index/egat/effects/delay-and-reverb` | reference |
+| `manual-index/egat/effects/delay-and-reverb/delay` | reference |
+| `manual-index/egat/effects/delay-and-reverb/echo` | reference |
+| `manual-index/egat/effects/delay-and-reverb/reverb` | reference |
+| `manual-index/egat/effects/eq-and-filters` | reference |
+| `manual-index/egat/effects/eq-and-filters/bass-and-treble` | reference |
+| `manual-index/egat/effects/eq-and-filters/filter-curve-eq` | reference |
+| `manual-index/egat/effects/eq-and-filters/graphic-eq` | reference |
+| `manual-index/egat/effects/eq-and-filters/high-pass-filter` | reference |
+| `manual-index/egat/effects/eq-and-filters/low-pass-filter` | reference |
+| `manual-index/egat/effects/eq-and-filters/notch-filter` | reference |
+| `manual-index/egat/effects/eq-and-filters/shelf-filter` | reference |
+| `manual-index/egat/effects/fading` | reference |
+| `manual-index/egat/effects/fading/adjustable-fade` | reference |
+| `manual-index/egat/effects/fading/crossfade-clips` | reference |
+| `manual-index/egat/effects/fading/crossfade-tracks` | reference |
+| `manual-index/egat/effects/fading/fade-in` | reference |
+| `manual-index/egat/effects/fading/fade-out` | reference |
+| `manual-index/egat/effects/fading/studio-fade-out` | reference |
+| `manual-index/egat/effects/legacy` | reference |
+| `manual-index/egat/effects/noise-removal-and-repair` | reference |
+| `manual-index/egat/effects/noise-removal-and-repair/click-removal` | reference |
+| `manual-index/egat/effects/noise-removal-and-repair/clip-fix` | reference |
+| `manual-index/egat/effects/noise-removal-and-repair/noise-gate` | reference |
+| `manual-index/egat/effects/noise-removal-and-repair/noise-reduction` | reference |
+| `manual-index/egat/effects/noise-removal-and-repair/repair` | reference |
+| `manual-index/egat/effects/pitch-and-tempo` | reference |
+| `manual-index/egat/effects/pitch-and-tempo/change-pitch` | reference |
+| `manual-index/egat/effects/pitch-and-tempo/change-speed-and-pitch` | reference |
+| `manual-index/egat/effects/pitch-and-tempo/change-tempo` | reference |
+| `manual-index/egat/effects/pitch-and-tempo/paulstretch` | reference |
+| `manual-index/egat/effects/pitch-and-tempo/sliding-stretch` | reference |
+| `manual-index/egat/effects/realtime-effects` | reference |
+| `manual-index/egat/effects/realtime-effects/compressor` | reference |
+| `manual-index/egat/effects/realtime-effects/limiter` | reference |
+| `manual-index/egat/effects/realtime-effects/reverb` | reference |
+| `manual-index/egat/effects/special` | reference |
+| `manual-index/egat/effects/special/invert` | reference |
+| `manual-index/egat/effects/special/repeat` | reference |
+| `manual-index/egat/effects/special/reverse` | reference |
+| `manual-index/egat/effects/special/truncate-silence` | reference |
+| `manual-index/egat/effects/special/vocal-reduction-and-isolation` | reference |
+| `manual-index/egat/effects/spectral-tools` | reference |
+| `manual-index/egat/effects/spectral-tools/spectral-delete` | reference |
+| `manual-index/egat/effects/spectral-tools/spectral-edit-multi-tool` | reference |
+| `manual-index/egat/effects/spectral-tools/spectral-edit-parametric-eq` | reference |
+| `manual-index/egat/effects/spectral-tools/spectral-edit-shelves` | reference |
+| `manual-index/egat/effects/volume-and-compression` | reference |
+| `manual-index/egat/effects/volume-and-compression/amplify` | reference |
+| `manual-index/egat/effects/volume-and-compression/auto-duck` | reference |
+| `manual-index/egat/effects/volume-and-compression/compressor` | reference |
+| `manual-index/egat/effects/volume-and-compression/limiter` | reference |
+| `manual-index/egat/effects/volume-and-compression/loudness-normalisation` | reference |
+| `manual-index/egat/effects/volume-and-compression/normalize` | reference |
+| `manual-index/egat/generators` | reference |
+| `manual-index/egat/generators/chirp` | reference |
+| `manual-index/egat/generators/dtmf-generator` | reference |
+| `manual-index/egat/generators/noise` | reference |
+| `manual-index/egat/generators/pluck` | reference |
+| `manual-index/egat/generators/rhythm-track` | reference |
+| `manual-index/egat/generators/risset-drum` | reference |
+| `manual-index/egat/generators/silence` | reference |
+| `manual-index/egat/generators/tone` | reference |
+| `manual-index/egat/generators/tone-1` | reference |
+| `manual-index/egat/nyquist` | reference |
+| `manual-index/export-menu` | reference |
+| `manual-index/header` | reference |
+| `manual-index/header/edit` | reference |
+| `manual-index/header/edit/clip` | reference |
+| `manual-index/header/edit/clip/group-clips` | reference |
+| `manual-index/header/edit/clip/join-selected-clips` | reference |
+| `manual-index/header/edit/clip/rename-clip` | reference |
+| `manual-index/header/edit/clip/split` | reference |
+| `manual-index/header/edit/clip/split-clips-at-silences` | reference |
+| `manual-index/header/edit/clip/split-into-new-track` | reference |
+| `manual-index/header/edit/clip/trim-clip` | reference |
+| `manual-index/header/edit/copy` | reference |
+| `manual-index/header/edit/cut` | reference |
+| `manual-index/header/edit/delete` | reference |
+| `manual-index/header/edit/delete-and-close-gap-per-track` | reference |
+| `manual-index/header/edit/duplicate` | reference |
+| `manual-index/header/edit/paste` | reference |
+| `manual-index/header/edit/redo` | reference |
+| `manual-index/header/edit/undo` | reference |
+| `manual-index/header/effect` | reference |
+| `manual-index/header/file` | reference |
+| `manual-index/header/file/close-project` | reference |
+| `manual-index/header/file/export-audio` | reference |
+| `manual-index/header/file/export-other` | reference |
+| `manual-index/header/file/import` | reference |
+| `manual-index/header/file/import-1` | reference |
+| `manual-index/header/file/new` | reference |
+| `manual-index/header/file/open` | reference |
+| `manual-index/header/file/open-recent` | reference |
+| `manual-index/header/file/quit-audacity` | reference |
+| `manual-index/header/file/save-as` | reference |
+| `manual-index/header/file/save-backup` | reference |
+| `manual-index/header/file/save-project` | reference |
+| `manual-index/header/generate` | reference |
+| `manual-index/header/record` | reference |
+| `manual-index/header/record/page-2` | reference |
+| `manual-index/header/select` | reference |
+| `manual-index/header/select/clear-selection` | reference |
+| `manual-index/header/select/looping` | reference |
+| `manual-index/header/select/move-cursor-to-zero-crossing` | reference |
+| `manual-index/header/select/region` | reference |
+| `manual-index/header/select/select-all` | reference |
+| `manual-index/header/select/select-all-tracks` | reference |
+| `manual-index/header/tracks` | reference |
+| `manual-index/header/view` | reference |
+| `manual-index/header/view/fullscreen` | reference |
+| `manual-index/header/view/restore-the-default-layout` | reference |
+| `manual-index/header/view/show-clipping-in-waveform` | reference |
+| `manual-index/header/view/show-history` | reference |
+| `manual-index/header/view/show-label-editor` | reference |
+| `manual-index/header/view/show-metadata-editor` | reference |
+| `manual-index/header/view/show-rms-in-waveform` | reference |
+| `manual-index/header/view/show-vertical-rulers` | reference |
+| `manual-index/header/view/skip-to` | reference |
+| `manual-index/header/view/workspaces` | reference |
+| `manual-index/header/view/zoom` | reference |
+| `manual-index/hotbar` | reference |
+| `manual-index/hotbar/audio-setup` | reference |
+| `manual-index/hotbar/get-effects` | reference |
+| `manual-index/hotbar/share-audio` | reference |
+| `manual-index/import` | reference |
+| `manual-index/project-management-menu` | reference |
+| `manual-index/project-management-menu/home` | reference |
+| `manual-index/project-management-menu/home/cloud-projects-and-audio-files` | reference |
+| `manual-index/project-management-menu/home/new-and-recent` | reference |
+| `manual-index/project-management-menu/project` | reference |
+| `manual-index/project-management-menu/publish` | reference |
+| `manual-index/punch-and-roll-recording` | reference |
+| `manual-index/time-toolbar` | reference |
+| `manual-index/timeline` | reference |
+| `manual-index/timeline/beats-and-measures` | reference |
+| `manual-index/timeline/clear-loop-region` | reference |
+| `manual-index/timeline/click-ruler-to-start-playback` | reference |
+| `manual-index/timeline/creating-a-loop-also-selects-audio` | reference |
+| `manual-index/timeline/minutes-and-seconds` | reference |
+| `manual-index/timeline/pinned-playhead` | reference |
+| `manual-index/timeline/set-loop-region-to-selection` | reference |
+| `manual-index/timeline/set-selection-to-loop` | reference |
+| `manual-index/timeline/show-vertical-rulers` | reference |
+| `manual-index/timeline/toggle-loop-region` | reference |
+| `manual-index/timeline/update-display-while-playing` | reference |
+| `manual-index/toolbar` | reference |
+| `manual-index/toolbar/clip-gain` | reference |
+| `manual-index/toolbar/copy` | reference |
+| `manual-index/toolbar/cut` | reference |
+| `manual-index/toolbar/paste` | reference |
+| `manual-index/toolbar/play` | reference |
+| `manual-index/toolbar/playback-level` | reference |
+| `manual-index/toolbar/record` | reference |
+| `manual-index/toolbar/record-level` | reference |
+| `manual-index/toolbar/rewind-to-end` | reference |
+| `manual-index/toolbar/rewind-to-start` | reference |
+| `manual-index/toolbar/silence` | reference |
+| `manual-index/toolbar/snapping` | reference |
+| `manual-index/toolbar/split-tool` | reference |
+| `manual-index/toolbar/stop` | reference |
+| `manual-index/toolbar/tempo` | reference |
+| `manual-index/toolbar/time-signature` | reference |
+| `manual-index/toolbar/timecode` | reference |
+| `manual-index/toolbar/toggle-loop-region` | reference |
+| `manual-index/toolbar/toggle-spectral-view` | reference |
+| `manual-index/toolbar/trim` | reference |
+| `manual-index/toolbar/zoom-in` | reference |
+| `manual-index/toolbar/zoom-out` | reference |
+| `manual-index/toolbar/zoom-to-fit-project` | reference |
+| `manual-index/toolbar/zoom-to-selection` | reference |
+| `manual-index/toolbar/zoom-toggle` | reference |
+| `manual-index/track-control-panel` | reference |
+| `manual-index/track-control-panel/add-track` | reference |
+| `manual-index/track-control-panel/audio-track-item` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/format-rate-and-resampling` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/meters-and-monitoring` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/move-track` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/renaming-duplication-and-deletion-of-tracks` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/show-vertical-rulers` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/split-stereo-to-center-mono` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/split-stereo-to-l-r-mono` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/swap-stereo-channels` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/track-color` | reference |
+| `manual-index/track-control-panel/audio-track-item/additional-options/track-view` | reference |
+| `manual-index/track-control-panel/audio-track-item/effects` | reference |
+| `manual-index/track-control-panel/audio-track-item/mute` | reference |
+| `manual-index/track-control-panel/audio-track-item/panning` | reference |
+| `manual-index/track-control-panel/audio-track-item/solo` | reference |
+| `manual-index/track-control-panel/audio-track-item/volume` | reference |
+| `manual-index/track-control-panel/audio-track-item/vu-meters` | reference |
+| `manual-index/track-control-panel/label-track-item` | reference |
+| `manual-index/track-control-panel/label-track-item/add-labels` | reference |
+| `manual-index/track-control-panel/label-track-item/additional-options` | reference |
+| `manual-index/track-control-panel/label-track-item/additional-options/export-labels` | reference |
+| `manual-index/track-control-panel/label-track-item/additional-options/move-track` | reference |
+| `manual-index/track-control-panel/label-track-item/additional-options/renaming-duplication-and-deletion-of-labels` | reference |
+| `manual-index/track-control-panel/label-track-item/additional-options/track-color` | reference |
+| `manual-index/vertical-rulers` | reference |
+| `manual-index/workspaces` | reference |
+| `manual-index/workspaces/classic` | reference |
+| `manual-index/workspaces/creating-new-workspaces` | reference |
+| `manual-index/workspaces/edit-workspaces` | reference |
+| `manual-index/workspaces/modern` | reference |
+| `manual-index/workspaces/music` | reference |
+| `new-in-audacity-4/audacity-4-alpha-1-release-notes` | extract from manual (June note) |
+| `special-uses/expected-uses` | how-to |
+| `special-uses/info-for-system-administrators` | how-to |
 
-## Next pages to write (72 candidates)
+## Next pages to write (88 candidates)
 
 1. menu item **Save** (File, `file-save`)
 2. menu item **Save to cloud…** (File, `file-save-to-cloud`)
@@ -836,3 +893,4 @@ sidebars and belongs in its own reviewed change.
 13. menu item **Preferences** (Edit, `preference-dialog`)
 14. menu item **Left of playback position** (Select → Region, `select-left-of-playback-position`)
 15. menu item **Right of playback position** (Select → Region, `select-right-of-playback-position`)
+
