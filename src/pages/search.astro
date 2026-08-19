@@ -1,0 +1,331 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Audacity ® | Search";
+const pageDescription =
+  "Search the Audacity manual, guides, FAQ and feature pages.";
+
+/*
+  Results are rendered client-side from Pagefind's JS API (/pagefind/pagefind.js),
+  not the Default UI: a full page has room for facet counts, and the query lives
+  in the URL so a result set can be linked to — "here, search for this" is a
+  thing support answers need to say.
+
+  The bundle only exists after `pagefind --site dist`, so this page shows an
+  explicit unavailable state under `astro dev` rather than sitting silent.
+
+  The type: filter values come from the layouts that opt into the index —
+  see PageLayout, FeaturePageLayout, blog/[slug] and manual/[...slug].
+*/
+const FACETS = ["Manual", "Features", "FAQ", "Blog"] as const;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+  navBackgroundClass="bg-background-deep"
+>
+  <main id="main" class="search-page">
+    <section class="bg-background-deep">
+      <div class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-10 md:py-14">
+        <div class="flex flex-col gap-4 max-w-2xl">
+          <h1
+            class="font-harmony text-32 md:text-40 text-text-contrast leading-tight"
+          >
+            Search
+          </h1>
+          <!--
+            A real GET form: without JavaScript this still navigates to
+            /search?q=…, and the page below explains why results need JS.
+          -->
+          <form
+            id="search-form"
+            action="/search"
+            method="get"
+            role="search"
+            class="flex gap-3"
+          >
+            <label for="q" class="sr-only">Search Audacity help</label>
+            <input
+              type="search"
+              id="q"
+              name="q"
+              autocomplete="off"
+              placeholder="Search Audacity help…"
+              class="flex-1 h-12 px-4 rounded-md border border-text-contrast/20 bg-text-contrast/5 text-16 text-text-contrast placeholder:text-text-contrast/40 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+            />
+            <button
+              type="submit"
+              class="h-12 px-6 rounded-md bg-accent text-white font-semibold hover:opacity-90 transition-opacity"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-10 md:py-14">
+      <noscript>
+        <p class="text-16 text-text-primary/70">
+          Search needs JavaScript. You can still browse everything from the <a
+            href="/help"
+            class="text-accent underline underline-offset-4">Help hub</a
+          >.
+        </p>
+      </noscript>
+
+      <div id="search-shell" class="hidden flex-col md:flex-row gap-10">
+        <!-- Facets -->
+        <aside class="md:w-52 shrink-0">
+          <h2
+            class="text-12 font-semibold uppercase tracking-wider text-text-primary/50 mb-3"
+          >
+            Filter
+          </h2>
+          <ul id="facets" class="flex flex-row md:flex-col flex-wrap gap-1">
+            <li>
+              <button
+                type="button"
+                data-type=""
+                class="facet w-full text-left px-3 py-2 rounded-md text-16 text-text-primary/70 hover:bg-accent/5 transition-colors"
+                >All <span class="facet-count tabular-nums"></span></button
+              >
+            </li>
+            {
+              FACETS.map((f) => (
+                <li>
+                  <button
+                    type="button"
+                    data-type={f}
+                    class="facet w-full text-left px-3 py-2 rounded-md text-16 text-text-primary/70 hover:bg-accent/5 transition-colors"
+                  >
+                    {f} <span class="facet-count tabular-nums" />
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        </aside>
+
+        <!-- Results -->
+        <div class="flex-1 min-w-0">
+          <p
+            id="summary"
+            class="text-16 text-text-primary/60 mb-5"
+            aria-live="polite"
+          >
+          </p>
+          <ol id="results" class="flex flex-col gap-4"></ol>
+        </div>
+      </div>
+
+      <p id="search-unavailable" class="hidden text-16 text-text-primary/70">
+        The search index couldn't be loaded. Try reloading the page — or browse
+        everything from the <a
+          href="/help"
+          class="text-accent underline underline-offset-4">Help hub</a
+        >.
+      </p>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  body:has(.search-page) footer.bg-background-dark {
+    background-color: rgb(8, 6, 28);
+  }
+  .search-page .facet[aria-current="true"] {
+    background-color: rgb(255 50 84 / 0.1);
+    color: #ff3254;
+    font-weight: 600;
+  }
+  .search-page mark {
+    background: transparent;
+    color: #ff3254;
+    font-weight: 600;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var shell = document.getElementById("search-shell");
+    var unavailable = document.getElementById("search-unavailable");
+    var input = document.getElementById("q");
+    var form = document.getElementById("search-form");
+    var results = document.getElementById("results");
+    var summary = document.getElementById("summary");
+    var facets = Array.prototype.slice.call(
+      document.querySelectorAll(".facet"),
+    );
+
+    var pagefind = null;
+    var activeType = "";
+    var token = 0;
+
+    function params() {
+      return new URLSearchParams(window.location.search);
+    }
+
+    function syncUrl(q, type) {
+      var p = new URLSearchParams();
+      if (q) p.set("q", q);
+      if (type) p.set("type", type);
+      var next = p.toString();
+      window.history.replaceState(
+        {},
+        "",
+        window.location.pathname + (next ? "?" + next : ""),
+      );
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[c];
+      });
+    }
+
+    function setFacetCounts(counts, total) {
+      facets.forEach(function (btn) {
+        var type = btn.getAttribute("data-type");
+        var n = type ? counts[type] || 0 : total;
+        btn.querySelector(".facet-count").textContent = "(" + n + ")";
+        btn.setAttribute(
+          "aria-current",
+          type === activeType ? "true" : "false",
+        );
+        btn.disabled = type !== "" && n === 0;
+        btn.style.opacity = btn.disabled ? "0.4" : "";
+      });
+    }
+
+    async function run(q) {
+      var mine = ++token;
+      if (!q) {
+        results.innerHTML = "";
+        summary.textContent = "Type something to search.";
+        setFacetCounts({}, 0);
+        return;
+      }
+
+      // Unfiltered pass drives the facet counts, so a filter never hides
+      // the fact that matches exist under a different type.
+      var all = await pagefind.search(q);
+      if (mine !== token) return;
+      var counts = (all.filters && all.filters.type) || {};
+
+      var hits = all.results;
+      if (activeType) {
+        var filtered = await pagefind.search(q, {
+          filters: { type: [activeType] },
+        });
+        if (mine !== token) return;
+        hits = filtered.results;
+      }
+      setFacetCounts(counts, all.results.length);
+
+      var top = await Promise.all(
+        hits.slice(0, 30).map(function (r) {
+          return r.data();
+        }),
+      );
+      if (mine !== token) return;
+
+      summary.textContent = hits.length
+        ? hits.length +
+          (hits.length === 1 ? " result" : " results") +
+          ' for "' +
+          q +
+          '"' +
+          (activeType ? " in " + activeType : "")
+        : 'No results for "' + q + '"';
+
+      results.innerHTML = top
+        .map(function (d) {
+          var type = (d.filters && d.filters.type && d.filters.type[0]) || "";
+          return (
+            '<li class="border-b border-text-primary/10 pb-4">' +
+            '<a href="' +
+            escapeHtml(d.url) +
+            '" class="group block">' +
+            '<span class="flex items-baseline gap-3">' +
+            '<span class="text-18 font-semibold text-text-primary group-hover:text-accent transition-colors">' +
+            escapeHtml(d.meta && d.meta.title ? d.meta.title : d.url) +
+            "</span>" +
+            (type
+              ? '<span class="shrink-0 text-12 font-semibold uppercase tracking-wide text-text-primary/40">' +
+                escapeHtml(type) +
+                "</span>"
+              : "") +
+            "</span>" +
+            '<span class="block text-16 text-text-primary/60 mt-1">' +
+            d.excerpt +
+            "</span>" +
+            "</a></li>"
+          );
+        })
+        .join("");
+    }
+
+    var timer = null;
+    function schedule() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        syncUrl(input.value.trim(), activeType);
+        run(input.value.trim());
+      }, 180);
+    }
+
+    async function init() {
+      try {
+        pagefind = await import("/pagefind/pagefind.js");
+        await pagefind.options({ excerptLength: 25 });
+        /*
+          Loads the filter index. Without this call search() still returns
+          results but every filter count comes back 0, so the facets render
+          as a row of empty, disabled buttons.
+        */
+        await pagefind.filters();
+      } catch (err) {
+        unavailable.classList.remove("hidden");
+        console.warn("[search] Pagefind bundle unavailable:", err);
+        return;
+      }
+
+      shell.classList.remove("hidden");
+      shell.classList.add("flex");
+
+      var p = params();
+      activeType = p.get("type") || "";
+      input.value = p.get("q") || "";
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        schedule();
+      });
+      input.addEventListener("input", schedule);
+      facets.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          activeType = btn.getAttribute("data-type");
+          syncUrl(input.value.trim(), activeType);
+          run(input.value.trim());
+        });
+      });
+
+      run(input.value.trim());
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+</script>

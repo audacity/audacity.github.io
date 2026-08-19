@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ManualSearch from "../components/manual/ManualSearch.astro";
 import { getStreamEntryPoints } from "../components/manual/streamEntries";
+import HelpSearch from "../components/help/HelpSearch.astro";
 
 const pageTitle = "Audacity ® | Help";
 const pageDescription =
@@ -58,22 +58,17 @@ const community: HelpEntry[] = [
     <!-- Search band -->
     <section class="bg-background-deep">
       <div class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16">
-        <div class="flex flex-col gap-4 max-w-2xl">
+        <div class="flex flex-col gap-4">
           <h1
             class="font-harmony text-40 md:text-48 text-text-contrast leading-tight"
           >
             Help
           </h1>
-          <p class="text-18 text-text-contrast/70">
+          <p class="text-18 text-text-contrast/70 max-w-2xl">
             Search the manual, guides, FAQ and feature pages — or pick a
             starting point below.
           </p>
-          <div class="mt-2 max-w-xl">
-            <ManualSearch
-              id="help-search"
-              placeholder="Search Audacity help…"
-            />
-          </div>
+          <HelpSearch />
         </div>
       </div>
     </section>
