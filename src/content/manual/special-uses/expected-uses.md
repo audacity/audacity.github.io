@@ -2,8 +2,8 @@
 title: Expected uses
 description: "Audacity is an audio editor with limited DAW functionality. As
   such, we expect and test for the following uses:"
-section: Special uses
-sectionOrder: 5
+section: "Reference"
+sectionOrder: 60
 order: 1
 ---
 

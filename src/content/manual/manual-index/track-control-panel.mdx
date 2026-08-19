@@ -1,11 +1,12 @@
 ---
 title: "Track Control Panel"
-section: "Track Control Panel"
+section: "The Audacity window"
 sectionOrder: 10
 order: 1
 description: The strip at the left of every track, holding its name, its controls and its menu.
 draft: false
 ---
+import Shortcut from "../../../components/manual/Shortcut.jsx";
 
 Every track in a project has a control panel down the left-hand side of the
 Tracks area. The panel is where the track is named, where its playback
@@ -26,3 +27,21 @@ and level meters, while a label track adds a single **Add label** button.
 - Drag a panel up or down to reorder the tracks.
 - Right-click anywhere on the panel, or use the menu button beside the name,
   to open the track's menu.
+
+## Add track
+
+**Add track** sits at the right of the **Tracks** title bar, above the track
+control panels. Clicking it opens a small popup offering three track types:
+
+- **Mono** — a single-channel audio track.
+- **Stereo** — a two-channel audio track.
+- **Label** — a track that holds labels rather than audio.
+
+Choosing one creates the track immediately and closes the popup. Clicking
+**Add track** again while the popup is open closes it.
+
+The same three track types can be created from the Tracks menu:
+[New mono track](/manual/manual-index/header/tracks#new-mono-track) — which
+also has the default shortcut <Shortcut client:load keys="cmd+shift+n" /> —
+[New stereo track](/manual/manual-index/header/tracks#new-stereo-track) and
+[New label track](/manual/manual-index/header/tracks#new-label-track).

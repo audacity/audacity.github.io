@@ -1,13 +1,144 @@
 ---
 title: "File"
-section: "Header"
-sectionOrder: 30
+section: "Menus"
+sectionOrder: 20
 order: 2
 description: Create, open, import, save, export, share and close projects.
 draft: false
 ---
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The File menu covers the life cycle of a project: creating and opening
 projects, importing audio into them, and saving your work either on your
 computer or in the cloud. It is also where you export finished audio, share
 it online, close the current project and exit the application.
+
+## New
+
+Creates a new, empty project. If the current window already has a project
+open, the new project opens in a window of its own — your existing project
+stays open and untouched. Shortcut: <Shortcut client:load keys="cmd+n" />.
+
+## Open
+
+Opens a project or audio file from disk. The file dialog lists Audacity 4
+projects (`.aup4`), Audacity 3 projects (`.aup3`) and every audio and media
+format Audacity can import. Shortcut: <Shortcut client:load keys="cmd+o" />.
+
+- Choosing an audio or media file rather than a project starts a new project
+  with that file imported into it.
+- If the current window already has a project open, the file you choose opens
+  in a new window. A project that is already open somewhere is simply brought
+  to the front rather than opened twice.
+- The dialog starts in the folder you last opened a project from.
+
+## Open recent
+
+A submenu listing the projects you have opened most recently — pick one to
+open it again without going through the file dialog. The list updates
+automatically as you open and save projects.
+
+- A **Clear recent files** item at the bottom of the submenu empties the
+  list. It removes the entries only — the project files themselves are not
+  affected.
+- When there are no recent projects, the submenu is greyed out.
+
+## Import
+
+Adds one or more files to the project you already have open — unlike
+[Open](#open), which starts a separate project. The file dialog accepts a
+wide range of formats: common audio formats, video files (Audacity imports
+their audio), and text-based files such as `.txt`, `.srt` and `.vtt`.
+Shortcut: <Shortcut client:load keys="cmd+shift+i" />.
+
+Import needs an open project, and is unavailable while recording.
+
+## Save
+
+Saves the current project. A project that already lives on your computer is
+saved in place; a cloud project is saved and synced to the cloud. The first
+time you save a brand-new project, Audacity asks where it should live — on
+your computer or in the cloud. Shortcut: <Shortcut client:load keys="cmd+s" />.
+
+- The choice dialog for new projects includes an option to stop asking, so
+  future new projects go straight to your preferred location.
+- Saving is unavailable while recording.
+
+## Save to cloud
+
+Saves the current project to your cloud library on audio.com rather than to
+a file on your computer. You are asked to give the project a name, and it is
+then uploaded and kept in sync.
+
+- Once a project is a cloud project, plain [Save](#save) syncs it to the
+  cloud too.
+- If you close a cloud project while it is still syncing, Audacity asks
+  whether to wait or stop the sync.
+- Unavailable while recording.
+
+## Save as
+
+Saves the current project under a new name or in a new place. Unlike
+[Save](#save), it always asks where the project should go — use it to make a
+separately-saved copy, or to move a project without touching the original.
+There is no default keyboard shortcut.
+
+## Update cloud audio preview
+
+Regenerates the audio preview that accompanies a cloud project on audio.com,
+so the preview people hear online matches the current state of the project.
+The project is saved to the cloud first, then the preview is rebuilt from it.
+
+- Only available for cloud projects — for a project saved on your computer
+  the item is greyed out.
+- If the project has unsaved changes, Audacity warns that it must be saved
+  before updating the preview, with the choice to save and continue or
+  cancel.
+- Unavailable while the project is empty of audio, and while recording.
+
+## Export audio
+
+Opens the Export dialog, where you turn the project into an ordinary audio
+file that other applications can play. Exporting produces a rendered copy —
+your project, with its separate tracks and clips, is unaffected. Shortcut:
+<Shortcut client:load keys="cmd+shift+e" />.
+
+Greyed out until the project contains some audio, and unavailable while
+recording.
+
+## Export other
+
+A submenu for exports that are not audio renders: label tracks and MIDI.
+
+### Export labels
+
+Exports the labels in the project to a text file. See
+[Export labels](/manual/manual-index/track-control-panel/label-track-item#export-labels)
+for details — the same command is also available from a label track's
+options menu.
+
+### Export MIDI
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+## Close project
+
+Closes the current project without quitting Audacity. If the project has
+unsaved changes, you are asked whether to save them first — with the options
+to save, close without saving, or cancel and keep the project open. Shortcut:
+<Shortcut client:load keys="cmd+w" />.
+
+- With one window open, closing the project returns you to the home screen.
+  With several windows open, the command closes the current window instead.
+- Closing a cloud project while it is still syncing asks whether to wait for
+  the sync or stop it.
+- Unavailable while recording.
+
+## Exit
+
+Exits Audacity. Every open window's project is closed in turn, and any
+project with unsaved changes asks whether to save first — choosing **Cancel**
+in any of those prompts stops the exit and leaves Audacity running. Shortcut:
+<Shortcut client:load keys="cmd+q" />.
+
+Unavailable while recording — stop the recording first.

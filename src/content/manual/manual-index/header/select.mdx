@@ -1,11 +1,12 @@
 ---
 title: "Select"
-section: "Header"
-sectionOrder: 30
+section: "Menus"
+sectionOrder: 20
 order: 32
 description: The Select menu — commands for selecting audio, tracks and regions, plus looping and zero-crossing tools.
 draft: false
 ---
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The **Select** menu gathers everything to do with choosing what your next
 edit or effect will apply to: selecting all audio or all tracks, clearing
@@ -15,4 +16,124 @@ managing the loop region.
 Most editing commands and effects act on the current selection, so these
 commands are the usual first step of an edit.
 
-The pages below cover each command in the menu.
+## Select all
+
+Selects all the audio in the project — every track, from start to end. Use
+it before an edit or effect that should apply to everything at once.
+Shortcut: <Shortcut client:load keys="cmd+a" />.
+
+## Clear selection
+
+Clears the current selection entirely: the time range, any selected clips,
+and any selected tracks. Nothing is deleted — the audio stays where it is,
+it just stops being selected.
+
+## Select all tracks
+
+Selects every track in the project. Unlike
+[Select all](/manual/manual-index/header/select#select-all), which selects a
+time range across all audio, this selects the tracks themselves — useful for
+track-level operations. Shortcut: <Shortcut client:load keys="cmd+shift+k" />.
+
+## Region
+
+The **Region** submenu builds a time selection from reference points you
+already have: the playback position, the start of the track's audio, or its
+end. Instead of dragging a selection by hand, you pick the region you mean
+and Audacity sets the selection's start and end for you.
+
+### Left of playback position
+
+Selects a region that ends at the current playback position. A small
+**Playback position** dialog asks for a time; the selection then runs from
+that time up to the playback position. If the time you enter is at or after
+the playback position, nothing is selected. Shortcut:
+<Shortcut client:load keys="[" />.
+
+### Right of playback position
+
+Selects a region that starts at the current playback position. A small
+**Playback position** dialog asks for a time; the selection then runs from
+the playback position up to that time. If the time you enter is at or
+before the playback position, nothing is selected. Shortcut:
+<Shortcut client:load keys="]" />.
+
+The end time is capped at twice the project's current length, so you cannot
+select an arbitrarily long stretch of empty timeline.
+
+### Track start to cursor
+
+Selects from the start of the audio on the selected tracks up to the
+playback position. If no track content is selected, the selection starts
+from time zero instead. Shortcut: <Shortcut client:load keys="shift+j" />.
+
+### Cursor to track end
+
+Selects from the playback position to the end of the audio on the selected
+tracks. If no track content is selected, it falls back to selecting from
+the track start to the cursor instead — the same behaviour as
+[Track start to cursor](/manual/manual-index/header/select#track-start-to-cursor).
+Shortcut: <Shortcut client:load keys="shift+k" />.
+
+### Track start to end
+
+Selects the whole extent of the audio on the selected tracks — from where
+their leftmost audio starts to where their rightmost audio ends. It needs
+track content to be selected first; with nothing selected, it does nothing.
+
+## Audio clips
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+The **Audio clips** submenu will hold selection commands that work in terms
+of clips rather than times: extending the selection to the previous or next
+clip boundary, and selecting the previous or next clip outright. The submenu
+is present in the menu but greyed out in this alpha.
+
+## Spectral
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+The **Spectral** submenu will hold the toggle for spectral selection —
+selecting a frequency range as well as a time range, so edits can target
+part of the spectrum rather than the whole waveform. The submenu is present
+in the menu but greyed out in this alpha.
+
+## Looping
+
+The **Looping** submenu manages the loop region — the stretch of the
+timeline that playback repeats while looping is on.
+
+### Toggle loop region
+
+Turns looping on or off. Turning it off leaves the region defined but
+inactive. Shortcut: <Shortcut client:load keys="l" />.
+
+The loop toggle is also a button in the transport group of the toolbar — see
+[Toggle loop region](/manual/manual-index/toolbar/toggle-loop-region).
+
+### Clear loop region
+
+Removes the loop region entirely. Shortcut:
+<Shortcut client:load keys="shift+alt+l" />.
+
+### Set loop region to selection
+
+Sets the loop region to the current time selection. With no time selection,
+it uses the extent of the selected clips instead; with nothing selected at
+all, the loop region is cleared. Shortcut:
+<Shortcut client:load keys="shift+l" />.
+
+### Set loop region in/out
+
+Opens a **Set looping region in/out** dialog where you type the start and
+end times directly. Shortcut: <Shortcut client:load keys="i" />.
+
+## Move cursor to closest zero crossing
+
+Moves the playback cursor to the nearest zero crossing — a point where the
+waveform passes through zero amplitude. Cutting or joining audio at a zero
+crossing avoids the click you can get when an edit lands mid-wave. Shortcut:
+<Shortcut client:load keys="z" />.
+
+It moves the cursor without starting playback.

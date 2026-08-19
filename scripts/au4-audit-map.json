@@ -7,88 +7,105 @@
     "status": "external",
     "note": "`/FAQ` (site page, indexed in help search)"
   },
-
-  "menu:quit": { "page": "manual-index/header/file/quit-audacity" },
-  "menu:fullscreen": { "page": "manual-index/header/view/fullscreen" },
-  "menu:zero-cross": {
-    "page": "manual-index/header/select/move-cursor-to-zero-crossing"
+  "menu:quit": {
+    "page": "manual-index/header/file"
   },
-  "menu:check-update": { "page": "manual-index/header/help/check-update" },
+  "menu:fullscreen": {
+    "page": "manual-index/header/view"
+  },
+  "menu:zero-cross": {
+    "page": "manual-index/header/select"
+  },
+  "menu:check-update": {
+    "page": "manual-index/header/help"
+  },
   "menu:toggle-effects": {
-    "page": "manual-index/header/view/show-effects-panel"
+    "page": "manual-index/header/view"
   },
   "menu:add-realtime-effects": {
-    "page": "manual-index/header/effect/add-realtime-effects"
+    "page": "manual-index/header/effect"
   },
   "menu:set-loop-region-in-out": {
-    "page": "manual-index/header/select/looping"
+    "page": "manual-index/header/select"
   },
   "menu:about-qt": {
     "status": "wont-document",
     "reason": "standard Qt framework dialog, no Audacity behaviour to describe"
   },
-
   "menu:select-previous-clip-boundary-to-cursor": {
-    "page": "manual-index/header/select/audio-clips"
+    "page": "manual-index/header/select"
   },
   "menu:select-cursor-to-next-clip-boundary": {
-    "page": "manual-index/header/select/audio-clips"
+    "page": "manual-index/header/select"
   },
   "menu:select-previous-clip": {
-    "page": "manual-index/header/select/audio-clips"
+    "page": "manual-index/header/select"
   },
-  "menu:select-next-clip": { "page": "manual-index/header/select/audio-clips" },
+  "menu:select-next-clip": {
+    "page": "manual-index/header/select"
+  },
   "menu:toggle-spectral-selection": {
-    "page": "manual-index/header/select/spectral"
+    "page": "manual-index/header/select"
   },
   "menu:skip-to-selection-start": {
-    "page": "manual-index/header/view/skip-to"
+    "page": "manual-index/header/view"
   },
-  "menu:skip-to-selection-end": { "page": "manual-index/header/view/skip-to" },
-
+  "menu:skip-to-selection-end": {
+    "page": "manual-index/header/view"
+  },
   "menu:align-end-to-end": {
-    "page": "manual-index/header/tracks/align-content"
+    "page": "manual-index/header/tracks"
   },
-  "menu:align-together": { "page": "manual-index/header/tracks/align-content" },
+  "menu:align-together": {
+    "page": "manual-index/header/tracks"
+  },
   "menu:align-start-to-zero": {
-    "page": "manual-index/header/tracks/align-content"
+    "page": "manual-index/header/tracks"
   },
   "menu:align-start-to-playhead": {
-    "page": "manual-index/header/tracks/align-content"
+    "page": "manual-index/header/tracks"
   },
   "menu:align-start-to-selection-end": {
-    "page": "manual-index/header/tracks/align-content"
+    "page": "manual-index/header/tracks"
   },
   "menu:align-end-to-playhead": {
-    "page": "manual-index/header/tracks/align-content"
+    "page": "manual-index/header/tracks"
   },
   "menu:align-end-to-selection-end": {
-    "page": "manual-index/header/tracks/align-content"
+    "page": "manual-index/header/tracks"
   },
-  "menu:sort-by-time": { "page": "manual-index/header/tracks/sort-tracks" },
-  "menu:sort-by-name": { "page": "manual-index/header/tracks/sort-tracks" },
-
-  "menu:apply-macros-palette": { "page": "manual-index/header/tools/macros" },
-  "menu:macro-fade-ends": { "page": "manual-index/header/tools/macros" },
-  "menu:macro-mp3-conversion": { "page": "manual-index/header/tools/macros" },
-
+  "menu:sort-by-time": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:sort-by-name": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:apply-macros-palette": {
+    "page": "manual-index/header/tools"
+  },
+  "menu:macro-fade-ends": {
+    "page": "manual-index/header/tools"
+  },
+  "menu:macro-mp3-conversion": {
+    "page": "manual-index/header/tools"
+  },
   "menu:diagnostic-save-diagnostic-files": {
-    "page": "manual-index/header/help/diagnostics"
+    "page": "manual-index/header/help"
   },
   "menu:diagnostic-show-paths": {
-    "page": "manual-index/header/help/diagnostics"
+    "page": "manual-index/header/help"
   },
   "menu:diagnostic-show-profiler": {
-    "page": "manual-index/header/help/diagnostics"
+    "page": "manual-index/header/help"
   },
   "menu:diagnostic-show-navigation-tree": {
-    "page": "manual-index/header/help/diagnostics"
+    "page": "manual-index/header/help"
   },
   "menu:diagnostic-show-accessible-tree": {
-    "page": "manual-index/header/help/diagnostics"
+    "page": "manual-index/header/help"
   },
   "menu:diagnostic-accessible-tree-dump": {
-    "page": "manual-index/header/help/diagnostics"
+    "page": "manual-index/header/help"
   },
   "menu:testflow-show-scripts": {
     "status": "wont-document",

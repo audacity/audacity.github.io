@@ -1,11 +1,12 @@
 ---
 title: "Record"
-section: "Header"
-sectionOrder: 30
+section: "Menus"
+sectionOrder: 20
 order: 51
 description: Commands for starting a recording — on the current track, on a new track, or with a lead-in.
 draft: false
 ---
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The Record menu collects the commands that start a recording. You can record
 into an existing track, have Audacity create a new track for the take, or use
@@ -16,3 +17,54 @@ Recording always starts from the current playhead position and captures the
 input chosen in Audio setup. The
 [Record button](/manual/manual-index/toolbar/record) in the toolbar is another
 way to start and stop a take.
+
+## Record on current track
+
+Starts recording from the playhead position into an existing audio track. If
+one or more tracks are selected, the recording goes into those; with nothing
+selected, Audacity picks an existing track that matches the project's sample
+rate. Choosing the command again while recording stops the take. This is the
+same action as the [Record button](/manual/manual-index/toolbar/record) in the
+toolbar, so <Shortcut client:load keys="r" /> starts and stops it too.
+
+- If recording is paused, choosing the command resumes it.
+- All selected tracks must share the same sample rate — recording won't start
+  into a mixed-rate selection.
+- Recording in Audacity 4 is non-destructive: the take lands as a new clip on
+  the track rather than overwriting the audio already there.
+
+## Record on new track
+
+Creates a new, empty audio track and starts recording into it from the
+playhead position, leaving your existing tracks untouched. Choosing the
+command again while recording stops the take.
+
+The new track matches your input: a two-channel input gets one new stereo
+track, otherwise Audacity adds one mono track per input channel. The new track
+becomes the selected, focused track.
+
+- If recording fails to start — for example because no recording device is
+  available — the newly created tracks are removed again.
+- To record into a track you already have, use
+  [Record on current track](/manual/manual-index/header/record#record-on-current-track)
+  instead.
+
+## Lead-in recording
+
+Starts lead-in recording: Audacity plays back the stretch of audio just before
+the playhead — two seconds by default — and then drops into record at the
+playhead position, on the selected track. It's made for punching in on an
+existing take: you hear your way into the punch point instead of starting
+cold. Shortcut: <Shortcut client:load keys="shift+d" />.
+
+- Select the track you want to record into first — lead-in recording needs a
+  selected track, and all selected tracks must share the same sample rate.
+- It can't start with the playhead at the very beginning of the project, as
+  there would be no audio to play as the lead-in.
+- During the lead-in, all tracks play so you hear the full context of the mix.
+- If the playhead sits inside an existing clip, a short crossfade blends the
+  old audio into the new recording at the punch point.
+- Recording is non-destructive — the existing audio on the track is not
+  cleared.
+- The lead-in time (up to 30 seconds) and the crossfade length can be changed
+  in **Preferences → Playback/Recording**.

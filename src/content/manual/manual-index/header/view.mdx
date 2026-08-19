@@ -1,11 +1,12 @@
 ---
 title: "View"
-section: "Header"
-sectionOrder: 30
+section: "Menus"
+sectionOrder: 20
 order: 39
 description: The View menu — zoom, panels, workspaces, waveform display options and window layout.
 draft: false
 ---
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The **View** menu changes what you see without changing the audio itself:
 zooming the timeline, opening panels such as the label editor, metadata
@@ -15,4 +16,151 @@ waveform display options, and restoring the default window layout.
 Nothing in this menu edits your project's audio — every command here is
 about how the project is displayed.
 
-The pages below cover each command in the menu.
+## Zoom
+
+The **Zoom** submenu controls how much of the timeline you see at once:
+zooming in and out, returning to the default zoom, fitting the selection or
+the whole project to the window, toggling between two zoom levels, and
+collapsing or expanding all tracks.
+
+When zooming, Audacity keeps the view anchored sensibly: with an active
+selection it zooms around the selection's centre, otherwise around the
+playback position. Several of these commands are also buttons in the
+toolbar's zoom group — see the Toolbar section.
+
+### Zoom in
+
+Zooms the timeline in, doubling the zoom level so a shorter stretch of the
+project is shown in more detail. Shortcut:
+<Shortcut client:load keys="cmd+=" />. The same command is a toolbar button
+— see [Zoom In](/manual/manual-index/toolbar/zoom-in).
+
+### Zoom out
+
+Zooms the timeline out, halving the zoom level so a longer stretch of the
+project fits on screen. Shortcut: <Shortcut client:load keys="cmd+-" />. The
+same command is a toolbar button — see
+[Zoom Out](/manual/manual-index/toolbar/zoom-out).
+
+### Zoom default
+
+Returns the timeline to the default zoom level, whatever zoom you are
+currently at. The view stays anchored on the selection's centre if there is
+an active selection, or on the playback position otherwise.
+
+### Zoom to selection
+
+Zooms so the current selection fills the visible timeline. It needs a
+selection to work on. The same command is a toolbar button, labelled
+**Fit selection** there — see
+[Zoom to Selection](/manual/manual-index/toolbar/zoom-to-selection).
+
+### Zoom toggle
+
+Switches between two preset zoom levels, jumping to whichever of the two is
+further from your current zoom — so you can flip between a close-up view
+and a wider one without stepping through Zoom in and Zoom out. Shortcut:
+<Shortcut client:load keys="shift+z" />. The same command is a toolbar
+button — see [Zoom Toggle](/manual/manual-index/toolbar/zoom-toggle).
+
+### Zoom to fit project
+
+Zooms so the whole project fits in the visible timeline, from the start to
+the end of the last clip. Shortcut: <Shortcut client:load keys="cmd+f" />.
+The same command is a toolbar button, labelled **Fit project** there — see
+[Zoom to Fit Project](/manual/manual-index/toolbar/zoom-to-fit-project).
+
+### Collapse all tracks
+
+Reduces every track in the project to its collapsed height, so more tracks
+fit on screen at once. Shortcut:
+<Shortcut client:load keys="cmd+shift+c" />. Use
+[Expand all tracks](/manual/manual-index/header/view#expand-all-tracks) to
+bring them back to full height.
+
+### Expand all tracks
+
+Returns every track in the project to full height — the counterpart to
+[Collapse all tracks](/manual/manual-index/header/view#collapse-all-tracks).
+
+## Skip to
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+The **Skip to** submenu will hold two commands for moving the playback
+position without playing: skip to the selection's start, and skip to its
+end. The submenu is present in the menu but greyed out in this alpha.
+
+## Show effects panel
+
+Shows or hides the effects panel — the panel beside the tracks where each
+track's realtime effects are listed and managed. When the command opens the
+panel, keyboard focus moves into it. The menu item is checked while the
+panel is visible.
+
+## Show label editor
+
+Opens the label editor, where the project's labels can be reviewed and
+edited in one place rather than one at a time on the label track.
+
+## Show metadata editor
+
+Opens the metadata editor dialog, where the project's metadata — the tag
+information carried into exported files, such as title and artist — can be
+edited.
+
+## Show history
+
+Shows or hides the history panel, which lists the project's undoable
+changes. It gives a view of the same undo history that Undo and Redo step
+through one change at a time. The menu item is checked while the panel is
+open.
+
+## Workspaces
+
+The **Workspaces** submenu lists the available workspaces so you can switch
+between them — the same choice offered by the workspace dropdown in the top
+right corner of the window.
+
+For what workspaces are and how to edit or create them, see
+[Workspaces](/manual/manual-index/workspaces).
+
+## Full screen
+
+Toggles the Audacity window in and out of full screen. Choosing it again —
+or using your operating system's usual full-screen control — returns to a
+normal window.
+
+## Show clipping in waveform
+
+Toggles whether clipping — audio that reaches or exceeds full scale — is
+marked in the waveform display. It only changes how the waveform is drawn;
+the audio itself is untouched. The menu item is checked while the option is
+on.
+
+The setting applies to the whole application, not per project.
+
+## Show RMS in waveform
+
+Toggles the RMS overlay in the waveform display. RMS (root mean square) is
+a measure of average level, so with the option on each waveform shows an
+inner, lighter band of perceived loudness inside the peak outline. Display
+only — the audio itself is untouched. The menu item is checked while the
+option is on.
+
+The setting applies to the whole application, not per project.
+
+## Show vertical rulers
+
+Toggles the vertical rulers — the per-track scale along each track's edge
+that shows amplitude values for the waveform. See
+[Vertical Rulers](/manual/manual-index/vertical-rulers) for more on the
+rulers themselves. The menu item is checked while the rulers are shown.
+
+The setting applies to the whole application, not per project.
+
+## Restore the default layout
+
+Puts the window's panels and toolbars back to their default arrangement.
+Useful when panels have been moved, resized or hidden and you want the
+standard layout back. Your project's audio is unaffected.

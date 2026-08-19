@@ -1,7 +1,7 @@
 ---
 title: "Help"
-section: "Header"
-sectionOrder: 30
+section: "Menus"
+sectionOrder: 20
 order: 67
 description: The Help menu links to learning resources, updates, account linking and recovery commands.
 draft: false
@@ -11,22 +11,73 @@ The **Help** menu links out to learning resources, checks for new versions,
 connects your audio.com account, and holds recovery commands for when the
 application's configuration needs a clean start.
 
-## What it contains
+## Check for updates
 
-- [Check for updates](/manual/manual-index/header/help/check-update) — see
-  whether a newer Audacity is available. Only shown in builds that support
-  in-app updates.
-- [Tutorials](/manual/manual-index/header/help/tutorials) — opens learning
-  material on the web.
-- [Online handbook](/manual/manual-index/header/help/online-handbook) —
-  opens this manual in your web browser.
-- [Diagnostics](/manual/manual-index/header/help/diagnostics) — a submenu of
-  troubleshooting and developer commands (not yet enabled in the current
-  alpha).
-- [Link account](/manual/manual-index/header/help/link-account) — connect
-  Audacity to your audio.com account.
-- [About Audacity](/manual/manual-index/header/help/about-audacity) —
-  version, credits and legal information. An **About Qt** item alongside it
-  shows the same for the Qt toolkit Audacity is built on.
-- [Revert to factory settings](/manual/manual-index/header/help/revert-factory) —
-  reset the application to a fresh install's state.
+Checks whether a newer version of Audacity is available for download.
+
+This item only appears in builds that support in-app updates. If your copy
+of Audacity came from a package manager or another channel that handles its
+own updates, the menu starts at Tutorials instead.
+
+## Tutorials
+
+Opens Audacity's tutorial material in your web browser. This is an external
+resource — it takes you out of the application and needs an internet
+connection.
+
+For reference documentation rather than tutorials, use
+[Online handbook](/manual/manual-index/header/help#online-handbook) instead.
+
+## Online handbook
+
+Opens the Audacity manual — the documentation you are reading now — in your
+default web browser. This is an external resource, so it needs an internet
+connection.
+
+## Diagnostics
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+A submenu of troubleshooting and developer commands. Its everyday purpose is
+**Save diagnostic files**, which gathers information about your setup into
+files you can attach to a bug report. A **System** submenu shows the paths
+Audacity is using and a performance profiler.
+
+With developer mode enabled, further submenus appear for inspecting the
+accessibility and navigation trees and other development tooling. These are
+aimed at people working on Audacity itself rather than at everyday use.
+
+## Link account
+
+Connects Audacity to your audio.com account. Linking an account is what lets
+Audacity work with audio.com's sharing features; without one, everything
+else in the application works as normal — an account is never required for
+recording or editing.
+
+In the current Audacity 4 alpha the menu item is present but the linking
+flow itself has not yet been implemented.
+
+## About Audacity
+
+Opens the About dialog, which identifies exactly which Audacity you are
+running. It has two tabs: **Audacity**, with the version number, credits and
+a link to the Audacity website, and **Legal**, with copyright and trademark
+information.
+
+The version number shown here is the first thing to include in a bug
+report. A neighbouring **About Qt** item shows the same kind of information
+for the Qt toolkit Audacity is built on.
+
+## Revert to factory settings
+
+Resets Audacity to the state of a fresh install. It resets all your app
+preferences and custom UI configurations, deletes your custom workspaces and
+shortcuts, and means third-party plugins will need to be scanned again. It
+does not delete any of your projects.
+
+A confirmation dialog spells out what will be removed before anything
+happens — cancelling it leaves everything untouched. After the reset,
+Audacity offers to restart, which is needed for the changes to take effect.
+Treat this as the last resort — the Tools menu's
+[Reset configuration](/manual/manual-index/header/tools#reset-configuration)
+is the narrower settings-only reset.
