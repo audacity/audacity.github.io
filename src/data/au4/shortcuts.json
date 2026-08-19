@@ -6,38 +6,54 @@
   },
   {
     "action": "accessibility-dev-show-tree",
-    "sequences": ["Ctrl+F2"],
+    "sequences": [
+      "Ctrl+F2"
+    ],
     "sourceGroup": "Dev",
     "autorepeat": false
   },
   {
     "action": "action://cancel",
-    "sequences": ["Esc"],
+    "sequences": [
+      "Esc"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://copy",
-    "sequences": ["Ctrl+C"],
+    "sequences": [
+      "Ctrl+C"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://cut",
-    "sequences": ["Ctrl+X"],
+    "sequences": [
+      "Ctrl+X"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://delete",
-    "sequences": ["Del", "Backspace"],
+    "sequences": [
+      "Del",
+      "Backspace"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://enter",
-    "sequences": ["Return", "Enter"],
+    "sequences": [
+      "Return",
+      "Enter"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://paste",
-    "sequences": ["Ctrl+V"],
+    "sequences": [
+      "Ctrl+V"
+    ],
     "sourceGroup": "Global actions"
   },
   {
@@ -47,72 +63,100 @@
   },
   {
     "action": "action://playback/toggle-play-from-cursor",
-    "sequences": ["Shift+Space"],
+    "sequences": [
+      "Shift+Space"
+    ],
     "sourceGroup": null
   },
   {
     "action": "action://playback/toggle-play-pause",
-    "sequences": ["P"],
+    "sequences": [
+      "P"
+    ],
     "sourceGroup": null
   },
   {
     "action": "action://playback/toggle-play-stop",
-    "sequences": ["Space"],
+    "sequences": [
+      "Space"
+    ],
     "sourceGroup": null
   },
   {
     "action": "action://record/lead-in-recording",
-    "sequences": ["Shift+D"],
+    "sequences": [
+      "Shift+D"
+    ],
     "sourceGroup": null
   },
   {
     "action": "action://record/start",
-    "sequences": ["R"],
+    "sequences": [
+      "R"
+    ],
     "sourceGroup": null
   },
   {
     "action": "action://record/stop",
-    "sequences": ["Space"],
+    "sequences": [
+      "Space"
+    ],
     "sourceGroup": null
   },
   {
     "action": "action://redo",
-    "sequences": ["Ctrl+Shift+Z"],
+    "sequences": [
+      "Ctrl+Shift+Z"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://trackedit/paste-insert",
-    "sequences": ["Shift+V"],
+    "sequences": [
+      "Shift+V"
+    ],
     "sourceGroup": "Trackedit actions"
   },
   {
     "action": "action://trackedit/paste-insert-all-tracks-ripple",
-    "sequences": ["Ctrl+Alt+Shift+V"],
+    "sequences": [
+      "Ctrl+Alt+Shift+V"
+    ],
     "sourceGroup": "Trackedit actions"
   },
   {
     "action": "action://trackedit/paste-overlap",
-    "sequences": ["Ctrl+Alt+V"],
+    "sequences": [
+      "Ctrl+Alt+V"
+    ],
     "sourceGroup": "Trackedit actions"
   },
   {
     "action": "action://trigger",
-    "sequences": ["Space"],
+    "sequences": [
+      "Space"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "action://undo",
-    "sequences": ["Ctrl+Z"],
+    "sequences": [
+      "Ctrl+Z"
+    ],
     "sourceGroup": "Global actions"
   },
   {
     "action": "add-label-playing",
-    "sequences": ["Ctrl+."],
+    "sequences": [
+      "Ctrl+."
+    ],
     "sourceGroup": null
   },
   {
     "action": "add-realtime-effects",
-    "sequences": ["E"],
+    "sequences": [
+      "E"
+    ],
     "sourceGroup": null
   },
   {
@@ -122,7 +166,9 @@
   },
   {
     "action": "audio-host",
-    "sequences": ["Shift+H"],
+    "sequences": [
+      "Shift+H"
+    ],
     "sourceGroup": null
   },
   {
@@ -137,17 +183,23 @@
   },
   {
     "action": "clear-loop-region",
-    "sequences": ["Shift+Alt+L"],
+    "sequences": [
+      "Shift+Alt+L"
+    ],
     "sourceGroup": null
   },
   {
     "action": "clip-pitch-speed-open",
-    "sequences": ["Ctrl+Shift+P"],
+    "sequences": [
+      "Ctrl+Shift+P"
+    ],
     "sourceGroup": null
   },
   {
     "action": "collapse-all-tracks",
-    "sequences": ["Ctrl+Shift+C"],
+    "sequences": [
+      "Ctrl+Shift+C"
+    ],
     "sourceGroup": null
   },
   {
@@ -162,7 +214,9 @@
   },
   {
     "action": "contrast-analyser",
-    "sequences": ["Ctrl+Shift+T"],
+    "sequences": [
+      "Ctrl+Shift+T"
+    ],
     "sourceGroup": null
   },
   {
@@ -182,12 +236,16 @@
   },
   {
     "action": "curs-project-end",
-    "sequences": ["End"],
+    "sequences": [
+      "End"
+    ],
     "sourceGroup": null
   },
   {
     "action": "curs-project-start",
-    "sequences": ["Home"],
+    "sequences": [
+      "Home"
+    ],
     "sourceGroup": null
   },
   {
@@ -202,32 +260,44 @@
   },
   {
     "action": "curs-track-end",
-    "sequences": ["K"],
+    "sequences": [
+      "K"
+    ],
     "sourceGroup": null
   },
   {
     "action": "curs-track-start",
-    "sequences": ["J"],
+    "sequences": [
+      "J"
+    ],
     "sourceGroup": null
   },
   {
     "action": "cursor-long-jump-left",
-    "sequences": ["Shift+,"],
+    "sequences": [
+      "Shift+,"
+    ],
     "sourceGroup": null
   },
   {
     "action": "cursor-long-jump-right",
-    "sequences": ["Shift+."],
+    "sequences": [
+      "Shift+."
+    ],
     "sourceGroup": null
   },
   {
     "action": "cursor-short-jump-left",
-    "sequences": [","],
+    "sequences": [
+      ","
+    ],
     "sourceGroup": null
   },
   {
     "action": "cursor-short-jump-right",
-    "sequences": ["."],
+    "sequences": [
+      "."
+    ],
     "sourceGroup": null
   },
   {
@@ -247,12 +317,17 @@
   },
   {
     "action": "cut-per-track-ripple",
-    "sequences": ["Ctrl+Shift+X"],
+    "sequences": [
+      "Ctrl+Shift+X"
+    ],
     "sourceGroup": null
   },
   {
     "action": "delete-all-tracks-ripple",
-    "sequences": ["Ctrl+Del", "Ctrl+Backspace"],
+    "sequences": [
+      "Ctrl+Del",
+      "Ctrl+Backspace"
+    ],
     "sourceGroup": null
   },
   {
@@ -267,7 +342,10 @@
   },
   {
     "action": "delete-per-track-ripple",
-    "sequences": ["Shift+Del", "Shift+Backspace"],
+    "sequences": [
+      "Shift+Del",
+      "Shift+Backspace"
+    ],
     "sourceGroup": null
   },
   {
@@ -282,13 +360,17 @@
   },
   {
     "action": "diagnostics-show",
-    "sequences": ["Ctrl+F8"],
+    "sequences": [
+      "Ctrl+F8"
+    ],
     "sourceGroup": "Dev",
     "autorepeat": false
   },
   {
     "action": "disjoin",
-    "sequences": ["Ctrl+Alt+J"],
+    "sequences": [
+      "Ctrl+Alt+J"
+    ],
     "sourceGroup": null
   },
   {
@@ -298,12 +380,16 @@
   },
   {
     "action": "draw-tool",
-    "sequences": ["F3"],
+    "sequences": [
+      "F3"
+    ],
     "sourceGroup": null
   },
   {
     "action": "duplicate",
-    "sequences": ["Ctrl+D"],
+    "sequences": [
+      "Ctrl+D"
+    ],
     "sourceGroup": null
   },
   {
@@ -323,7 +409,9 @@
   },
   {
     "action": "export-audio",
-    "sequences": ["Ctrl+Shift+E"],
+    "sequences": [
+      "Ctrl+Shift+E"
+    ],
     "sourceGroup": null
   },
   {
@@ -363,22 +451,30 @@
   },
   {
     "action": "file-close",
-    "sequences": ["Ctrl+W"],
+    "sequences": [
+      "Ctrl+W"
+    ],
     "sourceGroup": null
   },
   {
     "action": "file-new",
-    "sequences": ["Ctrl+N"],
+    "sequences": [
+      "Ctrl+N"
+    ],
     "sourceGroup": null
   },
   {
     "action": "file-open",
-    "sequences": ["Ctrl+O"],
+    "sequences": [
+      "Ctrl+O"
+    ],
     "sourceGroup": null
   },
   {
     "action": "file-save",
-    "sequences": ["Ctrl+S"],
+    "sequences": [
+      "Ctrl+S"
+    ],
     "sourceGroup": null
   },
   {
@@ -393,7 +489,9 @@
   },
   {
     "action": "fit-v",
-    "sequences": ["Ctrl+Shift+F"],
+    "sequences": [
+      "Ctrl+Shift+F"
+    ],
     "sourceGroup": null
   },
   {
@@ -418,7 +516,9 @@
   },
   {
     "action": "group-clips",
-    "sequences": ["Ctrl+G"],
+    "sequences": [
+      "Ctrl+G"
+    ],
     "sourceGroup": null
   },
   {
@@ -443,12 +543,16 @@
   },
   {
     "action": "input-channels",
-    "sequences": ["Shift+N"],
+    "sequences": [
+      "Shift+N"
+    ],
     "sourceGroup": null
   },
   {
     "action": "input-device",
-    "sequences": ["Shift+I"],
+    "sequences": [
+      "Shift+I"
+    ],
     "sourceGroup": null
   },
   {
@@ -468,22 +572,30 @@
   },
   {
     "action": "join",
-    "sequences": ["Ctrl+J"],
+    "sequences": [
+      "Ctrl+J"
+    ],
     "sourceGroup": null
   },
   {
     "action": "keyboard-scrub-backwards",
-    "sequences": ["U"],
+    "sequences": [
+      "U"
+    ],
     "sourceGroup": null
   },
   {
     "action": "keyboard-scrub-forwards",
-    "sequences": ["I"],
+    "sequences": [
+      "I"
+    ],
     "sourceGroup": null
   },
   {
     "action": "label-add",
-    "sequences": ["Ctrl+B"],
+    "sequences": [
+      "Ctrl+B"
+    ],
     "sourceGroup": null
   },
   {
@@ -548,7 +660,9 @@
   },
   {
     "action": "mix-and-render-to-new-track",
-    "sequences": ["Ctrl+Shift+M"],
+    "sequences": [
+      "Ctrl+Shift+M"
+    ],
     "sourceGroup": null
   },
   {
@@ -563,109 +677,153 @@
   },
   {
     "action": "move-to-next-label",
-    "sequences": ["Alt+Right"],
+    "sequences": [
+      "Alt+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "move-to-prev-label",
-    "sequences": ["Alt+Left"],
+    "sequences": [
+      "Alt+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "multi-tool",
-    "sequences": ["F6"],
+    "sequences": [
+      "F6"
+    ],
     "sourceGroup": null
   },
   {
     "action": "multiwindows-dev-show-info",
-    "sequences": ["Ctrl+F3"],
+    "sequences": [
+      "Ctrl+F3"
+    ],
     "sourceGroup": "Dev",
     "autorepeat": false
   },
   {
     "action": "mute-all-tracks",
-    "sequences": ["Ctrl+U"],
+    "sequences": [
+      "Ctrl+U"
+    ],
     "sourceGroup": null
   },
   {
     "action": "mute-tracks",
-    "sequences": ["Ctrl+Alt+U"],
+    "sequences": [
+      "Ctrl+Alt+U"
+    ],
     "sourceGroup": null
   },
   {
     "action": "nav-dev-show-controls",
-    "sequences": ["Ctrl+F1"],
+    "sequences": [
+      "Ctrl+F1"
+    ],
     "sourceGroup": "Dev",
     "autorepeat": false
   },
   {
     "action": "nav-down",
-    "sequences": ["Down"],
+    "sequences": [
+      "Down"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-first-control",
-    "sequences": ["Home"],
+    "sequences": [
+      "Home"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-last-control",
-    "sequences": ["End"],
+    "sequences": [
+      "End"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-left",
-    "sequences": ["Left"],
+    "sequences": [
+      "Left"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-next-panel",
-    "sequences": ["Tab"],
+    "sequences": [
+      "Tab"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-next-section",
-    "sequences": ["F6", "`"],
+    "sequences": [
+      "F6",
+      "`"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-next-tab",
-    "sequences": ["Ctrl+Tab"],
+    "sequences": [
+      "Ctrl+Tab"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-nextrow-control",
-    "sequences": ["PgDown"],
+    "sequences": [
+      "PgDown"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-prev-panel",
-    "sequences": ["Shift+Tab"],
+    "sequences": [
+      "Shift+Tab"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-prev-section",
-    "sequences": ["Shift+F6", "Shift+`"],
+    "sequences": [
+      "Shift+F6",
+      "Shift+`"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-prev-tab",
-    "sequences": ["Ctrl+Shift+Tab"],
+    "sequences": [
+      "Ctrl+Shift+Tab"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-prevrow-control",
-    "sequences": ["PgUp"],
+    "sequences": [
+      "PgUp"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-right",
-    "sequences": ["Right"],
+    "sequences": [
+      "Right"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
     "action": "nav-up",
-    "sequences": ["Up"],
+    "sequences": [
+      "Up"
+    ],
     "sourceGroup": "Keyboard navigation"
   },
   {
@@ -675,7 +833,9 @@
   },
   {
     "action": "new-mono-track",
-    "sequences": ["Ctrl+Shift+N"],
+    "sequences": [
+      "Ctrl+Shift+N"
+    ],
     "sourceGroup": null
   },
   {
@@ -700,17 +860,23 @@
   },
   {
     "action": "next-tool",
-    "sequences": ["D"],
+    "sequences": [
+      "D"
+    ],
     "sourceGroup": null
   },
   {
     "action": "next-window",
-    "sequences": ["Alt+F6"],
+    "sequences": [
+      "Alt+F6"
+    ],
     "sourceGroup": null
   },
   {
     "action": "once-play-stop",
-    "sequences": ["Shift+Space"],
+    "sequences": [
+      "Shift+Space"
+    ],
     "sourceGroup": null
   },
   {
@@ -720,7 +886,9 @@
   },
   {
     "action": "output-device",
-    "sequences": ["Shift+O"],
+    "sequences": [
+      "Shift+O"
+    ],
     "sourceGroup": null
   },
   {
@@ -765,22 +933,30 @@
   },
   {
     "action": "pitch-down",
-    "sequences": ["Alt+Down"],
+    "sequences": [
+      "Alt+Down"
+    ],
     "sourceGroup": null
   },
   {
     "action": "pitch-up",
-    "sequences": ["Alt+Up"],
+    "sequences": [
+      "Alt+Up"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-after-selection-end",
-    "sequences": ["Shift+F8"],
+    "sequences": [
+      "Shift+F8"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-after-selection-start",
-    "sequences": ["Shift+F6"],
+    "sequences": [
+      "Shift+F6"
+    ],
     "sourceGroup": null
   },
   {
@@ -800,42 +976,58 @@
   },
   {
     "action": "play-before-and-after-selection-end",
-    "sequences": ["Ctrl+Shift+F7"],
+    "sequences": [
+      "Ctrl+Shift+F7"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-before-and-after-selection-start",
-    "sequences": ["Ctrl+Shift+F5"],
+    "sequences": [
+      "Ctrl+Shift+F5"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-before-selection-end",
-    "sequences": ["Shift+F7"],
+    "sequences": [
+      "Shift+F7"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-before-selection-start",
-    "sequences": ["Shift+F5"],
+    "sequences": [
+      "Shift+F5"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-cut-preview",
-    "sequences": ["C"],
+    "sequences": [
+      "C"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-one-sec",
-    "sequences": ["1"],
+    "sequences": [
+      "1"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-position-decrease",
-    "sequences": ["Left"],
+    "sequences": [
+      "Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-position-increase",
-    "sequences": ["Right"],
+    "sequences": [
+      "Right"
+    ],
     "sourceGroup": null
   },
   {
@@ -850,12 +1042,16 @@
   },
   {
     "action": "play-stop-select",
-    "sequences": ["X"],
+    "sequences": [
+      "X"
+    ],
     "sourceGroup": null
   },
   {
     "action": "play-to-selection",
-    "sequences": ["B"],
+    "sequences": [
+      "B"
+    ],
     "sourceGroup": null
   },
   {
@@ -865,27 +1061,37 @@
   },
   {
     "action": "preferences",
-    "sequences": ["Ctrl+,"],
+    "sequences": [
+      "Ctrl+,"
+    ],
     "sourceGroup": null
   },
   {
     "action": "prev-frame",
-    "sequences": ["Ctrl+Shift+F6"],
+    "sequences": [
+      "Ctrl+Shift+F6"
+    ],
     "sourceGroup": null
   },
   {
     "action": "prev-tool",
-    "sequences": ["A"],
+    "sequences": [
+      "A"
+    ],
     "sourceGroup": null
   },
   {
     "action": "prev-window",
-    "sequences": ["Alt+Shift+F6"],
+    "sequences": [
+      "Alt+Shift+F6"
+    ],
     "sourceGroup": null
   },
   {
     "action": "project-import",
-    "sequences": ["Ctrl+Shift+I"],
+    "sequences": [
+      "Ctrl+Shift+I"
+    ],
     "sourceGroup": null
   },
   {
@@ -895,7 +1101,9 @@
   },
   {
     "action": "quit",
-    "sequences": ["Ctrl+Q"],
+    "sequences": [
+      "Ctrl+Q"
+    ],
     "sourceGroup": null
   },
   {
@@ -905,12 +1113,16 @@
   },
   {
     "action": "realtime-effect-move-down",
-    "sequences": ["Alt+Down"],
+    "sequences": [
+      "Alt+Down"
+    ],
     "sourceGroup": null
   },
   {
     "action": "realtime-effect-move-up",
-    "sequences": ["Alt+Up"],
+    "sequences": [
+      "Alt+Up"
+    ],
     "sourceGroup": null
   },
   {
@@ -920,7 +1132,9 @@
   },
   {
     "action": "rename-item",
-    "sequences": ["F2"],
+    "sequences": [
+      "F2"
+    ],
     "sourceGroup": null
   },
   {
@@ -930,7 +1144,9 @@
   },
   {
     "action": "repeat-last-effect",
-    "sequences": ["Ctrl+R"],
+    "sequences": [
+      "Ctrl+R"
+    ],
     "sourceGroup": null
   },
   {
@@ -970,32 +1186,44 @@
   },
   {
     "action": "seek-left-long",
-    "sequences": ["Shift+Left"],
+    "sequences": [
+      "Shift+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "seek-left-short",
-    "sequences": ["Left"],
+    "sequences": [
+      "Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "seek-right-long",
-    "sequences": ["Shift+Right"],
+    "sequences": [
+      "Shift+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "seek-right-short",
-    "sequences": ["Right"],
+    "sequences": [
+      "Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-cntr-left",
-    "sequences": ["Ctrl+Shift+Right"],
+    "sequences": [
+      "Ctrl+Shift+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-cntr-right",
-    "sequences": ["Ctrl+Shift+Left"],
+    "sequences": [
+      "Ctrl+Shift+Left"
+    ],
     "sourceGroup": null
   },
   {
@@ -1010,27 +1238,37 @@
   },
   {
     "action": "sel-end",
-    "sequences": ["Shift+End"],
+    "sequences": [
+      "Shift+End"
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-ext-left",
-    "sequences": ["Shift+Left"],
+    "sequences": [
+      "Shift+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-ext-right",
-    "sequences": ["Shift+Right"],
+    "sequences": [
+      "Shift+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-next-clip",
-    "sequences": ["Alt+."],
+    "sequences": [
+      "Alt+."
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-prev-clip",
-    "sequences": ["Alt+,"],
+    "sequences": [
+      "Alt+,"
+    ],
     "sourceGroup": null
   },
   {
@@ -1060,12 +1298,16 @@
   },
   {
     "action": "sel-start",
-    "sequences": ["Shift+Home"],
+    "sequences": [
+      "Shift+Home"
+    ],
     "sourceGroup": null
   },
   {
     "action": "sel-sync-lock-tracks",
-    "sequences": ["Ctrl+Shift+Y"],
+    "sequences": [
+      "Ctrl+Shift+Y"
+    ],
     "sourceGroup": null
   },
   {
@@ -1080,17 +1322,23 @@
   },
   {
     "action": "select-all",
-    "sequences": ["Ctrl+A"],
+    "sequences": [
+      "Ctrl+A"
+    ],
     "sourceGroup": null
   },
   {
     "action": "select-all-tracks",
-    "sequences": ["Ctrl+Shift+K"],
+    "sequences": [
+      "Ctrl+Shift+K"
+    ],
     "sourceGroup": null
   },
   {
     "action": "select-cursor-to-track-end",
-    "sequences": ["Shift+K"],
+    "sequences": [
+      "Shift+K"
+    ],
     "sourceGroup": null
   },
   {
@@ -1100,17 +1348,23 @@
   },
   {
     "action": "select-left-of-playback-position",
-    "sequences": ["["],
+    "sequences": [
+      "["
+    ],
     "sourceGroup": null
   },
   {
     "action": "select-none",
-    "sequences": ["Ctrl+Shift+A"],
+    "sequences": [
+      "Ctrl+Shift+A"
+    ],
     "sourceGroup": null
   },
   {
     "action": "select-right-of-playback-position",
-    "sequences": ["]"],
+    "sequences": [
+      "]"
+    ],
     "sourceGroup": null
   },
   {
@@ -1120,12 +1374,16 @@
   },
   {
     "action": "select-tool",
-    "sequences": ["F1"],
+    "sequences": [
+      "F1"
+    ],
     "sourceGroup": null
   },
   {
     "action": "select-track-start-to-cursor",
-    "sequences": ["Shift+J"],
+    "sequences": [
+      "Shift+J"
+    ],
     "sourceGroup": null
   },
   {
@@ -1150,12 +1408,16 @@
   },
   {
     "action": "set-loop-region-in-out",
-    "sequences": ["I"],
+    "sequences": [
+      "I"
+    ],
     "sourceGroup": null
   },
   {
     "action": "set-loop-region-to-selection",
-    "sequences": ["Shift+L"],
+    "sequences": [
+      "Shift+L"
+    ],
     "sourceGroup": null
   },
   {
@@ -1280,7 +1542,9 @@
   },
   {
     "action": "silence-audio-selection",
-    "sequences": ["Ctrl+L"],
+    "sequences": [
+      "Ctrl+L"
+    ],
     "sourceGroup": null
   },
   {
@@ -1290,12 +1554,16 @@
   },
   {
     "action": "skip-sel-end",
-    "sequences": ["Ctrl+]"],
+    "sequences": [
+      "Ctrl+]"
+    ],
     "sourceGroup": null
   },
   {
     "action": "skip-sel-start",
-    "sequences": ["Ctrl+["],
+    "sequences": [
+      "Ctrl+["
+    ],
     "sourceGroup": null
   },
   {
@@ -1335,17 +1603,23 @@
   },
   {
     "action": "split",
-    "sequences": ["Ctrl+I"],
+    "sequences": [
+      "Ctrl+I"
+    ],
     "sourceGroup": null
   },
   {
     "action": "split-new",
-    "sequences": ["Ctrl+Alt+I"],
+    "sequences": [
+      "Ctrl+Alt+I"
+    ],
     "sourceGroup": null
   },
   {
     "action": "split-tool",
-    "sequences": ["S"],
+    "sequences": [
+      "S"
+    ],
     "sourceGroup": null
   },
   {
@@ -1365,22 +1639,30 @@
   },
   {
     "action": "timer-record",
-    "sequences": ["Shift+T"],
+    "sequences": [
+      "Shift+T"
+    ],
     "sourceGroup": null
   },
   {
     "action": "toggle",
-    "sequences": ["Return"],
+    "sequences": [
+      "Return"
+    ],
     "sourceGroup": null
   },
   {
     "action": "toggle-alt",
-    "sequences": ["NUMPAD_ENTER"],
+    "sequences": [
+      "NUMPAD_ENTER"
+    ],
     "sourceGroup": null
   },
   {
     "action": "toggle-loop-region",
-    "sequences": ["L"],
+    "sequences": [
+      "L"
+    ],
     "sourceGroup": null
   },
   {
@@ -1390,32 +1672,44 @@
   },
   {
     "action": "toggle-spectral-selection",
-    "sequences": ["Q"],
+    "sequences": [
+      "Q"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-close",
-    "sequences": ["Shift+C"],
+    "sequences": [
+      "Shift+C"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-gain",
-    "sequences": ["Shift+G"],
+    "sequences": [
+      "Shift+G"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-gain-dec",
-    "sequences": ["Alt+Shift+Down"],
+    "sequences": [
+      "Alt+Shift+Down"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-gain-inc",
-    "sequences": ["Alt+Shift+Up"],
+    "sequences": [
+      "Alt+Shift+Up"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-menu",
-    "sequences": ["Shift+M"],
+    "sequences": [
+      "Shift+M"
+    ],
     "sourceGroup": null
   },
   {
@@ -1440,127 +1734,180 @@
   },
   {
     "action": "track-mute",
-    "sequences": ["Shift+U"],
+    "sequences": [
+      "Shift+U"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-pan",
-    "sequences": ["Shift+P"],
+    "sequences": [
+      "Shift+P"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-pan-left",
-    "sequences": ["Alt+Shift+Left"],
+    "sequences": [
+      "Alt+Shift+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-pan-right",
-    "sequences": ["Alt+Shift+Right"],
+    "sequences": [
+      "Alt+Shift+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-solo",
-    "sequences": ["Shift+S"],
+    "sequences": [
+      "Shift+S"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-above-item",
-    "sequences": ["Up"],
+    "sequences": [
+      "Up"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-below-item",
-    "sequences": ["Down"],
+    "sequences": [
+      "Down"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-extend-track-selection-next",
-    "sequences": ["Shift+Down"],
+    "sequences": [
+      "Shift+Down"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-extend-track-selection-prev",
-    "sequences": ["Shift+Up"],
+    "sequences": [
+      "Shift+Up"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-first-track",
-    "sequences": ["Ctrl+Home"],
+    "sequences": [
+      "Ctrl+Home"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-item-context-menu",
-    "sequences": ["Shift+F10", "Ctrl+Shift+F10"],
+    "sequences": [
+      "Shift+F10",
+      "Ctrl+Shift+F10"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-item-extend-left",
-    "sequences": ["Shift+Left"],
+    "sequences": [
+      "Shift+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-extend-right",
-    "sequences": ["Shift+Right"],
+    "sequences": [
+      "Shift+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-move-down",
-    "sequences": ["Ctrl+Down"],
+    "sequences": [
+      "Ctrl+Down"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-move-left",
-    "sequences": ["Ctrl+Left"],
+    "sequences": [
+      "Ctrl+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-move-right",
-    "sequences": ["Ctrl+Right"],
+    "sequences": [
+      "Ctrl+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-move-up",
-    "sequences": ["Ctrl+Up"],
+    "sequences": [
+      "Ctrl+Up"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-reduce-left",
-    "sequences": ["Ctrl+Shift+Left"],
+    "sequences": [
+      "Ctrl+Shift+Left"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-item-reduce-right",
-    "sequences": ["Ctrl+Shift+Right"],
+    "sequences": [
+      "Ctrl+Shift+Right"
+    ],
     "sourceGroup": null
   },
   {
     "action": "track-view-last-track",
-    "sequences": ["Ctrl+End"],
+    "sequences": [
+      "Ctrl+End"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-next-panel",
-    "sequences": ["Tab"],
+    "sequences": [
+      "Tab"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-prev-panel",
-    "sequences": ["Shift+Tab"],
+    "sequences": [
+      "Shift+Tab"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-range-selection",
-    "sequences": ["Shift+Enter", "Shift+Return"],
+    "sequences": [
+      "Shift+Enter",
+      "Shift+Return"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "track-view-toggle-selection",
-    "sequences": ["Ctrl+Enter", "Ctrl+Return"],
+    "sequences": [
+      "Ctrl+Enter",
+      "Ctrl+Return"
+    ],
     "sourceGroup": "Tracks view navigation actions"
   },
   {
     "action": "trim",
-    "sequences": ["Ctrl+T"],
+    "sequences": [
+      "Ctrl+T"
+    ],
     "sourceGroup": null
   },
   {
@@ -1575,17 +1922,23 @@
   },
   {
     "action": "ungroup-clips",
-    "sequences": ["Ctrl+Shift+G"],
+    "sequences": [
+      "Ctrl+Shift+G"
+    ],
     "sourceGroup": null
   },
   {
     "action": "unmute-all-tracks",
-    "sequences": ["Ctrl+Shift+U"],
+    "sequences": [
+      "Ctrl+Shift+U"
+    ],
     "sourceGroup": null
   },
   {
     "action": "unmute-tracks",
-    "sequences": ["Ctrl+Alt+Shift+U"],
+    "sequences": [
+      "Ctrl+Alt+Shift+U"
+    ],
     "sourceGroup": null
   },
   {
@@ -1600,37 +1953,51 @@
   },
   {
     "action": "zero-cross",
-    "sequences": ["Z"],
+    "sequences": [
+      "Z"
+    ],
     "sourceGroup": null
   },
   {
     "action": "zoom-in",
-    "sequences": ["Ctrl+="],
+    "sequences": [
+      "Ctrl+="
+    ],
     "sourceGroup": null
   },
   {
     "action": "zoom-normal",
-    "sequences": ["Ctrl+2"],
+    "sequences": [
+      "Ctrl+2"
+    ],
     "sourceGroup": null
   },
   {
     "action": "zoom-out",
-    "sequences": ["Ctrl+-"],
+    "sequences": [
+      "Ctrl+-"
+    ],
     "sourceGroup": null
   },
   {
     "action": "zoom-sel",
-    "sequences": ["Ctrl+E"],
+    "sequences": [
+      "Ctrl+E"
+    ],
     "sourceGroup": null
   },
   {
     "action": "zoom-to-fit-project",
-    "sequences": ["Ctrl+F"],
+    "sequences": [
+      "Ctrl+F"
+    ],
     "sourceGroup": null
   },
   {
     "action": "zoom-toggle",
-    "sequences": ["Shift+Z"],
+    "sequences": [
+      "Shift+Z"
+    ],
     "sourceGroup": null
   }
 ]
