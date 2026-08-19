@@ -31,7 +31,7 @@ const items = headings.filter(
               data-on-this-page-link
               data-target-id={heading.slug}
               class:list={[
-                "block py-1 -ml-px border-l border-transparent text-gray-600 hover:text-blue-700 hover:border-blue-700 transition-colors",
+                "block py-1 -ml-[2px] border-l-2 border-transparent text-gray-600 hover:text-blue-700 hover:border-blue-300 rounded-r transition-colors",
                 heading.depth === 2 ? "pl-4" : "pl-7 text-gray-500",
               ]}
             >
@@ -58,16 +58,29 @@ const items = headings.filter(
       ids.push(id);
     });
 
-    const activeClasses = ["text-blue-700", "border-blue-700", "font-medium"];
+    // The active item must be unmissable: a solid pill, not a tint. The
+    // whole class string is swapped rather than layered, so the active
+    // text colour never has to fight the resting one on specificity.
+    const restingClass = new Map<HTMLAnchorElement, string>();
+    links.forEach((link) => restingClass.set(link, link.className));
+    const activeClasses =
+      "text-white bg-blue-700 border-blue-700 font-semibold";
 
     let currentId: string | null = null;
     const setActive = (id: string | null) => {
       if (id === currentId) return;
       if (currentId) {
-        linkById.get(currentId)?.classList.remove(...activeClasses);
+        const prev = linkById.get(currentId);
+        if (prev) prev.className = restingClass.get(prev) ?? prev.className;
       }
       if (id) {
-        linkById.get(id)?.classList.add(...activeClasses);
+        const next = linkById.get(id);
+        if (next) {
+          next.className =
+            `${restingClass.get(next) ?? next.className} ${activeClasses}`
+              .replace(/text-gray-\d+/g, "")
+              .replace(/\s+/g, " ");
+        }
       }
       currentId = id;
     };

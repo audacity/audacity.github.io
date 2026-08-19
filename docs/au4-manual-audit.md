@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 215 (212 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 190 (187 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
@@ -35,9 +35,9 @@ has no real content yet.
 | File | Exit | `quit` | ✅ written | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | Edit | Undo | `action://trackedit/undo` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
 | Edit | Redo | `action://trackedit/redo` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
-| Edit | Cut | `action://cut` | ✅ written | [manual-index/toolbar/cut](../src/content/manual/manual-index/toolbar/cut.mdx) |
-| Edit | Copy | `action://copy` | ✅ written | [manual-index/toolbar/copy](../src/content/manual/manual-index/toolbar/copy.mdx) |
-| Edit | Paste | `action://paste` | ✅ written | [manual-index/toolbar/paste](../src/content/manual/manual-index/toolbar/paste.mdx) |
+| Edit | Cut | `action://cut` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
+| Edit | Copy | `action://copy` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
+| Edit | Paste | `action://paste` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
 | Edit | Delete | `action://delete` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
 | Edit | Duplicate | `duplicate` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
 | Edit | Delete and close gap (per track) | `delete-per-track-ripple` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
@@ -74,12 +74,12 @@ has no real content yet.
 | Select → Looping | Set loop region to selection | `set-loop-region-to-selection` | ✅ written | [manual-index/timeline/set-loop-region-to-selection](../src/content/manual/manual-index/timeline/set-loop-region-to-selection.mdx) |
 | Select → Looping | Set loop region in out | `set-loop-region-in-out` | ✅ written | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
 | Select | Move cursor to closest zero crossing | `zero-cross` | ✅ written | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
-| View → Zoom | Zoom in | `zoom-in` | ✅ written | [manual-index/toolbar/zoom-in](../src/content/manual/manual-index/toolbar/zoom-in.mdx) |
-| View → Zoom | Zoom out | `zoom-out` | ✅ written | [manual-index/toolbar/zoom-out](../src/content/manual/manual-index/toolbar/zoom-out.mdx) |
+| View → Zoom | Zoom in | `zoom-in` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
+| View → Zoom | Zoom out | `zoom-out` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
 | View → Zoom | Zoom default | `zoom-default` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
-| View → Zoom | Zoom to selection | `zoom-to-selection` | ✅ written | [manual-index/toolbar/zoom-to-selection](../src/content/manual/manual-index/toolbar/zoom-to-selection.mdx) |
-| View → Zoom | Zoom toggle | `zoom-toggle` | ✅ written | [manual-index/toolbar/zoom-toggle](../src/content/manual/manual-index/toolbar/zoom-toggle.mdx) |
-| View → Zoom | Zoom to fit project | `zoom-to-fit-project` | ✅ written | [manual-index/toolbar/zoom-to-fit-project](../src/content/manual/manual-index/toolbar/zoom-to-fit-project.mdx) |
+| View → Zoom | Zoom to selection | `zoom-to-selection` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
+| View → Zoom | Zoom toggle | `zoom-toggle` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
+| View → Zoom | Zoom to fit project | `zoom-to-fit-project` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
 | View → Zoom | Collapse all tracks | `collapse-all-tracks` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
 | View → Zoom | Expand all tracks | `expand-all-tracks` | ✅ written (heading) | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
 | View → Skip to | Skip to selection start _(disabled)_ | `skip-to-selection-start` | ✅ written | [manual-index/header/view](../src/content/manual/manual-index/header/view.mdx) |
@@ -382,7 +382,7 @@ not yet known whether AU4 has the feature at all.
 | Importing audio | getting-started | applies | ✅ written | [manual-index/import](../src/content/manual/manual-index/import.mdx) |
 | Exporting audio | getting-started | applies | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | Recording | getting-started | applies | ✅ written | [manual-index/header/record](../src/content/manual/manual-index/header/record.mdx) |
-| Playing audio | getting-started | applies | ✅ written | [manual-index/toolbar/play](../src/content/manual/manual-index/toolbar/play.mdx) |
+| Playing audio | getting-started | applies | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
 | Basic audio editing | getting-started | applies | ✅ written | [getting-started/basic-audio-editing](../src/content/manual/getting-started/basic-audio-editing.mdx) |
 | Selecting audio | getting-started | applies | ✅ written | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
 | Undo, redo and history | reference | applies | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
@@ -418,7 +418,7 @@ None.
 ### Stub pages (0)
 
 
-### Pages with defaulted stream (183) — proposed assignment
+### Pages with defaulted stream (158) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -569,31 +569,6 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/timeline/toggle-loop-region` | reference |
 | `manual-index/timeline/update-display-while-playing` | reference |
 | `manual-index/toolbar` | reference |
-| `manual-index/toolbar/clip-gain` | reference |
-| `manual-index/toolbar/copy` | reference |
-| `manual-index/toolbar/cut` | reference |
-| `manual-index/toolbar/paste` | reference |
-| `manual-index/toolbar/play` | reference |
-| `manual-index/toolbar/playback-level` | reference |
-| `manual-index/toolbar/record` | reference |
-| `manual-index/toolbar/record-level` | reference |
-| `manual-index/toolbar/rewind-to-end` | reference |
-| `manual-index/toolbar/rewind-to-start` | reference |
-| `manual-index/toolbar/silence` | reference |
-| `manual-index/toolbar/snapping` | reference |
-| `manual-index/toolbar/split-tool` | reference |
-| `manual-index/toolbar/stop` | reference |
-| `manual-index/toolbar/tempo` | reference |
-| `manual-index/toolbar/time-signature` | reference |
-| `manual-index/toolbar/timecode` | reference |
-| `manual-index/toolbar/toggle-loop-region` | reference |
-| `manual-index/toolbar/toggle-spectral-view` | reference |
-| `manual-index/toolbar/trim` | reference |
-| `manual-index/toolbar/zoom-in` | reference |
-| `manual-index/toolbar/zoom-out` | reference |
-| `manual-index/toolbar/zoom-to-fit-project` | reference |
-| `manual-index/toolbar/zoom-to-selection` | reference |
-| `manual-index/toolbar/zoom-toggle` | reference |
 | `manual-index/track-control-panel` | reference |
 | `manual-index/track-control-panel/audio-track-item` | reference |
 | `manual-index/track-control-panel/label-track-item` | reference |

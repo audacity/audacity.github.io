@@ -78,6 +78,9 @@ export default defineConfig({
         // and every island on the page dies on "null useState" — add new
         // interactive-island subpaths here BEFORE starting the server.
         "@dilsonspickles/components/TrackControlPanel",
+        "@dilsonspickles/components/Toolbar",
+        "@dilsonspickles/components/TransportButton",
+        "@dilsonspickles/components/ToolButton",
         "react",
         "react-dom",
       ],

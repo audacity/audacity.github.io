@@ -6,7 +6,10 @@ import { formatMdx } from "./normalize";
 const files = listManualFiles();
 
 test("corpus is non-empty (guards against a wrong path)", () => {
-  expect(files.length).toBeGreaterThan(200);
+  // The 2026-08 consolidation merged per-item pages into per-subject pages
+  // (menus, track control panel, toolbar), taking the corpus from ~245 files
+  // to ~190. The guard only needs to catch an empty/wrong directory.
+  expect(files.length).toBeGreaterThan(150);
 });
 
 // Files that cannot satisfy strict byte-for-byte round-trip idempotency. In
