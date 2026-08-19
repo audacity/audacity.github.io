@@ -10,7 +10,7 @@ Audacity source: `2f42f1c968` · manual pages: 215 (212 published, 0 stubs) · e
 | Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 31 | 0 | 12 | 3 |
+| Target-state topics (AU3 manual) | 46 | 43 | 0 | 0 | 3 |
 | Shortcuts (inline mentions) | 175 | 107 | — | 68 | — |
 
 ## Menu items
@@ -363,13 +363,13 @@ not yet known whether AU4 has the feature at all.
 | Preferences | reference | applies | ✅ written | [manual-index/preferences](../src/content/manual/manual-index/preferences.mdx) |
 | Toolbars overview | reference | changed | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
 | Keyboard shortcut reference | reference | applies | ✅ written (outside collection) | `/manual/shortcuts` (generated from src/data/au4) |
-| Mouse bindings | reference | applies | ❌ missing | — |
+| Mouse bindings | reference | applies | ✅ written | [manual-index/mouse-bindings](../src/content/manual/manual-index/mouse-bindings.mdx) |
 | Index of effects, generators and analyzers | reference | applies | ✅ written | [manual-index/egat](../src/content/manual/manual-index/egat.mdx) |
 | Managing effects, generators and analyzers | reference | changed | ✅ written (heading) | [manual-index/header/analyze](../src/content/manual/manual-index/header/analyze.mdx) |
 | Macros | reference | verify | ✅ written (heading) | [manual-index/header/tools](../src/content/manual/manual-index/header/tools.mdx) |
 | Nyquist | reference | applies | ✅ written | [manual-index/egat/nyquist](../src/content/manual/manual-index/egat/nyquist.mdx) |
 | Audio tracks | reference | applies | ✅ written | [manual-index/track-control-panel](../src/content/manual/manual-index/track-control-panel.mdx) |
-| Audacity waveform | reference | applies | ❌ missing | — |
+| Audacity waveform | reference | applies | ✅ written | [manual-index/waveform](../src/content/manual/manual-index/waveform.mdx) |
 | Spectrogram view | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Tracks and clips | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Label tracks | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
@@ -391,19 +391,19 @@ not yet known whether AU4 has the feature at all.
 | FAQ | how-to | applies | ✅ written (outside collection) | `/FAQ` (site page, indexed in help search) |
 | Punch-in repair of recording fluffs | how-to | applies | ✅ written | [manual-index/punch-and-roll-recording](../src/content/manual/manual-index/punch-and-roll-recording.mdx) |
 | Mixing voice with background music | how-to | applies | ✅ written | [how-to/mixing-voice-with-music](../src/content/manual/how-to/mixing-voice-with-music.mdx) |
-| Using multi-track | how-to | applies | ❌ missing | — |
-| Recording multi-track overdubs | how-to | applies | ❌ missing | — |
-| Making ringtones and IVR messages | how-to | applies | ❌ missing | — |
-| Copying tapes and LPs to computer | how-to | applies | ❌ missing | — |
-| Splitting a recording into separate tracks | how-to | applies | ❌ missing | — |
+| Using multi-track | how-to | applies | ✅ written | [how-to/using-multi-track](../src/content/manual/how-to/using-multi-track.mdx) |
+| Recording multi-track overdubs | how-to | applies | ✅ written | [how-to/recording-overdubs](../src/content/manual/how-to/recording-overdubs.mdx) |
+| Making ringtones and IVR messages | how-to | applies | ✅ written | [how-to/making-ringtones](../src/content/manual/how-to/making-ringtones.mdx) |
+| Copying tapes and LPs to computer | how-to | applies | ✅ written | [how-to/digitising-tapes-and-lps](../src/content/manual/how-to/digitising-tapes-and-lps.mdx) |
+| Splitting a recording into separate tracks | how-to | applies | ✅ written | [how-to/splitting-a-recording](../src/content/manual/how-to/splitting-a-recording.mdx) |
 | Recording streaming audio playing on the computer | how-to | applies | ✅ written | [basics/recording-desktop-audio](../src/content/manual/basics/recording-desktop-audio.mdx) |
-| Click and pop removal | how-to | applies | ❌ missing | — |
-| Noise reduction and removal | how-to | applies | ❌ missing | — |
-| Vocal removal and isolation | how-to | applies | ❌ missing | — |
+| Click and pop removal | how-to | applies | ✅ written | [how-to/click-and-pop-removal](../src/content/manual/how-to/click-and-pop-removal.mdx) |
+| Noise reduction and removal | how-to | applies | ✅ written | [how-to/noise-reduction](../src/content/manual/how-to/noise-reduction.mdx) |
+| Vocal removal and isolation | how-to | applies | ✅ written | [how-to/vocal-removal](../src/content/manual/how-to/vocal-removal.mdx) |
 | Looping | how-to | applies | ✅ written (heading) | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
 | Spectral analysis | how-to | applies | ✅ written (heading) | [manual-index/header/analyze](../src/content/manual/manual-index/header/analyze.mdx) |
-| Audiobook mastering | how-to | applies | ❌ missing | — |
-| Editing audio (tutorial) | how-to | applies | ❌ missing | — |
+| Audiobook mastering | how-to | applies | ✅ written | [how-to/audiobook-mastering](../src/content/manual/how-to/audiobook-mastering.mdx) |
+| Editing audio (tutorial) | how-to | applies | ✅ written | [how-to/editing-audio](../src/content/manual/how-to/editing-audio.mdx) |
 
 ## Site-internal debt
 
@@ -609,18 +609,6 @@ sidebars and belongs in its own reviewed change.
 | `special-uses/expected-uses` | how-to |
 | `special-uses/info-for-system-administrators` | how-to |
 
-## Next pages to write (12 candidates)
+## Next pages to write (0 candidates)
 
-1. topic **Mouse bindings** (reference, target-state checklist)
-2. topic **Audacity waveform** (reference, target-state checklist)
-3. topic **Using multi-track** (how-to, target-state checklist)
-4. topic **Recording multi-track overdubs** (how-to, target-state checklist)
-5. topic **Making ringtones and IVR messages** (how-to, target-state checklist)
-6. topic **Copying tapes and LPs to computer** (how-to, target-state checklist)
-7. topic **Splitting a recording into separate tracks** (how-to, target-state checklist)
-8. topic **Click and pop removal** (how-to, target-state checklist)
-9. topic **Noise reduction and removal** (how-to, target-state checklist)
-10. topic **Vocal removal and isolation** (how-to, target-state checklist)
-11. topic **Audiobook mastering** (how-to, target-state checklist)
-12. topic **Editing audio (tutorial)** (how-to, target-state checklist)
 

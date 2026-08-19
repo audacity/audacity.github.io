@@ -126,5 +126,47 @@
   "topic:mixer-board": {
     "status": "wont-document",
     "reason": "Audacity 4 has no mixer board"
+  },
+  "topic:mouse-bindings": {
+    "page": "manual-index/mouse-bindings"
+  },
+  "topic:waveform": {
+    "page": "manual-index/waveform"
+  },
+  "topic:editing-basics": {
+    "page": "getting-started/basic-audio-editing"
+  },
+  "topic:tut-multitrack": {
+    "page": "how-to/using-multi-track"
+  },
+  "topic:tut-overdubs": {
+    "page": "how-to/recording-overdubs"
+  },
+  "topic:tut-ringtones": {
+    "page": "how-to/making-ringtones"
+  },
+  "topic:tut-lp-digitisation": {
+    "page": "how-to/digitising-tapes-and-lps"
+  },
+  "topic:tut-split-tracks": {
+    "page": "how-to/splitting-a-recording"
+  },
+  "topic:tut-clicks": {
+    "page": "how-to/click-and-pop-removal"
+  },
+  "topic:tut-noise": {
+    "page": "how-to/noise-reduction"
+  },
+  "topic:tut-vocal-removal": {
+    "page": "how-to/vocal-removal"
+  },
+  "topic:tut-audiobook": {
+    "page": "how-to/audiobook-mastering"
+  },
+  "topic:tut-editing": {
+    "page": "how-to/editing-audio"
+  },
+  "topic:tut-voice-music": {
+    "page": "how-to/mixing-voice-with-music"
   }
 }
