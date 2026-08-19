@@ -1,0 +1,12 @@
+{
+  "au4Commit": "2f42f1c968ad15b5ab871f3bdf56249bd311a84e",
+  "counts": {
+    "shortcuts": 326,
+    "actions": 279,
+    "menus": 12,
+    "builtinEffects": 26,
+    "nyquistEffects": 28,
+    "preferencePages": 11
+  },
+  "warnings": []
+}

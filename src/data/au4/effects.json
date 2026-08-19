@@ -1,0 +1,380 @@
+[
+  {
+    "name": "Amplify",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "amplify/amplifyeffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Bass and Treble",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "BassTrebleBase.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Change pitch",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "changepitch/changepitcheffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Chirp",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "tonegen/chirpeffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Click removal",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "clickremoval/clickremovaleffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Compressor",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "dynamics/compressor/compressoreffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "DTMF Tones",
+    "family": "builtin",
+    "kind": "generator",
+    "source": "dtmfgen/dtmfgenerator.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Fade In",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "fade/fadeeffect.cpp",
+    "hasView": false
+  },
+  {
+    "name": "Fade Out",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "fade/fadeeffect.cpp",
+    "hasView": false
+  },
+  {
+    "name": "Filter Curve EQ",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "filtercurveeq/filtercurveeq.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Graphic EQ",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "graphiceq/graphiceq.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Invert",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "invert/inverteffect.cpp",
+    "hasView": false
+  },
+  {
+    "name": "Limiter",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "dynamics/limiter/limitereffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Loudness Normalization",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "loudness/normalizeloudnesseffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Noise",
+    "family": "builtin",
+    "kind": "generator",
+    "source": "noisegen/noisegenerator.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Noise reduction",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "noisereduction/noisereductioneffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Normalize",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "normalize/normalizeeffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Paulstretch",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "paulstretch/paulstretcheffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Remove DC offset",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "removedcoffset/removedcoffseteffect.cpp",
+    "hasView": false
+  },
+  {
+    "name": "Repair",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "repair/repaireffect.cpp",
+    "hasView": false
+  },
+  {
+    "name": "Reverb",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "reverb/reverbeffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Reverse",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "reverse/reverseeffect.cpp",
+    "hasView": false
+  },
+  {
+    "name": "Silence",
+    "family": "builtin",
+    "kind": "generator",
+    "source": "SilenceBase.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Sliding stretch",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "slidingstretch/slidingstretcheffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Tone",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "tonegen/toneeffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Truncate silence",
+    "family": "builtin",
+    "kind": "effect",
+    "source": "truncatesilence/truncatesilenceeffect.cpp",
+    "hasView": true
+  },
+  {
+    "name": "Adjustable fade",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "adjustable-fade.ny",
+    "subcategory": "fading"
+  },
+  {
+    "name": "Amplify selection",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "SpectralEditShelves.ny",
+    "subcategory": "spectraltools"
+  },
+  {
+    "name": "Amplify selection center frequency",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "SpectralEditParametricEQ.ny",
+    "subcategory": "spectraltools"
+  },
+  {
+    "name": "Beat finder",
+    "family": "nyquist",
+    "kind": "analyze",
+    "source": "beat.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Clip fix",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "clipfix.ny",
+    "subcategory": "noiseremovalandrepair"
+  },
+  {
+    "name": "Crossfade clips",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "crossfadeclips.ny",
+    "subcategory": "fading"
+  },
+  {
+    "name": "Crossfade tracks",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "crossfadetracks.ny",
+    "subcategory": "fading"
+  },
+  {
+    "name": "Delay",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "delay.ny",
+    "subcategory": "delayandreverb"
+  },
+  {
+    "name": "Delete selection",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "spectral-delete.ny",
+    "subcategory": "spectraltools"
+  },
+  {
+    "name": "Delete selection center frequency",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "SpectralEditMulti.ny",
+    "subcategory": "spectraltools"
+  },
+  {
+    "name": "High-pass filter",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "highpass.ny",
+    "subcategory": "eqandfilters"
+  },
+  {
+    "name": "Label sounds",
+    "family": "nyquist",
+    "kind": "analyze",
+    "source": "label-sounds.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Legacy limiter",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "legacy-limiter.ny",
+    "subcategory": "legacy"
+  },
+  {
+    "name": "Low-pass filter",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "lowpass.ny",
+    "subcategory": "eqandfilters"
+  },
+  {
+    "name": "Measure RMS",
+    "family": "nyquist",
+    "kind": "analyze",
+    "source": "rms.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Noise gate",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "noisegate.ny",
+    "subcategory": "noiseremovalandrepair"
+  },
+  {
+    "name": "Notch filter",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "notch.ny",
+    "subcategory": "eqandfilters"
+  },
+  {
+    "name": "Nyquist plugin installer",
+    "family": "nyquist",
+    "kind": "tool",
+    "source": "nyquist-plug-in-installer.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Pluck",
+    "family": "nyquist",
+    "kind": "generate",
+    "source": "pluck.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Regular interval labels",
+    "family": "nyquist",
+    "kind": "tool",
+    "source": "equalabel.ny",
+    "subcategory": "analyze"
+  },
+  {
+    "name": "Rhythm track",
+    "family": "nyquist",
+    "kind": "generate",
+    "source": "rhythmtrack.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Risset drum",
+    "family": "nyquist",
+    "kind": "generate",
+    "source": "rissetdrum.ny",
+    "subcategory": "nogroup"
+  },
+  {
+    "name": "Sample data export",
+    "family": "nyquist",
+    "kind": "tool",
+    "source": "sample-data-export.ny",
+    "subcategory": "analyze"
+  },
+  {
+    "name": "Sample data Import",
+    "family": "nyquist",
+    "kind": "tool",
+    "source": "sample-data-import.ny",
+    "subcategory": "generate"
+  },
+  {
+    "name": "Shelf filter",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "ShelfFilter.ny",
+    "subcategory": "eqandfilters"
+  },
+  {
+    "name": "Studio fade out",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "StudioFadeOut.ny",
+    "subcategory": "fading"
+  },
+  {
+    "name": "Tremolo",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "tremolo.ny",
+    "subcategory": "distortionandmodulation"
+  },
+  {
+    "name": "Vocoder",
+    "family": "nyquist",
+    "kind": "process",
+    "source": "vocoder.ny",
+    "subcategory": "distortionandmodulation"
+  }
+]
