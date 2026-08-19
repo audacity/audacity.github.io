@@ -60,7 +60,13 @@ const sections = Array.from(grouped.entries())
       The Audacity 4 window, recreated from its real components. Click any part
       of it to open the page that documents it.
     </p>
-    <ProjectWindowExplorer client:load />
+    {
+      /* The window renders at its natural width: spill into the landing's
+        empty right rail on wide screens, scroll horizontally below that. */
+    }
+    <div class="overflow-x-auto xl:w-[1000px] xl:max-w-none">
+      <ProjectWindowExplorer client:load />
+    </div>
   </section>
 
   {

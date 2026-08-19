@@ -7,21 +7,29 @@ import { ApplicationHeader } from "@dilsonspickles/components/ApplicationHeader"
 import { ProjectToolbar } from "@dilsonspickles/components/ProjectToolbar";
 import { TimelineRuler } from "@dilsonspickles/components/TimelineRuler";
 import { TrackControlPanel } from "@dilsonspickles/components/TrackControlPanel";
+import { TrackControlSidePanel } from "@dilsonspickles/components/TrackControlSidePanel";
 import { Clip } from "@dilsonspickles/components/Clip";
+import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
+import { SelectionToolbar } from "@dilsonspickles/components/SelectionToolbar";
+import { VerticalRuler } from "@dilsonspickles/components/VerticalRuler";
+import { PlayheadCursor } from "@dilsonspickles/components/PlayheadCursor";
 import ManualToolbarDemo from "./ManualToolbarDemo";
 import {
   CLIP_WAVEFORM_LEFT,
   CLIP_WAVEFORM_RIGHT,
+  CLIP_WAVEFORM_MONO,
 } from "../UIExample/waveformData";
 
 /*
   The Reference front door: the Audacity 4 project window, recreated from
-  the design system's real components. Clicking any region opens the manual
-  page (or section) documenting it — the interface is the table of contents.
+  the design system's real components — clickable by AREA, not by control.
+  Each region links to the top of the page documenting it: landing halfway
+  down an unfamiliar page is disorienting, so the fine-grained
+  control-to-section jumps live on the subject pages themselves.
 
-  Every target here is a real page/anchor; the audit's dead-link check
-  covers MDX but not this file, so treat the MAP below as load-bearing when
-  pages move.
+  The components underneath are render-only — a full-region anchor overlays
+  each area (no interactive element nests inside another), with a hover
+  ring and label chip, like the old manual's numbered window map made live.
 */
 
 const MENUS = [
@@ -38,11 +46,8 @@ const MENUS = [
   "Help",
 ];
 
-const go = (href: string) => {
-  if (typeof window !== "undefined") window.location.href = href;
-};
-
 const M = "/manual/manual-index";
+const noop = () => {};
 
 class SpecimenBoundary extends Component<
   { children: ReactNode },
@@ -55,6 +60,50 @@ class SpecimenBoundary extends Component<
   render() {
     return this.state.failed ? null : this.props.children;
   }
+}
+
+/** The overlay anchor a region (or zone of one) is clicked through. */
+function AreaLink({
+  href,
+  label,
+  style,
+}: {
+  href: string;
+  label: string;
+  style?: Record<string, string | number>;
+}) {
+  return (
+    <a
+      href={href}
+      aria-label={`${label} — open its manual page`}
+      style={style}
+      className="group absolute z-10 transition hover:bg-blue-600/5 hover:ring-2 hover:ring-inset hover:ring-blue-600 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
+    >
+      <span className="absolute right-2 top-2 rounded bg-blue-700 px-2 py-0.5 text-xs font-semibold text-white opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
+        {label} →
+      </span>
+    </a>
+  );
+}
+
+/** One clickable region: the real component rendered inert underneath. */
+function Region({
+  href,
+  label,
+  className = "",
+  children,
+}: {
+  href: string;
+  label: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={`relative ${className}`}>
+      <div className="pointer-events-none">{children}</div>
+      <AreaLink href={href} label={label} style={{ inset: 0 }} />
+    </div>
+  );
 }
 
 export default function ProjectWindowExplorer() {
@@ -71,113 +120,152 @@ export default function ProjectWindowExplorer() {
   return (
     <SpecimenBoundary>
       <figure className="not-prose my-8">
-        <div className="rounded-xl border border-gray-300 shadow-lg overflow-hidden bg-white">
-          <ApplicationHeader
-            os={os}
-            menuItems={MENUS}
-            onMenuItemClick={(item) => go(`${M}/header/${item.toLowerCase()}`)}
-          />
-          <ProjectToolbar
-            activeItem="project"
-            onMenuItemClick={(item) =>
-              go(
-                item === "export"
-                  ? `${M}/export-menu`
-                  : `${M}/project-management-menu/${item}`,
-              )
-            }
-            historyActions={{
-              onUndo: () => go(`${M}/header/edit#undo`),
-              onRedo: () => go(`${M}/header/edit#redo`),
-            }}
-            workspaceSelector={{
-              value: "modern",
-              label: "Workspace",
-              options: [
-                { value: "modern", label: "Modern" },
-                { value: "classic", label: "Classic" },
-                { value: "music", label: "Music" },
-              ],
-              onChange: (value) => go(`${M}/workspaces/${value}`),
-            }}
-          />
-          <ManualToolbarDemo />
-          <div className="flex border-t border-gray-200">
-            <div
-              className="shrink-0 border-r border-gray-200"
-              aria-label="Track control panel — click a control to read about it"
-            >
-              <TrackControlPanel
-                trackName="Vocals"
-                trackType="stereo"
-                volume={75}
-                pan={0}
-                meterLevelLeft={62}
-                meterLevelRight={55}
-                onMuteToggle={() =>
-                  go(`${M}/track-control-panel/audio-track-item#mute`)
-                }
-                onSoloToggle={() =>
-                  go(`${M}/track-control-panel/audio-track-item#solo`)
-                }
-                onVolumeChange={() =>
-                  go(`${M}/track-control-panel/audio-track-item#volume`)
-                }
-                onPanChange={() =>
-                  go(`${M}/track-control-panel/audio-track-item#panning`)
-                }
-                onEffectsClick={() =>
-                  go(`${M}/track-control-panel/audio-track-item#effects`)
-                }
-                onMenuClick={() =>
-                  go(`${M}/track-control-panel/audio-track-item#track-options`)
-                }
-                onClick={() => go(`${M}/track-control-panel/audio-track-item`)}
+        <div className="min-w-[980px] overflow-hidden rounded-xl border border-gray-300 bg-white shadow-lg">
+          <Region href={`${M}/header`} label="Menus">
+            <ApplicationHeader os={os} menuItems={MENUS} />
+          </Region>
+
+          {/* One row, three documented areas: the project tabs, the hotbar
+              quick actions, and the workspace selector. Zoned overlays. */}
+          <div className="relative">
+            <div className="pointer-events-none">
+              <ProjectToolbar
+                activeItem="project"
+                centerActions={[
+                  { icon: "cog", label: "Audio setup", onClick: noop },
+                  { icon: "cloud", label: "Share audio", onClick: noop },
+                  { icon: "plugins", label: "Get effects", onClick: noop },
+                ]}
+                historyActions={{ onUndo: noop, onRedo: noop }}
+                workspaceSelector={{
+                  value: "modern",
+                  // Empty label + narrower dropdown: at the specimen's 980px
+                  // the full "Workspace" caption collides with the hotbar's
+                  // "Get effects" label.
+                  label: "",
+                  width: "120px",
+                  options: [
+                    { value: "modern", label: "Modern" },
+                    { value: "classic", label: "Classic" },
+                    { value: "music", label: "Music" },
+                  ],
+                  onChange: noop,
+                }}
               />
             </div>
-            <div className="min-w-0 flex-1 bg-gray-50">
-              {/* role=link divs, not <button>s: the ruler and clip carry
-                  their own internal buttons, and button-in-button is
-                  invalid HTML that breaks hydration. */}
-              <div
-                role="link"
-                tabIndex={0}
-                className="block w-full cursor-pointer"
-                aria-label="Timeline — open its manual page"
-                onClick={() => go(`${M}/timeline`)}
-                onKeyDown={(e) => e.key === "Enter" && go(`${M}/timeline`)}
-              >
+            <AreaLink
+              href={`${M}/project-management-menu`}
+              label="Project tabs"
+              style={{ top: 0, bottom: 0, left: 0, width: "24%" }}
+            />
+            <AreaLink
+              href={`${M}/hotbar`}
+              label="Hotbar"
+              style={{ top: 0, bottom: 0, left: "24%", width: "38%" }}
+            />
+            <AreaLink
+              href={`${M}/workspaces`}
+              label="Workspaces"
+              style={{ top: 0, bottom: 0, left: "62%", width: "38%" }}
+            />
+          </div>
+
+          <Region href={`${M}/toolbar`} label="Toolbar">
+            <div className="flex items-center gap-4 pr-3">
+              <ManualToolbarDemo />
+              <MasterMeter levelLeft={55} levelRight={48} volume={80} />
+            </div>
+          </Region>
+
+          <div className="flex border-t border-gray-200">
+            <Region
+              href={`${M}/track-control-panel`}
+              label="Track panel"
+              className="shrink-0 border-r border-gray-200"
+            >
+              <TrackControlSidePanel resizable={false}>
+                <TrackControlPanel
+                  trackName="Vocals"
+                  trackType="stereo"
+                  volume={75}
+                  pan={0}
+                  meterLevelLeft={62}
+                  meterLevelRight={55}
+                />
+                <TrackControlPanel
+                  trackName="Music"
+                  trackType="mono"
+                  volume={60}
+                  pan={-20}
+                  meterLevel={40}
+                />
+              </TrackControlSidePanel>
+            </Region>
+
+            <div className="min-w-0 flex-1">
+              <Region href={`${M}/timeline`} label="Timeline">
                 <TimelineRuler
                   pixelsPerSecond={24}
                   totalDuration={40}
-                  width={960}
+                  width={720}
                 />
-              </div>
-              <div
-                role="link"
-                tabIndex={0}
-                className="block cursor-pointer p-3"
-                aria-label="Audio clip — open the clip commands"
-                onClick={() => go(`${M}/header/edit#clip`)}
-                onKeyDown={(e) =>
-                  e.key === "Enter" && go(`${M}/header/edit#clip`)
-                }
-              >
-                <Clip
-                  name="Vocals"
-                  width={430}
-                  height={132}
-                  waveformLeft={CLIP_WAVEFORM_LEFT}
-                  waveformRight={CLIP_WAVEFORM_RIGHT}
-                />
+              </Region>
+
+              <div className="flex">
+                {/* The clips canvas: dark ground, one clip per track lane,
+                    the playhead running through both. */}
+                <Region
+                  href={`${M}/waveform`}
+                  label="Clips"
+                  className="min-w-0 flex-1"
+                >
+                  <div className="relative h-[280px] overflow-hidden bg-[#252838]">
+                    <div className="absolute left-10 top-2">
+                      <Clip
+                        name="Vocals"
+                        color="blue"
+                        width={430}
+                        height={126}
+                        waveformLeft={CLIP_WAVEFORM_LEFT}
+                        waveformRight={CLIP_WAVEFORM_RIGHT}
+                      />
+                    </div>
+                    <div className="absolute left-40 top-[140px]">
+                      <Clip
+                        name="Music"
+                        color="violet"
+                        width={360}
+                        height={126}
+                        waveformData={CLIP_WAVEFORM_MONO}
+                      />
+                    </div>
+                    <div className="pointer-events-none absolute bottom-0 left-0 top-0">
+                      <PlayheadCursor position={1} pixelsPerSecond={24} />
+                    </div>
+                  </div>
+                </Region>
+                <Region
+                  href={`${M}/vertical-rulers`}
+                  label="Vertical ruler"
+                  className="shrink-0 bg-[#252838]"
+                >
+                  <VerticalRuler height={280} />
+                </Region>
               </div>
             </div>
           </div>
+
+          <Region href={`${M}/time-toolbar`} label="Selection toolbar">
+            <SelectionToolbar
+              status="Stopped"
+              instructionText="Click and drag to select audio"
+            />
+          </Region>
         </div>
         <figcaption className="mt-3 text-center text-sm text-gray-500">
-          The Audacity 4 window, built from its real components. Click any part
-          of it — a menu, a toolbar button, a track control, the ruler, the clip
-          — to open the page that documents it.
+          The Audacity 4 window, built from its real components. Click an area —
+          the menus, a toolbar, the track panel, the timeline, the clips — to
+          open the page that documents it.
         </figcaption>
       </figure>
     </SpecimenBoundary>
