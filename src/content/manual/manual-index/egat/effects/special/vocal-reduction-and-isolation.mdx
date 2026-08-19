@@ -3,7 +3,33 @@ title: "Vocal Reduction and Isolation"
 section: "EGAT"
 sectionOrder: 140
 order: 61
+description: Not available in Audacity 4.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Vocal Reduction and Isolation was an Audacity 3 Nyquist plug-in that tried to
+remove or extract a centred vocal from a stereo mix by cancelling what the two
+channels had in common. **Audacity 4 does not ship it**, and there is no Vocal
+Reduction and Isolation entry in the Effect menu.
+
+## What to use instead
+
+The underlying technique is still available by hand. Split the stereo track
+into two mono tracks, apply
+[Invert](/manual/manual-index/egat/effects/special/invert) to one of them, and
+mix the two together: everything identical in both channels cancels, which
+usually takes out most of a centred lead vocal. What is left is mono, and
+anything else sitting in the centre — often the bass and the kick — goes with
+the vocal.
+
+For removing a specific sound rather than everything in the centre, the
+[Spectral Tools](/manual/manual-index/egat/effects/spectral-tools) act on a
+chosen band of frequencies over a chosen stretch of time, which is a more
+surgical approach.
+
+## Notes
+
+None of these methods separates a vocal cleanly. They work on how the mix was
+assembled rather than on what the instruments are, so results depend entirely
+on the recording — and any reverb on the vocal, which is rarely centred, stays
+behind.

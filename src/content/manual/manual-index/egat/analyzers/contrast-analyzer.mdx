@@ -3,7 +3,37 @@ title: "Contrast Analyzer"
 section: "EGAT"
 sectionOrder: 140
 order: 73
+description: Compare the level of speech against the level of background sound, for accessibility checking.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+The Contrast Analyzer measures the difference in level between two passages of
+a track — typically speech and the background behind it — and reports it in
+decibels. It exists for accessibility work: guidelines on audio contrast ask
+that foreground speech sit a stated number of decibels above any background
+sound, and this is the tool that tells you whether a recording meets that.
+
+## Where to find it
+
+**Analyze → Contrast analyzer**.
+
+## How it is used
+
+Select a passage of foreground speech and measure it, then select a passage of
+background alone and measure that. Each measurement is the RMS level of the
+selection in decibels, and the difference between the two is the contrast
+figure.
+
+## Notes
+
+It measures one track at a time. With more than one track selected it will not
+run, and with none selected there is nothing to measure — select audio in a
+single track first.
+
+Choose the passages carefully, because the answer is only as good as they are.
+The foreground measurement should be over continuous speech rather than
+including the pauses in it, and the background measurement should be over a
+stretch with no speech at all.
+
+Nothing is altered: this is a measurement, and there is no undo step to worry
+about.
