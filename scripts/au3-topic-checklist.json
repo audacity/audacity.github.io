@@ -107,19 +107,22 @@
       "id": "note-tracks",
       "title": "Note (MIDI) tracks",
       "stream": "reference",
-      "status": "verify"
+      "status": "dropped",
+      "note": "AU4 TrackType enum is {Undefined, Mono, Stereo, Label} — no note/MIDI track type. Export MIDI exists in the File menu but is disabled."
     },
     {
       "id": "time-tracks",
       "title": "Time tracks",
       "stream": "reference",
-      "status": "verify"
+      "status": "dropped",
+      "note": "No time-track type in AU4. The au3 layer only retains a TimeTrackDetector for legacy AU3 projects."
     },
     {
       "id": "mixer-board",
       "title": "Mixer board",
       "stream": "reference",
-      "status": "verify"
+      "status": "dropped",
+      "note": "No mixer board in AU4 — zero references in src/."
     },
     {
       "id": "timeline",
@@ -203,7 +206,12 @@
       "status": "changed",
       "match": ["Appearance"]
     },
-    { "id": "faq", "title": "FAQ", "stream": "how-to", "status": "applies" },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "stream": "how-to",
+      "status": "applies"
+    },
     {
       "id": "tut-punch-in",
       "title": "Punch-in repair of recording fluffs",

@@ -3,15 +3,15 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 201 (198 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 215 (212 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
 | Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 29 | 0 | 17 | 0 |
-| Shortcuts (inline mentions) | 175 | 106 | — | 69 | — |
+| Target-state topics (AU3 manual) | 46 | 31 | 0 | 12 | 3 |
+| Shortcuts (inline mentions) | 175 | 107 | — | 68 | — |
 
 ## Menu items
 
@@ -314,7 +314,6 @@ prose, both directions.
 - `Ctrl+Shift+U` — unmute-all-tracks
 - `Ctrl+Alt+Shift+U` — unmute-tracks
 - `Ctrl+2` — zoom-normal
-- `Ctrl+E` — zoom-sel
 
 **Keyboard navigation**
 
@@ -374,9 +373,9 @@ not yet known whether AU4 has the feature at all.
 | Spectrogram view | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Tracks and clips | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Label tracks | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
-| Note (MIDI) tracks | reference | verify | ❌ missing | — |
-| Time tracks | reference | verify | ❌ missing | — |
-| Mixer board | reference | verify | ❌ missing | — |
+| Note (MIDI) tracks | reference | dropped | ➖ won't document — Audacity 4 has no note/MIDI track type | — |
+| Time tracks | reference | dropped | ➖ won't document — Audacity 4 has no time-track type | — |
+| Mixer board | reference | dropped | ➖ won't document — Audacity 4 has no mixer board | — |
 | Timeline | reference | applies | ✅ written | [manual-index/timeline](../src/content/manual/manual-index/timeline.mdx) |
 | Volume envelopes | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Glossary | reference | applies | ✅ written | [glossary](../src/content/manual/glossary.mdx) |
@@ -384,14 +383,14 @@ not yet known whether AU4 has the feature at all.
 | Exporting audio | getting-started | applies | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | Recording | getting-started | applies | ✅ written | [manual-index/header/record](../src/content/manual/manual-index/header/record.mdx) |
 | Playing audio | getting-started | applies | ✅ written | [manual-index/toolbar/play](../src/content/manual/manual-index/toolbar/play.mdx) |
-| Basic audio editing | getting-started | applies | ❌ missing | — |
+| Basic audio editing | getting-started | applies | ✅ written | [getting-started/basic-audio-editing](../src/content/manual/getting-started/basic-audio-editing.mdx) |
 | Selecting audio | getting-started | applies | ✅ written | [manual-index/header/select](../src/content/manual/manual-index/header/select.mdx) |
 | Undo, redo and history | reference | applies | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
 | Customising the layout (workspaces) | reference | changed | ✅ written | [manual-index/workspaces](../src/content/manual/manual-index/workspaces.mdx) |
 | Themes and appearance | reference | changed | ✅ written | [manual-index/preferences/appearance](../src/content/manual/manual-index/preferences/appearance.mdx) |
 | FAQ | how-to | applies | ✅ written (outside collection) | `/FAQ` (site page, indexed in help search) |
 | Punch-in repair of recording fluffs | how-to | applies | ✅ written | [manual-index/punch-and-roll-recording](../src/content/manual/manual-index/punch-and-roll-recording.mdx) |
-| Mixing voice with background music | how-to | applies | ❌ missing | — |
+| Mixing voice with background music | how-to | applies | ✅ written | [how-to/mixing-voice-with-music](../src/content/manual/how-to/mixing-voice-with-music.mdx) |
 | Using multi-track | how-to | applies | ❌ missing | — |
 | Recording multi-track overdubs | how-to | applies | ❌ missing | — |
 | Making ringtones and IVR messages | how-to | applies | ❌ missing | — |
@@ -419,7 +418,7 @@ None.
 ### Stub pages (0)
 
 
-### Pages with defaulted stream (181) — proposed assignment
+### Pages with defaulted stream (183) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -536,6 +535,7 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/hotbar/get-effects` | reference |
 | `manual-index/hotbar/share-audio` | reference |
 | `manual-index/import` | reference |
+| `manual-index/mouse-bindings` | reference |
 | `manual-index/preferences` | reference |
 | `manual-index/preferences/advanced` | reference |
 | `manual-index/preferences/appearance` | reference |
@@ -598,6 +598,7 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/track-control-panel/audio-track-item` | reference |
 | `manual-index/track-control-panel/label-track-item` | reference |
 | `manual-index/vertical-rulers` | reference |
+| `manual-index/waveform` | reference |
 | `manual-index/workspaces` | reference |
 | `manual-index/workspaces/classic` | reference |
 | `manual-index/workspaces/creating-new-workspaces` | reference |
@@ -608,20 +609,18 @@ sidebars and belongs in its own reviewed change.
 | `special-uses/expected-uses` | how-to |
 | `special-uses/info-for-system-administrators` | how-to |
 
-## Next pages to write (14 candidates)
+## Next pages to write (12 candidates)
 
 1. topic **Mouse bindings** (reference, target-state checklist)
 2. topic **Audacity waveform** (reference, target-state checklist)
-3. topic **Basic audio editing** (getting-started, target-state checklist)
-4. topic **Mixing voice with background music** (how-to, target-state checklist)
-5. topic **Using multi-track** (how-to, target-state checklist)
-6. topic **Recording multi-track overdubs** (how-to, target-state checklist)
-7. topic **Making ringtones and IVR messages** (how-to, target-state checklist)
-8. topic **Copying tapes and LPs to computer** (how-to, target-state checklist)
-9. topic **Splitting a recording into separate tracks** (how-to, target-state checklist)
-10. topic **Click and pop removal** (how-to, target-state checklist)
-11. topic **Noise reduction and removal** (how-to, target-state checklist)
-12. topic **Vocal removal and isolation** (how-to, target-state checklist)
-13. topic **Audiobook mastering** (how-to, target-state checklist)
-14. topic **Editing audio (tutorial)** (how-to, target-state checklist)
+3. topic **Using multi-track** (how-to, target-state checklist)
+4. topic **Recording multi-track overdubs** (how-to, target-state checklist)
+5. topic **Making ringtones and IVR messages** (how-to, target-state checklist)
+6. topic **Copying tapes and LPs to computer** (how-to, target-state checklist)
+7. topic **Splitting a recording into separate tracks** (how-to, target-state checklist)
+8. topic **Click and pop removal** (how-to, target-state checklist)
+9. topic **Noise reduction and removal** (how-to, target-state checklist)
+10. topic **Vocal removal and isolation** (how-to, target-state checklist)
+11. topic **Audiobook mastering** (how-to, target-state checklist)
+12. topic **Editing audio (tutorial)** (how-to, target-state checklist)
 

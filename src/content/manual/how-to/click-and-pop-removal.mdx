@@ -1,0 +1,51 @@
+---
+title: "Removing clicks and pops"
+description: Choose between Click removal, Repair and Clip fix, and apply the right one to the damage you have.
+section: "Repair and cleanup"
+sectionOrder: 20
+order: 2
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Clicks, pops and crackle come from different causes, and Audacity 4 has a different tool for each. Pick the wrong one and it either does nothing or damages audio that was fine.
+
+## Before you start
+
+Listen through and work out which of three cases you have.
+
+- **Scattered clicks throughout** — vinyl crackle, digital dropouts, a loose cable. Many small faults over a long stretch. Use **Click removal**.
+- **One audible defect** — a single scratch or pop you can point at. Use **Repair**.
+- **Distortion on the loud parts** — the recording was made too hot and the peaks were flattened off. That is clipping, not clicking. Use **Clip fix**.
+
+## Steps
+
+### Scattered clicks
+
+1. Select the whole affected stretch — a side of a record, or the entire track.
+2. Choose **Effect → Noise removal and repair → Click removal**. Start at the defaults: **Threshold (lower is more sensitive)** at 200, **Max spike width (higher is more sensitive)** at 20.
+3. Listen back to the busiest passage, not the quietest. Over-aggressive settings show first on drum hits, consonants and guitar picking, which start to sound soft and dull.
+4. If clicks remain, undo and lower the threshold a little rather than a lot. See [Click removal](/manual/manual-index/egat/effects/noise-removal-and-repair/click-removal) for both ranges.
+
+### A single defect
+
+1. Zoom right in on the fault with **View → Zoom → Zoom in**, or <Shortcut client:load keys="cmd+=" />, until you can see individual samples.
+2. Drag a selection across just the damaged samples. [Repair](/manual/manual-index/egat/effects/noise-removal-and-repair/repair) takes at most 128 samples — under three thousandths of a second at a 44,100 Hz project rate — and refuses to run on anything longer.
+3. Choose **Effect → Noise removal and repair → Repair**. There is no dialog; it applies immediately, rebuilding the selection from the audio either side.
+4. If the fault is still audible, undo and try a slightly different selection rather than applying Repair again on its own result.
+
+Repair needs undamaged audio on both sides, so it cannot fix a fault at the very start or end of a clip.
+
+### Flattened peaks
+
+1. Do this before any other processing, while the recording is untouched. Select the affected audio and choose **Effect → Noise removal and repair → Clip fix**.
+2. Leave **Threshold of Clipping (%)** at 95 to begin with. Lower it if obvious clipping is being missed, raise it if the effect is altering audio that was never clipped.
+3. **Reduce amplitude to allow for restored peaks (dB)** defaults to −9. The rebuilt peaks are taller than the flat tops they replace, so the selection is turned down to make room and the result will be quieter.
+
+## Notes
+
+[Clip fix](/manual/manual-index/egat/effects/noise-removal-and-repair/clip-fix) reconstructs a plausible peak from the slope either side of the flat section. It cannot recover audio that was never recorded, so heavily clipped material still sounds distorted afterwards.
+
+Click removal and Clip fix both trade thoroughness against damage, and no setting catches only faults. Work up from the defaults and stop at the first that sounds clean.

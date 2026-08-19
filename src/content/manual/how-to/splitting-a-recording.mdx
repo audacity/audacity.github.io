@@ -1,0 +1,35 @@
+---
+title: "Splitting a long recording into separate tracks"
+description: Mark the boundaries in a long recording with labels, then export each piece as its own file.
+section: "Multi-track projects"
+sectionOrder: 30
+order: 4
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+A digitised album side, a recorded rehearsal, an afternoon of dictation — each arrives as one continuous recording that needs breaking into separate files. Mark the boundaries with labels, cut the audio at those marks, then export the pieces one at a time.
+
+Read step 5 before you start marking: Audacity 4 has no command that exports every labelled region in one pass, so the number of pieces you create is the number of times you will visit the Export dialog.
+
+## Before you start
+
+You need the recording open in a project. Audible gaps between the items make the marking far quicker; without them, every boundary has to be placed by ear.
+
+## Steps
+
+1. Mark the boundaries by hand. Put the playhead where a piece begins and choose **Edit → Label → [Add label](/manual/manual-index/header/edit#add-label)** (<Shortcut client:load keys="cmd+b" />). The label opens for naming straight away, so type the track title and confirm. A label lands at the cursor when the project is stopped and at the playback position while it is playing, so you can play through and drop one at each boundary as it goes past.
+2. Or let Audacity find them. Select the audio and run **Analyze → [Label sounds](/manual/manual-index/egat/analyzers/label-sounds)**, which labels every passage above a threshold that is separated by silence. Set **Label type** to **Region around sounds** so each label spans the audio itself, and raise **Minimum silence duration** if pauses inside a single piece are being read as boundaries.
+3. Check the result and fix the names with **Edit → Label → [Manage labels](/manual/manual-index/header/edit#manage-labels)**, which lists every label in one place rather than making you hunt them down on the [label track](/manual/manual-index/track-control-panel/label-track-item).
+4. Cut the audio at the boundaries. Put the playhead on each mark and use **Edit → Clip → [Split](/manual/manual-index/header/edit#split)** (<Shortcut client:load keys="cmd+i" />); no audio is removed, but each piece becomes an independent clip. Where the gaps are clean, **Edit → Clip → [Split clips at silences](/manual/manual-index/header/edit#split-clips-at-silences)** (<Shortcut client:load keys="cmd+alt+j" />) does the whole recording in one pass.
+5. Export each piece separately. Select one clip — or drag a time selection between two labels — then choose **File → [Export audio](/manual/manual-index/header/file#export-audio)** (<Shortcut client:load keys="cmd+shift+e" />). At the top of the dialog set **Type** to **Export selected audio**, give the file its name, folder and format, and export. Then select the next piece and repeat.
+
+## Notes
+
+The **Type** dropdown offers **Export full project audio**, **Export selected audio** and **Export audio in loop region** — there is no "export each label as its own file" option in this version. Working through the pieces by hand is the flow, which is why naming the labels first is worth the effort: the label text becomes your list of filenames.
+
+Labels and clips are separate things: splitting the audio does not consume the labels, and deleting a label does not touch the audio.
+
+**File → Export other → [Export labels](/manual/manual-index/track-control-panel/label-track-item#export-labels)** writes the label track out to a plain text file — a usable track listing, and a record of where everything sat if you come back to the original later.

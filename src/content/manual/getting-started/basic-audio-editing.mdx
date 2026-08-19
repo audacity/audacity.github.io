@@ -1,0 +1,86 @@
+---
+title: "Basic audio editing"
+description: "Select a stretch of audio, then cut, copy, trim or silence it — and undo anything you get wrong."
+section: "First steps"
+sectionOrder: 10
+order: 3.5
+stream: "getting-started"
+draft: false
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Almost every edit in Audacity is the same two moves: choose the audio you want
+to change, then run a command on it. Learn that loop and the rest of the
+editing commands are variations on it. This page works on a single track and
+takes you from a raw take to a tidier one, with nothing you do along the way
+being permanent.
+
+## Before you start
+
+You need a track with some audio in it. If you have not got one yet,
+[make your first recording](/manual/getting-started/make-your-first-recording),
+or drag an audio file onto the Audacity window to import it.
+
+## Select the audio you want to change
+
+Click in the waveform and drag left or right. The selected stretch is
+highlighted across the track, and dragging downwards as well selects the same
+stretch on every track you pass over.
+
+- Hold **Shift** and click to extend the selection you already have out to the
+  point you clicked.
+- Double-click a clip to select the whole of it; double-click an empty part of
+  a track to select all of that track's audio.
+- **Select → Select all**, or <Shortcut client:load keys="cmd+a" />, selects
+  everything in the project.
+
+Press **Play** before you edit. Playback follows the selection, so you hear
+exactly the stretch you are about to change — the quickest way to catch a
+selection that starts a syllable too early.
+
+## Cut, copy and paste
+
+With a selection made, the clipboard commands work the way they do everywhere
+else. All three are in the Edit menu.
+
+- [Cut](/manual/manual-index/header/edit#cut),
+  <Shortcut client:load keys="cmd+x" />, removes the selection and puts it on
+  the clipboard.
+- [Copy](/manual/manual-index/header/edit#copy),
+  <Shortcut client:load keys="cmd+c" />, takes a copy and leaves the audio
+  alone.
+- [Paste](/manual/manual-index/header/edit#paste),
+  <Shortcut client:load keys="cmd+v" />, drops the clipboard in at the cursor.
+
+## Remove, keep or mute a stretch
+
+Three commands cover most tidying up, and the difference between them is what
+happens to the timing of everything that follows.
+
+- [Delete](/manual/manual-index/header/edit#delete) removes the selection and
+  leaves a gap, so nothing after it moves.
+  [Delete and close gap (per track)](/manual/manual-index/header/edit#delete-and-close-gap-per-track)
+  removes it and pulls the later audio left instead.
+- [Trim clip](/manual/manual-index/header/edit#trim-clip),
+  <Shortcut client:load keys="cmd+t" />, is the opposite of Delete: it keeps
+  the selection and discards the rest of the clip. Use it to strip the silence
+  off both ends of a take in one move.
+- [Silence audio](/manual/manual-index/header/edit#silence-audio),
+  <Shortcut client:load keys="cmd+l" />, empties the selection without
+  shortening it. This is what you want for a cough or a page turn in the middle
+  of a sentence, where removing the time would ruin the rhythm.
+
+## Undo anything
+
+[Undo](/manual/manual-index/header/edit#undo),
+<Shortcut client:load keys="cmd+z" />, steps back through your edits one at a
+time, and it keeps going — Audacity remembers the whole session, not just the
+last change. [Redo](/manual/manual-index/header/edit#redo) steps forward again
+if you went too far.
+
+That is what makes the rest of this safe to explore. Try a command, listen, and
+undo it if it was wrong.
+
+Next, move up from stretches of audio to whole clips in
+[cut, move, and arrange clips](/manual/getting-started/cut-move-and-arrange-clips).

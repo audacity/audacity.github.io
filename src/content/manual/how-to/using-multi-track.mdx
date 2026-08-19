@@ -1,0 +1,34 @@
+---
+title: "Working with multiple tracks"
+description: Stack several tracks in one project, balance them against each other, and select across them.
+section: "Multi-track projects"
+sectionOrder: 30
+order: 1
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+A project can hold as many tracks as you need, stacked one above the other. They all play at once from the same playhead, so most of the work in a multi-track project is deciding how loud each track is, where it sits between the speakers, and which ones you are listening to at any given moment.
+
+Every control mentioned below is documented in full on the [audio track control panel](/manual/manual-index/track-control-panel/audio-track-item) page.
+
+## Steps
+
+1. Add a track. **Tracks → New mono track** (<Shortcut client:load keys="cmd+shift+n" />) suits a single-channel source such as a microphone; **Tracks → New stereo track** suits anything with two channels. To bring in audio you already have, use **File → Import** — each imported file arrives as a track of its own.
+2. Press <Shortcut client:load keys="space" /> and listen. Nothing has to be armed or routed: every track that is not muted plays together, from wherever the playhead sits.
+3. Set the balance with each track's volume slider, on the left-hand control panel. It runs from **-60 dB** to **+12 dB**. Hold **Shift** while dragging for fine adjustment, and double-click the slider to put the track back to 0 dB.
+4. Place tracks across the stereo field with the pan knob beside the slider, from **100 left** through centre to **100 right**. Double-click it to return to centre. Both controls affect playback only — the audio itself is untouched — and both are saved with the project.
+5. Use **Mute** and **Solo** to work out what is doing what. Mute holds one track back; solo holds everything else back, and soloing several tracks lets you hear that group on its own.
+6. Select across tracks by dragging. A drag across a waveform selects a time range in that track; drag downwards as you go and the selection takes in every track the pointer passes over, so one gesture can cover the same stretch of time on all of them. **Select → Select all** (<Shortcut client:load keys="cmd+a" />) selects every track from start to end.
+
+## Notes
+
+Selecting a time range is not the same as selecting a track. Commands that act on tracks themselves — duplicating, removing, mixing down — need the tracks selected, which is what **Select → Select all tracks** (<Shortcut client:load keys="cmd+shift+k" />) does.
+
+If the sliders and pan knob disappear, the track is too short. Drag its lower edge down, or use **View → Expand all tracks**. On a crowded project **View → Collapse all tracks** does the opposite and gets everything on screen at once.
+
+You do not have to flatten anything to share a mix — exporting mixes the tracks down for you and leaves the project alone. Use [Mix-down to…](/manual/manual-index/header/tracks#mix-down-to) only when you want fewer tracks in the project itself, since it bakes in each track's volume, pan and effects.
+
+To record a new part against the tracks you already have, see [Recording overdubs](/manual/how-to/recording-overdubs).

@@ -1,0 +1,34 @@
+---
+title: "Recording overdubs"
+description: Record a new part onto its own track while listening to the tracks you already have.
+section: "Multi-track projects"
+sectionOrder: 30
+order: 2
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+An overdub is a take recorded while the rest of the project plays back — a harmony over a guide vocal, a second guitar, narration over a music bed. Audacity records it onto a new track, leaving everything already in the project untouched. The thing that reliably goes wrong is timing, so the last two steps are about checking it and fixing it.
+
+## Before you start
+
+Use headphones. If the existing tracks are coming out of speakers, your microphone will record them along with the new part, and the two cannot cleanly be separated afterwards.
+
+## Steps
+
+1. Choose the input. Open **Hotbar → [Audio setup](/manual/manual-index/hotbar/audio-setup)** and set **Recording device** to the microphone or interface you are using, and **Recording channels** to 1 (Mono) or 2 (Stereo) to match it. If you plugged the device in after Audacity started, use **Rescan audio devices** first.
+2. Set the recording level with the [Record level](/manual/manual-index/toolbar/record-level) button in the toolbar. Play or speak the loudest part you expect and watch the meter — back the level off if it reaches the top, because clipping cannot be undone afterwards.
+3. Put the playhead where the new part should begin, a bar or two before the first note rather than exactly on it.
+4. Choose **Record → Record on new track**. Audacity creates an empty track, records into it, and plays everything else back as it goes. A two-channel input gets one new stereo track; otherwise you get one mono track per input channel. Choose the command again, or press <Shortcut client:load keys="space" />, to stop.
+5. Listen back and check the alignment. Zoom in on a point where the new part and an existing track should hit together — a downbeat, a hand clap, the start of a word. If the new recording sits consistently late against the old, that is round-trip latency: the delay between Audacity playing the backing to you and your performance arriving back at its input.
+6. Correct it in **Preferences → [Audio settings](/manual/manual-index/preferences/audio-settings)**, in the **Buffer and latency** group. **Latency compensation** is a value in milliseconds that Audacity subtracts from the start of each recording. Leave **Automatic** ticked to let Audacity work it out from the device, or untick it, measure how late a short test take lands, and enter that figure.
+
+## Notes
+
+The offset is constant for a given device and buffer setting, so once measured it stays measured — but check again if you change interface or buffer length. A take you have already recorded does not have to be redone: drag the clip along the timeline until it lines up.
+
+**Buffer length** sits beside the compensation setting. Smaller buffers respond faster when overdubbing but are harder on a slow machine; larger buffers are more stable and add more delay.
+
+To drop into an existing track partway through rather than record a whole new one, use [Lead-in recording](/manual/manual-index/header/record#lead-in-recording) (<Shortcut client:load keys="shift+d" />), which plays you the seconds before the punch point and then drops into record.

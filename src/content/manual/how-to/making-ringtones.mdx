@@ -1,0 +1,85 @@
+---
+title: "Making a ringtone or short clip"
+description: Cut a few seconds out of a longer track, fade it in and out, and export it as a file on its own.
+section: "Everyday tasks"
+sectionOrder: 10
+order: 2
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+You have a song, a jingle or a recording, and you want a short piece of it as a
+standalone file — a ringtone, a notification sound, a sting for a video. The
+work is the same in each case: find the section, trim to it, fade the ends so
+it does not start and stop with a click, and export.
+
+What Audacity cannot decide for you is the format and the length. Those are set
+by whatever will play the file, so check what the device or the app expects
+before you export, not after.
+
+## Before you start
+
+Import the audio you want to cut from, with **File → Import**. Work on an
+imported copy rather than your only version of the file, and only export what
+you have the right to use.
+
+## Steps
+
+1. Find the section. Play through and, when you are near the right place, drag
+   a selection across it. Playback follows the selection, so pressing **Play**
+   auditions exactly what you have chosen. Press
+   <Shortcut client:load keys="l" /> to loop it and keep listening while you
+   adjust the edges.
+2. Get the edges right. Zoom in with <Shortcut client:load keys="cmd+=" /> and
+   drag either end of the selection until the section starts and ends where you
+   want. **View → Zoom → Zoom to selection**,
+   <Shortcut client:load keys="cmd+e" />, fills the window with what you have
+   selected so you can work on the ends closely.
+3. Trim the clip down to the selection with **Edit → Clip → Trim clip**,
+   <Shortcut client:load keys="cmd+t" />. Everything outside the selection goes,
+   leaving just your section on the track.
+4. Fade the start in. Select the first second or so and choose
+   **Effect → Fading → Fade In**. There is no dialog, and the fade covers
+   exactly the selection — the length of what you selected is the length of the
+   fade. See [Fade In](/manual/manual-index/egat/effects/fading/fade-in).
+5. Fade the end out. Select the last second or two and choose
+   **Effect → Fading → Fade Out**. Play it back: the clip should now begin and
+   end smoothly instead of cutting in and out. See
+   [Fade Out](/manual/manual-index/egat/effects/fading/fade-out).
+6. Check the level. If the section is noticeably quieter than everything else
+   on the device, select it all and use **Effect → Volume and compression →
+   Normalize**, which brings the loudest peak up to its default target of
+   −1 dB. See
+   [Normalize](/manual/manual-index/egat/effects/volume-and-compression/normalize)
+   for what its options do.
+7. Export with **File → Export audio**,
+   <Shortcut client:load keys="cmd+shift+e" />. Set **Type** to **Export full
+   project audio**, pick a **Format** — the list shows what your installation
+   can write — set the **File name** and **Folder**, and export. The dialog is
+   described under
+   [Export audio](/manual/manual-index/header/file#export-audio).
+
+## Notes
+
+If you would rather not trim the original at all, skip step 3 and leave the
+whole track in place. In the Export dialog, set **Type** to **Export selected
+audio** to export only what is selected, or **Export audio in loop region** to
+export the loop you set up in step 1. Both write the short file and leave the
+project untouched.
+
+The Export dialog's **Rendering** section has a **Trim blank space before first
+clip** option. Turn it on if your section does not start at the very beginning
+of the project, otherwise the exported file begins with the silence in front of
+it.
+
+Ringtones are usually played at arm's length through a small speaker, so a
+section with a clear, immediate hook works better than one that builds. If your
+device caps the length, cut to that limit rather than exporting something
+longer and letting the phone truncate it — the cut-off point is unlikely to be
+where you would have chosen.
+
+A click at either end after fading almost always means the fade selection was
+too short. A few tens of milliseconds is enough to remove the step in the
+waveform that causes it.

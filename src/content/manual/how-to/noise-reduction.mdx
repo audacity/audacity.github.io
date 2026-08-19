@@ -1,0 +1,38 @@
+---
+title: "Removing background noise"
+description: Profile the hiss or hum in a recording, then filter it out of the whole take.
+section: "Repair and cleanup"
+sectionOrder: 20
+order: 1
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Your recording has a steady layer of hiss, hum or air conditioning underneath it. [Noise reduction](/manual/manual-index/egat/effects/noise-removal-and-repair/noise-reduction) works in two passes — first you show it what the noise sounds like on its own, then you apply it to the take — and you end up with the same performance over a much quieter background.
+
+It suits noise that is constant throughout. It will not remove a one-off sound like a door slam; for that, see [Removing clicks and pops](/manual/how-to/click-and-pop-removal).
+
+## Before you start
+
+You need at least two seconds somewhere in the recording where the noise is playing and nothing else is — the moment before you started speaking usually works. Without one, the effect has nothing to learn from.
+
+## Steps
+
+1. Drag a selection across a stretch of noise only. Zoom in and check it: any breath, word or note caught in the selection will be profiled as noise and eaten out of the whole recording later.
+2. Choose **Effect → Noise removal and repair → Noise reduction** and press **Get noise profile** under **Step 1**. The dialog closes and nothing changes yet — Audacity has only memorised the spectrum.
+3. Select the audio you want cleaned. For the whole project, use **Select → Select all** or <Shortcut client:load keys="cmd+a" />.
+4. Open **Effect → Noise removal and repair → Noise reduction** again. Leave **Noise reduction** at its default of 6 dB for a first attempt, and leave **Sensitivity** and **Frequency smoothing** alone.
+5. Before committing, set **Output** to **Noise only** and apply. Listen to what is about to be thrown away. If you can hear words or music in it, undo and turn **Noise reduction** down.
+6. Undo, set **Output** back to **Audio with noise removed**, and apply.
+
+## Notes
+
+The failure mode is unmistakable once you have heard it: the background stops sounding like hiss and starts sounding watery and metallic, with a faint chirping around the edges of speech. That is over-reduction. It cannot be tuned out afterwards, only undone.
+
+Prefer a gentle setting to a heavy one. Two passes at 6 dB sound better than one at 20 dB, and after the first you can judge whether the second is worth the artefacts. Leaving a little noise audible is almost always the better trade.
+
+If the noise changes partway through, profile and treat each section separately — one profile cannot cover both.
+
+Where the noise only bothers you in the gaps between phrases, [Noise gate](/manual/manual-index/egat/effects/noise-removal-and-repair/noise-gate) turns the level down between sounds instead of filtering the whole signal.

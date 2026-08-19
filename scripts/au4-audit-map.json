@@ -114,5 +114,17 @@
   "menu:multiwindows-dev-show-info": {
     "status": "wont-document",
     "reason": "developer diagnostic, dev-mode builds only"
+  },
+  "topic:note-tracks": {
+    "status": "wont-document",
+    "reason": "Audacity 4 has no note/MIDI track type"
+  },
+  "topic:time-tracks": {
+    "status": "wont-document",
+    "reason": "Audacity 4 has no time-track type"
+  },
+  "topic:mixer-board": {
+    "status": "wont-document",
+    "reason": "Audacity 4 has no mixer board"
   }
 }
