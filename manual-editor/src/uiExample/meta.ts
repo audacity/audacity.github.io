@@ -50,7 +50,7 @@ export const UI_EXAMPLE_META: UIExampleMeta[] = [
     id: "application-header",
     label: "Application header",
     keywords: ["header", "menu", "menubar", "window", "titlebar"],
-    allowInteractive: false,
+    allowInteractive: true,
     variants: [
       { id: "windows", label: "Windows" },
       { id: "macos", label: "macOS" },
@@ -60,7 +60,7 @@ export const UI_EXAMPLE_META: UIExampleMeta[] = [
     id: "project-toolbar",
     label: "Project toolbar",
     keywords: ["project", "toolbar", "hotbar", "workspace", "tabs", "undo"],
-    allowInteractive: false,
+    allowInteractive: true,
     variants: [{ id: "default", label: "Default" }],
   },
   {
