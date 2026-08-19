@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ManualSearch from "../components/manual/ManualSearch.astro";
 import { getStreamEntryPoints } from "../components/manual/streamEntries";
 
 const pageTitle = "Audacity ® | Help";
@@ -14,40 +15,16 @@ interface HelpEntry {
 }
 
 /*
-  The three documentation cards point straight into the manual at the matching
-  stream, so the reader lands with that section's contents already selected
-  rather than at a generic index. Falls back to the manual's front door if a
-  stream has nothing published yet.
-*/
-const streamHrefs = Object.fromEntries(
-  (await getStreamEntryPoints()).map((s) => [s.id, s.href ?? "/manual"]),
-);
+  The stream rows come straight from getStreamEntryPoints(): label, blurb, page
+  count and the href of that stream's first published page. The page used to
+  hardcode its own descriptions and throw the count away, which meant the hub
+  and the manual could drift apart in wording and neither showed how much was
+  actually written.
 
-const primary: HelpEntry[] = [
-  {
-    title: "Getting started",
-    description:
-      "Brand new to Audacity? Eight short steps from install to first export.",
-    href: streamHrefs["getting-started"],
-  },
-  {
-    title: "How-to tutorials",
-    description:
-      "Task-focused guides covering every common workflow: record, edit, effects, export, convert.",
-    href: streamHrefs["how-to"],
-  },
-  {
-    title: "Manual",
-    description:
-      "The complete reference for every menu, toolbar, and effect in Audacity 4.",
-    href: streamHrefs["reference"],
-  },
-  {
-    title: "FAQ",
-    description: "Quick answers to the most common questions about Audacity.",
-    href: "/FAQ",
-  },
-];
+  A stream with nothing published yet has no entry point, so it renders as
+  coming-soon rather than linking nowhere.
+*/
+const streams = await getStreamEntryPoints();
 
 const community: HelpEntry[] = [
   {
@@ -75,55 +52,149 @@ const community: HelpEntry[] = [
   title={pageTitle}
   description={pageDescription}
   showPromoBanner={false}
+  navBackgroundClass="bg-background-deep"
 >
-  <main id="main" class="max-w-screen-xl mx-auto px-6 py-12 space-y-12">
-    <header class="max-w-2xl">
-      <h1 class="text-4xl lg:text-5xl">Help</h1>
-      <p class="text-lg text-gray-600 mt-3">
-        Pick a starting point. The manual covers everything in depth; the
-        getting-started guides walk you through the basics; the community is
-        here when you need a person.
-      </p>
-    </header>
-
-    <section aria-labelledby="help-primary">
-      <h2 id="help-primary" class="text-2xl mb-4">Guides &amp; reference</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {
-          primary.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="block h-full p-5 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
-              >
-                <p class="text-lg font-semibold text-gray-900">{item.title}</p>
-                <p class="text-sm text-gray-600 mt-2">{item.description}</p>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+  <main id="main" class="help-page">
+    <!-- Search band -->
+    <section class="bg-background-deep">
+      <div class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16">
+        <div class="flex flex-col gap-4 max-w-2xl">
+          <h1
+            class="font-harmony text-40 md:text-48 text-text-contrast leading-tight"
+          >
+            Help
+          </h1>
+          <p class="text-18 text-text-contrast/70">
+            Search the manual, guides, FAQ and feature pages — or pick a
+            starting point below.
+          </p>
+          <div class="mt-2 max-w-xl">
+            <ManualSearch
+              id="help-search"
+              placeholder="Search Audacity help…"
+            />
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section aria-labelledby="help-community">
-      <h2 id="help-community" class="text-2xl mb-4">Community &amp; support</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {
-          community.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noopener" : undefined}
-                class="block h-full p-5 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
-              >
-                <p class="text-lg font-semibold text-gray-900">{item.title}</p>
-                <p class="text-sm text-gray-600 mt-2">{item.description}</p>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+    <div
+      class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16 flex flex-col gap-14"
+    >
+      <!-- Documentation streams -->
+      <section aria-labelledby="help-docs" class="flex flex-col gap-6">
+        <h2
+          id="help-docs"
+          class="font-harmony text-32 md:text-40 text-text-primary"
+        >
+          Guides &amp; reference
+        </h2>
+
+        <ul class="flex flex-col gap-3">
+          {
+            streams.map((stream) => (
+              <li>
+                {stream.href ? (
+                  <a
+                    href={stream.href}
+                    class="group flex items-center gap-5 p-5 rounded-lg border border-text-primary/15 hover:border-accent hover:bg-accent/5 transition-colors"
+                  >
+                    <span class="flex flex-col gap-1 flex-1">
+                      <span class="text-20 font-semibold text-text-primary group-hover:text-accent transition-colors">
+                        {stream.label}
+                      </span>
+                      <span class="text-16 text-text-primary/60">
+                        {stream.blurb}
+                      </span>
+                    </span>
+                    <span class="shrink-0 text-14 font-semibold text-text-primary/50 tabular-nums">
+                      {stream.count} {stream.count === 1 ? "page" : "pages"}
+                    </span>
+                  </a>
+                ) : (
+                  <div class="flex items-center gap-5 p-5 rounded-lg border border-dashed border-text-primary/15">
+                    <span class="flex flex-col gap-1 flex-1">
+                      <span class="text-20 font-semibold text-text-primary/50">
+                        {stream.label}
+                      </span>
+                      <span class="text-16 text-text-primary/40">
+                        {stream.blurb}
+                      </span>
+                    </span>
+                    <span class="shrink-0 text-14 font-semibold text-text-primary/40">
+                      Coming soon
+                    </span>
+                  </div>
+                )}
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href="/FAQ"
+              class="group flex items-center gap-5 p-5 rounded-lg border border-text-primary/15 hover:border-accent hover:bg-accent/5 transition-colors"
+            >
+              <span class="flex flex-col gap-1 flex-1">
+                <span
+                  class="text-20 font-semibold text-text-primary group-hover:text-accent transition-colors"
+                >
+                  FAQ
+                </span>
+                <span class="text-16 text-text-primary/60">
+                  Quick answers to the most common questions about Audacity.
+                </span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Community -->
+      <section aria-labelledby="help-community" class="flex flex-col gap-6">
+        <h2
+          id="help-community"
+          class="font-harmony text-32 md:text-40 text-text-primary"
+        >
+          Community &amp; support
+        </h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {
+            community.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener" : undefined}
+                  class="group block h-full p-5 rounded-lg border border-text-primary/15 hover:border-accent hover:bg-accent/5 transition-colors"
+                >
+                  <p class="text-18 font-semibold text-text-primary group-hover:text-accent transition-colors">
+                    {item.title}
+                  </p>
+                  <p class="text-16 text-text-primary/60 mt-2">
+                    {item.description}
+                  </p>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
   </main>
 </BaseLayout>
+
+<style is:global>
+  /*
+    Match /about's footer treatment: that page drops the footer's own
+    backdrop so it continues its closing section rather than butting
+    against it. The hub ends on a light surface, so the same colour reads
+    here as a deliberate base rather than a seam.
+
+    Scoped to this page, the same way about.astro scopes its own override.
+    The value is duplicated from about.astro — worth promoting to a theme
+    token if a third page needs it.
+  */
+  body:has(.help-page) footer.bg-background-dark {
+    background-color: rgb(8, 6, 28);
+  }
+</style>
