@@ -59,29 +59,14 @@ const items = headings.filter(
     });
 
     // The active item must be unmissable: a solid pill, not a tint. The
-    // whole class string is swapped rather than layered, so the active
-    // text colour never has to fight the resting one on specificity.
-    const restingClass = new Map<HTMLAnchorElement, string>();
-    links.forEach((link) => restingClass.set(link, link.className));
-    const activeClasses =
-      "text-white bg-blue-700 border-blue-700 font-semibold";
-
+    // pill itself is styled in this component's <style> block with
+    // specificity above the Tailwind hover utilities, so hovering the
+    // active item can never repaint its text into the background.
     let currentId: string | null = null;
     const setActive = (id: string | null) => {
       if (id === currentId) return;
-      if (currentId) {
-        const prev = linkById.get(currentId);
-        if (prev) prev.className = restingClass.get(prev) ?? prev.className;
-      }
-      if (id) {
-        const next = linkById.get(id);
-        if (next) {
-          next.className =
-            `${restingClass.get(next) ?? next.className} ${activeClasses}`
-              .replace(/text-gray-\d+/g, "")
-              .replace(/\s+/g, " ");
-        }
-      }
+      if (currentId) linkById.get(currentId)?.classList.remove("is-active");
+      if (id) linkById.get(id)?.classList.add("is-active");
       currentId = id;
     };
 
@@ -126,3 +111,18 @@ const items = headings.filter(
     });
   }
 </script>
+
+<style>
+  /*
+    Active pill for the scroll-spy. [attr].class(:hover) outranks the
+    Tailwind hover utilities on the link (single-class + variant), so the
+    white text holds under the pointer instead of turning blue-on-blue.
+  */
+  [data-on-this-page-link].is-active,
+  [data-on-this-page-link].is-active:hover {
+    color: #fff;
+    background-color: #1d4ed8; /* matches the manual's blue-700 links */
+    border-color: #1d4ed8;
+    font-weight: 600;
+  }
+</style>
