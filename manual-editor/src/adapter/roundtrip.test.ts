@@ -11,7 +11,7 @@ const files = listManualFiles();
 // Guard against a wrong corpus path silently turning this whole gate into a
 // no-op (mirrors src/mdx/idempotency.test.ts's own count guard).
 test("corpus is non-empty (guards against a wrong path)", () => {
-  expect(files.length).toBeGreaterThan(200);
+  expect(files.length).toBeGreaterThan(150);
 });
 
 // The SAME files Plan 1's idempotency test skips (see

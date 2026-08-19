@@ -10,6 +10,7 @@ import { TrackControlPanel } from "@dilsonspickles/components/TrackControlPanel"
 import { TrackControlSidePanel } from "@dilsonspickles/components/TrackControlSidePanel";
 import { Clip } from "@dilsonspickles/components/Clip";
 import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
+import { TimeCode } from "@dilsonspickles/components/TimeCode";
 import { SelectionToolbar } from "@dilsonspickles/components/SelectionToolbar";
 import { VerticalRuler } from "@dilsonspickles/components/VerticalRuler";
 import { PlayheadCursor } from "@dilsonspickles/components/PlayheadCursor";
@@ -173,6 +174,7 @@ export default function ProjectWindowExplorer() {
           <Region href={`${M}/toolbar`} label="Toolbar">
             <div className="flex items-center gap-4 pr-3">
               <ManualToolbarDemo />
+              <TimeCode value={0} />
               <MasterMeter levelLeft={55} levelRight={48} volume={80} />
             </div>
           </Region>

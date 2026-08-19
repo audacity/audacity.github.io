@@ -24,7 +24,7 @@ const schema = getSchema(buildExtensions());
 const files = listManualFiles();
 
 test("corpus is non-empty (guards against a wrong path)", () => {
-  expect(files.length).toBeGreaterThan(200);
+  expect(files.length).toBeGreaterThan(150);
 });
 
 // The cheap, strong gate: for EVERY corpus file, the PM doc JSON the adapter

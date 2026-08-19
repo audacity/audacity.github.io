@@ -6,6 +6,7 @@ order: 61
 description: What the waveform display draws — the peak envelope, the zero line, the RMS band, clipping, and the vertical scale.
 draft: false
 ---
+import UIExample from "../../../components/manual/UIExample/UIExample";
 
 The waveform is the default way an audio track draws its audio: level plotted
 against time, running left to right along the timeline. It is the view most
@@ -13,6 +14,8 @@ editing is done in, because it shows at a glance where the sound is and where
 it is not.
 
 ## What it shows
+
+<UIExample component="clip" variant="stereo" client:load />
 
 Time runs horizontally, following the
 [timeline](/manual/manual-index/timeline). Level runs vertically, with silence

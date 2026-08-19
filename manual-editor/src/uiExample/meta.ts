@@ -47,6 +47,66 @@ export interface UIExampleMeta {
 
 export const UI_EXAMPLE_META: UIExampleMeta[] = [
   {
+    id: "application-header",
+    label: "Application header",
+    keywords: ["header", "menu", "menubar", "window", "titlebar"],
+    allowInteractive: false,
+    variants: [
+      { id: "windows", label: "Windows" },
+      { id: "macos", label: "macOS" },
+    ],
+  },
+  {
+    id: "project-toolbar",
+    label: "Project toolbar",
+    keywords: ["project", "toolbar", "hotbar", "workspace", "tabs", "undo"],
+    allowInteractive: false,
+    variants: [{ id: "default", label: "Default" }],
+  },
+  {
+    id: "track-control-panel",
+    label: "Track control panel",
+    keywords: ["track", "panel", "mute", "solo", "volume", "pan", "meter"],
+    allowInteractive: true,
+    variants: [
+      { id: "stereo", label: "Stereo" },
+      { id: "mono", label: "Mono" },
+    ],
+  },
+  {
+    id: "timeline-ruler",
+    label: "Timeline ruler",
+    keywords: ["timeline", "ruler", "time", "scale"],
+    allowInteractive: false,
+    needsBrowser: true,
+    variants: [{ id: "default", label: "Default" }],
+  },
+  {
+    id: "vertical-ruler",
+    label: "Vertical ruler",
+    keywords: ["vertical", "ruler", "scale", "amplitude", "db"],
+    allowInteractive: false,
+    needsBrowser: true,
+    variants: [{ id: "default", label: "Default" }],
+  },
+  {
+    id: "selection-toolbar",
+    label: "Selection toolbar",
+    keywords: ["selection", "status", "duration", "timecode", "status bar"],
+    allowInteractive: false,
+    variants: [{ id: "default", label: "Default" }],
+  },
+  {
+    id: "timecode",
+    label: "Timecode",
+    keywords: ["timecode", "time", "position", "readout", "digits"],
+    allowInteractive: false,
+    variants: [
+      { id: "zero", label: "At zero" },
+      { id: "running", label: "Mid-project" },
+    ],
+  },
+  {
     id: "button",
     label: "Button",
     keywords: ["button", "cta", "primary", "secondary"],

@@ -35,6 +35,13 @@ import { NumberStepper } from "@dilsonspickles/components/NumberStepper";
 import { FilterChip } from "@dilsonspickles/components/FilterChip";
 import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
 import { Clip } from "@dilsonspickles/components/Clip";
+import { ApplicationHeader } from "@dilsonspickles/components/ApplicationHeader";
+import { ProjectToolbar } from "@dilsonspickles/components/ProjectToolbar";
+import { TrackControlPanel } from "@dilsonspickles/components/TrackControlPanel";
+import { TimelineRuler } from "@dilsonspickles/components/TimelineRuler";
+import { VerticalRuler } from "@dilsonspickles/components/VerticalRuler";
+import { SelectionToolbar } from "@dilsonspickles/components/SelectionToolbar";
+import { TimeCode } from "@dilsonspickles/components/TimeCode";
 import { resolveUIExampleProps, uiExampleMeta } from "./registryData";
 import type { UIExampleMeta } from "../../../../manual-editor/src/uiExample/meta";
 
@@ -53,6 +60,13 @@ const COMPONENTS: Record<string, AnyComponent> = {
   "filter-chip": FilterChip as unknown as AnyComponent,
   "master-meter": MasterMeter as unknown as AnyComponent,
   clip: Clip as unknown as AnyComponent,
+  "application-header": ApplicationHeader as unknown as AnyComponent,
+  "project-toolbar": ProjectToolbar as unknown as AnyComponent,
+  "track-control-panel": TrackControlPanel as unknown as AnyComponent,
+  "timeline-ruler": TimelineRuler as unknown as AnyComponent,
+  "vertical-ruler": VerticalRuler as unknown as AnyComponent,
+  "selection-toolbar": SelectionToolbar as unknown as AnyComponent,
+  timecode: TimeCode as unknown as AnyComponent,
 };
 
 export interface ResolvedUIExample {

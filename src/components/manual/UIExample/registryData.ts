@@ -27,10 +27,89 @@ import {
   CLIP_WAVEFORM_RIGHT,
 } from "./waveformData";
 
+// Required-callback placeholder (workspaceSelector.onChange is mandatory).
+// A plain function keeps this module import-free per the rules above.
+const NOOP = () => {};
+
 export const UI_EXAMPLE_VARIANT_PROPS: Record<
   string,
   Record<string, Record<string, unknown>>
 > = {
+  "application-header": {
+    windows: {
+      os: "windows",
+      appName: "Audacity",
+      menuItems: [
+        "File",
+        "Edit",
+        "Select",
+        "View",
+        "Record",
+        "Tracks",
+        "Generate",
+        "Effect",
+        "Analyze",
+        "Tools",
+        "Help",
+      ],
+    },
+    macos: { os: "macos", appName: "Audacity" },
+  },
+  "project-toolbar": {
+    default: {
+      activeItem: "project",
+      centerActions: [
+        { icon: "cog", label: "Audio setup" },
+        { icon: "cloud", label: "Share audio" },
+        { icon: "plugins", label: "Get effects" },
+      ],
+      historyActions: {},
+      workspaceSelector: {
+        value: "modern",
+        label: "",
+        width: "120px",
+        options: [
+          { value: "modern", label: "Modern" },
+          { value: "classic", label: "Classic" },
+          { value: "music", label: "Music" },
+        ],
+        onChange: NOOP,
+      },
+    },
+  },
+  "track-control-panel": {
+    stereo: {
+      trackName: "Vocals",
+      trackType: "stereo",
+      volume: 75,
+      pan: 0,
+      meterLevelLeft: 62,
+      meterLevelRight: 55,
+    },
+    mono: {
+      trackName: "Music",
+      trackType: "mono",
+      volume: 60,
+      pan: -20,
+      meterLevel: 40,
+    },
+  },
+  "timeline-ruler": {
+    default: { pixelsPerSecond: 24, totalDuration: 40, width: 640 },
+  },
+  "vertical-ruler": {
+    default: { height: 200 },
+  },
+  "selection-toolbar": {
+    default: {
+      status: "Stopped",
+      instructionText: "Click and drag to select audio",
+    },
+  },
+  timecode: {
+    zero: { value: 0 },
+    running: { value: 83.5 },
+  },
   button: {
     primary: { variant: "primary", children: "Export" },
     secondary: { variant: "secondary", children: "Cancel" },

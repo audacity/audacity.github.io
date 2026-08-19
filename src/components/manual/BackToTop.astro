@@ -1,0 +1,53 @@
+---
+/*
+  Floating back-to-top control for long manual pages. Hidden until the
+  reader has scrolled a screen's worth; fixed bottom-right, above the
+  content, below any modal. Pure CSS/vanilla — no island needed.
+*/
+---
+
+<button
+  type="button"
+  data-back-to-top
+  aria-label="Back to top"
+  class="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-blue-700 text-white shadow-lg transition-all hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 opacity-0 pointer-events-none translate-y-2"
+>
+  <svg
+    class="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M10 16V4M4 10l6-6 6 6"></path>
+  </svg>
+</button>
+
+<script>
+  const button =
+    document.querySelector<HTMLButtonElement>("[data-back-to-top]");
+  if (button) {
+    const THRESHOLD = 600;
+    let shown = false;
+    const update = () => {
+      const show = window.scrollY > THRESHOLD;
+      if (show === shown) return;
+      shown = show;
+      button.classList.toggle("opacity-0", !show);
+      button.classList.toggle("pointer-events-none", !show);
+      button.classList.toggle("translate-y-2", !show);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+
+    button.addEventListener("click", () => {
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+  }
+</script>

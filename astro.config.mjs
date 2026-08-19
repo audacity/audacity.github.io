@@ -90,6 +90,7 @@ export default defineConfig({
         "@dilsonspickles/components/SelectionToolbar",
         "@dilsonspickles/components/VerticalRuler",
         "@dilsonspickles/components/PlayheadCursor",
+        "@dilsonspickles/components/TimeCode",
         "react",
         "react-dom",
       ],

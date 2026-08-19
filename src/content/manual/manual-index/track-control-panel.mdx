@@ -6,12 +6,15 @@ order: 1
 description: The strip at the left of every track, holding its name, its controls and its menu.
 draft: false
 ---
+import UIExample from "../../../components/manual/UIExample/UIExample";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 
 Every track in a project has a control panel down the left-hand side of the
 Tracks area. The panel is where the track is named, where its playback
 controls live, and where its menu is opened from. Above the panels sits a
 **Tracks** title bar with the **Add track** button.
+
+<UIExample component="track-control-panel" variant="stereo" />
 
 All panels share the same three elements: an icon showing the track type, an
 editable track name, and a menu button. What appears below that depends on the
