@@ -6,5 +6,96 @@
   "topic:faq": {
     "status": "external",
     "note": "`/FAQ` (site page, indexed in help search)"
+  },
+
+  "menu:quit": { "page": "manual-index/header/file/quit-audacity" },
+  "menu:fullscreen": { "page": "manual-index/header/view/fullscreen" },
+  "menu:zero-cross": {
+    "page": "manual-index/header/select/move-cursor-to-zero-crossing"
+  },
+  "menu:check-update": { "page": "manual-index/header/help/check-update" },
+  "menu:toggle-effects": {
+    "page": "manual-index/header/view/show-effects-panel"
+  },
+  "menu:add-realtime-effects": {
+    "page": "manual-index/header/effect/add-realtime-effects"
+  },
+  "menu:set-loop-region-in-out": {
+    "page": "manual-index/header/select/looping"
+  },
+  "menu:about-qt": {
+    "status": "wont-document",
+    "reason": "standard Qt framework dialog, no Audacity behaviour to describe"
+  },
+
+  "menu:select-previous-clip-boundary-to-cursor": {
+    "page": "manual-index/header/select/audio-clips"
+  },
+  "menu:select-cursor-to-next-clip-boundary": {
+    "page": "manual-index/header/select/audio-clips"
+  },
+  "menu:select-previous-clip": {
+    "page": "manual-index/header/select/audio-clips"
+  },
+  "menu:select-next-clip": { "page": "manual-index/header/select/audio-clips" },
+  "menu:toggle-spectral-selection": {
+    "page": "manual-index/header/select/spectral"
+  },
+  "menu:skip-to-selection-start": {
+    "page": "manual-index/header/view/skip-to"
+  },
+  "menu:skip-to-selection-end": { "page": "manual-index/header/view/skip-to" },
+
+  "menu:align-end-to-end": {
+    "page": "manual-index/header/tracks/align-content"
+  },
+  "menu:align-together": { "page": "manual-index/header/tracks/align-content" },
+  "menu:align-start-to-zero": {
+    "page": "manual-index/header/tracks/align-content"
+  },
+  "menu:align-start-to-playhead": {
+    "page": "manual-index/header/tracks/align-content"
+  },
+  "menu:align-start-to-selection-end": {
+    "page": "manual-index/header/tracks/align-content"
+  },
+  "menu:align-end-to-playhead": {
+    "page": "manual-index/header/tracks/align-content"
+  },
+  "menu:align-end-to-selection-end": {
+    "page": "manual-index/header/tracks/align-content"
+  },
+  "menu:sort-by-time": { "page": "manual-index/header/tracks/sort-tracks" },
+  "menu:sort-by-name": { "page": "manual-index/header/tracks/sort-tracks" },
+
+  "menu:apply-macros-palette": { "page": "manual-index/header/tools/macros" },
+  "menu:macro-fade-ends": { "page": "manual-index/header/tools/macros" },
+  "menu:macro-mp3-conversion": { "page": "manual-index/header/tools/macros" },
+
+  "menu:diagnostic-save-diagnostic-files": {
+    "page": "manual-index/header/help/diagnostics"
+  },
+  "menu:diagnostic-show-paths": {
+    "page": "manual-index/header/help/diagnostics"
+  },
+  "menu:diagnostic-show-profiler": {
+    "page": "manual-index/header/help/diagnostics"
+  },
+  "menu:diagnostic-show-navigation-tree": {
+    "page": "manual-index/header/help/diagnostics"
+  },
+  "menu:diagnostic-show-accessible-tree": {
+    "page": "manual-index/header/help/diagnostics"
+  },
+  "menu:diagnostic-accessible-tree-dump": {
+    "page": "manual-index/header/help/diagnostics"
+  },
+  "menu:testflow-show-scripts": {
+    "status": "wont-document",
+    "reason": "developer test tooling, dev-mode builds only"
+  },
+  "menu:multiwindows-dev-show-info": {
+    "status": "wont-document",
+    "reason": "developer diagnostic, dev-mode builds only"
   }
 }
