@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 190 (187 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 192 (189 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
@@ -11,7 +11,7 @@ Audacity source: `2f42f1c968` · manual pages: 190 (187 published, 0 stubs) · e
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
 | Target-state topics (AU3 manual) | 46 | 43 | 0 | 0 | 3 |
-| Shortcuts (inline mentions) | 175 | 107 | — | 68 | — |
+| Shortcuts (inline mentions) | 175 | 108 | — | 67 | — |
 
 ## Menu items
 
@@ -264,7 +264,6 @@ prose, both directions.
 - `Ctrl+Shift+P` — Open pitch and speed dialog
 - `Shift+,` — cursor-long-jump-left
 - `Shift+.` — cursor-long-jump-right
-- `Ctrl+Del` / `Ctrl+Backspace` — Delete and close gap (all tracks)
 - `Ctrl+Shift+F` — fit-v
 - `Shift+N` — input-channels
 - `Shift+I` — input-device

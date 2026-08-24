@@ -71,6 +71,15 @@ To pull the later audio left and close the gap, use
 If nothing is selected, Audacity shows a message asking you to select the
 audio to delete first.
 
+The first time you delete, a dialog asks which behaviour you want — leave
+the gap open, or close it up. Your answer becomes the default for Delete
+from then on, and can be changed later. The modified shortcuts are not
+affected by the choice: <Shortcut client:load keys="shift+del" /> or
+<Shortcut client:load keys="shift+backspace" /> always deletes and closes
+the gap on each track, and <Shortcut client:load keys="cmd+del" /> or
+<Shortcut client:load keys="cmd+backspace" /> always closes it across all
+tracks.
+
 ## Duplicate
 
 Copies the selected audio into a new track at the same position on the
@@ -98,6 +107,11 @@ It works on a time selection, on selected clips, or on selected labels —
 the same targets as [Delete](#delete), which removes the same audio but
 leaves the gap open. If nothing is selected, Audacity asks you to select the
 audio to delete first.
+
+A companion shortcut closes the gap across all tracks rather than each
+track independently, so later material stays aligned from track to track:
+<Shortcut client:load keys="cmd+del" /> or
+<Shortcut client:load keys="cmd+backspace" />.
 
 ## Clip
 
