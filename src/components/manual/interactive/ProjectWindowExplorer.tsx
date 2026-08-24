@@ -175,7 +175,9 @@ export default function ProjectWindowExplorer() {
             <div className="flex items-center gap-4 pr-3">
               <ManualToolbarDemo />
               <TimeCode value={0} />
-              <MasterMeter levelLeft={55} levelRight={48} volume={80} />
+              {/* MasterMeter scales differ from track meters: levels are dB
+                  (−60..0) and volume is 0–1 — see the assembly guide §3. */}
+              <MasterMeter levelLeft={-12} levelRight={-15} volume={0.8} />
             </div>
           </Region>
 
