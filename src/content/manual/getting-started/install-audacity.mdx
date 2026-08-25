@@ -12,6 +12,7 @@ import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import BestPractices from "../../../components/manual/BestPractices.astro";
 import Pitfalls from "../../../components/manual/Pitfalls.astro";
+import ManualDownloadButton from "../../../components/manual/ManualDownloadButton.jsx";
 
 {/*
   PLACEHOLDER CONTENT — written to exercise the page design, not verified
@@ -36,9 +37,10 @@ work computer you may need whoever administers it to approve the install.
 
 ## Download the installer
 
-Go to the [download page](/download) and choose the build for your operating
-system. The page detects your platform and offers the right one first, but
-every build is listed if you need a different one.
+<ManualDownloadButton client:load />
+
+It downloads the build for your platform. Every build for every operating
+system is on the [download page](/download) if you need a different one.
 
 ### Windows
 
