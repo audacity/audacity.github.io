@@ -28,6 +28,8 @@ const KNOWN_LIMITATION_SUFFIXES = new Set([
   "audio-editing/reducing-dynamic-range-compressor-limiter.mdx",
   "basics/audacity-editing.mdx",
   "basics/installing-ffmpeg.mdx",
+  // Tabs block: same JSX-child indentation class as installing-ffmpeg.
+  "getting-started/install-audacity.mdx",
   "basics/recording-desktop-audio.mdx",
   "basics/recording-your-voice-and-microphone.mdx",
   "new-in-audacity-4/changing-clip-color.mdx",
