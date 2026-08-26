@@ -8,7 +8,6 @@ import {
   preReleaseList,
   type PreReleaseEntry,
 } from "../assets/data/audacityReleases";
-import ChecksumAccordion from "../components/accordion/ChecksumAccordion";
 import { useTranslations } from "../i18n";
 
 const { version } = audacityReleases;
@@ -34,30 +33,44 @@ const formatCampaignLinkLabel = (
   title="Audacity ® | Downloads"
   description="Download Audacity for Windows, macOS and Linux"
 >
-  <main
-    id="main"
-    class="max-w-screen-xl mx-auto flex-1 flex flex-col min-h-[calc(100vh-471px)]"
-  >
-    <div class="grid grid-cols-12 py-12 gap-y-12">
-      <div class="col-start-2 col-span-10 sm:text-center">
-        <h1>{t("download.title")}</h1>
-        <div
-          class="flex flex-col sm:flex-row justify-center sm:items-center sm:gap-2 mt-2 sm:md-4"
-        >
-          <p>{t("download.currentVersion")} {version}</p>
-          <p class="hidden sm:block">|</p>
-          <a
-            class="hyperlink"
-            href="https://support.audacityteam.org/additional-resources/changelog"
-            target="_blank">{t("download.viewChangelog")}</a
+  <main id="main" class="download-page flex-1 flex flex-col">
+    <!-- Page head. No dark band: this is a transactional page, and the
+         downloads themselves should be the first thing reached. -->
+    <section>
+      <div
+        class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 pt-10 md:pt-12 flex flex-col gap-5"
+      >
+        <div class="flex flex-col gap-3">
+          <h1
+            class="font-harmony text-40 md:text-48 text-text-primary leading-tight"
           >
+            {t("download.title")}
+          </h1>
+          <p class="text-16 text-text-primary/60">
+            {t("download.currentVersion")}
+            <span class="text-text-primary">{version}</span>
+            <span class="px-2 text-text-primary/30">|</span>
+            <a
+              class="text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
+              href="https://support.audacityteam.org/additional-resources/changelog"
+              target="_blank"
+              rel="noopener">{t("download.viewChangelog")}</a
+            >
+          </p>
         </div>
       </div>
-      <section class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-5">
-        <h2 class="text-12 uppercase font-normal text-text-primary">
+    </section>
+
+    <div
+      class="max-w-screen-lg mx-auto w-full px-6 xs:px-12 md:px-8 pt-8 pb-12 md:pb-16 flex flex-col gap-12 md:gap-16"
+    >
+      <section>
+        <h2
+          class="text-12 uppercase tracking-wider font-semibold text-text-primary/50"
+        >
           {t("download.downloadFor")}
         </h2>
-        <div class="flex flex-col gap-4 mt-2">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
           <OperatingSystemCard
             title="Windows"
             description="Intel: 32 & 64 bit, ARM64 (beta)"
@@ -75,11 +88,11 @@ const formatCampaignLinkLabel = (
           />
         </div>
       </section>
-      <aside class="col-start-2 col-span-10 sm:col-start-8 sm:col-span-3">
+      <aside>
         {
           hasDownloadCampaigns && (
             <div>
-              <h2 class="text-12 uppercase font-normal text-text-primary">
+              <h2 class="text-12 uppercase tracking-wider font-semibold text-text-primary/50">
                 {t("download.preRelease")}
               </h2>
               <div class="flex flex-col gap-6 mt-2">
@@ -92,10 +105,12 @@ const formatCampaignLinkLabel = (
 
                   return (
                     <div class="flex flex-col gap-3">
-                      <h3 class="text-base font-semibold text-gray-900">
+                      <h3 class="text-18 font-semibold text-text-primary">
                         {versionLabel}
                       </h3>
-                      <p class="text-sm text-gray-700">{entry.summary}</p>
+                      <p class="text-16 text-text-primary/60">
+                        {entry.summary}
+                      </p>
                       <ul class="flex flex-col gap-2 text-sm">
                         {windowsBuilds.map((build) => (
                           <li>
@@ -153,73 +168,171 @@ const formatCampaignLinkLabel = (
             </div>
           )
         }
-        <h2 class="text-12 uppercase font-normal text-text-primary mt-10">
+        <h2
+          class="text-12 uppercase tracking-wider font-semibold text-text-primary/50"
+        >
           {t("download.additionalResources")}
         </h2>
-        <div class="flex flex-col gap-6 mt-2">
-          <div>
-            <h3 class="additional-resource-heading">
-              {t("download.offlineManual")}
-            </h3>
-            <div class="gap-2">
-              <a
-                class="hyperlink"
-                href="https://github.com/audacity/audacity-manual/releases"
-                >{t("download.downloadManual")}</a
-              >
-              <span class="align-middle icon icon-share text-accent"></span>
-            </div>
-          </div>
+        {
+          /*
+            items-start: without it the grid stretches every card to the
+            tallest row, so expanding the checksum disclosure inflated the
+            three link cards with empty space.
+          */
+        }
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 items-start"
+        >
+          {
+            /*
+            Same card language as the OS choices above. Previously these were
+            bare .hyperlink anchors — accent-coloured underlined text, which
+            reads as an error — each trailed by a loose icon span that wrapped
+            onto its own line.
+          */
+          }
+          <a
+            href="https://github.com/audacity/audacity-manual/releases"
+            target="_blank"
+            rel="noopener"
+            class="group flex flex-col gap-1 rounded-xl border border-text-primary/15 bg-white p-5 transition-colors hover:border-accent hover:bg-accent/5"
+          >
+            <span
+              class="text-16 font-semibold text-text-primary transition-colors group-hover:text-accent"
+              >{t("download.offlineManual")}</span
+            >
+            <span class="text-14 text-text-primary/60"
+              >{t("download.downloadManual")}</span
+            >
+            <span
+              class="mt-auto pt-3 inline-flex items-center gap-1.5 text-14 font-semibold text-accent"
+            >
+              Open<span class="icon icon-share" aria-hidden="true"></span>
+            </span>
+          </a>
 
-          <div>
-            <h3 class="additional-resource-heading">{t("download.ffmpeg")}</h3>
-            <div class="gap-2">
-              <a
-                href="https://support.audacityteam.org/basics/installing-ffmpeg"
-                class="hyperlink">{t("download.ffmpegDesc")}</a
-              >
-              <span class="align-middle icon icon-share text-accent"></span>
-            </div>
-          </div>
+          <a
+            href="https://support.audacityteam.org/basics/installing-ffmpeg"
+            target="_blank"
+            rel="noopener"
+            class="group flex flex-col gap-1 rounded-xl border border-text-primary/15 bg-white p-5 transition-colors hover:border-accent hover:bg-accent/5"
+          >
+            <span
+              class="text-16 font-semibold text-text-primary transition-colors group-hover:text-accent"
+              >{t("download.ffmpeg")}</span
+            >
+            <span class="text-14 text-text-primary/60"
+              >{t("download.ffmpegDesc")}</span
+            >
+            <span
+              class="mt-auto pt-3 inline-flex items-center gap-1.5 text-14 font-semibold text-accent"
+            >
+              Open<span class="icon icon-share" aria-hidden="true"></span>
+            </span>
+          </a>
 
-          <div>
-            <h3 class="additional-resource-heading">
-              {t("download.sourceCode")}
-            </h3>
-            <div class="flex flex-col gap-2">
-              <!-- TODO - Ensure accordions are included in the tab hierarchy -->
+          {
+            /*
+            A plain link like its neighbours. The checksum was disclosed here,
+            but it only ever covered the source tarball — every binary's own
+            checksum already sits beside it on the per-platform pages, via
+            DownloadPageLayout's DownloadCard, which is where someone about to
+            download that file will look.
+          */
+          }
+          <a
+            href={primarySourceDownload
+              ? primarySourceDownload.browser_download_url
+              : "https://github.com/audacity/audacity/releases"}
+            target="_blank"
+            rel="noopener"
+            class="group flex flex-col gap-1 rounded-xl border border-text-primary/15 bg-white p-5 transition-colors hover:border-accent hover:bg-accent/5"
+          >
+            <span
+              class="text-16 font-semibold text-text-primary transition-colors group-hover:text-accent"
+              >{t("download.sourceCode")}</span
+            >
+            <span class="text-14 text-text-primary/60">
               {
-                primarySourceDownload ? (
-                  <ChecksumAccordion
-                    title={primarySourceDownload.type}
-                    downloadUrl={primarySourceDownload.browser_download_url}
-                    checksum={primarySourceDownload.checksum}
-                    client:load
-                  />
-                ) : (
-                  <p class="text-sm text-gray-700">
-                    Source code packages are not available right now.
-                  </p>
-                )
+                primarySourceDownload
+                  ? `Build Audacity yourself (${primarySourceDownload.type})`
+                  : "Build Audacity yourself"
               }
-            </div>
-          </div>
+            </span>
+            <span
+              class="mt-auto pt-3 inline-flex items-center gap-1.5 text-14 font-semibold text-accent"
+            >
+              Open<span class="icon icon-share" aria-hidden="true"></span>
+            </span>
+          </a>
 
-          <div>
-            <h3 class="additional-resource-heading">
-              {t("download.olderVersions")}
-            </h3>
-            <div class="gap-2">
-              <a
-                href="https://www.fosshub.com/Audacity-old.html"
-                target="_blank"
-                class="hyperlink">{t("download.olderVersionsFosshub")}</a
-              >
-              <span class="align-middle icon icon-share text-accent"></span>
-            </div>
-          </div>
+          <a
+            href="https://www.fosshub.com/Audacity-old.html"
+            target="_blank"
+            rel="noopener"
+            class="group flex flex-col gap-1 rounded-xl border border-text-primary/15 bg-white p-5 transition-colors hover:border-accent hover:bg-accent/5"
+          >
+            <span
+              class="text-16 font-semibold text-text-primary transition-colors group-hover:text-accent"
+              >{t("download.olderVersions")}</span
+            >
+            <span class="text-14 text-text-primary/60">Hosted on Fosshub</span>
+            <span
+              class="mt-auto pt-3 inline-flex items-center gap-1.5 text-14 font-semibold text-accent"
+            >
+              Open<span class="icon icon-share" aria-hidden="true"></span>
+            </span>
+          </a>
         </div>
       </aside>
     </div>
   </main>
 </BaseLayout>
+
+<style is:global>
+  .download-page [data-recommended="true"] {
+    border-color: #ff3254;
+    box-shadow: 0 0 0 1px #ff3254;
+  }
+  .download-page [data-recommended="true"] .os-cue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    border-radius: 9999px;
+    background: #ff3254;
+    color: #fff;
+    padding: 0 1.25rem;
+  }
+</style>
+
+<script is:inline>
+  /*
+    Promotes the card for the visitor's platform instead of adding a second
+    download button beside it: one primary action, sitting where people
+    already look to choose a platform. Runs only on a confident match —
+    anything else leaves three equal choices, the honest default on the
+    site's busiest page.
+
+    Deliberately not React: this is two DOM writes and shouldn't cost an
+    island on the hottest page.
+  */
+  (function () {
+    var ua = navigator.userAgent;
+    var os = null;
+    if (/Windows/i.test(ua)) os = { key: "Windows", href: "/download/windows" };
+    else if (/Mac OS X|Macintosh/i.test(ua))
+      os = { key: "macOS", href: "/download/mac" };
+    else if (/Linux|Ubuntu|Debian|Fedora/i.test(ua) && !/Android/i.test(ua))
+      os = { key: "Linux", href: "/download/linux" };
+    if (!os) return;
+
+    var card = document.querySelector('[data-os-card="' + os.key + '"]');
+    if (!card) return;
+    var badge = card.querySelector("[data-os-badge]");
+    if (badge) badge.hidden = false;
+    card.setAttribute("data-recommended", "true");
+    var cue = card.querySelector("[data-os-cue]");
+    if (cue) cue.textContent = "Download for " + os.key;
+  })();
+</script>

@@ -8,7 +8,7 @@ function OperatingSystemCard(props) {
       case "Windows":
         return (
           <svg
-            className="w-4 fill-blue-700"
+            className="h-7 w-7 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
           >
@@ -19,7 +19,7 @@ function OperatingSystemCard(props) {
       case "macOS":
         return (
           <svg
-            className="w-4 fill-gray-400"
+            className="h-7 w-7 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 512"
           >
@@ -31,7 +31,7 @@ function OperatingSystemCard(props) {
       case "Linux":
         return (
           <svg
-            className="w-4 fill-gray-900"
+            className="h-7 w-7 fill-current"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
           >
@@ -55,12 +55,40 @@ function OperatingSystemCard(props) {
   }
 
   return (
-    <a href={targetURL}>
-      <div className="bg-white border drop-shadow-md rounded-md p-4 lg:p-6">
+    <a
+      href={targetURL}
+      data-os-card={title}
+      className="os-card group relative flex h-full flex-col gap-3 rounded-xl border border-text-primary/15 bg-white p-6 transition-colors hover:border-accent hover:bg-accent/5"
+    >
+      {/*
+        Filled in by the page's detection script for whichever platform the
+        visitor is on. Absent — no JS, unknown OS — the cards simply read as
+        three equal choices, which is what they were before.
+      */}
+      <span
+        data-os-badge
+        hidden
+        className="absolute right-4 top-4 rounded-full bg-accent px-2.5 py-0.5 text-12 font-semibold text-white"
+      >
+        Your system
+      </span>
+      <span className="text-text-primary/40 transition-colors group-hover:text-accent">
         {renderOSIcon(title)}
-        <p className="mt-2 font-semibold text-xl text-text-primary">{title}</p>
-        <p>{description}</p>
-      </div>
+      </span>
+      <span className="flex flex-col gap-1">
+        <span className="text-24 font-semibold text-text-primary transition-colors group-hover:text-accent">
+          {title}
+        </span>
+        <span className="text-16 text-text-primary/60">{description}</span>
+      </span>
+      {/* Plain cue by default; the page's detection turns the matching
+          card's into the primary action. */}
+      <span
+        data-os-cue
+        className="os-cue mt-auto pt-2 text-16 font-semibold text-accent"
+      >
+        Download &rarr;
+      </span>
     </a>
   );
 }
