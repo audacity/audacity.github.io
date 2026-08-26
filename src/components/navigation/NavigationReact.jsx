@@ -100,7 +100,7 @@ function NavigationReact(props) {
             href={`${localePrefix}/cloud-saving`}
             className="font-muse-sans text-16 text-text-contrast hover:text-accent transition-colors"
           >
-            {labels.tryCloud ?? "Try Audacity Cloud"}
+            {labels.tryCloud ?? "Try Audacity Cloud Storage"}
           </a>
           <SignUpButton onClick={handleButtonClick} label={labels.signUp} />
         </div>
