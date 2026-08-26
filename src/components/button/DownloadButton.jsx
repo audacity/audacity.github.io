@@ -28,10 +28,9 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="flex items-center justify-center gap-2 h-10 lg:h-11 w-fit px-5 rounded-full border border-white text-white font-semibold hover:bg-white/10 transition-colors"
+        className="w-fit text-16 font-semibold text-white underline underline-offset-4 decoration-white/40 hover:decoration-white transition-colors"
         href={href}
       >
-        <span className="icon icon-import icon-medium" aria-hidden="true" />
         Download without Muse Hub
       </a>
     );
