@@ -31,9 +31,9 @@ function DownloadCard(props) {
   }
 
   return (
-    <div className="border border-bg-200 rounded-md p-6">
+    <div className="rounded-xl border border-text-primary/15 bg-white px-6 pb-5 pt-6">
       <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
-        <h2 className="text-xl font-semibold">{title}</h2>
+        <h2 className="text-20 font-semibold text-text-primary">{title}</h2>
         {title.includes("ARM64") && (
           <p>
             No plugin support.{" "}
@@ -47,26 +47,23 @@ function DownloadCard(props) {
             handleDownloadButtonClick();
           }}
           href={downloadURL}
-          className={
-            title.includes("BETA")
-              ? "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-yellow-500 hover:bg-yellow-300 text-base text-black rounded"
-              : "flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-slate-200 hover:bg-slate-300 text-base text-black rounded"
-          }
+          className="flex h-12 w-full items-center justify-center rounded-full border border-accent px-6 text-16 font-semibold text-accent transition-colors hover:bg-accent hover:text-white sm:w-fit"
         >
           {downloadLabel ?? "Download"}
         </a>
       </div>
 
       {checksum && (
-        <div className="flex flex-col mt-8 border-t pt-4">
-          <p className="font-medium">{checksumLabel ?? "Checksum:"}</p>
-          <div
-            id="checksum"
-            className="mt-2 p-2 bg-gray-50 border border-gray-200"
-          >
-            <small className="break-words">{checksum}</small>
+        <details className="group mt-4 border-t border-text-primary/10 pt-3 [&:not([open])]:pb-0">
+          <summary className="cursor-pointer list-none text-14 font-semibold text-text-primary/60 transition-colors hover:text-accent">
+            {checksumLabel ?? "Checksum:"}
+          </summary>
+          <div className="mt-2 rounded border border-text-primary/10 bg-background-light p-2">
+            <code className="block break-all font-mono text-12 leading-snug text-text-primary/70">
+              {checksum}
+            </code>
           </div>
-        </div>
+        </details>
       )}
     </div>
   );

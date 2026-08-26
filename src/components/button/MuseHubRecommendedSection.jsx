@@ -32,10 +32,10 @@ function MuseHubRecommendedSection({ museHubReleaseData, OS }) {
 
   return (
     <section className="mx-4 sm:mx-12 mb-4">
-      <div className="border border-bg-200 rounded-md p-6">
+      <div className="rounded-xl border-2 border-accent bg-white p-6">
         <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
           <div className="flex-col gap-2">
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-20 font-semibold text-text-primary">
               Audacity installer (recommended)
             </h2>
             <p>via MuseHub</p>
@@ -44,7 +44,7 @@ function MuseHubRecommendedSection({ museHubReleaseData, OS }) {
           <a
             onClick={onClickButtonHandler}
             href={museHubReleaseData[0].browser_download_url}
-            className="flex justify-center text-center items-center px-4 h-12 w-full sm:w-fit bg-blue-700 hover:bg-blue-600 text-base text-white rounded"
+            className="flex h-12 w-full items-center justify-center rounded-full bg-accent px-6 text-16 font-semibold text-white transition-opacity hover:opacity-90 sm:w-fit"
           >
             Download
           </a>

@@ -35,26 +35,33 @@ const t = useTranslations(Astro.currentLocale);
 
 <BaseLayout title={title} description={description}>
   <main class="max-w-screen-md mx-auto">
-    <section id="main" class="py-12">
-      <div class="flex flex-col gap-4 col-start-2 col-span-10 items-center">
-        <div class=`h-8 w-8 ${iconColor}`>
-          <Icon name={`fa6-brands:${iconName}`} />
+    {
+      /* Left-aligned and on the display face, matching /download — the OS mark
+        sits inline with the title rather than floating above it. */
+    }
+    <section id="main" class="px-4 sm:px-12 pt-10 md:pt-12 pb-8">
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <div class=`h-8 w-8 shrink-0 ${iconColor}`>
+            <Icon name={`fa6-brands:${iconName}`} />
+          </div>
+          <h1
+            class="font-harmony text-32 md:text-40 text-text-primary leading-tight"
+          >
+            {t("download.downloadFor")}
+            {OS}
+          </h1>
         </div>
-        <h1 class="text-center">
-          {t("download.downloadFor")}
-          {OS}
-        </h1>
-        <div
-          class="flex flex-col text-center items-center sm:flex-row sm:align-left sm:gap-2"
-        >
-          <p>{t("download.currentVersion")} {version}</p>
-          <p class="hidden sm:block">|</p>
+        <p class="text-16 text-text-primary/60">
+          {t("download.currentVersion")}
+          <span class="text-text-primary">{version}</span>
+          <span class="px-2 text-text-primary/30">|</span>
           <a
-            class="hyperlink"
+            class="text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
             href="https://support.audacityteam.org/additional-resources/changelog"
             >{t("download.viewChangelog")}</a
           >
-        </div>
+        </p>
       </div>
     </section>
 
