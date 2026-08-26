@@ -1,4 +1,4 @@
-const TwitterSVG = ({ className = "h-6 fill-accent" }) => (
+const TwitterSVG = ({ className = "h-6 fill-white" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

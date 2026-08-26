@@ -1,4 +1,6 @@
-const GithubSVG = ({ className = "h-6 fill-accent" }) => (
+// Defaults to black: GitHub's mark is theirs, and callers shouldn't have to
+// remember to override an accent tint they never asked for.
+const GithubSVG = ({ className = "h-6 fill-black" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"
