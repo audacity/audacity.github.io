@@ -72,9 +72,13 @@ function OperatingSystemCard(props) {
       >
         Your system
       </span>
-      <span className="text-text-primary/40 transition-colors group-hover:text-accent">
-        {renderOSIcon(title)}
-      </span>
+      {/*
+        Solid black, and deliberately no hover colour: these are Apple's,
+        Microsoft's and the Linux mark, and neither Apple nor Microsoft
+        permits their logo recoloured into another brand's palette. The
+        card's border, title and cue carry the hover instead.
+      */}
+      <span className="text-black">{renderOSIcon(title)}</span>
       <span className="flex flex-col gap-1">
         <span className="text-24 font-semibold text-text-primary transition-colors group-hover:text-accent">
           {title}

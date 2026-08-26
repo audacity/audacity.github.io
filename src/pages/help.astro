@@ -171,7 +171,14 @@ const community: HelpEntry[] = [
                   class="group block h-full p-5 rounded-lg border border-text-primary/15 hover:border-accent hover:bg-accent/5 transition-colors"
                 >
                   <p class="flex items-center gap-2.5 text-18 font-semibold text-text-primary group-hover:text-accent transition-colors">
-                    <item.icon className="h-5 w-5 shrink-0 fill-current" />
+                    {/*
+                      Solid black, and not following the card's hover:
+                      Discord and GitHub both specify their marks in their
+                      own colour, black or white, and neither permits a
+                      recolour into another brand's palette. The forum's
+                      bubble is ours but matches so the row stays even.
+                    */}
+                    <item.icon className="h-5 w-5 shrink-0 fill-black" />
                     {item.title}
                   </p>
                   <p class="text-16 text-text-primary/60 mt-2">
