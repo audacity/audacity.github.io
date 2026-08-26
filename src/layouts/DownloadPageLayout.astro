@@ -80,6 +80,7 @@ const t = useTranslations(Astro.currentLocale);
                 OS={OS}
                 title={item.name}
                 checksum={item.checksum}
+                sizeBytes={item.sizeBytes}
                 downloadURL={item.browser_download_url}
                 downloadType={item.type}
                 downloadLabel={t("download.btn")}

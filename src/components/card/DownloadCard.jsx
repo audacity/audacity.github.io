@@ -8,9 +8,19 @@ function DownloadCard(props) {
     downloadURL,
     downloadType,
     checksum,
+    sizeBytes,
     downloadLabel,
     checksumLabel,
   } = props;
+
+  /* Binary units, matching what the OS reports once the file lands. */
+  function formatSize(bytes) {
+    if (!bytes) return null;
+    var mb = bytes / (1024 * 1024);
+    if (mb >= 1024) return (mb / 1024).toFixed(1) + " GB";
+    return (mb >= 100 ? Math.round(mb) : mb.toFixed(1)) + " MB";
+  }
+  const size = formatSize(sizeBytes);
 
   function handleDownloadButtonClick() {
     trackEvent(
@@ -33,7 +43,14 @@ function DownloadCard(props) {
   return (
     <div className="border border-bg-200 rounded-md p-6">
       <div className="flex flex-col sm:flex-row gap-2 justify-between items-center">
-        <h2 className="text-xl font-semibold">{title}</h2>
+        <h2 className="flex flex-wrap items-baseline gap-x-2 text-xl font-semibold">
+          {title}
+          {size && (
+            <span className="text-14 font-normal tabular-nums text-text-primary/50">
+              {size}
+            </span>
+          )}
+        </h2>
         {title.includes("ARM64") && (
           <p>
             No plugin support.{" "}
