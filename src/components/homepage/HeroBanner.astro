@@ -6,9 +6,6 @@ import AudacityMockUp from "../../assets/img/HeroBannerImageAu4.webp";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
-
-const museHubURL =
-  "https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink";
 ---
 
 <section id="main" class="py-8 md:py-12 lg:py-16 bg-background-deep">
@@ -36,14 +33,6 @@ const museHubURL =
           <noscript>
             <DownloadMuseHubButton client:load />
           </noscript>
-          <a
-            href={museHubURL}
-            target="_blank"
-            rel="noopener"
-            class="font-sans text-12 text-text-contrast/60 hover:text-text-contrast transition-colors"
-          >
-            {t("hero.museHubDistributor")}
-          </a>
           <DownloadButton client:load />
           <noscript>
             <DownloadButton client:load />
