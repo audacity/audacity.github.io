@@ -42,7 +42,19 @@ const t = useTranslations(Astro.currentLocale);
     <section id="main" class="px-4 sm:px-12 pt-10 md:pt-12 pb-8">
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-3">
-          <div class=`h-8 w-8 shrink-0 ${iconColor}`>
+          {
+            /*
+            astro-icon renders at 1em, so the mark scales from font-size
+            rather than a fixed box — it tracks the heading at both
+            breakpoints instead of sitting small beside it.
+          */
+          }
+          <div
+            class:list={[
+              "flex shrink-0 items-center text-32 md:text-40",
+              iconColor,
+            ]}
+          >
             <Icon name={`fa6-brands:${iconName}`} />
           </div>
           <h1
