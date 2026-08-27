@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 192 (189 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 193 (190 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
@@ -417,7 +417,7 @@ None.
 ### Stub pages (0)
 
 
-### Pages with defaulted stream (158) — proposed assignment
+### Pages with defaulted stream (159) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -432,6 +432,7 @@ sidebars and belongs in its own reviewed change.
 | `alex/alex-s-test-page` | review for removal |
 | `demo/interactive-components` | review for removal |
 | `demo/project-window` | review for removal |
+| `demo/uishot-test` | review for removal |
 | `manual-index/cut-tool` | reference |
 | `manual-index/egat` | reference |
 | `manual-index/egat/analyzers` | reference |
