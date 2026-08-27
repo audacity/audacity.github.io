@@ -1,10 +1,15 @@
 ---
 title: Toolbar
 description: "This article introduces Audacity 4's toolbars: what each one is for, how workspaces change what you see, and how to reposition the one toolbar that can be moved."
-section: Toolbar
-sectionOrder: 60
+section: "The Audacity window"
+sectionOrder: 10
 order: 1
 ---
+
+import ManualToolbarDemo from "../../../components/manual/interactive/ManualToolbarDemo.jsx";
+import UIExample from "../../../components/manual/UIExample/UIExample";
+
+<ManualToolbarDemo client:load />
 
 # Toolbars Overview
 
@@ -31,3 +36,395 @@ The Project Toolbar and Selection Toolbar stay fixed in place.
 ## Navigating toolbars with the keyboard
 
 Once a toolbar has focus, arrow keys move between its buttons and controls. See Accessibility and Keyboard Navigation for the full keyboard navigation model, including an alternative mode for screen reader users.
+
+## Play
+
+Starts playback from the edit cursor, or from the start of the selection if
+you have one.
+
+<UIExample component="transport-button" variant="play" />
+
+Once playback is running the same button becomes Pause — press it to stop at
+the current position, and again to carry on from there.
+
+<UIExample component="transport-button" variant="playing" />
+
+- **No selection** — plays from the edit cursor to the end of the project.
+- **A selection** — plays the selected region only.
+- **A loop region enabled** — plays the loop region and repeats it. See
+  [Toggle Loop Region](#toggle-loop-region).
+
+Playback follows whichever tracks are unmuted. A soloed track plays on its
+own; see the Track Control Panel for mute and solo.
+
+## Stop
+
+Stops playback or recording. The playhead returns to where playback started
+rather than staying where you stopped it.
+
+<UIExample component="transport-button" variant="stop" />
+
+Stopping ends a recording and keeps what was captured — the audio stays in
+the track. Stopping is not undoing: to discard a take, stop first and then
+undo.
+
+## Record
+
+Starts recording from the currently selected input. While recording, the
+button shows its active state.
+
+<UIExample component="transport-button" variant="record" />
+
+While a take is running the button turns red, so you can tell recording is
+live without watching the meter. Pressing it again stops the recording.
+
+<UIExample component="transport-button" variant="recording" />
+
+Before you record, check the input device and the record level — a signal
+that never moves the meter won't be captured, and one that pins it will clip.
+See [Record Level](#record-level) for the meter, and Audio setup in the
+Project Toolbar for choosing the input.
+
+> **Tip:** If you're recording for the first time,
+> [Recording your voice with a microphone](/manual/basics/recording-your-voice-and-microphone)
+> walks through the whole setup rather than just this button.
+
+Recording adds audio to a track. Where it lands depends on your selection and
+which track is focused — see the Track Control Panel pages for adding and
+selecting tracks.
+
+## Rewind to Start
+
+Moves the playhead backwards. In the Transport Toolbar the button is
+labelled **Step backward** and carries a skip-back icon.
+
+<UIExample component="transport-button" variant="step-backward" />
+
+The button is unavailable while playback is running — stop first, then step.
+It is present in every workspace.
+
+## Rewind to End
+
+Moves the playhead forwards. In the Transport Toolbar the button is labelled
+**Step forward** and carries a skip-forward icon.
+
+<UIExample component="transport-button" variant="step-forward" />
+
+Like Step backward, it is unavailable while playback is running. It is
+present in every workspace.
+
+## Toggle Loop Region
+
+Turns the loop region on and off. Unlike Play, Stop and Record, this is a
+toggle: it stays lit while looping is on, and the button reflects that state
+rather than firing once and returning to rest.
+
+<UIExample component="transport-button" variant="loop" />
+
+While looping is on it stays lit:
+
+<UIExample component="transport-button" variant="loop-on" />
+
+With looping on, playback repeats the loop region rather than continuing to
+the end of the project. The region itself is set on the timeline — see the
+Timeline pages for creating and clearing a loop region, and for whether
+creating a loop also changes your selection.
+
+Turning looping off leaves the region defined but inactive, so you can switch
+it back on without setting it up again.
+
+---
+
+## Clip Gain
+
+Turns on envelope editing, so you can draw volume changes across a clip
+rather than setting one level for the whole thing. The button is labelled
+**Clip envelope** in the toolbar.
+
+<UIExample component="toggle-tool-button" variant="envelope" />
+
+It is a toggle: it stays pressed while envelope editing is on, and clicking
+it again returns you to normal editing.
+
+<UIExample component="toggle-tool-button" variant="envelope-on" />
+
+It appears in the Classic, Modern and Music workspaces; the Spectral editing
+workspace leaves it out.
+
+> **Tip:** A clip's envelope is drawn on the clip itself, so you can see the
+> shape you have made without leaving the track.
+
+## Split Tool
+
+Turns on the split tool. While it is on, clicking a clip splits it at that
+point instead of selecting it. The button is labelled **Cut / Split** in the
+toolbar.
+
+<UIExample component="toggle-tool-button" variant="split" />
+
+It is a toggle and stays pressed while the tool is active:
+
+<UIExample component="toggle-tool-button" variant="split-on" />
+
+The current design gives it the **S** key.
+
+It appears in the Classic, Modern and Music workspaces.
+
+## Toggle Spectral View
+
+Switches the track display from a waveform to a spectrogram, which shows
+frequency against time instead of amplitude against time. The button is
+labelled **Spectral view** in the toolbar.
+
+<UIExample component="toggle-tool-button" variant="spectral" />
+
+It is a toggle and stays pressed while spectral view is on:
+
+<UIExample component="toggle-tool-button" variant="spectral-on" />
+
+The Spectral editing workspace is already in spectral view, so instead of a
+Spectral view button it offers the reverse — a **Waveform** button that takes
+you back:
+
+<UIExample component="toggle-tool-button" variant="waveform" />
+
+It appears in the Classic and Modern workspaces; the Music workspace leaves
+it out, and Spectral editing replaces it with the Waveform toggle described
+above.
+
+---
+
+## Zoom In
+
+Zooms the timeline in, showing a shorter stretch of the project in more
+detail.
+
+<UIExample component="tool-button" variant="zoom-in" />
+
+Zoom in, Zoom out and Zoom toggle are the three zoom controls present in
+every workspace.
+
+## Zoom Out
+
+Zooms the timeline out, fitting a longer stretch of the project on screen.
+
+<UIExample component="tool-button" variant="zoom-out" />
+
+Like Zoom in and Zoom toggle, it is present in every workspace.
+
+## Zoom to Selection
+
+Zooms so the current selection fills the visible timeline. The button is
+labelled **Fit selection** in the toolbar.
+
+<UIExample component="tool-button" variant="fit-selection" />
+
+It needs a selection to work on — see the Selection Toolbar at the bottom of
+the window for the current selection's start, end and duration.
+
+It appears in the Classic workspace only; the Modern, Music and Spectral
+editing workspaces carry the shorter zoom group of Zoom in, Zoom out and
+Zoom toggle.
+
+## Zoom to Fit Project
+
+Zooms so the whole project fits in the visible timeline — from the start to
+the end of the last clip. The button is labelled **Fit project** in the
+toolbar.
+
+<UIExample component="tool-button" variant="fit-project" />
+
+Like Fit selection, it appears in the Classic workspace only.
+
+## Zoom Toggle
+
+Switches between two zoom levels, so you can jump between a close-up view and
+a wider one without stepping through Zoom in and Zoom out.
+
+<UIExample component="tool-button" variant="zoom-toggle" />
+
+It is present in every workspace.
+
+---
+
+## Cut
+
+Removes the selected audio and puts it on the clipboard, ready to paste
+elsewhere.
+
+<UIExample component="tool-button" variant="cut" />
+
+The clipboard group of Cut, Copy and Paste appears in the Classic workspace
+only — the other workspaces leave these three out.
+
+## Copy
+
+Puts the selected audio on the clipboard without removing it.
+
+<UIExample component="tool-button" variant="copy" />
+
+Like the rest of the clipboard group, it appears in the Classic workspace
+only.
+
+## Paste
+
+Inserts whatever is on the clipboard at the edit cursor.
+
+<UIExample component="tool-button" variant="paste" />
+
+Like the rest of the clipboard group, it appears in the Classic workspace
+only.
+
+---
+
+## Trim
+
+Keeps the selected audio and removes everything outside it, trimming the clip
+down to the selection.
+
+<UIExample component="tool-button" variant="trim" />
+
+Trim and Silence sit together because they are opposites: Trim keeps the
+selection and discards the rest, [Silence](#silence) keeps the rest and
+empties the selection.
+
+It appears in the Classic, Modern and Music workspaces; the Spectral editing
+workspace leaves it out.
+
+## Silence
+
+Replaces the selected audio with silence, leaving the clip the same length.
+
+<UIExample component="tool-button" variant="silence" />
+
+Because the length does not change, everything after the selection stays
+where it is — useful for removing a cough or a click without shifting the
+timing of what follows.
+
+It appears in the Classic, Modern and Music workspaces.
+
+---
+
+## Timecode
+
+<UIExample component="timecode" variant="zero" />
+
+Shows the playhead's current position, and lets you type a position to move
+it. Clicking a digit selects it for editing.
+
+The timecode can be displayed in any of these formats:
+
+| Format                     | Shows                                     |
+| -------------------------- | ----------------------------------------- |
+| `dd:hh:mm:ss`              | Days, hours, minutes, seconds             |
+| `hh:mm:ss`                 | Hours, minutes, seconds                   |
+| `hh:mm:ss + hundredths`    | Clock time to 1/100 s                     |
+| `hh:mm:ss + milliseconds`  | Clock time to 1/1000 s                    |
+| `hh:mm:ss + samples`       | Clock time plus a sample count            |
+| `hh:mm:ss + frames`        | Clock time plus a video frame count       |
+| `samples`                  | A raw sample count                        |
+| `seconds`                  | Whole seconds                             |
+| `seconds + milliseconds`   | Seconds to 1/1000 s                       |
+| `film frames`              | Film frames                               |
+| `beats:bars`               | Musical position, following project tempo |
+| `Hz`                       | Frequency                                 |
+
+Choosing `beats:bars` makes the timecode musical rather than clock-based, so
+it follows [Tempo](#tempo) and [Time Signature](#time-signature).
+
+It is present in every workspace.
+
+## Tempo
+
+Sets the project tempo in beats per minute. It is a stepper: type a value, or
+use the up and down controls to nudge it.
+
+Tempo is what makes musical positions meaningful — it drives the
+`beats:bars` [timecode](#timecode) format and musical [snapping](#snapping).
+
+Tempo appears in the **Music** workspace only — the Classic, Modern and
+Spectral editing workspaces do not show it. See
+[Workspaces](/manual/manual-index/workspaces) for switching between them.
+
+## Time Signature
+
+Sets the project time signature — how many beats are in a bar, and which note
+value counts as a beat. It is a selector: pick a signature from the list.
+
+Together with [Tempo](#tempo), it decides where bar and beat lines fall,
+which in turn drives the `beats:bars` [timecode](#timecode) format and the
+musical subdivisions in [Snapping](#snapping).
+
+Like Tempo, it appears in the **Music** workspace only.
+
+## Snapping
+
+Controls whether edits snap to a grid, and how fine that grid is. Two
+controls sit side by side in the Transport Toolbar: a **Snap** toggle and a
+subdivision button showing the grid currently in use.
+
+- **Snap** — whether snapping applies at all.
+- **Subdivision** — which grid it snaps to. This button is greyed out while
+  snapping is off.
+
+With snapping on, dragging a clip, moving a selection edge or positioning the
+cursor lands on the nearest grid line rather than an arbitrary point. That's
+what makes edits line up with a beat or a whole second instead of landing a
+few samples out.
+
+Clicking the subdivision button opens the grid menu. Musical divisions are at
+the top, and the other units are grouped into submenus below.
+
+**Musical** — Bar, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 1/128. A separate
+**Enable triplets** option applies to whichever of these is selected.
+
+Musical divisions follow the project's [Tempo](#tempo) and
+[Time Signature](#time-signature), so changing either moves the grid.
+
+**Seconds samples** — Seconds, Deciseconds, Centiseconds, Milliseconds,
+Samples.
+
+**Video frames** — Video Frames (24 fps), NTSC Frames (29.97 fps), NTSC
+Frames (30 fps), PAL Frames (25 fps).
+
+**CD frames** — CDDA Frames (75 fps).
+
+---
+
+## Record Level
+
+Opens the microphone settings, where you choose the input device and set the
+level Audacity records at.
+
+<UIExample component="tool-button" variant="microphone" />
+
+Setting the level before you record matters: audio recorded too hot clips,
+and clipping cannot be undone afterwards. Watch the meter while you play or
+speak at the loudest part, and back the level off if it reaches the top.
+
+It is present in every workspace.
+
+## Playback Level
+
+Opens the playback volume settings, which set how loudly Audacity plays back.
+The master meter sits alongside it, showing the level going out.
+
+<UIExample component="tool-button" variant="volume" />
+
+Playback volume only affects what you hear — it does not change the audio in
+your project, and it is not applied to anything you export.
+
+<UIExample component="master-meter" variant="default" />
+
+The meter turns red when the signal clips:
+
+<UIExample component="master-meter" variant="clipping" />
+
+The volume menu can also switch the meter between a **horizontal** meter in
+the toolbar and a **vertical** one shown alongside the tracks.
+
+It is present in every workspace.
+
+> **Tip:** Clipping on the master meter means the mix is too loud, not that a
+> particular track is — lower the track faders rather than the playback
+> volume, which does not change the exported file.

@@ -31,7 +31,7 @@ const items = headings.filter(
               data-on-this-page-link
               data-target-id={heading.slug}
               class:list={[
-                "block py-1 -ml-px border-l border-transparent text-gray-600 hover:text-blue-700 hover:border-blue-700 transition-colors",
+                "block py-1 -ml-[2px] border-l-2 border-transparent text-gray-600 hover:text-blue-700 hover:border-blue-300 rounded-r transition-colors",
                 heading.depth === 2 ? "pl-4" : "pl-7 text-gray-500",
               ]}
             >
@@ -58,17 +58,15 @@ const items = headings.filter(
       ids.push(id);
     });
 
-    const activeClasses = ["text-blue-700", "border-blue-700", "font-medium"];
-
+    // The active item must be unmissable: a solid pill, not a tint. The
+    // pill itself is styled in this component's <style> block with
+    // specificity above the Tailwind hover utilities, so hovering the
+    // active item can never repaint its text into the background.
     let currentId: string | null = null;
     const setActive = (id: string | null) => {
       if (id === currentId) return;
-      if (currentId) {
-        linkById.get(currentId)?.classList.remove(...activeClasses);
-      }
-      if (id) {
-        linkById.get(id)?.classList.add(...activeClasses);
-      }
+      if (currentId) linkById.get(currentId)?.classList.remove("is-active");
+      if (id) linkById.get(id)?.classList.add("is-active");
       currentId = id;
     };
 
@@ -113,3 +111,18 @@ const items = headings.filter(
     });
   }
 </script>
+
+<style>
+  /*
+    Active pill for the scroll-spy. [attr].class(:hover) outranks the
+    Tailwind hover utilities on the link (single-class + variant), so the
+    white text holds under the pointer instead of turning blue-on-blue.
+  */
+  [data-on-this-page-link].is-active,
+  [data-on-this-page-link].is-active:hover {
+    color: #fff;
+    background-color: #1d4ed8; /* matches the manual's blue-700 links */
+    border-color: #1d4ed8;
+    font-weight: 600;
+  }
+</style>

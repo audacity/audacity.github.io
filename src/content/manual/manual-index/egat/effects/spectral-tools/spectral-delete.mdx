@@ -1,9 +1,43 @@
 ---
-title: "Spectral Delete"
-section: "EGAT"
-sectionOrder: 140
+title: "Delete selection"
+section: "Effects and plugins"
+sectionOrder: 30
 order: 63
+description: Remove the band of frequencies marked out by a spectral selection.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Filters out the frequency band you have marked in a spectral selection,
+leaving the audio above and below it in place. It is the spectral equivalent
+of deleting a region — useful for taking out a whistle, a beep or a band of
+noise that sits clear of the material you want to keep.
+
+## Where to find it
+
+**Effect → Spectral tools → Delete selection**.
+
+There are no settings: the frequencies to remove come entirely from the
+selection.
+
+## Making the selection
+
+The track has to be showing a spectrogram before you can make a spectral
+selection — see
+[Toggle Spectral View](/manual/manual-index/toolbar#toggle-spectral-view).
+Drag in the spectrogram to mark a time range and a frequency range, then
+apply the effect.
+
+## Notes
+
+The filtering is done with a windowed-sinc kernel, which gives a steeper,
+cleaner edge than a simple notch, and a 10 ms fade at each end of the
+selection blends the result into the surrounding audio.
+
+Very narrow selections are widened slightly around their centre frequency so
+the filter remains workable, and there are practical limits at the extremes:
+frequencies very close to zero or to half the sample rate cannot be filtered,
+and tracks with a sample rate below 100 Hz are not supported.
+
+Removing a band also removes whatever wanted sound occupied it, so this works
+best where the unwanted sound is tonal and does not overlap the material you
+are keeping.

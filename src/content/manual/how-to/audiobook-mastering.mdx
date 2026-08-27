@@ -1,0 +1,35 @@
+---
+title: "Preparing audio for audiobooks"
+description: Clean the noise floor, set the loudness, then hold the peaks — a processing chain for spoken word.
+section: "Repair and cleanup"
+sectionOrder: 20
+order: 4
+draft: false
+stream: "how-to"
+---
+
+You have a finished narration edit and a distributor that will reject it if the levels are wrong. This page gives the processing chain in the order it has to be applied: clean the noise, set the loudness, then control the peaks. Work on a copy.
+
+The order matters: in any other sequence, each step invalidates the measurement the last one was based on.
+
+## Before you start
+
+Finish the edit — a splice made after mastering puts two differently processed passages side by side — and have your distributor's current technical specification in front of you. Audiobook specs, the ACX requirements and those modelled on them, set three things: an average level given as an RMS or loudness *range* rather than a single figure, a maximum peak, and a maximum noise floor. The values change and differ between distributors, so take them from the spec rather than from any tutorial, this one included.
+
+## Steps
+
+1. Remove steady background noise, following [Removing background noise](/manual/how-to/noise-reduction). Be gentle: the noise floor requirement is a ceiling, not a target, and heavy reduction leaves artefacts a listener will notice over several hours.
+2. If the gaps between phrases are still too noisy, run [Noise gate](/manual/manual-index/egat/effects/noise-removal-and-repair/noise-gate) with **Select Function** set to **Analyze Noise Level**, then again as **Gate** with a threshold just above what it reported.
+3. Optionally tighten long pauses with **Effect → Special → Truncate silence**. Spec compliance does not require it; listenability often does.
+4. Select a representative stretch of narration — not a passage full of pauses — and run **Analyze → Measure RMS** to see where you are.
+5. Set the level with **Effect → Volume and compression → Loudness Normalization** on the whole file. Set **Normalize** to the unit your spec uses: **Perceived loudness** measures in LUFS, **RMS** in dB. Enter the target in the **to** field. Its default of −23 LUFS is the EBU R 128 broadcast target, not an audiobook figure.
+6. Hold the peaks with **Effect → Volume and compression → Limiter**. Set **Output** to the ceiling your spec names — the default is −1 dB — and lower **Threshold** until the loudest moments are caught and nothing else is. See [Limiter](/manual/manual-index/egat/effects/volume-and-compression/limiter).
+7. Re-measure before exporting: **Analyze → Measure RMS** on the same stretch, plus a silent gap for the noise floor. Then export each chapter with **File → Export audio**.
+
+## Notes
+
+Raising the loudness raises the noise floor with it. If step 5 lifts the average level by 6 dB, the hiss underneath comes up by 6 dB too, and a file that passed the noise check before mastering can fail it after. Check the floor last.
+
+If the level target and the peak ceiling cannot both be met, the dynamic range is too wide, and the fix is compression before the limiter rather than a harder limiter. See [Reducing dynamic range](/manual/audio-editing/reducing-dynamic-range-compressor-limiter).
+
+Keep the unprocessed edit. If a file is rejected you will want to adjust one step and re-run the chain, not repair processed audio.

@@ -6,7 +6,7 @@ test("dev mode returns an in-memory backend that lists pages", async () => {
   process.env.DEV_AUTH = "1";
   const backend = getBackend(null);
   const pages = await backend.listPages();
-  expect(pages.length).toBeGreaterThan(200);
+  expect(pages.length).toBeGreaterThan(150);
 });
 
 test("a real token outside dev mode resolves an OctokitBackend, with no network call at construct time", () => {

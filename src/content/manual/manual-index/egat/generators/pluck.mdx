@@ -1,9 +1,32 @@
 ---
 title: "Pluck"
-section: "EGAT"
-sectionOrder: 140
+section: "Effects and plugins"
+sectionOrder: 30
 order: 8
+description: Generate a plucked-string note at a chosen MIDI pitch.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Generates a synthesised plucked-string note. It is useful for a quick tuning
+reference, a marker tone, or simple melodic parts built up one note at a
+time.
+
+## Where to find it
+
+The **Generate** menu.
+
+## Controls
+
+- **Pluck MIDI pitch** — 1 to 120, default 60. MIDI note numbers, so 60 is
+  middle C and the other C notes are 36, 48, 72, 84 and 96.
+- **Fade-out type** — Abrupt or Gradual. Abrupt is the default; Gradual lets
+  the note ring on longer before dying away.
+- **Duration (60s max)** — 0 to 60 seconds, default 1.
+
+## Notes
+
+The generated note is normalised to a peak of about 0.8, so it will not clip
+however you set the pitch.
+
+Like the other generators, it writes into the selected track at the cursor,
+or creates a new track if none is selected.

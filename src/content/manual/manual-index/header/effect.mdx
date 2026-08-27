@@ -1,9 +1,53 @@
 ---
 title: "Effect"
-section: "Header"
-sectionOrder: 30
+section: "Menus"
+sectionOrder: 20
 order: 55
+description: The Effect menu applies processing to selected audio and manages effect plugins.
 draft: false
 ---
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
-_This page is a stub. Content coming soon._
+The **Effect** menu is where you apply processing — EQ, compression, reverb
+and so on — to the audio you have selected, and where you manage the plugins
+that provide those effects.
+
+Below a separator, the menu lists the effect processors. That list is
+populated from your installed plugins, so its exact contents depend on what is
+installed on your machine. The individual effects are documented in the
+[Effects](/manual/manual-index/egat/effects) section of this manual.
+
+## Plugin manager
+
+Opens the **Manage plugins** dialog — a table of every plugin Audacity has
+found, with a switch to enable or disable each one. Disabled plugins stay
+installed but disappear from the menus. The command is the first item in each
+of the **Generate**, **Effect**, **Analyze** and **Tools** menus, and it is
+the same dialog from all four — one place to manage every kind of plugin.
+
+The dialog has dropdown filters and a search field above the table, so you
+can narrow the list by plugin type, category or enabled status, or find a
+plugin by name. Which menu a plugin appears in is decided by what it is:
+generators land in Generate, processors in Effect, analyzers in Analyze and
+tools in Tools.
+
+## Add realtime effects
+
+Shows the realtime effects panel, where you add effects that process a track
+live during playback without changing the recorded audio. Choosing the
+command again hides the panel. Shortcut: <Shortcut client:load keys="e" />.
+
+Realtime effects are non-destructive — they run on the track's output rather
+than rewriting its audio, so you can change or remove them at any time. See
+[Realtime effects](/manual/manual-index/egat/effects/realtime-effects) for
+how the panel works.
+
+## Repeat last effect
+
+Applies the effect you most recently used to the current selection again,
+with the same settings, without reopening the effect's window. Useful when
+the same treatment needs to go on several clips or tracks in a row.
+Shortcut: <Shortcut client:load keys="cmd+r" />.
+
+Playback stops before the effect is applied. If you haven't applied an
+effect yet in this session, there is nothing to repeat.

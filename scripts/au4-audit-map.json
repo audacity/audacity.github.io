@@ -1,0 +1,172 @@
+{
+  "topic:shortcuts": {
+    "status": "external",
+    "note": "`/manual/shortcuts` (generated from src/data/au4)"
+  },
+  "topic:faq": {
+    "status": "external",
+    "note": "`/FAQ` (site page, indexed in help search)"
+  },
+  "menu:quit": {
+    "page": "manual-index/header/file"
+  },
+  "menu:fullscreen": {
+    "page": "manual-index/header/view"
+  },
+  "menu:zero-cross": {
+    "page": "manual-index/header/select"
+  },
+  "menu:check-update": {
+    "page": "manual-index/header/help"
+  },
+  "menu:toggle-effects": {
+    "page": "manual-index/header/view"
+  },
+  "menu:add-realtime-effects": {
+    "page": "manual-index/header/effect"
+  },
+  "menu:set-loop-region-in-out": {
+    "page": "manual-index/header/select"
+  },
+  "menu:about-qt": {
+    "status": "wont-document",
+    "reason": "standard Qt framework dialog, no Audacity behaviour to describe"
+  },
+  "menu:select-previous-clip-boundary-to-cursor": {
+    "page": "manual-index/header/select"
+  },
+  "menu:select-cursor-to-next-clip-boundary": {
+    "page": "manual-index/header/select"
+  },
+  "menu:select-previous-clip": {
+    "page": "manual-index/header/select"
+  },
+  "menu:select-next-clip": {
+    "page": "manual-index/header/select"
+  },
+  "menu:toggle-spectral-selection": {
+    "page": "manual-index/header/select"
+  },
+  "menu:skip-to-selection-start": {
+    "page": "manual-index/header/view"
+  },
+  "menu:skip-to-selection-end": {
+    "page": "manual-index/header/view"
+  },
+  "menu:align-end-to-end": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:align-together": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:align-start-to-zero": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:align-start-to-playhead": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:align-start-to-selection-end": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:align-end-to-playhead": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:align-end-to-selection-end": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:sort-by-time": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:sort-by-name": {
+    "page": "manual-index/header/tracks"
+  },
+  "menu:apply-macros-palette": {
+    "page": "manual-index/header/tools"
+  },
+  "menu:macro-fade-ends": {
+    "page": "manual-index/header/tools"
+  },
+  "menu:macro-mp3-conversion": {
+    "page": "manual-index/header/tools"
+  },
+  "menu:diagnostic-save-diagnostic-files": {
+    "page": "manual-index/header/help"
+  },
+  "menu:diagnostic-show-paths": {
+    "page": "manual-index/header/help"
+  },
+  "menu:diagnostic-show-profiler": {
+    "page": "manual-index/header/help"
+  },
+  "menu:diagnostic-show-navigation-tree": {
+    "page": "manual-index/header/help"
+  },
+  "menu:diagnostic-show-accessible-tree": {
+    "page": "manual-index/header/help"
+  },
+  "menu:diagnostic-accessible-tree-dump": {
+    "page": "manual-index/header/help"
+  },
+  "menu:testflow-show-scripts": {
+    "status": "wont-document",
+    "reason": "developer test tooling, dev-mode builds only"
+  },
+  "menu:multiwindows-dev-show-info": {
+    "status": "wont-document",
+    "reason": "developer diagnostic, dev-mode builds only"
+  },
+  "topic:note-tracks": {
+    "status": "wont-document",
+    "reason": "Audacity 4 has no note/MIDI track type"
+  },
+  "topic:time-tracks": {
+    "status": "wont-document",
+    "reason": "Audacity 4 has no time-track type"
+  },
+  "topic:mixer-board": {
+    "status": "wont-document",
+    "reason": "Audacity 4 has no mixer board"
+  },
+  "topic:mouse-bindings": {
+    "page": "manual-index/mouse-bindings"
+  },
+  "topic:waveform": {
+    "page": "manual-index/waveform"
+  },
+  "topic:editing-basics": {
+    "page": "getting-started/basic-audio-editing"
+  },
+  "topic:tut-multitrack": {
+    "page": "how-to/using-multi-track"
+  },
+  "topic:tut-overdubs": {
+    "page": "how-to/recording-overdubs"
+  },
+  "topic:tut-ringtones": {
+    "page": "how-to/making-ringtones"
+  },
+  "topic:tut-lp-digitisation": {
+    "page": "how-to/digitising-tapes-and-lps"
+  },
+  "topic:tut-split-tracks": {
+    "page": "how-to/splitting-a-recording"
+  },
+  "topic:tut-clicks": {
+    "page": "how-to/click-and-pop-removal"
+  },
+  "topic:tut-noise": {
+    "page": "how-to/noise-reduction"
+  },
+  "topic:tut-vocal-removal": {
+    "page": "how-to/vocal-removal"
+  },
+  "topic:tut-audiobook": {
+    "page": "how-to/audiobook-mastering"
+  },
+  "topic:tut-editing": {
+    "page": "how-to/editing-audio"
+  },
+  "topic:tut-voice-music": {
+    "page": "how-to/mixing-voice-with-music"
+  }
+}

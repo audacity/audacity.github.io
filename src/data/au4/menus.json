@@ -1,0 +1,967 @@
+[
+  {
+    "type": "menu",
+    "title": "File",
+    "children": [
+      {
+        "type": "item",
+        "code": "file-new"
+      },
+      {
+        "type": "item",
+        "code": "file-open"
+      },
+      {
+        "type": "menu",
+        "title": "Open recent",
+        "children": [
+          {
+            "type": "dynamic",
+            "source": "recent-files"
+          }
+        ],
+        "id": "menu-file-open"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "project-import"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "file-save"
+      },
+      {
+        "type": "item",
+        "code": "file-save-to-cloud"
+      },
+      {
+        "type": "item",
+        "code": "file-save-as"
+      },
+      {
+        "type": "item",
+        "code": "audacity://cloud/update-audio-preview"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "export-audio"
+      },
+      {
+        "type": "menu",
+        "title": "Export other",
+        "children": [
+          {
+            "type": "item",
+            "code": "export-labels"
+          },
+          {
+            "type": "item",
+            "code": "export-midi"
+          }
+        ],
+        "id": "menu-export-other"
+      },
+      {
+        "type": "item",
+        "code": "file-share-audio"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "file-close"
+      },
+      {
+        "type": "item",
+        "code": "quit"
+      }
+    ],
+    "id": "menu-file"
+  },
+  {
+    "type": "menu",
+    "title": "Edit",
+    "children": [
+      {
+        "type": "item",
+        "code": "action://trackedit/undo"
+      },
+      {
+        "type": "item",
+        "code": "action://trackedit/redo"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "action://cut"
+      },
+      {
+        "type": "item",
+        "code": "action://copy"
+      },
+      {
+        "type": "item",
+        "code": "action://paste"
+      },
+      {
+        "type": "item",
+        "code": "action://delete"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "duplicate"
+      },
+      {
+        "type": "item",
+        "code": "action://trackedit/paste-overlap",
+        "commentedOut": true
+      },
+      {
+        "type": "item",
+        "code": "action://trackedit/paste-insert",
+        "commentedOut": true
+      },
+      {
+        "type": "item",
+        "code": "action://trackedit/paste-insert-all-tracks-ripple",
+        "commentedOut": true
+      },
+      {
+        "type": "item",
+        "code": "delete-per-track-ripple"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "menu",
+        "title": "Clip",
+        "children": [
+          {
+            "type": "item",
+            "code": "rename-item",
+            "titleOverride": "Rename clip"
+          },
+          {
+            "type": "item",
+            "code": "trim-clip"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "split"
+          },
+          {
+            "type": "item",
+            "code": "split-into-new-track"
+          },
+          {
+            "type": "item",
+            "code": "disjoin"
+          },
+          {
+            "type": "item",
+            "code": "join"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "group-clips"
+          },
+          {
+            "type": "item",
+            "code": "ungroup-clips"
+          }
+        ],
+        "id": "menu-clip"
+      },
+      {
+        "type": "menu",
+        "title": "Label",
+        "children": [
+          {
+            "type": "item",
+            "code": "label-add"
+          },
+          {
+            "type": "item",
+            "code": "rename-item",
+            "titleOverride": "Rename label"
+          },
+          {
+            "type": "item",
+            "code": "paste-new-label"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "open-label-editor",
+            "titleOverride": "Manage labels"
+          }
+        ],
+        "id": "menu-label"
+      },
+      {
+        "type": "item",
+        "code": "silence-audio-selection",
+        "titleOverride": "Silence audio"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "open-metadata-editor",
+        "titleOverride": "Metadata editor"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "preference-dialog"
+      }
+    ],
+    "id": "menu-edit"
+  },
+  {
+    "type": "menu",
+    "title": "Select",
+    "children": [
+      {
+        "type": "item",
+        "code": "select-all"
+      },
+      {
+        "type": "item",
+        "code": "clear-selection"
+      },
+      {
+        "type": "item",
+        "code": "select-all-tracks"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "menu",
+        "title": "Region",
+        "children": [
+          {
+            "type": "item",
+            "code": "select-left-of-playback-position"
+          },
+          {
+            "type": "item",
+            "code": "select-right-of-playback-position"
+          },
+          {
+            "type": "item",
+            "code": "select-track-start-to-cursor"
+          },
+          {
+            "type": "item",
+            "code": "select-cursor-to-track-end"
+          },
+          {
+            "type": "item",
+            "code": "select-track-start-to-end"
+          }
+        ],
+        "id": "menu-selection-region"
+      },
+      {
+        "type": "menu",
+        "title": "Audio clips",
+        "children": [
+          {
+            "type": "item",
+            "code": "select-previous-clip-boundary-to-cursor"
+          },
+          {
+            "type": "item",
+            "code": "select-cursor-to-next-clip-boundary"
+          },
+          {
+            "type": "item",
+            "code": "select-previous-clip"
+          },
+          {
+            "type": "item",
+            "code": "select-next-clip"
+          }
+        ],
+        "id": "menu-selection-audio-clips",
+        "disabled": true
+      },
+      {
+        "type": "menu",
+        "title": "Spectral",
+        "children": [
+          {
+            "type": "item",
+            "code": "toggle-spectral-selection"
+          }
+        ],
+        "id": "menu-selection-spectral",
+        "disabled": true
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "menu",
+        "title": "Looping",
+        "children": [
+          {
+            "type": "item",
+            "code": "toggle-loop-region"
+          },
+          {
+            "type": "item",
+            "code": "clear-loop-region"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "set-loop-region-to-selection"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "set-loop-region-in-out"
+          }
+        ],
+        "id": "menu-looping"
+      },
+      {
+        "type": "item",
+        "code": "zero-cross"
+      }
+    ],
+    "id": "menu-select"
+  },
+  {
+    "type": "menu",
+    "title": "View",
+    "children": [
+      {
+        "type": "menu",
+        "title": "Zoom",
+        "children": [
+          {
+            "type": "item",
+            "code": "zoom-in"
+          },
+          {
+            "type": "item",
+            "code": "zoom-out"
+          },
+          {
+            "type": "item",
+            "code": "zoom-default"
+          },
+          {
+            "type": "item",
+            "code": "zoom-to-selection"
+          },
+          {
+            "type": "item",
+            "code": "zoom-toggle"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "zoom-to-fit-project"
+          },
+          {
+            "type": "item",
+            "code": "collapse-all-tracks"
+          },
+          {
+            "type": "item",
+            "code": "expand-all-tracks"
+          }
+        ],
+        "id": "menu-zoom"
+      },
+      {
+        "type": "menu",
+        "title": "Skip to",
+        "children": [
+          {
+            "type": "item",
+            "code": "skip-to-selection-start"
+          },
+          {
+            "type": "item",
+            "code": "skip-to-selection-end"
+          }
+        ],
+        "id": "menu-skip",
+        "disabled": true
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "toggle-effects"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "open-label-editor"
+      },
+      {
+        "type": "item",
+        "code": "open-metadata-editor"
+      },
+      {
+        "type": "item",
+        "code": "toggle-history"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "menu",
+        "title": "Workspaces",
+        "children": [
+          {
+            "type": "dynamic",
+            "source": "workspaces"
+          }
+        ],
+        "id": "menu-workspaces"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "fullscreen"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "toggle-clipping-in-waveform"
+      },
+      {
+        "type": "item",
+        "code": "toggle-rms-in-waveform"
+      },
+      {
+        "type": "item",
+        "code": "toggle-vertical-rulers"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "dock-restore-default-layout"
+      }
+    ],
+    "id": "menu-view"
+  },
+  {
+    "type": "menu",
+    "title": "Record",
+    "children": [
+      {
+        "type": "item",
+        "code": "record-on-current-track"
+      },
+      {
+        "type": "item",
+        "code": "record-on-new-track"
+      },
+      {
+        "type": "item",
+        "code": "set-up-timed-recording",
+        "commentedOut": true
+      },
+      {
+        "type": "item",
+        "code": "action://record/lead-in-recording"
+      },
+      {
+        "type": "item",
+        "code": "toggle-sound-activated-recording",
+        "commentedOut": true
+      },
+      {
+        "type": "item",
+        "code": "set-sound-activation-level",
+        "commentedOut": true
+      }
+    ],
+    "id": "menu-record"
+  },
+  {
+    "type": "menu",
+    "title": "Tracks",
+    "children": [
+      {
+        "type": "item",
+        "code": "new-mono-track"
+      },
+      {
+        "type": "item",
+        "code": "new-stereo-track"
+      },
+      {
+        "type": "item",
+        "code": "new-label-track"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "duplicate-track"
+      },
+      {
+        "type": "item",
+        "code": "remove-tracks"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "mixdown-to"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "menu",
+        "title": "Align content",
+        "children": [
+          {
+            "type": "item",
+            "code": "align-end-to-end"
+          },
+          {
+            "type": "item",
+            "code": "align-together"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "align-start-to-zero"
+          },
+          {
+            "type": "item",
+            "code": "align-start-to-playhead"
+          },
+          {
+            "type": "item",
+            "code": "align-start-to-selection-end"
+          },
+          {
+            "type": "item",
+            "code": "align-end-to-playhead"
+          },
+          {
+            "type": "item",
+            "code": "align-end-to-selection-end"
+          }
+        ],
+        "id": "menu-align",
+        "disabled": true
+      },
+      {
+        "type": "menu",
+        "title": "Sort tracks",
+        "children": [
+          {
+            "type": "item",
+            "code": "sort-by-time"
+          },
+          {
+            "type": "item",
+            "code": "sort-by-name"
+          }
+        ],
+        "id": "menu-sort",
+        "disabled": true
+      }
+    ],
+    "id": "menu-tracks"
+  },
+  {
+    "type": "menu",
+    "title": "Generate",
+    "children": [
+      {
+        "type": "item",
+        "code": "plugin-manager"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "dynamic",
+        "source": "effects-registry:GeneratorsOnly"
+      }
+    ],
+    "id": "menu-generate"
+  },
+  {
+    "type": "menu",
+    "title": "Effect",
+    "children": [
+      {
+        "type": "item",
+        "code": "plugin-manager"
+      },
+      {
+        "type": "item",
+        "code": "add-realtime-effects"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "repeat-last-effect"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "dynamic",
+        "source": "effects-registry:ProcessorsOnly"
+      }
+    ],
+    "id": "menu-effect"
+  },
+  {
+    "type": "menu",
+    "title": "Analyze",
+    "children": [
+      {
+        "type": "item",
+        "code": "plugin-manager"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "contrast-analyzer"
+      },
+      {
+        "type": "item",
+        "code": "plot-spectrum"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "dynamic",
+        "source": "effects-registry:AnalyzersOnly"
+      },
+      {
+        "type": "separator"
+      }
+    ],
+    "id": "menu-analyze"
+  },
+  {
+    "type": "menu",
+    "title": "Tools",
+    "children": [
+      {
+        "type": "item",
+        "code": "plugin-manager"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "manage-macros"
+      },
+      {
+        "type": "menu",
+        "title": "Macros",
+        "children": [
+          {
+            "type": "item",
+            "code": "apply-macros-palette"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "item",
+            "code": "macro-fade-ends"
+          },
+          {
+            "type": "item",
+            "code": "macro-mp3-conversion"
+          }
+        ],
+        "id": "menu-macros",
+        "disabled": true
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "dynamic",
+        "source": "effects-registry:ToolsOnly"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "dynamic",
+        "source": "extensions"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "raw-data-import"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "reset-configuration"
+      }
+    ],
+    "id": "menu-tools"
+  },
+  {
+    "type": "menu",
+    "title": "Help",
+    "children": [
+      {
+        "type": "item",
+        "code": "check-update"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "tutorials"
+      },
+      {
+        "type": "item",
+        "code": "online-handbook"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "menu",
+        "title": "Diagnostics",
+        "children": [
+          {
+            "type": "item",
+            "code": "diagnostic-save-diagnostic-files"
+          },
+          {
+            "type": "menu",
+            "title": "System",
+            "children": [
+              {
+                "type": "item",
+                "code": "diagnostic-show-paths"
+              },
+              {
+                "type": "item",
+                "code": "diagnostic-show-profiler"
+              }
+            ],
+            "id": "menu-system"
+          },
+          {
+            "type": "menu",
+            "title": "Accessibility",
+            "children": [
+              {
+                "type": "item",
+                "code": "diagnostic-show-navigation-tree"
+              },
+              {
+                "type": "item",
+                "code": "diagnostic-show-accessible-tree"
+              },
+              {
+                "type": "item",
+                "code": "diagnostic-accessible-tree-dump"
+              }
+            ],
+            "id": "menu-accessibility"
+          },
+          {
+            "type": "menu",
+            "title": "Testflow",
+            "children": [
+              {
+                "type": "item",
+                "code": "testflow-show-scripts"
+              }
+            ],
+            "id": "menu-testflow"
+          },
+          {
+            "type": "item",
+            "code": "multiwindows-dev-show-info"
+          }
+        ],
+        "id": "menu-diagnostics",
+        "disabled": true
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "link-account"
+      },
+      {
+        "type": "item",
+        "code": "about-audacity"
+      },
+      {
+        "type": "item",
+        "code": "about-qt"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "type": "item",
+        "code": "revert-factory"
+      }
+    ],
+    "id": "menu-help"
+  },
+  {
+    "type": "menu",
+    "title": "Diagnostics",
+    "children": [
+      {
+        "type": "item",
+        "code": "diagnostic-save-diagnostic-files"
+      },
+      {
+        "type": "menu",
+        "title": "System",
+        "children": [
+          {
+            "type": "item",
+            "code": "diagnostic-show-paths"
+          },
+          {
+            "type": "item",
+            "code": "diagnostic-show-graphicsinfo"
+          },
+          {
+            "type": "item",
+            "code": "diagnostic-show-profiler"
+          }
+        ],
+        "id": "menu-system"
+      },
+      {
+        "type": "menu",
+        "title": "Actions",
+        "children": [
+          {
+            "type": "item",
+            "code": "diagnostic-show-actions"
+          }
+        ],
+        "id": "menu-actions"
+      },
+      {
+        "type": "menu",
+        "title": "Accessibility",
+        "children": [
+          {
+            "type": "item",
+            "code": "diagnostic-show-navigation-tree"
+          },
+          {
+            "type": "item",
+            "code": "diagnostic-show-accessible-tree"
+          },
+          {
+            "type": "item",
+            "code": "diagnostic-accessible-tree-dump"
+          }
+        ],
+        "id": "menu-accessibility"
+      },
+      {
+        "type": "menu",
+        "title": "Extensions",
+        "children": [
+          {
+            "type": "item",
+            "code": "extensions-show-apidump"
+          }
+        ],
+        "id": "menu-extensions"
+      },
+      {
+        "type": "menu",
+        "title": "Testflow",
+        "children": [
+          {
+            "type": "item",
+            "code": "testflow-show-scripts"
+          }
+        ],
+        "id": "menu-testflow"
+      }
+    ],
+    "id": "menu-diagnostic",
+    "devOnly": true
+  }
+]

@@ -1,8 +1,8 @@
 ---
 title: Audacity 4 Alpha 1 release notes
 description: The first alpha version of Audacity 4 is intended as an early
-section: new in Audacity 4
-sectionOrder: 2
+section: "Reference"
+sectionOrder: 60
 order: 1
 ---
 

@@ -12,6 +12,9 @@ import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import BestPractices from "../../../components/manual/BestPractices.astro";
 import Pitfalls from "../../../components/manual/Pitfalls.astro";
+import ManualDownloadButton from "../../../components/manual/ManualDownloadButton.jsx";
+import Tabs from "../../../components/manual/Tabs/Tabs.astro";
+import Tab from "../../../components/manual/Tabs/Tab.astro";
 
 {/*
   PLACEHOLDER CONTENT — written to exercise the page design, not verified
@@ -36,28 +39,32 @@ work computer you may need whoever administers it to approve the install.
 
 ## Download the installer
 
-Go to the [download page](/download) and choose the build for your operating
-system. The page detects your platform and offers the right one first, but
-every build is listed if you need a different one.
+<ManualDownloadButton client:load />
 
-### Windows
+It downloads the build for your platform. Every build for every operating
+system is on the [download page](/download) if you need a different one.
 
-Download the `.exe` installer. Both 64-bit and 32-bit builds are listed — choose
-64-bit unless you know the machine is 32-bit.
+<Tabs>
+  <Tab label="Windows">
+
+Download the `.exe` installer. Both 64-bit and 32-bit builds are listed —
+choose 64-bit unless you know the machine is 32-bit.
 
 Once it's downloaded, double-click the file and follow the prompts. You can
-accept every default; the installer will suggest a location and create a Start
-menu entry.
+accept every default; the installer will suggest a location and create a
+Start menu entry.
 
-### macOS
+  </Tab>
+  <Tab label="macOS">
 
 Download the `.dmg` disk image, then open it and drag the Audacity icon into
 your Applications folder.
 
-The first time you open it, macOS may warn that the application was downloaded
-from the internet. Choose **Open** to confirm.
+The first time you open it, macOS may warn that the application was
+downloaded from the internet. Choose **Open** to confirm.
 
-### Linux
+  </Tab>
+  <Tab label="Linux">
 
 Audacity is available as an AppImage, and through most distribution package
 managers.
@@ -65,15 +72,21 @@ managers.
 The AppImage needs no installation — make it executable and run it. Package
 manager versions may lag behind the current release.
 
+  </Tab>
+</Tabs>
+
 ## Open Audacity for the first time
 
-Launch Audacity the way you'd launch anything else on your system. The first
-run asks you a few setup questions — your theme, clip colours, and which
-workspace layout you'd like to start with.
+Launch Audacity the way you'd launch anything else on your system. Onboarding
+runs once, the first time you open the application: it asks a few questions
+about how you intend to work — your theme, clip colours, and which workspace
+layout you'd like to start with — and sets sensible defaults from your
+answers.
+
+![The onboarding flow on first launch, starting with a choice of theme](../../../assets/img/manual/handout/onboarding-theme.png)
 
 None of those choices are permanent. You can change all of them later from
-**Preferences**, and the [transition guide](/manual/basics/audacity-3-to-4-transition-guide)
-covers what each one means if you'd rather decide now.
+**Preferences**.
 
 <Callout type="tip" title="Skip the setup">
   If you'd rather get straight to recording, accept the defaults. The

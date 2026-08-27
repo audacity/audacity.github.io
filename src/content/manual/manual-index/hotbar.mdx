@@ -1,9 +1,41 @@
 ---
 title: "Hotbar"
-section: "Hotbar"
-sectionOrder: 50
+section: "The Audacity window"
+sectionOrder: 10
 order: 1
+description: The quick-access buttons in the bar across the top of the project window.
 draft: false
 ---
+import UIExample from "../../../components/manual/UIExample/UIExample";
 
-_This page is a stub. Content coming soon._
+The Hotbar is the group of quick-access buttons in the centre of the bar
+across the top of the project window. None of them change your audio
+directly — each one opens a menu or a dialog.
+
+## What it contains
+
+<UIExample component="project-toolbar" variant="default" interactive client:load />
+
+- [Audio setup](/manual/manual-index/hotbar/audio-setup) — choose the audio
+  host, the playback and recording devices, and the number of recording
+  channels.
+- [Share audio](/manual/manual-index/hotbar/share-audio) — upload a rendered
+  copy of the project to audio.com.
+- [Get effects](/manual/manual-index/hotbar/get-effects) — browse effect
+  plugins on MuseHub.
+
+Share audio only appears in builds where cloud support is enabled.
+
+## Where to find it
+
+Along the top of the project window, between the Home and Project tabs on
+the left and the workspace selector and Undo/Redo on the right. When the
+window is too narrow for the labels, the buttons drop to icons only.
+
+The buttons need a project to be open.
+
+## Related
+
+- [Toolbar](/manual/manual-index/toolbar)
+- [Workspaces](/manual/manual-index/workspaces)
+- [Project Management Menu](/manual/manual-index/project-management-menu)

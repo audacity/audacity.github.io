@@ -1,0 +1,48 @@
+---
+draft: false
+title: UIShot test
+description: Test page for pixel-true component screenshots delivered by the shotbox pipeline.
+section: Demos
+sectionOrder: 99
+order: 2
+---
+
+import UIShot from "../../../components/manual/UIShot.astro";
+import UIShotIndex from "../../../components/manual/UIShotIndex.astro";
+
+# UIShot test
+
+These images are not mockups — they are rendered from the actual Audacity
+source by the shotbox harness, delivered as a versioned package, and embedded
+at their natural size.
+
+## A track header
+
+<UIShot name="trackpanel/WaveTrackItem" alt="A stereo wave track header named Vocals">
+  The track header, exactly as the application renders it.
+</UIShot>
+
+## A button in a specific state
+
+<UIShot name="buttons/FlatButton-accent" state="hover" alt="An accent button in its hover state" />
+
+## Dark theme
+
+<UIShot
+  name="readouts/Timecode"
+  theme="dark"
+  alt="The timecode readout showing 2 minutes 6 seconds, dark theme"
+/>
+
+## Graceful failure
+
+A reference to a shot that does not exist degrades to a placeholder instead
+of breaking the build:
+
+<UIShot name="buttons/DoesNotExist" />
+
+## The complete library
+
+Every screenshot in the installed package, straight from its manifest:
+
+<UIShotIndex />

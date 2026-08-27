@@ -1,9 +1,27 @@
 ---
 title: "Analyzers"
-section: "EGAT"
-sectionOrder: 140
+section: "Effects and plugins"
+sectionOrder: 30
 order: 68
+description: Plug-ins that measure or describe the selected audio without changing it.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+An analyzer reads the selection and tells you something about it. Nothing is
+written back to the audio: the result arrives either as a message on screen or
+as a set of labels in a new label track, which you can then use to navigate or
+to drive further edits.
+
+## Where to find them
+
+The **Analyze** menu.
+
+## Notes
+
+Analyzers need a selection to work on, and they only look at the audio inside
+it. Selecting the whole of a track before running one is the usual starting
+point.
+
+Because nothing is altered, an analyzer is safe to run at any time, and running
+one is not something you need to undo — though analyzers that add labels do
+create a label track, and that addition can be undone.

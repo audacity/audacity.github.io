@@ -1,9 +1,25 @@
 ---
 title: "Paulstretch"
-section: "EGAT"
-sectionOrder: 140
+section: "Effects and plugins"
+sectionOrder: 30
 order: 36
+description: Stretch audio by extreme factors to produce sustained, ambient textures.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Paulstretch is not a general-purpose time stretcher. It is built for very large stretch factors, where the point is the smeared, drone-like texture that comes out rather than a faithful slow-down. Ordinary tempo work is better done with Sliding stretch.
+
+## Where to find it
+
+**Effect → Pitch and tempo → Paulstretch**, with audio selected.
+
+## Controls
+
+- **Stretch factor** — how many times longer the result is than the original. Minimum 1, default 10.
+- **Time resolution** — the length of the analysis window, in seconds. Minimum roughly 0.001 s, default 0.25 s.
+
+## Notes
+
+Time resolution is the trade-off that shapes the sound. Short windows keep more of the original rhythm and transients but sound grainier; long windows smooth everything into a sustained pad and lose all trace of the attack.
+
+Because the output is many times longer than the input, applying a large stretch factor to a long selection takes a long time and produces a great deal of audio. Try it on a few seconds first.

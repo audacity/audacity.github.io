@@ -5,6 +5,7 @@ import ManualSearch from "./ManualSearch.astro";
 import ManualSidebarTree, { type TreeNode } from "./ManualSidebarTree.astro";
 import ManualStreamSwitcher from "./ManualStreamSwitcher.astro";
 import { DEFAULT_STREAM, type StreamId } from "./streams";
+import { VIRTUAL_MANUAL_ENTRIES } from "./virtualEntries";
 
 interface Props {
   currentSlug: string;
@@ -15,12 +16,41 @@ interface Props {
 
 const { currentSlug, currentStream = DEFAULT_STREAM } = Astro.props;
 
-type Entry = CollectionEntry<"manual">;
+/* The tree only ever reads id + data.{title,section,sectionOrder,order},
+   so pages that live outside the collection (the generated shortcuts
+   reference) join in as structurally-equal entries rather than pretending
+   to be CollectionEntry.
 
-const allEntries = await getCollection(
+   `id`, not `slug`: Astro 6's content layer renamed the field, and this list
+   mixes real collection entries with virtual ones. Keyed on `slug` the
+   virtual entries came through with `id` undefined and the tree sort threw
+   on localeCompare. VIRTUAL_MANUAL_ENTRIES keeps its own `slug` field — it
+   isn't a collection — so it's mapped across here. */
+type Entry = Pick<CollectionEntry<"manual">, "id"> & {
+  data: Pick<
+    CollectionEntry<"manual">["data"],
+    "title" | "section" | "sectionOrder" | "order"
+  >;
+};
+
+const collectionEntries = await getCollection(
   "manual",
   ({ data }) => !data.draft && data.stream === currentStream,
 );
+
+const virtualEntries: Entry[] = VIRTUAL_MANUAL_ENTRIES.filter(
+  (v) => v.stream === currentStream,
+).map((v) => ({
+  id: v.slug,
+  data: {
+    title: v.title,
+    section: v.section,
+    sectionOrder: v.sectionOrder,
+    order: v.order,
+  },
+}));
+
+const allEntries: Entry[] = [...collectionEntries, ...virtualEntries];
 
 const grouped = new Map<string, { sectionOrder: number; entries: Entry[] }>();
 for (const entry of allEntries) {
@@ -54,7 +84,6 @@ function buildTree(entries: Entry[]): TreeNode[] {
       slug: entry.id,
       order: entry.data.order,
       children: [],
-      entry,
     });
   }
 

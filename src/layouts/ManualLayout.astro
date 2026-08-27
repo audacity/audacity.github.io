@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import ManualSidebar from "../components/manual/ManualSidebar.astro";
+import BackToTop from "../components/manual/BackToTop.astro";
 import type { StreamId } from "../components/manual/streams";
 
 /*
@@ -44,4 +45,5 @@ const { title, description, stream } = Astro.props;
       </article>
     </div>
   </main>
+  <BackToTop />
 </BaseLayout>

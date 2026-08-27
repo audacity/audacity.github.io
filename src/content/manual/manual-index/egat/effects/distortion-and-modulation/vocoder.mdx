@@ -1,0 +1,52 @@
+---
+title: "Vocoder"
+section: "Effects and plugins"
+sectionOrder: 30
+order: 55
+description: Impose the changing spectrum of one signal onto a carrier, for robot-voice and similar effects.
+draft: false
+---
+
+Splits the audio into a bank of frequency bands, tracks how the level in each
+band changes over time, and uses those envelopes to shape a carrier signal.
+The familiar result is the robot voice: speech articulation carried by a
+synthetic tone.
+
+## Where to find it
+
+**Effect → Distortion and modulation → Vocoder**.
+
+## Setting up the track
+
+What is used as the carrier depends on the track. On a **stereo** track, the
+left channel is the modulator and the **right channel is used as the
+carrier** — put the speech left and the synth or pad right. On a **mono**
+track there is no separate carrier, so the effect builds one from sine waves,
+white noise and radar needles according to the amplitude controls below.
+
+## Controls
+
+- **Distance: (1 to 120, default = 20)** — 1 to 120, default 20. Sets how
+  quickly each band's level envelope responds. Low values track the modulator
+  tightly and keep consonants crisp; high values smooth the envelopes out, so
+  the effect sounds more distant and less articulate.
+- **Output choice** — Both Channels or Right Only. Both Channels is the
+  default.
+- **Number of vocoder bands** — 10 to 240, default 40. More bands follow the
+  modulator's spectrum more faithfully; fewer bands sound coarser and more
+  obviously synthetic.
+- **Amplitude of carrier wave (percent)** — 0 to 100, default 100.
+- **Amplitude of white noise (percent)** — 0 to 100, default 0.
+- **Amplitude of Radar Needles (percent)** — 0 to 100, default 0.
+- **Frequency of Radar Needles (Hz)** — 1 to 100, default 30.
+
+## Notes
+
+The three amplitude controls set the mix of the generated carrier on a mono
+track. Adding white noise puts breath and sibilance back into a vocoded
+voice, which otherwise loses its consonants; radar needles add a periodic
+pulse whose rate is set by the frequency control, giving a buzzier, more
+pitched carrier.
+
+For intelligible speech, keep the band count reasonably high and add a little
+noise. For a deliberately crude, early-vocoder sound, drop the band count.

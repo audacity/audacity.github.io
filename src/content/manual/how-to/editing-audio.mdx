@@ -1,0 +1,79 @@
+---
+title: "Editing a recording"
+description: Work at clip level — split, trim, join and move clips — and use zoom and snapping to land the edits accurately.
+section: "Everyday tasks"
+sectionOrder: 10
+order: 1
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Selecting a stretch of audio and cutting it is enough for small repairs. Once
+you are restructuring a recording — dropping a section, resequencing takes,
+moving an interruption onto its own track — it is easier to work with clips,
+the blocks the audio actually lives in. This page covers splitting a recording
+into clips, trimming and joining them, moving them around, and the two things
+that make those edits land where you meant: zoom and snapping.
+
+## Before you start
+
+You need a recording in a project. If it arrived as one long take it will be a
+single clip, which is fine — the first thing you will do is break it up.
+
+## Steps
+
+1. Zoom in until you can see the edit point clearly.
+   **View → Zoom → Zoom in**, or <Shortcut client:load keys="cmd+=" />, doubles
+   the zoom each time; holding **Ctrl** while you scroll zooms around the mouse
+   pointer, which is usually quicker. To come back out to the whole recording,
+   use **View → Zoom → Zoom to fit project**,
+   <Shortcut client:load keys="cmd+f" />.
+2. Put the cursor where you want the recording to divide and choose
+   **Edit → Clip → Split**, <Shortcut client:load keys="cmd+i" />. The clip
+   becomes two clips with no audio removed and nothing moved — you should see a
+   new clip header appear at the split point. With a selection rather than a
+   cursor, the split happens at both edges of it, cutting the middle out as its
+   own clip.
+3. To split by eye instead, turn on the
+   [split tool](/manual/manual-index/toolbar#split-tool) in the toolbar and
+   click the clip wherever you want it divided. Press the button again to go
+   back to normal editing.
+4. Trim a clip down to what you want to keep. Drag either end of the clip
+   inwards to shorten it, or select the part worth keeping and choose
+   **Edit → Clip → Trim clip**, <Shortcut client:load keys="cmd+t" />. Dragging
+   an edge inwards hides the audio beyond it rather than throwing it away —
+   drag the edge back out and it reappears.
+5. Move a clip by dragging it from its header, the strip along the top of the
+   clip. Drag it sideways to shift it in time, or up and down to move it onto
+   another track. Use this to lift an aside or an interruption out of the main
+   take so you can mute or process it separately.
+6. Turn on [snapping](/manual/manual-index/toolbar#snapping) before you drag
+   anything you need to line up. With **Snap** on, clip edges, selection edges
+   and the cursor land on the chosen grid — bars and beats for music, seconds
+   or video frames for anything cut to picture — and a guideline shows where the
+   edge will fall.
+7. Join clips back together with **Edit → Clip → Join selected clips**,
+   <Shortcut client:load keys="cmd+j" />. The clips have to be next to each
+   other on the same track with nothing unselected between them.
+
+## Notes
+
+**Edit → Clip → Split into new track** moves the selected audio onto a track of
+its own at the same point on the timeline, leaving a gap behind. It is the
+tidiest way to separate two speakers who were recorded onto one track.
+
+For a long recording made of obvious takes — an album side, a dictation session
+— the shortcut <Shortcut client:load keys="cmd+alt+j" /> runs
+**Edit → Clip → Split clips at silences**, which does the splitting in one
+pass, using the quiet stretches as the boundaries.
+
+Clips you always want to move together can be selected and grouped with
+**Edit → Clip → Group clips**, <Shortcut client:load keys="cmd+g" />. After
+that they select and drag as one unit until you ungroup them.
+
+Every command above is in the
+[Clip submenu](/manual/manual-index/header/edit#clip) of the Edit menu, and
+every one of them is undoable. The full set of mouse gestures for the tracks
+area is in [Mouse and trackpad](/manual/manual-index/mouse-bindings).

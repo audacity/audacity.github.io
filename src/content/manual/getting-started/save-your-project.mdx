@@ -1,17 +1,53 @@
 ---
 title: "Save your project"
-description: "Keep the editable project file so you can come back to it."
+description: "Keep the editable .aup4 project file so you can come back and change your edits."
 section: "First steps"
 sectionOrder: 10
-order: 6
+order: 7
 stream: "getting-started"
 draft: false
 ---
 
 import Callout from "../../../components/manual/Callout.astro";
+import Shortcut from "../../../components/manual/Shortcut.jsx";
 
-Keep the editable project file so you can come back to it.
+Saving and exporting are the single most common source of confusion for new
+users, so it is worth being precise.
 
-<Callout type="info">
-  This step is still being written. In the meantime, [save your project](/manual/basics/saving-and-exporting-projects) covers the same ground in more detail.
+| Action | What you get |
+| --- | --- |
+| **Save project** | An `.aup4` file holding your tracks, clips, edits and undo history. Only Audacity can open it. This is your working file. |
+| **Export audio** | A finished audio file, everything mixed together. This is what you upload to your podcast host or send to someone else. |
+
+Save the project as soon as you start recording — <Shortcut client:load keys="cmd+s" />
+— and keep saving as you go. Export only when the edit is finished. If you
+export without saving the project, you cannot go back and change your edits.
+
+<Callout type="info" title="Coming from Audacity 3?">
+  Audacity 4 saves projects as `.aup4`. It still opens the `.aup3` projects
+  you made in Audacity 3, so your old work comes with you.
 </Callout>
+
+## The first time you save
+
+A window appears asking whether you want to save to the cloud or to your own
+computer.
+
+![The save location prompt, shown the first time you save a project](../../../assets/img/manual/handout/save-location-prompt.png)
+
+Your own computer is the simpler place to start: a project on your own drive
+is easy to find, back up and reason about. Cloud saving comes into its own
+once you are collaborating or moving between machines, and you can switch to
+it whenever that day arrives.
+
+## Finding your projects again
+
+Saved projects appear on the **Home** tab, so you can reopen one without going
+looking for the file.
+
+![Recent projects listed on the Home tab](../../../assets/img/manual/handout/home-tab-projects.png)
+
+Saving in more depth — including cloud projects — is covered in
+[saving and exporting projects](/manual/basics/saving-and-exporting-projects).
+When the edit is finished, the other half of the story is to
+[export your audio](/manual/getting-started/export-your-audio).

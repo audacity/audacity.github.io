@@ -1,0 +1,132 @@
+---
+title: "Mouse and trackpad"
+section: "The Audacity window"
+sectionOrder: 10
+order: 62
+description: What clicking, dragging, scrolling and pinching do in the tracks area, on clips and on the timeline ruler.
+draft: false
+---
+
+Most of the editing in Audacity is done with the pointer rather than with menu
+commands, and the same click means different things depending on where in the
+window it lands. This page collects those gestures by area.
+
+Everything below describes normal editing. Turning on the
+[split tool](/manual/manual-index/toolbar#split-tool) or the
+[clip envelope](/manual/manual-index/toolbar#clip-gain) tool changes what a
+click on a clip does until you switch the tool off again.
+
+## In the tracks area
+
+- **Click** in a track to put the edit cursor at that point. Playback starts
+  from there.
+- **Drag** left or right to select a stretch of time. Dragging up or down as
+  well extends the selection to every track you pass over. A plain drag leaves
+  the playhead where it was — only a click without a drag moves it.
+- **Shift-click** to extend the selection you already have out to the point you
+  clicked, keeping its existing start.
+- **Ctrl-click** to extend the selection in the same way and, at the same time,
+  add the track you clicked to the selected tracks — or remove it, if it was
+  already selected.
+- **Double-click** a clip to select the whole of that clip. Double-clicking an
+  empty part of a track selects all of that track's audio instead.
+- **Right-click** for the context menu. Over a clip you get that clip's menu,
+  and over the empty canvas below the last track you get the canvas menu.
+
+Dragging a selection edge follows the current
+[snapping](/manual/manual-index/toolbar#snapping) setting, and a vertical
+guideline shows where the edge will land.
+
+## On a clip
+
+A clip has a header — the strip across its top carrying its name — and a body
+below it showing the waveform. The two behave differently.
+
+- **Click the header** to select the clip.
+- **Drag the header** to move the clip: sideways to shift it in time, up or
+  down to move it onto a different track.
+- **Double-click the header** to open the clip's name for editing.
+- **Click the body** and it behaves like the rest of the track: the cursor
+  moves, and a drag makes a time selection.
+- **Drag a clip edge** inwards or outwards to trim the clip. The pointer
+  changes to a trim cursor as you approach the edge.
+
+Select a clip and handles appear at both of its ends, stacked in two rows. The
+upper pair trims — the same job as dragging the edge, with a larger target. The
+lower pair stretches the clip instead; see below.
+
+### Changing a clip's speed
+
+Stretching a clip changes its speed: the audio plays slower or faster, and the
+clip gets longer or shorter with it, rather than more or less of it being
+shown.
+
+- **Drag one of the lower handles** — the round ones marked with a clock — on a
+  selected clip to stretch it from that end.
+- **Alt-drag a clip edge** to stretch rather than trim. The pointer changes
+  from the trim cursor to the stretch cursor while Alt is held.
+
+The clip commands these gestures duplicate are in the
+[Clip submenu](/manual/manual-index/header/edit#clip) of the Edit menu.
+
+## On the timeline ruler
+
+The [timeline](/manual/manual-index/timeline) ruler is split into two halves
+that respond differently.
+
+- **Click the lower half** to move the playhead to that point. Whether playback
+  also starts there is set by
+  [Click ruler to start playback](/manual/manual-index/timeline/click-ruler-to-start-playback);
+  if audio is already playing, a click moves playback there either way.
+- **Drag the playhead marker** along the ruler to move the playback position
+  continuously.
+- **Ctrl-drag in the upper half**, when no loop region exists, to draw one. The
+  region appears in the upper half and looping is switched on for you.
+- **Drag either edge** of an existing loop region to resize it, or **drag its
+  middle** to move it along the timeline. Both follow the current snapping
+  setting, with a guideline showing where the edge will land.
+- **Click inside** an existing loop region, without dragging, to turn looping
+  on or off. This is the same as
+  [Toggle loop region](/manual/manual-index/timeline/toggle-loop-region).
+- **Right-click** anywhere on the ruler for the timeline options — the ruler
+  format, the playback display options, the loop region commands and the
+  vertical rulers toggle.
+
+## On a track's control panel
+
+- **Click** the panel to select the track and its audio. Ctrl-click or
+  Shift-click adds a track to the selection rather than replacing it.
+- **Drag** the panel up or down to reorder the tracks. A drop indicator shows
+  where the track will land. The same moves are available from
+  [Move track](/manual/manual-index/track-control-panel/audio-track-item#move-track)
+  in the track's menu.
+- **Drag the bottom edge** of the panel to change the track's height. The
+  pointer changes to a vertical resize cursor over the edge.
+- **Double-click the track name** to rename it.
+- **Right-click** anywhere on the panel to open the track's menu.
+
+The pan knob and volume slider have their own gestures — drag to set, Shift-drag
+for fine adjustment, double-click to reset. See
+[Audio Track Item](/manual/manual-index/track-control-panel/audio-track-item).
+
+## On the vertical rulers
+
+Clicking a waveform ruler opens that track's ruler options: vertical zoom in,
+out and reset, the ruler format, and the half-wave toggle. The rulers are
+hidden by default. See
+[Vertical Rulers](/manual/manual-index/vertical-rulers).
+
+## Scrolling and zooming
+
+Over the tracks area:
+
+- **Scroll** up and down to move through the tracks.
+- **Scroll sideways**, or hold **Shift** and scroll, to move along the
+  timeline.
+- **Hold Ctrl and scroll** to zoom in and out. The zoom is anchored on the
+  pointer, so whatever is under it stays put.
+- **Pinch** on a trackpad to zoom in and out.
+
+The zoom commands in **View → Zoom** and the toolbar's zoom buttons do the same
+job from the keyboard and the toolbar; unlike Ctrl-scroll, they anchor on the
+selection or the playback position rather than the pointer.

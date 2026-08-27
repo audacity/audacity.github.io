@@ -1,9 +1,50 @@
 ---
 title: "Track Control Panel"
-section: "Track Control Panel"
+section: "The Audacity window"
 sectionOrder: 10
 order: 1
+description: The strip at the left of every track, holding its name, its controls and its menu.
 draft: false
 ---
+import UIExample from "../../../components/manual/UIExample/UIExample";
+import Shortcut from "../../../components/manual/Shortcut.jsx";
 
-_This page is a stub. Content coming soon._
+Every track in a project has a control panel down the left-hand side of the
+Tracks area. The panel is where the track is named, where its playback
+controls live, and where its menu is opened from. Above the panels sits a
+**Tracks** title bar with the **Add track** button.
+
+<UIExample component="track-control-panel" variant="stereo" interactive client:load />
+
+All panels share the same three elements: an icon showing the track type, an
+editable track name, and a menu button. What appears below that depends on the
+track type — an audio track adds pan, volume, mute, solo, an Effects button
+and level meters, while a label track adds a single **Add label** button.
+
+## Working with the panel
+
+- Double-click the track name to rename it in place.
+- Drag the bottom edge of a panel to change the track's height. Reduce it far
+  enough and the track collapses: mute and solo move up beside the name and
+  the remaining controls are hidden.
+- Drag a panel up or down to reorder the tracks.
+- Right-click anywhere on the panel, or use the menu button beside the name,
+  to open the track's menu.
+
+## Add track
+
+**Add track** sits at the right of the **Tracks** title bar, above the track
+control panels. Clicking it opens a small popup offering three track types:
+
+- **Mono** — a single-channel audio track.
+- **Stereo** — a two-channel audio track.
+- **Label** — a track that holds labels rather than audio.
+
+Choosing one creates the track immediately and closes the popup. Clicking
+**Add track** again while the popup is open closes it.
+
+The same three track types can be created from the Tracks menu:
+[New mono track](/manual/manual-index/header/tracks#new-mono-track) — which
+also has the default shortcut <Shortcut client:load keys="cmd+shift+n" /> —
+[New stereo track](/manual/manual-index/header/tracks#new-stereo-track) and
+[New label track](/manual/manual-index/header/tracks#new-label-track).

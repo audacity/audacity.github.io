@@ -1,0 +1,2269 @@
+[
+  {
+    "code": "about-audacity",
+    "module": "appshell",
+    "title": "&About Audacity…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "about-qt",
+    "module": "appshell",
+    "title": "About &Qt…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://cancel",
+    "module": "appshell",
+    "title": "&Cancel",
+    "description": "Cancel",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://copy",
+    "module": "appshell",
+    "title": "Copy",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://cut",
+    "module": "appshell",
+    "title": "Cut",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://delete",
+    "module": "appshell",
+    "title": "De&lete",
+    "description": "Delete",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://enter",
+    "module": "appshell",
+    "title": "&Enter",
+    "description": "Trigger the focused control or select the focused track item",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://paste",
+    "module": "appshell",
+    "title": "&Paste",
+    "description": "Paste",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://redo",
+    "module": "appshell",
+    "title": "&Redo",
+    "description": "Redo",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://trigger",
+    "module": "appshell",
+    "title": "&Trigger",
+    "description": "Trigger",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://undo",
+    "module": "appshell",
+    "title": "&Undo",
+    "description": "Undo",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "ask-help",
+    "module": "appshell",
+    "title": "As&k for help",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "dock-restore-default-layout",
+    "module": "appshell",
+    "title": "Restore the &default layout",
+    "description": "Restore the default layout",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "fullscreen",
+    "module": "appshell",
+    "title": "&Full screen",
+    "description": "Full screen",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "online-handbook",
+    "module": "appshell",
+    "title": "Online &handbook",
+    "description": "Open online handbook",
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "preference-dialog",
+    "module": "appshell",
+    "title": "&Preferences",
+    "description": "Preferences…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "quit",
+    "module": "appshell",
+    "title": "Exit",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "restart",
+    "module": "appshell",
+    "title": "Restart",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "revert-factory",
+    "module": "appshell",
+    "title": "Revert to &factory settings",
+    "description": "Revert to factory settings",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "toggle-statusbar",
+    "module": "appshell",
+    "title": "&Status bar",
+    "description": "Show/hide status bar",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED",
+    "checkable": true
+  },
+  {
+    "code": "toggle-tracks",
+    "module": "appshell",
+    "title": "&Tracks",
+    "description": "Show/hide tracks",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "toggle-transport",
+    "module": "appshell",
+    "title": "&Playback controls",
+    "description": "Show/hide playback controls",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED",
+    "checkable": true
+  },
+  {
+    "code": "audacity://cloud/open-audio-page",
+    "module": "cloud",
+    "title": "View on audio.com",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "audacity://cloud/open-project-page",
+    "module": "cloud",
+    "title": "View project on audio.com",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/presets/apply",
+    "module": "effects",
+    "title": "&Apply preset",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/presets/delete",
+    "module": "effects",
+    "title": "&Delete preset",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/presets/export",
+    "module": "effects",
+    "title": "&Export…",
+    "description": "Export preset",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/presets/import",
+    "module": "effects",
+    "title": "&Import…",
+    "description": "Import preset",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/presets/save",
+    "module": "effects",
+    "title": "&Save preset",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/presets/save_as",
+    "module": "effects",
+    "title": "Save preset as…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://effects/toggle_vendor_ui",
+    "module": "effects",
+    "title": "Use vendor UI",
+    "description": "Toggle between vendor UI and fallback UI",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "realtimeeffect-remove",
+    "module": "effects",
+    "title": "Remove realtime effect",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "repeat-last-effect",
+    "module": "effects",
+    "title": "Repeat last effect",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://playback/change-api",
+    "module": "playback",
+    "title": "Change audio host",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED",
+    "checkable": true
+  },
+  {
+    "code": "action://playback/change-input-channels",
+    "module": "playback",
+    "title": "Change input channels",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED",
+    "checkable": true
+  },
+  {
+    "code": "action://playback/change-playback-device",
+    "module": "playback",
+    "title": "Change playback device",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED",
+    "checkable": true
+  },
+  {
+    "code": "action://playback/change-recording-device",
+    "module": "playback",
+    "title": "Change recording device",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED",
+    "checkable": true
+  },
+  {
+    "code": "action://playback/level",
+    "module": "playback",
+    "title": "Playback level",
+    "description": "Set playback level",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "action://playback/pause",
+    "module": "playback",
+    "title": "Pause",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://playback/play-selection",
+    "module": "playback",
+    "title": "Play selection",
+    "description": "Play the selected time range",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://playback/rewind-end",
+    "module": "playback",
+    "title": "Rewind to end",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "action://playback/rewind-start",
+    "module": "playback",
+    "title": "Rewind to start",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "action://playback/stop",
+    "module": "playback",
+    "title": "Stop",
+    "description": "Stop playback",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://playback/toggle-play-from-cursor",
+    "module": "playback",
+    "title": "Play/Pause from cursor",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://playback/toggle-play-pause",
+    "module": "playback",
+    "title": "Play/Pause",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://playback/toggle-play-stop",
+    "module": "playback",
+    "title": "Play/Stop",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "audio-settings",
+    "module": "playback",
+    "title": "Audio settings",
+    "description": "Open audio setup dialog",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "audio-setup",
+    "module": "playback",
+    "title": "Audio setup",
+    "description": "Open audio setup context menu",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "clear-loop-region",
+    "module": "playback",
+    "title": "Clear loop region",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "get-effects",
+    "module": "playback",
+    "title": "Get effects",
+    "description": "Open Get effects dialog",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "metronome",
+    "module": "playback",
+    "title": "Metronome",
+    "description": "Toggle metronome playback",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED",
+    "checkable": true
+  },
+  {
+    "code": "pan",
+    "module": "playback",
+    "title": "Pan automatically",
+    "description": "Pan automatically during playback",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED",
+    "checkable": true
+  },
+  {
+    "code": "playback-bpm",
+    "module": "playback",
+    "title": "Tempo",
+    "description": "Set playback tempo",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "playback-time",
+    "module": "playback",
+    "title": "Timecode",
+    "description": "Set playback time",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "playback-time-signature",
+    "module": "playback",
+    "title": "Time signature",
+    "description": "Set playback time signature",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "repeat",
+    "module": "playback",
+    "title": "Play repeats",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED",
+    "checkable": true
+  },
+  {
+    "code": "rescan-devices",
+    "module": "playback",
+    "title": "Rescan audio devices",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "set-loop-region-in-out",
+    "module": "playback",
+    "title": "Set loop region in out",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "set-loop-region-to-selection",
+    "module": "playback",
+    "title": "Set loop region to selection",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "set-selection-to-loop",
+    "module": "playback",
+    "title": "Set selection to loop",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "toggle-loop-region",
+    "module": "playback",
+    "title": "Loop playback",
+    "description": "Toggle ‘Loop playback’",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED",
+    "checkable": true
+  },
+  {
+    "code": "toggle-loop-region",
+    "module": "playback",
+    "title": "Toggle loop region",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "toggle-selection-follows-loop-region",
+    "module": "playback",
+    "title": "Creating a loop also selects audio",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "add-realtime-effects",
+    "module": "project",
+    "title": "Add track effects",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-end-to-end",
+    "module": "project",
+    "title": "Align end to end",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-end-to-playhead",
+    "module": "project",
+    "title": "Align end to playhead",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-end-to-selection-end",
+    "module": "project",
+    "title": "Align end to selection end",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-start-to-playhead",
+    "module": "project",
+    "title": "Align start to playhead",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-start-to-selection-end",
+    "module": "project",
+    "title": "Align start to selection end",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-start-to-zero",
+    "module": "project",
+    "title": "Align start to zero",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "align-together",
+    "module": "project",
+    "title": "Align together",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "apply-macros-palette",
+    "module": "project",
+    "title": "Apply macros palette",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "audacity://cloud/open-audio-file",
+    "module": "project",
+    "title": "Open",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "audacity://cloud/update-audio-preview",
+    "module": "project",
+    "title": "Update cloud audio preview",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "audacity://cloud/update-audio-preview-for-project",
+    "module": "project",
+    "title": "Update audio preview",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "benchmark",
+    "module": "project",
+    "title": "Benchmark",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "clear-recent",
+    "module": "project",
+    "title": "&Clear recent files",
+    "description": "Clear recent files",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "cloud-file-open",
+    "module": "project",
+    "title": "Open",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "collapse-all-tracks",
+    "module": "project",
+    "title": "Collapse all tracks",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "contrast-analyzer",
+    "module": "project",
+    "title": "Contrast analyzer",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "crash-report",
+    "module": "project",
+    "title": "Crash report",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "device-info",
+    "module": "project",
+    "title": "Device info",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "duplicate",
+    "module": "project",
+    "title": "Duplicate",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "duplicate-track",
+    "module": "project",
+    "title": "Duplicate",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "expand-all-tracks",
+    "module": "project",
+    "title": "Expand all tracks",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "export-audio",
+    "module": "project",
+    "title": "&Export audio…",
+    "description": "Export audio…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "export-labels",
+    "module": "project",
+    "title": "&Export labels",
+    "description": "Export labels",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "export-midi",
+    "module": "project",
+    "title": "&Export MIDI",
+    "description": "Export MIDI",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "favourite-effect-1",
+    "module": "project",
+    "title": "Fav effect #1",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "favourite-effect-2",
+    "module": "project",
+    "title": "Fav effect #2",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "favourite-effect-3",
+    "module": "project",
+    "title": "Fav effect #3",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-close",
+    "module": "project",
+    "title": "&Close project",
+    "description": "Close project",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-new",
+    "module": "project",
+    "title": "&New…",
+    "description": "New…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-open",
+    "module": "project",
+    "title": "&Open…",
+    "description": "Open…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-open-recent",
+    "module": "project",
+    "title": "Open recent",
+    "description": "Open recent project",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-save",
+    "module": "project",
+    "title": "&Save",
+    "description": "Save",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-save-as",
+    "module": "project",
+    "title": "Save &as…",
+    "description": "Save as…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-save-to-cloud",
+    "module": "project",
+    "title": "Save to clo&ud…",
+    "description": "Save to cloud…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "file-share-audio",
+    "module": "project",
+    "title": "Share audio",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "frame-statistics",
+    "module": "project",
+    "title": "Frame statistics",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "insert",
+    "module": "project",
+    "title": "Insert",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "keep-tracks-synchronised",
+    "module": "project",
+    "title": "Keep tracks synchronized",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "link-account",
+    "module": "project",
+    "title": "Link account",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "log",
+    "module": "project",
+    "title": "Log",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "macro-fade-ends",
+    "module": "project",
+    "title": "Macro fade ends",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "macro-mp3-conversion",
+    "module": "project",
+    "title": "Macro MP3 conversion",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "manage-macros",
+    "module": "project",
+    "title": "Manage macros",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "menu-tree",
+    "module": "project",
+    "title": "Menu tree",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "midi-device-info",
+    "module": "project",
+    "title": "MIDI device info",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "mixdown-to",
+    "module": "project",
+    "title": "Mix-down to…",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "next-window",
+    "module": "project",
+    "title": "Next window",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "nyquist-plugin-installer",
+    "module": "project",
+    "title": "Nyquist plugin installer",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "nyquist-prompt",
+    "module": "project",
+    "title": "Nyquist prompt",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "open-metadata-editor",
+    "module": "project",
+    "title": "Show metadata editor",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "paste-new-label",
+    "module": "project",
+    "title": "Paste new label",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "plot-spectrum",
+    "module": "project",
+    "title": "Plot spectrum",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "plugin-manager",
+    "module": "project",
+    "title": "Plugin manager",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "prev-window",
+    "module": "project",
+    "title": "Previous window",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "project-import",
+    "module": "project",
+    "title": "Import…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "project-properties",
+    "module": "project",
+    "title": "Project propert&ies…",
+    "description": "Project properties…",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "project-show-in-folder",
+    "module": "project",
+    "title": "Show in Finder",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "raise-segfault",
+    "module": "project",
+    "title": "Raise segfault",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "raw-data-import",
+    "module": "project",
+    "title": "Raw data import",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "regular-interval-labels",
+    "module": "project",
+    "title": "Regular interval labels",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "remove-tracks",
+    "module": "project",
+    "title": "Remove tracks",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "reset-configuration",
+    "module": "project",
+    "title": "Reset configuration",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "sample-data-export",
+    "module": "project",
+    "title": "Sample data export",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "sample-data-import",
+    "module": "project",
+    "title": "Sample data import",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-all",
+    "module": "project",
+    "title": "Select all",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-all-tracks",
+    "module": "project",
+    "title": "Select all tracks",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-cursor-to-next-clip-boundary",
+    "module": "project",
+    "title": "Cursor to next clip boundary",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-cursor-to-track-end",
+    "module": "project",
+    "title": "Cursor to track end",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-left-of-playback-position",
+    "module": "project",
+    "title": "Left of playback position",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-next-clip",
+    "module": "project",
+    "title": "Next clip",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "select-previous-clip",
+    "module": "project",
+    "title": "Previous clip",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-previous-clip-boundary-to-cursor",
+    "module": "project",
+    "title": "Previous clip boundary to cursor",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-right-of-playback-position",
+    "module": "project",
+    "title": "Right of playback position",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-track-start-to-cursor",
+    "module": "project",
+    "title": "Track start to cursor",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-track-start-to-end",
+    "module": "project",
+    "title": "Track start to end",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "set-sound-activation-level",
+    "module": "project",
+    "title": "Set sound activation level",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "set-up-timed-recording",
+    "module": "project",
+    "title": "Set up timed recording",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "skip-to-selection-end",
+    "module": "project",
+    "title": "Skip to selection end",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "skip-to-selection-start",
+    "module": "project",
+    "title": "Skip to selection start",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "sort-by-name",
+    "module": "project",
+    "title": "Sort by name",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "sort-by-time",
+    "module": "project",
+    "title": "Sort by time",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "split-into-new-track",
+    "module": "project",
+    "title": "Split into new track",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "throw-exception",
+    "module": "project",
+    "title": "Throw exception",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "toggle-effects",
+    "module": "project",
+    "title": "Show effects panel",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "toggle-history",
+    "module": "project",
+    "title": "Show history",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "toggle-sound-activated-recording",
+    "module": "project",
+    "title": "Enable sound activating recording",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "toggle-spectral-selection",
+    "module": "project",
+    "title": "Toggle spectral selection",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "trim-clip",
+    "module": "project",
+    "title": "Trim clip",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "tutorials",
+    "module": "project",
+    "title": "Tutorials",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "violate-assertion",
+    "module": "project",
+    "title": "Violate assertion",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "zero-cross",
+    "module": "project",
+    "title": "Move cursor to closest zero crossing",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://delete",
+    "module": "projectscene",
+    "title": "Delete",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED",
+    "checkable": true
+  },
+  {
+    "code": "action://projectscene/track-view-half-wave",
+    "module": "projectscene",
+    "title": "Half-wave",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED",
+    "checkable": true
+  },
+  {
+    "code": "action://trackedit/clip/change-color-auto",
+    "module": "projectscene",
+    "title": "Follow track color",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "action://trackedit/global-view-spectrogram",
+    "module": "projectscene",
+    "title": "Toggle spectral view",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "beats-measures-ruler",
+    "module": "projectscene",
+    "title": "Beats && measures",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "center-view-on-playhead",
+    "module": "projectscene",
+    "title": "Center view on playhead",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "clip-gain",
+    "module": "projectscene",
+    "title": "Clip gain",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "clip-pitch-speed",
+    "module": "projectscene",
+    "title": "Pitch and speed",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "clip-properties",
+    "module": "projectscene",
+    "title": "Clip properties",
+    "description": "Show clip properties",
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "curs-sel-end",
+    "module": "projectscene",
+    "title": "Move playhead to selection end",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "curs-sel-start",
+    "module": "projectscene",
+    "title": "Move playhead to selection start",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "minutes-seconds-ruler",
+    "module": "projectscene",
+    "title": "Minutes && seconds",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "open-label-editor",
+    "module": "projectscene",
+    "title": "Show label editor",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "play-position-decrease",
+    "module": "projectscene",
+    "title": "Move playhead left",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "play-position-increase",
+    "module": "projectscene",
+    "title": "Move playhead right",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "realtime-effect-move-down",
+    "module": "projectscene",
+    "title": "Move realtime effect down",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "realtime-effect-move-up",
+    "module": "projectscene",
+    "title": "Move realtime effect up",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "sel-cntr-left",
+    "module": "projectscene",
+    "title": "Contract selection from left",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "sel-cntr-right",
+    "module": "projectscene",
+    "title": "Contract selection from right",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "sel-ext-left",
+    "module": "projectscene",
+    "title": "Extend selection left",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "sel-ext-right",
+    "module": "projectscene",
+    "title": "Extend selection right",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "show-master-track",
+    "module": "projectscene",
+    "title": "Show master track",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "snap",
+    "module": "projectscene",
+    "title": "Snapping",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "spectral-box-select",
+    "module": "projectscene",
+    "title": "Spectral box select",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "spectral-brush",
+    "module": "projectscene",
+    "title": "Spectral box select",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "split-tool",
+    "module": "projectscene",
+    "title": "Split tool",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "toggle-clipping-in-waveform",
+    "module": "projectscene",
+    "title": "Show clipping in waveform",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED",
+    "checkable": true
+  },
+  {
+    "code": "toggle-pinned-play-head",
+    "module": "projectscene",
+    "title": "Pinned playhead",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "toggle-playback-on-ruler-click-enabled",
+    "module": "projectscene",
+    "title": "Click ruler to start playback",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "toggle-rms-in-waveform",
+    "module": "projectscene",
+    "title": "Show RMS in waveform",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED",
+    "checkable": true
+  },
+  {
+    "code": "toggle-update-display-while-playing",
+    "module": "projectscene",
+    "title": "Update display while playing",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "toggle-vertical-rulers",
+    "module": "projectscene",
+    "title": "Show vertical rulers",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "zoom-default",
+    "module": "projectscene",
+    "title": "Zoom default",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "zoom-in",
+    "module": "projectscene",
+    "title": "Zoom in",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "zoom-out",
+    "module": "projectscene",
+    "title": "Zoom out",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "zoom-to-fit-project",
+    "module": "projectscene",
+    "title": "Zoom to fit project",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "zoom-to-selection",
+    "module": "projectscene",
+    "title": "Zoom to selection",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "zoom-toggle",
+    "module": "projectscene",
+    "title": "Zoom toggle",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://record/lead-in-recording",
+    "module": "record",
+    "title": "Lead-in Recording",
+    "description": "Start lead-in recording",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "action://record/level",
+    "module": "record",
+    "title": "Record level",
+    "description": "Set record level",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "action://record/pause",
+    "module": "record",
+    "title": "Pause",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "action://record/start",
+    "module": "record",
+    "title": "Record",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://record/stop",
+    "module": "record",
+    "title": "Stop",
+    "description": "Stop record",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://record/toggle-input-monitoring",
+    "module": "record",
+    "title": "Turn on input monitoring",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "action://record/toggle-mic-metering",
+    "module": "record",
+    "title": "Show mic metering",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "record-on-current-track",
+    "module": "record",
+    "title": "Record on current track",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "record-on-new-track",
+    "module": "record",
+    "title": "Record on new track",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "track-spectrogram-settings",
+    "module": "spectrogram",
+    "title": "Spectrogram settings…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "action://trackedit/copy",
+    "module": "trackedit",
+    "title": "Copy",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://trackedit/cut",
+    "module": "trackedit",
+    "title": "Cut",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://trackedit/delete",
+    "module": "trackedit",
+    "title": "De&lete",
+    "description": "Delete",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://trackedit/paste-default",
+    "module": "trackedit",
+    "title": "&Paste",
+    "description": "Paste",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://trackedit/paste-insert",
+    "module": "trackedit",
+    "title": "Paste (pushes clips on selected track)",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://trackedit/paste-insert-all-tracks-ripple",
+    "module": "trackedit",
+    "title": "Paste (preserves synchronization on all tracks)",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://trackedit/paste-overlap",
+    "module": "trackedit",
+    "title": "Paste (overlaps other clips)",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_PROJECT_OPENED"
+  },
+  {
+    "code": "action://trackedit/redo",
+    "module": "trackedit",
+    "title": "&Redo",
+    "description": "Redo",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "action://trackedit/track-view-multi",
+    "module": "trackedit",
+    "title": "Multi-view",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "action://trackedit/track-view-spectrogram",
+    "module": "trackedit",
+    "title": "Spectrogram",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "action://trackedit/track-view-waveform",
+    "module": "trackedit",
+    "title": "Waveform",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "action://trackedit/undo",
+    "module": "trackedit",
+    "title": "&Undo",
+    "description": "Undo",
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_DISABLED"
+  },
+  {
+    "code": "clear-selection",
+    "module": "trackedit",
+    "title": "Clear selection",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "clip-export",
+    "module": "trackedit",
+    "title": "Export clip",
+    "description": null,
+    "uiContext": "UiCtxUnknown",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "clip-pitch-speed-open",
+    "module": "trackedit",
+    "title": "Open pitch and speed dialog",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "clip-render-pitch-speed",
+    "module": "trackedit",
+    "title": "Render pitch and speed",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "clip-reset-pitch-speed",
+    "module": "trackedit",
+    "title": "Reset pitch and speed",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "cut-all-tracks-ripple",
+    "module": "trackedit",
+    "title": "Cut and close gap (all tracks)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "cut-leave-gap",
+    "module": "trackedit",
+    "title": "Cut and leave gap",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "cut-per-clip-ripple",
+    "module": "trackedit",
+    "title": "Cut and close gap (per clip)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "cut-per-track-ripple",
+    "module": "trackedit",
+    "title": "Cut and close gap (per track)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "delete-all-tracks-ripple",
+    "module": "trackedit",
+    "title": "Delete and close gap (all tracks)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "delete-leave-gap",
+    "module": "trackedit",
+    "title": "Delete and leave gap",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "delete-per-clip-ripple",
+    "module": "trackedit",
+    "title": "Delete and close gap (per clip)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "delete-per-track-ripple",
+    "module": "trackedit",
+    "title": "Delete and close gap (per track)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "disjoin",
+    "module": "trackedit",
+    "title": "Split clips at silences",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "duplicate",
+    "module": "trackedit",
+    "title": "Duplicate",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "duplicate-clip",
+    "module": "trackedit",
+    "title": "Duplicate clip",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "duplicate-selected",
+    "module": "trackedit",
+    "title": "Duplicate selected",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "group-clips",
+    "module": "trackedit",
+    "title": "Group clips",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "join",
+    "module": "trackedit",
+    "title": "Join selected clips",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "label-add",
+    "module": "trackedit",
+    "title": "Add label",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "merge-selected-on-tracks",
+    "module": "trackedit",
+    "title": "Merge selected clips",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "new-label-track",
+    "module": "trackedit",
+    "title": "New label track",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "new-mono-track",
+    "module": "trackedit",
+    "title": "New mono track",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "new-stereo-track",
+    "module": "trackedit",
+    "title": "New stereo track",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "rename-item",
+    "module": "trackedit",
+    "title": "Rename item (clip/label)",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "select-all",
+    "module": "trackedit",
+    "title": "Select all",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "silence-audio-selection",
+    "module": "trackedit",
+    "title": "Silence",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "split",
+    "module": "trackedit",
+    "title": "Split",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "stretch-clip-to-match-tempo",
+    "module": "trackedit",
+    "title": "Stretch with tempo changes",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY",
+    "checkable": true
+  },
+  {
+    "code": "track-change-rate-custom",
+    "module": "trackedit",
+    "title": "Other…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_DISABLED",
+    "checkable": true
+  },
+  {
+    "code": "track-delete",
+    "module": "trackedit",
+    "title": "Delete",
+    "description": "Delete track",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-duplicate",
+    "module": "trackedit",
+    "title": "Duplicate",
+    "description": "Duplicate track",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-make-stereo",
+    "module": "trackedit",
+    "title": "Make stereo track",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-move-bottom",
+    "module": "trackedit",
+    "title": "Move track to bottom",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-move-down",
+    "module": "trackedit",
+    "title": "Move track down",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-move-top",
+    "module": "trackedit",
+    "title": "Move track to top",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-move-up",
+    "module": "trackedit",
+    "title": "Move track up",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-rename",
+    "module": "trackedit",
+    "title": "Rename",
+    "description": "Rename track",
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-resample",
+    "module": "trackedit",
+    "title": "Resample track…",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-split-stereo-to-center",
+    "module": "trackedit",
+    "title": "Split stereo to center mono",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-split-stereo-to-lr",
+    "module": "trackedit",
+    "title": "Split stereo to L/R mono",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-swap-channels",
+    "module": "trackedit",
+    "title": "Swap stereo channels",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "track-view-above-item",
+    "module": "trackedit",
+    "title": "Above item",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-below-item",
+    "module": "trackedit",
+    "title": "Below item",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-extend-track-selection-next",
+    "module": "trackedit",
+    "title": "Multi track selection next",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-extend-track-selection-prev",
+    "module": "trackedit",
+    "title": "Multi track selection previous",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-first-track",
+    "module": "trackedit",
+    "title": "First track",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-context-menu",
+    "module": "trackedit",
+    "title": "Open item’s context menu",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-extend-left",
+    "module": "trackedit",
+    "title": "Extend item left",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-extend-right",
+    "module": "trackedit",
+    "title": "Extend item right",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-move-down",
+    "module": "trackedit",
+    "title": "Move item down",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-move-left",
+    "module": "trackedit",
+    "title": "Move item left",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-move-right",
+    "module": "trackedit",
+    "title": "Move item right",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-move-up",
+    "module": "trackedit",
+    "title": "Move item up",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-reduce-left",
+    "module": "trackedit",
+    "title": "Reduce item left",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-item-reduce-right",
+    "module": "trackedit",
+    "title": "Reduce item right",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-last-track",
+    "module": "trackedit",
+    "title": "Last track",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-next-panel",
+    "module": "trackedit",
+    "title": "Next panel",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-prev-panel",
+    "module": "trackedit",
+    "title": "Previous panel",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-range-selection",
+    "module": "trackedit",
+    "title": "Track range selection",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-replace-selection",
+    "module": "trackedit",
+    "title": "Select track/track item",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "track-view-toggle-selection",
+    "module": "trackedit",
+    "title": "Add track or track item to selection",
+    "description": null,
+    "uiContext": "UiCtxProjectFocused",
+    "shortcutContext": "CTX_PROJECT_FOCUSED"
+  },
+  {
+    "code": "trim-audio-outside-selection",
+    "module": "trackedit",
+    "title": "Trim",
+    "description": null,
+    "uiContext": "UiCtxProjectOpened",
+    "shortcutContext": "CTX_ANY"
+  },
+  {
+    "code": "ungroup-clips",
+    "module": "trackedit",
+    "title": "Ungroup clips",
+    "description": null,
+    "uiContext": "UiCtxAny",
+    "shortcutContext": "CTX_ANY"
+  }
+]

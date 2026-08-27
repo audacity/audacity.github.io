@@ -92,7 +92,30 @@ export default defineConfig({
         "Cannot read properties of null (reading 'useMemo')" during hydration,
         which takes down every island on /about that uses it.
       */
-      include: ["@dilsonspickles/components", "react", "react-dom"],
+      include: [
+        "@dilsonspickles/components",
+        // Deep-subpath island imports must be pre-bundled in the SAME
+        // optimize pass as react. A subpath first discovered while the dev
+        // server is running lands in a second pass with its own React copy,
+        // and every island on the page dies on "null useState" — add new
+        // interactive-island subpaths here BEFORE starting the server.
+        "@dilsonspickles/components/TrackControlPanel",
+        "@dilsonspickles/components/TrackControlSidePanel",
+        "@dilsonspickles/components/Toolbar",
+        "@dilsonspickles/components/TransportButton",
+        "@dilsonspickles/components/ToolButton",
+        "@dilsonspickles/components/ApplicationHeader",
+        "@dilsonspickles/components/ProjectToolbar",
+        "@dilsonspickles/components/TimelineRuler",
+        "@dilsonspickles/components/Clip",
+        "@dilsonspickles/components/MasterMeter",
+        "@dilsonspickles/components/SelectionToolbar",
+        "@dilsonspickles/components/VerticalRuler",
+        "@dilsonspickles/components/PlayheadCursor",
+        "@dilsonspickles/components/TimeCode",
+        "react",
+        "react-dom",
+      ],
     },
     build: {
       assets: "assets",

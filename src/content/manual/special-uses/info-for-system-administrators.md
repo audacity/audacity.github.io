@@ -2,8 +2,8 @@
 title: Info for System Administrators
 description: Information regarding deployment and compliance for Audacity in
   schools, businesses, institutions and enterprises
-section: Special uses
-sectionOrder: 5
+section: "Reference"
+sectionOrder: 60
 order: 2
 ---
 

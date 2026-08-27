@@ -27,10 +27,126 @@ import {
   CLIP_WAVEFORM_RIGHT,
 } from "./waveformData";
 
+/*
+  Navigation callbacks for interactive specimens — the toolbar-page
+  pattern: a specimen's control takes you to the page documenting it.
+  Plain functions (no imports) so this module stays test-loadable; they
+  touch window only when called, never at module scope.
+*/
+const go = (href: string) => {
+  if (typeof window !== "undefined") window.location.href = href;
+};
+const GO_MENU = (item: string) =>
+  go(`/manual/manual-index/header/${item.toLowerCase()}`);
+const GO_PROJECT_TAB = (item: string) =>
+  go(
+    item === "export"
+      ? "/manual/manual-index/export-menu"
+      : `/manual/manual-index/project-management-menu/${item}`,
+  );
+const GO_AUDIO_SETUP = () => go("/manual/manual-index/hotbar/audio-setup");
+const GO_SHARE_AUDIO = () => go("/manual/manual-index/hotbar/share-audio");
+const GO_GET_EFFECTS = () => go("/manual/manual-index/hotbar/get-effects");
+const GO_UNDO = () => go("/manual/manual-index/header/edit#undo");
+const GO_REDO = () => go("/manual/manual-index/header/edit#redo");
+const GO_WORKSPACE = (value: string) =>
+  go(`/manual/manual-index/workspaces/${value}`);
+const GO_TCP = (anchor: string) => () =>
+  go(`/manual/manual-index/track-control-panel/audio-track-item#${anchor}`);
+
 export const UI_EXAMPLE_VARIANT_PROPS: Record<
   string,
   Record<string, Record<string, unknown>>
 > = {
+  "application-header": {
+    windows: {
+      os: "windows",
+      appName: "Audacity",
+      onMenuItemClick: GO_MENU,
+      menuItems: [
+        "File",
+        "Edit",
+        "Select",
+        "View",
+        "Record",
+        "Tracks",
+        "Generate",
+        "Effect",
+        "Analyze",
+        "Tools",
+        "Help",
+      ],
+    },
+    macos: { os: "macos", appName: "Audacity" },
+  },
+  "project-toolbar": {
+    default: {
+      activeItem: "project",
+      onMenuItemClick: GO_PROJECT_TAB,
+      centerActions: [
+        { icon: "cog", label: "Audio setup", onClick: GO_AUDIO_SETUP },
+        { icon: "cloud", label: "Share audio", onClick: GO_SHARE_AUDIO },
+        { icon: "plugins", label: "Get effects", onClick: GO_GET_EFFECTS },
+      ],
+      historyActions: { onUndo: GO_UNDO, onRedo: GO_REDO },
+      workspaceSelector: {
+        value: "modern",
+        label: "",
+        width: "120px",
+        options: [
+          { value: "modern", label: "Modern" },
+          { value: "classic", label: "Classic" },
+          { value: "music", label: "Music" },
+        ],
+        onChange: GO_WORKSPACE,
+      },
+    },
+  },
+  "track-control-panel": {
+    stereo: {
+      trackName: "Vocals",
+      trackType: "stereo",
+      volume: 75,
+      pan: 0,
+      meterLevelLeft: 62,
+      meterLevelRight: 55,
+      onMuteToggle: GO_TCP("mute"),
+      onSoloToggle: GO_TCP("solo"),
+      onVolumeChange: GO_TCP("volume"),
+      onPanChange: GO_TCP("panning"),
+      onEffectsClick: GO_TCP("effects"),
+      onMenuClick: GO_TCP("track-options"),
+    },
+    mono: {
+      trackName: "Music",
+      trackType: "mono",
+      volume: 60,
+      pan: -20,
+      meterLevel: 40,
+      onMuteToggle: GO_TCP("mute"),
+      onSoloToggle: GO_TCP("solo"),
+      onVolumeChange: GO_TCP("volume"),
+      onPanChange: GO_TCP("panning"),
+      onEffectsClick: GO_TCP("effects"),
+      onMenuClick: GO_TCP("track-options"),
+    },
+  },
+  "timeline-ruler": {
+    default: { pixelsPerSecond: 24, totalDuration: 40, width: 640 },
+  },
+  "vertical-ruler": {
+    default: { height: 200 },
+  },
+  "selection-toolbar": {
+    default: {
+      status: "Stopped",
+      instructionText: "Click and drag to select audio",
+    },
+  },
+  timecode: {
+    zero: { value: 0 },
+    running: { value: 83.5 },
+  },
   button: {
     primary: { variant: "primary", children: "Export" },
     secondary: { variant: "secondary", children: "Cancel" },

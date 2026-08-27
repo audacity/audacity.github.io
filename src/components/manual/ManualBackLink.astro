@@ -1,0 +1,50 @@
+---
+/*
+  Back control for manual article pages.
+
+  Server-rendered as a plain link to the page's stream landing, so it works
+  without JavaScript and on direct loads. When the visitor actually arrived
+  from another manual page — clicking through the project-window explorer,
+  a toolbar button, a cross-link — the inline script relabels it "Back" and
+  makes it a real history step, returning them exactly where they were,
+  scroll position included.
+*/
+interface Props {
+  fallbackHref: string;
+  fallbackLabel: string;
+}
+
+const { fallbackHref, fallbackLabel } = Astro.props;
+---
+
+<a
+  href={fallbackHref}
+  data-manual-back
+  class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-700 transition-colors"
+>
+  <span aria-hidden="true">←</span>
+  <span data-manual-back-label>{fallbackLabel}</span>
+</a>
+
+<script>
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-manual-back]")
+    .forEach((link) => {
+      let cameFromManual = false;
+      try {
+        const ref = new URL(document.referrer);
+        cameFromManual =
+          ref.origin === location.origin && ref.pathname.startsWith("/manual");
+      } catch {
+        /* no or unparsable referrer — keep the fallback link */
+      }
+      if (!cameFromManual) return;
+
+      const label = link.querySelector("[data-manual-back-label]");
+      if (label) label.textContent = "Back";
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        history.back();
+      });
+    });
+</script>

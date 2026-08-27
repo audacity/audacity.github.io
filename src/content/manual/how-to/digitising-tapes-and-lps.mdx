@@ -1,0 +1,93 @@
+---
+title: "Digitising tapes and records"
+description: Capture a cassette or an LP into Audacity at a safe level, then split the side into songs and clean it up.
+section: "Everyday tasks"
+sectionOrder: 10
+order: 3
+draft: false
+stream: "how-to"
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Transferring a tape or a record means recording it in real time: you press
+record, play the side through, and then do the editing afterwards. The part
+that decides how good the result is happens before you start — getting the
+signal into the computer cleanly and setting a level that does not clip. This
+page covers the capture, then splitting the side into songs and tidying it up.
+
+## Before you start
+
+You need the deck or turntable connected to an input the computer can see. A
+cassette deck's line output goes to a line input on an audio interface, or to
+the line input of a USB device. A turntable needs a phono stage before it
+reaches a line input, either built into the turntable or as a separate box —
+plugged straight into a line input, a magnetic cartridge sounds thin and very
+quiet.
+
+Clean the record and the tape heads first. Nothing later in this page recovers
+a transfer as well as not adding the noise in the first place.
+
+## Steps
+
+1. Choose the input. Open **Audio setup** in the hotbar and set **Recording
+   device** to the interface you have connected, and **Recording channels** to
+   2 (Stereo). See
+   [Audio setup](/manual/manual-index/hotbar/audio-setup) for the whole menu.
+2. Turn on metering so you can see the input before you commit to a take. In a
+   track's menu, under **Meters & monitoring**, switch on **Show mic metering**
+   and, if you want to hear the input through your headphones, **Turn on input
+   monitoring**. Monitoring on speakers rather than headphones can feed back.
+3. Set the record level. Play the loudest passage on the side — usually the
+   first track on an LP, or a chorus — and watch the meter while you adjust the
+   level with the
+   [record level](/manual/manual-index/toolbar#record-level) control. Aim for
+   peaks that sit comfortably below the top of the meter. Clipping cannot be
+   undone afterwards, and a transfer a few dB quieter than it might have been
+   costs you nothing.
+4. Record the side. **Record → Record on new track** starts a take in a fresh
+   track from the playhead position, leaving anything already in the project
+   alone. Start the recording a second or two before you drop the needle or
+   press play on the deck, so nothing is clipped off the front.
+5. Let the whole side run, then stop. Do not stop and start between songs —
+   one continuous take is easier to split accurately than several takes are to
+   line up.
+6. Split the side into songs. **Edit → Clip → Split clips at silences**,
+   <Shortcut client:load keys="cmd+alt+j" />, uses the gaps between tracks as
+   the boundaries and gives you one clip per song. Check the result: applause,
+   fades and segues defeat it, and you can add the missing divisions by hand
+   with **Edit → Clip → Split**, <Shortcut client:load keys="cmd+i" />.
+7. Name the songs. Select a clip and press <Shortcut client:load keys="f2" />
+   to rename it, or mark the boundaries with labels using
+   **Edit → Label → Add label**, <Shortcut client:load keys="cmd+b" />.
+8. Clean up what the source added. Take the steady hiss or hum first with
+   [removing background noise](/manual/how-to/noise-reduction), then the vinyl
+   crackle with
+   [removing clicks and pops](/manual/how-to/click-and-pop-removal). That order
+   matters: a click removal pass changes the noise floor that the noise profile
+   was taken from.
+9. Export each song. Select a clip, then **File → Export audio** with **Type**
+   set to **Export selected audio**. Repeat for each song, naming the files as
+   you go. See [Export audio](/manual/manual-index/header/file#export-audio),
+   and
+   [splitting a long recording into separate tracks](/manual/how-to/splitting-a-recording)
+   for the label-driven version of this step.
+
+## Notes
+
+Save the project before you start editing, and keep it. The unedited transfer
+is the only copy of that playback — every later decision can be revisited from
+the project, but not from an exported file.
+
+Cut heads and tails after the noise work, not before. Both cleanup effects want
+a stretch of the run-in groove or blank tape to learn from, and if you have
+already trimmed it off you have thrown away the only clean sample of the noise.
+
+If a whole side came in quiet, correct it once at the end with
+[Normalize](/manual/manual-index/egat/effects/volume-and-compression/normalize)
+across the whole side rather than song by song, so the relative levels the
+record was mastered with survive.
+
+Audacity 4 exports one file at a time, so a twelve-track album is twelve trips
+through the export dialog. It is worth naming every clip first, before you
+start exporting, rather than deciding on names one at a time.

@@ -1,0 +1,44 @@
+---
+title: "Analyze"
+section: "Menus"
+sectionOrder: 20
+order: 59
+description: The Analyze menu inspects audio without changing it.
+draft: false
+---
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
+
+The **Analyze** menu inspects your audio without changing it — measuring
+levels, finding features, or displaying frequency content.
+
+Below a separator, the menu lists the available analyzers. That list is
+populated from your installed plugins, so its exact contents depend on what is
+installed on your machine — the built-in Nyquist set includes Beat finder,
+Label sounds and Measure RMS. The individual analyzers are documented in the
+[Analyzers](/manual/manual-index/egat/analyzers) section of this manual.
+
+## Plugin manager
+
+Enable and disable the plugins that provide analyzers — the same dialog as
+[Plugin manager](/manual/manual-index/header/effect#plugin-manager) on the
+Effect menu.
+
+## Contrast analyzer
+
+Compares the volume of two selections — typically speech in the foreground
+against the background behind it — and reports the difference between them.
+It exists to check that spoken content is loud enough relative to its
+background, as accessibility guidelines require. Shortcut:
+<Shortcut client:load keys="cmd+shift+t" />.
+
+In the current Audacity 4 alpha the menu item is present but the analyzer
+window itself has not yet been implemented.
+
+## Plot spectrum
+
+Analyses the selected audio and plots how much energy it contains at each
+frequency — a snapshot of the selection's tonal content, useful for spotting
+hum, resonances or how bright or dark a recording is overall.
+
+In the current Audacity 4 alpha the menu item is present but the spectrum
+window itself has not yet been implemented.

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "general",
+    "title": "General",
+    "qmlPage": "Preferences/GeneralPreferencesPage.qml"
+  },
+  {
+    "id": "appearance",
+    "title": "Appearance",
+    "qmlPage": "Preferences/AppearancePreferencesPage.qml"
+  },
+  {
+    "id": "audio-settings",
+    "title": "Audio settings",
+    "qmlPage": "Preferences/AudioPreferencesPage.qml"
+  },
+  {
+    "id": "editing",
+    "title": "Audio editing",
+    "qmlPage": "Preferences/EditPreferencesPage.qml"
+  },
+  {
+    "id": "playback-recording",
+    "title": "Playback/Recording",
+    "qmlPage": "Preferences/PlaybackPreferencesPage.qml"
+  },
+  {
+    "id": "spectral-display",
+    "title": "Spectral display",
+    "qmlPage": "Preferences/SpectrogramPreferencesPage.qml"
+  },
+  {
+    "id": "music",
+    "title": "Music",
+    "qmlPage": "Preferences/MusicPreferencesPage.qml"
+  },
+  {
+    "id": "cloud",
+    "title": "Cloud",
+    "qmlPage": null
+  },
+  {
+    "id": "shortcuts",
+    "title": "Shortcuts",
+    "qmlPage": "Preferences/ShortcutsPreferencesPage.qml"
+  },
+  {
+    "id": "plugin",
+    "title": "Plugins",
+    "qmlPage": "Preferences/PluginPreferencesPage.qml"
+  },
+  {
+    "id": "advanced",
+    "title": "Advanced options",
+    "qmlPage": null
+  }
+]

@@ -1,9 +1,32 @@
 ---
 title: "High-pass Filter"
-section: "EGAT"
-sectionOrder: 140
+section: "Effects and plugins"
+sectionOrder: 30
 order: 42
+description: Attenuate frequencies below a chosen cutoff and leave the ones above it.
 draft: false
 ---
 
-_This page is a stub. Content coming soon._
+Passes frequencies above the cutoff and progressively attenuates everything
+below it. It is the usual first move against rumble, handling noise, air
+conditioning and other low-frequency mush on a spoken-word recording.
+
+## Where to find it
+
+**Effect → EQ and filters → High-pass filter**.
+
+## Controls
+
+- **Frequency (Hz)** — the cutoff. Default 1000, minimum 0.
+- **Roll-off (dB per octave)** — how steeply the level falls away below the
+  cutoff: 6, 12, 24, 36 or 48 dB. Default 6 dB.
+
+## Notes
+
+The cutoff is the point at which attenuation begins, not a hard wall — with a
+6 dB roll-off the reduction is gentle and reaches into the passband, while 48
+dB cuts away much more sharply just below the cutoff.
+
+For speech, a cutoff somewhere between 60 and 100 Hz removes rumble without
+thinning the voice. The effect has a preview, so try a setting before
+applying it.

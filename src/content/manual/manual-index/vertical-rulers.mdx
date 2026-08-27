@@ -1,9 +1,41 @@
 ---
 title: "Vertical Rulers"
-section: "Vertical Rulers"
-sectionOrder: 80
+section: "The Audacity window"
+sectionOrder: 10
 order: 1
+description: The per-track scale down the right-hand edge of the tracks area, and how to change its format.
 draft: false
 ---
+import UIExample from "../../../components/manual/UIExample/UIExample";
 
-_This page is a stub. Content coming soon._
+The vertical rulers are a narrow strip down the right-hand edge of the tracks
+area. Each audio track gets its own ruler, lined up with that track's height,
+giving you a scale to read the waveform against. Label tracks have no ruler.
+
+They are hidden by default. Turn them on with
+[View → Show vertical rulers](/manual/manual-index/header/view#show-vertical-rulers),
+or by right-clicking the
+[timeline ruler](/manual/manual-index/timeline/show-vertical-rulers). The
+setting applies to the whole application, not to one project.
+
+<UIExample component="vertical-ruler" variant="default" client:load />
+
+## What the rulers show
+
+For a track shown as a waveform, the ruler is an amplitude scale. For a track
+shown as a spectrogram, it is a frequency scale instead. A track showing both
+views gets both, stacked to match, and a stereo track gets one scale per
+channel.
+
+## Changing a ruler
+
+Click a waveform ruler to open its options:
+
+- **Zoom in**, **Zoom out** and **Reset** — change the vertical zoom of that
+  track's waveform, or return it to the default.
+- **Ruler format** — choose between **Logarithmic (dB)**, **Linear (dB)** and
+  **Linear (amp)**.
+- **Half wave** — show only half of the waveform rather than both sides of
+  the centre line.
+
+The choices are made per track and saved with the project.

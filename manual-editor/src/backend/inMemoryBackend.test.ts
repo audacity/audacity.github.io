@@ -4,7 +4,7 @@ import { InMemoryBackend, loadCorpusSeed } from "./inMemoryBackend";
 test("lists the real corpus pages with parsed frontmatter", async () => {
   const backend = new InMemoryBackend(loadCorpusSeed());
   const pages = await backend.listPages();
-  expect(pages.length).toBeGreaterThan(200);
+  expect(pages.length).toBeGreaterThan(150);
   const ffmpeg = pages.find((p) => p.slug === "basics/installing-ffmpeg");
   expect(ffmpeg).toBeDefined();
   expect(ffmpeg!.title.length).toBeGreaterThan(0);

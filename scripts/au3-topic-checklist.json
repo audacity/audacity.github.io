@@ -1,0 +1,311 @@
+{
+  "_comment": "Target-state checklist derived from manual.audacityteam.org (the AU3 manual): the topics a complete Audacity manual covers, mapped to AU4. status: applies (write for AU4) | changed (concept survives, AU4 reworked it) | verify (unclear whether AU4 has this yet) | dropped (not in AU4). stream: which manual stream the topic belongs to. match: extra titles the audit should accept as covering the topic. Consumed by scripts/au4-audit.ts.",
+  "topics": [
+    {
+      "id": "projects",
+      "title": "Audacity projects",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Project Management Menu", "Saving and exporting projects"]
+    },
+    {
+      "id": "basic-workflow",
+      "title": "How to use Audacity",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["First steps", "Install Audacity", "Audacity editing"]
+    },
+    {
+      "id": "preferences",
+      "title": "Preferences",
+      "stream": "reference",
+      "status": "applies"
+    },
+    {
+      "id": "toolbars",
+      "title": "Toolbars overview",
+      "stream": "reference",
+      "status": "changed",
+      "match": ["Toolbar"]
+    },
+    {
+      "id": "shortcuts",
+      "title": "Keyboard shortcut reference",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Keyboard shortcuts"]
+    },
+    {
+      "id": "mouse-bindings",
+      "title": "Mouse bindings",
+      "stream": "reference",
+      "status": "applies"
+    },
+    {
+      "id": "effects-index",
+      "title": "Index of effects, generators and analyzers",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["EGAT"]
+    },
+    {
+      "id": "manage-plugins",
+      "title": "Managing effects, generators and analyzers",
+      "stream": "reference",
+      "status": "changed",
+      "match": ["Plugin manager"]
+    },
+    {
+      "id": "macros",
+      "title": "Macros",
+      "stream": "reference",
+      "status": "verify",
+      "match": ["Manage macros"]
+    },
+    {
+      "id": "nyquist",
+      "title": "Nyquist",
+      "stream": "reference",
+      "status": "applies"
+    },
+    {
+      "id": "audio-tracks",
+      "title": "Audio tracks",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Track Control Panel"]
+    },
+    {
+      "id": "waveform",
+      "title": "Audacity waveform",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Waveform"]
+    },
+    {
+      "id": "spectrogram-view",
+      "title": "Spectrogram view",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Spectrogram", "Toggle spectral view"]
+    },
+    {
+      "id": "tracks-and-clips",
+      "title": "Tracks and clips",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Clip"]
+    },
+    {
+      "id": "label-tracks",
+      "title": "Label tracks",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Label track"]
+    },
+    {
+      "id": "note-tracks",
+      "title": "Note (MIDI) tracks",
+      "stream": "reference",
+      "status": "dropped",
+      "note": "AU4 TrackType enum is {Undefined, Mono, Stereo, Label} — no note/MIDI track type. Export MIDI exists in the File menu but is disabled."
+    },
+    {
+      "id": "time-tracks",
+      "title": "Time tracks",
+      "stream": "reference",
+      "status": "dropped",
+      "note": "No time-track type in AU4. The au3 layer only retains a TimeTrackDetector for legacy AU3 projects."
+    },
+    {
+      "id": "mixer-board",
+      "title": "Mixer board",
+      "stream": "reference",
+      "status": "dropped",
+      "note": "No mixer board in AU4 — zero references in src/."
+    },
+    {
+      "id": "timeline",
+      "title": "Timeline",
+      "stream": "reference",
+      "status": "applies"
+    },
+    {
+      "id": "envelopes",
+      "title": "Volume envelopes",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Envelope", "Clip gain"]
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "stream": "reference",
+      "status": "applies"
+    },
+    {
+      "id": "importing",
+      "title": "Importing audio",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Import"]
+    },
+    {
+      "id": "exporting",
+      "title": "Exporting audio",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Export audio", "Export Menu", "Saving and exporting projects"]
+    },
+    {
+      "id": "recording-basics",
+      "title": "Recording",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Recording your voice and microphone", "Record"]
+    },
+    {
+      "id": "playback",
+      "title": "Playing audio",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Play", "Playback"]
+    },
+    {
+      "id": "editing-basics",
+      "title": "Basic audio editing",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Audacity editing", "First steps"]
+    },
+    {
+      "id": "selecting",
+      "title": "Selecting audio",
+      "stream": "getting-started",
+      "status": "applies",
+      "match": ["Selection", "Select"]
+    },
+    {
+      "id": "undo-history",
+      "title": "Undo, redo and history",
+      "stream": "reference",
+      "status": "applies",
+      "match": ["Undo", "History panel"]
+    },
+    {
+      "id": "workspaces-custom",
+      "title": "Customising the layout (workspaces)",
+      "stream": "reference",
+      "status": "changed",
+      "match": ["Workspaces"]
+    },
+    {
+      "id": "themes",
+      "title": "Themes and appearance",
+      "stream": "reference",
+      "status": "changed",
+      "match": ["Appearance"]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-punch-in",
+      "title": "Punch-in repair of recording fluffs",
+      "stream": "how-to",
+      "status": "applies",
+      "match": ["Punch and Roll Recording"]
+    },
+    {
+      "id": "tut-voice-music",
+      "title": "Mixing voice with background music",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-multitrack",
+      "title": "Using multi-track",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-overdubs",
+      "title": "Recording multi-track overdubs",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-ringtones",
+      "title": "Making ringtones and IVR messages",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-lp-digitisation",
+      "title": "Copying tapes and LPs to computer",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-split-tracks",
+      "title": "Splitting a recording into separate tracks",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-streaming",
+      "title": "Recording streaming audio playing on the computer",
+      "stream": "how-to",
+      "status": "applies",
+      "match": ["Recording desktop audio"]
+    },
+    {
+      "id": "tut-clicks",
+      "title": "Click and pop removal",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-noise",
+      "title": "Noise reduction and removal",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-vocal-removal",
+      "title": "Vocal removal and isolation",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-looping",
+      "title": "Looping",
+      "stream": "how-to",
+      "status": "applies",
+      "match": ["Toggle loop region"]
+    },
+    {
+      "id": "tut-spectral",
+      "title": "Spectral analysis",
+      "stream": "how-to",
+      "status": "applies",
+      "match": ["Plot spectrum"]
+    },
+    {
+      "id": "tut-audiobook",
+      "title": "Audiobook mastering",
+      "stream": "how-to",
+      "status": "applies"
+    },
+    {
+      "id": "tut-editing",
+      "title": "Editing audio (tutorial)",
+      "stream": "how-to",
+      "status": "applies",
+      "match": ["Audacity editing"]
+    }
+  ]
+}
