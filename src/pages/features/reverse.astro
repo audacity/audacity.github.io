@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,62 +9,17 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Reverse Audio Effect – Play Sound Backwards | Audacity"
   description="Reverse audio in Audacity in one click. Play selections backwards for drops, reverse reverb, backmasking, and sound design. Free for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/reverse/"
+  heading="Reverse Audio in Audacity – Play Any Selection Backwards"
+  standfirst="Reverse audio in one click. Play selections backwards for drops, reverse reverb, backmasking, and sound design."
+  breadcrumb="Reverse Audio"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <!-- Left Column - Text Content -->
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Reverse Audio in Audacity &ndash; Play Any Selection Backwards
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Reverse audio in one click. Play selections backwards for drops,
-              reverse reverb, backmasking, and sound design.
-            </p>
-
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript>
-                <DownloadMuseHubButton client:load />
-              </noscript>
-              <DownloadButton client:load />
-              <noscript>
-                <DownloadButton client:load />
-              </noscript>
-            </div>
-          </div>
-
-          <!-- Right Column - Image -->
-          <div class="hidden md:block md:w-1/2">
-            <div class="relative">
-              <Image
-                src={AudacityMockUp}
-                alt="A laptop showing the Audacity application"
-                width={668}
-                quality={80}
-                loading="eager"
-                class="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
-  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Reverse audio in 4 steps:
     </h3>
-    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+    <ol class="list-decimal space-y-2 pl-5 text-text-primary/70">
       <li>Import or record the audio you want to play backwards</li>
       <li>
         Click-and-drag to select the region (or press <Shortcut keys="Ctrl+A" /> for
@@ -190,48 +143,58 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <h2>Reverse vs. Invert in Audacity</h2>
   <div class="not-prose overflow-x-auto my-6">
-    <table class="w-full text-sm border-collapse">
+    <table class="w-full text-16 border-collapse">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="border border-gray-300 px-3 py-2 text-left">Effect</th>
-          <th class="border border-gray-300 px-3 py-2 text-left"
+        <tr class="bg-background-light">
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Effect</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
             >What It Flips</th
           >
-          <th class="border border-gray-300 px-3 py-2 text-left"
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
             >Audible Result</th
           >
-          <th class="border border-gray-300 px-3 py-2 text-left">Parameters</th>
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Parameters</th
+          >
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="border border-gray-300 px-3 py-2 font-medium">Reverse</td>
-          <td class="border border-gray-300 px-3 py-2">Sample order in time</td>
-          <td class="border border-gray-300 px-3 py-2"
+          <td class="border border-text-primary/15 px-3 py-2 font-medium"
+            >Reverse</td
+          >
+          <td class="border border-text-primary/15 px-3 py-2"
+            >Sample order in time</td
+          >
+          <td class="border border-text-primary/15 px-3 py-2"
             >Audio plays backwards — end first, start last</td
           >
-          <td class="border border-gray-300 px-3 py-2">None</td>
+          <td class="border border-text-primary/15 px-3 py-2">None</td>
         </tr>
-        <tr class="bg-gray-50">
-          <td class="border border-gray-300 px-3 py-2">Invert</td>
-          <td class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light">
+          <td class="border border-text-primary/15 px-3 py-2">Invert</td>
+          <td class="border border-text-primary/15 px-3 py-2"
             >Signal polarity (phase)</td
           >
-          <td class="border border-gray-300 px-3 py-2"
+          <td class="border border-text-primary/15 px-3 py-2"
             >Sounds identical on its own; cancels when mixed with the unflipped
             copy</td
           >
-          <td class="border border-gray-300 px-3 py-2">None</td>
+          <td class="border border-text-primary/15 px-3 py-2">None</td>
         </tr>
         <tr>
-          <td class="border border-gray-300 px-3 py-2">Repeat</td>
-          <td class="border border-gray-300 px-3 py-2"
+          <td class="border border-text-primary/15 px-3 py-2">Repeat</td>
+          <td class="border border-text-primary/15 px-3 py-2"
             >Copies the selection N times</td
           >
-          <td class="border border-gray-300 px-3 py-2"
+          <td class="border border-text-primary/15 px-3 py-2"
             >Used with Reverse for forward-then-backward loops and palindromes</td
           >
-          <td class="border border-gray-300 px-3 py-2">Number of times</td>
+          <td class="border border-text-primary/15 px-3 py-2"
+            >Number of times</td
+          >
         </tr>
       </tbody>
     </table>

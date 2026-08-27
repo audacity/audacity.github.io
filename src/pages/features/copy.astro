@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,52 +9,17 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Copy Audio – Copy Selection to Clipboard | Audacity"
   description="Copy selected audio to the clipboard without removing it. Reuse sections, move audio between tracks, back up before editing. Free for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/copy/"
+  heading="Copy Audio in Audacity – Send Any Selection to the Clipboard"
+  standfirst="Copy any selection without removing the original, then paste it anywhere in the same track, another track, or another project."
+  breadcrumb="Copy Audio"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Copy Audio in Audacity &ndash; Send Any Selection to the Clipboard
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Copy any selection without removing the original, then paste it
-              anywhere in the same track, another track, or another project.
-            </p>
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript><DownloadMuseHubButton client:load /></noscript>
-              <DownloadButton client:load />
-              <noscript><DownloadButton client:load /></noscript>
-            </div>
-          </div>
-          <div class="hidden md:block md:w-1/2">
-            <Image
-              src={AudacityMockUp}
-              alt="A laptop showing the Audacity application"
-              width={668}
-              quality={80}
-              loading="eager"
-              class="w-full h-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
-  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Copy audio in 4 steps:
     </h3>
-    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+    <ol class="list-decimal list-inside space-y-2 text-text-primary/70">
       <li>Select the waveform range you want to copy</li>
       <li>
         Press <Shortcut keys="Ctrl+C" /> (or Cmd+C on Mac), or use Edit &gt; Copy
@@ -123,19 +86,21 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <h2>Copy vs Cut vs Duplicate</h2>
   <div
-    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+    class="not-prose my-8 overflow-x-auto rounded-xl border border-text-primary/15 bg-white"
   >
-    <table class="w-full text-sm text-left">
+    <table class="w-full text-16 text-left">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="px-4 py-3 font-semibold text-gray-900">Command</th>
-          <th class="px-4 py-3 font-semibold text-gray-900"
+        <tr class="bg-background-light">
+          <th class="px-4 py-3 font-semibold text-text-primary">Command</th>
+          <th class="px-4 py-3 font-semibold text-text-primary"
             >Source After Command</th
           >
-          <th class="px-4 py-3 font-semibold text-gray-900">Clipboard Used</th>
+          <th class="px-4 py-3 font-semibold text-text-primary"
+            >Clipboard Used</th
+          >
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200 text-gray-700">
+      <tbody class="divide-y divide-text-primary/10 text-text-primary/70">
         <tr
           ><td class="px-4 py-3">Copy</td><td class="px-4 py-3">Unchanged</td
           ><td class="px-4 py-3">Yes</td></tr

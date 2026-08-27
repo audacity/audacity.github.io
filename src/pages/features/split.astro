@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,53 +9,17 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Split Audio into Clips – Free Split Tool | Audacity"
   description="Split audio into separate clips at the cursor with Audacity. Use Ctrl+I to divide recordings for editing or export. Free for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/split/"
+  heading="Split Audio into Separate Clips with Audacity"
+  standfirst='Split audio into independent clips at the cursor with <Shortcut keys="Ctrl+I" variant="hero" />. Non-destructive — no audio removed, just new clip boundaries.'
+  breadcrumb="Split Audio"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Split Audio into Separate Clips with Audacity
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Split audio into independent clips at the cursor with
-              <Shortcut keys="Ctrl+I" variant="hero" />. Non-destructive — no
-              audio removed, just new clip boundaries.
-            </p>
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript><DownloadMuseHubButton client:load /></noscript>
-              <DownloadButton client:load />
-              <noscript><DownloadButton client:load /></noscript>
-            </div>
-          </div>
-          <div class="hidden md:block md:w-1/2">
-            <Image
-              src={AudacityMockUp}
-              alt="A laptop showing the Audacity application"
-              width={668}
-              quality={80}
-              loading="eager"
-              class="w-full h-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
-  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Split audio in 4 steps:
     </h3>
-    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+    <ol class="list-decimal space-y-2 pl-5 text-text-primary/70">
       <li>
         Click the waveform at the point where you want to split, or drag to
         select a region
@@ -162,70 +124,77 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <h2>Split vs Cut vs Trim vs Join</h2>
   <div class="not-prose overflow-x-auto my-6">
-    <table class="w-full text-sm border-collapse">
+    <table class="w-full text-16 border-collapse">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="border border-gray-300 px-3 py-2 text-left">Command</th>
-          <th class="border border-gray-300 px-3 py-2 text-left">Shortcut</th>
-          <th class="border border-gray-300 px-3 py-2 text-left"
+        <tr class="bg-background-light">
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Command</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Shortcut</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
             >Removes Audio?</th
           >
-          <th class="border border-gray-300 px-3 py-2 text-left"
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
             >What Happens</th
           >
         </tr>
       </thead>
       <tbody>
         <tr
-          ><td class="border border-gray-300 px-3 py-2 font-medium">Split</td
-          ><td class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2 font-medium"
+            >Split</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+I" /></td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Creates clip boundaries — audio stays in place</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">Split New</td><td
-            class="border border-gray-300 px-3 py-2">&mdash;</td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">Split New</td><td
+            class="border border-text-primary/15 px-3 py-2">&mdash;</td
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Moves selection to a new track, leaves silence on original</td
           ></tr
         >
         <tr
-          ><td class="border border-gray-300 px-3 py-2">Split Cut</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Split Cut</td><td
+            class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+Alt+X" /></td
-          ><td class="border border-gray-300 px-3 py-2">Yes (to clipboard)</td
-          ><td class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2"
+            >Yes (to clipboard)</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             >Cuts to clipboard, leaves silence — no ripple shift</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">Split Delete</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">Split Delete</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+Alt+K" /></td
-          ><td class="border border-gray-300 px-3 py-2">Yes</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Yes</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Deletes selection, leaves silence — no clipboard, no ripple</td
           ></tr
         >
         <tr
-          ><td class="border border-gray-300 px-3 py-2">Cut</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Cut</td><td
+            class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+X" /></td
-          ><td class="border border-gray-300 px-3 py-2">Yes (to clipboard)</td
-          ><td class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2"
+            >Yes (to clipboard)</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             >Removes selection and shifts remaining audio left</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">Join</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">Join</td><td
+            class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+J" /></td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Merges adjacent clips back into a single continuous clip</td
           ></tr
         >

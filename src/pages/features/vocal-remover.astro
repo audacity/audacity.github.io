@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,63 +9,18 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Free Vocal Remover – Remove Vocals from Any Song | Audacity"
   description="Remove vocals from any song for free with Audacity. AI-powered separation for karaoke, remixes & covers. No limits, no subscription. Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/vocal-remover/"
+  heading="Remove Vocals from Any Song – Free Vocal Remover"
+  standfirst="AI-powered vocal separation for karaoke tracks, remixes, and covers. No limits, no subscription. Windows, Mac & Linux."
+  breadcrumb="Vocal Remover"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <!-- Left Column - Text Content -->
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Remove Vocals from Any Song &ndash; Free Vocal Remover
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              AI-powered vocal separation for karaoke tracks, remixes, and
-              covers. No limits, no subscription. Windows, Mac &amp; Linux.
-            </p>
-
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript>
-                <DownloadMuseHubButton client:load />
-              </noscript>
-              <DownloadButton client:load />
-              <noscript>
-                <DownloadButton client:load />
-              </noscript>
-            </div>
-          </div>
-
-          <!-- Right Column - Image -->
-          <div class="hidden md:block md:w-1/2">
-            <div class="relative">
-              <Image
-                src={AudacityMockUp}
-                alt="A laptop showing the Audacity application"
-                width={668}
-                quality={80}
-                loading="eager"
-                class="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
   <!-- Quick Start Box -->
-  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Remove vocals from a song in 4 steps:
     </h3>
-    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+    <ol class="list-decimal list-inside space-y-2 text-text-primary/70">
       <li>Install the OpenVINO AI plugin (Windows/Linux)</li>
       <li>
         Import your song (<strong>File &rarr; Import &rarr; Audio</strong>)
@@ -276,12 +229,12 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <!-- Use Cases Box -->
   <div
-    class="not-prose my-6 rounded-lg border border-indigo-200 bg-indigo-50 p-6"
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
   >
-    <h3 class="mb-3 text-lg font-semibold text-indigo-900">
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       What you can create:
     </h3>
-    <ul class="space-y-2 text-indigo-800">
+    <ul class="space-y-2 text-text-primary/70">
       <li>
         <strong>Karaoke tracks</strong> &ndash; Remove vocals to sing along to your
         favorite songs
@@ -308,17 +261,19 @@ import Shortcut from "../../components/Shortcut.astro";
   <h2>Supported Audio Formats</h2>
 
   <!-- Formats Box -->
-  <div class="not-prose my-6 rounded-lg border border-gray-200 bg-gray-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-gray-900">
+  <div
+    class="not-prose my-6 rounded-lg border border-text-primary/15 bg-background-light p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Supported audio formats:
     </h3>
-    <p class="text-gray-700 mb-2">
+    <p class="text-text-primary/70 mb-2">
       <strong>Import:</strong> MP3, WAV, FLAC, OGG, AIFF, M4A, WMA, AC3
     </p>
-    <p class="text-gray-700">
+    <p class="text-text-primary/70">
       <strong>Export:</strong> MP3, WAV, FLAC, OGG, AIFF
     </p>
-    <p class="mt-3 text-sm text-gray-500">
+    <p class="mt-3 text-16 text-text-primary/50">
       For the best separation quality, use a lossless source file (WAV or FLAC)
       rather than a compressed MP3, which may contain compression artifacts that
       affect the AI model.
@@ -329,10 +284,12 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <!-- Limitations Box -->
   <div
-    class="not-prose my-6 rounded-lg border border-amber-200 bg-amber-50 p-6"
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
   >
-    <h3 class="mb-3 text-lg font-semibold text-amber-900">What to expect:</h3>
-    <ul class="space-y-2 text-amber-800">
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
+      What to expect:
+    </h3>
+    <ul class="space-y-2 text-text-primary/70">
       <li>AI separation works best on studio-quality recordings</li>
       <li>Backing vocals and reverb tails may remain partially audible</li>
       <li>Live recordings are harder to separate cleanly</li>
@@ -450,17 +407,18 @@ import Shortcut from "../../components/Shortcut.astro";
   <!-- Comparison Table -->
   <h2>Why Choose Audacity for Vocal Removal?</h2>
   <div
-    class="not-prose my-6 overflow-x-auto rounded-lg border border-green-200 bg-green-50"
+    class="not-prose my-8 overflow-x-auto rounded-xl border border-text-primary/15 bg-white"
   >
-    <table class="w-full text-sm text-left">
+    <table class="w-full text-16 text-left">
       <thead>
-        <tr class="bg-green-100">
-          <th class="px-4 py-3 font-semibold text-green-900">Feature</th>
-          <th class="px-4 py-3 font-semibold text-green-900">Audacity</th>
-          <th class="px-4 py-3 font-semibold text-green-900">Online Tools</th>
+        <tr class="bg-background-light">
+          <th class="px-4 py-3 font-semibold text-text-primary">Feature</th>
+          <th class="px-4 py-3 font-semibold text-text-primary">Audacity</th>
+          <th class="px-4 py-3 font-semibold text-text-primary">Online Tools</th
+          >
         </tr>
       </thead>
-      <tbody class="divide-y divide-green-200 text-green-800">
+      <tbody class="divide-y divide-text-primary/10 text-text-primary/70">
         <tr>
           <td class="px-4 py-3">Price</td>
           <td class="px-4 py-3 font-medium">100% Free</td>

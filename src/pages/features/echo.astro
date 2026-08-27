@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,52 +9,17 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Free Echo Effect – Add Echo to Voice & Audio | Audacity"
   description="Add rich echo effects to voice, music and sound design. Control delay time and decay factor. Free echo effect for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/echo/"
+  heading="Free Echo Effect – Add Echo to Voice, Music and Sound Design"
+  standfirst="Add clear repeat tails with controllable delay time and decay, from tight slapback to long ambient echoes."
+  breadcrumb="Echo"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Free Echo Effect &ndash; Add Echo to Voice, Music and Sound Design
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Add clear repeat tails with controllable delay time and decay,
-              from tight slapback to long ambient echoes.
-            </p>
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript><DownloadMuseHubButton client:load /></noscript>
-              <DownloadButton client:load />
-              <noscript><DownloadButton client:load /></noscript>
-            </div>
-          </div>
-          <div class="hidden md:block md:w-1/2">
-            <Image
-              src={AudacityMockUp}
-              alt="A laptop showing the Audacity application"
-              width={668}
-              quality={80}
-              loading="eager"
-              class="w-full h-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
-  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Add echo in 4 steps:
     </h3>
-    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+    <ol class="list-decimal list-inside space-y-2 text-text-primary/70">
       <li>Select audio and add a little silence at the end</li>
       <li>Open <strong>Effect &rarr; Delay and Reverb &rarr; Echo</strong></li>
       <li>Set delay time and decay factor</li>
@@ -118,17 +81,18 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <h2>Echo vs Delay vs Reverb</h2>
   <div
-    class="not-prose my-8 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50"
+    class="not-prose my-8 overflow-x-auto rounded-xl border border-text-primary/15 bg-white"
   >
-    <table class="w-full text-sm text-left">
+    <table class="w-full text-16 text-left">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="px-4 py-3 font-semibold text-gray-900">Effect</th>
-          <th class="px-4 py-3 font-semibold text-gray-900">What It Does</th>
-          <th class="px-4 py-3 font-semibold text-gray-900">Typical Use</th>
+        <tr class="bg-background-light">
+          <th class="px-4 py-3 font-semibold text-text-primary">Effect</th>
+          <th class="px-4 py-3 font-semibold text-text-primary">What It Does</th
+          >
+          <th class="px-4 py-3 font-semibold text-text-primary">Typical Use</th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200 text-gray-700">
+      <tbody class="divide-y divide-text-primary/10 text-text-primary/70">
         <tr
           ><td class="px-4 py-3">Echo</td><td class="px-4 py-3"
             >Fixed repeats with simple controls</td

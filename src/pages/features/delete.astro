@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,53 +9,17 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Free Audio Delete Tool – Remove Sections Fast | Audacity"
   description="Delete unwanted sections from audio without touching your clipboard. Remove mistakes, strip intros, and clean recordings. Free for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/delete/"
+  heading="Free Audio Delete Tool – Remove Unwanted Sections in Audacity"
+  standfirst="Delete unwanted sections without touching your clipboard. Remove mistakes, strip intros, and clean recordings."
+  breadcrumb="Delete Audio"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Free Audio Delete Tool &ndash; Remove Unwanted Sections in
-              Audacity
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Delete unwanted sections without touching your clipboard. Remove
-              mistakes, strip intros, and clean recordings.
-            </p>
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript><DownloadMuseHubButton client:load /></noscript>
-              <DownloadButton client:load />
-              <noscript><DownloadButton client:load /></noscript>
-            </div>
-          </div>
-          <div class="hidden md:block md:w-1/2">
-            <Image
-              src={AudacityMockUp}
-              alt="A laptop showing the Audacity application"
-              width={668}
-              quality={80}
-              loading="eager"
-              class="w-full h-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
-  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Delete audio in 4 steps:
     </h3>
-    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+    <ol class="list-decimal space-y-2 pl-5 text-text-primary/70">
       <li>
         Click and drag across the waveform to select the part you want to remove
       </li>
@@ -160,61 +122,68 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <h2>Delete vs Cut vs Split Delete vs Silence Audio</h2>
   <div class="not-prose overflow-x-auto my-6">
-    <table class="w-full text-sm border-collapse">
+    <table class="w-full text-16 border-collapse">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="border border-gray-300 px-3 py-2 text-left">Command</th>
-          <th class="border border-gray-300 px-3 py-2 text-left">Shortcut</th>
-          <th class="border border-gray-300 px-3 py-2 text-left">Clipboard</th>
-          <th class="border border-gray-300 px-3 py-2 text-left"
+        <tr class="bg-background-light">
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Command</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Shortcut</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Clipboard</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
             >What Happens</th
           >
         </tr>
       </thead>
       <tbody>
         <tr
-          ><td class="border border-gray-300 px-3 py-2 font-medium">Delete</td
-          ><td class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2 font-medium"
+            >Delete</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+K" /></td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Removes selection and shifts remaining audio left — discards
             entirely</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">Cut</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">Cut</td><td
+            class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+X" /></td
-          ><td class="border border-gray-300 px-3 py-2">Yes</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Yes</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Removes selection, shifts audio left, stores content for pasting</td
           ></tr
         >
         <tr
-          ><td class="border border-gray-300 px-3 py-2">Split Delete</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Split Delete</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+Alt+K" /></td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Removes selection but leaves a gap — following audio stays in place</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">Silence Audio</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">Silence Audio</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+L" /></td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Replaces selection with silence — track length stays the same</td
           ></tr
         >
         <tr
-          ><td class="border border-gray-300 px-3 py-2">Trim Audio</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Trim Audio</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             ><Shortcut keys="Ctrl+T" /></td
-          ><td class="border border-gray-300 px-3 py-2">No</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">No</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Keeps only the selection and removes everything outside it</td
           ></tr
         >

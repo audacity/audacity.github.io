@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,64 +9,18 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Free Noise Reduction Tool – Remove Background Noise | Audacity"
   description="Remove background noise from audio for free. Audacity's Noise Reduction effect eliminates hiss, hum, fan noise and buzzing. Download free for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/noise-reduction/"
+  heading="Remove Background Noise from Audio – Free Noise Reduction Tool"
+  standfirst="Eliminate hiss, hum, fan noise, and buzzing from any recording. Free noise reduction for Windows, Mac & Linux."
+  breadcrumb="Noise Reduction"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <!-- Left Column - Text Content -->
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Remove Background Noise from Audio &ndash; Free Noise Reduction
-              Tool
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Eliminate hiss, hum, fan noise, and buzzing from any recording.
-              Free noise reduction for Windows, Mac &amp; Linux.
-            </p>
-
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript>
-                <DownloadMuseHubButton client:load />
-              </noscript>
-              <DownloadButton client:load />
-              <noscript>
-                <DownloadButton client:load />
-              </noscript>
-            </div>
-          </div>
-
-          <!-- Right Column - Image -->
-          <div class="hidden md:block md:w-1/2">
-            <div class="relative">
-              <Image
-                src={AudacityMockUp}
-                alt="A laptop showing the Audacity application"
-                width={668}
-                quality={80}
-                loading="eager"
-                class="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
   <!-- Quick Start Box -->
-  <div class="not-prose my-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       How to remove background noise in Audacity:
     </h3>
-    <ol class="list-decimal list-inside space-y-2 text-blue-800">
+    <ol class="list-decimal list-inside space-y-2 text-text-primary/70">
       <li>Select a section containing only background noise</li>
       <li>
         Go to <strong
@@ -221,12 +173,12 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <!-- Why Audacity Box -->
   <div
-    class="not-prose my-8 rounded-lg border border-green-200 bg-green-50 p-6"
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
   >
-    <h3 class="mb-3 text-lg font-semibold text-green-900">
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Why choose Audacity for noise reduction?
     </h3>
-    <ul class="space-y-2 text-green-800">
+    <ul class="space-y-2 text-text-primary/70">
       <li>&#10003; 100% free and open source</li>
       <li>&#10003; No subscription required</li>
       <li>&#10003; Works offline</li>

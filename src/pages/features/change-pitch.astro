@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,58 +9,10 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Free Pitch Shifter – Change Audio Pitch Without Changing Speed | Audacity"
   description="Change pitch of audio without affecting speed. Transpose songs to any key, shift by semitones or percent. Free pitch shifter for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/change-pitch/"
+  heading="Free Pitch Shifter – Change Audio Pitch Without Changing Speed"
+  standfirst="Transpose songs to any key, shift by semitones or percent. Free pitch shifter for Windows, Mac & Linux."
+  breadcrumb="Pitch Changer"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <!-- Left Column - Text Content -->
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Free Pitch Shifter &ndash; Change Audio Pitch Without Changing
-              Speed
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Transpose songs to any key, shift by semitones or percent. Free
-              pitch shifter for Windows, Mac &amp; Linux.
-            </p>
-
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript>
-                <DownloadMuseHubButton client:load />
-              </noscript>
-              <DownloadButton client:load />
-              <noscript>
-                <DownloadButton client:load />
-              </noscript>
-            </div>
-          </div>
-
-          <!-- Right Column - Image -->
-          <div class="hidden md:block md:w-1/2">
-            <div class="relative">
-              <Image
-                src={AudacityMockUp}
-                alt="A laptop showing the Audacity application"
-                width={668}
-                quality={80}
-                loading="eager"
-                class="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
   <h2>What Is Pitch Shifting?</h2>
   <p>
     Pitch shifting allows you to change the pitch or key of audio without

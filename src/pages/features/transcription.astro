@@ -2,8 +2,6 @@
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import DownloadButton from "../../components/button/DownloadButton";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
-import { Image } from "astro:assets";
-import AudacityMockUp from "../../assets/img/HeroBannerImage.webp";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -11,53 +9,17 @@ import Shortcut from "../../components/Shortcut.astro";
   title="Free AI Audio Transcription – Speech to Text | Audacity"
   description="Transcribe speech to text locally with Whisper AI. Free offline audio transcription with timestamps and subtitles for Windows, Mac & Linux."
   canonical="https://www.audacityteam.org/features/transcription/"
+  heading="Free AI Audio Transcription – Convert Speech to Text Offline with Whisper"
+  standfirst="Transcribe speech to text locally with Whisper AI. No uploads, no minute limits, no subscription. Free for Windows, Mac & Linux."
+  breadcrumb="AI Transcription"
 >
-  <Fragment slot="hero">
-    <section id="main" class="bg-gradient-to-r from-indigo-900 to-blue-700">
-      <div class="mx-auto px-4 md:px-8 py-4 md:py-8 lg:py-12 max-w-screen-lg">
-        <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12"
-        >
-          <div class="flex flex-col text-center md:text-left md:w-1/2 gap-6">
-            <h1
-              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-tight"
-            >
-              Free AI Audio Transcription &ndash; Convert Speech to Text Offline
-              with Whisper
-            </h1>
-            <p class="text-white text-lg opacity-90">
-              Transcribe speech to text locally with Whisper AI. No uploads, no
-              minute limits, no subscription. Free for Windows, Mac &amp; Linux.
-            </p>
-            <div
-              class="flex flex-col w-full md:w-fit gap-4 items-center md:items-start pb-2 text-text-contrast"
-            >
-              <DownloadMuseHubButton client:load />
-              <noscript><DownloadMuseHubButton client:load /></noscript>
-              <DownloadButton client:load />
-              <noscript><DownloadButton client:load /></noscript>
-            </div>
-          </div>
-          <div class="hidden md:block md:w-1/2">
-            <Image
-              src={AudacityMockUp}
-              alt="A laptop showing the Audacity application"
-              width={668}
-              quality={80}
-              loading="eager"
-              class="w-full h-auto"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  </Fragment>
-
-  <div class="not-prose my-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
-    <h3 class="mb-3 text-lg font-semibold text-blue-900">
+  <div
+    class="not-prose my-8 rounded-xl border border-text-primary/10 bg-background-medium p-6"
+  >
+    <h3 class="mb-3 text-18 font-semibold text-text-primary">
       Transcribe audio in 4 steps:
     </h3>
-    <ol class="list-decimal space-y-2 pl-5 text-blue-800">
+    <ol class="list-decimal space-y-2 pl-5 text-text-primary/70">
       <li>Install the free OpenVINO AI plugin for Audacity</li>
       <li>Import your recording and select the track or region</li>
       <li>
@@ -153,61 +115,67 @@ import Shortcut from "../../components/Shortcut.astro";
 
   <h2>Whisper Model Reference</h2>
   <div class="not-prose overflow-x-auto my-6">
-    <table class="w-full text-sm border-collapse">
+    <table class="w-full text-16 border-collapse">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="border border-gray-300 px-3 py-2 text-left">Model</th>
-          <th class="border border-gray-300 px-3 py-2 text-left">Best For</th>
-          <th class="border border-gray-300 px-3 py-2 text-left">Accuracy</th>
-          <th class="border border-gray-300 px-3 py-2 text-left"
+        <tr class="bg-background-light">
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Model</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Best For</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
+            >Accuracy</th
+          >
+          <th class="border border-text-primary/15 px-3 py-2 text-left"
             >Typical Speed (CPU)</th
           >
         </tr>
       </thead>
       <tbody>
         <tr
-          ><td class="border border-gray-300 px-3 py-2">base</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">base</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Clean English, quick drafts</td
-          ><td class="border border-gray-300 px-3 py-2">Good</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Good</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >~0.3&times; audio length</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">small</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">small</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Accents, noisier audio, many languages</td
-          ><td class="border border-gray-300 px-3 py-2">Better</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Better</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >~0.7&times; audio length</td
           ></tr
         >
         <tr
-          ><td class="border border-gray-300 px-3 py-2">small.en-tdrz</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">small.en-tdrz</td
+          ><td class="border border-text-primary/15 px-3 py-2"
             >English + speaker diarization</td
-          ><td class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2"
             >Better + speaker change</td
-          ><td class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2"
             >~0.7&times; audio length</td
           ></tr
         >
-        <tr class="bg-gray-50"
-          ><td class="border border-gray-300 px-3 py-2">medium</td><td
-            class="border border-gray-300 px-3 py-2"
+        <tr class="bg-background-light"
+          ><td class="border border-text-primary/15 px-3 py-2">medium</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Reliable multi-language transcription</td
-          ><td class="border border-gray-300 px-3 py-2">High</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">High</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >~1.5&times; audio length</td
           ></tr
         >
         <tr
-          ><td class="border border-gray-300 px-3 py-2">large-v3</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">large-v3</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >Final subtitles, tough recordings</td
-          ><td class="border border-gray-300 px-3 py-2">Highest</td><td
-            class="border border-gray-300 px-3 py-2"
+          ><td class="border border-text-primary/15 px-3 py-2">Highest</td><td
+            class="border border-text-primary/15 px-3 py-2"
             >~3&ndash;5&times; audio length</td
           ></tr
         >
