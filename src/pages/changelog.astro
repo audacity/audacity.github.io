@@ -97,7 +97,27 @@ const fmt = (iso: string) =>
                     {entry.changes.length > 0 && (
                       <ul class="flex max-w-3xl list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
                         {entry.changes.map((c) => (
-                          <li>{c}</li>
+                          <li>
+                            {c.text}
+                            {/*
+                              Trailing rather than leading, where the release
+                              notes put them: a column of numbers down the left
+                              is the first thing you read and the last thing
+                              you need. Still linked — people follow these
+                              tickets and comment on them, which a bare number
+                              doesn't let them do.
+                            */}
+                            {c.refs.map((n) => (
+                              <a
+                                href={`https://github.com/audacity/audacity/issues/${n}`}
+                                target="_blank"
+                                rel="noopener"
+                                class="ml-1.5 whitespace-nowrap text-14 tabular-nums text-text-primary/45 underline decoration-text-primary/20 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent"
+                              >
+                                #{n}
+                              </a>
+                            ))}
+                          </li>
                         ))}
                       </ul>
                     )}
