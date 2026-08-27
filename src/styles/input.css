@@ -21,6 +21,29 @@
     @apply bg-background-light text-text-primary;
   }
 
+  /*
+    OS-aware keyboard shortcuts. Shortcut.astro renders both variants and
+    relies on these rules to reveal one — they had never been written, so
+    every shortcut on the site showed the Windows and Mac forms together
+    ("Ctrl A ⌘ A") and the Shortcuts toggle appeared to do nothing.
+
+    data-os is set on <html> by the detection script in BaseLayout before
+    first paint, and flipped by OsToggle. Default to the Windows form when
+    the attribute is absent, so no-JS visitors see one shortcut rather
+    than both.
+  */
+  .shortcut-mac {
+    display: none;
+  }
+
+  html[data-os="mac"] .shortcut-win {
+    display: none;
+  }
+
+  html[data-os="mac"] .shortcut-mac {
+    display: inline;
+  }
+
   .hyperlink {
     @apply text-accent underline hover:opacity-80;
   }
