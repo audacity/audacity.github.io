@@ -21,7 +21,13 @@ being permanent.
 
 You need a track with some audio in it. If you have not got one yet,
 [make your first recording](/manual/getting-started/make-your-first-recording),
-or drag an audio file onto the Audacity window to import it.
+or import an existing file — drag it onto the Audacity window, or use
+**File → Import**. Either way the audio arrives as a clip on its own track.
+
+<Callout type="info">
+  Some formats, including M4A and WMA, need [FFmpeg
+  installed](/manual/basics/installing-ffmpeg) before they will import.
+</Callout>
 
 ## Clips: the thing you are editing
 
@@ -39,6 +45,11 @@ the lower pair, marked with a clock icon, change its speed.
 
 ![A selected clip, showing the trim and speed handles at its edges](../../../assets/img/manual/handout/clip-selected.png)
 
+The waveform inside the clip is worth learning to read: the taller the shape,
+the louder that moment, and a thin spike standing on its own is usually a
+click, a clap or a knock. With a little practice you can find your way around
+a recording by eye, faster than by listening through it.
+
 ## Select the audio you want to change
 
 Selection also works in stretches smaller than a clip. Click in the waveform
@@ -52,6 +63,11 @@ pass over.
   a track to select all of that track's audio.
 - **Select → Select all**, or <Shortcut client:load keys="cmd+a" />, selects
   everything in the project.
+
+Selections are easier to place precisely when you are closer in: hold
+
+<Shortcut client:load keys="cmd" /> and scroll to zoom around the pointer, then
+adjust the edges of the selection at the finer scale.
 
 Press **Play** before you edit. Playback follows the selection, so you hear
 exactly the stretch you are about to change — the quickest way to catch a
@@ -68,11 +84,11 @@ These three moves, on their own, cover most of a spoken-word edit.
   <Shortcut client:load keys="s" />, click where you want the cut, and press
   <Shortcut client:load keys="s" /> again to switch it back off; place the
   cursor where you want the cut and press <Shortcut client:load keys="cmd+i" />;
-  or select a time range and press <Shortcut client:load keys="cmd+i" /> to
-  cut at both edges of the selection, giving you a clip you can delete on its
-  own.
+  or select a time range and press <Shortcut client:load keys="cmd+i" /> to cut
+  at both edges of the selection, giving you a clip you can delete on its own.
 - **Move** a clip by dragging it **by its header**, the strip along the top of
-  the clip, either along its track or onto another track. Dragging inside the
+  the clip — along its track, onto another track, or into the empty space
+  below the tracks, which creates a new track to hold it. Dragging inside the
   body of the clip does something different: it makes a time range selection.
 
 ## Cut, copy and paste
@@ -127,9 +143,27 @@ stumble out of a single voice track.
 
 Whichever behaviour you pick in the flyout becomes what the Delete key does,
 but you are not stuck with it. The alternatives stay on the keyboard:
+
 <Shortcut client:load keys="shift+del" /> ripple-deletes on the track you are
 working in, whatever your default, and <Shortcut client:load keys="cmd+del" />
 ripple-deletes across every track at once, keeping them in sync.
+
+## Change a clip's speed or pitch
+
+The lower pair of handles on a selected clip — the ones marked with a clock —
+change its speed: drag them and the clip stretches or squeezes, playing slower
+or faster. A clip whose speed has been changed shows a small badge in its top
+corner; click the badge to type an exact percentage instead of dragging.
+
+Pitch lives in the same place. Right-click the clip, or open its **⋯** menu,
+and choose **Open pitch and speed dialog** to shift the pitch in semitones and
+cents.
+
+<Callout type="tip" title="Keep voices sounding human">
+  Changing the speed or pitch of speech or singing? Tick **Optimize for voice**
+  in the pitch and speed dialog. It preserves the resonances that make a voice
+  sound like a person, instead of a chipmunk.
+</Callout>
 
 ## Fades and volume: the clip gain tool
 
@@ -150,8 +184,8 @@ you are done, so ordinary clicks select clips again.
 <Callout type="tip" title="A second is plenty">
   Long fades on speech sound like a mistake. Keep them short at the top and
   tail, and save the longer ones for music. And leave the breaths in — cutting
-  every pause makes speech sound unnatural and rushed. Remove stumbles and
-  long gaps, not the rhythm of talking.
+  every pause makes speech sound unnatural and rushed. Remove stumbles and long
+  gaps, not the rhythm of talking.
 </Callout>
 
 ## Snapping
@@ -163,8 +197,8 @@ then lands on that grid: moving clips, trimming, and making a time selection.
 <Callout type="warning" title="When everything keeps jumping">
   It is easy to leave snapping on and forget about it. If you later find you
   cannot select or trim to the exact spot you want, because everything keeps
-  jumping to the nearest interval, that is why. Untick Snap and it goes back
-  to fine control.
+  jumping to the nearest interval, that is why. Untick Snap and it goes back to
+  fine control.
 </Callout>
 
 ## Undo anything
@@ -173,8 +207,9 @@ Press <Shortcut client:load keys="cmd+z" /> for
 [Undo](/manual/manual-index/header/edit#undo). It steps back through your edits
 one at a time, and it keeps going — Audacity remembers the whole session, not
 just the last change. [Redo](/manual/manual-index/header/edit#redo),
-<Shortcut client:load keys="cmd+shift+z" />, steps forward again if you went
-too far.
+
+<Shortcut client:load keys="cmd+shift+z" />, steps forward again if you went too
+far.
 
 That is what makes the rest of this safe to explore. Try a command, listen, and
 undo it if it was wrong.
