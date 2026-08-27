@@ -340,7 +340,7 @@ Bare keys (arrows, tab, …) are ignored here — they appear in
 accessibility prose legitimately. Only modifier and F-key combos are
 checked.
 
-- `ctrl+delete` on `accessibility/track-view`, `new-in-audacity-4/audacity-3-to-4-transition-guide`
+- `ctrl+delete` on `accessibility/track-view`
 - `ctrl+k` on `accessibility/toolbars-and-panels`
 - `ctrl+shift+l` on `accessibility/toolbars-and-panels`
 - `ctrl+shift+v` on `new-in-audacity-4/audacity-3-to-4-transition-guide`
