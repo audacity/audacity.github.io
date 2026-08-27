@@ -57,16 +57,15 @@ function DownloadMuseHubButton({ surface } = {}) {
     <a
       key={key}
       onClick={() => handleClick(link, variant, experimentName)}
-      className={`os-specific ${link.osClass} py-3 px-4 gap-3 rounded-md justify-center bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500 w-fit`}
+      /*
+        This branch's treatment, kept through the main merge: accent pill, not
+        the bg-yellow-300 the button arrived in. Yellow isn't in the palette,
+        and this is the page's primary CTA.
+      */
+      className={`os-specific ${link.osClass} items-center justify-center h-12 lg:h-14 w-fit px-6 lg:px-8 rounded-full bg-accent text-white font-semibold hover:opacity-90 transition-opacity`}
       href={link.href}
     >
-      <p>
-        <span className="text-lg font-semibold">
-          Download Audacity {audacityReleases.version}
-        </span>
-        <br />
-        {false && <span className="font-light text-s">via MuseHub</span>}
-      </p>
+      Download Audacity {audacityReleases.version}
     </a>
   );
 

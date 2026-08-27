@@ -8,9 +8,14 @@ import { selectWeightedItem } from "../../utils/selectWeightedItem";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
-  container: "bg-yellow-300",
-  message: "text-gray-900",
-  button: "bg-gray-100 hover:bg-white",
+  /*
+    This branch's default treatment, kept through the main merge. Only a promo
+    that ships no styles of its own lands here, but bg-yellow-300 isn't in the
+    palette and the banner is the first thing on the page.
+  */
+  container: "bg-[#423C31]",
+  message: "text-[#FFC214]",
+  button: "bg-[#FFC214] hover:bg-[#FFD24A] text-[#0C013A]",
 };
 
 // A promo banner can only ever eat a mobile viewport's space, never a small
