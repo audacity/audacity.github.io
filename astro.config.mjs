@@ -51,7 +51,19 @@ export default defineConfig({
         "fa6-brands": ["apple", "windows", "linux"],
       },
     }),
-    sitemap(),
+    sitemap({
+      /*
+        /next redirects to /download and renders only an empty state, so
+        listing it would submit a redirecting URL to search engines.
+
+        Matched on the exact path, not a substring: the blog post
+        "next-steps-audiocom-audacity" would otherwise be dropped with it.
+      */
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return pathname !== "/next" && pathname !== "/next/";
+      },
+    }),
     compressor(),
   ],
   vite: {

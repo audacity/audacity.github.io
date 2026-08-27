@@ -29,10 +29,16 @@
 /)	/
 /vpat /VPAT.pdf
 
-# prerelease
-/au4	/next	301
-/alpha	/next	301
-/beta	/next	301
+# prerelease — no pre-release builds are promoted, so these land on stable
+# downloads rather than /next, which now renders only "Pre-release downloads
+# are currently unavailable". Pointed straight at /download rather than at
+# /next so none of them chain through a second redirect.
+# To promote a pre-release again: drop the /next rule and set isActive on the
+# entry in src/assets/data/audacityReleases.ts.
+/au4	/download	301
+/alpha	/download	301
+/beta	/download	301
+/next	/download	301
 
 # campaign links
 /survey	https://docs.google.com/forms/d/e/1FAIpQLSe3ClP3sHiEQZmwwPMiJ3OzUO586yInWIME076unOdV9kG5-Q/viewform
