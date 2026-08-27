@@ -30,15 +30,26 @@
 /vpat /VPAT.pdf
 
 # prerelease — no pre-release builds are promoted, so these land on stable
-# downloads rather than /next, which now renders only "Pre-release downloads
-# are currently unavailable". Pointed straight at /download rather than at
-# /next so none of them chain through a second redirect.
-# To promote a pre-release again: drop the /next rule and set isActive on the
-# entry in src/assets/data/audacityReleases.ts.
-/au4	/download	301
-/alpha	/download	301
-/beta	/download	301
-/next	/download	301
+# downloads rather than /next, which renders only "Pre-release downloads are
+# currently unavailable". Pointed straight at /download rather than at /next
+# so none of them chain through a second redirect.
+#
+# 302, deliberately, NOT 301. This is temporary — it holds only while there's
+# no active alpha/beta. A 301 tells browsers and search engines the move is
+# permanent: browsers cache it indefinitely (users who hit /beta once would
+# keep being sent to /download long after we restore the page, with no way for
+# us to clear their cache), and search engines drop the old URL and move its
+# ranking signals to the target. A 302 leaves /next as the known URL and is
+# undone the moment this rule is removed.
+#
+# To promote a pre-release again: delete the /next line here, restore /au4,
+# /alpha and /beta to point at /next, and set isActive on the entry in
+# src/assets/data/audacityReleases.ts. Then drop the sitemap filter for /next
+# in astro.config.mjs.
+/au4	/download	302
+/alpha	/download	302
+/beta	/download	302
+/next	/download	302
 
 # campaign links
 /survey	https://docs.google.com/forms/d/e/1FAIpQLSe3ClP3sHiEQZmwwPMiJ3OzUO586yInWIME076unOdV9kG5-Q/viewform
