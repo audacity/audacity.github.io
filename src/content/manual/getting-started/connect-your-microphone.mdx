@@ -10,6 +10,7 @@ draft: false
 
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 The **input** is what Audacity listens to: your microphone. The **output** is
 what it plays through: your headphones. Both are set in **Audio setup**, in
@@ -80,7 +81,12 @@ The microphone button in the toolbar opens the **Record level** flyout. This
 is where you check your level and set the recording volume without having to
 record anything.
 
-![The record level flyout](../../../assets/img/manual/handout/record-level-flyout.png)
+<UIShot
+  name="flyouts/RecordLevelPopup"
+  state="open"
+  width={596}
+  alt="The Record level flyout: a microphone level slider marked from −60 to 0 dB, with input monitoring and mic metering checkboxes"
+/>
 
 1. Speak at the volume you will actually use, and watch the input meter
    move.
