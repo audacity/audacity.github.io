@@ -17,10 +17,10 @@ mind.
 
 ## Two ways to apply an effect
 
-| | How it works |
-| --- | --- |
-| **Destructive** | Applied from the **Effect** menu to a selection. Audacity rewrites the audio itself, and you can see the waveform change. Undo will step back out of it while the project is open, but once you close the project the change is part of your audio for good. |
-| **Non-destructive** | Added as a **realtime effect** on a track, or drawn as clip gain. Your recording is left alone and the effect is calculated on playback, so you can adjust it, switch it off, or remove it at any point, even weeks later. |
+|                     | How it works                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Destructive**     | Applied from the **Effect** menu to a selection. Audacity rewrites the audio itself, and you can see the waveform change. Undo will step back out of it while the project is open, but once you close the project the change is part of your audio for good.                                                                                                                              |
+| **Non-destructive** | Added as a **realtime effect** on a track, or drawn as clip gain. Your recording is left alone and the effect is calculated on playback, so you can adjust it, switch it off, or remove it at any point, even weeks later. A realtime effect always applies to the whole track — for a shorter stretch, split it into its own clip and track, or use a destructive effect on a selection. |
 
 ## The Effect menu
 
@@ -39,11 +39,18 @@ for that track. The keyboard shortcut is <Shortcut client:load keys="e" />.
 
 ![The realtime effects panel, with a stack of effects on one track](../../../assets/img/manual/handout/realtime-effects-panel.png)
 
-Add effects to the stack and they run in the order they are listed, top to
-bottom. Notice that the waveform does not change: nothing has been written
-into your audio. Each effect can be switched off with its own button, reopened
-and tweaked while the track is playing, or dragged out of the stack entirely,
-and the recording underneath is untouched throughout.
+Click **Add effect** to pick from the list, and effects run in the order they
+are stacked, top to bottom. Notice that the waveform does not change: nothing
+has been written into your audio, and the effect keeps working after you close
+its window.
+
+- **Change its settings** by clicking the effect's name. Effect windows often
+  have their own look, nothing like Audacity — that is normal, and the main
+  window stays usable while one is open.
+- **Bypass** an effect with the power button beside it, or the whole stack
+  with the power button at the top — the quickest way to hear before-and-after.
+- **Remove** an effect for good with the triangle beside its name, choosing
+  **No effect**.
 
 <Callout type="tip" title="Start with realtime effects">
   Realtime effects are the easier place to experiment, since you can hear a
@@ -51,6 +58,34 @@ and the recording underneath is untouched throughout.
   menu when you know what you want.
 </Callout>
 
-[Using realtime effects](/manual/audio-editing/using-realtime-effects) goes
-further into the panel. When the sound is where you want it, it is time to
+## Master effects
+
+At the bottom of the same panel is a **Master effects** section. Effects here
+apply to the finished mix — after every track, each track's own effects, and
+the volume and pan controls have been combined — rather than to any one
+track. This stage of shaping the combined sound is what "mastering" means.
+
+<Callout type="tip" title="Two classic master effects">
+  A little reverb on the master stops a music project sounding dry, and a
+  limiter on the master catches peaks before they clip. Working on the loudness
+  and polish of the whole mix here is easier than chasing it track by track.
+</Callout>
+
+## Nothing to render
+
+You do not need to "apply" any of this: realtime and master effects are baked
+in automatically when you [export your audio](/manual/getting-started/export-your-audio).
+If you ever do want a track's stack written into its waveform, select the
+track and use **Tracks → Mix → Mix and Render** — with more than one track
+selected it mixes them together, so select carefully.
+
+## Getting more effects
+
+Audacity ships with a starter set, and takes plugins in the **VST3**, **VST**,
+**LV2**, **LADSPA** and (on macOS) **Audio Units** formats. MuseHub carries a
+curated collection, and more are gathered at
+[plugins.audacityteam.org](https://plugins.audacityteam.org/). Installed
+plugins appear after you restart Audacity.
+
+When the sound is where you want it, it is time to
 [save your project](/manual/getting-started/save-your-project).
