@@ -1,6 +1,9 @@
 ---
 import promoData from "../assets/data/promotions";
-import { getFilteredPromos } from "../assets/data/promotions";
+import {
+  getFilteredPromos,
+  PROMO_BANNER_ENABLED,
+} from "../assets/data/promotions";
 import ExitIntentPopup from "../components/banner/ExitIntentPopup";
 import CookieConsent from "../components/banner/CookieConsent";
 import PromoBanner from "../components/banner/PromoBanner";
@@ -62,7 +65,10 @@ const hasActiveStaticPromo = Object.values(promoData).some((promo) => {
   return isActive && Boolean(promo.cta);
 });
 const shouldShowPromoBanner =
-  showPromoBanner && !isNoAdPage && hasActiveStaticPromo;
+  PROMO_BANNER_ENABLED &&
+  showPromoBanner &&
+  !isNoAdPage &&
+  hasActiveStaticPromo;
 
 const currentPath = Astro.url.pathname;
 const hasEligibleExitPopup =
