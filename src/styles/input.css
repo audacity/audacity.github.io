@@ -17,8 +17,19 @@
     color-scheme: light;
   }
 
+  /*
+    Sticky footer. Without this the body is a plain block at content height,
+    so any page shorter than the viewport leaves the page background showing
+    below the footer — most visible on /download and the shorter feature
+    pages in a tall window.
+
+    The growth goes on the wrapper around <slot /> in BaseLayout rather than
+    on `main`: pages don't agree on a root element — some use <main>, others
+    <article id="main"> or <section id="main"> — so a `body > main` rule
+    would silently miss several of them.
+  */
   body {
-    @apply bg-background-light text-text-primary;
+    @apply flex min-h-screen flex-col bg-background-light text-text-primary;
   }
 
   /*
