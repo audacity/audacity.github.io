@@ -10,9 +10,18 @@ draft: false
 
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 With your microphone connected and a healthy level set, recording is one
 button.
+
+<UIShot
+  name="toolbars/PlaybackToolBar"
+  alt="The playback toolbar: play, stop and the round red record button, with skip and loop controls"
+>
+  The transport controls, at the left of the top bar. Record is the round red
+  button.
+</UIShot>
 
 ## Your first take
 
@@ -71,7 +80,11 @@ the track area, makes an empty track ready for the next voice, and offers a
 **mono** track, a **stereo** track, or a **label** track (text markers
 rather than audio).
 
-![The Add track choices](../../../assets/img/manual/handout/add-track-flyout.png)
+<UIShot
+  name="flyouts/AddNewTrackPopup"
+  state="open"
+  alt="The Add track choices: a mono track, a stereo track, or a label track"
+/>
 
 Once you have more than one track, it matters which is **selected**: click a
 track's header and it highlights, and that is the track your next recording
