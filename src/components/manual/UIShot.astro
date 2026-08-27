@@ -63,6 +63,13 @@ if (!image) {
 
 // Explicit dimensions reserve the layout box before the image loads (no
 // layout shift). A width override scales height proportionally.
+/*
+  Flyout shots are transparent PNGs of a popup that already carries the
+  application's own shadow, so a CSS shadow and radius would draw a rectangle
+  around the transparency. Only opaque captures get the framed treatment.
+*/
+const framed = !name.startsWith("flyouts/");
+
 const displayWidth = width ?? meta?.width;
 const displayHeight =
   meta && displayWidth
@@ -81,6 +88,7 @@ const displayHeight =
         notices in a screenshot of an interface.
       */}
       <Image
+        class={framed ? "ui-shot-img" : undefined}
         src={image}
         alt={alt}
         width={displayWidth}
@@ -110,5 +118,18 @@ const displayHeight =
     -webkit-user-drag: none;
     user-select: none;
     -webkit-user-select: none;
+  }
+
+  /*
+    The screenshots are captured on the app's own background, so on the
+    figure's light ground their edges just stop. Rounded corners and a soft
+    drop shadow read as "this is a picture of the interface" rather than a
+    fragment of page — the same treatment the handout used.
+  */
+  .ui-shot :global(.ui-shot-img) {
+    border-radius: 8px;
+    box-shadow:
+      0 1px 2px rgb(15 0 77 / 0.08),
+      0 4px 12px rgb(15 0 77 / 0.12);
   }
 </style>

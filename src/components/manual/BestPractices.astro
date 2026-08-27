@@ -1,4 +1,11 @@
 ---
+/*
+  The same editorial language as Callout, not a green banner with a badge:
+  the old version was an emerald header bar that shouted over the content it
+  framed, in a colour the palette doesn't have. Best practices are guidance,
+  so they get the tip treatment — deep purple edge, small label — with room
+  for the longer, image-bearing content these sections carry.
+*/
 interface Props {
   title?: string;
   class?: string;
@@ -7,105 +14,38 @@ interface Props {
 const { title = "Best practices", class: className = "" } = Astro.props;
 ---
 
-<aside class:list={["best-practices not-prose", className]}>
-  <div class="best-practices__header">
-    <span class="best-practices__badge" aria-hidden="true">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-    </span>
-    <p class="best-practices__title">{title}</p>
-  </div>
-  <div class="best-practices__body">
+<aside
+  class:list={[
+    "not-prose my-8 rounded-r-lg border-l-4 border-l-text-primary bg-background-light px-5 py-4",
+    className,
+  ]}
+>
+  <p
+    class="text-12 uppercase tracking-wider font-semibold mb-2 text-text-primary"
+  >
+    {title}
+  </p>
+  <div class="text-16 leading-relaxed text-text-primary/80 best-practices-body">
     <slot />
   </div>
 </aside>
 
-<style is:global>
-  .best-practices {
-    border: 1px solid rgb(16 185 129 / 0.4);
-    background-color: white;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    margin: 1.5rem 0;
+<style>
+  .best-practices-body :global(> * + *) {
+    margin-top: 0.875rem;
   }
-
-  .best-practices__header {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.625rem 1rem;
-    background-color: rgb(16 185 129);
-    color: white;
-  }
-
-  .best-practices__badge {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 9999px;
-    background-color: white;
-    color: rgb(16 185 129);
-  }
-
-  .best-practices__badge svg {
-    width: 0.875rem;
-    height: 0.875rem;
-  }
-
-  .best-practices__title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: white;
-    margin: 0;
-  }
-
-  .best-practices__body {
-    padding: 1rem 1.25rem;
-    font-size: 0.95rem;
-    color: rgb(31 41 55);
-    line-height: 1.6;
-  }
-
-  .best-practices__body > * + * {
-    margin-top: 1rem;
-  }
-
-  .best-practices__body > :first-child {
-    margin-top: 0;
-  }
-
-  .best-practices__body > :last-child {
-    margin-bottom: 0;
-  }
-
-  .best-practices__body p {
-    margin: 0;
-  }
-
-  .best-practices__body ul,
-  .best-practices__body ol {
-    margin: 0;
+  .best-practices-body :global(ul),
+  .best-practices-body :global(ol) {
     padding-left: 1.25rem;
+    list-style: disc;
   }
-
-  .best-practices__body li + li {
-    margin-top: 0.25rem;
+  .best-practices-body :global(li + li) {
+    margin-top: 0.375rem;
   }
-
-  .best-practices__body img {
-    margin: 0.5rem 0;
+  .best-practices-body :global(img) {
+    margin: 0.75rem 0;
     max-width: 100%;
     height: auto;
+    border-radius: 6px;
   }
 </style>

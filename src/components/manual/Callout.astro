@@ -1,4 +1,18 @@
 ---
+/*
+  Restyled onto the design system: the old version was stock Tailwind
+  blue/emerald/amber — the same off-palette colours the brand sweep removed
+  from the rest of the site — and three loudly tinted boxes on one page read
+  as a fruit salad. One calm surface now, with the type carried by the left
+  edge and a small uppercase label:
+
+    info    — quiet: a neutral edge in the text colour
+    tip     — the deep brand purple
+    warning — the accent, which is the palette's only red
+
+  Body copy stays at 16 rather than the old text-sm: callouts hold real
+  guidance (the feedback-howl warning, the FFmpeg note), not fine print.
+*/
 interface Props {
   type?: "info" | "tip" | "warning";
   title?: string;
@@ -8,18 +22,18 @@ const { type = "info", title } = Astro.props;
 
 const styles = {
   info: {
-    container: "bg-blue-50 border-blue-200 text-blue-900",
-    icon: "text-blue-700",
+    edge: "border-l-text-primary/25",
+    label: "text-text-primary/50",
     defaultTitle: "Note",
   },
   tip: {
-    container: "bg-emerald-50 border-emerald-200 text-emerald-900",
-    icon: "text-emerald-700",
+    edge: "border-l-text-primary",
+    label: "text-text-primary",
     defaultTitle: "Tip",
   },
   warning: {
-    container: "bg-amber-50 border-amber-200 text-amber-900",
-    icon: "text-amber-700",
+    edge: "border-l-accent",
+    label: "text-accent",
     defaultTitle: "Warning",
   },
 };
@@ -29,10 +43,39 @@ const heading = title ?? style.defaultTitle;
 ---
 
 <aside
-  class:list={["border rounded-lg px-4 py-3 my-6 not-prose", style.container]}
+  class:list={[
+    "not-prose my-8 rounded-r-lg border-l-4 bg-background-light px-5 py-4",
+    style.edge,
+  ]}
 >
-  <p class:list={["font-semibold mb-1", style.icon]}>{heading}</p>
-  <div class="text-sm">
+  <p
+    class:list={[
+      "text-12 uppercase tracking-wider font-semibold mb-2",
+      style.label,
+    ]}
+  >
+    {heading}
+  </p>
+  <div class="text-16 leading-relaxed text-text-primary/80 callout-body">
     <slot />
   </div>
 </aside>
+
+<style>
+  .callout-body :global(> * + *) {
+    margin-top: 0.75rem;
+  }
+  .callout-body :global(ul),
+  .callout-body :global(ol) {
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .callout-body :global(li + li) {
+    margin-top: 0.375rem;
+  }
+  .callout-body :global(a) {
+    color: #ff3254;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>
