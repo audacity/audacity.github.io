@@ -74,7 +74,7 @@ const steps: Step[] = [
     title: "Save your project",
     href: "/manual/getting-started/save-your-project",
     description:
-      "Keep the editable .aup3 project file or save to the cloud for backup.",
+      "Keep the editable .aup4 project file or save to the cloud for backup.",
   },
   {
     number: 8,
@@ -104,6 +104,30 @@ const steps: Step[] = [
     count={pageCount}
     meta={["9 steps", "About twenty minutes"]}
   />
+
+  {
+    /*
+    The fork at the front door: a 4.0 manual has two audiences, and the
+    Audacity 3 veterans — likely the larger group at launch — need a
+    translation layer, not a nine-step tutorial. One prominent side door
+    beats a second parallel path.
+  */
+  }
+  <a
+    href="/manual/new-in-audacity-4/audacity-3-to-4-transition-guide"
+    class="mb-8 flex items-center justify-between gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/40"
+  >
+    <span class="block">
+      <span class="block text-base font-semibold text-gray-900">
+        Coming from Audacity 3?
+      </span>
+      <span class="mt-1 block text-sm text-gray-600">
+        Skip the tutorial — the transition guide maps what moved, what changed
+        and how to make Audacity 4 feel like home.
+      </span>
+    </span>
+    <span aria-hidden="true" class="shrink-0 text-gray-400">&rarr;</span>
+  </a>
 
   <ol class="space-y-3 mb-12 list-none pl-0">
     {

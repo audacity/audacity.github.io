@@ -66,7 +66,25 @@ const lastUpdatedISO = lastUpdated.toISOString();
         />
       </aside>
       <article
-        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 prose prose-blue prose-lg max-w-none"
+        {/*
+          The ramp is the site's own scale, not prose-lg's: stock Typography
+          at lg puts an h2 at barely 1.3x the body, which reads as bold text
+          rather than a section break. 16 body, 20 h3, 32 h2 — each step big
+          enough to scan by — with the space above a heading roughly double
+          the space below, so headings attach to what follows.
+        */}
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 max-w-none prose
+          prose-p:text-16 prose-p:leading-relaxed prose-p:text-text-primary/80
+          prose-li:text-16 prose-li:leading-relaxed prose-li:text-text-primary/80 prose-li:my-1.5
+          prose-ul:my-5 prose-ol:my-5
+          prose-h2:text-32 prose-h2:font-semibold prose-h2:leading-tight prose-h2:text-text-primary prose-h2:mt-14 prose-h2:mb-5
+          prose-h3:text-20 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-10 prose-h3:mb-3
+          prose-h4:text-18 prose-h4:font-semibold prose-h4:text-text-primary prose-h4:mt-8 prose-h4:mb-2
+          prose-strong:text-text-primary
+          prose-a:text-accent prose-a:underline prose-a:underline-offset-4 prose-a:decoration-accent/40 hover:prose-a:decoration-accent
+          prose-table:text-16 prose-th:text-text-primary prose-td:text-text-primary/80
+          prose-code:text-14 prose-code:text-text-primary
+          prose-blockquote:text-text-primary/70 prose-blockquote:border-l-text-primary/20"
         data-pagefind-body
         data-pagefind-filter="type:Manual"
       >
@@ -78,18 +96,20 @@ const lastUpdatedISO = lastUpdated.toISOString();
           content — the same job the banner does on the landings.
         */
         }
-        <header class="not-prose mb-10 border-b border-gray-200 pb-8">
+        <header class="not-prose mb-10 border-b border-text-primary/10 pb-8">
           <p
-            class="text-xs font-semibold uppercase tracking-wide text-gray-500"
+            class="text-12 font-semibold uppercase tracking-wider text-text-primary/50"
           >
             {entry.data.section}
           </p>
-          <h1 class="mt-3 text-4xl lg:text-5xl text-gray-900">
+          <h1
+            class="mt-3 text-32 lg:text-40 font-semibold leading-tight text-text-primary"
+          >
             {entry.data.title}
           </h1>
           {
             entry.data.description && (
-              <p class="mt-4 max-w-2xl text-lg text-gray-600">
+              <p class="mt-4 max-w-2xl text-18 text-text-primary/60">
                 {entry.data.description}
               </p>
             )
