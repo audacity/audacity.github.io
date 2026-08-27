@@ -28,7 +28,12 @@ function DownloadButton() {
     return (
       <a
         onClick={() => handleButtonClick(href)}
-        className="w-fit text-16 font-semibold text-white underline underline-offset-4 decoration-white/40 hover:decoration-white transition-colors"
+        /*
+          Inherits its colour: this renders in the dark hero and again in the
+          light CTA at the foot of every feature page. Hardcoding white made
+          it invisible in the second one.
+        */
+        className="w-fit text-16 font-semibold text-current underline underline-offset-4 decoration-current/40 hover:decoration-current transition-colors"
         href={href}
       >
         Download without Muse Hub

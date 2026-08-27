@@ -7,9 +7,27 @@ export interface Props {
   description?: string;
   canonical?: string;
   image?: string;
+  /*
+    The visible page header. Defined here rather than per page: it's
+    structurally identical on all 17, and when each page built its own the
+    containers drifted — headers sat in max-w-screen-lg while the article
+    below used max-w-screen-md, so nothing lined up. Pages that still pass a
+    `hero` slot override it.
+  */
+  heading?: string;
+  standfirst?: string;
+  breadcrumb?: string;
 }
 
-const { title, description, canonical, image } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  image,
+  heading,
+  standfirst,
+  breadcrumb,
+} = Astro.props;
 ---
 
 <BaseLayout
@@ -18,9 +36,48 @@ const { title, description, canonical, image } = Astro.props;
   canonical={canonical}
   image={image}
 >
-  <slot name="hero" />
+  <slot name="hero">
+    {
+      heading && (
+        /*
+          A quiet masthead: a tint one step off the page plus a hairline, so
+          the header reads as its own band without gaining weight. On
+          bg-background-light it was indistinguishable from the body and
+          simply floated.
+        */
+        <section
+          id="main"
+          class="bg-background-medium border-b border-text-primary/10"
+        >
+          {/* same container as the article below, so the left edges agree */}
+          <div class="mx-4 sm:mx-auto max-w-screen-md py-8 md:py-10 flex flex-col gap-3">
+            {breadcrumb && (
+              <nav aria-label="Breadcrumb" class="text-14 text-text-primary/50">
+                <a
+                  href="/features/"
+                  class="underline underline-offset-4 decoration-text-primary/30 hover:text-accent hover:decoration-accent transition-colors"
+                >
+                  Features
+                </a>
+                <span class="px-1.5" aria-hidden="true">
+                  /
+                </span>
+                <span class="text-text-primary/70">{breadcrumb}</span>
+              </nav>
+            )}
+            <h1 class="font-harmony text-40 md:text-56 text-text-primary leading-tight">
+              {heading}
+            </h1>
+            {standfirst && (
+              <p class="text-18 text-text-primary/60">{standfirst}</p>
+            )}
+          </div>
+        </section>
+      )
+    }
+  </slot>
   <article
-    class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue prose-feature lg:prose-lg max-w-screen-md"
+    class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue prose-feature lg:prose-lg max-w-screen-md prose-h2:text-40 prose-h2:font-semibold prose-h2:text-text-primary prose-h2:mt-20 prose-h2:mb-6 prose-h3:text-24 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-12 prose-h3:mb-4 prose-p:mb-6 prose-p:mt-0 prose-ul:my-6 prose-ol:my-6"
     data-pagefind-body
     data-pagefind-filter="type:Features"
   >
