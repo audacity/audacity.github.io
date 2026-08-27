@@ -163,7 +163,17 @@ export const alphaPreRelease: PreReleaseEntry = {
 export const betaPreRelease: PreReleaseEntry = {
   id: "beta",
   label: "Beta",
-  isActive: true,
+  /*
+    Off: this branch doesn't promote pre-release builds. Every consumer already
+    gates on isActive — the /download campaign block, the footer link and /next
+    all fall back on their own, and /next has a written empty state — so this is
+    the whole switch.
+
+    The Beta 2 asset URLs below are left in place deliberately. They're the only
+    record of where those builds live, and promoting the next pre-release should
+    be flipping this flag and updating the URLs, not rebuilding the entry.
+  */
+  isActive: false,
   summary: "Audacity 4 is entering public beta — try it ahead of release.",
   pageHref: "/next",
   downloads: {

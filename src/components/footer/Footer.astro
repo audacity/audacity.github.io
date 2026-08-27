@@ -44,11 +44,26 @@ const links = [
   { href: "https://audio.com/", label: "Audio.com", external: true },
 ];
 
+/*
+  Was computed further down and never read. Now it gates the Beta link below:
+  that link was hardcoded, so it survived isActive being turned off and went on
+  advertising a pre-release that resolves (via the /beta -> /next redirect) to
+  "Pre-release downloads are currently unavailable".
+
+  Gating it here means isActive in audacityReleases.ts is the single switch for
+  promoting a pre-release, which is what every other consumer already assumes.
+*/
+const hasPreRelease = preReleaseList.some(
+  (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
+);
+
 const downloads = [
   { href: "/download/windows", label: "Windows" },
   { href: "/download/mac", label: "macOS" },
   { href: "/download/linux", label: "Linux" },
-  { href: "/beta", label: t("footer.download.beta"), id: "beta-link" },
+  ...(hasPreRelease
+    ? [{ href: "/beta", label: t("footer.download.beta"), id: "beta-link" }]
+    : []),
   {
     href: "https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink&utm_content=footer",
     label: "MuseHub",
@@ -109,12 +124,6 @@ const plugins = [
     external: true,
   },
 ];
-
-const activeDownloadCampaign =
-  preReleaseList.find(
-    (entry) => entry.isActive && hasDownloadAssets(entry.downloads),
-  ) ?? null;
-const hasPreRelease = Boolean(activeDownloadCampaign);
 ---
 
 <footer class="bg-background-dark py-12">
