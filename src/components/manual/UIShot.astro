@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 /**
  * Pixel-true screenshot of a real application component, rendered from the
  * Audacity source by the shotbox harness (~/code/audacity-shotbox) and
@@ -31,9 +33,15 @@ const { name, state, theme = "light", alt = "", width } = Astro.props;
 
 const PKG = "/node_modules/@dilsonspickles/audacity-ui-screenshots";
 
-const images = import.meta.glob<string>(
+/*
+  Globbed as ImageMetadata, not ?url: the URL form hands Astro a string it
+  can only pass through, so the page served the 4x PNG masters untouched —
+  several megabytes each. As metadata they go through the asset pipeline
+  below and come out as WebP at the sizes actually displayed.
+*/
+const images = import.meta.glob<ImageMetadata>(
   "/node_modules/@dilsonspickles/audacity-ui-screenshots/{light,dark}/**/*.png",
-  { eager: true, query: "?url", import: "default" },
+  { eager: true, import: "default" },
 );
 const manifests = import.meta.glob<{
   scale: number;
@@ -44,10 +52,10 @@ const manifests = import.meta.glob<{
 });
 
 const id = `${name}${state ? `-${state}` : ""}`;
-const url = images[`${PKG}/${theme}/${id}.png`];
+const image = images[`${PKG}/${theme}/${id}.png`];
 const meta = Object.values(manifests)[0]?.images.find((i) => i.id === id);
 
-if (!url) {
+if (!image) {
   console.warn(
     `UIShot: no image for "${id}" (${theme}) — is @dilsonspickles/audacity-ui-screenshots installed and does the shot exist?`,
   );
@@ -63,13 +71,20 @@ const displayHeight =
 ---
 
 {
-  url ? (
+  image ? (
     <figure class="ui-shot not-prose my-6 flex flex-col items-center rounded-lg border border-slate-200 bg-slate-50 px-6 py-8">
-      <img
-        src={url}
+      {/*
+        densities [1, 2] rather than a single width: these are UI screenshots,
+        where a soft edge on a 1px border is exactly what a reader notices, so
+        a 2x source is emitted for retina displays and the browser picks.
+      */}
+      <Image
+        src={image}
         alt={alt}
         width={displayWidth}
         height={displayHeight}
+        densities={[1, 2]}
+        format="webp"
         loading="lazy"
         decoding="async"
         draggable="false"

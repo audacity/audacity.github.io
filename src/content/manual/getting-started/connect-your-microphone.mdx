@@ -44,15 +44,19 @@ and the port do not match.
 
 <Callout title="No microphone yet?">
   Most laptops have one built in, and it is good enough to work through these
-  pages and hear how Audacity behaves. It will sound noticeably worse than
-  even an inexpensive external microphone — thinner, more distant, and full
-  of the room — so treat it as a way to get started rather than a way to
-  record something you intend to publish.
+  pages and hear how Audacity behaves. It will sound noticeably worse than even
+  an inexpensive external microphone — thinner, more distant, and full of the
+  room — so treat it as a way to get started rather than a way to record
+  something you intend to publish.
 </Callout>
 
 ## Choose your devices
 
-![The Audio setup menu](../../../assets/img/manual/handout/audio-setup-menu.png)
+<UIShot
+  name="app/SceneAudioSetupMenu"
+  width={560}
+  alt="The Audio setup menu open, listing Host, Playback device, Recording device, Recording channels, Rescan audio devices and Audio settings"
+/>
 
 1. Connect your microphone or interface **first, then open Audacity**.
    Devices connected afterwards may not be listed straight away — if one is
@@ -63,16 +67,27 @@ and the port do not match.
 3. Pick your headphones under **Playback device**. If you hear nothing on
    playback later, this is the first thing to check.
 
-![Choosing a playback device](../../../assets/img/manual/handout/playback-device-menu.png)
+<UIShot
+  name="app/SceneAudioSetupPlaybackdevice"
+  width={620}
+  alt="The Playback device submenu expanded, listing the system default and the available outputs"
+/>
 
-![Choosing a recording device](../../../assets/img/manual/handout/recording-device-menu.png)
+<UIShot
+  name="app/SceneAudioSetupRecordingdevice"
+  width={620}
+  alt="The Recording device submenu expanded, with USB Microphone selected"
+>
+  The device names shown are examples — yours will be whatever is connected to
+  your computer.
+</UIShot>
 
 <Callout title="Not everything in the list is a microphone">
   The menu offers every input the system knows about, which usually means
-  webcams, and virtual devices created by other software, sitting alongside
-  the real ones. Choose the entry named after your microphone or interface.
-  If two look plausible, record a few seconds with each — the right one is
-  the one you can hear.
+  webcams, and virtual devices created by other software, sitting alongside the
+  real ones. Choose the entry named after your microphone or interface. If two
+  look plausible, record a few seconds with each — the right one is the one you
+  can hear.
 </Callout>
 
 ## Set your level
@@ -102,10 +117,10 @@ can be lifted afterwards with the **Amplify** effect, but that lifts the room
 noise with it — so it is always worth getting the level right now.
 
 <Callout type="tip" title="Read the meter at a glance">
-  In the playback meter's settings, choose the Gradient style. It colours
-  the bar as it rises — green is comfortable, amber is loud but usable, red
-  means clipping. If you are hitting red, turn the gain down at the
-  microphone or interface rather than trying to fix it afterwards.
+  In the playback meter's settings, choose the Gradient style. It colours the
+  bar as it rises — green is comfortable, amber is loud but usable, red means
+  clipping. If you are hitting red, turn the gain down at the microphone or
+  interface rather than trying to fix it afterwards.
 </Callout>
 
 ![The meter settings, with Gradient chosen](../../../assets/img/manual/handout/meter-settings-gradient.png)
@@ -116,10 +131,10 @@ noise with it — so it is always worth getting the level right now.
 microphone back through your output so you can hear yourself as you speak.
 
 <Callout type="warning" title="Headphones on before you switch monitoring on">
-  Monitoring through speakers sends your microphone straight back out into
-  the room, and the microphone picks that up again. The result is a feedback
-  howl that gets louder the longer it runs — loud enough to damage hearing
-  and equipment. Headphones on first, volume low, then switch monitoring on.
+  Monitoring through speakers sends your microphone straight back out into the
+  room, and the microphone picks that up again. The result is a feedback howl
+  that gets louder the longer it runs — loud enough to damage hearing and
+  equipment. Headphones on first, volume low, then switch monitoring on.
 </Callout>
 
 ## Mono or stereo?
