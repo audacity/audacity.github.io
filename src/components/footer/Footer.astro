@@ -28,6 +28,13 @@ const links = [
      key here would leave every other locale falling back to a missing string. */
   { href: "/contact", label: "Contact" },
   { href: "/blog", label: t("footer.link.blog") },
+  /*
+    Restored: this branch lost it in the footer redesign. It's the only route
+    to the privacy notice, cookie policy, accessibility statement and VPAT —
+    the sole other link to any of them is inside the cookie banner, which is
+    gone once a visitor accepts, leaving all five pages built but unreachable.
+  */
+  { href: "/legal", label: t("footer.link.legal") },
   { href: "/cloud-saving", label: t("footer.link.cloudSaving") },
   {
     href: "https://forum.audacityteam.org/",
