@@ -27,6 +27,7 @@ them accepts. Exporting is how you produce it.
 ## Export a file
 
 Open **File → Export audio**, or press
+
 <Shortcut client:load keys="cmd+shift+e" />.
 
 ![The Export audio dialog](../../../assets/img/manual/handout/export-dialog.png)
@@ -35,10 +36,15 @@ Name the file, choose where it goes, and pick a format. The dialog also lets
 you choose mono or stereo, the sample rate, and — for formats like MP3 — the
 bit rate.
 
+<Callout type="info">
+  Some export formats, including M4A, need [FFmpeg
+  installed](/manual/basics/installing-ffmpeg) before they appear.
+</Callout>
+
 <Callout type="info" title="A prompt about folder access">
-  The first time you export into a folder like Documents, your computer may
-  ask whether Audacity is allowed to access it. Allow it, or the export cannot
-  be written there.
+  The first time you export into a folder like Documents, your computer may ask
+  whether Audacity is allowed to access it. Allow it, or the export cannot be
+  written there.
 </Callout>
 
 ## Which settings?
@@ -48,5 +54,11 @@ it does, follow that instead. If nobody has told you otherwise, MP3 at
 128 kbps is a safe default for spoken word: small enough to upload and stream
 comfortably, and transparent enough for a voice.
 
-Exporting in more depth is covered in
-[saving and exporting projects](/manual/basics/saving-and-exporting-projects).
+Beyond that default, three tips go a long way:
+
+- **A single voice wants mono.** Stereo doubles the file for two identical
+  channels — save it for music and anything recorded in stereo.
+- **Opus and M4A beat MP3** at the same file size, if your destination
+  accepts them.
+- **FLAC and WavPack shrink WAV by up to half without losing anything** —
+  the archival choice when quality matters and MP3 will not do.
