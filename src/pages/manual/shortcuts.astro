@@ -2,9 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
 import ManualOnThisPage from "../../components/manual/ManualOnThisPage.astro";
-/* Used at the foot of the page; the import was missing, so /manual/shortcuts
-   failed to prerender with "ManualBackLink is not defined". */
-import ManualBackLink from "../../components/manual/ManualBackLink.astro";
 import BackToTop from "../../components/manual/BackToTop.astro";
 import Shortcut from "../../components/Shortcut.astro";
 import OsToggle from "../../components/OsToggle.astro";
@@ -110,12 +107,6 @@ const headings = sections.map((s) => ({
         data-pagefind-filter="type:Manual"
       >
         <header class="not-prose mb-10 border-b border-gray-200 pb-8">
-          <div class="mb-4">
-            <ManualBackLink
-              fallbackHref="/manual/reference"
-              fallbackLabel="Reference"
-            />
-          </div>
           <p
             class="text-xs font-semibold uppercase tracking-wide text-gray-500"
           >
