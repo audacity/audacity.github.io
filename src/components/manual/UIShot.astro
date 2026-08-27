@@ -74,9 +74,11 @@ const displayHeight =
   image ? (
     <figure class="ui-shot not-prose my-6 flex flex-col items-center rounded-lg border border-slate-200 bg-slate-50 px-6 py-8">
       {/*
-        densities [1, 2] rather than a single width: these are UI screenshots,
-        where a soft edge on a 1px border is exactly what a reader notices, so
-        a 2x source is emitted for retina displays and the browser picks.
+        densities [1, 2] so retina displays get a 2x source, and quality 100
+        because these are UI screenshots: sharp's WebP default of 80 is tuned
+        for photographs, where ringing hides in texture. On flat panels, 1px
+        borders and small text it shows as exactly the softness a reader
+        notices in a screenshot of an interface.
       */}
       <Image
         src={image}
@@ -85,6 +87,7 @@ const displayHeight =
         height={displayHeight}
         densities={[1, 2]}
         format="webp"
+        quality={100}
         loading="lazy"
         decoding="async"
         draggable="false"
