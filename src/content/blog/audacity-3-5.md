@@ -46,7 +46,7 @@ There have been many other changes for this release.
 - Various changes to a variety of features.
 - Removed some niche features to simplify the app. This should make Audacity a bit less overwhelming to use, and also will speed up future development as fewer things need to be considered.
 
-A more detailed overview of these changes can be found in our [changelog](https://support.audacityteam.org/additional-resources/changelog/audacity-3.5).
+A more detailed overview of these changes can be found in our [changelog](/changelog#3.5.0).
 You can download Audacity on [audacityteam.org/download](/download).
 
 The [Intel OpenVINO plugin](https://github.com/intel/openvino-plugins-ai-audacity/releases/tag/v3.5.0-R2) also has been updated for version 3.5.

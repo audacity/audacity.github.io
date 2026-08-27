@@ -1,0 +1,228 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/icons.css";
+import { audacityReleases } from "../assets/data/audacityReleases";
+import { changelog } from "../assets/data/changelog";
+
+const current = audacityReleases.version;
+
+/*
+  Moved here from the old support hub, where it had fallen two releases
+  behind the version the download pages were offering. Generated from the
+  release notes now, so it can't drift from what actually shipped.
+
+  Not under /download/: everything else in that namespace hands you a
+  binary, and the people who want this are as often updating an existing
+  install as choosing one to download.
+*/
+const fmt = (iso: string) =>
+  new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+---
+
+<BaseLayout
+  title="Audacity ® | Changelog"
+  description="What changed in each release of Audacity, from 3.0.0 onwards."
+  canonical="https://www.audacityteam.org/changelog/"
+>
+  <main id="main">
+    <section class="bg-background-medium border-b border-text-primary/10">
+      <div
+        class="mx-auto max-w-screen-lg px-6 xs:px-12 md:px-8 py-8 md:py-10 flex flex-col gap-3"
+      >
+        <h1
+          class="font-harmony text-40 md:text-56 text-text-primary leading-tight"
+        >
+          Changelog
+        </h1>
+        <p class="text-18 text-text-primary/60 max-w-2xl">
+          What changed in each release of Audacity, newest first. Every release
+          from 3.0.0 onwards is here.
+        </p>
+      </div>
+    </section>
+
+    <div
+      class="mx-auto max-w-screen-lg px-6 xs:px-12 md:px-8 py-10 md:py-14 flex flex-col gap-10"
+    >
+      <section class="flex flex-col gap-4">
+        <h2
+          class="text-12 uppercase tracking-wider font-semibold text-text-primary/50"
+        >
+          {changelog.length} releases
+        </h2>
+
+        {
+          /*
+          Same disclosure idiom as /download/older-versions — it's the same
+          list of the same releases, so it shouldn't read as a different kind
+          of page. The newest is open because that's what most visitors came
+          to read; 365 changes across 38 releases is not a page to scroll.
+        */
+        }
+        <ul
+          class="release-list divide-y divide-text-primary/10 overflow-hidden rounded-xl border border-text-primary/15 bg-white"
+        >
+          {
+            changelog.map((entry, i) => (
+              <li id={entry.version}>
+                <details open={i === 0}>
+                  <summary class="flex cursor-pointer items-center gap-3 px-5 py-4 transition-colors hover:bg-accent/5">
+                    <span
+                      class="chev icon icon-medium icon-caret-right shrink-0 text-text-primary/50"
+                      aria-hidden="true"
+                    />
+                    <span class="text-18 font-semibold text-text-primary">
+                      {entry.version}
+                    </span>
+                    {entry.version === current && (
+                      <span class="rounded-full bg-accent/10 px-2 py-0.5 text-12 font-semibold text-accent">
+                        Current
+                      </span>
+                    )}
+                    <span class="ml-auto text-14 tabular-nums text-text-primary/50">
+                      {fmt(entry.date)}
+                    </span>
+                  </summary>
+
+                  <div class="flex flex-col gap-4 px-5 pb-6 pl-12 text-16 text-text-primary/80">
+                    {entry.intro.map((p) => (
+                      <p class="max-w-3xl">{p}</p>
+                    ))}
+
+                    {entry.changes.length > 0 && (
+                      <ul class="flex max-w-3xl list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
+                        {entry.changes.map((c) => (
+                          <li>{c}</li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {entry.outro.map((p) => (
+                      <p class="max-w-3xl">{p}</p>
+                    ))}
+
+                    <a
+                      href={entry.releaseUrl}
+                      target="_blank"
+                      rel="noopener"
+                      class="inline-flex w-fit items-center gap-1.5 text-14 font-semibold text-accent hover:underline underline-offset-4"
+                    >
+                      Release {entry.version} on GitHub
+                      <span class="icon icon-share" aria-hidden="true" />
+                    </a>
+                  </div>
+                </details>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section
+        class="rounded-xl border border-text-primary/10 bg-background-medium p-6 flex flex-col gap-2"
+      >
+        <h2 class="text-18 font-semibold text-text-primary">
+          Looking for one of these builds?
+        </h2>
+        <p class="text-16 text-text-primary/70 max-w-2xl">
+          Installers for every release listed here, along with the offline
+          manual that shipped with each one, are available from this site.
+        </p>
+        <a
+          href="/download/older-versions"
+          class="w-fit font-semibold text-accent hover:underline underline-offset-4"
+        >
+          Browse older versions
+        </a>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  /*
+    Deep links like /changelog#3.6.0 are how the blog posts and release
+    announcements point at a specific version. Blink will open a closed
+    <details> to reach a hash target, but not every engine does, so the row
+    is opened here rather than relying on it — otherwise the link lands on a
+    collapsed row and looks broken.
+  */
+  const openTarget = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const row = document.getElementById(id);
+    if (!row) return;
+    const details = row.querySelector("details");
+    if (!details) return;
+    details.open = true;
+
+    /*
+      Not scrolled in the same frame as the open: the row above is expanded
+      at parse time and the webfonts land a moment later, both of which move
+      this row after the scroll would have been calculated. Waiting for
+      fonts, then a frame, puts the summary where it was asked to go rather
+      than a screenful past it.
+    */
+    const settle = () => row.scrollIntoView({ block: "start" });
+    document.fonts.ready.then(() => requestAnimationFrame(settle));
+  };
+
+  openTarget();
+  window.addEventListener("hashchange", openTarget);
+</script>
+
+<style>
+  /*
+    Mirrors /download/older-versions. Duplicated rather than shared: it's a
+    dozen lines, and the alternative is a global stylesheet rule keyed to a
+    class name that two pages happen to agree on.
+  */
+  /*
+    Deep-linked rows sit under the fixed nav without this. In the page's own
+    stylesheet rather than a utility class: it's load-bearing for /changelog
+    links working, and shouldn't depend on a class surviving a purge.
+  */
+  .release-list > li {
+    scroll-margin-top: 6rem;
+  }
+
+  .release-list summary {
+    list-style: none;
+  }
+  .release-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .release-list .chev {
+    transition: transform 200ms ease;
+  }
+  .release-list details[open] > summary .chev {
+    transform: rotate(90deg);
+  }
+
+  @supports (interpolate-size: allow-keywords) {
+    .release-list details::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size 200ms ease,
+        content-visibility 200ms allow-discrete;
+      interpolate-size: allow-keywords;
+    }
+    .release-list details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .release-list .chev,
+    .release-list details::details-content {
+      transition: none;
+    }
+  }
+</style>

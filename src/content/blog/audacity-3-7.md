@@ -10,7 +10,7 @@ draft: false
 
 Audacity 3.7 has been released!
 
-It features everyone's favorite "bug fixes and performance improvements". See the [full changelog](https://support.audacityteam.org/additional-resources/changelog/audacity-3.7) for details.
+It features everyone's favorite "bug fixes and performance improvements". See the [full changelog](/changelog#3.7.0) for details.
 
 Other than that ­– there’s nothing exciting to see here. Which in itself is exciting! The reason for this very thin release is that we’ve focused most of our attention towards **Audacity 4.0** instead! Audacity 4 will feature a complete remake of the UI and is still quite some ways out. We’ll update you on scope and progress on that over the coming months.
 
