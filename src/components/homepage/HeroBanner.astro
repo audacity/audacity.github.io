@@ -31,13 +31,13 @@ const t = useTranslations(Astro.currentLocale);
         <div
           class="flex flex-col gap-4 items-center lg:items-start text-text-contrast"
         >
-          <DownloadMuseHubButton client:load />
+          <DownloadMuseHubButton surface="hero" client:load />
           <noscript>
-            <DownloadMuseHubButton client:load />
+            <DownloadMuseHubButton surface="hero" client:load />
           </noscript>
-          <DownloadButton client:load />
+          <DownloadButton surface="hero" client:load />
           <noscript>
-            <DownloadButton client:load />
+            <DownloadButton surface="hero" client:load />
           </noscript>
         </div>
       </div>

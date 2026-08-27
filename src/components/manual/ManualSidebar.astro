@@ -44,14 +44,14 @@ for (const entry of allEntries) {
 function buildTree(entries: Entry[]): TreeNode[] {
   const sorted = [...entries].sort((a, b) => {
     if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-    return a.slug.localeCompare(b.slug);
+    return a.id.localeCompare(b.id);
   });
 
   const nodes = new Map<string, TreeNode>();
   for (const entry of sorted) {
-    nodes.set(entry.slug, {
+    nodes.set(entry.id, {
       title: entry.data.title,
-      slug: entry.slug,
+      slug: entry.id,
       order: entry.data.order,
       children: [],
       entry,
@@ -60,8 +60,8 @@ function buildTree(entries: Entry[]): TreeNode[] {
 
   const roots: TreeNode[] = [];
   for (const entry of sorted) {
-    const node = nodes.get(entry.slug)!;
-    const parts = entry.slug.split("/");
+    const node = nodes.get(entry.id)!;
+    const parts = entry.id.split("/");
     let attached = false;
     for (let i = parts.length - 1; i > 0; i--) {
       const parentSlug = parts.slice(0, i).join("/");

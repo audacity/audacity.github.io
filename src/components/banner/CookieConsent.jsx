@@ -16,7 +16,7 @@ function CookieConsent() {
             tracking. By clicking 'Accept', you allow us to track your visits.
             Choose 'Reject' if you'd prefer not to be tracked.
             <a
-              href="/cookie-policy"
+              href="/legal/cookie-policy"
               className="hyperlink ml-1"
               aria-label="Read cookie policy"
             >

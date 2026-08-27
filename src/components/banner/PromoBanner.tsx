@@ -8,19 +8,47 @@ import { selectWeightedItem } from "../../utils/selectWeightedItem";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const DEFAULT_PROMO_STYLES: NonNullable<PromoData["styles"]> = {
-  container: "bg-[#423C31]",
-  message: "text-[#FFC214]",
-  button: "bg-[#FFC214] hover:bg-[#FFD24A] text-[#0C013A]",
+  container: "bg-yellow-300",
+  message: "text-gray-900",
+  button: "bg-gray-100 hover:bg-white",
 };
 
+// A promo banner can only ever eat a mobile viewport's space, never a small
+// slice of it, so it's hidden below `md` rather than just reflowed. `hidden
+// md:flex` is the primary guard: pure CSS, so it holds before hydration and
+// even if JS never runs. `DESKTOP_MEDIA_QUERY` below is a second, independent
+// guard in JS that skips promo selection entirely on mobile viewports, so
+// there's no code path left that can resurrect the banner if the CSS class
+// is ever edited out from under it. Keep both in sync with Tailwind's `md`
+// breakpoint (tailwind.config.cjs `screens.md`).
 const BASE_CONTAINER_CLASSNAME =
-  "flex flex-col lg:flex-row justify-center items-center align-start px-4 py-4 gap-3 lg:gap-6 transition-colors duration-200";
-const BASE_MESSAGE_CLASSNAME = "text-lg font-normal";
+  "hidden md:flex md:flex-col lg:flex-row justify-center items-center align-start px-4 py-4 gap-3 lg:gap-6 transition-colors duration-200";
+const BASE_MESSAGE_CLASSNAME = "text-lg font-semibold";
 const BASE_BUTTON_CLASSNAME =
   "flex h-8 justify-center items-center px-4 rounded-md font-semibold whitespace-nowrap";
 
 const PLACEHOLDER_CONTAINER_CLASSNAME =
-  "flex flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6 transition-colors duration-200 opacity-0 pointer-events-none";
+  "hidden md:flex md:flex-col lg:flex-row justify-center items-center align-start py-4 gap-3 lg:gap-6 transition-colors duration-200 opacity-0 pointer-events-none";
+
+const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
+
+// null = not yet known (SSR / pre-hydration) — callers should wait rather
+// than guess, so we never briefly select a promo on a mobile device.
+const useIsDesktopViewport = (): boolean | null => {
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const mql = window.matchMedia(DESKTOP_MEDIA_QUERY);
+    setIsDesktop(mql.matches);
+
+    const handleChange = (event: MediaQueryListEvent) =>
+      setIsDesktop(event.matches);
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
+
+  return isDesktop;
+};
 
 type PromoBannerProps = {
   requestPath?: string;
@@ -68,6 +96,7 @@ const buildPromoList = (path: string | null): PromoData[] =>
 
 const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
   const browserOS = useBrowserOS();
+  const isDesktopViewport = useIsDesktopViewport();
   const [selectedPromo, setSelectedPromo] = useState<PromoData | null>(null);
   const [isReady, setIsReady] = useState(false);
   const hasSelected = useRef(false);
@@ -89,6 +118,22 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
 
   useEffect(() => {
     if (hasSelected.current) {
+      return;
+    }
+
+    if (isDesktopViewport === null) {
+      // Viewport not yet known — wait rather than guess.
+      return;
+    }
+
+    if (!isDesktopViewport) {
+      // Mobile viewport: never select or reserve space for a promo. Don't
+      // latch hasSelected here — if the viewport later crosses the `md`
+      // breakpoint (window resize, tablet rotation) this effect re-runs and
+      // can still select one.
+      setSelectedPromo(null);
+      setIsReady(true);
+      setShouldReserveSpace(false);
       return;
     }
 
@@ -127,7 +172,7 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
     setSelectedPromo(promo && promo.cta ? promo : null);
     setIsReady(true);
     setShouldReserveSpace(true);
-  }, [browserOS, initialPath]);
+  }, [browserOS, initialPath, isDesktopViewport]);
 
   if (!isReady && shouldReserveSpace) {
     return (
@@ -162,10 +207,6 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
     styles?.button ?? DEFAULT_PROMO_STYLES.button,
   );
   const trimmedMessage = message.trim();
-  const colonIdx = trimmedMessage.indexOf(":");
-  const messageLead = colonIdx > -1 ? trimmedMessage.slice(0, colonIdx) : null;
-  const messageRest =
-    colonIdx > -1 ? trimmedMessage.slice(colonIdx) : trimmedMessage;
 
   function handleButtonClick() {
     if (!tracking) return;
@@ -177,12 +218,7 @@ const PromoBanner: React.FC<PromoBannerProps> = ({ requestPath }) => {
       {
         <div id="promo-banner" className={containerClassName}>
           <div className="lg:flex text-center gap-4 flex-wrap justify-center">
-            <p className={messageClassName}>
-              {messageLead && (
-                <strong className="font-bold">{messageLead}</strong>
-              )}
-              {messageRest}
-            </p>
+            <p className={messageClassName}>{trimmedMessage}</p>
           </div>
 
           <a

@@ -1,0 +1,59 @@
+---
+/**
+ * Renders every screenshot in the installed
+ * @dilsonspickles/audacity-ui-screenshots package, grouped by category —
+ * a complete index of the shot library, driven by the package manifest so
+ * it stays current with every version bump.
+ *
+ *   import UIShotIndex from "../../../components/manual/UIShotIndex.astro";
+ *   <UIShotIndex />
+ */
+import UIShot from "./UIShot.astro";
+
+const manifests = import.meta.glob<{
+  version: string;
+  images: { id: string }[];
+}>("/node_modules/@dilsonspickles/audacity-ui-screenshots/manifest.json", {
+  eager: true,
+  import: "default",
+});
+
+const manifest = Object.values(manifests)[0];
+const images = manifest?.images ?? [];
+
+const categories = new Map<string, string[]>();
+for (const img of images) {
+  const [category] = img.id.split("/");
+  if (!categories.has(category)) {
+    categories.set(category, []);
+  }
+  categories.get(category)!.push(img.id);
+}
+---
+
+{
+  manifest ? (
+    <>
+      <p>
+        <em>
+          {images.length} screenshots from package version {manifest.version}.
+        </em>
+      </p>
+      {[...categories.entries()].map(([category, ids]) => (
+        <section>
+          <h2 id={`shots-${category}`}>{category}</h2>
+          {ids.map((id) => (
+            <>
+              <p>
+                <code>{id}</code>
+              </p>
+              <UIShot name={id} alt={id} />
+            </>
+          ))}
+        </section>
+      ))}
+    </>
+  ) : (
+    <em>Screenshot package not installed.</em>
+  )
+}

@@ -24,6 +24,9 @@ const localePrefix =
 const links = [
   { href: "/help", label: t("footer.link.help") },
   { href: "/FAQ", label: t("footer.link.faq") },
+  /* Literal, not a t() key: main added the page without one, and inventing a
+     key here would leave every other locale falling back to a missing string. */
+  { href: "/contact", label: "Contact" },
   { href: "/blog", label: t("footer.link.blog") },
   { href: "/cloud-saving", label: t("footer.link.cloudSaving") },
   {
@@ -47,11 +50,15 @@ const downloads = [
   { href: "/download/linux", label: "Linux" },
   { href: "/beta", label: t("footer.download.beta"), id: "beta-link" },
   {
-    href: "https://musehub.com/?utm_source=audacity&utm_medium=footer&utm_campaign=musehub",
+    href: "https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink&utm_content=footer",
     label: "MuseHub",
     external: true,
   },
-  { href: "/download/openvino", label: t("footer.download.aiPlugins") },
+  {
+    href: "https://www.musehub.com/plugin?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink&utm_content=footer",
+    label: "Plugins",
+    external: true,
+  },
 ];
 
 const social = [

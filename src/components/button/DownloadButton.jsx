@@ -1,60 +1,108 @@
-import React, { useEffect, useState } from "react";
-import platform from "platform";
 import { audacityReleases } from "../../assets/data/audacityReleases";
-import { trackEvent } from "../../utils/matomo";
+import { trackBinaryDownloadChoice, trackEvent } from "../../utils/matomo";
 
-function DownloadButton() {
-  const [browserOS, setBrowserOS] = useState("");
-
-  useEffect(() => {
-    setBrowserOS(platform.os.family);
-  }, []);
-
-  function handleButtonClick(href) {
+/** @param {{ surface?: "hero" }} [props] */
+function DownloadButton({ surface } = {}) {
+  function handleButtonClick(link) {
+    const { href, osLabel, releaseName } = link;
     if (href !== "/download") {
       trackEvent(
         "Download Button",
         "Download Audacity",
-        `Download Audacity button ${platform.os.family}`,
+        `Download Audacity button ${osLabel}`,
+      );
+      trackBinaryDownloadChoice({
+        variant: "control",
+        os: osLabel,
+        releaseName,
+        url: href,
+        source: "primary-audacity-button",
+      });
+    } else {
+      trackEvent(
+        "Download Button",
+        "Other Versions",
+        `Other versions ${osLabel}`,
       );
     }
 
     setTimeout(() => {
-      window.location.href = "post-download";
+      window.location.href = "/post-download";
     }, 2000);
   }
 
-  function renderButton(href) {
+  const links = [
+    {
+      osClass: "os-mac",
+      osLabel: "OS X",
+      href: audacityReleases.mac[0].browser_download_url,
+      releaseName: audacityReleases.mac[0].name,
+    },
+    {
+      osClass: "os-win",
+      osLabel: "Windows",
+      href: audacityReleases.win[0].browser_download_url,
+      releaseName: audacityReleases.win[0].name,
+    },
+  ];
+
+  const renderDownloadLink = (link) => (
+    <a
+      key={link.osClass}
+      onClick={() => handleButtonClick(link)}
+      /*
+        Inherits its colour: this renders in the dark hero and again in the
+        light CTA at the foot of every feature page. Hardcoding white made it
+        invisible in the second one.
+      */
+      className={`os-specific ${link.osClass} w-fit text-16 font-semibold text-current underline underline-offset-4 decoration-current/40 hover:decoration-current transition-colors`}
+      href={link.href}
+    >
+      Download without Muse Hub
+    </a>
+  );
+
+  const renderOtherVersionsLink = (link) => (
+    <a
+      key={link.osClass}
+      onClick={() =>
+        trackEvent(
+          "Download Button",
+          "Other Versions",
+          `Other versions ${link.osLabel}`,
+        )
+      }
+      className={`os-specific ${link.osClass} w-fit text-16 font-semibold text-current underline underline-offset-4 decoration-current/40 hover:decoration-current transition-colors`}
+      href="https://www.audacityteam.org/download/"
+    >
+      Other versions
+    </a>
+  );
+
+  // Homepage hero, iteration 3 copy test: keep "Download without MuseHub" in
+  // arm a (the original — and when the experiment is off, via the
+  // :not([data-exp]) fallback), remove it entirely in arms b/c/d.
+  if (surface === "hero") {
     return (
-      <a
-        onClick={() => handleButtonClick(href)}
-        /*
-          Inherits its colour: this renders in the dark hero and again in the
-          light CTA at the foot of every feature page. Hardcoding white made
-          it invisible in the second one.
-        */
-        className="w-fit text-16 font-semibold text-current underline underline-offset-4 decoration-current/40 hover:decoration-current transition-colors"
-        href={href}
-      >
-        Download without Muse Hub
-      </a>
+      <span className="ab-variant ab-musehub-copy-a">
+        {links.map(renderDownloadLink)}
+      </span>
     );
   }
 
-  switch (browserOS) {
-    case "OS X":
-      return renderButton(audacityReleases.mac[0].browser_download_url);
-    case "Windows":
-      return renderButton(audacityReleases.win[0].browser_download_url);
-    case "Linux":
-    case "Ubuntu":
-    case "Debian":
-    case "Red Hat":
-    case "SuSE":
-      return; //primary button is Linux download already
-    default:
-      return renderButton("/download");
-  }
+  return (
+    <>
+      <span className="ab-variant ab-musehub-badge-control">
+        {links.map(renderDownloadLink)}
+      </span>
+      <span className="ab-variant ab-musehub-badge-musehub">
+        {links.map(renderOtherVersionsLink)}
+      </span>
+      <span className="ab-variant ab-musehub-badge-download">
+        {links.map(renderOtherVersionsLink)}
+      </span>
+    </>
+  );
 }
 
 export default DownloadButton;

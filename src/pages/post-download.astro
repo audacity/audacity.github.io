@@ -4,6 +4,16 @@ import JoinAudioDotComButton from "../components/button/JoinAudioDotComButton";
 import "../styles/icons.css";
 import AppMarks from "../components/post-download/AppMarks.astro";
 
+/*
+  Kept from main across the release-branch merge. The snippet is the
+  AI-Experimentor host; the badges are the winning post-download variant from
+  CRO experiment 805325524, so they're validated copy rather than decoration.
+  The redesign around them is ours; only the greens they arrived in are gone,
+  since the palette has no green.
+*/
+const AIX_HOST = "https://web-n7vh.onrender.com";
+const badges = ["Free Cloud Storage", "Automatic Backups", "Access Anywhere"];
+
 const steps = [
   { label: "Download Audacity application", done: true },
   { label: "Connect to Cloud storage", done: false },
@@ -16,6 +26,20 @@ const steps = [
   description="Sync & save projects in Audacity Cloud. Secure, automatic, and always accessible."
   index="all"
 >
+  <script is:inline define:vars={{ AIX_HOST }}>
+    (function () {
+      // Load the AI-Experimentor snippet (one tag; self-quiet if no experiment
+      // matches this path). Consent-gated because it sets a cookie + sends
+      // events, matching Matomo.
+      if (document.cookie.indexOf("audacity_consent=true") !== -1) {
+        var s = document.createElement("script");
+        s.src = AIX_HOST + "/aix.js";
+        s.async = true;
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
     <div
       class="flex flex-col items-center justify-center"
@@ -31,6 +55,20 @@ const steps = [
         <p class="mt-2 text-18 text-text-primary/60">
           You can now complete Cloud setup
         </p>
+        <ul
+          class="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-16 font-semibold text-text-primary"
+        >
+          {
+            badges.map((badge) => (
+              <li class="flex items-center gap-2">
+                <span class="grid h-6 w-6 place-items-center rounded-full bg-accent/10">
+                  <span class="icon icon-check icon-small leading-none text-accent" />
+                </span>
+                {badge}
+              </li>
+            ))
+          }
+        </ul>
       </div>
       {
         /*

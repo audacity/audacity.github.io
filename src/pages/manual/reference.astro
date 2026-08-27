@@ -116,7 +116,7 @@ const sections = Array.from(grouped.entries())
         <ul class="mt-3 space-y-2">
           {section.pages.map((p) => (
             <li>
-              <a href={`/manual/${p.slug}`} class="hover:text-blue-700">
+              <a href={`/manual/${p.id}`} class="hover:text-blue-700">
                 {p.data.title}
               </a>
             </li>

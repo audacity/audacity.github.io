@@ -2,6 +2,25 @@
 import type { PromoData } from "./types";
 
 export const campaignBannerPromos: Record<string, PromoData> = {
+  "80sDreamsBundle": {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-06-11",
+    endDate: "2026-06-25",
+    message:
+      "80s Dreams Bundle: The reverb and synth duo for retro-inspired sound. Create lush ambience and vintage tones.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "80s Dreams Bundle MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/bundle/80s-dreams-bundle?utm_source=au-web-banner&utm_medium=au-banner",
+    },
+  },
   denoiser: {
     type: "banner",
     isActive: true,
@@ -38,6 +57,101 @@ export const campaignBannerPromos: Record<string, PromoData> = {
     cta: {
       text: "Get it on MuseHub",
       link: "https://www.musehub.com/bundle/soap-voice-recording-bundle?utm_source=au-web-banner&utm_medium=au-banner",
+    },
+  },
+  speakerDiarizationPro: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-07-29",
+    endDate: "2026-08-13",
+    message:
+      "Speaker Diarization Pro: The AI tool for splitting multi-speaker audio. Detect, separate, and export voices instantly.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Speaker Diarization Pro MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/speaker-diarization-pro?utm_source=au-web-banner-mh-web&utm_medium=speaker-diarization-pro&utm_campaign=au-web-banner-mh-web-speaker-diarization-pro&utm_id=au-web-banner",
+    },
+  },
+  overtune: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-07-27",
+    endDate: "2026-08-10",
+    message:
+      "Overtune: The beat maker for rappers and singers. Sing, polish, and share.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Overtune MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/app/overtune-studio?utm_source=au-web-banner-mh-web&utm_medium=overtune-2&utm_campaign=au-web-banner-mh-web-overtune-2r&utm_id=au-web-banner",
+    },
+  },
+  viatorVoiceDenoiser: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-07-13",
+    endDate: "2026-07-27",
+    message:
+      "Viator Voice Denoiser: The one-knob tool for clean vocals. Remove noise fast and keep your voice natural.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Viator Voice Denoiser MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/viator-voice-denoiser?utm_source=au-web-banner-mh-web&utm_medium=viator-voice-denoiser&utm_campaign=au-web-banner-mh-web-viator-voice-denoiser&utm_id=au-web-banner",
+    },
+  },
+  soapVoiceCleaner: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-08-10",
+    endDate: "2026-08-24",
+    message:
+      "SOAP Voice Cleaner: Professional spoken voice in 3 simple clicks!",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "SOAP Voice Cleaner MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/soap-voice-cleaner?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_040826_crosslink&utm_content=au_web_banner",
+    },
+  },
+  extract: {
+    type: "banner",
+    isActive: true,
+    priority: 50,
+    osTargets: ["Windows", "OS X"],
+    startDate: "2026-08-24",
+    endDate: "2026-09-07",
+    message:
+      "Extract:Dialogue 2: The AI tool for dialogue cleanup and restoration. Isolate, control, and refine speech in real time.",
+    tracking: {
+      category: "Promo CTA",
+      action: "Promo CTA button",
+      name: "Extract MuseHub",
+    },
+    cta: {
+      text: "Get it on MuseHub",
+      link: "https://www.musehub.com/plugin/extractdialogue-2",
     },
   },
 };

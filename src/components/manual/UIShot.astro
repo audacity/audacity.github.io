@@ -1,0 +1,96 @@
+---
+/**
+ * Pixel-true screenshot of a real application component, rendered from the
+ * Audacity source by the shotbox harness (~/code/audacity-shotbox) and
+ * delivered as the versioned @dilsonspickles/audacity-ui-screenshots package.
+ *
+ * Sibling of UIExample: UIExample renders interactive design-system
+ * re-implementations; UIShot shows the actual application, captured at 4x.
+ *
+ *   import UIShot from "../../../components/manual/UIShot.astro";
+ *   <UIShot name="trackpanel/WaveTrackItem" alt="A stereo track header" />
+ *   <UIShot name="buttons/FlatButton-accent" state="hover" theme="dark" />
+ *
+ * `name` is the shot id from the package manifest (category/Component);
+ * `state` appends an interaction-state suffix (normal/hover/pressed/disabled)
+ * for shots that declare states. Images render at their logical 1x size
+ * (from the manifest) unless `width` overrides it.
+ *
+ * Degrades to a visible placeholder (plus a build warning) when the package
+ * or a specific image is missing — content never breaks the build.
+ */
+interface Props {
+  name: string;
+  state?: string;
+  theme?: "light" | "dark";
+  alt?: string;
+  width?: number;
+}
+
+const { name, state, theme = "light", alt = "", width } = Astro.props;
+
+const PKG = "/node_modules/@dilsonspickles/audacity-ui-screenshots";
+
+const images = import.meta.glob<string>(
+  "/node_modules/@dilsonspickles/audacity-ui-screenshots/{light,dark}/**/*.png",
+  { eager: true, query: "?url", import: "default" },
+);
+const manifests = import.meta.glob<{
+  scale: number;
+  images: { id: string; width: number; height: number }[];
+}>("/node_modules/@dilsonspickles/audacity-ui-screenshots/manifest.json", {
+  eager: true,
+  import: "default",
+});
+
+const id = `${name}${state ? `-${state}` : ""}`;
+const url = images[`${PKG}/${theme}/${id}.png`];
+const meta = Object.values(manifests)[0]?.images.find((i) => i.id === id);
+
+if (!url) {
+  console.warn(
+    `UIShot: no image for "${id}" (${theme}) — is @dilsonspickles/audacity-ui-screenshots installed and does the shot exist?`,
+  );
+}
+
+// Explicit dimensions reserve the layout box before the image loads (no
+// layout shift). A width override scales height proportionally.
+const displayWidth = width ?? meta?.width;
+const displayHeight =
+  meta && displayWidth
+    ? Math.round((meta.height * displayWidth) / meta.width)
+    : undefined;
+---
+
+{
+  url ? (
+    <figure class="ui-shot not-prose my-6 flex flex-col items-center rounded-lg border border-slate-200 bg-slate-50 px-6 py-8">
+      <img
+        src={url}
+        alt={alt}
+        width={displayWidth}
+        height={displayHeight}
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+      />
+      {Astro.slots.has("default") && (
+        <figcaption class="mt-3 text-sm text-slate-500">
+          <slot />
+        </figcaption>
+      )}
+    </figure>
+  ) : (
+    <em>Screenshot unavailable ({id})</em>
+  )
+}
+
+<style>
+  /* Belt and braces alongside draggable="false": Safari needs user-drag,
+     and disabling selection stops drag-select ghosting around the figure. */
+  .ui-shot img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+</style>

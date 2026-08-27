@@ -1,7 +1,7 @@
 ---
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ManualSidebar from "../../components/manual/ManualSidebar.astro";
 import ManualOnThisPage from "../../components/manual/ManualOnThisPage.astro";
@@ -11,13 +11,13 @@ import { getLastUpdated } from "../../utils/lastUpdated";
 export async function getStaticPaths() {
   const entries = await getCollection("manual", ({ data }) => !data.draft);
   return entries.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
+const { Content, headings } = await render(entry);
 
 // Immediate children: slug starts with `${entry.slug}/` and has no further
 // nesting beyond that. Used to render an in-page "Pages in this section"
@@ -26,16 +26,16 @@ const allEntries = await getCollection(
   "manual",
   ({ data }) => !data.draft && data.stream === entry.data.stream,
 );
-const childPrefix = `${entry.slug}/`;
+const childPrefix = `${entry.id}/`;
 const children = allEntries
   .filter((e) => {
-    if (!e.slug.startsWith(childPrefix)) return false;
-    const remainder = e.slug.slice(childPrefix.length);
+    if (!e.id.startsWith(childPrefix)) return false;
+    const remainder = e.id.slice(childPrefix.length);
     return remainder.length > 0 && !remainder.includes("/");
   })
   .sort((a, b) => {
     if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-    return a.slug.localeCompare(b.slug);
+    return a.id.localeCompare(b.id);
   });
 
 const projectRoot = fileURLToPath(new URL("../../..", import.meta.url));
@@ -60,7 +60,7 @@ const lastUpdatedISO = lastUpdated.toISOString();
         class="col-start-2 col-span-10 sm:col-start-2 sm:col-span-3 sm:sticky sm:top-8 self-start"
       >
         <ManualSidebar
-          currentSlug={entry.slug}
+          currentSlug={entry.id}
           currentStream={entry.data.stream}
         />
       </aside>
@@ -101,7 +101,7 @@ const lastUpdatedISO = lastUpdated.toISOString();
               {children.map((child) => (
                 <li>
                   <a
-                    href={`/manual/${child.slug}`}
+                    href={`/manual/${child.id}`}
                     class="block h-full p-4 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
                   >
                     <span class="block font-semibold text-gray-900 text-base">
@@ -119,7 +119,7 @@ const lastUpdatedISO = lastUpdated.toISOString();
           )
         }
         <ManualPagination
-          currentSlug={entry.slug}
+          currentSlug={entry.id}
           currentStream={entry.data.stream}
         />
         <p class="not-prose mt-8 text-xs text-gray-500">

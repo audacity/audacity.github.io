@@ -1,4 +1,4 @@
-import type { Context } from "https://edge.netlify.com";
+import type { Context } from "@netlify/edge-functions";
 
 const COOKIE_NAME = "aud_ab_id";
 const MAX_ID = 100000;

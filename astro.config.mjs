@@ -8,6 +8,13 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 import compressor from "astro-compressor";
+const NO_EXTERNAL = [
+  "@datapunt/matomo-tracker-react",
+  "@datapunt/matomo-tracker-js",
+  "@dilsonspickles/components",
+  "gsap",
+];
+
 export default defineConfig({
   site: "https://www.audacityteam.org",
   /*
@@ -53,14 +60,17 @@ export default defineConfig({
     },
     resolve: {
       dedupe: ["react", "react-dom"],
+      /*
+        Vite moved noExternal from `ssr` to `resolve`. Astro 6 reads the new
+        location, and without it the design system's shipped .css is handed
+        to Node's ESM loader during prerender, which fails on the extension.
+        Kept under `ssr` as well so the option still applies wherever the old
+        key is the one being read.
+      */
+      noExternal: NO_EXTERNAL,
     },
     ssr: {
-      noExternal: [
-        "@datapunt/matomo-tracker-react",
-        "@datapunt/matomo-tracker-js",
-        "@dilsonspickles/components",
-        "gsap",
-      ],
+      noExternal: NO_EXTERNAL,
     },
     optimizeDeps: {
       /*

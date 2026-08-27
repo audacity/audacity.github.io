@@ -1,9 +1,9 @@
-// 1. Import utilities from `astro:content`
-import { z, defineCollection } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
-// 2. Define a `type` and `schema` for each collection
 const blogCollection = defineCollection({
-  type: "content", // v2.5.0 and later
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -36,8 +36,14 @@ export const MANUAL_STREAMS = [
   "reference",
 ] as const;
 
+/*
+  Carried over from src/content/config.ts, which main removed when it moved to
+  Astro 6's content layer. Same schema, declared with a glob loader instead of
+  `type: "content"` — .mdx included, since the manual pages that embed live
+  components are authored as MDX.
+*/
 const manualCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/manual" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -49,7 +55,6 @@ const manualCollection = defineCollection({
   }),
 });
 
-// 3. Export a single `collections` object to register your collection(s)
 export const collections = {
   blog: blogCollection,
   manual: manualCollection,

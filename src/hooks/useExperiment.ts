@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getExperiment } from "../assets/data/experiments";
-import { getAbId, getVariant } from "../utils/experiment";
+import { resolveVariant } from "../utils/experiment";
 
 type UseExperimentResult = {
   variant: string | null;
@@ -15,18 +15,12 @@ export function useExperiment(experimentName: string): UseExperimentResult {
 
   useEffect(() => {
     const experiment = getExperiment(experimentName);
-    if (!experiment || !experiment.enabled) {
-      setResult({ variant: null, isReady: true });
-      return;
-    }
-
-    const abId = getAbId();
-    if (abId === null) {
-      setResult({ variant: null, isReady: true });
-      return;
-    }
-
-    setResult({ variant: getVariant(experiment, abId), isReady: true });
+    // resolveVariant handles the ?ab= force (any experiment) and the
+    // enabled-only auto-assignment, so the hook just reflects its result.
+    setResult({
+      variant: experiment ? resolveVariant(experiment) : null,
+      isReady: true,
+    });
   }, [experimentName]);
 
   return result;

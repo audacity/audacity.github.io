@@ -172,7 +172,7 @@ const ExitIntentPopup: React.FC<ExitIntentPopupProps> = ({ requestPath }) => {
       type: "exit-popup",
       path: resolvedPath,
     })
-      .filter(isPromoDateActive)
+      .filter((promo) => isPromoDateActive(promo))
       .filter(isExitPopupPromo);
 
     releaseOverlayLock();

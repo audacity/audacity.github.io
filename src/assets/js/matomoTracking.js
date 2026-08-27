@@ -1,5 +1,4 @@
 import { getAllAssignments, formatAssignments } from "../../utils/experiment";
-import { injectClarity } from "./clarityTracking.js";
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -34,5 +33,4 @@ _paq.push(["requireCookieConsent"]);
 
 if (getCookie("audacity_consent") === "true") {
   _paq.push(["setCookieConsentGiven"]);
-  injectClarity();
 }

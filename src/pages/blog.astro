@@ -29,7 +29,7 @@ const publishedBlogPosts = await getCollection("blog", ({ data }) => {
             .map((post) => {
               return (
                 <NEWBlogPostCard
-                  href={post.slug}
+                  href={post.id}
                   title={post.data.title}
                   description={post.data.description}
                   publishDate={post.data.publishDate}

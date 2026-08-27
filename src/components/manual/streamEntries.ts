@@ -30,7 +30,7 @@ export async function getStreamEntryPoints(): Promise<StreamEntryPoint[]> {
         if (a.data.sectionOrder !== b.data.sectionOrder)
           return a.data.sectionOrder - b.data.sectionOrder;
         if (a.data.order !== b.data.order) return a.data.order - b.data.order;
-        return a.slug.localeCompare(b.slug);
+        return a.id.localeCompare(b.id);
       });
     return {
       id: s.id,

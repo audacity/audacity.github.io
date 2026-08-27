@@ -91,6 +91,23 @@
     @apply font-semibold text-18 text-text-primary;
   }
 
+  /* Iteration 3 copy test (hero only). Off / no cookie falls back to arm a
+     (the untouched original). Arms match the Confluence/Figma A/B/C/D labels. */
+  html:not([data-exp-musehub-copy]) .ab-musehub-copy-a,
+  html[data-exp-musehub-copy="a"] .ab-musehub-copy-a,
+  html[data-exp-musehub-copy="b"] .ab-musehub-copy-b,
+  html[data-exp-musehub-copy="c"] .ab-musehub-copy-c,
+  html[data-exp-musehub-copy="d"] .ab-musehub-copy-d {
+    display: contents;
+  }
+
+  html:not([data-os]) .os-win,
+  html[data-os="win"] .os-win,
+  html[data-os="mac"] .os-mac,
+  html[data-os="linux"] .os-linux {
+    display: var(--aud-os-display, inline-flex);
+  }
+
   .skip-to-content {
     position: fixed;
     background-color: #ff3254;

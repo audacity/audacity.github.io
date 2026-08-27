@@ -2,11 +2,11 @@
 
 This is the source of [www.audacityteam.org](https://www.audacityteam.org). It uses [Astro](https://docs.astro.build/en/getting-started/).
 
-This repo works with npm or Bun.
+This repo uses [Bun](https://bun.sh) as its package manager (CI builds with it too — only `bun.lock` is tracked).
 
-- Install dependencies: `npm install` or `bun install`
-- Run dev server: `npm run dev` or `bun run dev`
-- Build: `npm run build` or `bun run build`
+- Install dependencies: `bun install`
+- Run dev server: `bun run dev`
+- Build: `bun run build`
 
 ## Translation
 
