@@ -1,0 +1,232 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/icons.css";
+import { audacityReleases } from "../../assets/data/audacityReleases";
+import {
+  olderReleases,
+  PRE_GITHUB_OLDEST,
+  PRE_GITHUB_NEWEST,
+} from "../../assets/data/olderReleases";
+
+const current = audacityReleases.version;
+
+/*
+  Replaces the outbound Fosshub link. Everything here resolves to the
+  project's own GitHub releases, so there's no third party between the
+  visitor and the binary.
+
+  "Older" means older than the version the site ships, so the current
+  release doesn't appear on a page about superseded ones. That also handles
+  the case where the tags run ahead of audacityReleases.ts, which is edited
+  by hand at release time: anything at or above `current` is filtered out
+  rather than shown here as though it were old.
+*/
+const parse = (v: string) => v.split(".").map(Number);
+const isOlderThanCurrent = (v: string) => {
+  const [a, b, c] = parse(v);
+  const [x, y, z] = parse(current);
+  return a !== x ? a < x : b !== y ? b < y : c < z;
+};
+const releases = olderReleases.filter((r) => isOlderThanCurrent(r.version));
+
+/*
+  The extension is the one thing that distinguishes these links at a glance —
+  Linux is an AppImage, not a package — so it's read off the asset URL rather
+  than duplicated as another field in the data.
+*/
+const ext = (url: string) => {
+  const name = url.split("/").pop() ?? "";
+  const m = name.match(/\.(tar\.gz|AppImage|dmg|exe|zip|msi)$/i);
+  return m ? `.${m[1]}` : "";
+};
+
+const fmt = (iso: string) =>
+  new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+---
+
+<BaseLayout
+  title="Audacity ® | Older versions"
+  description="Download older versions of Audacity for Windows, macOS and Linux, along with the matching offline manual for each release."
+  canonical="https://www.audacityteam.org/download/older-versions/"
+>
+  <main id="main">
+    <section class="bg-background-medium border-b border-text-primary/10">
+      <div
+        class="mx-auto max-w-screen-lg px-6 xs:px-12 md:px-8 py-8 md:py-10 flex flex-col gap-3"
+      >
+        <nav aria-label="Breadcrumb" class="text-14 text-text-primary/50">
+          <a
+            href="/download"
+            class="underline underline-offset-4 decoration-text-primary/30 hover:text-accent hover:decoration-accent transition-colors"
+            >Downloads</a
+          >
+          <span class="px-1.5" aria-hidden="true">/</span>
+          <span class="text-text-primary/70">Older versions</span>
+        </nav>
+        <h1
+          class="font-harmony text-40 md:text-56 text-text-primary leading-tight"
+        >
+          Older versions
+        </h1>
+        <p class="text-18 text-text-primary/60 max-w-2xl">
+          Every release from 3.0.0 up to {current}, straight from the Audacity
+          repository. Unless you need a specific version, <a
+            href="/download"
+            class="text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
+            >download {current}</a
+          > instead — it has the latest fixes.
+        </p>
+      </div>
+    </section>
+
+    <div
+      class="mx-auto max-w-screen-lg px-6 xs:px-12 md:px-8 py-10 md:py-14 flex flex-col gap-10"
+    >
+      <section class="flex flex-col gap-4">
+        <h2
+          class="text-12 uppercase tracking-wider font-semibold text-text-primary/50"
+        >
+          {releases.length} releases
+        </h2>
+
+        {
+          /*
+          A row per release, collapsed by default. 37 releases x 4 links is a
+          wall of blue if they're all on screen at once; the version and its
+          date are what people scan for, and the links only matter once
+          they've found the row they came for.
+
+          Native <details> so it works before hydration and keeps the
+          disclosure semantics for free — there's no state here worth an
+          island.
+        */
+        }
+        <ul
+          class="release-list divide-y divide-text-primary/10 overflow-hidden rounded-xl border border-text-primary/15 bg-white"
+        >
+          {
+            releases.map((r) => (
+              <li>
+                <details>
+                  <summary class="flex cursor-pointer items-center gap-3 px-5 py-4 transition-colors hover:bg-accent/5">
+                    <span
+                      class="chev icon icon-medium icon-caret-right shrink-0 text-text-primary/50"
+                      aria-hidden="true"
+                    />
+                    <span class="text-18 font-semibold text-text-primary">
+                      {r.version}
+                    </span>
+                    <span class="ml-auto text-14 tabular-nums text-text-primary/50">
+                      {fmt(r.date)}
+                    </span>
+                  </summary>
+
+                  <div class="grid gap-2 px-5 pb-5 pl-12 sm:grid-cols-2 lg:grid-cols-4">
+                    {[
+                      { label: "Windows", href: r.win },
+                      { label: "macOS", href: r.mac },
+                      { label: "Linux", href: r.linux },
+                      { label: "Manual", href: r.manual },
+                    ]
+                      .filter((l) => l.href)
+                      .map((l) => (
+                        <a
+                          href={l.href}
+                          class="flex items-center justify-between gap-2 rounded-lg border border-text-primary/15 px-4 py-3 font-semibold text-accent transition-colors hover:border-accent hover:bg-accent/5"
+                        >
+                          {l.label}
+                          <span class="text-12 font-normal tabular-nums text-text-primary/40">
+                            {ext(l.href!)}
+                          </span>
+                        </a>
+                      ))}
+                  </div>
+                </details>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {
+        /*
+        Stated rather than hidden: these versions genuinely aren't on GitHub,
+        and the page shouldn't imply Audacity began at 3.0.0.
+      */
+      }
+      <section
+        class="rounded-xl border border-text-primary/10 bg-background-medium p-6 flex flex-col gap-2"
+      >
+        <h2 class="text-18 font-semibold text-text-primary">
+          Versions before 3.0.0
+        </h2>
+        <p class="text-16 text-text-primary/70 max-w-2xl">
+          Releases from {PRE_GITHUB_OLDEST} to {PRE_GITHUB_NEWEST} ({
+            "2015–2020"
+          }) predate the current release archive, so their installers aren't
+          available here. The source code for those versions is still tagged in
+          the repository.
+        </p>
+        <a
+          href="https://github.com/audacity/audacity/tags"
+          target="_blank"
+          rel="noopener"
+          class="w-fit font-semibold text-accent hover:underline underline-offset-4"
+        >
+          Browse all tags on GitHub
+        </a>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /*
+    display:flex on the summary already drops the marker in Blink and WebKit;
+    this is for Gecko, which draws it from list-style.
+  */
+  .release-list summary {
+    list-style: none;
+  }
+  .release-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .release-list .chev {
+    transition: transform 200ms ease;
+  }
+  .release-list details[open] > summary .chev {
+    transform: rotate(90deg);
+  }
+
+  /*
+    <details> can't animate to auto height on its own. Where the browser
+    supports interpolate-size it can, so the panel eases open there and
+    simply snaps everywhere else — nothing depends on it.
+  */
+  @supports (interpolate-size: allow-keywords) {
+    .release-list details::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size 200ms ease,
+        content-visibility 200ms allow-discrete;
+      interpolate-size: allow-keywords;
+    }
+    .release-list details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .release-list .chev,
+    .release-list details::details-content {
+      transition: none;
+    }
+  }
+</style>

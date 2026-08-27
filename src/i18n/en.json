@@ -60,7 +60,7 @@
   "download.ffmpegDesc": "FFmpeg import/export library",
   "download.sourceCode": "Source code",
   "download.olderVersions": "Older versions of Audacity",
-  "download.olderVersionsFosshub": "Download older versions from Fosshub",
+  "download.olderVersionsBrowse": "Every release since 3.0.0",
   "download.btn": "Download",
   "download.checksum": "Checksum:",
   "download.noPlugins": "No plugin support. More info",

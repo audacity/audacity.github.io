@@ -81,7 +81,7 @@ You can learn how to install Audacity on Windows, macOS and Linux on our [suppor
 
 Yes. Audacity is entirely safe to download and install on your desktop computer if it has been downloaded directly from the [Audacity website](/).
 
-We also publish official versions through the Microsoft Store, via `winget`, via Github and Fosshub. There also are third party Audacity builds around, though we cannot guarantee for the integrity of versions downloaded from places other than mentioned here.
+We also publish official versions through the Microsoft Store, via `winget`, and via GitHub. There also are third party Audacity builds around, though we cannot guarantee for the integrity of versions downloaded from places other than mentioned here.
 
 ---
 
