@@ -70,6 +70,13 @@ if (!image) {
 */
 const framed = !name.startsWith("flyouts/");
 
+/*
+  Clip screenshots carry their own radius-4 outline in the pixels; the
+  frame's 8px CSS radius cut across it and shaved the corners off the
+  outline. They get a radius that matches the one they were drawn with.
+*/
+const tightRadius = name.startsWith("trackpanel/WaveClip");
+
 const displayWidth = width ?? meta?.width;
 const displayHeight =
   meta && displayWidth
@@ -88,7 +95,13 @@ const displayHeight =
         notices in a screenshot of an interface.
       */}
       <Image
-        class={framed ? "ui-shot-img" : undefined}
+        class={
+          framed
+            ? tightRadius
+              ? "ui-shot-img ui-shot-img--tight"
+              : "ui-shot-img"
+            : undefined
+        }
         src={image}
         alt={alt}
         width={displayWidth}
@@ -131,5 +144,10 @@ const displayHeight =
     box-shadow:
       0 1px 2px rgb(15 0 77 / 0.08),
       0 4px 12px rgb(15 0 77 / 0.12);
+  }
+
+  /* After the base rule on purpose: same specificity, so order decides. */
+  .ui-shot :global(.ui-shot-img--tight) {
+    border-radius: 4px;
   }
 </style>
