@@ -164,7 +164,7 @@ export const campaignVideoPromos: Record<string, PromoData> = {
     slot: 2,
     startDate: "2026-02-18",
     message:
-      "Overtune Record your vocals on top of premium beats! Polish, personalize and share with ease",
+      "Overtune: Record your vocals on top of premium beats! Polish, personalize and share with ease",
     tracking: {
       category: "Video embed",
       action: "Watch release video",
