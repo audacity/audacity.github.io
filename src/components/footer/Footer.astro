@@ -12,7 +12,6 @@ import InstagramSVG from "../inlineSVG/InstagramSVG";
 import TwitterSVG from "../inlineSVG/TwitterSVG";
 import YoutubeSVG from "../inlineSVG/YoutubeSVG";
 import DiscordSVG from "../inlineSVG/DiscordSVG";
-import { features } from "../../assets/data/features";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
@@ -103,15 +102,6 @@ const social = [
   { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
-/*
-  Which features appear here is owned by the feature data, not this file:
-  each entry carries showInFooter, so a page opts itself in rather than
-  needing its slug repeated in the footer. Same five the live site shows.
-*/
-const featureLinks = features
-  .filter((f) => f.showInFooter)
-  .map((f) => ({ href: `/features/${f.slug}/`, label: f.shortTitle }));
-
 const plugins = [
   { href: "/download/openvino", label: "OpenVino" },
   { href: "https://musehub.com/musefx", label: "MuseFX", external: true },
@@ -150,7 +140,7 @@ const plugins = [
 
       <!-- Link Groups Container -->
       <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pt-8 lg:pt-4 border-t border-text-contrast/20 lg:border-t-[1px]"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-8 lg:pt-4 border-t border-text-contrast/20 lg:border-t-[1px]"
       >
         <!-- Links Column -->
         <div>
@@ -179,28 +169,6 @@ const plugins = [
                         {link.badge}
                       </sup>
                     )}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-
-        <!-- Features Column -->
-        <div>
-          <p class="font-harmony text-32 text-text-contrast">
-            {t("footer.nav.features")}
-          </p>
-          <ul class="mt-2 space-y-2 md:space-y-0">
-            {
-              featureLinks.map((link) => (
-                <li class="w-fit">
-                  <a
-                    href={`${localePrefix}${link.href}`}
-                    aria-label={`Link to ${link.label}`}
-                    class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
-                  >
-                    {link.label}
                   </a>
                 </li>
               ))
