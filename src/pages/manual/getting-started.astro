@@ -115,18 +115,18 @@ const steps: Step[] = [
   }
   <a
     href="/manual/new-in-audacity-4/audacity-3-to-4-transition-guide"
-    class="mb-8 flex items-center justify-between gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/40"
+    class="mb-8 flex items-center justify-between gap-4 rounded-lg border border-text-primary/10 bg-background-light p-4 transition-colors hover:border-accent hover:bg-accent/5"
   >
     <span class="block">
-      <span class="block text-base font-semibold text-gray-900">
+      <span class="block text-base font-semibold text-text-primary">
         Coming from Audacity 3?
       </span>
-      <span class="mt-1 block text-sm text-gray-600">
+      <span class="mt-1 block text-sm text-text-primary/60">
         Skip the tutorial — the transition guide maps what moved, what changed
         and how to make Audacity 4 feel like home.
       </span>
     </span>
-    <span aria-hidden="true" class="shrink-0 text-gray-400">&rarr;</span>
+    <span aria-hidden="true" class="shrink-0 text-text-primary/40">&rarr;</span>
   </a>
 
   <ol class="space-y-3 mb-12 list-none pl-0">
@@ -137,19 +137,19 @@ const steps: Step[] = [
               area for what is the primary action on this page. */}
           <a
             href={step.href}
-            class="flex gap-4 rounded-lg border border-gray-200 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50/40"
+            class="flex gap-4 rounded-lg border border-text-primary/10 p-4 transition-colors hover:border-accent hover:bg-accent/5"
           >
             <span
               aria-hidden="true"
-              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-700"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-background-medium text-sm font-semibold text-text-primary/80"
             >
               {step.number}
             </span>
             <span class="block">
-              <span class="block text-base font-semibold text-gray-900">
+              <span class="block text-base font-semibold text-text-primary">
                 {step.title}
               </span>
-              <span class="mt-1 block text-sm text-gray-600">
+              <span class="mt-1 block text-sm text-text-primary/60">
                 {step.description}
               </span>
             </span>

@@ -123,13 +123,13 @@ const lastUpdatedISO = lastUpdated.toISOString();
                 <li>
                   <a
                     href={`/manual/${child.id}`}
-                    class="block h-full p-4 rounded-lg border border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-colors"
+                    class="block h-full p-4 rounded-lg border border-text-primary/10 hover:border-accent hover:bg-accent/5 transition-colors"
                   >
-                    <span class="block font-semibold text-gray-900 text-base">
+                    <span class="block font-semibold text-text-primary text-base">
                       {child.data.title}
                     </span>
                     {child.data.description && (
-                      <span class="block text-sm text-gray-600 mt-1">
+                      <span class="block text-sm text-text-primary/60 mt-1">
                         {child.data.description}
                       </span>
                     )}
@@ -143,7 +143,7 @@ const lastUpdatedISO = lastUpdated.toISOString();
           currentSlug={entry.id}
           currentStream={entry.data.stream}
         />
-        <p class="not-prose mt-8 text-xs text-gray-500">
+        <p class="not-prose mt-8 text-xs text-text-primary/50">
           Last updated <time datetime={lastUpdatedISO}>{lastUpdatedLabel}</time>
         </p>
       </article>

@@ -33,7 +33,7 @@ export default function ManualDownloadButton() {
             );
           }
         }}
-        className="inline-flex items-center gap-2 rounded-full bg-blue-700 px-6 py-2.5 font-semibold text-white transition-colors hover:bg-blue-800"
+        className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 font-semibold text-white transition-colors hover:opacity-90"
       >
         <span className="icon icon-import icon-medium" aria-hidden="true" />
         Download Audacity

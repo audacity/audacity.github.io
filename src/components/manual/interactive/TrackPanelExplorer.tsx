@@ -62,7 +62,7 @@ export default function TrackPanelExplorer() {
 
   return (
     <SpecimenBoundary>
-      <figure className="not-prose my-8 rounded-lg border border-gray-200 bg-gray-50 p-4">
+      <figure className="not-prose my-8 rounded-lg border border-text-primary/10 bg-background-light p-4">
         <div className="flex justify-center">
           <TrackControlPanel
             trackName={trackName}
@@ -97,7 +97,7 @@ export default function TrackPanelExplorer() {
             }}
           />
         </div>
-        <figcaption className="mt-3 text-center text-sm text-gray-500">
+        <figcaption className="mt-3 text-center text-sm text-text-primary/50">
           This panel is real — the same component, live. Use a control and the
           page scrolls to the section describing it.
         </figcaption>

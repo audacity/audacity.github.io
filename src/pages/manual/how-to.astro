@@ -57,7 +57,7 @@ const sections = Array.from(grouped.entries())
     ]}
   />
 
-  <p class="mb-8 text-gray-600">
+  <p class="mb-8 text-text-primary/60">
     Never used Audacity before? Start with
     <a href="/manual/getting-started" class="hyperlink">Getting started</a>
     instead.
@@ -70,14 +70,11 @@ const sections = Array.from(grouped.entries())
         <ul class="mt-4 space-y-3">
           {section.pages.map((p) => (
             <li>
-              <a
-                href={`/manual/${p.id}`}
-                class="font-medium hover:text-blue-700"
-              >
+              <a href={`/manual/${p.id}`} class="font-medium hover:text-accent">
                 {p.data.title}
               </a>
               {p.data.description && (
-                <span class="block text-sm text-gray-600">
+                <span class="block text-sm text-text-primary/60">
                   {p.data.description}
                 </span>
               )}

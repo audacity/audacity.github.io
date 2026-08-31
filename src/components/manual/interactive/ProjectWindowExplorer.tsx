@@ -78,9 +78,9 @@ function AreaLink({
       href={href}
       aria-label={`${label} — open its manual page`}
       style={style}
-      className="group absolute z-10 transition hover:bg-blue-600/5 hover:ring-2 hover:ring-inset hover:ring-blue-600 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
+      className="group absolute z-10 transition hover:bg-accent/5 hover:ring-2 hover:ring-inset hover:ring-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
     >
-      <span className="absolute right-2 top-2 rounded bg-blue-700 px-2 py-0.5 text-xs font-semibold text-white opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
+      <span className="absolute right-2 top-2 rounded bg-accent px-2 py-0.5 text-xs font-semibold text-white opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
         {label} →
       </span>
     </a>
@@ -121,7 +121,7 @@ export default function ProjectWindowExplorer() {
   return (
     <SpecimenBoundary>
       <figure className="not-prose my-8">
-        <div className="min-w-[980px] overflow-hidden rounded-xl border border-gray-300 bg-white shadow-lg">
+        <div className="min-w-[980px] overflow-hidden rounded-xl border border-text-primary/20 bg-white shadow-lg">
           <Region href={`${M}/header`} label="Menus">
             <ApplicationHeader os={os} menuItems={MENUS} />
           </Region>
@@ -181,11 +181,11 @@ export default function ProjectWindowExplorer() {
             </div>
           </Region>
 
-          <div className="flex border-t border-gray-200">
+          <div className="flex border-t border-text-primary/10">
             <Region
               href={`${M}/track-control-panel`}
               label="Track panel"
-              className="shrink-0 border-r border-gray-200"
+              className="shrink-0 border-r border-text-primary/10"
             >
               <TrackControlSidePanel resizable={false}>
                 <TrackControlPanel
@@ -266,7 +266,7 @@ export default function ProjectWindowExplorer() {
             />
           </Region>
         </div>
-        <figcaption className="mt-3 text-center text-sm text-gray-500">
+        <figcaption className="mt-3 text-center text-sm text-text-primary/50">
           The Audacity 4 window, built from its real components. Click an area —
           the menus, a toolbar, the track panel, the timeline, the clips — to
           open the page that documents it.

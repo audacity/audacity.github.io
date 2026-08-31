@@ -47,7 +47,7 @@ export default function UIExample({
       where centred overflow clips both edges unreachably.
     */
     <div
-      className="ui-example not-prose my-6 max-w-full overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 px-6 py-8"
+      className="ui-example not-prose my-6 max-w-full overflow-x-auto rounded-lg border border-text-primary/10 bg-background-light px-6 py-8"
       style={interactive ? undefined : { pointerEvents: "none" }}
     >
       <div className="w-fit mx-auto">

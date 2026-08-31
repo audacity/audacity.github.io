@@ -24,7 +24,7 @@ export default function Shortcut({ keys }) {
   const parts = keys.split("+").map((k) => k.trim().toLowerCase());
 
   return (
-    <kbd className="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-gray-300 bg-gray-50 text-xs font-mono text-gray-800 align-baseline">
+    <kbd className="inline-flex items-center gap-1 px-2 py-0.5 rounded border border-text-primary/20 bg-background-light text-xs font-mono text-text-primary/80 align-baseline">
       {parts.map((part, i) => {
         const label = KEY_LABELS[part];
         const display = label
@@ -34,7 +34,7 @@ export default function Shortcut({ keys }) {
           : part.toUpperCase();
         return (
           <span key={i} className="contents">
-            {i > 0 && <span className="text-gray-400">+</span>}
+            {i > 0 && <span className="text-text-primary/40">+</span>}
             <span>{display}</span>
           </span>
         );

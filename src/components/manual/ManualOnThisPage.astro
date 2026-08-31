@@ -19,11 +19,11 @@ const items = headings.filter(
     <nav aria-labelledby="on-this-page-title" class="text-sm">
       <h2
         id="on-this-page-title"
-        class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3"
+        class="text-xs font-semibold uppercase tracking-wide text-text-primary/50 mb-3"
       >
         On this page
       </h2>
-      <ul class="space-y-1 border-l border-gray-200">
+      <ul class="space-y-1 border-l border-text-primary/10">
         {items.map((heading) => (
           <li>
             <a
@@ -31,8 +31,8 @@ const items = headings.filter(
               data-on-this-page-link
               data-target-id={heading.slug}
               class:list={[
-                "block py-1 -ml-[2px] border-l-2 border-transparent text-gray-600 hover:text-blue-700 hover:border-blue-300 rounded-r transition-colors",
-                heading.depth === 2 ? "pl-4" : "pl-7 text-gray-500",
+                "block py-1 -ml-[2px] border-l-2 border-transparent text-text-primary/60 hover:text-accent hover:border-accent/40 rounded-r transition-colors",
+                heading.depth === 2 ? "pl-4" : "pl-7 text-text-primary/50",
               ]}
             >
               {heading.text}
@@ -116,12 +116,12 @@ const items = headings.filter(
   /*
     Active pill for the scroll-spy. [attr].class(:hover) outranks the
     Tailwind hover utilities on the link (single-class + variant), so the
-    white text holds under the pointer instead of turning blue-on-blue.
+    white text holds under the pointer instead of vanishing into the accent.
   */
   [data-on-this-page-link].is-active,
   [data-on-this-page-link].is-active:hover {
     color: #fff;
-    background-color: #1d4ed8; /* matches the manual's blue-700 links */
+    background-color: #ff3254; /* the accent, matching the manual's links */
     border-color: #1d4ed8;
     font-weight: 600;
   }

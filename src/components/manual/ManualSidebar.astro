@@ -191,14 +191,14 @@ const sections = Array.from(grouped.entries())
             data-state={linear ? undefined : section.active ? "open" : "closed"}
           >
             <div class="flex items-center gap-1">
-              <h2 class="flex-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <h2 class="flex-1 text-xs font-semibold uppercase tracking-wide text-text-primary/50">
                 {section.href ? (
                   <a
                     href={section.href}
                     class:list={[
-                      "block py-1 hover:text-blue-700 transition-colors",
+                      "block py-1 hover:text-accent transition-colors",
                       `/manual/${currentSlug}` === section.href &&
-                        "text-blue-700",
+                        "text-accent",
                     ]}
                   >
                     {section.name}
@@ -210,7 +210,7 @@ const sections = Array.from(grouped.entries())
               {!linear && (
                 <button
                   type="button"
-                  class="manual-tree__toggle shrink-0 p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                  class="manual-tree__toggle shrink-0 p-1 rounded text-text-primary/40 hover:text-text-primary hover:bg-background-medium"
                   aria-label={`Toggle ${section.name}`}
                   data-tree-toggle
                 >
@@ -250,7 +250,7 @@ const sections = Array.from(grouped.entries())
     margin-left: 0.375rem;
     margin-top: 0.25rem;
     padding-left: 0.75rem;
-    border-left: 1px solid rgb(229 231 235);
+    border-left: 1px solid rgb(15 0 77 / 0.1);
   }
 
   /* Hide children of a collapsed tree node; rotate the chevron when open. */

@@ -16,19 +16,19 @@ const cards = await getStreamEntryPoints();
         {c.href ? (
           <a
             href={c.href}
-            class="flex h-full flex-col rounded-lg border border-gray-200 p-4 hover:border-blue-400 hover:bg-blue-50/40 transition-colors"
+            class="flex h-full flex-col rounded-lg border border-text-primary/10 p-4 hover:border-accent hover:bg-accent/5 transition-colors"
           >
-            <span class="font-semibold text-gray-900">{c.label}</span>
-            <span class="mt-1 text-sm text-gray-600">{c.blurb}</span>
-            <span class="mt-3 text-xs text-gray-400">
+            <span class="font-semibold text-text-primary">{c.label}</span>
+            <span class="mt-1 text-sm text-text-primary/60">{c.blurb}</span>
+            <span class="mt-3 text-xs text-text-primary/40">
               {c.count} {c.count === 1 ? "page" : "pages"}
             </span>
           </a>
         ) : (
-          <div class="flex h-full flex-col rounded-lg border border-dashed border-gray-200 p-4">
-            <span class="font-semibold text-gray-500">{c.label}</span>
-            <span class="mt-1 text-sm text-gray-500">{c.blurb}</span>
-            <span class="mt-3 text-xs text-gray-400">Coming soon</span>
+          <div class="flex h-full flex-col rounded-lg border border-dashed border-text-primary/10 p-4">
+            <span class="font-semibold text-text-primary/50">{c.label}</span>
+            <span class="mt-1 text-sm text-text-primary/50">{c.blurb}</span>
+            <span class="mt-3 text-xs text-text-primary/40">Coming soon</span>
           </div>
         )}
       </li>

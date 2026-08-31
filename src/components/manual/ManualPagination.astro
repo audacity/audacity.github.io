@@ -32,15 +32,15 @@ const next =
 {
   (prev || next) && (
     <nav
-      class="not-prose mt-12 pt-6 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-2 gap-4"
+      class="not-prose mt-12 pt-6 border-t border-text-primary/10 grid grid-cols-1 sm:grid-cols-2 gap-4"
       aria-label="Manual pagination"
     >
       {prev ? (
         <a
           href={`/manual/${prev.id}`}
-          class="group flex flex-col gap-1 rounded-lg border border-gray-200 hover:border-blue-700 px-4 py-3 transition-colors"
+          class="group flex flex-col gap-1 rounded-lg border border-text-primary/10 hover:border-accent px-4 py-3 transition-colors"
         >
-          <span class="text-xs uppercase tracking-wide text-gray-500 inline-flex items-center gap-1">
+          <span class="text-xs uppercase tracking-wide text-text-primary/50 inline-flex items-center gap-1">
             <svg
               class="w-3.5 h-3.5"
               viewBox="0 0 24 24"
@@ -56,7 +56,7 @@ const next =
             </svg>
             Previous
           </span>
-          <span class="text-base font-semibold text-gray-900 group-hover:text-blue-700">
+          <span class="text-base font-semibold text-text-primary group-hover:text-accent">
             {prev.data.title}
           </span>
         </a>
@@ -66,9 +66,9 @@ const next =
       {next ? (
         <a
           href={`/manual/${next.id}`}
-          class="group flex flex-col gap-1 rounded-lg border border-gray-200 hover:border-blue-700 px-4 py-3 transition-colors text-right sm:items-end"
+          class="group flex flex-col gap-1 rounded-lg border border-text-primary/10 hover:border-accent px-4 py-3 transition-colors text-right sm:items-end"
         >
-          <span class="text-xs uppercase tracking-wide text-gray-500 inline-flex items-center gap-1">
+          <span class="text-xs uppercase tracking-wide text-text-primary/50 inline-flex items-center gap-1">
             Next
             <svg
               class="w-3.5 h-3.5"
@@ -84,7 +84,7 @@ const next =
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </span>
-          <span class="text-base font-semibold text-gray-900 group-hover:text-blue-700">
+          <span class="text-base font-semibold text-text-primary group-hover:text-accent">
             {next.data.title}
           </span>
         </a>
