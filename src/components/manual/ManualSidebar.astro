@@ -106,12 +106,22 @@ function buildTree(entries: Entry[]): TreeNode[] {
   return roots;
 }
 
+/*
+  When a section holds exactly one root page and everything else nests under
+  it, the section label and that page are the same thing twice — EFFECTS with
+  a lone "Effects" parent inside it. In that case the heading itself becomes
+  the link and the root's children move up a level; the root page loses no
+  reachability, only its duplicate row.
+*/
 const sections = Array.from(grouped.entries())
   .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
-  .map(([name, { entries }]) => ({
-    name,
-    tree: buildTree(entries),
-  }));
+  .map(([name, { entries }]) => {
+    const tree = buildTree(entries);
+    if (tree.length === 1 && tree[0].children.length > 0) {
+      return { name, href: `/manual/${tree[0].slug}`, tree: tree[0].children };
+    }
+    return { name, href: null, tree };
+  });
 ---
 
 <div class="space-y-6">
@@ -126,7 +136,19 @@ const sections = Array.from(grouped.entries())
           {/* Section names were only ever used for ordering; printing them is
               what makes a group read as a group rather than a gap. */}
           <h2 class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-500">
-            {section.name}
+            {section.href ? (
+              <a
+                href={section.href}
+                class:list={[
+                  "hover:text-blue-700 transition-colors",
+                  `/manual/${currentSlug}` === section.href && "text-blue-700",
+                ]}
+              >
+                {section.name}
+              </a>
+            ) : (
+              section.name
+            )}
           </h2>
           <ManualSidebarTree
             nodes={section.tree}
