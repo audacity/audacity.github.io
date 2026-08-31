@@ -307,20 +307,9 @@ const sections = Array.from(grouped.entries())
         if (!item) return;
         const next = item.dataset.state === "open" ? "closed" : "open";
         setState(item, next);
-
-        // Sections behave as an accordion: opening one closes the rest, so
-        // the sidebar never regrows to the 150-row wall. Tree branches
-        // inside a section stay independent.
-        const slug = item.dataset.slug || "";
-        if (slug.startsWith("section:") && next === "open") {
-          document
-            .querySelectorAll('.manual-tree__item[data-slug^="section:"]')
-            .forEach((other) => {
-              if (other !== item && other.dataset.state === "open") {
-                setState(other, "closed");
-              }
-            });
-        }
+        // No accordion: readers open as many sections as they like, and the
+        // choice persists. Density is handled by the default state — only
+        // the current page's section starts open — not by force.
       });
     });
   })();
