@@ -38,11 +38,21 @@ export default function UIExample({
   // neutral palette so the example itself carries the color. `not-prose`
   // keeps the page's typographic styles from leaking into the specimen.
   return (
+    /*
+      Fenced: some specimens (the timeline ruler) have a fixed width wider
+      than the article column on narrow viewports, and the old flex
+      justify-center let them bleed over the page — including the sidebar.
+      overflow-x-auto keeps a too-wide specimen scrollable inside its own
+      box, and w-fit/mx-auto centres a narrow one without the flex trap
+      where centred overflow clips both edges unreachably.
+    */
     <div
-      className="ui-example not-prose my-6 flex justify-center rounded-lg border border-slate-200 bg-slate-50 px-6 py-8"
+      className="ui-example not-prose my-6 max-w-full overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 px-6 py-8"
       style={interactive ? undefined : { pointerEvents: "none" }}
     >
-      <Component {...props} />
+      <div className="w-fit mx-auto">
+        <Component {...props} />
+      </div>
     </div>
   );
 }
