@@ -4,6 +4,7 @@ description: The first alpha version of Audacity 4 is intended as an early
 section: "Reference"
 sectionOrder: 60
 order: 1
+draft: true
 ---
 
 [Edit](https://github.com/audacity/audacity-support/blob/au4/new-in-audacity-4/audacity-4-alpha-1-release-notes.md)

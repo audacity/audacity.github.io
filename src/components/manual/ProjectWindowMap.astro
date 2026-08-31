@@ -1,0 +1,126 @@
+---
+/*
+  The reference front door: the real application window — shotbox's
+  MainWindow render — with clickable hotspots drawn over it.
+
+  This replaces the hand-built ProjectWindowExplorer, which re-implemented
+  the window from design-system components and drifted from the application
+  the moment either changed. Here both layers come from the same capture:
+  shotbox exports MainWindow.regions.json alongside the PNG, recording where
+  it found each landmark at render time. When the app moves a control, the
+  next render moves its hotspot — there are no hand-placed coordinates to
+  rot.
+
+  Regions the JSON knows but this page has no good target for are simply
+  not listed in TARGETS.
+*/
+import { Image } from "astro:assets";
+
+const images = import.meta.glob<ImageMetadata>(
+  "/node_modules/@dilsonspickles/audacity-ui-screenshots/light/app/MainWindow.png",
+  { eager: true, import: "default" },
+);
+const image = Object.values(images)[0];
+
+const regionFiles = import.meta.glob<{
+  window: { w: number; h: number };
+  regions: Record<string, { x: number; y: number; w: number; h: number }>;
+}>(
+  "/node_modules/@dilsonspickles/audacity-ui-screenshots/light/app/MainWindow.regions.json",
+  { eager: true, import: "default" },
+);
+const data = Object.values(regionFiles)[0];
+
+const TARGETS: Record<string, { href: string; label: string }> = {
+  "playback-toolbar": {
+    href: "/manual/manual-index/toolbar",
+    label: "Toolbar",
+  },
+  "audio-setup": {
+    href: "/manual/manual-index/hotbar/audio-setup",
+    label: "Audio setup",
+  },
+  "share-audio": {
+    href: "/manual/manual-index/hotbar/share-audio",
+    label: "Share audio",
+  },
+  "get-effects": {
+    href: "/manual/manual-index/hotbar/get-effects",
+    label: "Get effects",
+  },
+  workspaces: {
+    href: "/manual/manual-index/workspaces",
+    label: "Workspaces",
+  },
+  "undo-redo": {
+    href: "/manual/manual-index/header/edit",
+    label: "Undo & redo",
+  },
+  timeline: { href: "/manual/manual-index/timeline", label: "Timeline" },
+  "add-track": {
+    href: "/manual/manual-index/track-control-panel",
+    label: "Add track",
+  },
+  "track-control-panel": {
+    href: "/manual/manual-index/track-control-panel",
+    label: "Track control panel",
+  },
+  clips: { href: "/manual/manual-index/waveform", label: "Clips & waveform" },
+  "vertical-rulers": {
+    href: "/manual/manual-index/vertical-rulers",
+    label: "Vertical rulers",
+  },
+};
+
+/* Larger hotspots first, so small ones render on top and stay clickable
+   where they overlap (the hotbar buttons sit inside the toolbar's rect). */
+const hotspots = Object.entries(TARGETS)
+  .filter(([name]) => data?.regions[name])
+  .map(([name, t]) => {
+    const r = data.regions[name];
+    return { name, ...t, r, area: r.w * r.h };
+  })
+  .sort((a, b) => b.area - a.area);
+
+const W = data?.window.w ?? 1440;
+const H = data?.window.h ?? 900;
+const pct = (n: number, total: number) => `${(n / total) * 100}%`;
+---
+
+<div class="pw-map relative w-fit" data-nosnippet>
+  <Image
+    src={image}
+    alt="The Audacity 4 project window"
+    width={1000}
+    densities={[1, 2]}
+    format="webp"
+    quality={100}
+    class="block rounded-lg border border-text-primary/10"
+  />
+  {
+    hotspots.map((h) => (
+      <a
+        href={h.href}
+        aria-label={`Open the manual page for ${h.label}`}
+        class="pw-hotspot group absolute rounded-md"
+        style={`left:${pct(h.r.x, W)};top:${pct(h.r.y, H)};width:${pct(h.r.w, W)};height:${pct(h.r.h, H)}`}
+      >
+        <span class="pw-chip pointer-events-none absolute left-1/2 top-full z-10 mt-1 -translate-x-1/2 whitespace-nowrap rounded bg-accent px-2 py-0.5 text-12 font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          {h.label}
+        </span>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .pw-hotspot {
+    outline: none;
+  }
+  .pw-hotspot:hover,
+  .pw-hotspot:focus-visible {
+    box-shadow:
+      inset 0 0 0 2px #ff3254,
+      0 0 0 2px rgb(255 50 84 / 0.25);
+  }
+</style>

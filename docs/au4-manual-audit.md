@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 194 (185 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 194 (184 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
