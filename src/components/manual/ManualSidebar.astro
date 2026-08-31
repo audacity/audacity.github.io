@@ -291,9 +291,14 @@ const sections = Array.from(grouped.entries())
       .querySelectorAll('.manual-tree__item[data-has-children="true"]')
       .forEach((item) => {
         const slug = item.dataset.slug;
-        // Never let a remembered "closed" hide the section or branch the
-        // reader is currently inside — the page they are on always wins.
-        if (item.dataset.active === "true") return;
+        // Being in a section counts as opening it: written to the store, so
+        // it stays open after you navigate elsewhere instead of snapping
+        // shut the moment it stops being current. It also means a
+        // remembered "closed" can never hide the page you are on.
+        if (item.dataset.active === "true") {
+          setState(item, "open");
+          return;
+        }
         if (slug && stored[slug] === "open") item.dataset.state = "open";
         else if (slug && stored[slug] === "closed")
           item.dataset.state = "closed";
