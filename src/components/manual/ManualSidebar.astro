@@ -164,58 +164,72 @@ const sections = Array.from(grouped.entries())
         ~150-row sidebar permanently unfolded. Only the section holding the
         current page starts open.
       */
-      sections.map((section) => (
-        <div
-          class="manual-tree__item mb-4"
-          data-slug={`section:${section.name}`}
-          data-has-children="true"
-          data-active={section.active ? "true" : undefined}
-          data-state={section.active ? "open" : "closed"}
-        >
-          <div class="flex items-center gap-1">
-            <h2 class="flex-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
-              {section.href ? (
-                <a
-                  href={section.href}
-                  class:list={[
-                    "block py-1 hover:text-blue-700 transition-colors",
-                    `/manual/${currentSlug}` === section.href &&
-                      "text-blue-700",
-                  ]}
+      /*
+        Two sidebars, two shapes. The reference streams are a map: grouped,
+        collapsible, one neighbourhood open at a time. Getting started is a
+        path: nine steps a reader walks in order, so its rows stay flat,
+        always visible and numbered like the landing — folding a tutorial's
+        steps away behind an accordion would hide the very sequence the
+        stream exists to show.
+      */
+      sections.map((section) => {
+        const linear = currentStream === "getting-started";
+        return (
+          <div
+            class:list={[linear ? "mb-4" : "manual-tree__item mb-4"]}
+            data-slug={linear ? undefined : `section:${section.name}`}
+            data-has-children={linear ? undefined : "true"}
+            data-active={!linear && section.active ? "true" : undefined}
+            data-state={linear ? undefined : section.active ? "open" : "closed"}
+          >
+            <div class="flex items-center gap-1">
+              <h2 class="flex-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                {section.href ? (
+                  <a
+                    href={section.href}
+                    class:list={[
+                      "block py-1 hover:text-blue-700 transition-colors",
+                      `/manual/${currentSlug}` === section.href &&
+                        "text-blue-700",
+                    ]}
+                  >
+                    {section.name}
+                  </a>
+                ) : (
+                  <span class="block py-1">{section.name}</span>
+                )}
+              </h2>
+              {!linear && (
+                <button
+                  type="button"
+                  class="manual-tree__toggle shrink-0 p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                  aria-label={`Toggle ${section.name}`}
+                  data-tree-toggle
                 >
-                  {section.name}
-                </a>
-              ) : (
-                <span class="block py-1">{section.name}</span>
+                  <svg
+                    class="w-3.5 h-3.5 transition-transform"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="4 6 8 10 12 6" />
+                  </svg>
+                </button>
               )}
-            </h2>
-            <button
-              type="button"
-              class="manual-tree__toggle shrink-0 p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100"
-              aria-label={`Toggle ${section.name}`}
-              data-tree-toggle
-            >
-              <svg
-                class="w-3.5 h-3.5 transition-transform"
-                viewBox="0 0 16 16"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <polyline points="4 6 8 10 12 6" />
-              </svg>
-            </button>
+            </div>
+            <ManualSidebarTree
+              nodes={section.tree}
+              currentSlug={currentSlug}
+              depth={0}
+              numbered={linear}
+            />
           </div>
-          <ManualSidebarTree
-            nodes={section.tree}
-            currentSlug={currentSlug}
-            depth={0}
-          />
-        </div>
-      ))
+        );
+      })
     }
   </nav>
 </div>
