@@ -7,7 +7,7 @@ description: Where Audacity 4 shows time as numbers — the playback position an
 draft: false
 ---
 
-import UIExample from "../../../components/manual/UIExample/UIExample";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 Alongside the [timeline](/manual/manual-index/timeline), which shows time as
 a ruler, Audacity 4 shows time as numbers you can read and type into. There
@@ -15,7 +15,10 @@ are two places to look.
 
 ## Playback position
 
-<UIExample component="selection-toolbar" variant="default" />
+<UIShot
+  name="readouts/TimecodeStartEnd"
+  alt="The selection start and end readouts"
+/>
 
 The [timecode](/manual/manual-index/toolbar#timecode) in the Transport
 toolbar shows where the playhead is. Click a digit to edit it and type a

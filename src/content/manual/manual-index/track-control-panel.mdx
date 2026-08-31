@@ -7,7 +7,8 @@ description: The strip at the left of every track, holding its name, its control
 draft: false
 ---
 
-import UIExample from "../../../components/manual/UIExample/UIExample";
+import UIShot from "../../../components/manual/UIShot.astro";
+
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 
 Every track in a project has a control panel down the left-hand side of the
@@ -15,11 +16,9 @@ Tracks area. The panel is where the track is named, where its playback
 controls live, and where its menu is opened from. Above the panels sits a
 **Tracks** title bar with the **Add track** button.
 
-<UIExample
-  component="track-control-panel"
-  variant="stereo"
-  interactive
-  client:load
+<UIShot
+  name="trackpanel/WaveTrackItem"
+  alt="A stereo track's control panel: name, volume and pan, mute and solo, and the Effects button"
 />
 
 All panels share the same three elements: an icon showing the track type, an

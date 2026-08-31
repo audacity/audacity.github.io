@@ -7,7 +7,7 @@ description: The quick-access buttons in the bar across the top of the project w
 draft: false
 ---
 
-import UIExample from "../../../components/manual/UIExample/UIExample";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 The Hotbar is the group of quick-access buttons in the centre of the bar
 across the top of the project window. None of them change your audio
@@ -15,11 +15,9 @@ directly — each one opens a menu or a dialog.
 
 ## What it contains
 
-<UIExample
-  component="project-toolbar"
-  variant="default"
-  interactive
-  client:load
+<UIShot
+  name="toolbars/ProjectToolBar"
+  alt="The centre toolbar group: Audio setup, Share audio and Get effects"
 />
 
 - [Audio setup](/manual/manual-index/hotbar/audio-setup) — choose the audio

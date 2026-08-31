@@ -7,7 +7,7 @@ description: What the waveform display draws — the peak envelope, the zero lin
 draft: false
 ---
 
-import UIExample from "../../../components/manual/UIExample/UIExample";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 The waveform is the default way an audio track draws its audio: level plotted
 against time, running left to right along the timeline. It is the view most
@@ -16,7 +16,10 @@ it is not.
 
 ## What it shows
 
-<UIExample component="clip" variant="stereo" client:load />
+<UIShot
+  name="trackpanel/WaveClip"
+  alt="A stereo clip: the name in its header, the two channel waveforms below"
+/>
 
 Time runs horizontally, following the
 [timeline](/manual/manual-index/timeline). Level runs vertically, with silence
