@@ -1,0 +1,68 @@
+---
+title: "Tools"
+section: "Menu Bar"
+sectionOrder: 10
+order: 62
+description: The Tools menu holds utilities such as macros, raw data import and configuration reset.
+draft: false
+---
+
+The **Tools** menu collects utilities that don't fit the generate, effect or
+analyze categories — batch processing with macros, data import helpers, and
+housekeeping commands.
+
+Between the macro commands and **Raw data import**, the menu lists the
+available tools. That list is populated from your installed plugins, so its
+exact contents depend on what is installed on your machine — the built-in
+Nyquist set includes Nyquist plugin installer, Regular interval labels, and
+Sample data import and export. Installed extensions are listed here too.
+
+## Plugin manager
+
+Enable and disable the plugins that provide tools — the same dialog as
+[Plugin manager](/manual/menu-bar/effect#plugin-manager) on the
+Effect menu.
+
+## Manage macros
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+Opens the macro editor, where you create and edit macros — named sequences
+of commands and effects that can be applied to a project or a batch of files
+in a single step. Applying an existing macro is done from the
+[Macros](/manual/menu-bar/tools#macros) submenu next to this
+command.
+
+## Macros
+
+**Not yet enabled in the current Audacity 4 alpha.**
+
+A submenu for applying macros — saved sequences of commands — without
+opening the macro editor. It holds **Apply macros palette**, followed by the
+two example macros that ship with Audacity: **Macro fade ends** and
+**Macro MP3 conversion**. Creating and editing macros is done with
+[Manage macros](/manual/menu-bar/tools#manage-macros), directly
+above this submenu.
+
+## Raw data import
+
+Imports audio from a file that has no header describing its format — raw
+sample data. Because the file itself carries no format information, you tell
+Audacity how to interpret it: the encoding, byte order, channel count and
+sample rate. Useful for recovering audio from damaged files or unusual
+sources.
+
+In the current Audacity 4 alpha the menu item is present but the import
+dialog itself has not yet been implemented.
+
+## Reset configuration
+
+Returns Audacity's configuration to its default state, discarding settings
+you have changed. Reach for it when the application is misbehaving in a way
+that points to a bad setting rather than a bad project.
+
+In the current Audacity 4 alpha the menu item is present but the command
+itself has not yet been implemented. For a fuller reset that also removes
+custom workspaces and shortcuts, see
+[Revert to factory settings](/manual/menu-bar/help#revert-to-factory-settings)
+in the Help menu.

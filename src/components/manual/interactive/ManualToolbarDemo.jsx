@@ -56,8 +56,8 @@ const go = (anchor) => () => {
     };
     const group = GROUP[anchor];
     window.location.href = group
-      ? "/manual/manual-index/toolbar/" + group + "#" + anchor
-      : "/manual/manual-index/toolbar";
+      ? "/manual/toolbar/" + group + "#" + anchor
+      : "/manual/toolbar";
   }
 };
 

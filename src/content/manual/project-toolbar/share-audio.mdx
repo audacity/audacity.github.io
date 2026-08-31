@@ -1,0 +1,45 @@
+---
+title: "Share Audio"
+section: "Toolbars"
+sectionOrder: 20
+order: 3
+description: Upload a rendered copy of the project to audio.com.
+draft: true
+---
+
+import UIShot from "../../../components/manual/UIShot.astro";
+
+Renders the project to an audio file and uploads it to audio.com, so you can
+send someone a link instead of a file. Your project itself is not changed and
+nothing is written to your computer.
+
+<UIShot
+  name="app/SceneSpotlightShareaudio"
+  alt="The Share audio button ringed in the hotbar, between Audio setup and Get effects"
+/>
+
+## Where to find it
+
+**Hotbar → Share audio**, or **File → Share audio**.
+
+## How it works
+
+1. Audacity asks for a **Track title** for the upload.
+2. It exports the project in the format audio.com prefers and uploads it.
+   Progress is shown in a notification while this happens.
+3. When the upload finishes, the notification offers **View on audio.com**,
+   which opens the shared audio in your web browser.
+
+## Notes
+
+- Greyed out until the project contains some audio, and unavailable while
+  recording.
+- Only present in builds where cloud support is enabled.
+- Uploading needs an internet connection.
+
+## Related
+
+- [Save to cloud](/manual/menu-bar/file#save-to-cloud)
+- [Export audio](/manual/menu-bar/file#export-audio)
+- [Link account](/manual/menu-bar/help#link-account)
+- [Cloud](/manual/preferences/cloud)

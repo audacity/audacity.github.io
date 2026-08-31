@@ -1,0 +1,26 @@
+---
+title: "Silence"
+section: "Generators"
+sectionOrder: 65
+order: 11
+description: Generate a stretch of silence of a set length.
+draft: false
+---
+
+import UIShot from "../../../components/manual/UIShot.astro";
+
+Silence writes an exactly flat stretch of audio. Use it to open a gap for something you are about to drop in, to pad the head or tail of a track, or to flatten a passage that should be quiet but is not.
+
+<UIShot name="effects/Silence" alt="The Silence dialog" />
+
+## Where to find it
+
+**Generate → Silence**.
+
+## Controls
+
+- **Duration:** — how much silence to generate, entered as a timecode.
+
+## Notes
+
+Generation starts at the beginning of the selection, or at the cursor if nothing is selected, and runs for the duration you set. The duration has to be greater than zero before the effect can be applied.

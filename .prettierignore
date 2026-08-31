@@ -3,3 +3,7 @@
 # so a prettier pass here would register as permanent drift.
 src/data/au4/
 docs/au4-manual-audit.md
+
+# Prettier's markdown emphasis normalisation corrupts MDX comments ({/* */} -> {/_ _/}).
+# The lint-staged hook never formats mdx; manual prettier runs must not either.
+src/content/manual/**/*.mdx

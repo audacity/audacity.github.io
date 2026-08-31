@@ -27,12 +27,12 @@ Listen through and work out which of three cases you have.
 1. Select the whole affected stretch — a side of a record, or the entire track.
 2. Choose **Effect → Noise removal and repair → Click removal**. Start at the defaults: **Threshold (lower is more sensitive)** at 200, **Max spike width (higher is more sensitive)** at 20.
 3. Listen back to the busiest passage, not the quietest. Over-aggressive settings show first on drum hits, consonants and guitar picking, which start to sound soft and dull.
-4. If clicks remain, undo and lower the threshold a little rather than a lot. See [Click removal](/manual/manual-index/egat/effects/noise-removal-and-repair/click-removal) for both ranges.
+4. If clicks remain, undo and lower the threshold a little rather than a lot. See [Click removal](/manual/effects/noise-removal-and-repair/click-removal) for both ranges.
 
 ### A single defect
 
 1. Zoom right in on the fault with **View → Zoom → Zoom in**, or <Shortcut client:load keys="cmd+=" />, until you can see individual samples.
-2. Drag a selection across just the damaged samples. [Repair](/manual/manual-index/egat/effects/noise-removal-and-repair/repair) takes at most 128 samples — under three thousandths of a second at a 44,100 Hz project rate — and refuses to run on anything longer.
+2. Drag a selection across just the damaged samples. [Repair](/manual/effects/noise-removal-and-repair/repair) takes at most 128 samples — under three thousandths of a second at a 44,100 Hz project rate — and refuses to run on anything longer.
 3. Choose **Effect → Noise removal and repair → Repair**. There is no dialog; it applies immediately, rebuilding the selection from the audio either side.
 4. If the fault is still audible, undo and try a slightly different selection rather than applying Repair again on its own result.
 
@@ -46,6 +46,6 @@ Repair needs undamaged audio on both sides, so it cannot fix a fault at the very
 
 ## Notes
 
-[Clip fix](/manual/manual-index/egat/effects/noise-removal-and-repair/clip-fix) reconstructs a plausible peak from the slope either side of the flat section. It cannot recover audio that was never recorded, so heavily clipped material still sounds distorted afterwards.
+[Clip fix](/manual/effects/noise-removal-and-repair/clip-fix) reconstructs a plausible peak from the slope either side of the flat section. It cannot recover audio that was never recorded, so heavily clipped material still sounds distorted afterwards.
 
 Click removal and Clip fix both trade thoroughness against damage, and no setting catches only faults. Work up from the defaults and stop at the first that sounds clean.

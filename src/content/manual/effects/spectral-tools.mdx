@@ -1,0 +1,33 @@
+---
+title: "Spectral Tools"
+section: "Effects"
+sectionOrder: 60
+order: 62
+description: Effects that act on a rectangle of time and frequency marked out in a spectrogram.
+draft: false
+---
+
+Ordinary effects act on a stretch of time and treat every frequency in it the
+same way. Spectral tools act on a rectangle instead: a range of time _and_ a
+range of frequency, marked out by dragging in a spectrogram. That lets you
+remove or adjust one sound — a whistle, a cough, a resonant ring — while
+leaving everything around it in the same moment untouched.
+
+## Where to find it
+
+The **Spectral tools** submenu of the **Effect** menu.
+
+## Making the selection
+
+These effects need a spectral selection, so the track has to be showing a
+spectrogram before you can make one — see
+[Toggle Spectral View](/manual/toolbar/tools#toggle-spectral-view).
+Drag in the spectrogram to select both a time range and a frequency range; the
+effect then acts only on that rectangle.
+
+## Notes
+
+Several of the tools change what they do depending on how the selection is
+made — with two frequency bounds they work on the band between them, with one
+bound they filter everything above or below it. Each effect's own page says
+which behaviour applies.

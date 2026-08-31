@@ -1,0 +1,35 @@
+---
+title: "DTMF Tones"
+section: "Generators"
+sectionOrder: 65
+order: 5
+description: Generate the dual-tone signalling sounds a telephone keypad makes.
+draft: false
+---
+
+import UIShot from "../../../components/manual/UIShot.astro";
+
+DTMF Tones produces the touch-tone sounds a telephone keypad sends when you dial: each character is a pair of tones played together, separated from the next by a gap of silence. It is used for telephony testing and for sound design when a scene needs a dialling sequence.
+
+<UIShot name="effects/DTMF_Tones" alt="The DTMF Tones dialog" />
+
+## Where to find it
+
+**Generate → DTMF Tones**.
+
+## Controls
+
+- **DTMF sequence** — the characters to generate. Numbers 0 to 9, lower case letters a to z, and the `*` and `#` characters are accepted, one tone per character. The default sequence is `audacity`.
+- **Amplitude (0-1)** — the level, where 1 is full scale. Default 0.8.
+- **Duration** — the total length of the whole sequence, tones and gaps together, entered as a timecode.
+- **Tone/silence ratio** — a knob, with a numeric field beside it, splitting that total between sound and silence. Range 0 to 100, default 55.
+
+Beside the knob the dialog reports the figures it works out from your settings: **Duty cycle** as a percentage, and **Tone duration** and **Silence duration** in milliseconds.
+
+## Notes
+
+**Duration** is the length of the entire sequence, not of one tone. Adding characters to the sequence therefore makes each individual tone shorter unless you lengthen the duration to match.
+
+A ratio of 100 gives continuous tones with no gaps between them, and 0 gives silence throughout. The default of 55 leaves a little more tone than gap, which is roughly what a real keypad produces.
+
+Generation starts at the beginning of the selection, or at the cursor if nothing is selected. The duration has to be greater than zero before the effect can be applied.

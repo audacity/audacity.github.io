@@ -17,7 +17,8 @@
     "astro": "astro",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "smoke:manual": "bun run scripts/smoke-manual.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",

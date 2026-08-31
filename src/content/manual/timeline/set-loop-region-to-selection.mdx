@@ -1,0 +1,28 @@
+---
+title: "Set Loop Region to Selection"
+section: "Timeline"
+sectionOrder: 30
+order: 9
+description: Make the loop region match the current selection.
+draft: false
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+
+Sets the loop region to the current time selection, so you can select the
+passage you want to work on and loop exactly that.
+
+If there is no time selection but clips are selected, the region is set to
+span those clips, from the start of the leftmost to the end of the rightmost.
+If nothing is selected at all, the loop region is cleared.
+
+## Where to find it
+
+Right-click the timeline ruler and choose **Set loop region to selection**,
+or press <Shortcut client:load keys="shift+l" />. It is also in the
+[Looping](/manual/menu-bar/select#looping) submenu.
+
+## Notes
+
+- To go the other way and take the selection from the loop region, use
+  [Set selection to loop](/manual/timeline/set-selection-to-loop).

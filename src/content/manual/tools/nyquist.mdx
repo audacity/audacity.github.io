@@ -1,0 +1,32 @@
+---
+title: "Nyquist"
+section: "Tools"
+sectionOrder: 75
+order: 2
+description: The scripting language many of Audacity's shipped plug-ins are written in.
+draft: false
+---
+
+Nyquist is a small audio programming language that Audacity can run directly.
+A Nyquist plug-in is a plain text file with a header describing the controls it
+wants, and Audacity builds the dialog from that header. Roughly half of what
+ships with Audacity 4 is written this way, including all four of the
+[Tools](/manual/tools) and all three
+[Analyzers](/manual/analyzers).
+
+## Where to find them
+
+Nyquist plug-ins appear in the ordinary **Effect**, **Generate**, **Analyze**
+and **Tools** menus alongside the built-in effects — there is no separate
+Nyquist menu. A Nyquist dialog is usually a plain stack of labelled fields,
+sliders and choices, without the knobs and graphs of the built-in effects.
+
+## Notes
+
+Nyquist plug-ins process the selection as a whole rather than in a continuous
+stream, so they cannot run live during playback: none of them appear in a
+track's realtime effects list.
+
+Additional Nyquist plug-ins can be added with the
+[Nyquist plugin installer](/manual/tools/nyquist-plugin-installer),
+after which they are enabled from **Plugin manager** like any other plug-in.

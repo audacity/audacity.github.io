@@ -1,0 +1,61 @@
+---
+title: "Cut Tool"
+section: "Menu Bar"
+sectionOrder: 10
+order: 93
+description: How cutting works in Audacity 4, and the choice it asks you to make about the gap.
+draft: true
+---
+
+import UIExample from "../../components/manual/UIExample/UIExample";
+import Shortcut from "../../components/manual/Shortcut.jsx";
+
+Cutting removes the selected audio and puts it on the clipboard, ready to
+paste somewhere else. Audacity 4 has no separate cut mode you switch into:
+you select the audio you want gone, then run the command, from
+[Edit → Cut](/manual/menu-bar/edit#cut), from the
+[Cut button](/manual/toolbar/tools#cut) in the Classic workspace, or
+with <Shortcut client:load keys="cmd+x" />.
+
+<UIExample component="tool-button" variant="cut" client:load />
+
+## The gap question
+
+What makes cutting in Audacity 4 different from earlier versions is what
+happens to the space the audio leaves behind. The first time you cut or
+delete part of a clip, Audacity asks you to choose between two behaviours:
+
+- **Leave gap** — the audio is removed and silence is left in its place.
+  Everything else stays where it is.
+- **Close gap (ripple)** — the audio is removed and later audio slides back
+  to close the gap.
+
+If you choose to close the gap, you also choose how far the effect reaches:
+
+- the selected clip moves back to fill the gap,
+- all clips on the same track move back, or
+- all clips on all tracks move back, which keeps separate tracks in sync
+  with one another.
+
+Audacity remembers your answer and stops asking. You can change it at any
+time on the [Audio editing](/manual/preferences/editing)
+preferences page.
+
+## Cutting the other way round
+
+Whichever behaviour you settled on, the other one is still available without
+changing the preference. **Cut and close gap (per track)** is on
+
+<Shortcut client:load keys="cmd+shift+x" /> by default, and the
+[Shortcuts](/manual/preferences/shortcuts) preferences page lists
+the rest of the cut and delete variants so you can put them on keys of your own.
+
+## Related
+
+- [Cut (Edit menu)](/manual/menu-bar/edit#cut)
+- [Cut (Toolbar)](/manual/toolbar/tools#cut)
+- [Delete](/manual/menu-bar/edit#delete)
+- [Delete and Close Gap (per track)](/manual/menu-bar/edit#delete-and-close-gap-per-track)
+- [Trim](/manual/toolbar/tools#trim)
+- [Split Tool](/manual/toolbar/tools#split-tool)
+- [Audio editing](/manual/preferences/editing)

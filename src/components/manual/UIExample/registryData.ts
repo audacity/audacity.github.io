@@ -36,23 +36,21 @@ import {
 const go = (href: string) => {
   if (typeof window !== "undefined") window.location.href = href;
 };
-const GO_MENU = (item: string) =>
-  go(`/manual/manual-index/header/${item.toLowerCase()}`);
+const GO_MENU = (item: string) => go(`/manual/menu-bar/${item.toLowerCase()}`);
 const GO_PROJECT_TAB = (item: string) =>
   go(
     item === "export"
-      ? "/manual/manual-index/header/export-menu"
-      : `/manual/manual-index/project-management-menu/${item}`,
+      ? "/manual/menu-bar/export-menu"
+      : `/manual/home-screen/${item}`,
   );
-const GO_AUDIO_SETUP = () => go("/manual/manual-index/hotbar#audio-setup");
-const GO_SHARE_AUDIO = () => go("/manual/manual-index/hotbar#share-audio");
-const GO_GET_EFFECTS = () => go("/manual/manual-index/hotbar#get-effects");
-const GO_UNDO = () => go("/manual/manual-index/header/edit#undo");
-const GO_REDO = () => go("/manual/manual-index/header/edit#redo");
-const GO_WORKSPACE = (value: string) =>
-  go(`/manual/manual-index/workspaces/${value}`);
+const GO_AUDIO_SETUP = () => go("/manual/project-toolbar#audio-setup");
+const GO_SHARE_AUDIO = () => go("/manual/project-toolbar#share-audio");
+const GO_GET_EFFECTS = () => go("/manual/project-toolbar#get-effects");
+const GO_UNDO = () => go("/manual/menu-bar/edit#undo");
+const GO_REDO = () => go("/manual/menu-bar/edit#redo");
+const GO_WORKSPACE = (value: string) => go(`/manual/workspaces/${value}`);
 const GO_TCP = (anchor: string) => () =>
-  go(`/manual/manual-index/track-control-panel/audio-track-item#${anchor}`);
+  go(`/manual/track-control-panel/audio-track-item#${anchor}`);
 
 export const UI_EXAMPLE_VARIANT_PROPS: Record<
   string,

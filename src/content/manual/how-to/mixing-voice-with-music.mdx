@@ -12,7 +12,7 @@ import Shortcut from "../../../components/manual/Shortcut.jsx";
 
 A voice-over on a music bed needs the music loud enough to be felt and quiet enough that every word survives. Set a rough balance with the track volume sliders, then draw the music down by hand under each stretch of speech, and export.
 
-Audacity 4 does not ship [Auto Duck](/manual/manual-index/egat/effects/volume-and-compression/auto-duck), the Audacity 3 effect that lowered one track automatically from another. Drawing the ducks on the clip envelope is the Audacity 4 way, and for a handful of them it is quicker anyway.
+Audacity 4 does not ship [Auto Duck](/manual/effects/volume-and-compression/auto-duck), the Audacity 3 effect that lowered one track automatically from another. Drawing the ducks on the clip envelope is the Audacity 4 way, and for a handful of them it is quicker anyway.
 
 ## Before you start
 
@@ -21,12 +21,12 @@ You need the voice recorded and edited, and the music imported into the same pro
 ## Steps
 
 1. Set a rough balance first. Play both tracks and pull the music track's volume slider down until the voice is clearly on top — somewhere well below 0 dB is normal. Get it close here and shape the rest phrase by phrase.
-2. Turn on **[Clip envelope](/manual/manual-index/toolbar/tools#clip-gain)** — the first button in the toolbar's tools group. It stays pressed while envelope editing is on, and a line appears across each clip showing its current level.
+2. Turn on **[Clip envelope](/manual/toolbar/tools#clip-gain)** — the first button in the toolbar's tools group. It stays pressed while envelope editing is on, and a line appears across each clip showing its current level.
 3. Click the envelope line on the music clip to add a control point, then drag points up or down. A tooltip shows the value in dB as you drag.
 4. Duck each stretch of speech with four points: one just before the voice starts, still at full level; one a moment later, dragged down; one just before the voice stops, at that same lowered level; and one shortly after, back up. The pairs give you the fade in and out. A drop of about 6 to 12 dB is a usual starting point.
 5. Click the **Clip envelope** button again to return to normal editing.
-6. Even out the voice if it wanders in level. **Effect → Volume and compression → [Compressor](/manual/manual-index/egat/effects/volume-and-compression/compressor)** narrows the gap between its loudest and quietest moments so it sits steadily against the bed.
-7. Export with **File → [Export audio](/manual/manual-index/header/file#export-audio)** (<Shortcut client:load keys="cmd+shift+e" />). Exporting mixes the tracks together as playback would, applying each track's volume, pan, envelopes and effects. Your project, with its separate tracks, is unaffected.
+6. Even out the voice if it wanders in level. **Effect → Volume and compression → [Compressor](/manual/effects/volume-and-compression/compressor)** narrows the gap between its loudest and quietest moments so it sits steadily against the bed.
+7. Export with **File → [Export audio](/manual/menu-bar/file#export-audio)** (<Shortcut client:load keys="cmd+shift+e" />). Exporting mixes the tracks together as playback would, applying each track's volume, pan, envelopes and effects. Your project, with its separate tracks, is unaffected.
 
 ## Notes
 
@@ -34,4 +34,4 @@ Envelopes change nothing about the underlying audio — they are a volume shape 
 
 Judge the ducks by the words, not by the waveform. Too shallow and the music fights consonants; too deep and the bed vanishes and reappears, which draws more attention than the music did. Make the transitions a few tenths of a second wide rather than instant.
 
-If the mix clips when the two tracks sum, lower the music further rather than turning the voice down. [Limiter](/manual/manual-index/egat/effects/volume-and-compression/limiter) is a last line of defence at the end of the chain, not a way to fix a balance.
+If the mix clips when the two tracks sum, lower the music further rather than turning the voice down. [Limiter](/manual/effects/volume-and-compression/limiter) is a last line of defence at the end of the chain, not a way to fix a balance.

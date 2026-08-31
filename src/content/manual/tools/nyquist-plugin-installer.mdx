@@ -1,0 +1,37 @@
+---
+title: "Nyquist plugin installer"
+section: "Tools"
+sectionOrder: 75
+order: 75
+description: Install additional Nyquist plug-ins by picking their files from disk.
+draft: false
+---
+
+Copies Nyquist plug-in files into Audacity's plug-ins folder for you, so you
+do not have to find that folder yourself. On success it reminds you that
+newly installed plug-ins still have to be switched on in the
+[Plugin Manager](/manual/menu-bar/effect#plugin-manager) before
+they appear in the menus.
+
+## Where to find it
+
+**Tools → Nyquist plugin installer**.
+
+## Controls
+
+- **Select file(s) to install** — a Browse button that opens a file picker.
+  It accepts plug-in files (`.ny`), Lisp files (`.lsp`), HTML files (`.htm`,
+  `.html`) and text files (`.txt`), and you can select more than one file at
+  a time.
+- **Allow overwriting** — Disallow or Allow. Disallow is the default, so an
+  install that would replace an existing file of the same name is refused.
+
+## Notes
+
+The extra file types matter because some plug-ins ship as more than one file
+— a `.lsp` library of shared functions, or an HTML help page alongside the
+`.ny` itself. Select them all together and they go to the right places.
+
+Set **Allow overwriting** to Allow when you are updating a plug-in you
+already have installed; otherwise leave it on Disallow so an existing
+plug-in cannot be replaced by accident.

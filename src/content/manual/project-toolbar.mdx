@@ -1,0 +1,170 @@
+---
+title: "Project toolbar"
+section: "Toolbars"
+sectionOrder: 20
+order: 1
+description: "The bar across the very top of the window: the Home and Project tabs, the hotbar, the workspace selector, and undo and redo."
+draft: false
+---
+
+import UIShot from "../../components/manual/UIShot.astro";
+
+The Project toolbar runs across the very top of the window. Nothing on it
+touches your audio directly — it is where you move between views, reach the
+audio and sharing dialogs, and shape the workspace itself.
+
+<UIShot
+  name="app/ToolbarProject"
+  alt="The Project toolbar: tabs, hotbar, workspace selector, undo and redo"
+/>
+
+## Home and Project tabs
+
+The tabs at the left switch the whole window between the
+[Home screen](/manual/home-screen) — your projects,
+recent files and cloud library — and the **Project** view where editing
+happens.
+
+## The hotbar
+
+The group of quick-access buttons in the centre. Each one opens a menu or a
+dialog.
+
+<UIShot
+  name="toolbars/ProjectToolBar"
+  alt="The centre toolbar group: Audio setup, Share audio and Get effects"
+/>
+
+### Audio setup
+
+Opens a menu for picking the audio hardware Audacity uses. Every list in it
+is built from the devices your computer reports, so what you see depends on
+what is connected.
+
+<UIShot
+  name="app/SceneAudioSetupMenu"
+  alt="The Audio setup button with its menu open: Host, Playback device, Recording device, Recording channels, Rescan audio devices and Audio settings"
+/>
+
+#### What the menu contains
+
+- **Host** — the audio system Audacity talks to. Which hosts are offered
+  depends on your operating system.
+- **Playback device** — where audio plays. The list opens with a **System
+  default** entry, which names the device it currently resolves to,
+  followed by each available output.
+- **Recording device** — the same, for inputs.
+- **Recording channels** — 1 (Mono) Recording channel or 2 (Stereo)
+  Recording channels, up to the number your recording device offers.
+- **Rescan audio devices** — rebuild the device lists. Use it after
+  plugging in or unplugging an interface.
+- **Audio settings** — opens Preferences at the Audio settings page.
+
+#### Notes
+
+- The device and host currently in use are ticked.
+- The menu rebuilds itself whenever the device list or the audio
+  configuration changes, so it stays in step with the hardware.
+
+#### Related
+
+- [Audio settings](/manual/preferences/audio-settings)
+- [Playback/Recording](/manual/preferences/playback-recording)
+- [Connect your microphone](/manual/getting-started/connect-your-microphone)
+
+### Share audio
+
+Renders the project to an audio file and uploads it to audio.com, so you can
+send someone a link instead of a file. Your project itself is not changed and
+nothing is written to your computer.
+
+<UIShot
+  name="app/SceneSpotlightShareaudio"
+  alt="The Share audio button ringed in the hotbar, between Audio setup and Get effects"
+/>
+
+#### How it works
+
+1. Audacity asks for a **Track title** for the upload.
+2. It exports the project in the format audio.com prefers and uploads it.
+   Progress is shown in a notification while this happens.
+3. When the upload finishes, the notification offers **View on audio.com**,
+   which opens the shared audio in your web browser.
+
+#### Notes
+
+- Greyed out until the project contains some audio, and unavailable while
+  recording.
+- Only present in builds where cloud support is enabled.
+- Uploading needs an internet connection.
+
+#### Related
+
+- [Save to cloud](/manual/menu-bar/file#save-to-cloud)
+- [Export audio](/manual/menu-bar/file#export-audio)
+- [Link account](/manual/menu-bar/help#link-account)
+- [Cloud](/manual/preferences/cloud)
+
+### Get effects
+
+Opens the **Get effects** dialog, a catalogue of effect plugins published on
+MuseHub. It is a browsing window only — nothing is installed from inside
+Audacity.
+
+<UIShot
+  name="app/SceneSpotlightGeteffects"
+  alt="The Get effects button ringed in the hotbar, to the right of Share audio"
+/>
+
+#### What the dialog contains
+
+- A list of categories down the left-hand side. The categories come from
+  MuseHub, so the list changes as the catalogue does.
+- A grid of cards on the right, one per effect, each with its name and a
+  short description.
+- **Get it on MuseHub** on each card, which opens that effect's page in your
+  web browser. Downloading and installing happen there.
+- **Done**, which closes the dialog.
+
+#### Notes
+
+- The catalogue is fetched over the internet. If Audacity cannot reach
+  MuseHub it shows a **Connection error** message with a **Try again**
+  button instead of the grid.
+- Installed plugins are managed elsewhere — see Plugin manager and the
+  Plugins preferences page.
+
+#### Related
+
+- [Plugin manager](/manual/menu-bar/effect#plugin-manager)
+- [Plugins](/manual/preferences/plugin)
+- [Effect](/manual/menu-bar/effect)
+
+## Workspace selector
+
+The dropdown on the right switches between the
+[workspaces](/manual/workspaces) — Classic, Modern, Music and
+Spectral editing — changing which tools the
+[Tools toolbar](/manual/toolbar) shows.
+
+## Undo and redo
+
+The two arrows at the far right step backwards and forwards through your
+edits — the same [Undo and Redo](/manual/menu-bar/edit) as the
+Edit menu, kept in reach.
+
+Share audio only appears in builds where cloud support is enabled.
+
+## Where to find it
+
+Along the top of the project window, between the Home and Project tabs on
+the left and the workspace selector and Undo/Redo on the right. When the
+window is too narrow for the labels, the buttons drop to icons only.
+
+The buttons need a project to be open.
+
+## Related
+
+- [Toolbar](/manual/toolbar)
+- [Workspaces](/manual/workspaces)
+- [Project Management Menu](/manual/home-screen)

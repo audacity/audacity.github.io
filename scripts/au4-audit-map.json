@@ -8,104 +8,104 @@
     "note": "`/FAQ` (site page, indexed in help search)"
   },
   "menu:quit": {
-    "page": "manual-index/header/file"
+    "page": "menu-bar/file"
   },
   "menu:fullscreen": {
-    "page": "manual-index/header/view"
+    "page": "menu-bar/view"
   },
   "menu:zero-cross": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:check-update": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:toggle-effects": {
-    "page": "manual-index/header/view"
+    "page": "menu-bar/view"
   },
   "menu:add-realtime-effects": {
-    "page": "manual-index/header/effect"
+    "page": "menu-bar/effect"
   },
   "menu:set-loop-region-in-out": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:about-qt": {
     "status": "wont-document",
     "reason": "standard Qt framework dialog, no Audacity behaviour to describe"
   },
   "menu:select-previous-clip-boundary-to-cursor": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:select-cursor-to-next-clip-boundary": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:select-previous-clip": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:select-next-clip": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:toggle-spectral-selection": {
-    "page": "manual-index/header/select"
+    "page": "menu-bar/select"
   },
   "menu:skip-to-selection-start": {
-    "page": "manual-index/header/view"
+    "page": "menu-bar/view"
   },
   "menu:skip-to-selection-end": {
-    "page": "manual-index/header/view"
+    "page": "menu-bar/view"
   },
   "menu:align-end-to-end": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:align-together": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:align-start-to-zero": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:align-start-to-playhead": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:align-start-to-selection-end": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:align-end-to-playhead": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:align-end-to-selection-end": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:sort-by-time": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:sort-by-name": {
-    "page": "manual-index/header/tracks"
+    "page": "menu-bar/tracks"
   },
   "menu:apply-macros-palette": {
-    "page": "manual-index/header/tools"
+    "page": "menu-bar/tools"
   },
   "menu:macro-fade-ends": {
-    "page": "manual-index/header/tools"
+    "page": "menu-bar/tools"
   },
   "menu:macro-mp3-conversion": {
-    "page": "manual-index/header/tools"
+    "page": "menu-bar/tools"
   },
   "menu:diagnostic-save-diagnostic-files": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:diagnostic-show-paths": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:diagnostic-show-profiler": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:diagnostic-show-navigation-tree": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:diagnostic-show-accessible-tree": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:diagnostic-accessible-tree-dump": {
-    "page": "manual-index/header/help"
+    "page": "menu-bar/help"
   },
   "menu:testflow-show-scripts": {
     "status": "wont-document",
@@ -131,7 +131,7 @@
     "page": "accessibility/mouse-bindings"
   },
   "topic:waveform": {
-    "page": "manual-index/waveform"
+    "page": "waveform"
   },
   "topic:editing-basics": {
     "page": "getting-started/basic-audio-editing"

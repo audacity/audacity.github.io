@@ -1,0 +1,32 @@
+---
+title: "Effects, generators, analyzers & tools"
+section: "Effects"
+sectionOrder: 60
+order: 0
+description: The effects, generators, analyzers and tools that ship with Audacity 4.
+draft: true
+---
+
+EGAT is shorthand for the four kinds of plug-in that act on the audio in a
+project: **effects**, which change audio that is already there; **generators**,
+which create new audio; **analyzers**, which measure audio and report back
+without altering it; and **tools**, which do a job around a project rather than
+to its sound. Audacity 4 ships 54 of them.
+
+## Where to find them
+
+Each kind has its own menu — **Effect**, **Generate**, **Analyze** and
+**Tools** — and each menu begins with **Plugin manager**, where installed
+plug-ins are enabled and disabled. Effects that can run live during playback
+are added instead from a track's effects panel.
+
+## Notes
+
+Some of these plug-ins are built into Audacity and written in C++; the rest are
+[Nyquist](/manual/tools/nyquist) scripts that ship alongside it.
+The distinction rarely matters in use, but it explains why some dialogs look
+different from others.
+
+Anything applied from the Effect, Generate or Analyze menus works on the
+current selection, so make a selection first. With nothing selected, generators
+insert at the cursor.
