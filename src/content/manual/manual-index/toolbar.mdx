@@ -1,30 +1,30 @@
 ---
-title: Toolbar
-description: "This article introduces Audacity 4's toolbars: what each one is for, how workspaces change what you see, and how to reposition the one toolbar that can be moved."
+title: "Tools toolbar"
+description: "The toolbar you work in: transport, editing tools, zoom, the playhead position, snapping and the record level — every control, explained."
 section: "Toolbars"
-sectionIndex: true
 sectionOrder: 20
-order: 1
+order: 2
 ---
 
 import ManualToolbarDemo from "../../../components/manual/interactive/ManualToolbarDemo.jsx";
 import UIExample from "../../../components/manual/UIExample/UIExample";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 <ManualToolbarDemo client:load />
 
-# Toolbars Overview
+# Tools toolbar
 
-Audacity 4 has three main toolbars:
+The [three toolbars](/manual/manual-index/toolbars) split the window between
+them; this one is where the work happens — playback and recording, the
+editing tools, zoom, the playhead position, snapping and the record level.
+It is also the only toolbar you can move.
 
-1. **Project Toolbar** — docked at the very top of the window. Holds Home/Project/Export navigation, quick actions (Mixer, Audio setup, Share audio, Get effects), the workspace selector, and Undo/Redo.
-2. **Transport Toolbar** — your main working toolbar. Holds playback and recording controls, editing tools, zoom, snapping, timecode, and the master meter. This is the one toolbar you can move.
-3. **Selection Toolbar** — docked at the bottom of the window. Shows your current selection's start, end, and duration.
+<UIShot
+  name="app/ToolbarTools"
+  alt="The Tools toolbar: transport controls, editing tools, zoom, the playhead timecode, snapping and the record level button"
+/>
 
-## Workspaces
-
-A **workspace** selector in the Project Toolbar lets you choose between **Classic**, **Modern**, **Music**, and **Spectral editing** layouts. Switching workspaces changes which tools appear in the Transport Toolbar — for example, the Music workspace adds tempo and time-signature controls, while Spectral editing simplifies the toolbar down to just zoom and a waveform/spectrogram switch. Pick whichever workspace matches what you're working on.
-
-## Moving the Transport Toolbar
+## Moving the Tools toolbar
 
 Grab the Transport Toolbar's drag handle and drag it:
 

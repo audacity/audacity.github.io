@@ -3,14 +3,14 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 194 (184 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 196 (185 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
 | Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 42 | 0 | 1 | 3 |
+| Target-state topics (AU3 manual) | 46 | 41 | 0 | 2 | 3 |
 | Shortcuts (inline mentions) | 175 | 108 | — | 67 | — |
 
 ## Menu items
@@ -360,7 +360,7 @@ not yet known whether AU4 has the feature at all.
 | Audacity projects | getting-started | applies | ✅ written | [manual-index/project-management-menu](../src/content/manual/manual-index/project-management-menu.mdx) |
 | How to use Audacity | getting-started | applies | ✅ written | [getting-started/install-audacity](../src/content/manual/getting-started/install-audacity.mdx) |
 | Preferences | reference | applies | ✅ written | [manual-index/preferences](../src/content/manual/manual-index/preferences.mdx) |
-| Toolbars overview | reference | changed | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
+| Toolbars overview | reference | changed | ❌ missing | — |
 | Keyboard shortcut reference | reference | applies | ✅ written (outside collection) | `/manual/shortcuts` (generated from src/data/au4) |
 | Mouse bindings | reference | applies | ✅ written | [accessibility/mouse-bindings](../src/content/manual/accessibility/mouse-bindings.mdx) |
 | Index of effects, generators and analyzers | reference | applies | ❌ missing | — |
@@ -417,7 +417,7 @@ None.
 ### Stub pages (0)
 
 
-### Pages with defaulted stream (160) — proposed assignment
+### Pages with defaulted stream (161) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -434,6 +434,7 @@ sidebars and belongs in its own reviewed change.
 | `demo/interactive-components` | review for removal |
 | `demo/project-window` | review for removal |
 | `demo/uishot-test` | review for removal |
+| `manual-index/bottom-toolbar` | reference |
 | `manual-index/cut-tool` | reference |
 | `manual-index/egat` | reference |
 | `manual-index/egat/analyzers` | reference |
@@ -554,7 +555,6 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/project-management-menu/home/new-and-recent` | reference |
 | `manual-index/project-management-menu/project` | reference |
 | `manual-index/project-management-menu/publish` | reference |
-| `manual-index/punch-and-roll-recording` | reference |
 | `manual-index/time-toolbar` | reference |
 | `manual-index/timeline` | reference |
 | `manual-index/timeline/beats-and-measures` | reference |
@@ -569,6 +569,7 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/timeline/toggle-loop-region` | reference |
 | `manual-index/timeline/update-display-while-playing` | reference |
 | `manual-index/toolbar` | reference |
+| `manual-index/toolbars` | reference |
 | `manual-index/track-control-panel` | reference |
 | `manual-index/track-control-panel/audio-track-item` | reference |
 | `manual-index/track-control-panel/label-track-item` | reference |

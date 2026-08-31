@@ -1,19 +1,34 @@
 ---
-title: "Hotbar"
+title: "Project toolbar"
 section: "Toolbars"
 sectionOrder: 20
 order: 1
-description: The quick-access buttons in the bar across the top of the project window.
+description: "The bar across the very top of the window: the Home and Project tabs, the hotbar, the workspace selector, and undo and redo."
 draft: false
 ---
 
 import UIShot from "../../../components/manual/UIShot.astro";
 
-The Hotbar is the group of quick-access buttons in the centre of the bar
-across the top of the project window. None of them change your audio
-directly — each one opens a menu or a dialog.
+The Project toolbar runs across the very top of the window. Nothing on it
+touches your audio directly — it is where you move between views, reach the
+audio and sharing dialogs, and shape the workspace itself.
 
-## What it contains
+<UIShot
+  name="app/ToolbarProject"
+  alt="The Project toolbar: tabs, hotbar, workspace selector, undo and redo"
+/>
+
+## Home and Project tabs
+
+The tabs at the left switch the whole window between the
+[Home screen](/manual/manual-index/project-management-menu) — your projects,
+recent files and cloud library — and the **Project** view where editing
+happens.
+
+## The hotbar
+
+The group of quick-access buttons in the centre. Each one opens a menu or a
+dialog:
 
 <UIShot
   name="toolbars/ProjectToolBar"
@@ -27,6 +42,19 @@ directly — each one opens a menu or a dialog.
   copy of the project to audio.com.
 - [Get effects](/manual/manual-index/hotbar/get-effects) — browse effect
   plugins on MuseHub.
+
+## Workspace selector
+
+The dropdown on the right switches between the
+[workspaces](/manual/manual-index/workspaces) — Classic, Modern, Music and
+Spectral editing — changing which tools the
+[Tools toolbar](/manual/manual-index/toolbar) shows.
+
+## Undo and redo
+
+The two arrows at the far right step backwards and forwards through your
+edits — the same [Undo and Redo](/manual/manual-index/header/edit) as the
+Edit menu, kept in reach.
 
 Share audio only appears in builds where cloud support is enabled.
 
