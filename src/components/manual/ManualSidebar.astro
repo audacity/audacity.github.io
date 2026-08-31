@@ -173,7 +173,15 @@ const sections = Array.from(grouped.entries())
         stream exists to show.
       */
       sections.map((section) => {
-        const linear = currentStream === "getting-started";
+        /*
+          How-to renders flat too, for now by size rather than principle:
+          nineteen pages across six small groups don't need folding, and
+          headings alone carry the grouping. If the stream grows past the
+          point where the whole list scans comfortably, move it to the map
+          treatment by taking it out of this condition.
+        */
+        const linear =
+          currentStream === "getting-started" || currentStream === "how-to";
         return (
           <div
             class:list={[linear ? "mb-4" : "manual-tree__item mb-4"]}
@@ -225,7 +233,7 @@ const sections = Array.from(grouped.entries())
               nodes={section.tree}
               currentSlug={currentSlug}
               depth={0}
-              numbered={linear}
+              numbered={currentStream === "getting-started"}
             />
           </div>
         );
