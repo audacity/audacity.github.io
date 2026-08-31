@@ -51,6 +51,10 @@ const manualCollection = defineCollection({
     sectionOrder: z.number().default(99),
     order: z.number().default(99),
     draft: z.boolean().default(false),
+    /* Marks a page as its section's index: the sidebar heading links to it
+       and it no longer renders as a row. For sections whose pages don't all
+       nest under one path, where the single-root collapse can't apply. */
+    sectionIndex: z.boolean().default(false),
     stream: z.enum(MANUAL_STREAMS).default("reference"),
   }),
 });

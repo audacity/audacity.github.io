@@ -24,7 +24,7 @@ export const VIRTUAL_MANUAL_ENTRIES: VirtualManualEntry[] = [
     title: "Keyboard shortcuts",
     // After Accessibility (160): the cross-cutting reference material sits
     // at the end of the sidebar, where the old manual kept its indexes.
-    section: "Reference",
+    section: "Keyboard shortcuts",
     sectionOrder: 170,
     order: 1,
     stream: "reference",

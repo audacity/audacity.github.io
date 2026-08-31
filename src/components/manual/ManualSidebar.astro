@@ -113,12 +113,30 @@ function buildTree(entries: Entry[]): TreeNode[] {
   the link and the root's children move up a level; the root page loses no
   reachability, only its duplicate row.
 */
+/*
+  Every heading links somewhere — mixed clickable and dead headings read as
+  a bug. Three ways a section gets its index, tried in order: a page flagged
+  sectionIndex (for sections whose pages span several paths), a single root
+  page (its children become the rows — or no rows at all, for one-page
+  sections like the glossary), and failing both, the heading stays plain,
+  which the content should be arranged to avoid.
+*/
 const sections = Array.from(grouped.entries())
   .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
   .map(([name, { entries }]) => {
-    const tree = buildTree(entries);
     const active = entries.some((e) => e.id === currentSlug);
-    if (tree.length === 1 && tree[0].children.length > 0) {
+    const flagged = entries.find((e) => e.data.sectionIndex);
+    if (flagged) {
+      const rest = entries.filter((e) => e !== flagged);
+      return {
+        name,
+        active,
+        href: `/manual/${flagged.id}`,
+        tree: buildTree(rest),
+      };
+    }
+    const tree = buildTree(entries);
+    if (tree.length === 1) {
       return {
         name,
         active,

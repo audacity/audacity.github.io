@@ -128,7 +128,7 @@
     "reason": "Audacity 4 has no mixer board"
   },
   "topic:mouse-bindings": {
-    "page": "manual-index/mouse-bindings"
+    "page": "accessibility/mouse-bindings"
   },
   "topic:waveform": {
     "page": "manual-index/waveform"

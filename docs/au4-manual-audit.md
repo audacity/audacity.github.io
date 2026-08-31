@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 193 (184 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 194 (185 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
@@ -362,7 +362,7 @@ not yet known whether AU4 has the feature at all.
 | Preferences | reference | applies | ✅ written | [manual-index/preferences](../src/content/manual/manual-index/preferences.mdx) |
 | Toolbars overview | reference | changed | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
 | Keyboard shortcut reference | reference | applies | ✅ written (outside collection) | `/manual/shortcuts` (generated from src/data/au4) |
-| Mouse bindings | reference | applies | ✅ written | [manual-index/mouse-bindings](../src/content/manual/manual-index/mouse-bindings.mdx) |
+| Mouse bindings | reference | applies | ✅ written | [accessibility/mouse-bindings](../src/content/manual/accessibility/mouse-bindings.mdx) |
 | Index of effects, generators and analyzers | reference | applies | ❌ missing | — |
 | Managing effects, generators and analyzers | reference | changed | ✅ written (heading) | [manual-index/header/analyze](../src/content/manual/manual-index/header/analyze.mdx) |
 | Macros | reference | verify | ✅ written (heading) | [manual-index/header/tools](../src/content/manual/manual-index/header/tools.mdx) |
@@ -417,7 +417,7 @@ None.
 ### Stub pages (0)
 
 
-### Pages with defaulted stream (159) — proposed assignment
+### Pages with defaulted stream (160) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -426,6 +426,7 @@ sidebars and belongs in its own reviewed change.
 | --- | --- |
 | `accessibility/index` | reference |
 | `accessibility/modals-and-menus` | reference |
+| `accessibility/mouse-bindings` | reference |
 | `accessibility/navigation-model` | reference |
 | `accessibility/toolbars-and-panels` | reference |
 | `accessibility/track-view` | reference |
@@ -535,7 +536,6 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/hotbar/audio-setup` | reference |
 | `manual-index/hotbar/get-effects` | reference |
 | `manual-index/hotbar/share-audio` | reference |
-| `manual-index/mouse-bindings` | reference |
 | `manual-index/preferences` | reference |
 | `manual-index/preferences/advanced` | reference |
 | `manual-index/preferences/appearance` | reference |
@@ -572,6 +572,7 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/track-control-panel` | reference |
 | `manual-index/track-control-panel/audio-track-item` | reference |
 | `manual-index/track-control-panel/label-track-item` | reference |
+| `manual-index/tracks` | reference |
 | `manual-index/vertical-rulers` | reference |
 | `manual-index/waveform` | reference |
 | `manual-index/workspaces` | reference |
