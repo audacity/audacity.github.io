@@ -117,10 +117,16 @@ const sections = Array.from(grouped.entries())
   .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
   .map(([name, { entries }]) => {
     const tree = buildTree(entries);
+    const active = entries.some((e) => e.id === currentSlug);
     if (tree.length === 1 && tree[0].children.length > 0) {
-      return { name, href: `/manual/${tree[0].slug}`, tree: tree[0].children };
+      return {
+        name,
+        active,
+        href: `/manual/${tree[0].slug}`,
+        tree: tree[0].children,
+      };
     }
-    return { name, href: null, tree };
+    return { name, active, href: null, tree };
   });
 ---
 
@@ -131,25 +137,60 @@ const sections = Array.from(grouped.entries())
 
   <nav aria-label="Manual" class="text-sm">
     {
+      /*
+        Sections are collapsible the same way tree nodes are — same classes,
+        so the chevron CSS and the localStorage script drive both. The split
+        hit target is deliberate: the label navigates to the section's index
+        page (where one exists), the chevron toggles. A heading that only
+        toggles wastes the index pages; one that only navigates leaves a
+        ~150-row sidebar permanently unfolded. Only the section holding the
+        current page starts open.
+      */
       sections.map((section) => (
-        <div class="mb-5">
-          {/* Section names were only ever used for ordering; printing them is
-              what makes a group read as a group rather than a gap. */}
-          <h2 class="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-500">
-            {section.href ? (
-              <a
-                href={section.href}
-                class:list={[
-                  "hover:text-blue-700 transition-colors",
-                  `/manual/${currentSlug}` === section.href && "text-blue-700",
-                ]}
+        <div
+          class="manual-tree__item mb-4"
+          data-slug={`section:${section.name}`}
+          data-has-children="true"
+          data-active={section.active ? "true" : undefined}
+          data-state={section.active ? "open" : "closed"}
+        >
+          <div class="flex items-center gap-1">
+            <h2 class="flex-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+              {section.href ? (
+                <a
+                  href={section.href}
+                  class:list={[
+                    "block py-1 hover:text-blue-700 transition-colors",
+                    `/manual/${currentSlug}` === section.href &&
+                      "text-blue-700",
+                  ]}
+                >
+                  {section.name}
+                </a>
+              ) : (
+                <span class="block py-1">{section.name}</span>
+              )}
+            </h2>
+            <button
+              type="button"
+              class="manual-tree__toggle shrink-0 p-1 rounded text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+              aria-label={`Toggle ${section.name}`}
+              data-tree-toggle
+            >
+              <svg
+                class="w-3.5 h-3.5 transition-transform"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
               >
-                {section.name}
-              </a>
-            ) : (
-              section.name
-            )}
-          </h2>
+                <polyline points="4 6 8 10 12 6" />
+              </svg>
+            </button>
+          </div>
           <ManualSidebarTree
             nodes={section.tree}
             currentSlug={currentSlug}
@@ -200,6 +241,9 @@ const sections = Array.from(grouped.entries())
       .querySelectorAll('.manual-tree__item[data-has-children="true"]')
       .forEach((item) => {
         const slug = item.dataset.slug;
+        // Never let a remembered "closed" hide the section or branch the
+        // reader is currently inside — the page they are on always wins.
+        if (item.dataset.active === "true") return;
         if (slug && stored[slug] === "open") item.dataset.state = "open";
         else if (slug && stored[slug] === "closed")
           item.dataset.state = "closed";
