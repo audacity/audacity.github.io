@@ -203,6 +203,16 @@ const sections = Array.from(grouped.entries())
 </div>
 
 <style is:global>
+  /* The Astro-style group line: a section's children sit slightly offset with
+     one rule running down their left, so the group reads as a block hanging
+     from its heading. Nested branches keep their own deeper lines. */
+  .manual-tree__item[data-slug^="section:"] > .manual-tree {
+    margin-left: 0.375rem;
+    margin-top: 0.25rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid rgb(229 231 235);
+  }
+
   /* Hide children of a collapsed tree node; rotate the chevron when open. */
   .manual-tree__item[data-state="closed"] > .manual-tree {
     display: none;
@@ -257,6 +267,20 @@ const sections = Array.from(grouped.entries())
         if (!item) return;
         const next = item.dataset.state === "open" ? "closed" : "open";
         setState(item, next);
+
+        // Sections behave as an accordion: opening one closes the rest, so
+        // the sidebar never regrows to the 150-row wall. Tree branches
+        // inside a section stay independent.
+        const slug = item.dataset.slug || "";
+        if (slug.startsWith("section:") && next === "open") {
+          document
+            .querySelectorAll('.manual-tree__item[data-slug^="section:"]')
+            .forEach((other) => {
+              if (other !== item && other.dataset.state === "open") {
+                setState(other, "closed");
+              }
+            });
+        }
       });
     });
   })();
