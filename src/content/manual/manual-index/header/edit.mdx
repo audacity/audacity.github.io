@@ -48,6 +48,37 @@ elsewhere. Shortcut: <Shortcut client:load keys="cmd+x" />. The same command
 is available as a toolbar button in the Classic workspace — see
 [Cut](/manual/manual-index/toolbar/tools#cut).
 
+### The gap: leave it or close it
+
+The first time you cut or delete part of a clip, Audacity asks what should
+happen to the space the audio leaves behind — the same question governs
+Cut and Delete alike:
+
+- **Leave gap** — the audio is removed and silence is left in its place.
+  Everything else stays where it is.
+- **Close gap (ripple)** — the audio is removed and later audio slides back
+  to close the gap.
+
+If you choose to close the gap, you also choose how far the effect reaches:
+
+- the selected clip moves back to fill the gap,
+- all clips on the same track move back, or
+- all clips on all tracks move back, which keeps separate tracks in sync
+  with one another.
+
+Audacity remembers your answer and stops asking. You can change it at any
+time on the [Audio editing](/manual/manual-index/preferences/editing)
+preferences page.
+
+### Cutting the other way round
+
+Whichever behaviour you settled on, the other one is still available without
+changing the preference. **Cut and close gap (per track)** is on
+
+<Shortcut client:load keys="cmd+shift+x" /> by default, and the
+[Shortcuts](/manual/manual-index/preferences/shortcuts) preferences page lists
+the rest of the cut and delete variants so you can put them on keys of your own.
+
 ## Copy
 
 Puts the selected audio on the clipboard without removing it. Shortcut:

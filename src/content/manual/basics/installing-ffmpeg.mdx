@@ -16,7 +16,9 @@ FFmpeg lets you import and export additional audio file formats in Audacity.
 Due to patent restrictions, FFmpeg cannot be distributed with Audacity itself. However, FFmpeg is required to import and export a variety of audio formats, including M4A and WMA.
 
 <Callout type="info">
-In previous versions of Audacity, LAME was required to export MP3 files. It is now included with Audacity by default on Windows and macOS. Make sure you are using the latest version of Audacity if you're getting any LAME errors.
+  In previous versions of Audacity, LAME was required to export MP3 files. It is
+  now included with Audacity by default on Windows and macOS. Make sure you are
+  using the latest version of Audacity if you're getting any LAME errors.
 </Callout>
 
 You can download and install FFmpeg as follows:
@@ -168,7 +170,12 @@ sudo pacman -Syu ffmpeg lame
 Once you've installed FFmpeg and LAME, restart Audacity. It will automatically try to detect them.
 
 <Callout type="warning" title="Caution">
-Audacity supports FFmpeg's libavformat in version 55 (all Audacity versions), 57 and 58 (Audacity 3.1+), 59 (Audacity 3.2+), and 60 (Audacity 3.3+). If your distribution ships with a different version, it may not get detected or may not work correctly. In that case, you may need to uninstall FFmpeg again and make a **shared build** of a supported version [from source](https://ffmpeg.org/download.html#releases).
+  Audacity supports FFmpeg's libavformat in version 55 (all Audacity versions),
+  57 and 58 (Audacity 3.1+), 59 (Audacity 3.2+), and 60 (Audacity 3.3+). If your
+  distribution ships with a different version, it may not get detected or may
+  not work correctly. In that case, you may need to uninstall FFmpeg again and
+  make a **shared build** of a supported version [from
+  source](https://ffmpeg.org/download.html#releases).
 </Callout>
 
 #### Manual installation

@@ -20,25 +20,26 @@ Both follow the same rules below; two rules apply to only one of the two hooks, 
 
 ## Core rules
 
-| Rule | Behaviour |
-|---|---|
-| One tab stop per group | Exactly one element in each group carries the group's roving `tabIndex`; every other element in the group has `tabIndex = -1` |
-| <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Move forward/backward **between groups** |
-| Arrow keys | Move focus **within** the current group — Right/Down to the next item, Left/Up to the previous — wrapping from last to first when the group's configuration enables `wrap` |
-| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | Jump to the first / last item in the group |
-| Hidden items | Skipped during arrow navigation (container-level groups also skip disabled items) |
-| Blur reset — *container-level groups only* | When focus leaves a `useContainerTabGroup` group, its first visible element becomes the tab stop again — re-entering the group always resumes at the first item, never wherever focus last left it |
-| Focus-on-entry reset — *per-item groups only* | When focus enters a `useTabGroup` group from outside, it always lands on the first item, regardless of which item last held the tab stop |
-| Unknown group id — *container-level groups* | If a group id isn't in the active profile's configuration map, `useContainerTabGroup` falls back to roving + arrows + wrap rather than failing |
+| Rule                                                                            | Behaviour                                                                                                                                                                                          |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| One tab stop per group                                                          | Exactly one element in each group carries the group's roving `tabIndex`; every other element in the group has `tabIndex = -1`                                                                      |
+| <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Move forward/backward **between groups**                                                                                                                                                           |
+| Arrow keys                                                                      | Move focus **within** the current group — Right/Down to the next item, Left/Up to the previous — wrapping from last to first when the group's configuration enables `wrap`                         |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" />      | Jump to the first / last item in the group                                                                                                                                                         |
+| Hidden items                                                                    | Skipped during arrow navigation (container-level groups also skip disabled items)                                                                                                                  |
+| Blur reset — _container-level groups only_                                      | When focus leaves a `useContainerTabGroup` group, its first visible element becomes the tab stop again — re-entering the group always resumes at the first item, never wherever focus last left it |
+| Focus-on-entry reset — _per-item groups only_                                   | When focus enters a `useTabGroup` group from outside, it always lands on the first item, regardless of which item last held the tab stop                                                           |
+| Unknown group id — _container-level groups_                                     | If a group id isn't in the active profile's configuration map, `useContainerTabGroup` falls back to roving + arrows + wrap rather than failing                                                     |
 
 ## Reserved keys
 
-A handful of transport shortcuts are handled by a single **document-level** keydown listener rather than by whatever control has focus, so they fire *wherever focus happens to be*. They are skipped only while a text field (a text input, textarea, or `contenteditable`) has focus, so typing is never interrupted.
+A handful of transport shortcuts are handled by a single **document-level** keydown listener rather than by whatever control has focus, so they fire _wherever focus happens to be_. They are skipped only while a text field (a text input, textarea, or `contenteditable`) has focus, so typing is never interrupted.
 
 <Callout type="warning" title="Space is reserved for play/pause — everywhere">
 <Shortcut client:load keys="space" /> toggles play/pause globally. The document-level listener calls `preventDefault()` on Space for any target that isn't a text field, which means it **overrides a control's own Space behaviour**: a focused button does <strong>not</strong> activate on Space the way a native button normally would — Space plays or pauses instead.
 
 The practical rule: <Shortcut client:load keys="space" /> is never a reliable "activate this control" key. Use <Shortcut client:load keys="enter" /> to activate buttons and menu items and leave <Shortcut client:load keys="space" /> to the transport. (This is exactly why the [Add new track button](/manual/accessibility/toolbars-and-panels#add-track-button) opens on <Shortcut client:load keys="enter" /> only.)
+
 </Callout>
 
 Record (<Shortcut client:load keys="r" />) and loop (<Shortcut client:load keys="l" />) work the same document-level way and are likewise skipped in text fields. The full list of application-wide shortcuts lives on [Toolbars and panels](/manual/accessibility/toolbars-and-panels#application-wide-shortcuts).
@@ -47,43 +48,60 @@ Record (<Shortcut client:load keys="r" />) and loop (<Shortcut client:load keys=
 
 Groups are visited in this order (numbers are the roving `tabIndex` values assigned by the AU4 Tab Groups profile):
 
-| # | Group | tabIndex |
-|---|---|---|
-| 1 | File menu (menubar) | 1 |
-| 2 | Project toolbar | 2 |
-| 3 | Project toolbar — actions | 3 |
-| 4 | Project toolbar — workspace | 4 |
-| 5 | Project toolbar — history | 5 |
-| 6 | Tool toolbar | 6 |
-| 7 | Effects panel | 7 |
-| 8 | Add new track | 98 |
-| 9 | Timeline ruler | 99 |
-| 10 | Track area (see below) | 100 and up |
-| 11 | Selection toolbar (timecodes) | configured as 200 — see note below |
+| #   | Group                         | tabIndex                           |
+| --- | ----------------------------- | ---------------------------------- |
+| 1   | File menu (menubar)           | 1                                  |
+| 2   | Project toolbar               | 2                                  |
+| 3   | Project toolbar — actions     | 3                                  |
+| 4   | Project toolbar — workspace   | 4                                  |
+| 5   | Project toolbar — history     | 5                                  |
+| 6   | Tool toolbar                  | 6                                  |
+| 7   | Effects panel                 | 7                                  |
+| 8   | Add new track                 | 98                                 |
+| 9   | Timeline ruler                | 99                                 |
+| 10  | Track area (see below)        | 100 and up                         |
+| 11  | Selection toolbar (timecodes) | configured as 200 — see note below |
 
 <Callout type="info" title="The file menu isn't always there">
-The menubar (tabIndex 1) only exists in the **Windows** chrome variant, and only outside the Electron desktop shell. The macOS variant renders no menu bar at all (just the traffic lights and app name), and the Electron build suppresses the menubar in favour of the native OS menu. The rest of this table is unaffected either way.
+  The menubar (tabIndex 1) only exists in the **Windows** chrome variant, and
+  only outside the Electron desktop shell. The macOS variant renders no menu bar
+  at all (just the traffic lights and app name), and the Electron build
+  suppresses the menubar in favour of the native OS menu. The rest of this table
+  is unaffected either way.
 </Callout>
 
-<Callout type="warning" title="Selection toolbar's tabIndex 200 doesn't actually apply">
-The selection toolbar is configured for tabIndex 200 in the profile, but its focusable elements are the `TimeCode` groups, and `TimeCode` hardcodes its own container to `tabIndex={0}` (and re-asserts `0` after menu interactions). Native Tab order visits every positive-tabIndex element first, then all `tabIndex=0` elements in DOM order — so the selection toolbar is actually observed at the very end of the sequence, not at position 200, and Tab from there wraps back to the start of the cycle.
+<Callout
+  type="warning"
+  title="Selection toolbar's tabIndex 200 doesn't actually apply"
+>
+  The selection toolbar is configured for tabIndex 200 in the profile, but its
+  focusable elements are the `TimeCode` groups, and `TimeCode` hardcodes its own
+  container to `tabIndex={0}` (and re-asserts `0` after menu interactions).
+  Native Tab order visits every positive-tabIndex element first, then all
+  `tabIndex=0` elements in DOM order — so the selection toolbar is actually
+  observed at the very end of the sequence, not at position 200, and Tab from
+  there wraps back to the start of the cycle.
 </Callout>
 
 ## Track area tab order
 
 Each track contributes tab stops at a **stride of 4**, based off `trackBase = 100` (the `tracks` group's tabIndex). For track index `i` (0-based):
 
-| Element | tabIndex |
-|---|---|
-| Track container (`.track`) | `100 + i × 4` |
-| *(reserved, unused)* | `101 + i × 4` |
+| Element                                            | tabIndex      |
+| -------------------------------------------------- | ------------- |
+| Track container (`.track`)                         | `100 + i × 4` |
+| _(reserved, unused)_                               | `101 + i × 4` |
 | Clips (first clip on the track; the rest are `-1`) | `102 + i × 4` |
-| Per-track vertical ruler | `103 + i × 4` |
+| Per-track vertical ruler                           | `103 + i × 4` |
 
 For a project with four tracks the live values are: containers `100, 104, 108, 112`; clips `102, 106, 110, 114`; rulers `103, 107, 111, 115`.
 
 <Callout type="info" title="The track control panel isn't in this sequence">
-The side panel of track controls (mute/solo, name, pan, volume) has `tabIndex={-1}` — it is deliberately **not** a native Tab stop. It's still reachable: the track container's own Tab handler moves focus into it programmatically. Treat it as attached to its track rather than as its own stop in the table above.
+  The side panel of track controls (mute/solo, name, pan, volume) has `tabIndex=
+  {-1}` — it is deliberately **not** a native Tab stop. It's still reachable:
+  the track container's own Tab handler moves focus into it programmatically.
+  Treat it as attached to its track rather than as its own stop in the table
+  above.
 </Callout>
 
 <Callout type="info" title="Debug profile: WCAG flat navigation">
@@ -94,6 +112,7 @@ It does <strong>not</strong> disable clip editing keyboard shortcuts. A `keyboar
 In the flat profile only, <Shortcut client:load keys="f6" /> / <Shortcut client:load keys="shift+f6" /> cycles focus between major UI blocks (File → Home → Play → Add Track → track controls) as a fallback way to move between regions now that arrow-key grouping is off. One exception applies in <strong>both</strong> profiles: while the Preferences modal is open, the modal registers its own <Shortcut client:load keys="f6" /> / <Shortcut client:load keys="shift+f6" /> handler that jumps focus to its content pane / section list (see [Modals and menus](/manual/accessibility/modals-and-menus)) — so F6 is not inert there even under the default AU4 profile.
 
 One footgun to know about: profiles are resolved by id, and passing an id that isn't `au4-tab-groups` or `wcag-flat` doesn't error and doesn't fall back to the default AU4 profile — it silently returns the <strong>flat</strong> profile instead. Anything that needs the tab-group behaviour described on this page must pass the real `au4-tab-groups` id explicitly.
+
 </Callout>
 
 ## Implementation notes

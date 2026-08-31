@@ -44,9 +44,9 @@ const GO_PROJECT_TAB = (item: string) =>
       ? "/manual/manual-index/header/export-menu"
       : `/manual/manual-index/project-management-menu/${item}`,
   );
-const GO_AUDIO_SETUP = () => go("/manual/manual-index/hotbar/audio-setup");
-const GO_SHARE_AUDIO = () => go("/manual/manual-index/hotbar/share-audio");
-const GO_GET_EFFECTS = () => go("/manual/manual-index/hotbar/get-effects");
+const GO_AUDIO_SETUP = () => go("/manual/manual-index/hotbar#audio-setup");
+const GO_SHARE_AUDIO = () => go("/manual/manual-index/hotbar#share-audio");
+const GO_GET_EFFECTS = () => go("/manual/manual-index/hotbar#get-effects");
 const GO_UNDO = () => go("/manual/manual-index/header/edit#undo");
 const GO_REDO = () => go("/manual/manual-index/header/edit#redo");
 const GO_WORKSPACE = (value: string) =>

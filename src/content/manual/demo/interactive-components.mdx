@@ -17,13 +17,24 @@ This page exists to show what we can do once the manual uses MDX. Every componen
 
 Click the record button to start a new recording:
 
-<AudacityButton client:load icon="icon-microphone" label="Record" tooltip="Record (R)" />
+<AudacityButton
+  client:load
+  icon="icon-microphone"
+  label="Record"
+  tooltip="Record (R)"
+/>
 
 Press the same button again to stop. (This demo just flashes — a real one could play a sound, animate, or update state.)
 
 A toggleable button works the same way. Click to enable monitoring:
 
-<AudacityButton client:load icon="icon-waveform" label="Monitor input" tooltip="Toggle monitoring" toggleable />
+<AudacityButton
+  client:load
+  icon="icon-waveform"
+  label="Monitor input"
+  tooltip="Toggle monitoring"
+  toggleable
+/>
 
 Buttons can also live inline mid-sentence, like this <AudacityButton client:load icon="icon-cycle" label="Loop" toggleable /> one, right in the flow of a paragraph.
 

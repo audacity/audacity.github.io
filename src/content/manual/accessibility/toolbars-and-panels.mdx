@@ -15,12 +15,12 @@ Toolbars, the effects panel and the selection toolbar all use the same tab-group
 
 The transport toolbar and the tool toolbar both use `role="toolbar"` with container-level roving (`useContainerTabGroup`):
 
-| Shortcut | Action |
-|---|---|
-| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" /> | Previous item (wraps) |
-| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> | Next item (wraps) |
-| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last item |
-| <Shortcut client:load keys="tab" /> | Leave the toolbar (next group) |
+| Shortcut                                                                     | Action                         |
+| ---------------------------------------------------------------------------- | ------------------------------ |
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" />    | Previous item (wraps)          |
+| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> | Next item (wraps)              |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" />   | First / last item              |
+| <Shortcut client:load keys="tab" />                                          | Leave the toolbar (next group) |
 
 Blur reset: when focus leaves the toolbar, the first item becomes the tab stop again, so re-entering the toolbar always resumes at the first item.
 
@@ -29,15 +29,20 @@ The tool toolbar filters out elements that live inside a `role="group"` containe
 ## Menu bar (Windows only)
 
 <Callout type="warning" title="Only in the Windows chrome variant">
-The menu bar (File, Edit, …) only exists in the **Windows** chrome variant of the application header — the macOS variant renders no menu bar at all (just the traffic-light buttons and the app name). Windows is the default `operatingSystem` preference. The menu bar is also suppressed inside the Electron desktop build in favour of the native OS menu, so it's only reachable in a plain browser session running the Windows chrome.
+  The menu bar (File, Edit, …) only exists in the **Windows** chrome variant of
+  the application header — the macOS variant renders no menu bar at all (just
+  the traffic-light buttons and the app name). Windows is the default
+  `operatingSystem` preference. The menu bar is also suppressed inside the
+  Electron desktop build in favour of the native OS menu, so it's only reachable
+  in a plain browser session running the Windows chrome.
 </Callout>
 
 Where it renders, the menu bar is `role="menubar"` with roving tabindex (the first item, File, holds the tab stop; the rest are `-1`):
 
-| Shortcut | Action |
-|---|---|
-| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" /> | Next top-level menu (wraps) |
-| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" /> | Previous top-level menu (wraps) |
+| Shortcut                                                                        | Action                                                   |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| <Shortcut client:load keys="right" /> / <Shortcut client:load keys="down" />    | Next top-level menu (wraps)                              |
+| <Shortcut client:load keys="left" /> / <Shortcut client:load keys="up" />       | Previous top-level menu (wraps)                          |
 | <Shortcut client:load keys="tab" /> / <Shortcut client:load keys="shift+tab" /> | Leave the menu bar (passes through, doesn't open a menu) |
 
 ## Project toolbar
@@ -47,13 +52,14 @@ The project toolbar is not one group but **four separate tab-group stops**, visi
 ## Effects panel
 
 <Callout type="info" title="The panel has arrow navigation">
-The effects panel uses `useContainerTabGroup` (group id `effects-panel`) with arrows and wrap enabled — it is not an Enter-to-open, arrows-disabled control.
+  The effects panel uses `useContainerTabGroup` (group id `effects-panel`) with
+  arrows and wrap enabled — it is not an Enter-to-open, arrows-disabled control.
 </Callout>
 
-| Shortcut | Action | Notes |
-|---|---|---|
+| Shortcut                                                                                                                                                 | Action                                    | Notes                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | --------------------------------- |
 | <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> / <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move between effect controls in the panel | Roving container tab group, wraps |
-| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last control | |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" />                                                                               | First / last control                      |                                   |
 
 Each effect slot within the panel adds its own keyboard model on top of that: focusing an effect's drag handle and pressing <Shortcut client:load keys="enter" /> enters a "move" mode where <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> reorders the effect and <Shortcut client:load keys="enter" /> or <Shortcut client:load keys="esc" /> exits it; outside of move mode, arrow keys step between the slot's own focusable controls.
 
@@ -61,22 +67,29 @@ Each effect slot within the panel adds its own keyboard model on top of that: fo
 
 The **Add new** button sits in its own `role="group"` labelled "Add track" and is a single tab stop (tabIndex 98 in the global order — see [How keyboard navigation works](/manual/accessibility/navigation-model)). Because it's a one-item group, arrow keys pressed on it are deliberately swallowed so they don't jump into the track list below.
 
-| Shortcut | Action |
-|---|---|
+| Shortcut                              | Action                           |
+| ------------------------------------- | -------------------------------- |
 | <Shortcut client:load keys="enter" /> | Open the "add track" flyout menu |
 
 <Callout type="warning" title="Space plays — it does not open the flyout">
-The **Add new** button opens on <Shortcut client:load keys="enter" /> only. <Shortcut client:load keys="space" /> is reserved for play/pause across the entire application (see [Application-wide shortcuts](#application-wide-shortcuts) below), and the transport handler intercepts the keypress before the button can activate — so pressing Space with this button focused plays or pauses the transport rather than opening the menu. This is a deliberate deviation from the native-button convention where Space activates.
+  The **Add new** button opens on <Shortcut client:load keys="enter" /> only.{" "}
+  <Shortcut client:load keys="space" /> is reserved for play/pause across the
+  entire application (see [Application-wide
+  shortcuts](#application-wide-shortcuts) below), and the transport handler
+  intercepts the keypress before the button can activate — so pressing Space
+  with this button focused plays or pauses the transport rather than opening the
+  menu. This is a deliberate deviation from the native-button convention where
+  Space activates.
 </Callout>
 
 The flyout is a roving menu of track types. When opened by keyboard, focus lands on its first option; then:
 
-| Shortcut | Action |
-|---|---|
-| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> / <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move between track-type options, wrapping |
-| <Shortcut client:load keys="enter" /> | Add the highlighted track type and close the flyout |
-| <Shortcut client:load keys="esc" /> | Close the flyout and return focus to the Add-new button |
-| <Shortcut client:load keys="tab" /> | Close the flyout and continue tabbing normally |
+| Shortcut                                                                                                                                                 | Action                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> / <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move between track-type options, wrapping               |
+| <Shortcut client:load keys="enter" />                                                                                                                    | Add the highlighted track type and close the flyout     |
+| <Shortcut client:load keys="esc" />                                                                                                                      | Close the flyout and return focus to the Add-new button |
+| <Shortcut client:load keys="tab" />                                                                                                                      | Close the flyout and continue tabbing normally          |
 
 Inside the flyout, <Shortcut client:load keys="enter" /> is the only key that selects a track type. <Shortcut client:load keys="space" /> does not select — consistent with the button, it stays bound to play/pause (the flyout deliberately swallows Space so it never activates an option).
 
@@ -84,26 +97,35 @@ Inside the flyout, <Shortcut client:load keys="enter" /> is the only key that se
 
 The timeline ruler is a focusable `role="region"` labelled "Timeline ruler" (tabIndex 99). It's a horizontal-only surface, so its keyboard model is limited to moving the playhead along it:
 
-| Shortcut | Action | Notes |
-|---|---|---|
+| Shortcut                                                                     | Action                             | Notes                                                                                                                                                                                                                                                                            |
+| ---------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Nudge the playhead earlier / later | With snap on, each press lands on the next grid division and Shift has no effect; with snap off the step is 0.1s, and <Shortcut client:load keys="shift+left" /> / <Shortcut client:load keys="shift+right" /> accelerates to 1s (the 1s acceleration exists only with snap off) |
-| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | No-op | Swallowed so they don't jump focus into the track list |
-| <Shortcut client:load keys="shift+f10" /> | Open the ruler context menu | Also opens on right-click |
-| <Shortcut client:load keys="esc" /> | Blur the ruler | Removes keyboard focus from it |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" />    | No-op                              | Swallowed so they don't jump focus into the track list                                                                                                                                                                                                                           |
+| <Shortcut client:load keys="shift+f10" />                                    | Open the ruler context menu        | Also opens on right-click                                                                                                                                                                                                                                                        |
+| <Shortcut client:load keys="esc" />                                          | Blur the ruler                     | Removes keyboard focus from it                                                                                                                                                                                                                                                   |
 
 ## Selection toolbar
 
 The bottom bar of timecode fields, each a `role="group"` composite widget.
 
-<Callout type="warning" title="Configured tabIndex 200 doesn't apply in practice">
-The selection toolbar's configuration assigns it tabIndex 200, but each `TimeCode` group hardcodes its own container to `tabIndex={0}` (and re-asserts `0` after menu interactions), overriding the configured value. Native Tab order visits every positive-tabIndex element first (1 through the low hundreds), then all `tabIndex=0` elements in DOM order — so the selection toolbar is actually observed as the *last* stop in the sequence, not at position 200, and Tab from there wraps back to the start.
+<Callout
+  type="warning"
+  title="Configured tabIndex 200 doesn't apply in practice"
+>
+  The selection toolbar's configuration assigns it tabIndex 200, but each
+  `TimeCode` group hardcodes its own container to `tabIndex={0}` (and re-asserts
+  `0` after menu interactions), overriding the configured value. Native Tab
+  order visits every positive-tabIndex element first (1 through the low
+  hundreds), then all `tabIndex=0` elements in DOM order — so the selection
+  toolbar is actually observed as the *last* stop in the sequence, not at
+  position 200, and Tab from there wraps back to the start.
 </Callout>
 
-| Shortcut | Action |
-|---|---|
+| Shortcut                                                                     | Action                               |
+| ---------------------------------------------------------------------------- | ------------------------------------ |
 | <Shortcut client:load keys="left" /> / <Shortcut client:load keys="right" /> | Move between timecode fields (wraps) |
-| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" /> | Move between timecode fields (wraps) |
-| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" /> | First / last timecode field |
+| <Shortcut client:load keys="up" /> / <Shortcut client:load keys="down" />    | Move between timecode fields (wraps) |
+| <Shortcut client:load keys="home" /> / <Shortcut client:load keys="end" />   | First / last timecode field          |
 
 Within a focused timecode field, its own digit-level editing takes over from there — the field is a single tab-group stop, not one stop per digit.
 
@@ -113,36 +135,36 @@ These are active throughout the application regardless of what's focused, and do
 
 ### Transport and tools
 
-| Shortcut | Action |
-|---|---|
-| <Shortcut client:load keys="space" /> | Play / pause the transport (skipped when a text field is focused) |
-| <Shortcut client:load keys="r" /> | Toggle recording |
-| <Shortcut client:load keys="s" /> | Toggle the split tool |
-| <Shortcut client:load keys="e" /> | Toggle the effects panel for the focused track, restoring focus on close |
+| Shortcut                              | Action                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| <Shortcut client:load keys="space" /> | Play / pause the transport (skipped when a text field is focused)        |
+| <Shortcut client:load keys="r" />     | Toggle recording                                                         |
+| <Shortcut client:load keys="s" />     | Toggle the split tool                                                    |
+| <Shortcut client:load keys="e" />     | Toggle the effects panel for the focused track, restoring focus on close |
 
 ### Editing
 
-| Shortcut | Action |
-|---|---|
-| <Shortcut client:load keys="cmd+z" /> | Undo |
-| <Shortcut client:load keys="cmd+shift+z" /> / <Shortcut client:load keys="cmd+y" /> | Redo |
-| <Shortcut client:load keys="cmd+c" /> | Copy the selected clip(s) |
-| <Shortcut client:load keys="cmd+x" /> | Cut the selected clip(s) |
-| <Shortcut client:load keys="cmd+v" /> | Paste |
-| <Shortcut client:load keys="cmd+d" /> | Duplicate the focused clip(s) / track(s) |
-| <Shortcut client:load keys="cmd+i" /> | Split the selected clip(s) at the playhead |
-| <Shortcut client:load keys="cmd+shift+i" /> | Split every track at the playhead |
-| <Shortcut client:load keys="cmd+k" /> | Delete the selected time range |
-| <Shortcut client:load keys="esc" /> | Priority cascade: exit split mode → clear time/clip selection → narrow track selection → unwind track focus → blur |
+| Shortcut                                                                            | Action                                                                                                             |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| <Shortcut client:load keys="cmd+z" />                                               | Undo                                                                                                               |
+| <Shortcut client:load keys="cmd+shift+z" /> / <Shortcut client:load keys="cmd+y" /> | Redo                                                                                                               |
+| <Shortcut client:load keys="cmd+c" />                                               | Copy the selected clip(s)                                                                                          |
+| <Shortcut client:load keys="cmd+x" />                                               | Cut the selected clip(s)                                                                                           |
+| <Shortcut client:load keys="cmd+v" />                                               | Paste                                                                                                              |
+| <Shortcut client:load keys="cmd+d" />                                               | Duplicate the focused clip(s) / track(s)                                                                           |
+| <Shortcut client:load keys="cmd+i" />                                               | Split the selected clip(s) at the playhead                                                                         |
+| <Shortcut client:load keys="cmd+shift+i" />                                         | Split every track at the playhead                                                                                  |
+| <Shortcut client:load keys="cmd+k" />                                               | Delete the selected time range                                                                                     |
+| <Shortcut client:load keys="esc" />                                                 | Priority cascade: exit split mode → clear time/clip selection → narrow track selection → unwind track focus → blur |
 
 ### Track creation and window
 
-| Shortcut | Action |
-|---|---|
-| <Shortcut client:load keys="cmd+t" /> | New mono track |
-| <Shortcut client:load keys="cmd+shift+t" /> | New stereo track |
-| <Shortcut client:load keys="cmd+shift+l" /> | New label track |
-| <Shortcut client:load keys="cmd+w" /> | Close (delete) the focused track |
+| Shortcut                                    | Action                           |
+| ------------------------------------------- | -------------------------------- |
+| <Shortcut client:load keys="cmd+t" />       | New mono track                   |
+| <Shortcut client:load keys="cmd+shift+t" /> | New stereo track                 |
+| <Shortcut client:load keys="cmd+shift+l" /> | New label track                  |
+| <Shortcut client:load keys="cmd+w" />       | Close (delete) the focused track |
 
 All three track-creation shortcuts require the Cmd/Ctrl modifier; stereo and label add Shift on top of it. (Plain <Shortcut client:load keys="l" /> without Cmd is the loop-region toggle, not a label-track shortcut.)
 

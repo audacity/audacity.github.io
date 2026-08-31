@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 203 (192 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 203 (188 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
@@ -30,7 +30,7 @@ has no real content yet.
 | File | Export audio… | `export-audio` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | File → Export other | Export labels | `export-labels` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | File → Export other | Export MIDI | `export-midi` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
-| File | Share audio | `file-share-audio` | ✅ written | [manual-index/hotbar/share-audio](../src/content/manual/manual-index/hotbar/share-audio.mdx) |
+| File | Share audio | `file-share-audio` | ✅ written (heading) | [manual-index/hotbar](../src/content/manual/manual-index/hotbar.mdx) |
 | File | Close project | `file-close` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | File | Exit | `quit` | ✅ written | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | Edit | Undo | `action://trackedit/undo` | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
