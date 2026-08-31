@@ -1,6 +1,6 @@
 ---
 title: "Cut, move, and arrange clips"
-description: "Trim the silence off the ends, move clips into place, and split where you need to."
+description: "Treat clips as objects: pick them up, split them apart, and arrange them into the recording you meant to make."
 section: "First steps"
 sectionOrder: 10
 order: 5
@@ -9,11 +9,84 @@ draft: false
 ---
 
 import Callout from "../../../components/manual/Callout.astro";
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
-Trim the silence off the ends, move clips into place, and split where you need to.
+[Basic audio editing](/manual/getting-started/basic-audio-editing) worked on
+stretches of audio inside a clip. This step moves up a level: the clip itself
+as an object you pick up, split, and arrange. A finished edit is usually just
+a handful of clips in the right order with the silences closed up — and none
+of it touches the audio inside them.
 
-<Callout type="info">
-  This step is still being written. In the meantime, [basic audio
-  editing](/manual/getting-started/basic-audio-editing) covers trimming,
-  splitting and moving clips.
+## Select clips, not stretches
+
+Click a clip's **header** — the strip along its top — to select the whole
+clip. Hold **Shift** and click more headers to gather several, and they don't
+need to be neighbours: a clip at the start and one at the end can be selected
+together, and whatever you do next applies to all of them.
+
+<UIShot
+  name="trackpanel/WaveClip-selected"
+  alt="A selected clip, showing the trim handles and speed handles at its edges"
+/>
+
+The handles that appear on selection work on every selected clip at once —
+trim three clips to the beat in one drag.
+
+## Move them into place
+
+Drag a clip **by its header** to move it:
+
+- **Along its track** to change when it plays.
+- **Onto another track** to change what it plays alongside.
+- **Into the empty space below the tracks** to give it a brand-new track of
+  its own.
+
+Switch on **Snap** in the toolbar first if you want clips to land exactly
+against each other or on whole seconds — loose ends between clips are the
+usual source of mystery silences.
+
+<Callout type="warning" title="Clips can swallow each other">
+  Dropping a clip on top of another clip is allowed: the one underneath is eaten
+  into where they overlap. Sometimes that is exactly what you want — a retake
+  pasted over a flub — but if it wasn't,
+  <Shortcut client:load keys="cmd+z" /> puts it back.
 </Callout>
+
+## Split, then rearrange
+
+Splitting is how one long take becomes clips you can arrange: press
+
+<Shortcut client:load keys="s" /> and click where the cut should go, or put the
+cursor there and press <Shortcut client:load keys="cmd+i" /> — the same moves as
+[basic audio editing](/manual/getting-started/basic-audio-editing), used now to
+make *pieces* rather than to delete. Split before and after the part you want to
+keep, and each piece has its own header: drag the keeper into place, delete the
+rest, and close the gaps with a ripple delete.
+
+## Name them while you still remember
+
+Double-click a clip's header to rename it. "Intro take 3" beats "Audio 1"
+the moment a project has more than two clips in it — future-you, returning
+to the project next week, is the beneficiary.
+
+## Everything else lives on the right-click
+
+A clip's context menu holds the rest of its powers: cut and copy, duplicate,
+the split and delete variants, pitch and speed — and **Clip color**, which is
+worth adopting early: colour the keeper takes green and the doubtful ones
+red, and the timeline becomes its own to-do list.
+
+<UIShot
+  name="app/SceneClipMenu"
+  alt="A clip's right-click menu open over the track area, with the Clip color submenu expanded"
+/>
+
+<Callout type="tip" title="A second track is free scratch space">
+  Not sure yet where a clip belongs? Drag it to a spare track below and park it
+  there. Tracks cost nothing, everything on them stays in sync as you edit, and
+  muting the scratch track keeps it out of your ears until you decide.
+</Callout>
+
+Arranged and tidy? Time to shape the sound:
+[apply your first effect](/manual/getting-started/apply-your-first-effect).
