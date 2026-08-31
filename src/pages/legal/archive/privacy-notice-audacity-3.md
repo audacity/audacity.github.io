@@ -1,18 +1,18 @@
 ---
-layout: "../../layouts/PageLayout.astro"
-title: Audacity ® | Desktop Privacy Policy
+layout: "../../../layouts/PageLayout.astro"
+title: Audacity ® | [Archived] Desktop Privacy Policy (Audacity 3)
 ---
 
 ## **About the Privacy Notice**
 
-_This is the privacy notice for Audacity 4 and newer. The privacy notice for Audacity versions 3.7.2–3.x can be found [here](/legal/archive/privacy-notice-audacity-3); for versions 3.0.2 and earlier, see [here](/legal/archive/privacy-notice-pre-networking)._
+**Audacity versions 3.0.2 and earlier are not subject to the privacy notice below; see the archived notice [here](/legal/archive/privacy-notice-pre-networking). Audacity versions 3.7.2–3.x are subject to the privacy notice below. Audacity 4 and newer are subject to the current privacy notice [here](/legal/privacy-notice).**
 
 As a responsible organisation, we have taken two important steps—we made sure that we have, at the discretion of our users, the information necessary to allow us to improve the Audacity app, and that by doing so we are compliant with national and international regulations, namely GDPR and CCPA. Most importantly, we have been, and will continue to be, transparent with our users and our developer community about the data we collect, when we collect it and why—before changes are implemented in the newer versions of the Audacity app.
 
 By default, we inform the user about any data we intend to collect:
 
 1. The first feature mentioned in the privacy notice that requires a network connection is update checking, where we notify users when there is a new version of Audacity available. The user is notified about update checking when Audacity is first installed and is provided with a clear link to disable it in Preferences. Update checking shares your IP address, your OS, and your Audacity version (including whether Audacity was compiled in 32 or 64 bit mode). As explained in the privacy notice, we take steps to anonymise your IP address immediately, which makes it impossible for us to identify you. Please note that we also use this anonymised information for statistics, which help us understand how many users we have per country, which version of Audacity they are using, and whether it is run on Windows, Mac or Linux. These statistics help us to plan app development and make decisions about which platforms we need to support.
-2. The other networking feature of Audacity is error reporting. If you enable it, reports are sent automatically when an application error occurs. You can turn this off anytime in Preferences. We have taken steps to ensure that all potentially identifiable information is filtered from the report data before storage, including the IP address, which we discard.
+2. The other networking feature of Audacity is error reporting. If an application error occurs, a popup appears asking you whether you want to send us the details of that error, which you can review before sending. We have taken steps to ensure that all potentially identifiable information is filtered from the report data before storage, including the IP address, which we discard.
 3. The third and optional feature is Universally Unique Identifier (UUID via [V4 of the protocol](https://en.wikipedia.org/wiki/Universally_unique_identifier)) creation. UUID is randomly generated numbers used as user identificator for each version of the app. This UUID will be stored on our servers only if you choose to opt in. When you launch Audacity after the update, you’ll be provided with clear options to accept or decline the sharing of this data. If you opt out, no UUID will be transmitted to our servers. A UUID will only be created if you choose to opt-in and not before. Here’s how we’ll use it:
    1. Understand daily and monthly active users – to get a clearer picture of how widely Audacity is used.
    2. Track retention rates – to see how many users return after their first session which helps us identify opportunities to improve the experience. Without it we do not know what the 'fall off' rate is for the app, so are unable to tell what percentage of our users find the app satisfying enough to be reused.
@@ -35,7 +35,7 @@ The notice below outlines:
 
 # **Privacy Notice**
 
-Last updated: 31 August 2026
+Last updated: 01 February 2025
 
 ## **1\. About this Notice**
 
@@ -49,9 +49,8 @@ Last updated: 31 August 2026
 
 1. We use the information listed in the table at the end of this section to help us improve our App, for maintenance and security, and to run any updates that enable the App to function better.
 2. All network features are optional:
-   1. Update checking can be disabled in the app preferences.
+   1. Update checking can be disabled in the app preferences. We always ask your permission before sending an error report;
    2. UUID creation can also be disabled in the app preferences.
-   3. Error reporting can be disabled in the app preferences.
 3. Data is only collected for the specific network features you actually use.
 4. All network features require sending an Internet Protocol (IP) address. The full IP address is never stored.
 5. We rely on our legitimate interest as a business to offer you our App and ensure that our App is functioning correctly to process the personal information we collect. For UUID we are using a consent-based lawful basis for data processing.
@@ -59,7 +58,7 @@ Last updated: 31 August 2026
 | Network feature                               | Data collected                                                                                               | Purpose                                                                                                                                                                                                                                                                                                          |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Check for updates                             | • User-Agent string (Audacity version, OS name and version) <br>• Country from IP address                    | Audacity will periodically check to see if a new version of the application is available. This feature is on by default. We provide clear links to disable it when the app is first opened.                                                                                                                      |
-| Error reports                                 | • Basic technical data (CPU info, Audacity version, OS name and version) <br>• Error codes <br>• Stack trace | If you enable error reporting, a report is sent to us automatically when a serious error occurs in Audacity. We use this information to help us detect serious issues and fix them quickly.                                                                                                                      |
+| Error reports                                 | • Basic technical data (CPU info, Audacity version, OS name and version) <br>• Error codes <br>• Stack trace | If a serious error occurs in Audacity, you are shown the relevant information and given the option to send it or not send it to us as a report. We use this information to help us detect serious issues and fix them quickly.                                                                                   |
 | Universally Unique Identifier (UUID) creation | • Randomly generated UUID                                                                                    | The feature is used to understand daily and monthly active users and track retention rates. If you choose to register with Audio.com, active usage and retention will also be collected for that service. If you accept UUID creation you can disable it anytime in the App menu (Preferences \-\> Application). |
 
 ## **3\. Data anonymisation**

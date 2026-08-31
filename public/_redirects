@@ -64,10 +64,12 @@
 /download/plug-ins/	https://plugins.audacityteam.org/
 /help/documentation/	https://support.audacityteam.org/
 /about	/FAQ#team--news
-/about/desktop-privacy-notice/	/legal/privacy-notice	301
-/about/desktop-privacy-policy/	/legal/privacy-notice	301
-/desktop-privacy-policy/	/legal/privacy-notice	301
-/desktop-privacy-notice	/legal/privacy-notice	301
+/about/desktop-privacy-notice/	/legal/archive/privacy-notice-audacity-3	301
+/about/desktop-privacy-policy/	/legal/archive/privacy-notice-audacity-3	301
+/desktop-privacy-policy/	/legal/archive/privacy-notice-audacity-3	301
+/desktop-privacy-notice	/legal/archive/privacy-notice-audacity-3	301
+/old-desktop-privacy-notice	/legal/archive/privacy-notice-pre-networking	301
+/old-desktop-privacy-notice/	/legal/archive/privacy-notice-pre-networking	301
 /cookie-policy	/legal/cookie-policy	301
 /about/license/	https://github.com/audacity/audacity/blob/master/LICENSE.txt
 /about/citations-screenshots-and-permissions/	https://github.com/audacity/audacity/blob/master/LICENSE.txt

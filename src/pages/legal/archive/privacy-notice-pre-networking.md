@@ -1,11 +1,11 @@
 ---
-layout: "../layouts/PageLayout.astro"
+layout: "../../../layouts/PageLayout.astro"
 title: Audacity ® | [Archived] Desktop Privacy Policy
 ---
 
 ## About the Privacy Notice
 
-**Audacity versions 3.0.2 and earlier are not subject to the privacy notice below as they do not include networking features. Audacity versions 3.7.2 and newer are subject to the new privacy notice [here](/desktop-privacy-notice)**
+**Audacity versions 3.0.2 and earlier are not subject to the privacy notice below as they do not include networking features. Audacity versions 3.7.2–3.x are subject to the privacy notice [here](/legal/archive/privacy-notice-audacity-3). Audacity 4 and newer are subject to the current privacy notice [here](/legal/privacy-notice)**
 
 With this updated version of our privacy notice below (dated 28 August 2022), we (the Audacity Team) would like to outline the changes that will come into play with Audacity 3.0.3 and later versions, as well as the purpose of those changes.
 
