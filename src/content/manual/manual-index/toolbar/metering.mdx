@@ -1,0 +1,51 @@
+---
+title: "Metering"
+section: "Toolbars"
+sectionOrder: 20
+order: 7
+description: "The record and playback level meters."
+draft: false
+---
+
+import UIExample from "../../../../components/manual/UIExample/UIExample";
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
+
+The record and playback level meters.
+
+## Record Level
+
+Opens the microphone settings, where you choose the input device and set the
+level Audacity records at.
+
+<UIExample component="tool-button" variant="microphone" />
+
+Setting the level before you record matters: audio recorded too hot clips,
+and clipping cannot be undone afterwards. Watch the meter while you play or
+speak at the loudest part, and back the level off if it reaches the top.
+
+It is present in every workspace.
+
+## Playback Level
+
+Opens the playback volume settings, which set how loudly Audacity plays back.
+The master meter sits alongside it, showing the level going out.
+
+<UIExample component="tool-button" variant="volume" />
+
+Playback volume only affects what you hear — it does not change the audio in
+your project, and it is not applied to anything you export.
+
+<UIExample component="master-meter" variant="default" />
+
+The meter turns red when the signal clips:
+
+<UIExample component="master-meter" variant="clipping" />
+
+The volume menu can also switch the meter between a **horizontal** meter in
+the toolbar and a **vertical** one shown alongside the tracks.
+
+It is present in every workspace.
+
+> **Tip:** Clipping on the master meter means the mix is too loud, not that a
+> particular track is — lower the track faders rather than the playback
+> volume, which does not change the exported file.

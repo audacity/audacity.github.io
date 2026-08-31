@@ -26,7 +26,38 @@ import { scrollToSection } from "./scrollToSection";
 const go = (anchor) => () => {
   if (typeof window === "undefined") return;
   if (!scrollToSection(anchor)) {
-    window.location.href = "/manual/manual-index/toolbar#" + anchor;
+    // The controls live on per-group sub-pages now; route each anchor home.
+    const GROUP = {
+      play: "transport",
+      stop: "transport",
+      record: "transport",
+      "rewind-to-start": "transport",
+      "rewind-to-end": "transport",
+      "toggle-loop-region": "transport",
+      "clip-gain": "tools",
+      "split-tool": "tools",
+      "toggle-spectral-view": "tools",
+      cut: "tools",
+      copy: "tools",
+      paste: "tools",
+      trim: "tools",
+      silence: "tools",
+      "zoom-in": "zoom-tools",
+      "zoom-out": "zoom-tools",
+      "zoom-to-selection": "zoom-tools",
+      "zoom-to-fit-project": "zoom-tools",
+      "zoom-toggle": "zoom-tools",
+      timecode: "selection",
+      tempo: "music",
+      "time-signature": "music",
+      snapping: "snapping",
+      "record-level": "metering",
+      "playback-level": "metering",
+    };
+    const group = GROUP[anchor];
+    window.location.href = group
+      ? "/manual/manual-index/toolbar/" + group + "#" + anchor
+      : "/manual/manual-index/toolbar";
   }
 };
 

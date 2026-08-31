@@ -3,7 +3,7 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 196 (185 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 203 (192 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
@@ -381,9 +381,9 @@ not yet known whether AU4 has the feature at all.
 | Importing audio | getting-started | applies | ✅ written | [manual-index/header/import](../src/content/manual/manual-index/header/import.mdx) |
 | Exporting audio | getting-started | applies | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | Recording | getting-started | applies | ✅ written | [manual-index/header/record](../src/content/manual/manual-index/header/record.mdx) |
-| Playing audio | getting-started | applies | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
+| Playing audio | getting-started | applies | ✅ written (heading) | [manual-index/toolbar/transport](../src/content/manual/manual-index/toolbar/transport.mdx) |
 | Basic audio editing | getting-started | applies | ✅ written | [getting-started/basic-audio-editing](../src/content/manual/getting-started/basic-audio-editing.mdx) |
-| Selecting audio | getting-started | applies | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
+| Selecting audio | getting-started | applies | ✅ written | [manual-index/toolbar/selection](../src/content/manual/manual-index/toolbar/selection.mdx) |
 | Undo, redo and history | reference | applies | ✅ written (heading) | [manual-index/header/edit](../src/content/manual/manual-index/header/edit.mdx) |
 | Customising the layout (workspaces) | reference | changed | ✅ written | [manual-index/workspaces](../src/content/manual/manual-index/workspaces.mdx) |
 | Themes and appearance | reference | changed | ✅ written | [manual-index/preferences/appearance](../src/content/manual/manual-index/preferences/appearance.mdx) |
@@ -417,7 +417,7 @@ None.
 ### Stub pages (0)
 
 
-### Pages with defaulted stream (161) — proposed assignment
+### Pages with defaulted stream (168) — proposed assignment
 
 Report output for human review; applying it re-homes pages across
 sidebars and belongs in its own reviewed change.
@@ -569,6 +569,13 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/timeline/toggle-loop-region` | reference |
 | `manual-index/timeline/update-display-while-playing` | reference |
 | `manual-index/toolbar` | reference |
+| `manual-index/toolbar/metering` | reference |
+| `manual-index/toolbar/music` | reference |
+| `manual-index/toolbar/selection` | reference |
+| `manual-index/toolbar/snapping` | reference |
+| `manual-index/toolbar/tools` | reference |
+| `manual-index/toolbar/transport` | reference |
+| `manual-index/toolbar/zoom-tools` | reference |
 | `manual-index/toolbars` | reference |
 | `manual-index/track-control-panel` | reference |
 | `manual-index/track-control-panel/audio-track-item` | reference |

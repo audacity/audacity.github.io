@@ -1,0 +1,130 @@
+---
+title: "Tools"
+section: "Toolbars"
+sectionOrder: 20
+order: 2
+description: "The editing tools — toggles that change what clicking does, and buttons that act on the selection."
+draft: false
+---
+
+import UIExample from "../../../../components/manual/UIExample/UIExample";
+import Shortcut from "../../../../components/manual/Shortcut.jsx";
+
+The editing tools — toggles that change what clicking does, and buttons that act on the selection.
+
+## Clip Gain
+
+Turns on envelope editing, so you can draw volume changes across a clip
+rather than setting one level for the whole thing. The button is labelled
+**Clip envelope** in the toolbar.
+
+<UIExample component="toggle-tool-button" variant="envelope" />
+
+It is a toggle: it stays pressed while envelope editing is on, and clicking
+it again returns you to normal editing.
+
+<UIExample component="toggle-tool-button" variant="envelope-on" />
+
+It appears in the Classic, Modern and Music workspaces; the Spectral editing
+workspace leaves it out.
+
+> **Tip:** A clip's envelope is drawn on the clip itself, so you can see the
+> shape you have made without leaving the track.
+
+## Split Tool
+
+Turns on the split tool. While it is on, clicking a clip splits it at that
+point instead of selecting it. The button is labelled **Cut / Split** in the
+toolbar.
+
+<UIExample component="toggle-tool-button" variant="split" />
+
+It is a toggle and stays pressed while the tool is active:
+
+<UIExample component="toggle-tool-button" variant="split-on" />
+
+The current design gives it the **S** key.
+
+It appears in the Classic, Modern and Music workspaces.
+
+## Toggle Spectral View
+
+Switches the track display from a waveform to a spectrogram, which shows
+frequency against time instead of amplitude against time. The button is
+labelled **Spectral view** in the toolbar.
+
+<UIExample component="toggle-tool-button" variant="spectral" />
+
+It is a toggle and stays pressed while spectral view is on:
+
+<UIExample component="toggle-tool-button" variant="spectral-on" />
+
+The Spectral editing workspace is already in spectral view, so instead of a
+Spectral view button it offers the reverse — a **Waveform** button that takes
+you back:
+
+<UIExample component="toggle-tool-button" variant="waveform" />
+
+It appears in the Classic and Modern workspaces; the Music workspace leaves
+it out, and Spectral editing replaces it with the Waveform toggle described
+above.
+
+---
+
+## Cut
+
+Removes the selected audio and puts it on the clipboard, ready to paste
+elsewhere.
+
+<UIExample component="tool-button" variant="cut" />
+
+The clipboard group of Cut, Copy and Paste appears in the Classic workspace
+only — the other workspaces leave these three out.
+
+## Copy
+
+Puts the selected audio on the clipboard without removing it.
+
+<UIExample component="tool-button" variant="copy" />
+
+Like the rest of the clipboard group, it appears in the Classic workspace
+only.
+
+## Paste
+
+Inserts whatever is on the clipboard at the edit cursor.
+
+<UIExample component="tool-button" variant="paste" />
+
+Like the rest of the clipboard group, it appears in the Classic workspace
+only.
+
+---
+
+## Trim
+
+Keeps the selected audio and removes everything outside it, trimming the clip
+down to the selection.
+
+<UIExample component="tool-button" variant="trim" />
+
+Trim and Silence sit together because they are opposites: Trim keeps the
+selection and discards the rest, [Silence](#silence) keeps the rest and
+empties the selection.
+
+It appears in the Classic, Modern and Music workspaces; the Spectral editing
+workspace leaves it out.
+
+## Silence
+
+Replaces the selected audio with silence, leaving the clip the same length.
+
+<UIExample component="tool-button" variant="silence" />
+
+Because the length does not change, everything after the selection stays
+where it is — useful for removing a cough or a click without shifting the
+timing of what follows.
+
+It appears in the Classic, Modern and Music workspaces.
+
+---
