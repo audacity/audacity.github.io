@@ -2,11 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import "../../styles/icons.css";
 import { audacityReleases } from "../../assets/data/audacityReleases";
-import {
-  olderReleases,
-  PRE_GITHUB_OLDEST,
-  PRE_GITHUB_NEWEST,
-} from "../../assets/data/olderReleases";
+import { olderReleases } from "../../assets/data/olderReleases";
 
 const current = audacityReleases.version;
 
@@ -162,8 +158,11 @@ const fmt = (iso: string) =>
 
       {
         /*
-        Stated rather than hidden: these versions genuinely aren't on GitHub,
-        and the page shouldn't imply Audacity began at 3.0.0.
+        The line between sources: 3.0.0 and up comes from the project's own
+        GitHub releases — first-party, nothing between the visitor and the
+        binary. Before 3.0.0 GitHub holds only source tags, so installers for
+        the 2.x era point at Fosshub, which still hosts 2.0.6 through 2.4.2
+        and remains a long-standing distribution partner.
       */
       }
       <section
@@ -173,20 +172,29 @@ const fmt = (iso: string) =>
           Versions before 3.0.0
         </h2>
         <p class="text-16 text-text-primary/70 max-w-2xl">
-          Releases from {PRE_GITHUB_OLDEST} to {PRE_GITHUB_NEWEST} ({
-            "2015–2020"
-          }) predate the current release archive, so their installers aren't
-          available here. The source code for those versions is still tagged in
-          the repository.
+          Releases before 3.0.0 predate the archive above, so their installers
+          aren't on GitHub. Installers for 2.0.6 through 2.4.2 are hosted by
+          Fosshub, Audacity's long-standing distribution partner; the source
+          code for every version is tagged in the repository.
         </p>
-        <a
-          href="https://github.com/audacity/audacity/tags"
-          target="_blank"
-          rel="noopener"
-          class="w-fit font-semibold text-accent hover:underline underline-offset-4"
-        >
-          Browse all tags on GitHub
-        </a>
+        <div class="flex flex-wrap gap-x-6 gap-y-1">
+          <a
+            href="https://www.fosshub.com/Audacity-old.html"
+            target="_blank"
+            rel="noopener"
+            class="w-fit font-semibold text-accent hover:underline underline-offset-4"
+          >
+            Audacity 2.x on Fosshub
+          </a>
+          <a
+            href="https://github.com/audacity/audacity/tags"
+            target="_blank"
+            rel="noopener"
+            class="w-fit text-text-primary/60 hover:text-accent transition-colors underline underline-offset-4 decoration-text-primary/30"
+          >
+            Source code on GitHub
+          </a>
+        </div>
       </section>
     </div>
   </main>
