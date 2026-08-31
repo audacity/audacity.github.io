@@ -6,6 +6,7 @@ order: 15
 description: The commands that change audio you have already recorded or imported.
 draft: false
 ---
+
 import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The Edit menu collects the commands that change what is already in your
@@ -24,6 +25,7 @@ into exported files, and Preferences, where Audacity's settings live.
 Reverses your most recent edit. Press it again to step further back —
 Audacity keeps a history of your edits for the current session, so you can
 undo a whole series of changes one step at a time. Shortcut:
+
 <Shortcut client:load keys="cmd+z" />.
 
 The command is only available once there is something to undo. If you go
@@ -33,6 +35,7 @@ back too far, [Redo](#redo) steps forward again.
 
 Reapplies the edit you most recently undid. Like [Undo](#undo), it can be
 pressed repeatedly to step forward through several undone edits. Shortcut:
+
 <Shortcut client:load keys="cmd+shift+z" />.
 
 Redo is only available directly after undoing. Making a new edit discards
@@ -48,6 +51,7 @@ is available as a toolbar button in the Classic workspace — see
 ## Copy
 
 Puts the selected audio on the clipboard without removing it. Shortcut:
+
 <Shortcut client:load keys="cmd+c" />. The same command is available as a
 toolbar button in the Classic workspace — see
 [Copy](/manual/manual-index/toolbar#copy).
@@ -55,6 +59,7 @@ toolbar button in the Classic workspace — see
 ## Paste
 
 Inserts whatever is on the clipboard at the edit cursor. Shortcut:
+
 <Shortcut client:load keys="cmd+v" />. The same command is available as a
 toolbar button in the Classic workspace — see
 [Paste](/manual/manual-index/toolbar#paste).
@@ -63,7 +68,9 @@ toolbar button in the Classic workspace — see
 
 Removes the selected audio without putting it on the clipboard. It works on
 a time selection, on selected clips, or on selected labels. Shortcut:
-<Shortcut client:load keys="del" /> or <Shortcut client:load keys="backspace" />.
+
+<Shortcut client:load keys="del" /> or <Shortcut client:load keys="backspace" />
+.
 
 Delete leaves a gap: everything after the deleted audio stays where it is.
 To pull the later audio left and close the gap, use
@@ -75,8 +82,9 @@ The first time you delete, a dialog asks which behaviour you want — leave
 the gap open, or close it up. Your answer becomes the default for Delete
 from then on, and can be changed later. The modified shortcuts are not
 affected by the choice: <Shortcut client:load keys="shift+del" /> or
-<Shortcut client:load keys="shift+backspace" /> always deletes and closes
-the gap on each track, and <Shortcut client:load keys="cmd+del" /> or
+
+<Shortcut client:load keys="shift+backspace" /> always deletes and closes the
+gap on each track, and <Shortcut client:load keys="cmd+del" /> or
 <Shortcut client:load keys="cmd+backspace" /> always closes it across all
 tracks.
 
@@ -85,6 +93,7 @@ tracks.
 Copies the selected audio into a new track at the same position on the
 timeline, leaving the original untouched. Useful when you want to experiment
 with an edit or effect while keeping the original version to hand. Shortcut:
+
 <Shortcut client:load keys="cmd+d" />.
 
 What gets duplicated depends on the selection:
@@ -100,6 +109,7 @@ What gets duplicated depends on the selection:
 Removes the selected audio and moves everything after it on the same track
 to the left, so no gap is left behind — often called a ripple delete. Each
 track is closed up independently, which is what "per track" means. Shortcut:
+
 <Shortcut client:load keys="shift+del" /> or
 <Shortcut client:load keys="shift+backspace" />.
 
@@ -110,6 +120,7 @@ audio to delete first.
 
 A companion shortcut closes the gap across all tracks rather than each
 track independently, so later material stays aligned from track to track:
+
 <Shortcut client:load keys="cmd+del" /> or
 <Shortcut client:load keys="cmd+backspace" />.
 
@@ -124,6 +135,7 @@ and grouping clips so they can be handled as one unit.
 
 Opens the selected clip's name for editing, directly on the clip header.
 Type the new name and confirm to apply it. Shortcut:
+
 <Shortcut client:load keys="f2" />.
 
 The command needs exactly one item selected — it is disabled when nothing,
@@ -134,8 +146,9 @@ label; see [Rename label](#rename-label).
 
 Trims the clip down to the selection: the audio inside the selection is
 kept, and the rest of the clip is removed. Shortcut:
-<Shortcut client:load keys="cmd+t" />. The same operation is available as
-the [Trim](/manual/manual-index/toolbar#trim) toolbar button.
+
+<Shortcut client:load keys="cmd+t" />. The same operation is available as the
+[Trim](/manual/manual-index/toolbar#trim) toolbar button.
 
 Trim is the opposite of [Silence audio](#silence-audio): Trim keeps the
 selection and discards the rest, Silence keeps the rest and empties the
@@ -169,6 +182,7 @@ To copy the audio into a new track rather than move it, use
 Splits clips into separate clips at their stretches of silence. Handy for
 breaking a long recording — a dictation session, say, or an album side —
 into one clip per take or song. Shortcut:
+
 <Shortcut client:load keys="cmd+alt+j" />.
 
 With a time selection, the command works on the selected range of each
@@ -179,6 +193,7 @@ clips.
 ### Join selected clips
 
 Merges clips into a single clip — the opposite of [Split](#split). Shortcut:
+
 <Shortcut client:load keys="cmd+j" />.
 
 With a time selection, the clips inside the selected range are merged on
@@ -191,6 +206,7 @@ unselected clip between them — otherwise the command is disabled.
 Collects the selected clips into a group, so they are treated as one unit
 when you select and move clips. The clips themselves are unchanged — they
 keep their own names, positions and tracks. Shortcut:
+
 <Shortcut client:load keys="cmd+g" />.
 
 To dissolve a group and work with its clips individually again, use
@@ -201,6 +217,7 @@ To dissolve a group and work with its clips individually again, use
 Dissolves the group that the selected clips belong to, so each clip can be
 selected, moved and edited on its own again. The clips themselves are
 unchanged — only the grouping is removed. Shortcut:
+
 <Shortcut client:load keys="cmd+shift+g" />.
 
 The counterpart of [Group clips](#group-clips).
@@ -218,6 +235,7 @@ editor to manage every label in the project from one place.
 Adds a label at the current selection — marking the selected stretch of
 time, or the cursor position if nothing is selected — and immediately opens
 it for naming, so you can type the label text straight away. Shortcut:
+
 <Shortcut client:load keys="cmd+b" />.
 
 Labels live on a label track. To edit all of a project's labels in one
@@ -227,6 +245,7 @@ place, use [Manage labels](#manage-labels).
 
 Opens the selected label's text for editing, directly on the label. Type
 the new text and confirm to apply it. Shortcut:
+
 <Shortcut client:load keys="f2" />.
 
 The command needs exactly one item selected — it is disabled when nothing,

@@ -6,6 +6,7 @@ order: 2
 description: Create, open, import, save, export, share and close projects.
 draft: false
 ---
+
 import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The File menu covers the life cycle of a project: creating and opening
@@ -101,6 +102,7 @@ The project is saved to the cloud first, then the preview is rebuilt from it.
 Opens the Export dialog, where you turn the project into an ordinary audio
 file that other applications can play. Exporting produces a rendered copy —
 your project, with its separate tracks and clips, is unaffected. Shortcut:
+
 <Shortcut client:load keys="cmd+shift+e" />.
 
 The dialog's **Type** setting decides how much of the project is rendered:
@@ -132,6 +134,7 @@ options menu.
 Closes the current project without quitting Audacity. If the project has
 unsaved changes, you are asked whether to save them first — with the options
 to save, close without saving, or cancel and keep the project open. Shortcut:
+
 <Shortcut client:load keys="cmd+w" />.
 
 - With one window open, closing the project returns you to the home screen.
@@ -145,6 +148,7 @@ to save, close without saving, or cancel and keep the project open. Shortcut:
 Exits Audacity. Every open window's project is closed in turn, and any
 project with unsaved changes asks whether to save first — choosing **Cancel**
 in any of those prompts stops the exit and leaves Audacity running. Shortcut:
+
 <Shortcut client:load keys="cmd+q" />.
 
 Unavailable while recording — stop the recording first.

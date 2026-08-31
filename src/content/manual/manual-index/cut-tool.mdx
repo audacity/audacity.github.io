@@ -6,6 +6,8 @@ order: 1
 description: How cutting works in Audacity 4, and the choice it asks you to make about the gap.
 draft: false
 ---
+
+import UIExample from "../../../components/manual/UIExample/UIExample";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 
 Cutting removes the selected audio and puts it on the clipboard, ready to
@@ -14,6 +16,8 @@ you select the audio you want gone, then run the command, from
 [Edit → Cut](/manual/manual-index/header/edit#cut), from the
 [Cut button](/manual/manual-index/toolbar#cut) in the Classic workspace, or
 with <Shortcut client:load keys="cmd+x" />.
+
+<UIExample component="tool-button" variant="cut" client:load />
 
 ## The gap question
 
@@ -41,10 +45,10 @@ preferences page.
 
 Whichever behaviour you settled on, the other one is still available without
 changing the preference. **Cut and close gap (per track)** is on
+
 <Shortcut client:load keys="cmd+shift+x" /> by default, and the
-[Shortcuts](/manual/manual-index/preferences/shortcuts) preferences page
-lists the rest of the cut and delete variants so you can put them on keys of
-your own.
+[Shortcuts](/manual/manual-index/preferences/shortcuts) preferences page lists
+the rest of the cut and delete variants so you can put them on keys of your own.
 
 ## Related
 

@@ -6,6 +6,7 @@ order: 32
 description: The Select menu — commands for selecting audio, tracks and regions, plus looping and zero-crossing tools.
 draft: false
 ---
+
 import Shortcut from "../../../../components/manual/Shortcut.jsx";
 
 The **Select** menu gathers everything to do with choosing what your next
@@ -48,6 +49,7 @@ Selects a region that ends at the current playback position. A small
 **Playback position** dialog asks for a time; the selection then runs from
 that time up to the playback position. If the time you enter is at or after
 the playback position, nothing is selected. Shortcut:
+
 <Shortcut client:load keys="[" />.
 
 ### Right of playback position
@@ -56,6 +58,7 @@ Selects a region that starts at the current playback position. A small
 **Playback position** dialog asks for a time; the selection then runs from
 the playback position up to that time. If the time you enter is at or
 before the playback position, nothing is selected. Shortcut:
+
 <Shortcut client:load keys="]" />.
 
 The end time is capped at twice the project's current length, so you cannot
@@ -115,6 +118,7 @@ The loop toggle is also a button in the transport group of the toolbar — see
 ### Clear loop region
 
 Removes the loop region entirely. Shortcut:
+
 <Shortcut client:load keys="shift+alt+l" />.
 
 ### Set loop region to selection
@@ -122,6 +126,7 @@ Removes the loop region entirely. Shortcut:
 Sets the loop region to the current time selection. With no time selection,
 it uses the extent of the selected clips instead; with nothing selected at
 all, the loop region is cleared. Shortcut:
+
 <Shortcut client:load keys="shift+l" />.
 
 ### Set loop region in/out
@@ -134,6 +139,7 @@ end times directly. Shortcut: <Shortcut client:load keys="i" />.
 Moves the playback cursor to the nearest zero crossing — a point where the
 waveform passes through zero amplitude. Cutting or joining audio at a zero
 crossing avoids the click you can get when an edit lands mid-wave. Shortcut:
+
 <Shortcut client:load keys="z" />.
 
 It moves the cursor without starting playback.
