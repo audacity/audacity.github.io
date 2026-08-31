@@ -22,7 +22,7 @@ has no real content yet.
 | --- | --- | --- | --- | --- |
 | File | New… | `file-new` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | File | Open… | `file-open` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
-| File | Import… | `project-import` | ✅ written | [manual-index/import](../src/content/manual/manual-index/import.mdx) |
+| File | Import… | `project-import` | ✅ written | [manual-index/header/import](../src/content/manual/manual-index/header/import.mdx) |
 | File | Save | `file-save` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | File | Save to cloud… | `file-save-to-cloud` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | File | Save as… | `file-save-as` | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
@@ -229,7 +229,7 @@ has no real content yet.
 - `manual-index/egat/effects/special/repeat` (“Repeat”)
 - `manual-index/egat/effects/special/vocal-reduction-and-isolation` (“Vocal Reduction and Isolation”)
 - `manual-index/egat/effects/volume-and-compression/auto-duck` (“Auto Duck”)
-- `manual-index/egat/nyquist` (“Nyquist”)
+- `manual-index/egat/tools/nyquist` (“Nyquist”)
 
 ## Preferences
 
@@ -366,7 +366,7 @@ not yet known whether AU4 has the feature at all.
 | Index of effects, generators and analyzers | reference | applies | ❌ missing | — |
 | Managing effects, generators and analyzers | reference | changed | ✅ written (heading) | [manual-index/header/analyze](../src/content/manual/manual-index/header/analyze.mdx) |
 | Macros | reference | verify | ✅ written (heading) | [manual-index/header/tools](../src/content/manual/manual-index/header/tools.mdx) |
-| Nyquist | reference | applies | ✅ written | [manual-index/egat/nyquist](../src/content/manual/manual-index/egat/nyquist.mdx) |
+| Nyquist | reference | applies | ✅ written | [manual-index/egat/tools/nyquist](../src/content/manual/manual-index/egat/tools/nyquist.mdx) |
 | Audio tracks | reference | applies | ✅ written | [manual-index/track-control-panel](../src/content/manual/manual-index/track-control-panel.mdx) |
 | Audacity waveform | reference | applies | ✅ written | [manual-index/waveform](../src/content/manual/manual-index/waveform.mdx) |
 | Spectrogram view | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
@@ -378,7 +378,7 @@ not yet known whether AU4 has the feature at all.
 | Timeline | reference | applies | ✅ written | [manual-index/timeline](../src/content/manual/manual-index/timeline.mdx) |
 | Volume envelopes | reference | applies | ✅ written (heading) | [glossary](../src/content/manual/glossary.mdx) |
 | Glossary | reference | applies | ✅ written | [glossary](../src/content/manual/glossary.mdx) |
-| Importing audio | getting-started | applies | ✅ written | [manual-index/import](../src/content/manual/manual-index/import.mdx) |
+| Importing audio | getting-started | applies | ✅ written | [manual-index/header/import](../src/content/manual/manual-index/header/import.mdx) |
 | Exporting audio | getting-started | applies | ✅ written (heading) | [manual-index/header/file](../src/content/manual/manual-index/header/file.mdx) |
 | Recording | getting-started | applies | ✅ written | [manual-index/header/record](../src/content/manual/manual-index/header/record.mdx) |
 | Playing audio | getting-started | applies | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
@@ -511,20 +511,21 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/egat/generators/silence` | reference |
 | `manual-index/egat/generators/tone` | reference |
 | `manual-index/egat/generators/tone-1` | reference |
-| `manual-index/egat/nyquist` | reference |
 | `manual-index/egat/tools` | reference |
+| `manual-index/egat/tools/nyquist` | reference |
 | `manual-index/egat/tools/nyquist-plugin-installer` | reference |
 | `manual-index/egat/tools/regular-interval-labels` | reference |
 | `manual-index/egat/tools/sample-data-export` | reference |
 | `manual-index/egat/tools/sample-data-import` | reference |
-| `manual-index/export-menu` | reference |
 | `manual-index/header` | reference |
 | `manual-index/header/analyze` | reference |
 | `manual-index/header/edit` | reference |
 | `manual-index/header/effect` | reference |
+| `manual-index/header/export-menu` | reference |
 | `manual-index/header/file` | reference |
 | `manual-index/header/generate` | reference |
 | `manual-index/header/help` | reference |
+| `manual-index/header/import` | reference |
 | `manual-index/header/record` | reference |
 | `manual-index/header/select` | reference |
 | `manual-index/header/tools` | reference |
@@ -534,7 +535,6 @@ sidebars and belongs in its own reviewed change.
 | `manual-index/hotbar/audio-setup` | reference |
 | `manual-index/hotbar/get-effects` | reference |
 | `manual-index/hotbar/share-audio` | reference |
-| `manual-index/import` | reference |
 | `manual-index/mouse-bindings` | reference |
 | `manual-index/preferences` | reference |
 | `manual-index/preferences/advanced` | reference |

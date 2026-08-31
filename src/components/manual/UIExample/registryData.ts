@@ -41,7 +41,7 @@ const GO_MENU = (item: string) =>
 const GO_PROJECT_TAB = (item: string) =>
   go(
     item === "export"
-      ? "/manual/manual-index/export-menu"
+      ? "/manual/manual-index/header/export-menu"
       : `/manual/manual-index/project-management-menu/${item}`,
   );
 const GO_AUDIO_SETUP = () => go("/manual/manual-index/hotbar/audio-setup");
