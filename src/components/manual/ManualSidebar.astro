@@ -121,10 +121,22 @@ function buildTree(entries: Entry[]): TreeNode[] {
   sections like the glossary), and failing both, the heading stays plain,
   which the content should be arranged to avoid.
 */
+const linearStream =
+  currentStream === "getting-started" || currentStream === "how-to";
+
 const sections = Array.from(grouped.entries())
   .sort((a, b) => a[1].sectionOrder - b[1].sectionOrder)
   .map(([name, { entries }]) => {
     const active = entries.some((e) => e.id === currentSlug);
+    /*
+      Flat streams never collapse a section into its heading: their whole
+      point is that every page is a visible row, so even a one-page section
+      renders as heading plus row — a group that reads as ready to grow —
+      rather than the map streams' rowless linked heading.
+    */
+    if (linearStream) {
+      return { name, active, href: null, tree: buildTree(entries) };
+    }
     const flagged = entries.find((e) => e.data.sectionIndex);
     if (flagged) {
       const rest = entries.filter((e) => e !== flagged);
