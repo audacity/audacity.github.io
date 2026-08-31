@@ -38,7 +38,11 @@ The Project Toolbar and Selection Toolbar stay fixed in place.
 
 Once a toolbar has focus, arrow keys move between its buttons and controls. See Accessibility and Keyboard Navigation for the full keyboard navigation model, including an alternative mode for screen reader users.
 
-## Play
+## Transport
+
+The playback and recording controls.
+
+### Play
 
 Starts playback from the edit cursor, or from the start of the selection if
 you have one.
@@ -58,7 +62,7 @@ the current position, and again to carry on from there.
 Playback follows whichever tracks are unmuted. A soloed track plays on its
 own; see the Track Control Panel for mute and solo.
 
-## Stop
+### Stop
 
 Stops playback or recording. The playhead returns to where playback started
 rather than staying where you stopped it.
@@ -69,7 +73,7 @@ Stopping ends a recording and keeps what was captured — the audio stays in
 the track. Stopping is not undoing: to discard a take, stop first and then
 undo.
 
-## Record
+### Record
 
 Starts recording from the currently selected input. While recording, the
 button shows its active state.
@@ -94,7 +98,7 @@ Recording adds audio to a track. Where it lands depends on your selection and
 which track is focused — see the Track Control Panel pages for adding and
 selecting tracks.
 
-## Rewind to Start
+### Rewind to Start
 
 Moves the playhead backwards. In the Transport Toolbar the button is
 labelled **Step backward** and carries a skip-back icon.
@@ -104,7 +108,7 @@ labelled **Step backward** and carries a skip-back icon.
 The button is unavailable while playback is running — stop first, then step.
 It is present in every workspace.
 
-## Rewind to End
+### Rewind to End
 
 Moves the playhead forwards. In the Transport Toolbar the button is labelled
 **Step forward** and carries a skip-forward icon.
@@ -114,7 +118,7 @@ Moves the playhead forwards. In the Transport Toolbar the button is labelled
 Like Step backward, it is unavailable while playback is running. It is
 present in every workspace.
 
-## Toggle Loop Region
+### Toggle Loop Region
 
 Turns the loop region on and off. Unlike Play, Stop and Record, this is a
 toggle: it stays lit while looping is on, and the button reflects that state
@@ -136,7 +140,11 @@ it back on without setting it up again.
 
 ---
 
-## Clip Gain
+## Tools
+
+The editing tools. The toggles change what clicking the waveform does; the buttons act on the current selection.
+
+### Clip Gain
 
 Turns on envelope editing, so you can draw volume changes across a clip
 rather than setting one level for the whole thing. The button is labelled
@@ -155,7 +163,7 @@ workspace leaves it out.
 > **Tip:** A clip's envelope is drawn on the clip itself, so you can see the
 > shape you have made without leaving the track.
 
-## Split Tool
+### Split Tool
 
 Turns on the split tool. While it is on, clicking a clip splits it at that
 point instead of selecting it. The button is labelled **Cut / Split** in the
@@ -171,7 +179,7 @@ The current design gives it the **S** key.
 
 It appears in the Classic, Modern and Music workspaces.
 
-## Toggle Spectral View
+### Toggle Spectral View
 
 Switches the track display from a waveform to a spectrogram, which shows
 frequency against time instead of amplitude against time. The button is
@@ -195,60 +203,7 @@ above.
 
 ---
 
-## Zoom In
-
-Zooms the timeline in, showing a shorter stretch of the project in more
-detail.
-
-<UIExample component="tool-button" variant="zoom-in" />
-
-Zoom in, Zoom out and Zoom toggle are the three zoom controls present in
-every workspace.
-
-## Zoom Out
-
-Zooms the timeline out, fitting a longer stretch of the project on screen.
-
-<UIExample component="tool-button" variant="zoom-out" />
-
-Like Zoom in and Zoom toggle, it is present in every workspace.
-
-## Zoom to Selection
-
-Zooms so the current selection fills the visible timeline. The button is
-labelled **Fit selection** in the toolbar.
-
-<UIExample component="tool-button" variant="fit-selection" />
-
-It needs a selection to work on — see the Selection Toolbar at the bottom of
-the window for the current selection's start, end and duration.
-
-It appears in the Classic workspace only; the Modern, Music and Spectral
-editing workspaces carry the shorter zoom group of Zoom in, Zoom out and
-Zoom toggle.
-
-## Zoom to Fit Project
-
-Zooms so the whole project fits in the visible timeline — from the start to
-the end of the last clip. The button is labelled **Fit project** in the
-toolbar.
-
-<UIExample component="tool-button" variant="fit-project" />
-
-Like Fit selection, it appears in the Classic workspace only.
-
-## Zoom Toggle
-
-Switches between two zoom levels, so you can jump between a close-up view and
-a wider one without stepping through Zoom in and Zoom out.
-
-<UIExample component="tool-button" variant="zoom-toggle" />
-
-It is present in every workspace.
-
----
-
-## Cut
+### Cut
 
 Removes the selected audio and puts it on the clipboard, ready to paste
 elsewhere.
@@ -258,7 +213,7 @@ elsewhere.
 The clipboard group of Cut, Copy and Paste appears in the Classic workspace
 only — the other workspaces leave these three out.
 
-## Copy
+### Copy
 
 Puts the selected audio on the clipboard without removing it.
 
@@ -267,7 +222,7 @@ Puts the selected audio on the clipboard without removing it.
 Like the rest of the clipboard group, it appears in the Classic workspace
 only.
 
-## Paste
+### Paste
 
 Inserts whatever is on the clipboard at the edit cursor.
 
@@ -278,7 +233,7 @@ only.
 
 ---
 
-## Trim
+### Trim
 
 Keeps the selected audio and removes everything outside it, trimming the clip
 down to the selection.
@@ -292,7 +247,7 @@ empties the selection.
 It appears in the Classic, Modern and Music workspaces; the Spectral editing
 workspace leaves it out.
 
-## Silence
+### Silence
 
 Replaces the selected audio with silence, leaving the clip the same length.
 
@@ -306,7 +261,68 @@ It appears in the Classic, Modern and Music workspaces.
 
 ---
 
-## Timecode
+## Zoom tools
+
+Getting closer to the waveform and back out again.
+
+### Zoom In
+
+Zooms the timeline in, showing a shorter stretch of the project in more
+detail.
+
+<UIExample component="tool-button" variant="zoom-in" />
+
+Zoom in, Zoom out and Zoom toggle are the three zoom controls present in
+every workspace.
+
+### Zoom Out
+
+Zooms the timeline out, fitting a longer stretch of the project on screen.
+
+<UIExample component="tool-button" variant="zoom-out" />
+
+Like Zoom in and Zoom toggle, it is present in every workspace.
+
+### Zoom to Selection
+
+Zooms so the current selection fills the visible timeline. The button is
+labelled **Fit selection** in the toolbar.
+
+<UIExample component="tool-button" variant="fit-selection" />
+
+It needs a selection to work on — see the Selection Toolbar at the bottom of
+the window for the current selection's start, end and duration.
+
+It appears in the Classic workspace only; the Modern, Music and Spectral
+editing workspaces carry the shorter zoom group of Zoom in, Zoom out and
+Zoom toggle.
+
+### Zoom to Fit Project
+
+Zooms so the whole project fits in the visible timeline — from the start to
+the end of the last clip. The button is labelled **Fit project** in the
+toolbar.
+
+<UIExample component="tool-button" variant="fit-project" />
+
+Like Fit selection, it appears in the Classic workspace only.
+
+### Zoom Toggle
+
+Switches between two zoom levels, so you can jump between a close-up view and
+a wider one without stepping through Zoom in and Zoom out.
+
+<UIExample component="tool-button" variant="zoom-toggle" />
+
+It is present in every workspace.
+
+---
+
+## Selection
+
+Where the playhead sits, as a number you can read and edit.
+
+### Timecode
 
 <UIExample component="timecode" variant="zero" />
 
@@ -335,7 +351,11 @@ it follows [Tempo](#tempo) and [Time Signature](#time-signature).
 
 It is present in every workspace.
 
-## Tempo
+## Music
+
+Shown in the Music workspace: the project's tempo and time signature, which the `beats:bars` timecode format and the timeline follow.
+
+### Tempo
 
 Sets the project tempo in beats per minute. It is a stepper: type a value, or
 use the up and down controls to nudge it.
@@ -347,7 +367,7 @@ Tempo appears in the **Music** workspace only — the Classic, Modern and
 Spectral editing workspaces do not show it. See
 [Workspaces](/manual/manual-index/workspaces) for switching between them.
 
-## Time Signature
+### Time Signature
 
 Sets the project time signature — how many beats are in a bar, and which note
 value counts as a beat. It is a selector: pick a signature from the list.
@@ -392,7 +412,11 @@ Frames (30 fps), PAL Frames (25 fps).
 
 ---
 
-## Record Level
+## Metering
+
+The record and playback levels.
+
+### Record Level
 
 Opens the microphone settings, where you choose the input device and set the
 level Audacity records at.
@@ -405,7 +429,7 @@ speak at the loudest part, and back the level off if it reaches the top.
 
 It is present in every workspace.
 
-## Playback Level
+### Playback Level
 
 Opens the playback volume settings, which set how loudly Audacity plays back.
 The master meter sits alongside it, showing the level going out.
