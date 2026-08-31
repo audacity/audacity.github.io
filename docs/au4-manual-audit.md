@@ -3,14 +3,14 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 193 (186 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 193 (185 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
 | Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 43 | 0 | 0 | 3 |
+| Target-state topics (AU3 manual) | 46 | 42 | 0 | 1 | 3 |
 | Shortcuts (inline mentions) | 175 | 108 | — | 67 | — |
 
 ## Menu items
@@ -363,7 +363,7 @@ not yet known whether AU4 has the feature at all.
 | Toolbars overview | reference | changed | ✅ written (heading) | [manual-index/toolbar](../src/content/manual/manual-index/toolbar.mdx) |
 | Keyboard shortcut reference | reference | applies | ✅ written (outside collection) | `/manual/shortcuts` (generated from src/data/au4) |
 | Mouse bindings | reference | applies | ✅ written | [manual-index/mouse-bindings](../src/content/manual/manual-index/mouse-bindings.mdx) |
-| Index of effects, generators and analyzers | reference | applies | ✅ written | [manual-index/egat](../src/content/manual/manual-index/egat.mdx) |
+| Index of effects, generators and analyzers | reference | applies | ❌ missing | — |
 | Managing effects, generators and analyzers | reference | changed | ✅ written (heading) | [manual-index/header/analyze](../src/content/manual/manual-index/header/analyze.mdx) |
 | Macros | reference | verify | ✅ written (heading) | [manual-index/header/tools](../src/content/manual/manual-index/header/tools.mdx) |
 | Nyquist | reference | applies | ✅ written | [manual-index/egat/nyquist](../src/content/manual/manual-index/egat/nyquist.mdx) |
@@ -584,6 +584,7 @@ sidebars and belongs in its own reviewed change.
 | `special-uses/expected-uses` | how-to |
 | `special-uses/info-for-system-administrators` | how-to |
 
-## Next pages to write (0 candidates)
+## Next pages to write (1 candidates)
 
+1. topic **Index of effects, generators and analyzers** (reference, target-state checklist)
 
