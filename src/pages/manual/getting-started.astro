@@ -17,6 +17,7 @@ interface Step {
   title: string;
   description: string;
   href?: string;
+  minutes: number;
 }
 
 const pageCount = (
@@ -33,6 +34,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/install-audacity",
     description:
       "Download Audacity for Windows, macOS, or Linux and run the installer.",
+    minutes: 3,
   },
   {
     number: 2,
@@ -40,6 +42,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/connect-your-microphone",
     description:
       "USB, 3.5mm, or XLR — set up the right input so Audacity hears you.",
+    minutes: 2,
   },
   {
     number: 3,
@@ -47,6 +50,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/make-your-first-recording",
     description:
       "Press record, check the level, and stop. Listen back to confirm the take.",
+    minutes: 3,
   },
   {
     number: 4,
@@ -54,6 +58,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/basic-audio-editing",
     description:
       "Select a stretch of audio, then cut, copy, trim or silence it — and undo anything you get wrong.",
+    minutes: 4,
   },
   {
     number: 5,
@@ -61,6 +66,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/cut-move-and-arrange-clips",
     description:
       "Trim silence, drag clips into the right place, split where you need to.",
+    minutes: 3,
   },
   {
     number: 6,
@@ -68,6 +74,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/apply-your-first-effect",
     description:
       "Add a compressor or a touch of EQ as a realtime effect on a track.",
+    minutes: 2,
   },
   {
     number: 7,
@@ -75,12 +82,14 @@ const steps: Step[] = [
     href: "/manual/getting-started/save-your-project",
     description:
       "Keep the editable .aup4 project file or save to the cloud for backup.",
+    minutes: 1,
   },
   {
     number: 8,
     title: "Export your audio",
     href: "/manual/getting-started/export-your-audio",
     description: "Mix down to MP3, WAV, FLAC, or any format you need to share.",
+    minutes: 2,
   },
   {
     number: 9,
@@ -88,6 +97,7 @@ const steps: Step[] = [
     href: "/manual/getting-started/where-to-go-next",
     description:
       "Dive into the manual, browse the how-to guides, or join the community.",
+    minutes: 1,
   },
 ];
 ---
@@ -129,33 +139,50 @@ const steps: Step[] = [
     <span aria-hidden="true" class="shrink-0 text-text-primary/40">&rarr;</span>
   </a>
 
-  <ol class="space-y-3 mb-12 list-none pl-0">
-    {
-      steps.map((step) => (
-        <li>
-          {/* The whole card is the link — a title-only target is a small hit
+  {
+    /*
+    The rail: one continuous line behind the cards at the number-chip centre
+    (p-4 + half a w-8 chip = 2rem), so the path reads as a track you travel.
+    Cards are opaque, so the line only surfaces in the gaps between them.
+  */
+  }
+  <div class="relative mb-12">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute left-8 top-8 bottom-8 w-px bg-text-primary/15"
+    >
+    </div>
+    <ol class="space-y-3 list-none pl-0">
+      {
+        steps.map((step) => (
+          <li class="relative">
+            {/* The whole card is the link — a title-only target is a small hit
               area for what is the primary action on this page. */}
-          <a
-            href={step.href}
-            class="flex gap-4 rounded-lg border border-text-primary/10 p-4 transition-colors hover:border-accent hover:bg-accent/5"
-          >
-            <span
-              aria-hidden="true"
-              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-background-medium text-sm font-semibold text-text-primary/80"
+            <a
+              href={step.href}
+              class="group flex items-center gap-4 rounded-lg border border-text-primary/10 bg-white p-4 transition-all hover:border-accent hover:shadow-md"
             >
-              {step.number}
-            </span>
-            <span class="block">
-              <span class="block text-base font-semibold text-text-primary">
-                {step.title}
+              <span
+                aria-hidden="true"
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-background-medium text-base font-semibold text-text-primary transition-colors group-hover:bg-accent group-hover:text-white"
+              >
+                {step.number}
               </span>
-              <span class="mt-1 block text-sm text-text-primary/60">
-                {step.description}
+              <span class="block min-w-0 flex-1">
+                <span class="block text-base font-semibold text-text-primary group-hover:text-accent transition-colors">
+                  {step.title}
+                  <span class="ml-2 align-middle text-xs font-normal text-text-primary/40 whitespace-nowrap">
+                    ~{step.minutes} min
+                  </span>
+                </span>
+                <span class="mt-1 block text-sm text-text-primary/60">
+                  {step.description}
+                </span>
               </span>
-            </span>
-          </a>
-        </li>
-      ))
-    }
-  </ol>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
 </ManualLayout>
