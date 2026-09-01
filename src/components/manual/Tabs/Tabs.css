@@ -1,58 +1,53 @@
 /* Tabbed container for manual pages with per-OS or per-variant content.
-   Colours are the site's own: text-primary #0F004D at fractional alphas for
-   ink and edges, background-light for the tab strip, and the accent #FF3254
-   for the active tab's underline — the palette's only red, same as links. */
+
+   Not a boxed widget: a row of compact text tabs over a hairline, the
+   active one underlined in the accent, and the panel's content sitting
+   directly in the article flow. Ink is text-primary #0F004D; the accent
+   #FF3254 marks the active tab, as it does links. */
 
 .manual-tabs {
   margin: 1.5rem 0;
-  border: 1px solid rgb(15 0 77 / 0.1);
-  border-radius: 0.5rem;
-  background-color: white;
-  overflow: hidden;
 }
 
 .manual-tabs__tablist {
   display: flex;
+  gap: 1.5rem;
   border-bottom: 1px solid rgb(15 0 77 / 0.1);
-  background-color: #f1f0f5;
 }
 
 .manual-tabs__tab {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: none;
   border: none;
   background-color: transparent;
-  padding: 0.625rem 1rem;
+  padding: 0.5rem 0.125rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgb(15 0 77 / 0.6);
+  color: rgb(15 0 77 / 0.4);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
   transition:
     color 0.1s ease,
     border-color 0.1s ease;
-  text-align: center;
 }
 
 .manual-tabs__tab:hover {
-  color: #0f004d;
+  color: rgb(15 0 77 / 0.7);
 }
 
 .manual-tabs__tab--active {
   color: #0f004d;
-  font-weight: 600;
   border-bottom-color: #ff3254;
-  background-color: white;
 }
 
 .manual-tabs__tab:focus-visible {
   outline: 2px solid #ff3254;
-  outline-offset: -2px;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .manual-tabs__panel {
-  padding: 1rem 1.25rem;
+  padding-top: 1rem;
 }
 
 .manual-tabs__panel[hidden] {
