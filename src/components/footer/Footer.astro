@@ -71,12 +71,12 @@ const downloads = [
     ? [{ href: "/beta", label: t("footer.download.beta"), id: "beta-link" }]
     : []),
   {
-    href: "https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink&utm_content=footer",
+    href: "https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030926_crosslink&utm_content=footer",
     label: "MuseHub",
     external: true,
   },
   {
-    href: "https://www.musehub.com/plugin?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink&utm_content=footer",
+    href: "https://www.musehub.com/plugin?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030926_crosslink&utm_content=footer",
     label: "Plugins",
     external: true,
   },
@@ -102,10 +102,10 @@ const social = [
   { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
-/* The same MuseHub plugin destinations and campaign params as the
-   homepage's Top-5 section, so attribution reads as one campaign. */
+/* The same MuseHub plugin destinations and campaign as the homepage's
+   Top-5 section, with utm_content marking these as footer clicks. */
 const MUSEHUB_UTM =
-  "utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=top-trending-plugins";
+  "utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=footer";
 const plugins = [
   {
     href: `https://www.musehub.com/plugin/openvino-ai-tools?${MUSEHUB_UTM}`,
