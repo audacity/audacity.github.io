@@ -20,15 +20,12 @@ against the application. Every version number, menu name and dialog label
 below needs checking before this ships.
 */}
 
-Audacity is free, open source, and runs on Windows, macOS and Linux. This page
-takes you from a fresh download to an application you can open. It should take
-about five minutes, most of which is the download itself.
-
 ## Before you start
 
-You need around 500 MB of free disk space and, for the installer, an account
-with permission to install software on the machine. If you're on a managed
-work computer you may need whoever administers it to approve the install.
+Installation takes about five minutes, most of which is the download. You
+need around 500 MB of free disk space and an account with permission to
+install software on the machine. If you're on a managed work computer you
+may need whoever administers it to approve the install.
 
 <Callout type="info">
   Audacity does not require an account, a licence key, or an internet connection
@@ -75,9 +72,20 @@ manager versions may lag behind the current release.
 
 ## Open Audacity for the first time
 
-The first time Audacity opens, a short setup runs. It has five pages, and
-every choice on them can be changed later from **Preferences** or the
-toolbar.
+The first time Audacity opens, it validates the audio plugins installed on
+your system, then runs a five-page setup. Every choice in the setup can be
+changed later from **Preferences** or the toolbar.
+
+### Validating audio plugins
+
+<UIShot
+  name="app/SceneValidatePlugins"
+  alt="The Validating audio plugins progress dialog"
+/>
+
+Audacity checks each installed audio plugin before it can be used. The
+dialog closes on its own when the scan finishes. Later launches only
+validate plugins that are new or have changed, so this wait is a one-off.
 
 ### Select a theme
 
@@ -110,8 +118,7 @@ clip style from Audacity 3.
 
 A workspace is a toolbar layout. **Modern** is the default; **Classic**
 matches the layout of Audacity 3. You can switch at any time from the
-[workspace dropdown](/manual/workspaces) in the toolbar. This guide's
-screenshots use the Modern workspace.
+[workspace dropdown](/manual/workspaces) in the toolbar.
 
 ### Sign in to audio.com
 
@@ -122,7 +129,7 @@ screenshots use the Modern workspace.
 
 An [audio.com](https://audio.com) account enables saving projects to the
 cloud and sharing audio from the app. This step is optional: press **Next**
-to skip it. Nothing in this guide requires an account.
+to skip it.
 
 ### Updates and privacy
 
@@ -138,8 +145,17 @@ one. All three settings can be changed later under **Preferences →
 General**. The [privacy notice](/legal/privacy-notice) describes what each
 one sends.
 
-After the last page, Audacity opens. The installation is complete, and the
-next step is to
+### Your first project
+
+<UIShot
+  name="app/MainWindow"
+  state="empty"
+  alt="The empty project window shown after setup finishes"
+  width={720}
+/>
+
+After the last setup page, Audacity opens an empty project. The
+installation is complete. The next step is to
 [connect your microphone](/manual/getting-started/connect-your-microphone).
 
 
