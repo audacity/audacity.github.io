@@ -33,8 +33,11 @@ const { title = "Notes", class: className = "" } = Astro.props;
 </aside>
 
 <style is:global>
+  /* Same quiet surface as Callout — the stock Tailwind blue this wore was
+     the last off-palette colour on manual pages, and its 0.95rem body was
+     one of the page's many stray text sizes. Ink is text-primary #0F004D. */
   .manual-notes {
-    border: 1px solid rgb(59 130 246 / 0.4);
+    border: 1px solid rgb(15 0 77 / 0.1);
     background-color: white;
     border-radius: 0.5rem;
     overflow: hidden;
@@ -46,8 +49,9 @@ const { title = "Notes", class: className = "" } = Astro.props;
     align-items: center;
     gap: 0.625rem;
     padding: 0.625rem 1rem;
-    background-color: rgb(59 130 246);
-    color: white;
+    background-color: #f1f0f5;
+    color: #0f004d;
+    border-bottom: 1px solid rgb(15 0 77 / 0.1);
   }
 
   .manual-notes__badge {
@@ -58,8 +62,8 @@ const { title = "Notes", class: className = "" } = Astro.props;
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 9999px;
-    background-color: white;
-    color: rgb(59 130 246);
+    background-color: #0f004d;
+    color: white;
   }
 
   .manual-notes__badge svg {
@@ -68,17 +72,17 @@ const { title = "Notes", class: className = "" } = Astro.props;
   }
 
   .manual-notes__title {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    color: white;
+    color: #0f004d;
     margin: 0;
   }
 
   .manual-notes__body {
     padding: 1rem 1.25rem;
-    font-size: 0.95rem;
-    color: rgb(31 41 55);
-    line-height: 1.6;
+    font-size: 1rem;
+    color: rgb(15 0 77 / 0.8);
+    line-height: 1.625;
   }
 
   .manual-notes__body > * + * {

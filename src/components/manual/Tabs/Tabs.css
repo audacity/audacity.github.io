@@ -1,8 +1,11 @@
-/* Tabbed container for manual pages with per-OS or per-variant content. */
+/* Tabbed container for manual pages with per-OS or per-variant content.
+   Colours are the site's own: text-primary #0F004D at fractional alphas for
+   ink and edges, background-light for the tab strip, and the accent #FF3254
+   for the active tab's underline — the palette's only red, same as links. */
 
 .manual-tabs {
   margin: 1.5rem 0;
-  border: 1px solid rgb(209 213 219);
+  border: 1px solid rgb(15 0 77 / 0.1);
   border-radius: 0.5rem;
   background-color: white;
   overflow: hidden;
@@ -10,8 +13,8 @@
 
 .manual-tabs__tablist {
   display: flex;
-  border-bottom: 1px solid rgb(229 231 235);
-  background-color: rgb(249 250 251);
+  border-bottom: 1px solid rgb(15 0 77 / 0.1);
+  background-color: #f1f0f5;
 }
 
 .manual-tabs__tab {
@@ -22,7 +25,7 @@
   padding: 0.625rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgb(75 85 99);
+  color: rgb(15 0 77 / 0.6);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
@@ -33,17 +36,18 @@
 }
 
 .manual-tabs__tab:hover {
-  color: rgb(29 78 216);
+  color: #0f004d;
 }
 
 .manual-tabs__tab--active {
-  color: rgb(29 78 216);
-  border-bottom-color: rgb(29 78 216);
+  color: #0f004d;
+  font-weight: 600;
+  border-bottom-color: #ff3254;
   background-color: white;
 }
 
 .manual-tabs__tab:focus-visible {
-  outline: 2px solid rgb(29 78 216);
+  outline: 2px solid #ff3254;
   outline-offset: -2px;
 }
 

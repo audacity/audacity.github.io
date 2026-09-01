@@ -67,23 +67,28 @@ const lastUpdatedISO = lastUpdated.toISOString();
       </aside>
       <article
         {/*
-          The ramp is the site's own scale, not prose-lg's: stock Typography
-          at lg puts an h2 at barely 1.3x the body, which reads as bold text
-          rather than a section break. 16 body, 20 h3, 32 h2 — each step big
-          enough to scan by — with the space above a heading roughly double
-          the space below, so headings attach to what follows.
+          The ramp: 16 body, 16/18/24 h4/h3/h2 — one clear step per level,
+          with the h1 (32/40) reserved for the page's identity alone. The old
+          32px h2 shouted at the same volume as the title, so a page with
+          three sections read as four titles. Space above a heading is
+          roughly double the space below, so headings attach to what follows.
+
+          prose-code: Typography's default dresses inline code in literal
+          backtick pseudo-elements and bold 600 — `.dmg` rendered with its
+          backticks showing. A quiet pill instead.
         */}
         class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 max-w-none prose
           prose-p:text-16 prose-p:leading-relaxed prose-p:text-text-primary/80
           prose-li:text-16 prose-li:leading-relaxed prose-li:text-text-primary/80 prose-li:my-1.5
           prose-ul:my-5 prose-ol:my-5
-          prose-h2:text-32 prose-h2:font-semibold prose-h2:leading-tight prose-h2:text-text-primary prose-h2:mt-14 prose-h2:mb-5
-          prose-h3:text-20 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-10 prose-h3:mb-3
-          prose-h4:text-18 prose-h4:font-semibold prose-h4:text-text-primary prose-h4:mt-8 prose-h4:mb-2
-          prose-strong:text-text-primary
+          prose-h2:text-24 prose-h2:font-semibold prose-h2:leading-tight prose-h2:text-text-primary prose-h2:mt-12 prose-h2:mb-4
+          prose-h3:text-18 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-8 prose-h3:mb-3
+          prose-h4:text-16 prose-h4:font-semibold prose-h4:text-text-primary prose-h4:mt-6 prose-h4:mb-2
+          prose-strong:text-text-primary prose-strong:font-semibold
           prose-a:text-accent prose-a:underline prose-a:underline-offset-4 prose-a:decoration-accent/40 hover:prose-a:decoration-accent
           prose-table:text-16 prose-th:text-text-primary prose-td:text-text-primary/80
-          prose-code:text-14 prose-code:text-text-primary
+          prose-code:text-14 prose-code:text-text-primary prose-code:font-medium prose-code:bg-background-light prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+          prose-code:before:content-none prose-code:after:content-none
           prose-blockquote:text-text-primary/70 prose-blockquote:border-l-text-primary/20"
         data-pagefind-body
         data-pagefind-filter="type:Manual"
