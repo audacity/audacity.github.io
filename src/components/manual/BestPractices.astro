@@ -1,51 +1,18 @@
 ---
 /*
-  The same editorial language as Callout, not a green banner with a badge:
-  the old version was an emerald header bar that shouted over the content it
-  framed, in a colour the palette doesn't have. Best practices are guidance,
-  so they get the tip treatment — deep purple edge, small label — with room
-  for the longer, image-bearing content these sections carry.
+  A thin wrapper over Callout: best practices are the tip flavour with a
+  standing title. One callout anatomy across the manual — note, tip,
+  warning, best practices, pitfalls — differing only in label and edge.
 */
+import Callout from "./Callout.astro";
+
 interface Props {
   title?: string;
-  class?: string;
 }
 
-const { title = "Best practices", class: className = "" } = Astro.props;
+const { title = "Best practices" } = Astro.props;
 ---
 
-<aside
-  class:list={[
-    "not-prose my-8 rounded-r-lg border-l-4 border-l-text-primary bg-background-light px-5 py-4",
-    className,
-  ]}
->
-  <p
-    class="text-12 uppercase tracking-wider font-semibold mb-2 text-text-primary"
-  >
-    {title}
-  </p>
-  <div class="text-16 leading-relaxed text-text-primary/80 best-practices-body">
-    <slot />
-  </div>
-</aside>
-
-<style>
-  .best-practices-body :global(> * + *) {
-    margin-top: 0.875rem;
-  }
-  .best-practices-body :global(ul),
-  .best-practices-body :global(ol) {
-    padding-left: 1.25rem;
-    list-style: disc;
-  }
-  .best-practices-body :global(li + li) {
-    margin-top: 0.375rem;
-  }
-  .best-practices-body :global(img) {
-    margin: 0.75rem 0;
-    max-width: 100%;
-    height: auto;
-    border-radius: 6px;
-  }
-</style>
+<Callout type="tip" title={title}>
+  <slot />
+</Callout>

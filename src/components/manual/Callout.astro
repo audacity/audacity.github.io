@@ -44,7 +44,7 @@ const heading = title ?? style.defaultTitle;
 
 <aside
   class:list={[
-    "not-prose my-8 rounded-r-lg border-l-4 bg-background-light px-5 py-4",
+    "not-prose my-8 rounded-lg border border-text-primary/10 border-l-[3px] bg-white px-5 py-4",
     style.edge,
   ]}
 >
@@ -77,5 +77,11 @@ const heading = title ?? style.defaultTitle;
     color: #ff3254;
     text-decoration: underline;
     text-underline-offset: 4px;
+  }
+  .callout-body :global(img) {
+    margin: 0.75rem 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
   }
 </style>
