@@ -64,6 +64,9 @@ pass over.
   a track to select all of that track's audio.
 - **Select → Select all**, or <Shortcut client:load keys="cmd+a" />, selects
   everything in the project.
+- Hold **Shift** and click clip headers to select several whole clips. They
+  do not need to be neighbours, and whatever you do next applies to all of
+  them.
 
 <UIShot
   name="app/SceneClipSelection"
@@ -96,6 +99,13 @@ work.
   of the clip: along its track, onto another track, or into the empty space
   below the tracks, which creates a new track to hold it. Dragging inside the
   body of the clip does something different: it makes a time range selection.
+
+<Callout type="warning" title="Clips can swallow each other">
+  Dropping a clip on top of another clip is allowed: the one underneath is
+  eaten into where they overlap. Sometimes that is what you want, a retake
+  pasted over a mistake. If it was not,
+  <Shortcut client:load keys="cmd+z" /> puts it back.
+</Callout>
 
 ## Cut, copy and paste
 
@@ -208,6 +218,27 @@ then lands on that grid: moving clips, trimming, and making a time selection.
   fine control.
 </Callout>
 
+## Keep clips organised
+
+Double-click a clip's header to rename it. A clip named after its content is
+easier to find than one named Audio 1 once a project holds more than a few
+clips.
+
+A clip's context menu, on right-click or its **⋯** button, holds cut and
+copy, duplicate, the split and delete variants, pitch and speed, and **Clip
+color**.
+
+<UIShot
+  name="app/SceneClipMenu"
+  alt="A clip's right-click menu open over the track area, with the Clip color submenu expanded"
+/>
+
+<Callout type="tip" title="A second track is scratch space">
+  A clip that has no home yet can be dragged to a spare track and parked
+  there. Tracks cost nothing, everything on them stays in sync as you edit,
+  and muting the scratch track keeps it silent until you decide.
+</Callout>
+
 ## Undo anything
 
 Press <Shortcut client:load keys="cmd+z" /> for
@@ -220,5 +251,5 @@ too far.
 Undo is what makes editing safe to explore. Try a command, listen, and
 undo it if it was wrong.
 
-Next, move up from stretches of audio to whole clips in
-[cut, move, and arrange clips](/manual/getting-started/cut-move-and-arrange-clips).
+Next, shape the sound:
+[apply your first effect](/manual/getting-started/apply-your-first-effect).
