@@ -79,13 +79,22 @@ changed later from **Preferences** or the toolbar.
 ### Validating audio plugins
 
 <UIShot
+  name="app/SceneValidatePrompt"
+  alt="The Validate audio plugins question, with Skip this time and Validate buttons"
+/>
+
+Audio plugins must be validated before they can be used. **Validate** runs
+the check now. **Skip this time** defers it: Audacity starts without the
+unvalidated plugins and asks again on the next launch.
+
+<UIShot
   name="app/SceneValidatePlugins"
   alt="The Validating audio plugins progress dialog"
 />
 
-Audacity checks each installed audio plugin before it can be used. The
-dialog closes on its own when the scan finishes. Later launches only
-validate plugins that are new or have changed, so this wait is a one-off.
+Choosing **Validate** shows a progress dialog while each plugin is checked.
+It closes on its own when the scan finishes. Later launches only validate
+plugins that are new or have changed.
 
 ### Select a theme
 
