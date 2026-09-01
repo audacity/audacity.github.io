@@ -25,7 +25,7 @@
     "@astrojs/react": "^5.0.2",
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/tailwind": "^6.0.2",
-    "@dilsonspickles/audacity-ui-screenshots": "4.0.0-alpha.49",
+    "@dilsonspickles/audacity-ui-screenshots": "4.0.0-alpha.50",
     "@dilsonspickles/components": "0.10.2",
     "@fontsource-variable/signika": "^5.2.8",
     "@fontsource/twinkle-star": "^5.2.8",
