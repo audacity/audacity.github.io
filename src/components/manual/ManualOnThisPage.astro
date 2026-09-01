@@ -58,10 +58,9 @@ const items = headings.filter(
       ids.push(id);
     });
 
-    // The active item must be unmissable: a solid pill, not a tint. The
-    // pill itself is styled in this component's <style> block with
+    // The active marker is styled in this component's <style> block with
     // specificity above the Tailwind hover utilities, so hovering the
-    // active item can never repaint its text into the background.
+    // active item keeps its colour.
     let currentId: string | null = null;
     const setActive = (id: string | null) => {
       if (id === currentId) return;
@@ -114,15 +113,15 @@ const items = headings.filter(
 
 <style>
   /*
-    Active pill for the scroll-spy. [attr].class(:hover) outranks the
-    Tailwind hover utilities on the link (single-class + variant), so the
-    white text holds under the pointer instead of vanishing into the accent.
+    Active marker for the scroll-spy: accent ink and an accent segment on
+    the rail — the same language the sidebar uses for the active page, not
+    a filled pill. [attr].class(:hover) outranks the Tailwind hover
+    utilities on the link, so the colour holds under the pointer.
   */
   [data-on-this-page-link].is-active,
   [data-on-this-page-link].is-active:hover {
-    color: #fff;
-    background-color: #ff3254; /* the accent, matching the manual's links */
-    border-color: #1d4ed8;
+    color: #ff3254; /* the accent, matching the manual's links */
+    border-color: #ff3254;
     font-weight: 600;
   }
 </style>
