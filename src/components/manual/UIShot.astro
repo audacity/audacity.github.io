@@ -77,6 +77,16 @@ const framed = !name.startsWith("flyouts/");
 */
 const tightRadius = name.startsWith("trackpanel/WaveClip");
 
+/*
+  Dialog captures are the window's own square-cornered content with a
+  hairline border baked into the pixels; the 8px CSS radius shaved that
+  stroke at the corners. They keep the shadow and lose the rounding.
+*/
+const squareDialog =
+  name.startsWith("effects/") ||
+  name.startsWith("app/SceneFirstLaunch") ||
+  name.startsWith("app/SceneValidate");
+
 const displayWidth = width ?? meta?.width;
 const displayHeight =
   meta && displayWidth
@@ -97,9 +107,11 @@ const displayHeight =
       <Image
         class={
           framed
-            ? tightRadius
-              ? "ui-shot-img ui-shot-img--tight"
-              : "ui-shot-img"
+            ? squareDialog
+              ? "ui-shot-img ui-shot-img--square"
+              : tightRadius
+                ? "ui-shot-img ui-shot-img--tight"
+                : "ui-shot-img"
             : undefined
         }
         src={image}
@@ -149,5 +161,9 @@ const displayHeight =
   /* After the base rule on purpose: same specificity, so order decides. */
   .ui-shot :global(.ui-shot-img--tight) {
     border-radius: 4px;
+  }
+
+  .ui-shot :global(.ui-shot-img--square) {
+    border-radius: 0;
   }
 </style>
