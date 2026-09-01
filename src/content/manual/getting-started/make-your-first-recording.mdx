@@ -12,16 +12,14 @@ import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import UIShot from "../../../components/manual/UIShot.astro";
 
-With your microphone connected and a healthy level set, recording is one
-button.
+With your microphone connected and a level set, recording takes one button:
+the round red **Record** button in the transport controls, at the left of
+the top bar.
 
 <UIShot
   name="toolbars/PlaybackToolBar"
   alt="The playback toolbar: play, stop and the round red record button, with skip and loop controls"
->
-  The transport controls, at the left of the top bar. Record is the round red
-  button.
-</UIShot>
+/>
 
 ## Before you press record
 
@@ -31,23 +29,22 @@ button.
   your mouth stops P and B sounds thumping.
 - **Silence the room.** Fans, fridges, air conditioning and anything humming
   on the desk all end up in the recording.
-- **Soften the space.** Curtains, a bed, a rug, clothes on rails — soft
-  things absorb the reflections that make a recording sound like a bathroom.
-  It is much easier to avoid reflections than to remove them later.
+- **Soften the space.** Curtains, a bed, a rug, and clothes on rails absorb
+  the reflections that make a recording sound like a bathroom. Avoiding
+  reflections is much easier than removing them later.
 
 ## Your first take
 
-1. Press **Record**, or <Shortcut client:load keys="r" />. A **track**
-   appears and a clip begins to draw as you speak. A track is a horizontal
-   lane holding audio — you did not have to make it: Audacity created one
-   because you needed somewhere to record.
+1. Press **Record**, or <Shortcut client:load keys="r" />. Audacity creates
+   a **track**, a horizontal lane holding audio, and a clip begins to draw
+   in it as you speak.
 2. Record a few seconds of silence at the start of every session. It gives
    you room to trim, and a sample of your room's own sound for noise
    reduction later.
 3. Press **Stop** when you are done, then <Shortcut client:load keys="space" />
    to play it back from the playhead.
-4. If you fluff a line, pause, leave a beat of silence, and say it again.
-   Cutting the bad take out later is far quicker than starting over.
+4. If you make a mistake, pause, leave a moment of silence, and say the
+   line again. Cutting the mistake out later is quicker than starting over.
 
 <UIShot
   name="app/SceneFirstTake"
@@ -56,8 +53,8 @@ button.
 
 ## Check the take
 
-Look at the waveform as well as listening to it — the shape tells you things
-your ears will not, especially on laptop speakers.
+Look at the waveform as well as listening to it. The shape shows problems
+that are hard to hear, especially on laptop speakers.
 
 - **A solid block filling the height of the track** means it was recorded too
   loud, and the peaks are clipped. Clipping is distortion, and it cannot be
@@ -77,8 +74,8 @@ your ears will not, especially on laptop speakers.
   alt="A take recorded too quietly: the waveform is barely visible around the centre line"
 />
 
-- **Clear movement with the peaks well short of the top** is what you are
-  after.
+- **Clear movement with the peaks well short of the top** is a healthy
+  take.
 
 <UIShot
   name="trackpanel/WaveClipTakeHealthy"
@@ -86,14 +83,14 @@ your ears will not, especially on laptop speakers.
 />
 
 <Callout type="tip" title="Test before you commit">
-  Record ten seconds and play it back before recording anything you care about.
-  Every fix is easier now than after a full session — especially a wrong input
-  device or a clipped level, neither of which can be repaired afterwards.
+  Record ten seconds and play it back before recording anything you care
+  about. Every fix is easier now than after a full session. A wrong input
+  device or a clipped level cannot be repaired afterwards.
 </Callout>
 
 ## Recording onto another track
 
-Once a take is down, you may want to record more alongside it — a guest, a
+Once a take is down, you may want to record more alongside it: a guest, a
 second attempt, or music under an introduction. **Add track**, at the top of
 the track area, makes an empty track ready for the next voice, and offers a
 **mono** track, a **stereo** track, or a **label** track (text markers
@@ -107,9 +104,8 @@ rather than audio).
 
 Once you have more than one track, it matters which is **selected**: click a
 track's header and it highlights, and that is the track your next recording
-goes onto. Get into the habit of clicking the track you mean before you
-press Record — if a take turns up somewhere unexpected, that is almost
-always why.
+goes onto. Click the track you mean before you press Record. If a take lands on an
+unexpected track, this is usually why.
 
 Recording starts on the selected track with **Record**, or on a brand-new
 track with **Record → Record on new track**.
