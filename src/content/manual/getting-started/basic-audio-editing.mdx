@@ -206,13 +206,17 @@ along the clip and drag them to build a curve: down to nothing for a fade out,
 up from nothing for a fade in, or a dip under a line of speech to duck
 background music.
 
-![A clip gain curve drawn along a clip, fading it out](../../../assets/img/manual/handout/clip-gain-curve.png)
+<UIShot
+  name="app/SceneClipGain-curve"
+  alt="A clip gain curve drawn along a clip: the line holds full level, then ramps down to a lower level for the rest of the clip"
+/>
 
-Click on the line to add a point, then drag it. Two points near the end of a
-clip pulled down to nothing gives you a clean fade out. Watch the waveform as
-you drag: it shrinks to match the curve, so you can see the audio getting
-quieter rather than having to take it on trust. Switch the tool back off when
-you are done, so ordinary clicks select clips again.
+Click on the line to add a point, then drag it. The first point anchors the
+level on one side, and the points after it can be pulled down to a lower
+level for a volume drop, or all the way down for a fade out. Watch the
+waveform as you drag: it shrinks to match the curve, so you can see the audio
+getting quieter rather than having to take it on trust. Switch the tool back
+off when you are done, so ordinary clicks select clips again.
 
 <Callout type="tip" title="A second is plenty">
   Long fades on speech sound like a mistake. Keep them short at the top and
