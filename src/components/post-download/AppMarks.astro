@@ -6,38 +6,40 @@
   lifted from the footer lockup — so it stays sharp at any size and can't
   drift out of date the way a flattened composite did.
 
-  The tiles echo the overlapping app icons the original showed.
+  Composition follows the 2026-09 artwork: Audacity tile left, audio.com
+  tile right at a stronger tilt, sound-ripple rings radiating behind them
+  on a soft red-to-lavender wash.
 */
+const rings = [180, 260, 340, 420, 500];
 ---
 
-<div class="relative flex items-center justify-center py-4" aria-hidden="true">
+<div
+  class="relative flex items-center justify-center overflow-hidden py-10"
+  aria-hidden="true"
+>
+  <!-- Soft wash: warm left, cool right -->
   <div
-    class="pointer-events-none absolute h-32 w-56 rounded-full bg-accent/20 blur-3xl"
+    class="pointer-events-none absolute -left-8 bottom-0 h-40 w-64 rounded-full bg-accent/25 blur-3xl"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -right-8 top-0 h-40 w-64 rounded-full bg-lavender-200/70 blur-3xl"
   >
   </div>
 
-  <!-- audio.com -->
-  <div
-    class="relative -mr-5 flex h-24 w-24 -rotate-6 items-center justify-center rounded-[22px] bg-white shadow-lg ring-1 ring-text-primary/5"
-  >
-    <svg
-      viewBox="0 0 52 62"
-      class="h-11 w-11 fill-accent"
-      role="img"
-      aria-label="audio.com"
-    >
-      <path
-        d="M15.2119 25.8521C23.6132 25.8521 30.4239 32.4138 30.4239 40.5081C30.4239 48.6024 23.6133 55.1641 15.2119 55.1641C6.81062 55.1641 0 48.6024 0 40.5081C2.17117e-05 32.4138 6.81063 25.8521 15.2119 25.8521Z"
-      ></path>
-      <path
-        d="M32.7642 6.6868L46.806 55.1641H46.6597L14.0418 6.68652L32.7642 6.6868Z"
-      ></path>
-    </svg>
-  </div>
+  <!-- Sound ripples -->
+  {
+    rings.map((d) => (
+      <div
+        class="pointer-events-none absolute rounded-full border border-text-primary/10"
+        style={`width:${d}px;height:${d}px`}
+      />
+    ))
+  }
 
   <!-- Audacity -->
   <div
-    class="relative flex h-28 w-28 rotate-6 items-center justify-center rounded-[26px] bg-white shadow-xl ring-1 ring-text-primary/5"
+    class="relative z-10 -mr-4 flex h-28 w-28 -rotate-3 items-center justify-center rounded-[26px] bg-white shadow-xl ring-1 ring-text-primary/5"
   >
     <svg
       viewBox="0 0 41 42"
@@ -59,6 +61,25 @@
       ></path>
       <path
         d="M12.8008 25.1754L14.5892 31.0351L12.8008 36.9742L10.6263 31.0351L12.8008 25.1754Z"
+      ></path>
+    </svg>
+  </div>
+
+  <!-- audio.com -->
+  <div
+    class="relative z-10 flex h-28 w-28 rotate-12 items-center justify-center rounded-[26px] bg-white shadow-lg ring-1 ring-text-primary/5"
+  >
+    <svg
+      viewBox="0 0 52 62"
+      class="h-12 w-12 fill-accent"
+      role="img"
+      aria-label="audio.com"
+    >
+      <path
+        d="M15.2119 25.8521C23.6132 25.8521 30.4239 32.4138 30.4239 40.5081C30.4239 48.6024 23.6133 55.1641 15.2119 55.1641C6.81062 55.1641 0 48.6024 0 40.5081C2.17117e-05 32.4138 6.81063 25.8521 15.2119 25.8521Z"
+      ></path>
+      <path
+        d="M32.7642 6.6868L46.806 55.1641H46.6597L14.0418 6.68652L32.7642 6.6868Z"
       ></path>
     </svg>
   </div>
