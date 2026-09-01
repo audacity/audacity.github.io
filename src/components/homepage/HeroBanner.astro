@@ -8,15 +8,7 @@ import { useTranslations } from "../../i18n";
 const t = useTranslations(Astro.currentLocale);
 ---
 
-{
-  /* lg+: the hero owns the first fold — full viewport height minus the h-14
-    nav — with its content vertically centred, so the mockup never sits on
-    the section's bottom edge with the next section peeking under it. */
-}
-<section
-  id="main"
-  class="py-8 md:py-12 lg:py-16 bg-background-deep lg:min-h-[calc(100vh-3.5rem)] lg:flex lg:flex-col lg:justify-center"
->
+<section id="main" class="py-8 md:py-12 lg:py-16 bg-background-deep">
   <div
     class="mx-auto max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-xl px-6 md:px-16"
   >
