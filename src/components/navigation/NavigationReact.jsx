@@ -131,7 +131,9 @@ function NavigationReact(props) {
       </div>
 
       {isHamburgerMenuOpen && (
-        <div className="flex flex-col py-2 bg-background-dark border-y border-white/10 absolute left-0 right-0 z-40 transition-opacity duration-200 ease-in-out opacity-100">
+        <div
+          className={`flex flex-col py-2 ${backgroundClass} border-y border-white/10 absolute left-0 right-0 z-40 transition-opacity duration-200 ease-in-out opacity-100`}
+        >
           {navLinks.map((navLink, index) => (
             <a
               key={index}
