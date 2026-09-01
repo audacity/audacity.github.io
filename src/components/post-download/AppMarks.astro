@@ -1,86 +1,20 @@
 ---
 /*
-  Replaces promo/audacity-audiocom-promo.png, a 300x165 bitmap from early
-  2025 carrying the pre-rebrand Audacity mark. Built from marks already in
-  the repo — the current logo from favicon.svg, and the audio.com symbol
-  lifted from the footer lockup — so it stays sharp at any size and can't
-  drift out of date the way a flattened composite did.
-
-  Composition follows the 2026-09 artwork: Audacity tile left, audio.com
-  tile right at a stronger tilt, sound-ripple rings radiating behind them
-  on a soft red-to-lavender wash.
+  The designed tiles-and-ripples artwork, supplied as an export
+  (postdownload.webp, 2688x1484). It replaces the in-code vector
+  reconstruction: the design is the designer's, not an approximation.
 */
-const rings = [180, 260, 340, 420, 500];
+import { Image } from "astro:assets";
+import artwork from "../../assets/img/postdownload.webp";
 ---
 
-<div
-  class="relative flex items-center justify-center overflow-hidden py-10"
+<Image
+  src={artwork}
+  alt=""
+  width={720}
+  densities={[1, 2]}
+  quality={90}
+  loading="eager"
+  class="mx-auto h-auto w-full max-w-[560px]"
   aria-hidden="true"
->
-  <!-- Soft wash: warm left, cool right -->
-  <div
-    class="pointer-events-none absolute -left-8 bottom-0 h-40 w-64 rounded-full bg-accent/25 blur-3xl"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute -right-8 top-0 h-40 w-64 rounded-full bg-lavender-200/70 blur-3xl"
-  >
-  </div>
-
-  <!-- Sound ripples -->
-  {
-    rings.map((d) => (
-      <div
-        class="pointer-events-none absolute rounded-full border border-text-primary/10"
-        style={`width:${d}px;height:${d}px`}
-      />
-    ))
-  }
-
-  <!-- Audacity -->
-  <div
-    class="relative z-10 -mr-4 flex h-28 w-28 -rotate-3 items-center justify-center rounded-[26px] bg-white shadow-xl ring-1 ring-text-primary/5"
-  >
-    <svg
-      viewBox="0 0 41 42"
-      class="h-14 w-14 fill-accent"
-      role="img"
-      aria-label="Audacity"
-    >
-      <path
-        d="M40.8398 31.0351C40.8398 36.0694 36.6929 40.1506 31.5775 40.1506C26.462 40.1506 22.3151 36.0694 22.3151 31.0351C22.3151 26.0008 26.462 21.9197 31.5775 21.9197C36.6929 21.9197 40.8398 26.0008 40.8398 31.0351Z"
-      ></path>
-      <path
-        d="M20.5988 0C12.2072 0 5.40448 6.91542 5.40447 15.4459C5.40447 16.6978 5.5512 18.3459 5.82772 19.5114H6.47867C6.36034 18.7908 6.29825 17.6167 6.29825 16.8574C6.29826 10.1671 11.1002 4.74345 17.0236 4.74341C22.9471 4.74341 27.749 10.167 27.749 16.8574C27.749 17.4931 27.7056 18.7642 27.622 19.3735H35.4494C35.6744 18.3161 35.7931 16.5718 35.7931 15.4459C35.793 6.91543 28.9903 1.11945e-05 20.5988 0Z"
-      ></path>
-      <path
-        d="M0.160156 31.0351C0.160156 36.1359 4.21692 40.2709 9.22119 40.2709V21.7994C4.21692 21.7994 0.160156 25.9344 0.160156 31.0351Z"
-      ></path>
-      <path
-        d="M17.5656 20.097L20.9333 31.0351L17.5656 41.92L14.3963 31.0351L17.5656 20.097Z"
-      ></path>
-      <path
-        d="M12.8008 25.1754L14.5892 31.0351L12.8008 36.9742L10.6263 31.0351L12.8008 25.1754Z"
-      ></path>
-    </svg>
-  </div>
-
-  <!-- audio.com -->
-  <div
-    class="relative z-10 flex h-28 w-28 rotate-12 items-center justify-center rounded-[26px] bg-white shadow-lg ring-1 ring-text-primary/5"
-  >
-    <svg
-      viewBox="0 0 52 62"
-      class="h-12 w-12 fill-accent"
-      role="img"
-      aria-label="audio.com"
-    >
-      <path
-        d="M15.2119 25.8521C23.6132 25.8521 30.4239 32.4138 30.4239 40.5081C30.4239 48.6024 23.6133 55.1641 15.2119 55.1641C6.81062 55.1641 0 48.6024 0 40.5081C2.17117e-05 32.4138 6.81063 25.8521 15.2119 25.8521Z"
-      ></path>
-      <path
-        d="M32.7642 6.6868L46.806 55.1641H46.6597L14.0418 6.68652L32.7642 6.6868Z"
-      ></path>
-    </svg>
-  </div>
-</div>
+/>
