@@ -241,11 +241,16 @@ const sections = Array.from(grouped.entries())
                 </button>
               )}
             </div>
+            {/* Numbers mean "follow these in order" — that's the First steps
+                path, not side doors like the transition guide. */}
             <ManualSidebarTree
               nodes={section.tree}
               currentSlug={currentSlug}
               depth={0}
-              numbered={currentStream === "getting-started"}
+              numbered={
+                currentStream === "getting-started" &&
+                section.name === "First steps"
+              }
             />
           </div>
         );
