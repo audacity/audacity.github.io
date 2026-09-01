@@ -1,17 +1,17 @@
 ---
 /*
-  Restyled onto the design system: the old version was stock Tailwind
-  blue/emerald/amber — the same off-palette colours the brand sweep removed
-  from the rest of the site — and three loudly tinted boxes on one page read
-  as a fruit salad. One calm surface now, with the type carried by the left
-  edge and a small uppercase label:
+  The manual's one message box, shaped like a real callout rather than an
+  eyebrow label on a bar: a type icon and bold sentence-case title on the
+  first row, body copy aligned under the title, in a softly tinted rounded
+  box. Three flavours in the site's own palette — no traffic-light greens
+  and ambers:
 
-    info    — quiet: a neutral edge in the text colour
-    tip     — the deep brand purple
-    warning — the accent, which is the palette's only red
+    info    — quiet: ink at half strength
+    tip     — full ink (also worn by Best practices)
+    warning — the accent, the palette's only red (also worn by Pitfalls)
 
-  Body copy stays at 16 rather than the old text-sm: callouts hold real
-  guidance (the feedback-howl warning, the FFmpeg note), not fine print.
+  Body copy stays at 16 rather than fine-print small: callouts hold real
+  guidance (the feedback-howl warning, the FFmpeg note), not footnotes.
 */
 interface Props {
   type?: "info" | "tip" | "warning";
@@ -22,18 +22,18 @@ const { type = "info", title } = Astro.props;
 
 const styles = {
   info: {
-    edge: "border-l-text-primary/25",
-    label: "text-text-primary/50",
+    box: "border-text-primary/15 bg-background-light/50",
+    icon: "text-text-primary/50",
     defaultTitle: "Note",
   },
   tip: {
-    edge: "border-l-text-primary",
-    label: "text-text-primary",
+    box: "border-text-primary/25 bg-background-light/70",
+    icon: "text-text-primary",
     defaultTitle: "Tip",
   },
   warning: {
-    edge: "border-l-accent",
-    label: "text-accent",
+    box: "border-accent/30 bg-accent/5",
+    icon: "text-accent",
     defaultTitle: "Warning",
   },
 };
@@ -42,21 +42,45 @@ const style = styles[type];
 const heading = title ?? style.defaultTitle;
 ---
 
-<aside
-  class:list={[
-    "not-prose my-8 rounded-lg border border-text-primary/10 border-l-[3px] bg-white px-5 py-4",
-    style.edge,
-  ]}
->
-  <p
-    class:list={[
-      "text-12 uppercase tracking-wider font-semibold mb-2",
-      style.label,
-    ]}
+<aside class:list={["not-prose my-8 rounded-lg border p-5", style.box]}>
+  <div class="flex items-center gap-2.5">
+    <span class:list={["shrink-0", style.icon]} aria-hidden="true">
+      {
+        type === "warning" ? (
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1 5a1 1 0 1 1 2 0v6a1 1 0 1 1-2 0V7Zm1 11a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z" />
+          </svg>
+        ) : type === "tip" ? (
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 8.2-5.3 5.3a1 1 0 0 1-1.4 0l-2.7-2.7a1 1 0 1 1 1.4-1.4l2 2 4.6-4.6a1 1 0 0 1 1.4 1.4Z" />
+          </svg>
+        ) : (
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 4.5A1.25 1.25 0 1 1 12 9a1.25 1.25 0 0 1 0-2.5ZM13 17a1 1 0 1 1-2 0v-5a1 1 0 1 1 2 0v5Z" />
+          </svg>
+        )
+      }
+    </span>
+    <p class="text-16 font-semibold text-text-primary">{heading}</p>
+  </div>
+  <div
+    class="mt-2 pl-[30px] text-16 leading-relaxed text-text-primary/80 callout-body"
   >
-    {heading}
-  </p>
-  <div class="text-16 leading-relaxed text-text-primary/80 callout-body">
     <slot />
   </div>
 </aside>
