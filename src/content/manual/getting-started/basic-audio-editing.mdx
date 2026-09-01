@@ -144,19 +144,30 @@ everything that follows.
 The first time you delete anything, a flyout appears asking which of two
 behaviours you want. Both are useful, and you can change your mind afterwards.
 
-![The flyout shown the first time you delete audio](../../../assets/img/manual/handout/delete-behaviour-flyout.png)
+<UIShot
+  name="app/SceneDeleteBehavior"
+  alt="The choice shown the first time you delete: Leave gap or Close gap (ripple), each illustrated"
+/>
 
 **Leave a gap** replaces the deleted audio with silence, and everything else
 stays exactly where it was. Timing across tracks is preserved, which matters
 when a music bed or a second voice has to stay in sync.
 
-![Deleting with a gap left behind, so later audio stays in place](../../../assets/img/manual/handout/delete-leave-gap.png)
+<UIShot
+  name="app/SceneClipDelete"
+  state="gap"
+  alt="After deleting with Leave gap: two clips remain with silence between them, and later audio stays in place"
+/>
 
 **Close gap (ripple)** closes the gap and everything after it slides back, so
 the recording gets shorter. This is what you usually want when cutting a
 stumble out of a single voice track.
 
-![A ripple delete, with the later audio pulled back to close the gap](../../../assets/img/manual/handout/delete-ripple.png)
+<UIShot
+  name="app/SceneClipDelete"
+  state="ripple"
+  alt="After a ripple delete: the later audio has been pulled back and the clip is shorter"
+/>
 
 Whichever behaviour you pick in the flyout becomes what the Delete key does,
 but you are not stuck with it. The alternatives stay on the keyboard:
@@ -210,6 +221,11 @@ you are done, so ordinary clicks select clips again.
 **Snapping** keeps your edits tidy. Tick the **Snap** checkbox in the toolbar
 and choose an interval, seconds being the easiest to work with. Everything
 then lands on that grid: moving clips, trimming, and making a time selection.
+
+<UIShot
+  name="app/SceneSpotlightSnap"
+  alt="The Snap checkbox and interval dropdown ringed in the toolbar"
+/>
 
 <Callout type="warning" title="When everything keeps jumping">
   It is easy to leave snapping on and forget about it. If you later find you
