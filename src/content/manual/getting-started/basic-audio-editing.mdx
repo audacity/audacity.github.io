@@ -1,6 +1,6 @@
 ---
 title: "Basic audio editing"
-description: "Select a stretch of audio, then trim, split, move or delete it — and undo anything you get wrong."
+description: "Select a stretch of audio, then trim, split, move or delete it, and undo anything you get wrong."
 section: "First steps"
 sectionOrder: 10
 order: 4
@@ -10,18 +10,17 @@ draft: false
 
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
-Almost every edit in Audacity is the same two moves: choose the audio you want
-to change, then run a command on it. Learn that loop and the rest of the
-editing commands are variations on it. This page works on a single track and
-takes you from a raw take to a tidier one, with nothing you do along the way
-being permanent.
+Almost every edit in Audacity is the same two moves: choose the audio you
+want to change, then run a command on it. Every editing command is a
+variation on that loop, and nothing in it is permanent.
 
 ## Before you start
 
 You need a track with some audio in it. If you have not got one yet,
 [make your first recording](/manual/getting-started/make-your-first-recording),
-or import an existing file — drag it onto the Audacity window, or use
+or import an existing file: drag it onto the Audacity window, or use
 **File → Import**. Either way the audio arrives as a clip on its own track.
 
 <Callout type="info">
@@ -36,14 +35,21 @@ track. Recording and importing both create clips. Nearly all spoken-word
 editing is clip work: trim the ends, split out a mistake, slide what's left
 together.
 
-![An unselected clip, with its name along the top and the waveform inside](../../../assets/img/manual/handout/clip-unselected.png)
+<UIShot
+  name="trackpanel/WaveClip"
+  alt="An unselected clip, with its name along the top and the waveform inside"
+/>
 
-Click a clip to select it. Anything you do next — trimming, splitting,
-deleting or applying an effect — applies to what is selected. A selected clip
+Click a clip to select it. Anything you do next, trimming, splitting,
+deleting or applying an effect, applies to what is selected. A selected clip
 also shows two pairs of handles at its edges: the top pair trim the clip, and
 the lower pair, marked with a clock icon, change its speed.
 
-![A selected clip, showing the trim and speed handles at its edges](../../../assets/img/manual/handout/clip-selected.png)
+<UIShot
+  name="trackpanel/WaveClip"
+  state="selected"
+  alt="A selected clip, showing the trim and speed handles at its edges"
+/>
 
 The waveform inside the clip is worth learning to read: the taller the shape,
 the louder that moment, and a thin spike standing on its own is usually a
@@ -70,8 +76,8 @@ Selections are easier to place precisely when you are closer in: hold
 adjust the edges of the selection at the finer scale.
 
 Press **Play** before you edit. Playback follows the selection, so you hear
-exactly the stretch you are about to change — the quickest way to catch a
-selection that starts a syllable too early.
+exactly the stretch you are about to change. This is the quickest way to
+catch a selection that starts a syllable too early.
 
 ## Trim, split and move
 
@@ -86,8 +92,8 @@ These three moves, on their own, cover most of a spoken-word edit.
   cursor where you want the cut and press <Shortcut client:load keys="cmd+i" />;
   or select a time range and press <Shortcut client:load keys="cmd+i" /> to cut
   at both edges of the selection, giving you a clip you can delete on its own.
-- **Move** a clip by dragging it **by its header**, the strip along the top of
-  the clip — along its track, onto another track, or into the empty space
+- **Move** a clip by dragging it **by its header**, the strip along the top
+  of the clip: along its track, onto another track, or into the empty space
   below the tracks, which creates a new track to hold it. Dragging inside the
   body of the clip does something different: it makes a time range selection.
 
@@ -112,7 +118,7 @@ happens to the timing of everything that follows.
 
 - [Delete](/manual/menu-bar/edit#delete) removes the selection or
   the selected clip. The first time you delete anything, Audacity asks how
-  deletion should behave, and remembers your answer — see below.
+  deletion should behave, and remembers your answer (see below).
 - [Trim clip](/manual/menu-bar/edit#trim-clip),
   <Shortcut client:load keys="cmd+t" />, is the opposite of Delete: it keeps the
   selection and discards the rest of the clip. Use it to strip the silence off
@@ -150,9 +156,9 @@ ripple-deletes across every track at once, keeping them in sync.
 
 ## Change a clip's speed or pitch
 
-The lower pair of handles on a selected clip — the ones marked with a clock —
-change its speed: drag them and the clip stretches or squeezes, playing slower
-or faster. A clip whose speed has been changed shows a small badge in its top
+The lower pair of handles on a selected clip, the ones marked with a clock,
+change its speed: drag them and the clip stretches or squeezes, playing
+slower or faster. A clip whose speed has been changed shows a small badge in its top
 corner; click the badge to type an exact percentage instead of dragging.
 
 Pitch lives in the same place. Right-click the clip, or open its **⋯** menu,
@@ -183,9 +189,9 @@ you are done, so ordinary clicks select clips again.
 
 <Callout type="tip" title="A second is plenty">
   Long fades on speech sound like a mistake. Keep them short at the top and
-  tail, and save the longer ones for music. And leave the breaths in — cutting
-  every pause makes speech sound unnatural and rushed. Remove stumbles and long
-  gaps, not the rhythm of talking.
+  tail, and save the longer ones for music. Leave the breaths in: cutting
+  every pause makes speech sound unnatural and rushed. Remove stumbles and
+  long gaps, not the rhythm of talking.
 </Callout>
 
 ## Snapping
@@ -205,13 +211,13 @@ then lands on that grid: moving clips, trimming, and making a time selection.
 
 Press <Shortcut client:load keys="cmd+z" /> for
 [Undo](/manual/menu-bar/edit#undo). It steps back through your edits
-one at a time, and it keeps going — Audacity remembers the whole session, not
-just the last change. [Redo](/manual/menu-bar/edit#redo),
+one at a time, and it keeps going: Audacity remembers the whole session,
+not just the last change. [Redo](/manual/menu-bar/edit#redo),
 
 <Shortcut client:load keys="cmd+shift+z" />, steps forward again if you went too
 far.
 
-That is what makes the rest of this safe to explore. Try a command, listen, and
+Undo is what makes editing safe to explore. Try a command, listen, and
 undo it if it was wrong.
 
 Next, move up from stretches of audio to whole clips in
