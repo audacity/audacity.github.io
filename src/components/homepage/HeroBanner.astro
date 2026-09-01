@@ -29,16 +29,23 @@ const t = useTranslations(Astro.currentLocale);
         </div>
 
         <div
-          class="flex flex-col gap-4 items-center lg:items-start text-text-contrast"
+          class="flex flex-col items-center lg:items-start text-text-contrast"
         >
-          <DownloadMuseHubButton surface="hero" client:load />
-          <noscript>
+          {
+            /* The link centres under the button, not under the column: the
+              pair share a fit-width group so the narrower link sits on the
+              pill's axis at every alignment. */
+          }
+          <div class="flex w-fit flex-col items-center gap-4">
             <DownloadMuseHubButton surface="hero" client:load />
-          </noscript>
-          <DownloadButton surface="hero" client:load />
-          <noscript>
+            <noscript>
+              <DownloadMuseHubButton surface="hero" client:load />
+            </noscript>
             <DownloadButton surface="hero" client:load />
-          </noscript>
+            <noscript>
+              <DownloadButton surface="hero" client:load />
+            </noscript>
+          </div>
         </div>
       </div>
 
