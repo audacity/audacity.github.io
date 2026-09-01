@@ -58,7 +58,7 @@ function DownloadButton({ surface } = {}) {
       className={`os-specific ${link.osClass} w-fit text-16 font-semibold text-current underline underline-offset-4 decoration-current/40 hover:decoration-current transition-colors`}
       href={link.href}
     >
-      Download without Muse Hub
+      Download without MuseHub
     </a>
   );
 

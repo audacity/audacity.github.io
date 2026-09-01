@@ -102,21 +102,33 @@ const social = [
   { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
+/* The same MuseHub plugin destinations and campaign params as the
+   homepage's Top-5 section, so attribution reads as one campaign. */
+const MUSEHUB_UTM =
+  "utm_source=au-web&utm_medium=mh-web-cta&utm_campaign=au-web-mh-top-5-plugins";
 const plugins = [
-  { href: "/download/openvino", label: "OpenVino" },
-  { href: "https://musehub.com/musefx", label: "MuseFX", external: true },
   {
-    href: "https://www.landr.com/en/plugins/landr-fx-voice",
+    href: `https://www.musehub.com/plugin/openvino-ai-tools?${MUSEHUB_UTM}`,
+    label: "OpenVino",
+    external: true,
+  },
+  {
+    href: `https://www.musehub.com/plugin/musefx?${MUSEHUB_UTM}`,
+    label: "MuseFX",
+    external: true,
+  },
+  {
+    href: `https://www.musehub.com/plugin/landr-fx-voice?${MUSEHUB_UTM}`,
     label: "LandrFX Voice",
     external: true,
   },
   {
-    href: "https://www.audionamix.com/soap-voice-cleaner/",
+    href: `https://www.musehub.com/plugin/soap-voice-cleaner?${MUSEHUB_UTM}`,
     label: "Soap Voice Cleaner",
     external: true,
   },
   {
-    href: "https://www.auburnsounds.com/products/Graillon.html",
+    href: `https://www.musehub.com/plugin/graillon-3?${MUSEHUB_UTM}`,
     label: "Graillon",
     external: true,
   },
@@ -296,7 +308,7 @@ const plugins = [
       class="mt-8 pt-8 border-t border-text-contrast/20 grid grid-cols-1 lg:grid-cols-[2fr_4fr] gap-8 lg:gap-12 items-center"
     >
       <a
-        href="https://www.mu.se/"
+        href="https://www.mu.se/?utm_medium=Referral&utm_source=audacity&utm_campaign=MG_WW_REF_ADCT_WEB_ALL_160226_Crosslink"
         target="_blank"
         rel="noopener"
         aria-label="Muse Group"
@@ -308,7 +320,7 @@ const plugins = [
       </a>
       <div class="flex gap-8 items-center">
         <a
-          href="https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_ALL_ALL_030826_crosslink&utm_content=footer"
+          href="https://www.musehub.com/?utm_medium=Referral&utm_source=audacity&utm_campaign=MH_WW_REF_ADCT_WEB_ALL_160226_Crosslink"
           target="_blank"
           rel="noopener"
           aria-label="Muse Hub"
@@ -319,7 +331,7 @@ const plugins = [
           />
         </a>
         <a
-          href="https://audio.com/"
+          href="https://audio.com/redirect/af?ac_target=https%3A%2F%2Faudio.com%2F%3Futm_medium%3DREF%26utm_source%3Daudacity%26utm_campaign%3DAC_WW_REF_ADCT_ALL_ALL_160226&utm_medium=REF&utm_source=audacity&utm_campaign=AC_WW_REF_ADCT_ALL_ALL_160226"
           target="_blank"
           rel="noopener"
           aria-label="Audio.com"
