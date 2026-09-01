@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import FeaturedVideo from "../video/FeaturedVideo";
 import museHubBadge from "../../assets/img/musehub/musehub-badge-b-black.svg";
+import releaseVideoThumb from "../../assets/img/release-video-thumb.webp";
 import { useTranslations } from "../../i18n";
 
 const t = useTranslations(Astro.currentLocale);
@@ -12,7 +13,7 @@ const RELEASE_VIDEO_ID = "QYM3TWf_G38";
 
 const releaseVideo = {
   title: t("video.release.title"),
-  placeholderImage: `https://i.ytimg.com/vi/${RELEASE_VIDEO_ID}/maxresdefault.jpg`,
+  placeholderImage: releaseVideoThumb.src,
   imageAltText: t("video.release.alt"),
   videoURL: `https://www.youtube-nocookie.com/embed/${RELEASE_VIDEO_ID}?autoplay=1`,
 };
@@ -71,7 +72,7 @@ const museHubURL = `https://www.musehub.com/?${MUSEHUB_UTM}`;
           imageAltText={releaseVideo.imageAltText}
           videoURL={releaseVideo.videoURL}
           matomoEventName={releaseVideo.title}
-          playButton="accent"
+          playButton="none"
         />
         <p class="text-16 leading-snug text-text-primary">
           {t("release.body")}

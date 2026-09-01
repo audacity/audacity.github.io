@@ -67,7 +67,7 @@ function FeaturedVideo(props) {
             onClick={() => handleVideoClick()}
             onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
           />
-          {playButton === "accent" ? (
+          {playButton === "none" ? null : playButton === "accent" ? (
             <span
               aria-hidden="true"
               className="flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-accent [grid-area:main] pointer-events-none"
