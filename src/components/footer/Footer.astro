@@ -300,9 +300,11 @@ const plugins = [
         target="_blank"
         rel="noopener"
         aria-label="Muse Group"
-        class="w-fit hover:opacity-60 transition-opacity"
+        class="group w-fit"
       >
-        <MuseGroupLockupSVG />
+        <MuseGroupLockupSVG
+          className="h-12 text-text-contrast opacity-50 transition-opacity group-hover:opacity-100"
+        />
       </a>
       <div class="flex gap-8 items-center">
         <a
@@ -310,18 +312,22 @@ const plugins = [
           target="_blank"
           rel="noopener"
           aria-label="Muse Hub"
-          class="w-fit hover:opacity-60 transition-opacity"
+          class="group w-fit"
         >
-          <MuseHubLockupSVG />
+          <MuseHubLockupSVG
+            className="h-12 text-text-contrast opacity-50 transition-opacity group-hover:opacity-100"
+          />
         </a>
         <a
           href="https://audio.com/"
           target="_blank"
           rel="noopener"
           aria-label="Audio.com"
-          class="w-fit hover:opacity-60 transition-opacity"
+          class="group w-fit"
         >
-          <AudioComLockupSVG />
+          <AudioComLockupSVG
+            className="h-12 text-text-contrast opacity-50 transition-opacity group-hover:opacity-100"
+          />
         </a>
       </div>
     </div>
