@@ -17,7 +17,6 @@ interface Step {
   title: string;
   description: string;
   href?: string;
-  minutes: number;
 }
 
 const pageCount = (
@@ -34,7 +33,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/install-audacity",
     description:
       "Download Audacity for Windows, macOS, or Linux and run the installer.",
-    minutes: 3,
   },
   {
     number: 2,
@@ -42,7 +40,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/connect-your-microphone",
     description:
       "USB, 3.5mm, or XLR — set up the right input so Audacity hears you.",
-    minutes: 2,
   },
   {
     number: 3,
@@ -50,7 +47,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/make-your-first-recording",
     description:
       "Press record, check the level, and stop. Listen back to confirm the take.",
-    minutes: 3,
   },
   {
     number: 4,
@@ -58,7 +54,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/basic-audio-editing",
     description:
       "Select a stretch of audio, then cut, copy, trim or silence it — and undo anything you get wrong.",
-    minutes: 4,
   },
   {
     number: 5,
@@ -66,7 +61,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/cut-move-and-arrange-clips",
     description:
       "Trim silence, drag clips into the right place, split where you need to.",
-    minutes: 3,
   },
   {
     number: 6,
@@ -74,7 +68,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/apply-your-first-effect",
     description:
       "Add a compressor or a touch of EQ as a realtime effect on a track.",
-    minutes: 2,
   },
   {
     number: 7,
@@ -82,14 +75,12 @@ const steps: Step[] = [
     href: "/manual/getting-started/save-your-project",
     description:
       "Keep the editable .aup4 project file or save to the cloud for backup.",
-    minutes: 1,
   },
   {
     number: 8,
     title: "Export your audio",
     href: "/manual/getting-started/export-your-audio",
     description: "Mix down to MP3, WAV, FLAC, or any format you need to share.",
-    minutes: 2,
   },
   {
     number: 9,
@@ -97,7 +88,6 @@ const steps: Step[] = [
     href: "/manual/getting-started/where-to-go-next",
     description:
       "Dive into the manual, browse the how-to guides, or join the community.",
-    minutes: 1,
   },
 ];
 ---
@@ -171,9 +161,6 @@ const steps: Step[] = [
               <span class="block min-w-0 flex-1">
                 <span class="block text-base font-semibold text-text-primary group-hover:text-accent transition-colors">
                   {step.title}
-                  <span class="ml-2 align-middle text-xs font-normal text-text-primary/40 whitespace-nowrap">
-                    ~{step.minutes} min
-                  </span>
                 </span>
                 <span class="mt-1 block text-sm text-text-primary/60">
                   {step.description}
