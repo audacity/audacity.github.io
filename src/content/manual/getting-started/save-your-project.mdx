@@ -12,56 +12,59 @@ import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import UIShot from "../../../components/manual/UIShot.astro";
 
-Saving a project keeps an `.aup4` file holding your tracks, clips, edits
-and undo history. Only Audacity can open it. This is your working file:
-reopen it and you can still untrim clips or adjust realtime effects, weeks
-later.
+Audacity 4 saves projects to your computer, or to the cloud.
 
-Save the project as soon as you start recording, with
-<Shortcut client:load keys="cmd+s" />, and keep saving as you go.
+A project is an `.aup4` file holding your tracks, clips, edits and undo
+history. Only Audacity can open it: reopen the project and you can still
+untrim clips or adjust realtime effects, weeks later.
 
 <Callout type="info" title="Coming from Audacity 3?">
   Audacity 4 saves projects as `.aup4`. It also opens `.aup3` projects made
   in Audacity 3.
 </Callout>
 
-## The first time you save
+## Save to your computer
 
-The first save asks where the project should live: in the cloud, or on your
-computer.
+Save with <Shortcut client:load keys="cmd+s" /> as soon as you start
+recording, and keep saving as you go. The first save asks where the project
+should live.
 
 <UIShot
   name="app/SceneSaveLocation"
   alt="The first-save prompt: Save to the cloud, or On your computer"
 />
 
-Choose **Save to computer** to keep the `.aup4` on your own drive.
+Choose **Save to computer**, then a name and a folder, and the project is an
+`.aup4` file on your own drive. Every save after that goes straight to the
+same file.
 
 ## Finding your projects again
 
-Saved projects appear on the **Home** tab, so you can reopen one without going
-looking for the file.
+Saved projects appear on the **Home** tab, so you can reopen one without
+going looking for the file.
 
 <UIShot
   name="app/SceneHomeProjects"
   alt="The Home tab's Projects view, with recent projects ready to reopen"
 />
 
-## Saving to the cloud
+## Save to the cloud
 
-**Save to the cloud** stores the project on
-[audio.com](https://audio.com/), which is useful for collaborating or
-working across machines. You can move a project to the cloud at any time:
-choose **File → Save to Cloud** and click **Link Account**, which walks you
-through creating an audio.com account and connecting it to Audacity. After
-that, saving to the cloud is a project name and **Save**; the upload happens
-in the background while you keep working. Cloud projects are backed up and
-versioned, and they are easy to share with collaborators.
+**Save to cloud** stores the project on [audio.com](https://audio.com/)
+instead, which is useful for collaborating or working across machines. The
+first time, click **Link Account** and you are walked through creating an
+audio.com account and connecting it to Audacity. After that, saving to the
+cloud is a project name and **Save**; the upload happens in the background
+while you keep working. Cloud projects are backed up and versioned, and
+they are easy to share with collaborators.
 
 The first cloud save also asks how often to generate a **mixdown**, a
 listenable preview of your project for audio.com. If you are not
 collaborating, you can skip mixdowns entirely, and the choice can be changed
 any time under **Edit → Preferences → Cloud**.
+
+Cloud projects appear on the Home tab with everything else under
+**New & recent**, and on their own under **Cloud projects**.
 
 When the edit is finished, the other half of the story is to
 [export your audio](/manual/getting-started/export-your-audio).
