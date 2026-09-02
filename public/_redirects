@@ -42,14 +42,18 @@
 # ranking signals to the target. A 302 leaves /next as the known URL and is
 # undone the moment this rule is removed.
 #
-# To promote a pre-release again: delete the /next line here, restore /au4,
-# /alpha and /beta to point at /next, and set isActive on the entry in
+# To promote a pre-release again: delete the /next line here, restore /alpha
+# and /beta to point at /next, and set isActive on the entry in
 # src/assets/data/audacityReleases.ts. Then drop the sitemap filter for /next
 # in astro.config.mjs.
-/au4	/download	302
 /alpha	/download	302
 /beta	/download	302
 /next	/download	302
+
+# /au4 was the pre-release shortlink, then a page of its own; the Audacity 4
+# promo now lives at /about, so it lands there. 302 while the launch-day
+# route could still change.
+/au4	/about	302
 
 # campaign links
 /survey	https://docs.google.com/forms/d/e/1FAIpQLSe3ClP3sHiEQZmwwPMiJ3OzUO586yInWIME076unOdV9kG5-Q/viewform
