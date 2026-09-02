@@ -75,7 +75,7 @@ The [MuseHub](https://www.musehub.com/) is a gateway to creativity for any audio
 
 ### How do I install Audacity or update to the latest version?
 
-You can learn how to install Audacity on Windows, macOS and Linux on our [support page](https://support.audacityteam.org/basics/downloading-and-installing-audacity).
+You can learn how to install Audacity on Windows, macOS and Linux in our [manual](/manual/getting-started/install-audacity).
 
 ### Is Audacity safe to download?
 
@@ -136,7 +136,7 @@ The gap towards being a full DAW is being rapidly closed, with each release brin
 
 ### I'm just getting started with Audacity. Are there any free tutorials available?
 
-We have a beginner tutorial series available on https://support.audacityteam.org/, beginning with [installing Audacity](https://support.audacityteam.org/basics/downloading-and-installing-audacity) and [FFmpeg](https://support.audacityteam.org/basics/installing-ffmpeg), [recording your voice](https://support.audacityteam.org/basics/recording-your-voice-and-microphone), [recording desktop audio](https://support.audacityteam.org/basics/recording-desktop-audio), [editing audio](https://support.audacityteam.org/basics/audacity-editing), [saving and exporting projects](https://support.audacityteam.org/basics/saving-and-exporting-projects) and more!
+We have a beginner tutorial series in [our manual](/manual/getting-started), beginning with [installing Audacity](/manual/getting-started/install-audacity) and [FFmpeg](/manual/basics/installing-ffmpeg), [recording your voice](/manual/getting-started/make-your-first-recording), [recording desktop audio](/manual/basics/recording-desktop-audio), [editing audio](/manual/getting-started/basic-audio-editing), [saving your project](/manual/getting-started/save-your-project), [exporting your audio](/manual/getting-started/export-your-audio) and more!
 
 ### Is Audacity compatible with third party plugins?
 
@@ -195,7 +195,7 @@ Check out our [blog](/blog), subscribe to Audacity [YouTube Channel](https://www
 
 ### I have a question or issue with Audacity. Is there a support team I can contact?
 
-Many frequently asked questions and issues are answered on our support page [here](https://support.audacityteam.org/). For detailed information on Audacity features, please check out the [Audacity manual](https://manual.audacityteam.org/index.html).
+Many frequently asked questions are answered in the [Audacity manual](/manual), which also covers Audacity's features in detail.
 
 If you have a question you can't find the answer to, please leave a comment on the [Audacity forum](https://forum.audacityteam.org/), where one of our team (or someone in the Audacity community), will be happy to help!
 
