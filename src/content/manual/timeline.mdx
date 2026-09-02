@@ -7,10 +7,14 @@ description: The ruler above the tracks — reading the time scale, moving the p
 draft: false
 ---
 
+import UIShot from "../../components/manual/UIShot.astro";
+
 The timeline is the ruler running along the top of the tracks area. It shows
 the project's time scale, carries the playhead, and holds the loop region.
 The grid lines drawn behind the tracks follow the same ticks as the ruler, so
 what you see on the ruler is what you see across the waveforms.
+
+<UIShot name="app/SceneSpotlightTimeline" alt="The timeline ruler above the tracks, with the playhead flag at the left edge" />
 
 ## Reading the ruler
 
@@ -36,6 +40,8 @@ The ruler is split into two halves, top and bottom, which behave differently:
   a guideline shows where the edge will land.
 
 Right-click anywhere on the ruler for the timeline options below.
+
+<UIShot name="app/SceneTimelineMenu" alt="The timeline's right-click menu, listing the ruler formats, playback options, loop region commands and vertical rulers" />
 
 ## Ruler options
 
