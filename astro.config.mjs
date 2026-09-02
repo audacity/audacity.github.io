@@ -36,6 +36,8 @@ export default defineConfig({
       instead. Revisit if How-to and Reference mature into a real hub.
     */
     "/manual": "/manual/getting-started",
+    // Metering split into two pages on 2 Sep 2026.
+    "/manual/toolbar/metering": "/manual/toolbar/microphone-level",
   },
   i18n: {
     defaultLocale: "en",
