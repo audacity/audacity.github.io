@@ -183,7 +183,7 @@ Current team members are:
 - Product owner: Martin Keary
 - Project manager: Yana Larina
 - Developers: Matthieu Hodgkinson, Grzegorz Wojciechowski, Dmitry Makarenko, Gabriel Sartori, Paul Martin
-- Designers: Alex, Leo Wattenberg
+- Designers: Alex Dawson, Leo Wattenberg
 - Testers: Sergey Lapysh, Antons Činakovs
 - People from [MuseScore Studio](https://musescore.org) helping with Audacity 4 development: Jessica Williamson, Igor Korsukov, Elnur Ismailzada
 
