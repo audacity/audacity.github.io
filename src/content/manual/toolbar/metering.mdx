@@ -8,10 +8,16 @@ draft: false
 ---
 
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 The record and playback level meters.
 
 ## Record Level
+
+<UIShot
+  name="app/SceneRecordLevel"
+  alt="The record level flyout open from the toolbar, with the microphone level meter and input monitoring options"
+/>
 
 Opens the microphone settings, where you choose the input device and set the
 level Audacity records at.
@@ -23,6 +29,11 @@ speak at the loudest part, and back the level off if it reaches the top.
 It is present in every workspace.
 
 ## Playback Level
+
+<UIShot
+  name="app/ScenePlaybackMeterSettings"
+  alt="The playback meter settings flyout: meter position, style, type and dB range"
+/>
 
 Opens the playback volume settings, which set how loudly Audacity plays back.
 The master meter sits alongside it, showing the level going out.

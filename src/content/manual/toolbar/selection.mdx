@@ -8,10 +8,16 @@ draft: false
 ---
 
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 The playhead position, as a number you can read and edit.
 
 ## Timecode
+
+<UIShot
+  name="app/SceneSpotlightTimecode"
+  alt="The timecode in the toolbar, with the cursor over a digit"
+/>
 
 Shows the playhead's current position, and lets you type a position to move
 it. Clicking a digit selects it for editing.
@@ -34,6 +40,7 @@ The timecode can be displayed in any of these formats:
 | `Hz`                      | Frequency                                 |
 
 Choosing `beats:bars` makes the timecode musical rather than clock-based, so
-it follows [Tempo](#tempo) and [Time Signature](#time-signature).
+it follows [Tempo](/manual/toolbar/music#tempo) and
+[Time Signature](/manual/toolbar/music#time-signature).
 
 It is present in every workspace.

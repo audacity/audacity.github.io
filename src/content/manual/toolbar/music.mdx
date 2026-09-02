@@ -8,28 +8,41 @@ draft: false
 ---
 
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 Tempo and time signature, shown in the Music workspace.
 
 ## Tempo
 
+<UIShot
+  name="app/SceneSpotlightBPM"
+  alt="The tempo stepper in the Music workspace toolbar, showing 120 bpm"
+/>
+
 Sets the project tempo in beats per minute. It is a stepper: type a value, or
 use the up and down controls to nudge it.
 
-Tempo is what makes musical positions meaningful — it drives the
-`beats:bars` [timecode](#timecode) format and musical [snapping](#snapping).
+Tempo is what makes musical positions meaningful: it drives the
+`beats:bars` [timecode](/manual/toolbar/selection#timecode) format and
+musical [snapping](/manual/toolbar/snapping).
 
-Tempo appears in the **Music** workspace only — the Classic, Modern and
+Tempo appears in the **Music** workspace only; the Classic, Modern and
 Spectral editing workspaces do not show it. See
 [Workspaces](/manual/workspaces) for switching between them.
 
 ## Time Signature
 
-Sets the project time signature — how many beats are in a bar, and which note
+<UIShot
+  name="app/SceneSpotlightTimeSignature"
+  alt="The time signature selector in the Music workspace toolbar, showing 4/4"
+/>
+
+Sets the project time signature: how many beats are in a bar, and which note
 value counts as a beat. It is a selector: pick a signature from the list.
 
 Together with [Tempo](#tempo), it decides where bar and beat lines fall,
-which in turn drives the `beats:bars` [timecode](#timecode) format and the
-musical subdivisions in [Snapping](#snapping).
+which in turn drives the `beats:bars`
+[timecode](/manual/toolbar/selection#timecode) format and the musical
+subdivisions in [Snapping](/manual/toolbar/snapping).
 
 Like Tempo, it appears in the **Music** workspace only.
