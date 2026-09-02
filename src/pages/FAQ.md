@@ -180,10 +180,9 @@ Audacity is developed by a small team working remotely and supported by the comm
 
 Current team members are:
 
-- Product owner: Martin Keary
 - Project manager: Yana Larina
 - Developers: Matthieu Hodgkinson, Grzegorz Wojciechowski, Dmitry Makarenko, Gabriel Sartori, Paul Martin
-- Designers: Alex Dawson, Leo Wattenberg
+- Designers: Alex Dawson, Johan Althoff
 - Testers: Sergey Lapysh, Antons Činakovs
 - People from [MuseScore Studio](https://musescore.org) helping with Audacity 4 development: Jessica Williamson, Igor Korsukov, Elnur Ismailzada
 
