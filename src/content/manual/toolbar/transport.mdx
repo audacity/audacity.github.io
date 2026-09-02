@@ -8,10 +8,13 @@ draft: false
 ---
 
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 Play, stop, record, the skips and the loop toggle.
 
 ## Play
+
+<UIShot name="app/SceneButtonPlayPause" alt="The play button" />
 
 Starts playback from the edit cursor, or from the start of the selection if
 you have one.
@@ -29,6 +32,8 @@ own; see the Track Control Panel for mute and solo.
 
 ## Stop
 
+<UIShot name="app/SceneButtonStop" alt="The stop button" />
+
 Stops playback or recording. The playhead returns to where playback started
 rather than staying where you stopped it.
 
@@ -37,6 +42,8 @@ the track. Stopping is not undoing: to discard a take, stop first and then
 undo.
 
 ## Record
+
+<UIShot name="app/SceneButtonRecord" alt="The record button" />
 
 Starts recording from the currently selected input. While recording, the
 button shows its active state.
@@ -49,9 +56,8 @@ that never moves the meter won't be captured, and one that pins it will clip.
 See [Record Level](#record-level) for the meter, and Audio setup in the
 Project Toolbar for choosing the input.
 
-> **Tip:** If you're recording for the first time,
-> [Connect your microphone](/manual/getting-started/connect-your-microphone)
-> walks through the whole setup rather than just this button.
+[Connect your microphone](/manual/getting-started/connect-your-microphone)
+walks through the whole recording setup rather than just this button.
 
 Recording adds audio to a track. Where it lands depends on your selection and
 which track is focused — see the Track Control Panel pages for adding and
@@ -59,27 +65,29 @@ selecting tracks.
 
 ## Rewind to Start
 
-Moves the playhead backwards. In the Transport Toolbar the button is
-labelled **Step backward** and carries a skip-back icon.
+<UIShot name="app/SceneButtonRewindtostart" alt="The rewind to start button" />
 
-The button is unavailable while playback is running — stop first, then step.
-It is present in every workspace.
+Moves the playhead back to the start of the project. The button carries a
+skip-back icon.
+
+Rewinding also clears any time selection. It is present in every workspace.
 
 ## Rewind to End
 
-Moves the playhead forwards. In the Transport Toolbar the button is labelled
-**Step forward** and carries a skip-forward icon.
+<UIShot name="app/SceneButtonRewindtoend" alt="The rewind to end button" />
 
-Like Step backward, it is unavailable while playback is running. It is
-present in every workspace.
+Moves the playhead to the end of the project. The button carries a
+skip-forward icon.
+
+Like Rewind to start, it is present in every workspace.
 
 ## Toggle Loop Region
+
+<UIShot name="app/SceneButtonToggleloopregion" alt="The loop region toggle button" />
 
 Turns the loop region on and off. Unlike Play, Stop and Record, this is a
 toggle: it stays lit while looping is on, and the button reflects that state
 rather than firing once and returning to rest.
-
-While looping is on it stays lit:
 
 With looping on, playback repeats the loop region rather than continuing to
 the end of the project. The region itself is set on the timeline — see the

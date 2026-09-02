@@ -8,24 +8,30 @@ draft: false
 ---
 
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 Getting closer to the waveform and back out again.
 
 ## Zoom In
 
+<UIShot name="app/SceneButtonZoomin" alt="The zoom in button" />
+
 Zooms the timeline in, showing a shorter stretch of the project in more
 detail.
 
-Zoom in, Zoom out and Zoom toggle are the three zoom controls present in
-every workspace.
+Zoom in and Zoom out are the two zoom controls present in every workspace.
 
 ## Zoom Out
 
+<UIShot name="app/SceneButtonZoomout" alt="The zoom out button" />
+
 Zooms the timeline out, fitting a longer stretch of the project on screen.
 
-Like Zoom in and Zoom toggle, it is present in every workspace.
+Like Zoom in, it is present in every workspace.
 
 ## Zoom to Selection
+
+<UIShot name="app/SceneButtonZoomtoselection" alt="The zoom to selection button" />
 
 Zooms so the current selection fills the visible timeline. The button is
 labelled **Fit selection** in the toolbar.
@@ -39,6 +45,8 @@ Zoom toggle.
 
 ## Zoom to Fit Project
 
+<UIShot name="app/SceneButtonZoomtofitproject" alt="The zoom to fit project button" />
+
 Zooms so the whole project fits in the visible timeline — from the start to
 the end of the last clip. The button is labelled **Fit project** in the
 toolbar.
@@ -47,9 +55,12 @@ Like Fit selection, it appears in the Classic workspace only.
 
 ## Zoom Toggle
 
+<UIShot name="app/SceneButtonZoomtoggle" alt="The zoom toggle button" />
+
 Switches between two zoom levels, so you can jump between a close-up view and
 a wider one without stepping through Zoom in and Zoom out.
 
-It is present in every workspace.
+It appears in the Classic and Music workspaces; the Modern and Spectral
+editing workspaces carry Zoom in and Zoom out only.
 
 ---
