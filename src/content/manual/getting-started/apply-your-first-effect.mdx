@@ -59,40 +59,41 @@ adjust.
   alt="The Compressor's window open over the project, its settings ready to adjust, with the effect in the panel's stack"
 />
 
-- **Change its settings** by clicking the effect's name. Effect windows often
-  have their own look, nothing like Audacity — that is normal, and the main
-  window stays usable while one is open.
+Each effect in the stack is managed from the panel:
+
+- **Change its settings** by clicking the effect's name to reopen its
+  window. Effect windows often have their own look, nothing like Audacity:
+  that is normal, and the main window stays usable while one is open.
 - **Bypass** an effect with the power button beside it, or the whole stack
-  with the power button at the top — the quickest way to hear before-and-after.
+  with the power button at the top. This is the quickest way to hear
+  before-and-after.
 - **Remove** an effect for good with the triangle beside its name, choosing
   **No effect**.
 
 <Callout type="tip" title="Start with realtime effects">
   Realtime effects are the easier place to experiment, since you can hear a
-  change and undo your thinking without touching the recording. Use the Effect
+  change and undo your thinking without changing the audio data. Use the Effect
   menu when you know what you want.
 </Callout>
 
 ## Master effects
 
-At the bottom of the same panel is a **Master effects** section. Effects here
-apply to the finished mix — after every track, each track's own effects, and
-the volume and pan controls have been combined — rather than to any one
+At the bottom of the same panel is a **Master effects** section. Effects
+here apply to the finished mix, after every track, each track's own effects,
+and the volume and pan controls have been combined, rather than to any one
 track. This stage of shaping the combined sound is what "mastering" means.
+
+<UIShot
+  name="app/SceneEffectsPanel"
+  state="master"
+  alt="The Master effects section at the bottom of the panel, with a Limiter and Reverb stacked on the mix"
+/>
 
 <Callout type="tip" title="Two classic master effects">
   A little reverb on the master stops a music project sounding dry, and a
   limiter on the master catches peaks before they clip. Working on the loudness
   and polish of the whole mix here is easier than chasing it track by track.
 </Callout>
-
-## Nothing to render
-
-You do not need to "apply" any of this: realtime and master effects are baked
-in automatically when you [export your audio](/manual/getting-started/export-your-audio).
-If you ever do want a track's stack written into its waveform, select the
-track and use **Tracks → Mix → Mix and Render** — with more than one track
-selected it mixes them together, so select carefully.
 
 ## Getting more effects
 
