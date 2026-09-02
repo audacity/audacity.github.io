@@ -16,16 +16,18 @@ import UIShot from "../../../components/manual/UIShot.astro";
 
 When you record, the audio is stored in a **clip**. Clips live on
 **tracks**, the horizontal lanes that run along the timeline. **Add track**,
-at the top of the track area, creates one.
+at the top of the track area, is where you add one of the track types.
 
 <UIShot
   name="app/SceneAddTrack"
   alt="The Add track button on an empty project, with its choices open beneath it: Mono, Stereo, and Label"
 />
 
-**Mono or stereo?** One microphone produces one channel, so a voice wants a
-**mono** track. Use **stereo** for music and for sources that are already
-stereo. A **label** track holds text markers rather than audio.
+- **Mono** holds one channel of audio. One microphone produces one channel,
+  so a voice wants a mono track.
+- **Stereo** holds two channels. Use it for music and for sources that are
+  already stereo.
+- **Label** holds text markers rather than audio.
 
 Pick **Mono** and the track appears: its name and controls in the header on
 the left, and an empty lane stretching along the timeline. This is where
