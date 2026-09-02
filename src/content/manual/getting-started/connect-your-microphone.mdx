@@ -44,44 +44,45 @@ How your microphone connects depends on what it is:
 
 ## Choose your devices
 
-1. Connect your microphone or interface **first, then open Audacity**.
-   Devices connected afterwards may not be listed straight away. If one is
-   missing, use **Rescan audio devices** at the bottom of the Audio setup
-   menu instead of restarting the application.
-
-   <UIShot
-     name="app/SceneAudioSetupMenu"
-     state="rescan"
-     alt="The Audio setup menu open, with the cursor on Rescan audio devices"
-   />
-2. Open **Audio setup** and pick your microphone under **Recording device**.
-   Pick it by the name of the microphone or interface.
-3. Pick your headphones under **Playback device**. If you hear nothing on
-   playback later, this is the first thing to check.
-
-<UIShot
-  name="app/SceneAudioSetupRecordingdevice"
-  alt="The Recording device submenu expanded, with USB Microphone selected"
-/>
+Pick your headphones under **Playback device**. If you hear nothing on
+playback later, this is the first thing to check.
 
 <UIShot
   name="app/SceneAudioSetupPlaybackdevice"
   alt="The Playback device submenu expanded, listing the system default and the available outputs"
 />
 
+Pick your microphone under **Recording device**, by the name of the
+microphone or interface.
+
+<UIShot
+  name="app/SceneAudioSetupRecordingdevice"
+  alt="The Recording device submenu expanded, with USB Microphone selected"
+/>
+
+If your device is not listed, it was probably plugged in after Audacity
+launched. **Rescan audio devices**, at the bottom of the Audio setup menu,
+picks it up without restarting the application.
+
+<UIShot
+  name="app/SceneAudioSetupMenu"
+  state="rescan"
+  alt="The Audio setup menu open, with the cursor on Rescan audio devices"
+/>
+
 ## Set your microphone level
 
-The microphone button in the toolbar opens the **Microphone level** flyout. This
-is where you check your level and set the recording volume without having to
-record anything.
+The microphone button in the toolbar opens the **Microphone level** flyout.
+The meter follows your microphone as soon as the flyout is open: **Show mic
+metering when not recording** is on by default, so nothing needs recording
+to check your input.
 
 <UIShot
   name="app/SceneRecordLevel"
   alt="The microphone button in the toolbar, with the Microphone level flyout open beneath it and the meter showing a speaking level"
 />
 
-1. Speak at the volume you will actually use, and watch the input meter
-   move.
+1. Speak at the volume you will actually use, and watch the meter.
 2. Adjust the level so your normal speech peaks between **−18 dB and
    −6 dB**. Leave headroom: audio that touches 0 dB is clipped, and clipping
    cannot be repaired afterwards.
@@ -97,23 +98,11 @@ Raise it here, or move closer to the microphone. A quiet recording can be
 raised afterwards with the **Amplify** effect, but that raises the room
 noise with it. Set the level correctly before recording.
 
-<Callout type="tip" title="Top tip">
-  In the playback meter's settings, choose the Gradient style. It colours the
-  bar as it rises: green is comfortable, amber is loud but usable, red means
-  clipping. If you are hitting red, turn the gain down at the microphone or
-  interface rather than trying to fix it afterwards.
-</Callout>
-
-<UIShot
-  name="app/ScenePlaybackMeterSettings"
-  alt="The playback meter settings popup opened from the speaker button in the toolbar, with the Gradient meter style selected"
-/>
-
 ## Hearing yourself
 
-Input monitoring plays your microphone back through your output so you can
-hear yourself as you speak. Switch it on with **Turn on input monitoring**
-in the **Microphone level** flyout.
+If you are wearing headphones, you can also switch on **Turn on input
+monitoring** in the Microphone level flyout. It plays your microphone back
+through your output, so you hear yourself as you speak.
 
 <Callout type="warning" title="Headphones on before you switch monitoring on">
   Monitoring through speakers sends your microphone straight back out into the
@@ -127,6 +116,18 @@ in the **Microphone level** flyout.
   name="app/SceneInputMonitoring"
   state="on"
   alt="The Microphone level flyout with Turn on input monitoring ticked"
+/>
+
+<Callout type="tip" title="Top tip">
+  The meter can display a gradient instead of a block of colour: green is
+  comfortable, amber is loud but usable, red means clipping. Choose the
+  Gradient style in the playback meter's settings, opened from the meter in
+  the toolbar.
+</Callout>
+
+<UIShot
+  name="app/ScenePlaybackMeterSettings"
+  alt="The playback meter settings popup opened from the meter in the toolbar"
 />
 
 ## Mono or stereo?
