@@ -188,24 +188,36 @@ that follows.
 **Split** cuts a clip in two at a point you choose. Each half becomes a clip
 of its own, so you can delete, move or trim one without touching the other.
 
-The **split tool** lives in the toolbar. Switch it on with
-<Shortcut client:load keys="s" />, click where you want the cut, and press
-<Shortcut client:load keys="s" /> again to switch it back off.
+The **split tool** lives in the toolbar, behind the scissors button.
 
 <UIShot
   name="app/SceneSpotlightSplittool"
   alt="The split tool in the toolbar, with the cursor on its scissors button"
 />
 
+Switch it on with <Shortcut client:load keys="s" /> or the button, and a
+guideline follows your pointer across the clip, showing where the cut will
+land.
+
+<UIShot
+  name="app/SceneClipSplit"
+  state="tool"
+  alt="The split tool switched on, with its guideline running through the clip at the pointer"
+/>
+
+Click, and the split is applied. The portion left of the cut is selected,
+ready to delete. Press <Shortcut client:load keys="s" /> again to switch the
+tool back off.
+
+<UIShot
+  name="app/SceneClipSplit"
+  alt="The clip split in two at the guideline, with the left portion selected"
+/>
+
 There are two more ways to make the same cut without the tool: place the
 cursor where you want the cut and press <Shortcut client:load keys="cmd+i" />,
 or select a time range and press <Shortcut client:load keys="cmd+i" /> to cut
 at both edges of the selection, giving you a clip you can delete on its own.
-
-<UIShot
-  name="app/SceneClipSplit"
-  alt="A clip split in two: the seam at the split point, with each half now its own clip"
-/>
 
 ## Cut, copy and paste
 
