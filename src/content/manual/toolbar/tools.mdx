@@ -7,6 +7,7 @@ description: "The editing tools — toggles that change what clicking does, and 
 draft: false
 ---
 
+import UIShot from "../../../components/manual/UIShot.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 
 The editing tools — toggles that change what clicking does, and buttons that act on the selection.
@@ -43,6 +44,11 @@ It appears in the Classic, Modern and Music workspaces.
 Switches the track display from a waveform to a spectrogram, which shows
 frequency against time instead of amplitude against time. The button is
 labelled **Spectral view** in the toolbar.
+
+<UIShot
+  name="app/SceneClipSpectrogram"
+  alt="A track in spectral view: the clip rendered as a spectrogram, frequency against time"
+/>
 
 It is a toggle and stays pressed while spectral view is on:
 
