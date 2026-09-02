@@ -136,7 +136,7 @@ The gap towards being a full DAW is being rapidly closed, with each release brin
 
 ### I'm just getting started with Audacity. Are there any free tutorials available?
 
-We have a beginner tutorial series in [our manual](/manual/getting-started), beginning with [installing Audacity](/manual/getting-started/install-audacity) and [FFmpeg](/manual/basics/installing-ffmpeg), [recording your voice](/manual/getting-started/make-your-first-recording), [recording desktop audio](/manual/basics/recording-desktop-audio), [editing audio](/manual/getting-started/basic-audio-editing), [saving your project](/manual/getting-started/save-your-project), [exporting your audio](/manual/getting-started/export-your-audio) and more!
+We have a beginner tutorial series in [our manual](/manual/getting-started), beginning with [installing Audacity](/manual/getting-started/install-audacity) and [FFmpeg](/manual/basics/installing-ffmpeg), [recording your voice](/manual/getting-started/make-your-first-recording), [editing audio](/manual/getting-started/basic-audio-editing), [saving your project](/manual/getting-started/save-your-project), [exporting your audio](/manual/getting-started/export-your-audio) and more!
 
 ### Is Audacity compatible with third party plugins?
 
