@@ -68,7 +68,15 @@ if (!image) {
   application's own shadow, so a CSS shadow and radius would draw a rectangle
   around the transparency. Only opaque captures get the framed treatment.
 */
-const framed = !name.startsWith("flyouts/");
+const framed =
+  !name.startsWith("flyouts/") && !name.startsWith("app/SceneButton");
+
+/*
+  Isolated button captures are a few dozen pixels: the screenshot card and
+  frame shadow around them read as a mysterious white ring. They render
+  bare, at their natural size.
+*/
+const bare = name.startsWith("app/SceneButton");
 
 /*
   Clip screenshots carry their own radius-4 outline in the pixels; the
@@ -96,7 +104,13 @@ const displayHeight =
 
 {
   image ? (
-    <figure class="ui-shot not-prose my-6 flex flex-col items-center rounded-lg border border-text-primary/10 bg-background-light px-6 py-8">
+    <figure
+      class={
+        bare
+          ? "ui-shot not-prose my-4 flex flex-col items-start"
+          : "ui-shot not-prose my-6 flex flex-col items-center rounded-lg border border-text-primary/10 bg-background-light px-6 py-8"
+      }
+    >
       {/*
         densities [1, 2] so retina displays get a 2x source, and quality 100
         because these are UI screenshots: sharp's WebP default of 80 is tuned
