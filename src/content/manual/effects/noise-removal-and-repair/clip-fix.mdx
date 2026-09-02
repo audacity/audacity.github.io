@@ -7,10 +7,14 @@ description: Rebuild the flattened tops of clipped waveforms by interpolating ac
 draft: false
 ---
 
+import UIShot from "../../../../components/manual/UIShot.astro";
+
 Repairs audio that was recorded too loud and had its peaks flattened off.
 Clip Fix finds each clipped region, measures the slope of the waveform on
 either side of it, and interpolates a curve across the gap, so the peak is
 restored to something like the shape it would have had.
+
+<UIShot name="effects/Clip_fix" alt="The Clip Fix dialog" />
 
 ## Where to find it
 
