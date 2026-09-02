@@ -194,13 +194,18 @@ const sections = Array.from(grouped.entries())
         */
         const linear =
           currentStream === "getting-started" || currentStream === "how-to";
+        /* A section whose whole content is its own index page (Keyboard
+           shortcuts) has nothing to fold — plain link, no chevron. */
+        const foldable = !linear && section.tree.length > 0;
         return (
           <div
             class:list={[linear ? "mb-4" : "manual-tree__item mb-4"]}
             data-slug={linear ? undefined : `section:${section.name}`}
-            data-has-children={linear ? undefined : "true"}
+            data-has-children={foldable ? "true" : undefined}
             data-active={!linear && section.active ? "true" : undefined}
-            data-state={linear ? undefined : section.active ? "open" : "closed"}
+            data-state={
+              !foldable ? undefined : section.active ? "open" : "closed"
+            }
           >
             <div class="flex items-center gap-1">
               <h2 class="flex-1 text-xs font-semibold uppercase tracking-wide text-text-primary/50">
@@ -219,7 +224,7 @@ const sections = Array.from(grouped.entries())
                   <span class="block py-1">{section.name}</span>
                 )}
               </h2>
-              {!linear && (
+              {foldable && (
                 <button
                   type="button"
                   class="manual-tree__toggle shrink-0 p-1 rounded text-text-primary/40 hover:text-text-primary hover:bg-background-medium"
