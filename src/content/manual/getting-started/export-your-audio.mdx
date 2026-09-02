@@ -10,6 +10,7 @@ draft: false
 
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 Exporting produces a finished audio file with everything mixed together: the
 thing you upload to a podcast host or send to someone else. It is the other
@@ -29,11 +30,24 @@ them accepts. Exporting is how you produce it.
 Open **File → Export audio**, or press
 <Shortcut client:load keys="cmd+shift+e" />.
 
-![The Export audio dialog](../../../assets/img/manual/handout/export-dialog.png)
+<UIShot
+  name="app/SceneExport"
+  alt="The Export audio dialog: export type, file name, folder and format, audio options, and the Export button"
+/>
 
-Name the file, choose where it goes, and pick a format. The dialog also lets
-you choose mono or stereo, the sample rate, and — for formats like MP3 — the
-bit rate.
+The **Type** dropdown at the top decides what gets exported:
+
+- **Export full project audio** mixes everything in the project into the
+  file. This is the usual choice for a finished edit.
+- **Export selected audio** exports only the current selection. Useful for
+  pulling one answer out of an interview, or checking how a stretch sounds
+  in the finished format.
+- **Export audio in loop region** exports the stretch marked by the loop
+  region on the timeline.
+
+Below that, name the file, choose where it goes, and pick a format. The
+dialog also lets you choose mono or stereo, the sample rate, and, for
+formats like MP3, the bit rate.
 
 <Callout type="info">
   Some export formats, including M4A, need [FFmpeg
