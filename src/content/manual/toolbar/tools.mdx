@@ -3,16 +3,19 @@ title: "Tools"
 section: "Toolbars"
 sectionOrder: 20
 order: 2
-description: "The editing tools — toggles that change what clicking does, and buttons that act on the selection."
+description: "The editing tools: toggles that change what clicking does, and buttons that act on the selection."
 draft: false
 ---
 
 import UIShot from "../../../components/manual/UIShot.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 
-The editing tools — toggles that change what clicking does, and buttons that act on the selection.
+The editing tools: toggles that change what clicking does, and buttons
+that act on the selection.
 
 ## Clip Gain
+
+<UIShot name="app/SceneButtonClipgain" alt="The clip gain button" />
 
 Turns on envelope editing, so you can draw volume changes across a clip
 rather than setting one level for the whole thing. The button is labelled
@@ -29,17 +32,20 @@ workspace leaves it out.
 
 ## Split Tool
 
+<UIShot name="app/SceneButtonSplittool" alt="The split tool button" />
+
 Turns on the split tool. While it is on, clicking a clip splits it at that
 point instead of selecting it. The button is labelled **Cut / Split** in the
 toolbar.
 
-It is a toggle and stays pressed while the tool is active:
-
-The current design gives it the **S** key.
+It is a toggle and stays pressed while the tool is active. The current
+design gives it the **S** key.
 
 It appears in the Classic, Modern and Music workspaces.
 
 ## Toggle Spectral View
+
+<UIShot name="app/SceneButtonTogglespectralview" alt="The spectral view button" />
 
 Switches the track display from a waveform to a spectrogram, which shows
 frequency against time instead of amplitude against time. The button is
@@ -50,11 +56,10 @@ labelled **Spectral view** in the toolbar.
   alt="A track in spectral view: the clip rendered as a spectrogram, frequency against time"
 />
 
-It is a toggle and stays pressed while spectral view is on:
-
-The Spectral editing workspace is already in spectral view, so instead of a
-Spectral view button it offers the reverse — a **Waveform** button that takes
-you back:
+It is a toggle and stays pressed while spectral view is on. The Spectral
+editing workspace is already in spectral view, so instead of a Spectral
+view button it offers the reverse, a **Waveform** button that takes you
+back.
 
 It appears in the Classic and Modern workspaces; the Music workspace leaves
 it out, and Spectral editing replaces it with the Waveform toggle described
@@ -64,13 +69,17 @@ above.
 
 ## Cut
 
+<UIShot name="app/SceneButtonCut" alt="The cut button" />
+
 Removes the selected audio and puts it on the clipboard, ready to paste
 elsewhere.
 
 The clipboard group of Cut, Copy and Paste appears in the Classic workspace
-only — the other workspaces leave these three out.
+only; the other workspaces leave these three out.
 
 ## Copy
+
+<UIShot name="app/SceneButtonCopy" alt="The copy button" />
 
 Puts the selected audio on the clipboard without removing it.
 
@@ -78,6 +87,8 @@ Like the rest of the clipboard group, it appears in the Classic workspace
 only.
 
 ## Paste
+
+<UIShot name="app/SceneButtonPaste" alt="The paste button" />
 
 Inserts whatever is on the clipboard at the edit cursor.
 
@@ -87,6 +98,8 @@ only.
 ---
 
 ## Trim
+
+<UIShot name="app/SceneButtonTrim" alt="The trim button" />
 
 Keeps the selected audio and removes everything outside it, trimming the clip
 down to the selection.
@@ -100,10 +113,12 @@ workspace leaves it out.
 
 ## Silence
 
+<UIShot name="app/SceneButtonSilence" alt="The silence button" />
+
 Replaces the selected audio with silence, leaving the clip the same length.
 
 Because the length does not change, everything after the selection stays
-where it is — useful for removing a cough or a click without shifting the
+where it is, which is useful for removing a cough or a click without shifting the
 timing of what follows.
 
 It appears in the Classic, Modern and Music workspaces.
