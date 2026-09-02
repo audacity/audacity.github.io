@@ -30,6 +30,12 @@ export default defineConfig({
   redirects: {
     "/learn": "/manual/getting-started",
     "/tutorials": "/manual/how-to",
+    /*
+      The manual's front door: the index was a thin chooser duplicating the
+      sidebar, so arrivals land on the finished First-steps overview
+      instead. Revisit if How-to and Reference mature into a real hub.
+    */
+    "/manual": "/manual/getting-started",
   },
   i18n: {
     defaultLocale: "en",
