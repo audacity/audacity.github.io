@@ -40,6 +40,48 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "3.7.9",
+    date: "2026-09-01",
+    releaseUrl:
+      "https://github.com/audacity/audacity/releases/tag/Audacity-3.7.9",
+    intro: ["This is a patch release. It contains the following changes:"],
+    changes: [
+      {
+        text: "Enabled ASIO support for the Windows builds; playback and recording device selection is remembered per host now",
+        refs: [11690],
+      },
+      {
+        text: "Added FFmpeg 9 support",
+        refs: [11679],
+      },
+      {
+        text: "Fixed several sources of project corruption and data loss: when the disk runs out of space, when a drive is disconnected right after a project is closed, and when a recovered project is closed without saving",
+        refs: [11714],
+      },
+      {
+        text: "Fixed crashes while a realtime effect editor is open; master track effect changes can now be undone",
+        refs: [11709],
+      },
+      {
+        text: "Fixed a freeze when double-clicking the timeline while a MIDI track is present. MIDI playback now also starts from the set position instead of the beginning",
+        refs: [11696],
+      },
+      {
+        text: "Fixed a crash after a failed recording attempt",
+        refs: [11711],
+      },
+      {
+        text: "Fixed clips having the wrong tempo after opening a project (Thanks, David Bailes!)",
+        refs: [11526],
+      },
+      {
+        text: "Fixed a freeze on startup on systems with an incorrect font configuration",
+        refs: [11623],
+      },
+    ],
+    outro: [],
+  },
+  {
     version: "3.7.8",
     date: "2026-06-11",
     releaseUrl:
