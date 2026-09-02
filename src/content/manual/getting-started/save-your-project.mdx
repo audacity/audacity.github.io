@@ -12,16 +12,13 @@ import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import UIShot from "../../../components/manual/UIShot.astro";
 
-**Save project** and **Export audio** do different things.
+Saving a project keeps an `.aup4` file holding your tracks, clips, edits
+and undo history. Only Audacity can open it. This is your working file:
+reopen it and you can still untrim clips or adjust realtime effects, weeks
+later.
 
-| Action           | What you get                                                                                                                                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Save project** | An `.aup4` file holding your tracks, clips, edits and undo history. Only Audacity can open it. This is your working file — reopen it and you can still untrim clips or adjust realtime effects, weeks later. |
-| **Export audio** | A finished audio file, everything mixed together. This is what you upload to your podcast host or send to someone else.                                                                                      |
-
-Save the project as soon as you start recording — <Shortcut client:load keys="cmd+s" />
-— and keep saving as you go. Export only when the edit is finished. If you
-export without saving the project, you cannot go back and change your edits.
+Save the project as soon as you start recording, with
+<Shortcut client:load keys="cmd+s" />, and keep saving as you go.
 
 <Callout type="info" title="Coming from Audacity 3?">
   Audacity 4 saves projects as `.aup4`. It still opens the `.aup3` projects you
