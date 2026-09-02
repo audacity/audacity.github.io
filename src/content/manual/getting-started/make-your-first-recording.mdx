@@ -38,6 +38,15 @@ your recording will appear.
   alt="A project with a single mono track: the track header on the left and an empty lane along the timeline"
 />
 
+When you speak, the focused track shows your input on the meter in its
+header.
+
+<UIShot
+  name="app/SceneMonoTrack"
+  state="metering"
+  alt="The focused track's header, its meter showing the microphone's level"
+/>
+
 ## Before you record
 
 - **Select the track.** Recording goes onto the selected track: click a
@@ -64,11 +73,20 @@ of the top bar.
 
 <UIShot
   name="app/SceneSpotlightRecord"
-  alt="The transport controls with the round red Record button ringed"
+  alt="A project with one mono track, with the cursor over the round red Record button in the transport controls"
 />
 
-- **Record**, or <Shortcut client:load keys="r" />, starts recording on the
-  selected track, and a clip begins to draw as you speak.
+Press **Record**, or <Shortcut client:load keys="r" />, and recording
+starts on the selected track: the button stays lit, the playhead moves, and
+a clip draws in the lane as you speak.
+
+<UIShot
+  name="app/SceneRecording"
+  alt="Recording in progress: the Record button lit, the playhead a few seconds in, and a clip drawn up to it"
+/>
+
+While recording:
+
 - **Pause** holds the recording without ending it. Press it again to
   continue in the same clip.
 - **Stop**, or <Shortcut client:load keys="space" />, ends the take.
@@ -87,10 +105,10 @@ of the top bar.
 
 <UIShot
   name="app/SceneFirstTake"
-  alt="One track named Audio 1 holding a recorded take that fills the timeline, with the transport toolbar above"
+  alt="A finished take on the mono track: a stretch of silence at the start, then the recorded material filling the timeline"
 />
 
-## Check the take
+## Reading the waveform
 
 Look at the waveform as well as listening to it. The shape shows problems
 that are hard to hear, especially on laptop speakers.
