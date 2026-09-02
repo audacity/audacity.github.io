@@ -42,10 +42,6 @@ How your microphone connects depends on what it is:
 - **An XLR microphone** goes into an audio interface, and the interface into
   a USB port. An XLR microphone cannot connect to a computer on its own.
 
-Sockets vary by model. Check your computer's and your microphone's
-documentation if you are unsure. If the plug and the port do not match, you
-need an adapter.
-
 ## Choose your devices
 
 1. Connect your microphone or interface **first, then open Audacity**.
@@ -55,8 +51,8 @@ need an adapter.
 
    <UIShot
      name="app/SceneAudioSetupMenu"
-     state="hl-rescan"
-     alt="The Audio setup menu with Rescan audio devices ringed"
+     state="rescan"
+     alt="The Audio setup menu open, with the cursor on Rescan audio devices"
    />
 2. Open **Audio setup** and pick your microphone under **Recording device**.
    Pick it by the name of the microphone or interface.
@@ -73,22 +69,15 @@ need an adapter.
   alt="The Playback device submenu expanded, listing the system default and the available outputs"
 />
 
-<Callout title="Not everything in the list is a microphone">
-  The menu lists every input the system knows about, including webcams and
-  virtual devices created by other software. Choose the entry named after
-  your microphone or interface. If two look plausible, record a few seconds
-  with each. Use the one you can hear.
-</Callout>
+## Set your microphone level
 
-## Set your level
-
-The microphone button in the toolbar opens the **Record level** flyout. This
+The microphone button in the toolbar opens the **Microphone level** flyout. This
 is where you check your level and set the recording volume without having to
 record anything.
 
 <UIShot
   name="app/SceneRecordLevel"
-  alt="The microphone button in the toolbar ringed, with the Record level flyout open beneath it"
+  alt="The microphone button in the toolbar, with the Microphone level flyout open beneath it"
 />
 
 1. Speak at the volume you will actually use, and watch the input meter
@@ -96,8 +85,12 @@ record anything.
 2. Adjust the level so your normal speech peaks between **−18 dB and
    −6 dB**. Leave headroom: audio that touches 0 dB is clipped, and clipping
    cannot be repaired afterwards.
-3. This slider controls your system's input level, so the change applies to
-   every other application on your computer as well.
+
+<Callout type="warning" title="This changes your computer's microphone level">
+  The Microphone level slider controls the system's input level, not just
+  Audacity's. Moving it also changes the microphone level in every other
+  application on your computer.
+</Callout>
 
 If the meter barely moves while you speak normally, the level is too low.
 Raise it here, or move closer to the microphone. A quiet recording can be
@@ -112,16 +105,15 @@ noise with it. Set the level correctly before recording.
 </Callout>
 
 <UIShot
-  name="flyouts/PlaybackMeterCustomisePopup"
-  state="open"
-  alt="The playback meter settings, with the Gradient meter style selected"
+  name="app/ScenePlaybackMeterSettings"
+  alt="The playback meter settings popup opened from the speaker button in the toolbar, with the Gradient meter style selected"
 />
 
 ## Hearing yourself
 
 Input monitoring plays your microphone back through your output so you can
 hear yourself as you speak. Switch it on with **Turn on input monitoring**
-in the Record level flyout.
+in the Microphone level flyout.
 
 <Callout type="warning" title="Headphones on before you switch monitoring on">
   Monitoring through speakers sends your microphone straight back out into the
