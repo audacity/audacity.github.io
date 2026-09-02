@@ -24,7 +24,7 @@ or import an existing file: drag it onto the Audacity window, or use
   installed](/manual/basics/installing-ffmpeg) before they will import.
 </Callout>
 
-## Clips: the thing you are editing
+## Clips
 
 Everything you recorded lives inside a **clip**: a block of audio sitting on a
 track. Recording and importing both create clips. Nearly all spoken-word
@@ -36,42 +36,86 @@ together.
   alt="An unselected clip on its track, with its name along the top and the waveform inside"
 />
 
-Click a clip to select it. Anything you do next, trimming, splitting,
-deleting or applying an effect, applies to what is selected. A selected clip
-also shows two pairs of handles at its edges: the top pair trim the clip, and
-the lower pair, marked with a clock icon, change its speed.
-
-<UIShot
-  name="app/SceneClipSelected"
-  alt="A selected clip, showing the trim and speed handles at its edge"
-/>
-
 The waveform inside the clip is worth learning to read: the taller the shape,
 the louder that moment, and a thin spike standing on its own is usually a
 click, a clap or a knock. With a little practice you can find your way around
 a recording by eye, faster than by listening through it.
 
-## Select the audio you want to change
+## Selecting and moving clips
 
-Selection also works in stretches smaller than a clip. Click in the waveform
-and drag left or right. The selected stretch is highlighted across the track,
-and dragging downwards as well selects the same stretch on every track you
-pass over.
+Select a clip by clicking its **header**, the strip along the top, or by
+double-clicking in its body. A selected clip shows two pairs of handles at
+its edges: the top pair trim the clip, and the lower pair, marked with a
+clock icon, change its speed.
 
-- Hold **Shift** and click to extend the selection you already have out to the
-  point you clicked.
-- Double-click a clip to select the whole of it; double-click an empty part of
-  a track to select all of that track's audio.
-- **Select → Select all**, or <Shortcut client:load keys="cmd+a" />, selects
-  everything in the project.
-- Hold **Shift** and click clip headers to select several whole clips. They
-  do not need to be neighbours, and whatever you do next applies to all of
-  them.
+<UIShot
+  name="app/SceneClipSelected"
+  alt="A selected clip, showing the trim handles at its top corners and the clock speed handles below them"
+/>
+
+Hold **Shift** and click clip headers to select several whole clips. They do
+not need to be neighbours, and whatever you do next applies to all of them.
+
+Move a clip by dragging it **by its header**: along its track, onto another
+track, or into the empty space below the tracks, which creates a new track
+to hold it. Dragging inside the body of the clip does something different:
+it makes a time range selection.
+
+<Callout type="warning" title="Clips can swallow each other">
+  Dropping a clip on top of another clip is allowed: the one underneath is
+  eaten into where they overlap. Sometimes that is what you want, a retake
+  pasted over a mistake. If it was not,
+  <Shortcut client:load keys="cmd+z" /> puts it back.
+</Callout>
+
+## Trim and stretch
+
+The top pair of handles **trim**: drag a clip's left or right edge inwards
+to shorten it.
+
+<Callout type="info" title="Clips are smart">
+  Trimming does not destroy audio. The trimmed part is still there, hidden
+  past the clip's edge, and dragging the edge back out brings it back. This
+  matters again later, when you start cutting audio.
+</Callout>
+
+The lower pair of handles, the ones marked with a clock, change the clip's
+**speed**: drag them and the clip stretches or squeezes, playing slower or
+faster. A clip whose speed has been changed shows a small badge in its top
+corner; click the badge to type an exact percentage instead of dragging.
+
+<UIShot
+  name="app/SceneClipStretched"
+  alt="A stretched clip showing its speed badge in the top corner"
+/>
+
+Pitch lives in the same place. Right-click the clip, or open its **⋯** menu,
+and choose **Open pitch and speed dialog** to shift the pitch in semitones and
+cents.
+
+<Callout type="tip" title="Keep voices sounding human">
+  Changing the speed or pitch of speech or singing? Tick **Optimize for voice**
+  in the pitch and speed dialog. It preserves the resonances that make a voice
+  sound like a person, instead of a chipmunk.
+</Callout>
+
+## Time range selections
+
+Selection is not limited to clips. A **time range selection** selects the
+audio data directly: click in the waveform and drag left or right. The
+selected stretch is highlighted across the track, and dragging downwards as
+well selects the same stretch on every track you pass over.
 
 <UIShot
   name="app/SceneClipSelection"
   alt="A stretch of a clip selected by dragging, highlighted across the track"
 />
+
+- Hold **Shift** and click to extend the selection you already have out to the
+  point you clicked.
+- Double-click an empty part of a track to select all of that track's audio.
+- **Select → Select all**, or <Shortcut client:load keys="cmd+a" />, selects
+  everything in the project.
 
 Selections are easier to place precisely when you are closer in. Hold
 <Shortcut client:load keys="cmd" /> and scroll to zoom around the pointer,
@@ -81,63 +125,9 @@ Press **Play** before you edit. Playback follows the selection, so you hear
 exactly the stretch you are about to change. This is the quickest way to
 catch a selection that starts a syllable too early.
 
-## Trim, split and move
-
-Trim, split and move are the three edits used constantly in spoken-word
-work.
-
-- **Trim** by dragging a clip's left or right edge inwards. Nothing is
-  destroyed; drag back out to recover it.
-- **Split** a clip in two, then delete the half you don't want. There are
-  three ways to do it: switch on the **split tool** in the toolbar with
-  <Shortcut client:load keys="s" />, click where you want the cut, and press
-  <Shortcut client:load keys="s" /> again to switch it back off; place the
-  cursor where you want the cut and press <Shortcut client:load keys="cmd+i" />;
-  or select a time range and press <Shortcut client:load keys="cmd+i" /> to cut
-  at both edges of the selection, giving you a clip you can delete on its own.
-- **Move** a clip by dragging it **by its header**, the strip along the top
-  of the clip: along its track, onto another track, or into the empty space
-  below the tracks, which creates a new track to hold it. Dragging inside the
-  body of the clip does something different: it makes a time range selection.
-
-<Callout type="warning" title="Clips can swallow each other">
-  Dropping a clip on top of another clip is allowed: the one underneath is
-  eaten into where they overlap. Sometimes that is what you want, a retake
-  pasted over a mistake. If it was not,
-  <Shortcut client:load keys="cmd+z" /> puts it back.
-</Callout>
-
-## Cut, copy and paste
-
-With a selection made, the clipboard commands work the way they do everywhere
-else. All three are in the Edit menu.
-
-- [Cut](/manual/menu-bar/edit#cut),
-  <Shortcut client:load keys="cmd+x" />, removes the selection and puts it on
-  the clipboard.
-- [Copy](/manual/menu-bar/edit#copy),
-  <Shortcut client:load keys="cmd+c" />, takes a copy and leaves the audio
-  alone.
-- [Paste](/manual/menu-bar/edit#paste),
-  <Shortcut client:load keys="cmd+v" />, drops the clipboard in at the cursor.
-
-## Remove, keep or mute a stretch
-
-Delete, Trim clip and Silence audio remove unwanted audio in three different
-ways. The difference between them is what happens to the timing of
-everything that follows.
-
-- [Delete](/manual/menu-bar/edit#delete) removes the selection or
-  the selected clip. The first time you delete anything, Audacity asks how
-  deletion should behave, and remembers your answer (see below).
-- [Trim clip](/manual/menu-bar/edit#trim-clip),
-  <Shortcut client:load keys="cmd+t" />, is the opposite of Delete: it keeps the
-  selection and discards the rest of the clip. Use it to strip the silence off
-  both ends of a take in one move.
-- [Silence audio](/manual/menu-bar/edit#silence-audio),
-  <Shortcut client:load keys="cmd+l" />, empties the selection without
-  shortening it. This is what you want for a cough or a page turn in the middle
-  of a sentence, where removing the time would ruin the rhythm.
+So if you made a mistake in your recording, you do not need to work in whole
+clips: select the mistake with a time range selection and press **Delete**.
+Which brings up a choice.
 
 ## Deleting audio: leave a gap, or ripple
 
@@ -176,27 +166,45 @@ but you are not stuck with it. The alternatives stay on the keyboard:
 working in, whatever your default, and <Shortcut client:load keys="cmd+del" />
 ripple-deletes across every track at once, keeping them in sync.
 
-## Change a clip's speed or pitch
+## Remove, keep or mute a stretch
 
-The lower pair of handles on a selected clip, the ones marked with a clock,
-change its speed: drag them and the clip stretches or squeezes, playing
-slower or faster. A clip whose speed has been changed shows a small badge in its top
-corner; click the badge to type an exact percentage instead of dragging.
+Delete has two relatives that remove unwanted audio differently. The
+difference between the three is what happens to the timing of everything
+that follows.
 
-<UIShot
-  name="app/SceneClipStretched"
-  alt="A stretched clip showing its speed badge in the top corner"
-/>
+- [Delete](/manual/menu-bar/edit#delete) removes the selection or the
+  selected clip, with the gap-or-ripple behaviour above.
+- [Trim clip](/manual/menu-bar/edit#trim-clip),
+  <Shortcut client:load keys="cmd+t" />, is the opposite of Delete: it keeps the
+  selection and discards the rest of the clip. Use it to strip the silence off
+  both ends of a take in one move.
+- [Silence audio](/manual/menu-bar/edit#silence-audio),
+  <Shortcut client:load keys="cmd+l" />, empties the selection without
+  shortening it. This is what you want for a cough or a page turn in the middle
+  of a sentence, where removing the time would ruin the rhythm.
 
-Pitch lives in the same place. Right-click the clip, or open its **⋯** menu,
-and choose **Open pitch and speed dialog** to shift the pitch in semitones and
-cents.
+## Split, cut, copy and paste
 
-<Callout type="tip" title="Keep voices sounding human">
-  Changing the speed or pitch of speech or singing? Tick **Optimize for voice**
-  in the pitch and speed dialog. It preserves the resonances that make a voice
-  sound like a person, instead of a chipmunk.
-</Callout>
+**Split** a clip in two, then delete the half you don't want. There are
+three ways to do it: switch on the **split tool** in the toolbar with
+<Shortcut client:load keys="s" />, click where you want the cut, and press
+<Shortcut client:load keys="s" /> again to switch it back off; place the
+cursor where you want the cut and press <Shortcut client:load keys="cmd+i" />;
+or select a time range and press <Shortcut client:load keys="cmd+i" /> to cut
+at both edges of the selection, giving you a clip you can delete on its own.
+
+With a selection made, the clipboard commands work the way they do everywhere
+else. All three are in the Edit menu.
+
+- [Cut](/manual/menu-bar/edit#cut),
+  <Shortcut client:load keys="cmd+x" />, removes the selection and puts it on
+  the clipboard. Unlike trimming, cutting takes the audio out of the track:
+  it comes back only by pasting it, or with undo.
+- [Copy](/manual/menu-bar/edit#copy),
+  <Shortcut client:load keys="cmd+c" />, takes a copy and leaves the audio
+  alone.
+- [Paste](/manual/menu-bar/edit#paste),
+  <Shortcut client:load keys="cmd+v" />, drops the clipboard in at the cursor.
 
 ## Fades and volume: the clip gain tool
 
