@@ -104,7 +104,7 @@ In the app, every audio creator can:
 - Visualize and analyze your audio clips in Spectrogram view.
 - Upload and share your files online to [Audio.com](https://audio.com/), instantly.
 
-To learn more about specific features, check out the [Audacity manual](https://manual.audacityteam.org/index.html).
+To learn more about specific features, check out the [Audacity manual](/manual).
 
 ### What audio file formats are compatible with Audacity?
 
@@ -120,13 +120,13 @@ Audacity supports 16-bit, 24-bit and 32-bit audio. Sample rates and formats are 
 
 Yes! Audacity can be used to record and produce your music tracks. Because it's free and easy-to-use, Audacity is a great DAW for music production beginners or those who want to make quick edits to recordings of live performances.
 
-For more information on how to use specific Audacity features, check out the [Audacity manual](https://manual.audacityteam.org/).
+For more information on how to use specific Audacity features, check out the [Audacity manual](/manual).
 
 ### Can I use Audacity to produce podcasts?
 
 Yes! In fact, Audacity is the world's most popular software for recording and producing podcasts — because it's easy-to-use and completely free.
 
-For more information on how to use specific Audacity features, check out the [Audacity manual](https://manual.audacityteam.org/).
+For more information on how to use specific Audacity features, check out the [Audacity manual](/manual).
 
 ### Is Audacity a DAW?
 
@@ -146,7 +146,7 @@ Audacity supports VST3, LADSPA, LV2, Nyquist, VST and Audio Unit plugins.
 
 ### Where can I find more information about specific Audacity features?
 
-Try the free, online [Audacity manual](https://manual.audacityteam.org/) for in-depth, technical information on specific features.
+Try the free, online [Audacity manual](/manual) for in-depth, technical information on specific features.
 
 ---
 
