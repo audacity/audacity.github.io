@@ -12,16 +12,33 @@ import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import UIShot from "../../../components/manual/UIShot.astro";
 
-With your microphone connected and a level set, recording takes one button:
-the round red **Record** button in the transport controls, at the left of
-the top bar.
+With your microphone connected and a level set, you are ready to record.
+
+## Create a track
+
+A **track** is the horizontal lane your recording lands in. **Add track**, at
+the top of the track area, offers a **mono** track, a **stereo** track, or a
+**label** track (text markers rather than audio). One microphone produces one
+channel, so a voice wants a mono track.
 
 <UIShot
-  name="app/SceneSpotlightRecord"
-  alt="The transport controls with the round red Record button ringed"
+  name="app/SceneAddTrack"
+  alt="The Add track button clicked, with its choices open beneath it: a mono track, a stereo track, or a label track"
 />
 
-## Before you press record
+Recording goes onto the **selected** track: click a track's header and it
+highlights. If you skip this step entirely, pressing Record creates a track
+for you.
+
+## Turn on input monitoring
+
+Switch on **Turn on input monitoring** in the **Microphone level** flyout.
+The meters then follow your microphone before anything is recorded, so you
+can see your level at the destination, and hear yourself through your
+headphones. Headphones on before you switch it on: monitoring through
+speakers feeds back.
+
+## Before you record
 
 - **Get closer.** A hand-span from the microphone gives you far more voice
   and far less room than sitting back from it.
@@ -33,18 +50,33 @@ the top bar.
   the reflections that make a recording sound like a bathroom. Avoiding
   reflections is much easier than removing them later.
 
+## Recording
+
+The round red **Record** button sits in the transport controls, at the left
+of the top bar.
+
+<UIShot
+  name="app/SceneSpotlightRecord"
+  alt="The transport controls with the round red Record button ringed"
+/>
+
+- **Record**, or <Shortcut client:load keys="r" />, starts recording on the
+  selected track, and a clip begins to draw as you speak.
+- **Pause** holds the recording without ending it. Press it again to
+  continue in the same clip.
+- **Stop**, or <Shortcut client:load keys="space" />, ends the take.
+  <Shortcut client:load keys="space" /> then plays it back from the
+  playhead.
+
 ## Your first take
 
-1. Press **Record**, or <Shortcut client:load keys="r" />. Audacity creates
-   a **track**, a horizontal lane holding audio, and a clip begins to draw
-   in it as you speak.
-2. Record a few seconds of silence at the start of every session. It gives
+1. Record a few seconds of silence at the start of every session. It gives
    you room to trim, and a sample of your room's own sound for noise
    reduction later.
-3. Press **Stop** when you are done, then <Shortcut client:load keys="space" />
-   to play it back from the playhead.
-4. If you make a mistake, pause, leave a moment of silence, and say the
-   line again. Cutting the mistake out later is quicker than starting over.
+2. Say your piece, then stop and play it back.
+3. If you make a mistake, pause your speech, leave a moment of silence, and
+   say the line again. Cutting the mistake out later is quicker than
+   starting over.
 
 <UIShot
   name="app/SceneFirstTake"
@@ -89,24 +121,3 @@ that are hard to hear, especially on laptop speakers.
   about. Every fix is easier now than after a full session. A wrong input
   device or a clipped level cannot be repaired afterwards.
 </Callout>
-
-## Recording onto another track
-
-Once a take is down, you may want to record more alongside it: a guest, a
-second attempt, or music under an introduction. **Add track**, at the top of
-the track area, makes an empty track ready for the next voice, and offers a
-**mono** track, a **stereo** track, or a **label** track (text markers
-rather than audio).
-
-<UIShot
-  name="app/SceneAddTrack"
-  alt="The Add track button clicked, with its choices open beneath it: a mono track, a stereo track, or a label track"
-/>
-
-Once you have more than one track, it matters which is **selected**: click a
-track's header and it highlights, and that is the track your next recording
-goes onto. Click the track you mean before you press Record. If a take lands on an
-unexpected track, this is usually why.
-
-Recording starts on the selected track with **Record**, or on a brand-new
-track with **Record → Record on new track**.
