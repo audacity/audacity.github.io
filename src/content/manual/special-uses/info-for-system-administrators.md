@@ -5,6 +5,7 @@ description: Information regarding deployment and compliance for Audacity in
 section: "For system administrators"
 sectionOrder: 169
 order: 2
+draft: true
 ---
 
 [Edit](https://github.com/audacity/audacity-support/blob/au4/special-uses/info-for-system-administrators.md)
