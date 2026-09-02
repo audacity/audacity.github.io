@@ -10,6 +10,7 @@ draft: false
 
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
 
 Before you apply anything, it helps to know that Audacity can apply an effect
 in two different ways, and the difference matters once you want to change your
@@ -32,17 +33,34 @@ only, and the waveform redraws when it finishes.
 
 ## Realtime effects
 
-![The Effects button on the track header](../../../assets/img/manual/handout/effects-button.png)
+The **Effects** button on the track header opens the realtime effects panel.
+The keyboard shortcut is <Shortcut client:load keys="e" />.
 
-The **Effects** button on the track header opens the realtime effects panel
-for that track. The keyboard shortcut is <Shortcut client:load keys="e" />.
+<UIShot
+  name="app/SceneSpotlightEffects"
+  alt="The cursor on the Effects button in the track header"
+/>
 
-![The realtime effects panel, with a stack of effects on one track](../../../assets/img/manual/handout/realtime-effects-panel.png)
+The panel opens on the left, with a section for each track. Click
+**Add effect** to pick from the list, and effects run in the order they are
+stacked, top to bottom.
 
-Click **Add effect** to pick from the list, and effects run in the order they
-are stacked, top to bottom. Notice that the waveform does not change: nothing
-has been written into your audio, and the effect keeps working after you close
-its window.
+<UIShot
+  name="app/SceneEffectsPanel"
+  alt="The realtime effects panel open, with Compressor and Reverb stacked on the track"
+/>
+
+When you add an effect it joins the stack and its own window opens, ready to
+adjust.
+
+<UIShot
+  name="app/SceneEffectsPanel"
+  state="compressor"
+  alt="The Compressor's window open over the project, its settings ready to adjust, with the effect in the panel's stack"
+/>
+
+Notice that the waveform does not change: nothing has been written into your
+audio, and the effect keeps working after you close its window.
 
 - **Change its settings** by clicking the effect's name. Effect windows often
   have their own look, nothing like Audacity — that is normal, and the main
