@@ -1,0 +1,58 @@
+---
+title: "The clip"
+section: "Clips"
+sectionOrder: 45
+order: 1
+description: "A clip's parts: the header, the menu, the waveform, and the handles."
+draft: false
+---
+
+import UIShot from "../../../components/manual/UIShot.astro";
+
+A clip is a block of audio on a track. It has a **header** along the top
+carrying its name, and a body showing the audio as a waveform: the taller
+the shape, the louder that moment.
+
+<UIShot
+  name="app/SceneClipUnselected"
+  alt="A clip at rest on its track: the name in the header, the waveform in the body"
+/>
+
+## The clip menu
+
+The **⋯** button at the right of the header opens the clip menu, which is
+also available by right-clicking the clip. It holds the clip's own
+commands:
+
+- **Rename clip** and **Clip color**, which can follow the track's colour
+  or be set to one of its own.
+- The clipboard and editing commands: Cut, Copy, Duplicate, Delete, and
+  their variants.
+- **Split**, and **Split at silences**, which cuts the clip wherever it
+  finds silence.
+- **Stretch with tempo changes**, and the **pitch and speed dialog** with
+  its reset and render commands.
+
+<UIShot
+  name="app/SceneClipMenu"
+  alt="The clip menu open from the header's ⋯ button"
+/>
+
+## Handles
+
+Selecting a clip reveals two pairs of handles at its edges. The top pair
+**trim**; the lower pair, marked with a clock, change the clip's **speed**.
+Both are covered in [Trim and stretch](/manual/clips/trim-and-stretch).
+
+## Clips are non-destructive
+
+Trimming hides audio rather than deleting it: the trimmed part is kept past
+the clip's edge, and dragging the edge back out restores it. A clip whose
+speed has been changed shows a badge in its top corner with the current
+percentage.
+
+## Display
+
+A clip's body follows the track's view: a waveform normally, or a
+spectrogram when the track is in
+[spectral view](/manual/toolbar/tools#toggle-spectral-view).

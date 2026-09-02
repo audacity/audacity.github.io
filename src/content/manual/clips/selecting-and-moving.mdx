@@ -1,0 +1,59 @@
+---
+title: "Selecting and moving"
+section: "Clips"
+sectionOrder: 45
+order: 2
+description: Picking clips and time ranges, and dragging clips between tracks.
+draft: false
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
+
+## Selecting clips
+
+Click a clip's **header** to select it, or double-click in its body. A
+selected clip shows its handles.
+
+<UIShot
+  name="app/SceneClipSelected"
+  alt="A selected clip, showing the trim handles at its top corners and the clock speed handles below them"
+/>
+
+With a clip selected, holding **Shift** and clicking another clip on the
+same track selects both, along with every clip between them. Holding
+<Shortcut client:load keys="cmd" /> and clicking picks clips one at a time
+instead, on any track. Whatever comes next applies to everything selected.
+
+## Time range selections
+
+A **time range selection** selects audio data directly, without regard to
+clip boundaries: click in the waveform and drag left or right. The selected
+stretch is highlighted across the track, and dragging downwards as well
+selects the same stretch on every track passed over.
+
+<UIShot
+  name="app/SceneClipSelection"
+  alt="A stretch of a clip selected by dragging, highlighted across the track"
+/>
+
+- Holding **Shift** and clicking extends the current selection to the point
+  clicked.
+- Double-clicking an empty part of a track selects all of that track's
+  audio.
+- **Select → Select all**, <Shortcut client:load keys="cmd+a" />, selects
+  everything in the project.
+
+## Moving clips
+
+Dragging a clip **by its header** moves it: along its track, onto another
+track, or into the empty space below the tracks, which creates a new track
+to hold it. Dragging inside the body does not move the clip; it makes a
+time range selection.
+
+Dropping a clip on top of another is allowed: the clip underneath is
+overwritten where they overlap.
+[Undo](/manual/menu-bar/edit#undo) restores it.
+
+With [snapping](/manual/toolbar/snapping) on, moved clips land on the
+chosen grid.

@@ -1,0 +1,44 @@
+---
+title: "Split"
+section: "Clips"
+sectionOrder: 45
+order: 4
+description: Cutting one clip into two, with the split tool or the keyboard.
+draft: false
+---
+
+import Shortcut from "../../../components/manual/Shortcut.jsx";
+import UIShot from "../../../components/manual/UIShot.astro";
+
+**Split** cuts a clip in two at a chosen point. Each half becomes a clip of
+its own, so one can be deleted, moved or trimmed without touching the
+other.
+
+## The split tool
+
+The split tool lives in the [Tools toolbar](/manual/toolbar/tools#split-tool),
+behind the scissors button, and toggles with
+<Shortcut client:load keys="s" />. While it is on, a guideline follows the
+pointer across the clip, showing where the cut will land.
+
+<UIShot
+  name="app/SceneClipSplit"
+  state="tool"
+  alt="The split tool switched on, with its guideline running through the clip at the pointer"
+/>
+
+Clicking applies the split. The portion left of the cut is selected, ready
+to delete. Pressing <Shortcut client:load keys="s" /> again switches the
+tool back off.
+
+<UIShot
+  name="app/SceneClipSplit"
+  alt="The clip split in two at the guideline, with the left portion selected"
+/>
+
+## Splitting from the keyboard
+
+<Shortcut client:load keys="cmd+i" /> makes the same cut without the tool:
+at the edit cursor it splits once, and with a time range selection it cuts
+at both edges of the selection, leaving the selected stretch as a clip of
+its own.
