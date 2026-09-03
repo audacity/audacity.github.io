@@ -27,6 +27,18 @@ export interface ChangelogChange {
   refs: number[];
 }
 
+/*
+  A titled block within a release. Only the major releases need these — patch
+  notes are one flat list, and stay in `changes`. A section without a title
+  continues the previous one after a prose paragraph (its `intro`).
+*/
+export interface ChangelogSection {
+  title?: string;
+  intro?: string[];
+  changes: ChangelogChange[];
+  outro?: string[];
+}
+
 export interface ChangelogEntry {
   version: string;
   date: string;
@@ -34,11 +46,216 @@ export interface ChangelogEntry {
   /* Prose before the list — usually what kind of release this is. */
   intro: string[];
   changes: ChangelogChange[];
+  /* Titled blocks after `changes`, for releases too big for one list. */
+  sections?: ChangelogSection[];
   /* Prose after the list. Rare: corrections, caveats. */
   outro: string[];
 }
 
 export const changelog: ChangelogEntry[] = [
+  {
+    version: "4.0.0",
+    date: "2026-09-03",
+    releaseUrl:
+      "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0",
+    intro: [
+      "Audacity 4 rebuilds the application interface on Qt and introduces a new clip-editing model. Most Audacity 3 workflows remain available, but some controls have moved or changed.",
+    ],
+    changes: [],
+    sections: [
+      {
+        title: "Editing clips",
+        changes: [
+          {
+            text: "Clips can be selected directly. Click a clip header to select it, or Shift-click to select multiple clips",
+            refs: [],
+          },
+          {
+            text: "Several clips can be edited together. Moving, trimming and time stretching apply to all selected clips",
+            refs: [],
+          },
+          {
+            text: "Clips can be grouped. Groups remain together when moved, copied, pasted or duplicated",
+            refs: [],
+          },
+          {
+            text: "Clips can be placed more freely. They can move between mono and stereo tracks. Moving a clip over another replaces the overlapped part instead of blocking the move",
+            refs: [],
+          },
+          {
+            text: "Splitting has a dedicated tool. Press or hold S, then click the waveform or clip header. Split, split-cut, split-delete, split at silences and split to a new track are also available as commands",
+            refs: [],
+          },
+          {
+            text: "Paste handles more cases automatically. Audacity can create a track when needed, adapt compatible channel layouts and paste audio files from the operating-system clipboard",
+            refs: [],
+          },
+          {
+            text: "Alignment guides, sample-boundary snapping and per-project snap settings have been added or expanded",
+            refs: [],
+          },
+        ],
+      },
+      {
+        title: "Interface and tools",
+        changes: [
+          {
+            text: "The interface has been rebuilt on Qt, with native high-DPI rendering",
+            refs: [],
+          },
+          {
+            text: "Toolbars and panels can be moved, docked, floated, shown or hidden",
+            refs: [],
+          },
+          {
+            text: "UI layouts can be saved as Workspaces. Audacity includes Modern, Classic and Music workspaces",
+            refs: [],
+          },
+          {
+            text: "Light, dark and high-contrast themes are available, along with accent colors, track colors and several clip styles",
+            refs: [],
+          },
+          {
+            text: "The new Home screen shows recent projects with preview thumbnails",
+            refs: [],
+          },
+        ],
+      },
+      {
+        intro: [
+          "The separate Select, Envelope, Draw and Multi-tool modes have been removed. Their functions are now context-sensitive:",
+        ],
+        changes: [
+          {
+            text: "Volume envelopes are displayed using the Automation layer",
+            refs: [],
+          },
+          {
+            text: "Sample drawing becomes available when the waveform is zoomed to individual samples",
+            refs: [],
+          },
+          {
+            text: "Splitting is available by holding S",
+            refs: [],
+          },
+          {
+            text: "Track and effect parameters use consistent rotary controls with fine adjustment and double-click reset",
+            refs: [],
+          },
+          {
+            text: "Sync-Lock has been removed. Delete, cut and paste now have explicit variants for either leaving a gap or moving later material to preserve timing",
+            refs: [],
+          },
+          {
+            text: "Clips can be grouped to stay together",
+            refs: [],
+          },
+        ],
+      },
+      {
+        title: "Playback and recording",
+        changes: [
+          {
+            text: "The playhead remains visible during navigation and can be dragged to a new position",
+            refs: [],
+          },
+          {
+            text: "Playback can seek to another position without stopping",
+            refs: [],
+          },
+          {
+            text: "Recording can start anywhere on the timeline and creates a clip at that position",
+            refs: [],
+          },
+          {
+            text: "Loop boundaries and the interaction between playback, selections and loops have been revised",
+            refs: [],
+          },
+          {
+            text: "Punch and Roll, lead-in recording, latency compensation, software playthrough and per-track input monitoring have been rebuilt for the new interface",
+            refs: [],
+          },
+          {
+            text: "Audio Setup now includes system-default devices, refreshable device lists and custom channel mapping. Audacity can follow operating-system device changes automatically",
+            refs: [],
+          },
+          {
+            text: "Official Windows builds include ASIO playback and recording support",
+            refs: [],
+          },
+        ],
+      },
+      {
+        title: "Tracks, meters and effects",
+        changes: [
+          {
+            text: "Track headers now contain live playback and recording meters",
+            refs: [],
+          },
+          {
+            text: "Track and master realtime effect stacks can be reordered and bypassed",
+            refs: [],
+          },
+          {
+            text: "Preset handling is consistent across built-in, destructive and realtime effects",
+            refs: [],
+          },
+          {
+            text: "Built-in effects, generators and analyzers have been rebuilt for the Qt interface",
+            refs: [],
+          },
+          {
+            text: "Supported plugin formats are VST3, Nyquist, LV2 on Linux and Audio Units on macOS. Audacity can display generated controls when a plugin's own interface is unavailable",
+            refs: [],
+          },
+          {
+            text: "Spectrogram has been redesigned with clearer guides and rulers, and faster rendering",
+            refs: [],
+          },
+        ],
+      },
+      {
+        title: "Projects, import and export",
+        changes: [
+          {
+            text: "Audacity 4 uses the new .aup4 project format",
+            refs: [],
+          },
+          {
+            text: ".aup3 projects open and convert to .aup4 without changing the original file. Converted projects cannot be saved back to .aup3",
+            refs: [],
+          },
+          {
+            text: "Older .aup projects can be imported",
+            refs: [],
+          },
+          {
+            text: "Project files store preview thumbnails and Audacity 4's additional clip and appearance data",
+            refs: [],
+          },
+        ],
+      },
+      {
+        title: "Compatibility notes",
+        intro: [
+          "The following Audacity 3 features are not available in Audacity 4.0, but we're working on adding them in future releases.",
+        ],
+        changes: [
+          { text: "Time Tracks", refs: [] },
+          { text: "Note/MIDI tracks", refs: [] },
+          { text: "Mixer", refs: [] },
+          { text: "Macro Manager and the scripting pipe", refs: [] },
+          { text: "VAMP and LADSPA plugin hosting", refs: [] },
+          { text: "Play-at-speed", refs: [] },
+        ],
+        outro: [
+          "Sync-Lock and the old tool modes were replaced by the workflows described above.",
+          "Additionally, Audacity 4 ships with some missing exporting and rendering features, analyzers, and effects.",
+        ],
+      },
+    ],
+    outro: [],
+  },
   {
     version: "3.7.9",
     date: "2026-09-01",

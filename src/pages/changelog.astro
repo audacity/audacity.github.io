@@ -122,6 +122,39 @@ const fmt = (iso: string) =>
                       </ul>
                     )}
 
+                    {(entry.sections ?? []).map((section) => (
+                      <section class="flex max-w-3xl flex-col gap-3">
+                        {section.title && (
+                          <h3 class="pt-2 text-16 font-semibold text-text-primary">
+                            {section.title}
+                          </h3>
+                        )}
+                        {(section.intro ?? []).map((p) => (
+                          <p>{p}</p>
+                        ))}
+                        <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
+                          {section.changes.map((c) => (
+                            <li>
+                              {c.text}
+                              {c.refs.map((n) => (
+                                <a
+                                  href={`https://github.com/audacity/audacity/issues/${n}`}
+                                  target="_blank"
+                                  rel="noopener"
+                                  class="ml-1.5 whitespace-nowrap text-14 tabular-nums text-text-primary/45 underline decoration-text-primary/20 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent"
+                                >
+                                  #{n}
+                                </a>
+                              ))}
+                            </li>
+                          ))}
+                        </ul>
+                        {(section.outro ?? []).map((p) => (
+                          <p>{p}</p>
+                        ))}
+                      </section>
+                    ))}
+
                     {entry.outro.map((p) => (
                       <p class="max-w-3xl">{p}</p>
                     ))}
