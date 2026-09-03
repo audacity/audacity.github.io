@@ -2,48 +2,35 @@
 title: "Project"
 section: "Home screen"
 sectionOrder: 50
-order: 5
-description: The Project tab — the editing view, where the tracks and the toolbars live.
+order: 2
+description: The projects browser — finding, opening and starting projects.
 draft: false
 ---
 
 import UIShot from "../../../components/manual/UIShot.astro";
 
-<UIShot name="app/MainWindow" alt="The Project view: toolbars above the track area, with the project's tracks and clips" />
+**Project** is the projects browser, and the item the Home screen opens on:
+every project you can open, in one list.
 
-**Project** is the editing view: the tracks, the toolbars and everything you
-use to work on audio. Switching to it from Home puts the project you have
-open back in front of you.
+<UIShot
+  name="app/SceneHomeProjects"
+  alt="The projects browser: the search field, the tabs, and the New & recent grid"
+/>
 
-## Where to find it
+## What is on the screen
 
-The **Project** tab, next to **Home** at the top left of the window. It stays
-greyed out until a project is open, and its label is shown in bold while one
-is.
+- A **search** field that filters the list as you type.
+- Tabs for [New & recent](/manual/home-screen/project/new-and-recent)
+  and, when cloud support is enabled,
+  [Cloud projects and Cloud audio files](/manual/home-screen/project/cloud-projects-and-audio-files).
+- A **Grid view** / **List view** pair of buttons, and, on the cloud tabs,
+  a **Refresh** button.
+- **New** and **Open other…** buttons along the bottom.
 
-## What the view holds
-
-- The bar across the top: the Home and Project tabs, the
-  [Project toolbar](/manual/project-toolbar), the workspace selector and
-  Undo/Redo.
-- The [Tools toolbar](/manual/toolbar), with the playback,
-  recording and editing controls.
-- The [Timeline](/manual/timeline) and the track area.
-- The [Track Control Panel](/manual/track-control-panel) at the
-  left of each track.
-- A status bar along the bottom showing the current selection.
-
-Two more panels are hidden until you ask for them: **History**, from
-[Show history](/manual/menu-bar/view#show-history), and the
-playback meter panel, which the
-[Modern](/manual/workspaces/modern) workspace uses in place of
-the meters in the toolbar.
-
-Which of these appear, and which buttons the Transport Toolbar carries,
-depends on the [workspace](/manual/workspaces) you are using.
+The tab and the view type you last used are remembered.
 
 ## Related
 
-- [Home](/manual/home-screen/home)
-- [Workspaces](/manual/workspaces)
-- [Restore the Default Layout](/manual/menu-bar/view#restore-the-default-layout)
+- [New](/manual/menu-bar/file#new)
+- [Open](/manual/menu-bar/file#open)
+- [Open Recent](/manual/menu-bar/file#open-recent)

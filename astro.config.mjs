@@ -40,6 +40,12 @@ export default defineConfig({
     "/manual/toolbar/metering": "/manual/toolbar/microphone-level",
     // The clip's anatomy folded into the section landing on 3 Sep 2026.
     "/manual/clips/the-clip": "/manual/clips",
+    // Home screen restructured around the app's own sidebar on 3 Sep 2026.
+    "/manual/home-screen/home": "/manual/home-screen",
+    "/manual/home-screen/home/new-and-recent":
+      "/manual/home-screen/project/new-and-recent",
+    "/manual/home-screen/home/cloud-projects-and-audio-files":
+      "/manual/home-screen/project/cloud-projects-and-audio-files",
   },
   i18n: {
     defaultLocale: "en",

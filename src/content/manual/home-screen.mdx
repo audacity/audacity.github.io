@@ -4,25 +4,25 @@ section: "Home screen"
 sectionOrder: 50
 order: 0
 sectionIndex: true
-description: The window's two areas, and the tabs that switch between them.
+description: The screen Audacity shows when no project is open, and the tab that returns to it.
 ---
 
 import UIShot from "../../components/manual/UIShot.astro";
 
-The Audacity window is one of two areas at a time, switched by the tabs at
-the top left:
-
-- **[Home](/manual/home-screen/home)**: the project browser shown when no
-  project is open. It holds [New & recent](/manual/home-screen/home/new-and-recent)
-  and, in cloud-enabled builds,
-  [Cloud projects and audio files](/manual/home-screen/home/cloud-projects-and-audio-files).
-- **[Project](/manual/home-screen/project)**: the editing view, with the
-  tracks, toolbars and everything that works on audio.
+Home is the screen Audacity shows when no project is open, and the one the
+**Home** tab at the top left returns you to at any time. It is a project
+browser: nothing on it edits audio. The **Project** tab beside it switches
+back to the editing view, and stays greyed out until a project is open.
 
 <UIShot
   name="app/SceneHomeProjects"
-  alt="The Home area, with the Home and Project tabs at the top left of the window"
+  alt="The Home screen: the sidebar menu on the left, the project tabs and the New & recent grid"
 />
 
-Opening a project from Home switches to Project; the **Home** tab returns
-at any time without closing the project.
+Down the left is a narrow menu, which collapses to icons when the window is
+narrow:
+
+- **[Cloud account](/manual/home-screen/cloud-account)**: your audio.com
+  account. Only shown when cloud support is enabled.
+- **[Project](/manual/home-screen/project)**: the projects browser, which
+  is what Home opens on.
