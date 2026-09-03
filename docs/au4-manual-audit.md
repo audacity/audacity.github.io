@@ -3,15 +3,15 @@
 
 # Audacity 4 manual coverage audit
 
-Audacity source: `2f42f1c968` · manual pages: 204 (186 published, 0 stubs) · extraction warnings: 0
+Audacity source: `2f42f1c968` · manual pages: 204 (165 published, 0 stubs) · extraction warnings: 0
 
 | Category | Total | Written | Stub | Missing | Won't document |
 | --- | --- | --- | --- | --- | --- |
 | Menu items | 120 | 117 | 0 | 0 | 3 |
 | Effects | 54 | 54 | 0 | 0 | 0 |
 | Preference pages | 11 | 11 | 0 | 0 | 0 |
-| Target-state topics (AU3 manual) | 46 | 41 | 0 | 2 | 3 |
-| Shortcuts (inline mentions) | 175 | 108 | — | 67 | — |
+| Target-state topics (AU3 manual) | 46 | 39 | 0 | 4 | 3 |
+| Shortcuts (inline mentions) | 175 | 107 | — | 68 | — |
 
 ## Menu items
 
@@ -304,6 +304,7 @@ prose, both directions.
 - `Ctrl+Shift+U` — unmute-all-tracks
 - `Ctrl+Alt+Shift+U` — unmute-tracks
 - `Ctrl+2` — zoom-normal
+- `Ctrl+E` — zoom-sel
 
 **Keyboard navigation**
 
@@ -371,7 +372,7 @@ not yet known whether AU4 has the feature at all.
 | Glossary | reference | applies | ✅ written | [glossary](../src/content/manual/glossary.mdx) |
 | Importing audio | getting-started | applies | ✅ written | [menu-bar/import](../src/content/manual/menu-bar/import.mdx) |
 | Exporting audio | getting-started | applies | ✅ written (heading) | [menu-bar/file](../src/content/manual/menu-bar/file.mdx) |
-| Recording | getting-started | applies | ✅ written | [menu-bar/record](../src/content/manual/menu-bar/record.mdx) |
+| Recording | getting-started | applies | ✅ written (heading) | [getting-started/make-your-first-recording](../src/content/manual/getting-started/make-your-first-recording.mdx) |
 | Playing audio | getting-started | applies | ✅ written (heading) | [toolbar/transport](../src/content/manual/toolbar/transport.mdx) |
 | Basic audio editing | getting-started | applies | ✅ written | [getting-started/basic-audio-editing](../src/content/manual/getting-started/basic-audio-editing.mdx) |
 | Selecting audio | getting-started | applies | ✅ written | [toolbar/selection](../src/content/manual/toolbar/selection.mdx) |
@@ -379,14 +380,14 @@ not yet known whether AU4 has the feature at all.
 | Customising the layout (workspaces) | reference | changed | ✅ written | [workspaces](../src/content/manual/workspaces.mdx) |
 | Themes and appearance | reference | changed | ✅ written | [preferences/appearance](../src/content/manual/preferences/appearance.mdx) |
 | FAQ | how-to | applies | ✅ written (outside collection) | `/FAQ` (site page, indexed in help search) |
-| Punch-in repair of recording fluffs | how-to | applies | ✅ written | [punch-and-roll-recording](../src/content/manual/punch-and-roll-recording.mdx) |
+| Punch-in repair of recording fluffs | how-to | applies | ❌ missing | — |
 | Mixing voice with background music | how-to | applies | ✅ written | [how-to/mixing-voice-with-music](../src/content/manual/how-to/mixing-voice-with-music.mdx) |
 | Using multi-track | how-to | applies | ✅ written | [how-to/using-multi-track](../src/content/manual/how-to/using-multi-track.mdx) |
 | Recording multi-track overdubs | how-to | applies | ✅ written | [how-to/recording-overdubs](../src/content/manual/how-to/recording-overdubs.mdx) |
 | Making ringtones and IVR messages | how-to | applies | ✅ written | [how-to/making-ringtones](../src/content/manual/how-to/making-ringtones.mdx) |
 | Copying tapes and LPs to computer | how-to | applies | ✅ written | [how-to/digitising-tapes-and-lps](../src/content/manual/how-to/digitising-tapes-and-lps.mdx) |
 | Splitting a recording into separate tracks | how-to | applies | ✅ written | [how-to/splitting-a-recording](../src/content/manual/how-to/splitting-a-recording.mdx) |
-| Recording streaming audio playing on the computer | how-to | applies | ✅ written | [basics/recording-desktop-audio](../src/content/manual/basics/recording-desktop-audio.mdx) |
+| Recording streaming audio playing on the computer | how-to | applies | ❌ missing | — |
 | Click and pop removal | how-to | applies | ✅ written | [how-to/click-and-pop-removal](../src/content/manual/how-to/click-and-pop-removal.mdx) |
 | Noise reduction and removal | how-to | applies | ✅ written | [how-to/noise-reduction](../src/content/manual/how-to/noise-reduction.mdx) |
 | Vocal removal and isolation | how-to | applies | ✅ written | [how-to/vocal-removal](../src/content/manual/how-to/vocal-removal.mdx) |
@@ -584,7 +585,9 @@ sidebars and belongs in its own reviewed change.
 | `workspaces/modern` | reference |
 | `workspaces/music` | reference |
 
-## Next pages to write (1 candidates)
+## Next pages to write (3 candidates)
 
 1. topic **Index of effects, generators and analyzers** (reference, target-state checklist)
+2. topic **Punch-in repair of recording fluffs** (how-to, target-state checklist)
+3. topic **Recording streaming audio playing on the computer** (how-to, target-state checklist)
 

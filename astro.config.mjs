@@ -38,6 +38,8 @@ export default defineConfig({
     "/manual": "/manual/getting-started",
     // Metering split into two pages on 2 Sep 2026.
     "/manual/toolbar/metering": "/manual/toolbar/microphone-level",
+    // The clip's anatomy folded into the section landing on 3 Sep 2026.
+    "/manual/clips/the-clip": "/manual/clips",
   },
   i18n: {
     defaultLocale: "en",
