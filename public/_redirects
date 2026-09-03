@@ -50,8 +50,10 @@
 /beta	/download	302
 
 # /next was the Audacity 4 pre-release page; for launch it lands on the
-# Audacity 4 promo. Note /nightly chains through here.
-/next	/audacity-4	302
+# Audacity 4 promo. Note /nightly chains through here. Forced (!) because
+# next.astro still builds a real page at this path, and Netlify lets an
+# existing file shadow an unforced redirect.
+/next	/audacity-4	302!
 
 # /au4 was the pre-release shortlink, then a page of its own; the Audacity 4
 # promo now lives at /audacity-4, so it lands there. 302 while the launch-day
