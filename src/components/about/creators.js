@@ -21,20 +21,26 @@ const CREATORS = [
     id: "music",
     image: music,
     label: "Recording and editing music",
-    source: true,
     /*
-      Portrait 2046x3074 shown as a 24/9 letterbox band, so object-cover keeps
-      only about a quarter of the height. Centred, that band lands on the window
-      and treetops; the desk, monitor and player sit in the lower half. Pulling
-      the focal point down to 67% frames the screen and the person instead.
+      Portrait 2046x3074 in a supporting tile. Centred, the crop favours
+      the window and treetops; 67% pulls the focal point down to the
+      desk, monitor and person.
     */
     position: "50% 67%",
   },
   { id: "podcast", image: podcast, label: "Podcasts and spoken-word" },
+  /*
+    Band choice is a trade: restoring is portrait 2046 wide, so the 24/9
+    band upscales ~1.2x on retina, but its centre crop (headphones in
+    profile, spectrogram filling the monitor) tells the story better
+    than the sharper alternatives — video's screen composite looks
+    pasted on, and the colourful spectrogram masks the softness.
+  */
   {
     id: "restoring",
     image: restoring,
     label: "Cleaning up and restoring audio",
+    source: true,
   },
   { id: "video", image: video, label: "Editing audio for video" },
 ];
@@ -45,7 +51,14 @@ const CREATORS = [
   three supporting tiles each occupy a third of it. The other variants (dev
   page only) render smaller than this, so these sizes cover them too.
 */
-const WIDTH = { source: 2000, supporting: 900 };
+/*
+  The source band spans the viewport below xl and a contained
+  max-w-screen-xl card above it. The restoring photo is 2046 wide
+  natively, so serve every pixel at a higher quality — encoding
+  artifacts would compound the retina upscale.
+*/
+const WIDTH = { source: 2046, supporting: 900 };
+const QUALITY = { source: 80, supporting: 70 };
 
 export async function optimiseCreators() {
   return Promise.all(
@@ -59,7 +72,7 @@ export async function optimiseCreators() {
           src: image,
           format: "webp",
           width: source ? WIDTH.source : WIDTH.supporting,
-          quality: 70,
+          quality: source ? QUALITY.source : QUALITY.supporting,
         })
       ).src,
     })),

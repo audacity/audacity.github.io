@@ -85,22 +85,28 @@ function CreatorWorkflows({ variant = "hero", creators = [] }) {
       </Contained>
 
       {variant === "fullbleed" && (
-        <div className="mt-8 lg:mt-12 flex flex-col">
-          {/* cinematic anchor, edge to edge — letterboxed: a wide ratio plus a
-              viewport-height cap so it stays a short cinematic band instead of
-              a full-width image growing to ~800px tall on wide screens. */}
-          <Tile
-            creator={source}
-            idx={0}
-            ratio="24 / 9"
-            bleed
-            className="w-full max-h-[42vh]"
-          />
-          {/* seamless supporting band */}
-          <div className="grid grid-cols-1 sm:grid-cols-3">
-            {supporting.map((c, i) => (
-              <Tile key={c.id} creator={c} idx={i + 1} ratio="16 / 9" bleed />
-            ))}
+        <div className="mt-8 lg:mt-12 xl:max-w-[1600px] xl:mx-auto xl:w-full xl:px-10">
+          {/* Edge-to-edge below xl; on large screens the block is contained
+              and rounded instead of bleeding across the whole viewport —
+              max-w-[1600px] to match the page's other visual blocks
+              (Workspaces, UnderTheHood, the CoreEditing carousel). */}
+          <div className="flex flex-col xl:rounded-2xl xl:overflow-hidden xl:border xl:border-white/10">
+            {/* cinematic anchor — letterboxed: a wide ratio plus a
+                viewport-height cap so it stays a short cinematic band instead
+                of a full-width image growing to ~800px tall on wide screens. */}
+            <Tile
+              creator={source}
+              idx={0}
+              ratio="24 / 9"
+              bleed
+              className="w-full max-h-[42vh]"
+            />
+            {/* seamless supporting band */}
+            <div className="grid grid-cols-1 sm:grid-cols-3">
+              {supporting.map((c, i) => (
+                <Tile key={c.id} creator={c} idx={i + 1} ratio="16 / 9" bleed />
+              ))}
+            </div>
           </div>
         </div>
       )}
