@@ -1,6 +1,8 @@
 @font-face {
   font-family: "Muse Sans";
-  src: url("/fonts/MuseSans-Regular.ttf") format("truetype");
+  src:
+    url("/fonts/MuseSans-Regular.woff2") format("woff2"),
+    url("/fonts/MuseSans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,7 +10,9 @@
 
 @font-face {
   font-family: "Muse Sans";
-  src: url("/fonts/MuseSans-Medium.ttf") format("truetype");
+  src:
+    url("/fonts/MuseSans-Medium.woff2") format("woff2"),
+    url("/fonts/MuseSans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -16,7 +20,9 @@
 
 @font-face {
   font-family: "Muse Sans";
-  src: url("/fonts/MuseSans-Semibold.ttf") format("truetype");
+  src:
+    url("/fonts/MuseSans-Semibold.woff2") format("woff2"),
+    url("/fonts/MuseSans-Semibold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -24,7 +30,9 @@
 
 @font-face {
   font-family: "Muse Sans";
-  src: url("/fonts/MuseSans-Bold.ttf") format("truetype");
+  src:
+    url("/fonts/MuseSans-Bold.woff2") format("woff2"),
+    url("/fonts/MuseSans-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -32,7 +40,9 @@
 
 @font-face {
   font-family: "Muse Display Symphony";
-  src: url("/fonts/MuseDisplay-Symphony.ttf") format("truetype");
+  src:
+    url("/fonts/MuseDisplay-Symphony.woff2") format("woff2"),
+    url("/fonts/MuseDisplay-Symphony.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -40,7 +50,9 @@
 
 @font-face {
   font-family: "Muse Display Harmony";
-  src: url("/fonts/MuseDisplay-Harmony.ttf") format("truetype");
+  src:
+    url("/fonts/MuseDisplay-Harmony.woff2") format("woff2"),
+    url("/fonts/MuseDisplay-Harmony.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

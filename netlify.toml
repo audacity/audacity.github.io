@@ -11,3 +11,35 @@
 [[edge_functions]]
   function = "cohort"
   path = "/*"
+
+# Netlify's default for static files is max-age=0,must-revalidate — every
+# page view re-validates every font, bundle and video, which showed up as
+# a doubled p90 after launch (fonts alone were ~300 KB per navigation).
+#
+# /_astro/ files carry a content hash in the name, so a stale cache is
+# impossible: new content means a new URL. Immutable is exactly right.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The brand fonts are stable-by-name. If a face is ever reissued, rename
+# the file (or move fonts through the asset pipeline) — do not edit in
+# place, or visitors keep the old face for up to a year.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Team-call videos and effect stills change rarely but ARE edited in
+# place (the effect webps were re-cut on launch day), so a bounded
+# max-age rather than immutable.
+[[headers]]
+  for = "/videos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/effects/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

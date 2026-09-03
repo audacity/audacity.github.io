@@ -131,6 +131,7 @@ function TeamCall() {
                       variant="grid"
                       fill
                       active={i === activeIndex}
+                      videoEnabled={inView}
                       onSelect={() => selectSpeaker(i)}
                     />
                   ))}
@@ -138,7 +139,12 @@ function TeamCall() {
               ) : (
                 <div className="flex flex-col sm:flex-row items-stretch gap-2.5 lg:h-[440px]">
                   <div className="w-full sm:w-[58%] aspect-[4/3] lg:aspect-auto">
-                    <CallTile member={active} variant="speaker" active />
+                    <CallTile
+                      member={active}
+                      variant="speaker"
+                      active
+                      videoEnabled={inView}
+                    />
                   </div>
                   <div className="grid w-full sm:w-[42%] grid-cols-2 grid-rows-5 gap-2">
                     {others.map((m) => {
