@@ -73,6 +73,23 @@ const panelImages = await optimisePanelImages();
       </div>
     </div>
   </div>
+
+  {
+    /*
+      Floating download CTA. The page's only download button lives in the
+      closing CTA section, several viewports down; this pill keeps the
+      action reachable once the visitor has started scrolling, then flies
+      into the real button's position (FLIP) as it scrolls into view.
+      Hidden until the script decides otherwise.
+    */
+  }
+  <a
+    id="au4-floating-cta"
+    href="/download"
+    class="au4-floating-cta inline-flex items-center justify-center rounded-full bg-accent text-text-contrast px-7 py-3.5 font-muse-sans text-base font-semibold shadow-lg shadow-black/40 hover:opacity-90"
+  >
+    Download Audacity 4
+  </a>
 </BaseLayout>
 
 <style is:global>
@@ -282,12 +299,221 @@ const panelImages = await optimisePanelImages();
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 1.5rem;
   }
+
+  /*
+    Floating download CTA. Position and show/hide live here; the FLIP
+    flight into the real CTA button is driven by inline transforms from
+    the page script. transform-origin top-left matches how the script
+    computes its deltas. The transform transition is suspended (see
+    .is-teleporting) while the script repositions the pill instantly.
+  */
+  .au4-floating-cta {
+    position: fixed;
+    z-index: 40;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top left;
+    transition:
+      opacity 0.25s ease,
+      visibility 0s linear 0.25s,
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .au4-floating-cta.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.25s ease,
+      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .au4-floating-cta.is-teleporting {
+    transition: opacity 0.25s ease;
+  }
+  @media (max-width: 767px) {
+    .au4-floating-cta {
+      left: 0;
+      right: 0;
+      margin-inline: auto;
+      width: fit-content;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .au4-floating-cta,
+    .au4-floating-cta.is-visible {
+      transition:
+        opacity 0.25s ease,
+        visibility 0s linear 0.25s;
+    }
+    .au4-floating-cta.is-visible {
+      transition: opacity 0.25s ease;
+    }
+  }
 </style>
 
 <script>
+  import { trackEvent } from "../utils/matomo";
+
+  function initFloatingCta() {
+    const pill = document.getElementById("au4-floating-cta");
+    const target = document.querySelector<HTMLElement>(
+      "[data-au4-download-cta]",
+    );
+    if (!pill || !target) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    pill.addEventListener("click", () => {
+      trackEvent("Promo CTA", "AU4 floating download CTA", "audacity-4");
+    });
+
+    /*
+      States: hidden (near the top of the page), floating (corner pill),
+      docked (flown into the real button and faded out). The morphs are
+      FLIP: measure the pill's untransformed rect and the button's rect,
+      then transition an inline transform between them. Timers are kept
+      so a fast scroll reversal cancels a half-finished morph cleanly.
+    */
+    let engaged = false;
+    let nearCta = false;
+    let state = "hidden";
+    let timers: ReturnType<typeof setTimeout>[] = [];
+
+    const clearTimers = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+    };
+
+    /* Instantly reset any inline flight transform without animating. */
+    const teleportHome = () => {
+      pill.classList.add("is-teleporting");
+      pill.style.transform = "";
+      void pill.offsetWidth;
+      pill.classList.remove("is-teleporting");
+    };
+
+    const flightTransform = () => {
+      const p = pill.getBoundingClientRect();
+      const t = target.getBoundingClientRect();
+      return `translate(${t.left - p.left}px, ${t.top - p.top}px) scale(${
+        t.width / p.width
+      }, ${t.height / p.height})`;
+    };
+
+    const dock = () => {
+      if (reduceMotion) {
+        pill.classList.remove("is-visible");
+        return;
+      }
+      /* Fly from the corner into the real button, then fade out on top
+         of it and reset while invisible. */
+      pill.style.transform = flightTransform();
+      timers.push(
+        setTimeout(() => {
+          pill.classList.remove("is-visible");
+          timers.push(setTimeout(teleportHome, 300));
+        }, 350),
+      );
+    };
+
+    const undock = () => {
+      if (reduceMotion) {
+        pill.classList.toggle("is-visible", engaged);
+        return;
+      }
+      /* After a fast scroll jump the button can be several viewports
+         away; a flight from there is a violent streak across the
+         screen. Just fade in at the corner instead. */
+      if (
+        Math.abs(target.getBoundingClientRect().top) >
+        window.innerHeight * 1.5
+      ) {
+        teleportHome();
+        pill.classList.add("is-visible");
+        return;
+      }
+      /* Appear on top of the real button and fly back to the corner. */
+      teleportHome();
+      pill.classList.add("is-teleporting");
+      pill.style.transform = flightTransform();
+      void pill.offsetWidth;
+      pill.classList.remove("is-teleporting");
+      pill.classList.add("is-visible");
+      pill.style.transform = "";
+    };
+
+    const update = () => {
+      const next = nearCta ? "docked" : engaged ? "floating" : "hidden";
+      if (next === state) return;
+      clearTimers();
+
+      if (next === "docked" && state === "floating") {
+        dock();
+      } else if (next === "floating" && state === "docked") {
+        undock();
+      } else if (next === "floating") {
+        teleportHome();
+        pill.classList.add("is-visible");
+      } else {
+        /* hidden, or a jump the morphs don't cover (e.g. deep link) */
+        pill.classList.remove("is-visible");
+        if (next === "hidden") timers.push(setTimeout(teleportHome, 300));
+      }
+      state = next;
+    };
+
+    /*
+      The cookie consent banner (#consent-popup) pins itself to the
+      viewport bottom above everything else until dismissed, exactly
+      where the pill sits. While it is visible, raise the pill to rest
+      on top of it.
+    */
+    const consent = document.getElementById("consent-popup");
+    const syncBannerOffset = () => {
+      let offset = 0;
+      if (consent) {
+        const r = consent.getBoundingClientRect();
+        if (r.height > 0 && r.top < window.innerHeight) {
+          offset = window.innerHeight - r.top;
+        }
+      }
+      pill.style.bottom = offset ? `calc(1.25rem + ${offset}px)` : "";
+    };
+    if (consent) {
+      new MutationObserver(syncBannerOffset).observe(consent, {
+        attributes: true,
+        attributeFilter: ["class", "style"],
+      });
+      consent.addEventListener("click", () => setTimeout(syncBannerOffset, 50));
+    }
+    window.addEventListener("resize", syncBannerOffset);
+
+    const onScroll = () => {
+      engaged = window.scrollY > window.innerHeight * 0.8;
+      syncBannerOffset();
+      update();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        ([entry]) => {
+          nearCta = entry.isIntersecting;
+          update();
+        },
+        { threshold: 0.1 },
+      ).observe(target);
+    }
+  }
+
   function init() {
     const host = document.querySelector<HTMLElement>(".scroll-bg-page");
     if (!host) return;
+
+    initFloatingCta();
 
     // Finale swoosh: hold its fan-in until it scrolls into view, then play once.
     const ctaSwoosh = document.querySelector<HTMLElement>("[data-cta-swoosh]");

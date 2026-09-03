@@ -15,6 +15,7 @@ function CtaSection() {
         <div className="mt-10 lg:mt-12 flex flex-wrap items-center justify-center gap-3">
           <a
             href="/download"
+            data-au4-download-cta
             className="inline-flex items-center justify-center rounded-full bg-accent text-text-contrast px-7 py-3.5 font-muse-sans text-base font-semibold hover:opacity-90 transition-opacity"
           >
             Download Audacity 4
