@@ -146,10 +146,6 @@ export const changelog: ChangelogEntry[] = [
             text: "Sync-Lock has been removed. Delete, cut and paste now have explicit variants for either leaving a gap or moving later material to preserve timing",
             refs: [],
           },
-          {
-            text: "Clips can be grouped to stay together",
-            refs: [],
-          },
         ],
       },
       {
@@ -190,10 +186,6 @@ export const changelog: ChangelogEntry[] = [
         changes: [
           {
             text: "Track headers now contain live playback and recording meters",
-            refs: [],
-          },
-          {
-            text: "Track and master realtime effect stacks can be reordered and bypassed",
             refs: [],
           },
           {
