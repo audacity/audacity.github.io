@@ -14,6 +14,7 @@ test.describe("downloads", () => {
     await expect(
       page.getByRole("heading", { name: "Downloads" }),
     ).toBeVisible();
+    await expect(page.getByText("4.0.0", { exact: true })).toBeVisible();
     // Each OS link also appears in the footer, so scope to the first (the card).
     await expect(
       page.locator('a[href="/download/windows"]').first(),
@@ -24,40 +25,60 @@ test.describe("downloads", () => {
     ).toBeVisible();
   });
 
-  test("/download/windows offers a real Windows installer", async ({
+  test("/download/windows offers the Audacity 4 Windows installers", async ({
     page,
   }) => {
     await page.goto("/download/windows");
 
-    // The DownloadCard hydrates an <a> pointing at the published installer.
-    const installer = page
-      .locator('a[href*="github.com/audacity/audacity/releases"][href$=".exe"]')
-      .first();
-    await expect(installer).toBeVisible();
-    await expect(installer).toHaveAttribute("href", /audacity-win-.*\.exe$/);
+    await expect(
+      page.locator('a[href$="/Audacity-4.0.0/audacity-win-4.0.0-x86_64.msi"]'),
+    ).toBeVisible();
+    await expect(
+      page.locator('a[href$="/Audacity-4.0.0/audacity-win-4.0.0-arm64.msi"]'),
+    ).toBeVisible();
   });
 
-  test("/download/mac offers a real macOS installer", async ({ page }) => {
+  test("/download/mac offers the Audacity 4 macOS downloads", async ({
+    page,
+  }) => {
     await page.goto("/download/mac");
 
-    const installer = page
-      .locator('a[href*="github.com/audacity/audacity/releases"][href$=".dmg"]')
-      .first();
-    await expect(installer).toBeVisible();
+    for (const filename of [
+      "audacity-macOS-4.0.0-universal.dmg",
+      "audacity-macOS-4.0.0-arm64.dmg",
+      "audacity-macOS-4.0.0-x86_64.dmg",
+    ]) {
+      await expect(
+        page.locator(`a[href$="/Audacity-4.0.0/${filename}"]`),
+      ).toBeVisible();
+    }
+  });
+
+  test("/download/linux offers the Audacity 4 Linux downloads", async ({
+    page,
+  }) => {
+    await page.goto("/download/linux");
+
+    for (const filename of [
+      "audacity-linux-4.0.0-x86_64.AppImage",
+      "audacity-linux-4.0.0-aarch64.AppImage",
+    ]) {
+      await expect(
+        page.locator(`a[href$="/Audacity-4.0.0/${filename}"]`),
+      ).toBeVisible();
+    }
   });
 
   for (const path of olderVersionPages) {
-    test(`${path} links older versions to GitHub releases`, async ({
-      page,
-    }) => {
+    test(`${path} links to the older versions archive`, async ({ page }) => {
       await page.goto(path);
 
-      const olderVersionsLink = page.getByRole("link", {
-        name: /download older versions/i,
-      });
+      const olderVersionsLink = page
+        .locator('a[href="/download/older-versions"]')
+        .first();
       await expect(olderVersionsLink).toHaveAttribute(
         "href",
-        "https://github.com/audacity/audacity/releases",
+        "/download/older-versions",
       );
       await expect(page.locator('a[href*="fosshub.com"]')).toHaveCount(0);
     });

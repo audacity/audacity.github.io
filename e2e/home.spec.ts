@@ -21,9 +21,10 @@ test.describe("front page", () => {
 
     // The hero download button hydrates and exposes the real installer for the
     // detected OS (Windows here).
-    const installer = page.locator('a[href*="audacity-win-"]').first();
+    const installer = page
+      .locator('a[href$="/Audacity-4.0.0/audacity-win-4.0.0-x86_64.msi"]')
+      .first();
     await expect(installer).toBeVisible();
-    await expect(installer).toHaveAttribute("href", /audacity-win-.*\.exe$/);
   });
 
   test("renders the featured release video section", async ({ page }) => {
