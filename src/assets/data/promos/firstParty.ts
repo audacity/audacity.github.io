@@ -81,7 +81,7 @@ export const firstPartyPromos: Record<string, PromoData> = {
     priority: 50,
     // Both slash forms: suppressOnPaths matches the pathname exactly, unlike
     // routeAllowlist's prefix matching.
-    suppressOnPaths: ["/about", "/about/"],
+    suppressOnPaths: ["/audacity-4", "/audacity-4/"],
     message:
       "Use Audio.com to back up your projects, and share them from anywhere!",
     cta: {

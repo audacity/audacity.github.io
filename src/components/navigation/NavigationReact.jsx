@@ -30,7 +30,7 @@ function NavigationReact(props) {
       target: "",
     },
     {
-      href: `${localePrefix}/about`,
+      href: `${localePrefix}/audacity-4`,
       linkText: "Audacity 4",
       target: "",
       badge: labels.new ?? "New",

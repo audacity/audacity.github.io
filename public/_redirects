@@ -51,9 +51,9 @@
 /next	/download	302
 
 # /au4 was the pre-release shortlink, then a page of its own; the Audacity 4
-# promo now lives at /about, so it lands there. 302 while the launch-day
+# promo now lives at /audacity-4, so it lands there. 302 while the launch-day
 # route could still change.
-/au4	/about	302
+/au4	/audacity-4	302
 
 # campaign links
 /survey	https://docs.google.com/forms/d/e/1FAIpQLSe3ClP3sHiEQZmwwPMiJ3OzUO586yInWIME076unOdV9kG5-Q/viewform
@@ -67,7 +67,10 @@
 /help/faq	https://manual.audacityteam.org/man/faq.html
 /download/plug-ins/	https://plugins.audacityteam.org/
 /help/documentation/	https://support.audacityteam.org/
-/about	/FAQ#team--news
+# Was /FAQ#team--news (old-site mapping), but the Audacity 4 promo page
+# lived at /about for a while, so send it there. 302 alongside /au4 while
+# the launch-day route could still change.
+/about	/audacity-4	302
 /about/desktop-privacy-notice/	/legal/archive/privacy-notice-audacity-3	301
 /about/desktop-privacy-policy/	/legal/archive/privacy-notice-audacity-3	301
 /desktop-privacy-policy/	/legal/archive/privacy-notice-audacity-3	301
