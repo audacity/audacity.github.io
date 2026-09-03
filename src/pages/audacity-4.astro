@@ -378,6 +378,14 @@ const panelImages = await optimisePanelImages();
     cta.addEventListener("click", () => {
       trackEvent("Promo CTA", "AU4 sticky download bar", "audacity-4");
     });
+    target.addEventListener("click", () => {
+      trackEvent("Promo CTA", "AU4 closing section download", "audacity-4");
+    });
+    document
+      .querySelector("[data-au4-manual-cta]")
+      ?.addEventListener("click", () => {
+        trackEvent("Promo CTA", "AU4 closing section manual", "audacity-4");
+      });
 
     /*
       Show the bar once the visitor has scrolled a viewport in, and
