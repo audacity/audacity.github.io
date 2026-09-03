@@ -140,7 +140,7 @@ Yes! As an open-source application many third party plugins have been developed 
 
 The easiest way to find and install plugins is through the free [MuseHub](https://www.musehub.com/plugins?utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=faq), the official distributor of Audacity. It offers a curated collection of plugins for Audacity, including effects for mixing, vocal tuning and dialogue cleanup.
 
-Audacity supports VST3, LADSPA, LV2, Nyquist, VST and Audio Unit plugins.
+Audacity 4 supports VST3 and Nyquist plugins on all platforms, LV2 plugins on Linux, and Audio Unit plugins on macOS.
 
 ### Where can I find more information about specific Audacity features?
 
