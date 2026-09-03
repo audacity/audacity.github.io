@@ -31,15 +31,18 @@ track during playback without altering anything, added from the track's effects
 panel rather than the menu. See
 [Realtime Effects](/manual/effects/realtime-effects).
 
-## Notes
+## Applying a destructive effect
 
-Effects act on the selection only, so a partial selection gives you a partial
-change. Most of them open a dialog with an **Apply** button; a few, such as
-Fade In and Invert, have nothing to set and take effect as soon as you choose
-them.
+A destructive effect acts on the selection only, so a partial selection
+gives a partial change. Most open a dialog with an **Apply** button; a few,
+such as Fade In and Invert, have nothing to set and take effect as soon as
+they are chosen.
 
-Some plug-ins are built into Audacity and written in C++; the rest are
-[Nyquist](/manual/tools/nyquist) scripts that ship alongside it —
-and the same is true of the generators, analyzers and tools in the
-neighbouring sections. The distinction rarely matters in use, but it explains
-why some dialogs look different from others.
+Realtime effects work differently: they are added to a track's effect
+stack and applied during playback, without a selection and without
+altering the audio. See
+[Realtime Effects](/manual/effects/realtime-effects).
+
+Some effects are built into Audacity; the rest are
+[Nyquist](/manual/tools/nyquist) scripts that ship alongside it, as are
+the generators, analyzers and tools in the neighbouring sections.
