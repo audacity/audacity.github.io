@@ -59,7 +59,7 @@ export const changelog: ChangelogEntry[] = [
     releaseUrl:
       "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0",
     intro: [
-      "Audacity 4 rebuilds the application interface on Qt and introduces a new clip-editing model. Most Audacity 3 workflows remain available, but some controls have moved or changed.",
+      "Audacity 4 rebuilds the application interface on Qt and introduces many new quality-of-life improvements, including a new clip editing model and a more flexible recording flow. Most Audacity 3 workflows remain available, but some controls have moved or changed.",
     ],
     changes: [],
     sections: [
