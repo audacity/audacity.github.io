@@ -55,9 +55,7 @@ export const STOPS = [
     // sit in the same soft-brightness range so they read as a coordinated
     // palette rather than a random set.
     accentColor: "#FFB3BE",
-    // 5vh, not centred: shorter viewports (Safari with its toolbar)
-    // otherwise push the heading down onto the laptop's lid.
-    laptop: { x: "0vw", y: "5vh", scale: 0.62, lidAngle: 0 },
+    laptop: { x: "0vw", y: "0vh", scale: 0.62, lidAngle: 0 },
     panelSide: "reveal",
     target: null,
     overlay: null,
