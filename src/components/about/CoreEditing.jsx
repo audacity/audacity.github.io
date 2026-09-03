@@ -1475,6 +1475,18 @@ function CoreEditing() {
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { scrollbar-width: none; }
+        /* The carousel is drag-to-scroll, and a drag across the cards would
+           otherwise sweep up their text as a selection. Nothing here is
+           copy anyone quotes, so the whole section opts out. Images opt out
+           of native ghost-dragging too — it fights the same gesture. */
+        .core-editing-section,
+        .core-editing-section * {
+          user-select: none;
+          -webkit-user-select: none;
+        }
+        .core-editing-section img {
+          -webkit-user-drag: none;
+        }
         /* Mid-drag override so the whole row (cards included) reads as
            actively grabbed, not just the ul gutter. */
         .core-editing-carousel[data-dragging="true"],
