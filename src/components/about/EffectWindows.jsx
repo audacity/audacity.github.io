@@ -125,7 +125,7 @@ function EffectWindows() {
   const headerEntrance = useEntrance();
   const stripEntrance = useEntrance({ delayMs: 160 });
   return (
-    <section className="bg-background-dark relative">
+    <section className="bg-background-dark relative effect-windows-section">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 pt-24 lg:pt-32">
         <header
           ref={headerEntrance.ref}
@@ -164,6 +164,14 @@ function EffectWindows() {
       </div>
 
       <style>{`
+        /* The strip is drag-to-fling, and a drag that leaves the cards
+           otherwise sweeps the heading and captions up as a selection.
+           Nothing here is copy anyone quotes, so the section opts out. */
+        .effect-windows-section,
+        .effect-windows-section * {
+          user-select: none;
+          -webkit-user-select: none;
+        }
         .effect-strip {
           overflow-x: clip;
           overflow-y: visible;
