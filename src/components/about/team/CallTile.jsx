@@ -10,6 +10,10 @@ function CallTile({
   active = false,
   onSelect,
   fill = false,
+  // When false the tile shows the still photo instead of mounting its
+  // video — TeamCall passes the section's in-view state so an offscreen
+  // speaker doesn't keep a looping <video> alive.
+  videoEnabled = true,
 }) {
   const isSpeaker = variant === "speaker";
   const isFilm = variant === "filmstrip";
@@ -41,7 +45,7 @@ function CallTile({
         transition: "box-shadow 220ms ease",
       }}
     >
-      {(isSpeaker || active) && member.video ? (
+      {videoEnabled && (isSpeaker || active) && member.video ? (
         <video
           src={member.video}
           autoPlay
