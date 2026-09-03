@@ -46,6 +46,8 @@ export default defineConfig({
       "/manual/home-screen/project/new-and-recent",
     "/manual/home-screen/home/cloud-projects-and-audio-files":
       "/manual/home-screen/project/cloud-projects-and-audio-files",
+    // Selection renamed on 3 Sep 2026: the toolbar timecode is the playhead.
+    "/manual/toolbar/selection": "/manual/toolbar/playhead-position",
   },
   i18n: {
     defaultLocale: "en",
