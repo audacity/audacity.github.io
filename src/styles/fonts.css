@@ -46,6 +46,23 @@
   font-display: swap;
 }
 
+/*
+  Metric-compatible stand-in shown while Muse Display Harmony downloads.
+  Harmony is much narrower than the default fallbacks, so an untuned swap
+  reflows the hero headline. size-adjust and the overrides are measured
+  against the real face (canvas measureText vs Arial), making the swap
+  close to invisible. If none of the local faces exist the stack just
+  falls through to system-ui, same as before.
+*/
+@font-face {
+  font-family: "Muse Display Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Roboto");
+  size-adjust: 68.36%;
+  ascent-override: 83%;
+  descent-override: 17%;
+  line-gap-override: 0%;
+}
+
 .signika {
   font-family: "Signika Variable", sans-serif;
 }

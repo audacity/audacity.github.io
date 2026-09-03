@@ -48,7 +48,12 @@ module.exports = {
       sans: ["Muse Sans", "system-ui", "sans-serif"],
       display: ["MuseDisplay-Harmony", "system-ui", "sans-serif"],
       symphony: ["Muse Display Symphony", "system-ui", "sans-serif"],
-      harmony: ["Muse Display Harmony", "system-ui", "sans-serif"],
+      harmony: [
+        "Muse Display Harmony",
+        "Muse Display Fallback",
+        "system-ui",
+        "sans-serif",
+      ],
     },
     fontSize: {
       10: ["0.625rem", { lineHeight: "1.25" }], // 10px
