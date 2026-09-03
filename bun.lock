@@ -9,7 +9,7 @@
         "@astrojs/react": "^5.0.2",
         "@astrojs/sitemap": "^3.7.3",
         "@astrojs/tailwind": "^6.0.2",
-        "@dilsonspickles/audacity-ui-screenshots": "4.0.0-alpha.106",
+        "@dilsonspickles/audacity-ui-screenshots": "4.0.0-alpha.107",
         "@dilsonspickles/components": "0.10.2",
         "@fontsource-variable/signika": "^5.2.8",
         "@fontsource/twinkle-star": "^5.2.8",
@@ -141,7 +141,7 @@
 
     "@csstools/selector-specificity": ["@csstools/selector-specificity@5.0.0", "", { "peerDependencies": { "postcss-selector-parser": "^7.0.0" } }, "sha512-PCqQV3c4CoVm3kdPhyeZ07VmBRdH2EpMFA/pd9OASpOEC3aXNGoqPDAZ80D0cLpMBxnmk0+yNhGsEx31hq7Gtw=="],
 
-    "@dilsonspickles/audacity-ui-screenshots": ["@dilsonspickles/audacity-ui-screenshots@4.0.0-alpha.106", "https://npm.pkg.github.com/download/@dilsonspickles/audacity-ui-screenshots/4.0.0-alpha.106/9be1f857f60b496c487519da55a3e79db02a015f", {}, "sha512-aunsjwzoT+c5g47QU0LP8ef6Sg/L1NuuslvVZDrs44nxzp8HSdbWR2SJhBbYKnToZJ2210zLVDvcRTM08+kmBQ=="],
+    "@dilsonspickles/audacity-ui-screenshots": ["@dilsonspickles/audacity-ui-screenshots@4.0.0-alpha.107", "https://npm.pkg.github.com/download/@dilsonspickles/audacity-ui-screenshots/4.0.0-alpha.107/c844c10e30a09d6a54201de895c75476f1461540", {}, "sha512-T+d87qdy0a67kP0+hbAbqznuS35KmdHrVutGx7Vuk7VrDTAS1bMAAFOZDmZLCVdXvrNMJImvX5kfkrYSjnU2sQ=="],
 
     "@dilsonspickles/components": ["@dilsonspickles/components@0.10.2", "https://npm.pkg.github.com/download/@dilsonspickles/components/0.10.2/114ff2670dd031b96377fc7e5395ffedb6190f48", { "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-6uhMSLJ80opSp29Ard9P2F4wVyJP3dyXwQ3GodONsPPv399x+S3S2xIQfSaxKxF7gtgdmsBquItI+iSiRX+U5A=="],
 
