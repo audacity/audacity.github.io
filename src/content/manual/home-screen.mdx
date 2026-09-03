@@ -1,0 +1,30 @@
+---
+title: "Home screen"
+section: "Home screen"
+sectionOrder: 50
+order: 0
+sectionIndex: true
+description: The window's two areas, and the tabs that switch between them.
+---
+
+import UIShot from "../../components/manual/UIShot.astro";
+
+The Audacity window is one of two areas at a time, switched by the tabs at
+the top left:
+
+- **[Home](/manual/home-screen/home)**: the project browser shown when no
+  project is open. It holds [New & recent](/manual/home-screen/home/new-and-recent)
+  and, in cloud-enabled builds,
+  [Cloud projects and audio files](/manual/home-screen/home/cloud-projects-and-audio-files).
+- **[Project](/manual/home-screen/project)**: the editing view, with the
+  tracks, toolbars and everything that works on audio.
+
+<UIShot
+  name="app/SceneHomeProjects"
+  alt="The Home area, with the Home and Project tabs at the top left of the window"
+/>
+
+Opening a project from Home switches to Project; the **Home** tab returns
+at any time without closing the project.
+[Publish](/manual/home-screen/publish) is planned as a third area, and is
+not in the current alpha.
