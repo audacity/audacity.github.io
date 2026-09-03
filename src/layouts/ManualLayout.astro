@@ -38,8 +38,16 @@ const { title, description, stream } = Astro.props;
         manual page matters more than filling the width.
       */
       }
+      {
+        /*
+          min-w-0: grid items refuse to shrink below their content's
+          natural width, so a wide child (the reference landing's
+          rendered app window) would otherwise blow the grid out and
+          side-scroll the whole page instead of its own container.
+        */
+      }
       <article
-        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6"
+        class="col-start-2 col-span-10 sm:col-start-6 sm:col-span-6 xl:col-start-5 xl:col-span-6 min-w-0"
       >
         <slot />
       </article>
