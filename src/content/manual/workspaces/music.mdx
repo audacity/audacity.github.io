@@ -7,10 +7,17 @@ description: A workspace for tempo-based work — beats and measures on the rule
 draft: false
 ---
 
+import UIShot from "../../../components/manual/UIShot.astro";
+
 Music is the workspace for material that is written to a tempo. Its
 distinguishing feature is that the Timeline ruler is set to **Beats and
 Measures** rather than Minutes and Seconds, and the toolbar carries the two
 controls that go with it.
+
+<UIShot
+  name="app/MainWindow-music"
+  alt="The Music workspace: bars on the ruler, with tempo and time signature in the toolbar"
+/>
 
 ## What the toolbar shows
 
@@ -20,8 +27,10 @@ controls that go with it.
 - Rewind to Start
 - Rewind to End
 - Toggle Loop Region
+- Clip Gain
 - Zoom In
 - Zoom Out
+- Zoom Toggle
 - Trim
 - Silence
 - Timecode

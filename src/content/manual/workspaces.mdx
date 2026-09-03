@@ -1,52 +1,46 @@
 ---
-title: Workspaces
-description: Page that describes how to work with Workspaces, which allows you to change how Audacity looks and functions, customizing it to suit your needs.
+title: "Workspaces"
 section: "Workspaces"
 sectionOrder: 55
-order: 1
+order: 0
+sectionIndex: true
+description: Named configurations of the interface, switched from the dropdown in the top right corner.
 ---
 
-import Notes from "../../components/manual/Notes.astro";
+import UIShot from "../../components/manual/UIShot.astro";
 
-## Workspaces
+A workspace is a named configuration of the interface: which buttons the
+[Tools toolbar](/manual/toolbar) carries, how the window is laid out, and,
+for Music, which format the [timeline ruler](/manual/timeline) uses.
+Switching workspaces changes the layout, not the project.
 
-**A tool that allows users to switch between different configurations of the UI. \
-Default workspaces (such as ‘Music’) also come with unique preferences.**
+Workspaces do not carry global appearance settings: the theme, accent
+colour and waveform display options stay the same whichever workspace is
+active.
 
-<Notes>
+## Switching workspace
 
-Workspaces do NOT remember some global UI preferences like Waveform visual preferences and UI theme or accent colour preferences.&#x20;
+The **Workspace** dropdown sits in the top right corner of the window; the
+same list is in **View → Workspaces**. The first-launch setup also offers a
+choice of starting workspace.
 
-![UI Theme and Accent Colour Preference](../../assets/img/manual/manual-index/workspaces/image-6b9a64.png)
+<UIShot
+  name="app/SceneWorkspaceSelector"
+  alt="The workspace dropdown open in the top right corner, listing the built-in workspaces and Edit workspaces"
+/>
 
-![Waveform Preference](../../assets/img/manual/manual-index/workspaces/image-4afd76.png)
+## The built-in workspaces
 
-</Notes>
+- **[Modern](/manual/workspaces/modern)**: the default. A pared-back
+  toolbar for recording, playing and looking around.
+- **[Classic](/manual/workspaces/classic)**: every editing button in the
+  toolbar, laid out for Audacity 3 habits.
+- **[Music](/manual/workspaces/music)**: beats and measures on the ruler,
+  with tempo and time signature in the toolbar.
 
-## Selecting Workspaces
+## Your own workspaces
 
-You can select the Workspace either during the onboarding of Audacity 4, which gives you 2 options that are best suited for either new Users or experienced Audacity 3 users.&#x20;
-
-![Onboarding Selector](../../assets/img/manual/manual-index/workspaces/image-20d6f7.png)
-
-You can also select a workspace at any time by clicking on the Workspace dropdown menu, situated in the top right corner of Audacity 4 window UI.
-
-![Workspace Dropdown](../../assets/img/manual/manual-index/workspaces/image-d5d969.png)
-
-There are 3 default workspaces that are pre-defined in Audacity 4.&#x20;
-
-## Workspace Editor
-
-You can also edit existing workspaces via 'Edit workspaces', which will open a new window.
-
-![Workspace Editor](../../assets/img/manual/manual-index/workspaces/image-43c850.png)
-
-This workspace editor allows you:&#x20;
-
-- Save the current layout as a new workspace, cloning the workspace currently being used
-- Switch between the workspaces
-- Delete non-default workspaces that you've created
-
-<Notes>
-  Workspaces can also be reset by using the Tools -> Reset Configuration item header menu.&#x20;
-</Notes>
+The layout in front of you can be saved as a workspace of your own, and
+managed afterwards: see
+[Creating new workspaces](/manual/workspaces/creating-new-workspaces) and
+[Edit workspaces](/manual/workspaces/edit-workspaces).

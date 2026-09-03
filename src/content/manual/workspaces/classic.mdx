@@ -1,32 +1,43 @@
 ---
-title: Classic
-description: Default Classic Workspace configuration
+title: "Classic"
 section: "Workspaces"
 sectionOrder: 55
-order: 4
+order: 2
+description: Every editing button in the toolbar, laid out for Audacity 3 habits.
+draft: false
 ---
 
-## Classic Workspace
+import UIShot from "../../../components/manual/UIShot.astro";
 
-The Classic workspace contains these items in the toolbar:
+Classic is the workspace for readers coming from Audacity 3: the editing
+and zoom commands sit in the toolbar as buttons rather than living only in
+the menus.
 
-- Play
-- Stop/Pause
-- Record
-- Rewind to Start
-- Rewind to End
-- Toggle Loop Region
-- Clip Gain (Envelope)
-- Split Tool
-- Toggle Spectral View
-- Zoom in
-- Zoom out
-- Zoom to Selection
-- Zoom to Fit Project&#x20;
-- Zoom Toggle
-- Cut
--
+<UIShot
+  name="app/MainWindow-classic"
+  alt="The Classic workspace: the full toolbar of editing and zoom buttons above the track area"
+/>
 
-### Ruler
+## What the toolbar shows
 
-The Ruler is set to 'Minutes and Seconds' instead of 'Beats and Measures'&#x20;
+- The transport group: Play, Stop, Record, Rewind to start, Rewind to end
+  and Toggle loop region.
+- The editing tools: Clip gain and the Split tool.
+- The clipboard group: Cut, Copy and Paste.
+- Trim and Silence.
+- The full zoom group: Zoom in, Zoom out, Zoom to selection, Zoom to fit
+  project and Zoom toggle.
+- The timecode, Snapping, and the record and playback levels.
+
+Classic is the only workspace with the clipboard buttons and the full zoom
+group. It does not carry the spectral view toggle.
+
+## Ruler
+
+The timeline ruler is set to Minutes and seconds.
+
+## Related
+
+- [Tools toolbar](/manual/toolbar)
+- [Modern](/manual/workspaces/modern)
+- [Music](/manual/workspaces/music)
