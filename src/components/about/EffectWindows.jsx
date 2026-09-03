@@ -9,9 +9,9 @@ const EFFECTS = [
     image: "/effects/Filter_curve.webp",
   },
   { id: "graphic-eq", name: "Graphic EQ", image: "/effects/Graphic_EQ.webp" },
-  // Smallest source of the set (496px wide). At full card width it upscales
-  // past its native size and goes soft, so it's held back to sit within its
-  // own pixels like the others do.
+  // The Limiter is the smallest dialog of the set. Held back so its
+  // controls draw at roughly the same size as the other cards' rather
+  // than magnified to fill the card.
   {
     id: "limiter",
     name: "Limiter",
@@ -61,7 +61,7 @@ function EffectWindows() {
   const rowRef = useRef(null);
 
   useEffect(() => {
-    const BASE_VELOCITY = -1.2; // px/frame, negative = leftward
+    const BASE_VELOCITY = -0.7; // px/frame, negative = leftward
     let velocity = BASE_VELOCITY;
     let translateX = 0;
     let setWidth = 0;
