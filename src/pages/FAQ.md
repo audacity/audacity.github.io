@@ -3,6 +3,8 @@ layout: "../layouts/PageLayout.astro"
 title: Audacity ® | Frequently Asked Questions
 searchable: true
 searchType: FAQ
+heading: Frequently asked questions
+intro: Answers to the most common questions about downloading, using and contributing to Audacity.
 ---
 
 ## About Audacity

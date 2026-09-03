@@ -11,6 +11,12 @@ interface Props {
     */
     searchable?: boolean;
     searchType?: string;
+    /*
+      Optional hero band above the article, styled like the /features
+      header. Legal pages omit these and render as before.
+    */
+    heading?: string;
+    intro?: string;
   };
 }
 
@@ -19,6 +25,22 @@ const indexed = frontmatter.searchable === true;
 ---
 
 <BaseLayout title={frontmatter.title}>
+  {
+    frontmatter.heading && (
+      <section class="bg-background-deep">
+        <div class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16 flex flex-col gap-4">
+          <h1 class="font-harmony text-40 md:text-48 text-text-contrast leading-tight">
+            {frontmatter.heading}
+          </h1>
+          {frontmatter.intro && (
+            <p class="text-18 text-text-contrast/70 max-w-2xl">
+              {frontmatter.intro}
+            </p>
+          )}
+        </div>
+      </section>
+    )
+  }
   <article
     id="main"
     class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue"
