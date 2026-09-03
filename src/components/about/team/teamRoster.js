@@ -90,9 +90,9 @@ export const TEAM_ROSTER = [
   },
   {
     id: "sergey",
-    name: "Sergey",
+    name: "dozzzzer",
     role: "QA Manual Engineer",
-    initials: "S",
+    initials: "D",
     avatarColor: "#9966bb",
     photo: null,
   },
