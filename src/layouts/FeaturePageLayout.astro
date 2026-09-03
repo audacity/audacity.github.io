@@ -77,7 +77,14 @@ const {
     }
   </slot>
   <article
-    class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue prose-feature lg:prose-lg max-w-screen-md prose-h2:text-40 prose-h2:font-semibold prose-h2:text-text-primary prose-h2:mt-20 prose-h2:mb-6 prose-h3:text-24 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-12 prose-h3:mb-4 prose-p:mb-6 prose-p:mt-0 prose-ul:my-6 prose-ol:my-6"
+    {/*
+      Heading ramp follows the manual's principle: one clear step per
+      level (18 body, 24 h3, 32 h2), with the hero h1 (40/56) reserved
+      for the page's identity — the old 40px h2s shouted at the same
+      volume as the title. Space above a heading is roughly double the
+      space below, so headings attach to what follows.
+    */}
+    class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue lg:prose-lg max-w-screen-md prose-h2:text-32 prose-h2:font-semibold prose-h2:leading-tight prose-h2:text-text-primary prose-h2:mt-14 prose-h2:mb-5 prose-h3:text-24 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-10 prose-h3:mb-3 prose-p:mb-6 prose-p:mt-0 prose-ul:my-6 prose-ol:my-6"
     data-pagefind-body
     data-pagefind-filter="type:Features"
   >
