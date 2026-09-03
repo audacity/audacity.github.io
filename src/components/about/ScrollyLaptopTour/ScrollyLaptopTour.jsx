@@ -2079,6 +2079,11 @@ function DesktopTour() {
             : {}),
           position: "relative",
           zIndex: 2,
+          // The drivers are invisible scroll rulers, but a transparent div
+          // still hit-tests — left interactive, this wrapper sits over the
+          // whole pinned stage (zIndex 1) and eats clicks meant for the
+          // scroll-indicator dots. Nothing in here takes input.
+          pointerEvents: "none",
         }}
       >
         {STOPS.map((s, i) =>

@@ -59,7 +59,7 @@ function ScrollIndicator({
               padding: 0,
               cursor: "pointer",
               transition:
-                "width 280ms cubic-bezier(0.65,0.05,0.2,1), background-color 200ms ease-out",
+                "width 280ms cubic-bezier(0.65,0.05,0.2,1), background-color 200ms ease-out, transform 160ms ease-out",
             }
           : {
               width: 6,
@@ -72,12 +72,14 @@ function ScrollIndicator({
               padding: 0,
               cursor: "pointer",
               transition:
-                "height 280ms cubic-bezier(0.65,0.05,0.2,1), background-color 200ms ease-out",
+                "height 280ms cubic-bezier(0.65,0.05,0.2,1), background-color 200ms ease-out, transform 160ms ease-out",
             };
         return (
           <button
             key={s.id}
             type="button"
+            className="tour-pip"
+            data-active={active ? "true" : "false"}
             onClick={() => onJump(i)}
             aria-label={`Jump to stop ${i + 1}: ${s.heading}`}
             aria-current={active ? "true" : "false"}
@@ -85,6 +87,16 @@ function ScrollIndicator({
           />
         );
       })}
+      {/* Hover grows the pip for a friendlier click target — but not the
+          current one, which is already grown and isn't a useful click.
+          Inline backgrounds win over class rules, hence the !important
+          on the brighten. */}
+      <style>{`
+        .tour-pip[data-active="false"]:hover {
+          transform: scale(1.5);
+          background: rgba(255, 255, 255, 0.55) !important;
+        }
+      `}</style>
     </nav>
   );
 }
