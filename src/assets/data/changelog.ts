@@ -127,7 +127,7 @@ export const changelog: ChangelogEntry[] = [
         ],
         changes: [
           {
-            text: "Volume envelopes are displayed using the Automation layer",
+            text: "Volume envelopes are displayed in the Clip gain mode",
             refs: [],
           },
           {
