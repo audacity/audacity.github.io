@@ -62,18 +62,18 @@ There is no mobile version of Audacity available.
 
 Audacity is available to download from the [Audacity website](/).
 
-You can either download the app directly, or download Audacity through the free [MuseHub](https://www.musehub.com/).
+You can either download the app directly, or download Audacity through the free [MuseHub](https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=faq).
 
 If you download Audacity via the MuseHub, you'll also get access to a free selection of sounds, loops and effects available to use in your Audacity projects.
 
 ### Why should I download Audacity through the MuseHub?
 
-The [MuseHub](https://www.musehub.com/) is a gateway to creativity for any audio producer. It's packed with the best free apps, sounds and effects for composing, producing or performing. In the MuseHub you'll find:
+The [MuseHub](https://www.musehub.com/app/audacity?utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=faq) is a gateway to creativity for any audio producer. It's packed with the best free apps, sounds and effects for composing, producing or performing. In the MuseHub you'll find:
 
 - **Muse Sounds:** premium collections of sampled instruments, including keys, strings, brass, woodwind, percussion, choirs and electronics. Hear your music played back in astonishing detail with these moving — and completely free — preset packs.
 - **Elements:** free looping sound clips. Drop them easily into your Audacity performances or podcasts.
 - **Muse FX:** effects plugins including reverb, delay, compress and more, for fine-tuning your Audacity projects.
-  You can download Audacity via the MuseHub. If you already have Audacity, you can download the MuseHub and access the free extras [here](https://www.musehub.com/).
+  You can download Audacity via the MuseHub. If you already have Audacity, you can download the MuseHub and access the free extras [here](https://www.musehub.com/?utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=faq).
 
 ### How do I install Audacity or update to the latest version?
 
@@ -138,7 +138,7 @@ We have a beginner tutorial series in [our manual](/manual/getting-started), beg
 
 Yes! As an open-source application many third party plugins have been developed for Audacity.
 
-The easiest way to find and install plugins is through the free [MuseHub](https://www.musehub.com/), the official distributor of Audacity. It offers a curated collection of plugins for Audacity, including effects for mixing, vocal tuning and dialogue cleanup.
+The easiest way to find and install plugins is through the free [MuseHub](https://www.musehub.com/plugins?utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=faq), the official distributor of Audacity. It offers a curated collection of plugins for Audacity, including effects for mixing, vocal tuning and dialogue cleanup.
 
 Audacity supports VST3, LADSPA, LV2, Nyquist, VST and Audio Unit plugins.
 
