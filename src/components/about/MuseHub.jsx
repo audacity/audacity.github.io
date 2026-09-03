@@ -26,12 +26,13 @@ function MuseHubPanel({ panel, idx, src }) {
       className="flex flex-col"
       style={entrance.style}
     >
-      <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
+      <div className="rounded-lg border border-white/10 bg-white/[0.03] overflow-hidden">
         <img
           src={src}
           alt={`${panel.title} — ${panel.eyebrow}`}
           loading="lazy"
           decoding="async"
+          draggable={false}
           className="block w-full h-auto"
         />
       </div>
