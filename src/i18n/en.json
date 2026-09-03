@@ -46,6 +46,8 @@
   "faq.a3": "Yes! Audacity has always been and will always remain free for everyone.",
   "faq.q4": "Is Audacity open source?",
   "faq.a4": "Audacity is proudly open source. This means its source code remains open to anyone to view or modify. A dedicated worldwide community of passionate audio lovers have collaborated to make Audacity the well-loved software it is today.",
+  "faq.q5": "Why should I download Audacity through the MuseHub?",
+  "faq.a5": "MuseHub is the official distributor of Audacity. Downloading through it also gives you free extras for your projects: Muse Sounds sampled instruments, Elements looping sound clips, and Muse FX effects plugins.",
 
   "blog.sectionTitle": "New from our blog",
 
@@ -119,7 +121,7 @@
 
   "plugins.heading": "Top-5 trending plugins for Audacity",
   "plugins.distributor": "MuseHub is the official distributor of Audacity",
-  "plugins.openvino": "Set of AI tools for editing",
+  "plugins.extractDialogue": "Isolate dialogue from background noise",
   "plugins.musefx": "Essential collection of mix effects",
   "plugins.landrfxVoice": "Polish your vocal tracks",
   "plugins.soapVoiceCleaner": "Professional-sounding spoken voice",

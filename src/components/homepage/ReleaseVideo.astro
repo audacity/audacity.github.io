@@ -27,9 +27,9 @@ function museHubLink(slug: string) {
 
 const plugins = [
   {
-    name: "OpenVino",
-    key: "plugins.openvino",
-    href: museHubLink("openvino-ai-tools"),
+    name: "Extract:Dialogue 2",
+    key: "plugins.extractDialogue",
+    href: museHubLink("extractdialogue-2"),
   },
   { name: "MuseFX", key: "plugins.musefx", href: museHubLink("musefx") },
   {
@@ -54,14 +54,14 @@ const museHubURL = `https://www.musehub.com/?${MUSEHUB_UTM}`;
 
 <section class="bg-background-light">
   <div
-    class="mx-auto px-6 xs:px-12 md:px-8 py-10 md:py-12 lg:py-16 max-w-screen-lg"
+    class="mx-auto px-6 xs:px-12 md:px-8 py-10 md:py-12 lg:py-16 max-w-screen-xl"
   >
     <div
-      class="flex flex-col md:flex-row gap-12 md:gap-16"
+      class="flex flex-col xl:flex-row gap-12 xl:gap-16"
       data-entrance-group="120"
     >
       <!-- Our latest release -->
-      <div class="w-full md:w-1/2 flex flex-col gap-6">
+      <div class="w-full xl:w-1/2 flex flex-col gap-6">
         <h2 class="font-harmony text-32 md:text-40 text-text-primary">
           {t("release.heading")}
         </h2>
@@ -85,7 +85,7 @@ const museHubURL = `https://www.musehub.com/?${MUSEHUB_UTM}`;
       </div>
 
       <!-- Top-5 plugins -->
-      <div class="w-full md:w-1/2 flex flex-col gap-7">
+      <div class="w-full xl:w-1/2 flex flex-col gap-7">
         <div class="flex flex-col gap-1">
           <h2 class="font-harmony text-32 md:text-40 text-text-primary">
             {t("plugins.heading")}
