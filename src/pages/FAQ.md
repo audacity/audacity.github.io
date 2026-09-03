@@ -134,7 +134,9 @@ We have a beginner tutorial series in [our manual](/manual/getting-started), beg
 
 ### Is Audacity compatible with third party plugins?
 
-Yes! As an open-source application many third party plugins have been developed for Audacity. Check out a list of some of our team's favorite Audacity plugins at https://plugins.audacityteam.org/
+Yes! As an open-source application many third party plugins have been developed for Audacity.
+
+The easiest way to find and install plugins is through the free [MuseHub](https://www.musehub.com/), the official distributor of Audacity. It offers a curated collection of plugins for Audacity, including effects for mixing, vocal tuning and dialogue cleanup.
 
 Audacity supports VST3, LADSPA, LV2, Nyquist, VST and Audio Unit plugins.
 
