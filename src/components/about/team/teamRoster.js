@@ -35,6 +35,15 @@ export const TEAM_ROSTER = [
     video: "/videos/team/Dmitry.mp4",
   },
   {
+    id: "elnur",
+    name: "Elnur",
+    role: "C++ Developer",
+    initials: "E",
+    avatarColor: "#88aa55",
+    photo: "/videos/team/Elnur.jpg",
+    video: "/videos/team/Elnur.mp4",
+  },
+  {
     id: "gabriel",
     name: "Gabriel",
     role: "C++ Developer",
@@ -58,7 +67,8 @@ export const TEAM_ROSTER = [
     role: "Audacity Product Design",
     initials: "J",
     avatarColor: "#5599aa",
-    photo: null,
+    photo: "/videos/team/Johan.jpg",
+    video: "/videos/team/Johan.mp4",
   },
   {
     id: "matthieu",
