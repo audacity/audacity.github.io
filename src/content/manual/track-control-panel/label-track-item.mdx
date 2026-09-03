@@ -40,8 +40,21 @@ Where the label lands depends on what the project is doing:
 
 - While playing or recording, the label is placed at the current playback or
   recording position.
-- Otherwise it takes the selected time range — giving a point label when
-  nothing is selected, and a label spanning the range when something is.
+- Otherwise it takes the selected time range: a **point label** when
+  nothing is selected, and a **region label** spanning the range when
+  something is.
+
+<UIShot
+  name="app/SceneSpotlightLabelTrackItem"
+  state="point"
+  alt="A point label on the label track: a pin at one moment, with its name beside it"
+/>
+
+<UIShot
+  name="app/SceneSpotlightLabelTrackItem"
+  state="region"
+  alt="A region label on the label track: a bar spanning a stretch of time, with its name on it"
+/>
 
 The button is hidden while the track is collapsed; the shortcut still works.
 
@@ -62,8 +75,7 @@ Format, Rate or Resample.
 ### Rename, Duplicate and Delete
 
 The label track menu opens with the same three commands as any other track,
-and — this is the part worth knowing — they act on the **track**, not on
-individual labels.
+and they act on the **track**, not on individual labels.
 
 - **Rename** puts the label track's name into edit mode in the control panel.
 - **Duplicate** makes a copy of the label track, with all of its labels.
