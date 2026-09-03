@@ -76,20 +76,27 @@ const panelImages = await optimisePanelImages();
 
   {
     /*
-      Floating download CTA. The page's only download button lives in the
-      closing CTA section, several viewports down; this pill keeps the
-      action reachable once the visitor has started scrolling, then flies
-      into the real button's position (FLIP) as it scrolls into view.
-      Hidden until the script decides otherwise.
+      Sticky download bar. The page's only download button lives in the
+      closing CTA section, several viewports down; this bar keeps the
+      action reachable once the visitor has started scrolling, and
+      slides away as the closing CTA section takes over. Hidden until
+      the script decides otherwise.
     */
   }
-  <a
-    id="au4-floating-cta"
-    href="/download"
-    class="au4-floating-cta inline-flex items-center justify-center rounded-full bg-accent text-text-contrast px-7 py-3.5 font-muse-sans text-base font-semibold shadow-lg shadow-black/40 hover:opacity-90"
-  >
-    Download Audacity 4
-  </a>
+  <div id="au4-cta-bar" class="au4-cta-bar">
+    <p
+      class="hidden sm:block pl-4 pr-3 font-muse-sans text-sm text-text-contrast/70 whitespace-nowrap"
+    >
+      Free, open source, available for macOS, Windows and Linux.
+    </p>
+    <a
+      id="au4-floating-cta"
+      href="/download"
+      class="inline-flex items-center justify-center rounded-full border border-white/20 text-text-contrast px-5 py-2.5 font-muse-sans text-sm font-semibold hover:border-white/40 transition-colors whitespace-nowrap"
+    >
+      Download Audacity 4
+    </a>
+  </div>
 </BaseLayout>
 
 <style is:global>
@@ -301,52 +308,58 @@ const panelImages = await optimisePanelImages();
   }
 
   /*
-    Floating download CTA. Position and show/hide live here; the FLIP
-    flight into the real CTA button is driven by inline transforms from
-    the page script. transform-origin top-left matches how the script
-    computes its deltas. The transform transition is suspended (see
-    .is-teleporting) while the script repositions the pill instantly.
+    Sticky download bar. Same translucent panel treatment as the CTA
+    finale's copy panel so it reads as part of the page. Slides down
+    out of view when hidden; the script toggles .is-visible.
   */
-  .au4-floating-cta {
+  /*
+    A compact pill seated in a slim translucent capsule — the same panel
+    material as the CTA finale, at a fraction of the footprint. Centered
+    where it can't be missed on wide screens, small enough to stay out
+    of the way.
+  */
+  .au4-cta-bar {
     position: fixed;
     z-index: 40;
-    bottom: 1.25rem;
-    right: 1.25rem;
+    left: 0;
+    right: 0;
+    bottom: 0.75rem;
+    margin-inline: auto;
+    width: fit-content;
+    max-width: calc(100% - 1.5rem);
+    display: flex;
+    align-items: center;
+    padding: 0.375rem;
+    background-color: rgba(9, 7, 26, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
     opacity: 0;
     visibility: hidden;
-    transform-origin: top left;
+    transform: translateY(150%);
     transition:
-      opacity 0.25s ease,
-      visibility 0s linear 0.25s,
-      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity 0.3s ease,
+      transform 0.3s ease,
+      visibility 0s linear 0.3s;
   }
-  .au4-floating-cta.is-visible {
+  .au4-cta-bar.is-visible {
     opacity: 1;
     visibility: visible;
+    transform: none;
     transition:
-      opacity 0.25s ease,
-      transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .au4-floating-cta.is-teleporting {
-    transition: opacity 0.25s ease;
-  }
-  @media (max-width: 767px) {
-    .au4-floating-cta {
-      left: 0;
-      right: 0;
-      margin-inline: auto;
-      width: fit-content;
-    }
+      opacity 0.3s ease,
+      transform 0.3s ease;
   }
   @media (prefers-reduced-motion: reduce) {
-    .au4-floating-cta,
-    .au4-floating-cta.is-visible {
+    .au4-cta-bar {
+      transform: none;
       transition:
-        opacity 0.25s ease,
-        visibility 0s linear 0.25s;
+        opacity 0.3s ease,
+        visibility 0s linear 0.3s;
     }
-    .au4-floating-cta.is-visible {
-      transition: opacity 0.25s ease;
+    .au4-cta-bar.is-visible {
+      transition: opacity 0.3s ease;
     }
   }
 </style>
@@ -355,119 +368,42 @@ const panelImages = await optimisePanelImages();
   import { trackEvent } from "../utils/matomo";
 
   function initFloatingCta() {
-    const pill = document.getElementById("au4-floating-cta");
+    const bar = document.getElementById("au4-cta-bar");
+    const cta = document.getElementById("au4-floating-cta");
     const target = document.querySelector<HTMLElement>(
       "[data-au4-download-cta]",
     );
-    if (!pill || !target) return;
+    if (!bar || !cta || !target) return;
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    pill.addEventListener("click", () => {
-      trackEvent("Promo CTA", "AU4 floating download CTA", "audacity-4");
+    cta.addEventListener("click", () => {
+      trackEvent("Promo CTA", "AU4 sticky download bar", "audacity-4");
     });
 
     /*
-      States: hidden (near the top of the page), floating (corner pill),
-      docked (flown into the real button and faded out). The morphs are
-      FLIP: measure the pill's untransformed rect and the button's rect,
-      then transition an inline transform between them. Timers are kept
-      so a fast scroll reversal cancels a half-finished morph cleanly.
+      Show the bar once the visitor has scrolled a viewport in, and
+      slide it away while the closing CTA section is on screen so the
+      section's own button takes over without the two competing.
     */
-    let engaged = false;
-    let nearCta = false;
-    let state = "hidden";
-    let timers: ReturnType<typeof setTimeout>[] = [];
-
-    const clearTimers = () => {
-      timers.forEach(clearTimeout);
-      timers = [];
-    };
-
-    /* Instantly reset any inline flight transform without animating. */
-    const teleportHome = () => {
-      pill.classList.add("is-teleporting");
-      pill.style.transform = "";
-      void pill.offsetWidth;
-      pill.classList.remove("is-teleporting");
-    };
-
-    const flightTransform = () => {
-      const p = pill.getBoundingClientRect();
-      const t = target.getBoundingClientRect();
-      return `translate(${t.left - p.left}px, ${t.top - p.top}px) scale(${
-        t.width / p.width
-      }, ${t.height / p.height})`;
-    };
-
-    const dock = () => {
-      if (reduceMotion) {
-        pill.classList.remove("is-visible");
-        return;
-      }
-      /* Fly from the corner into the real button, then fade out on top
-         of it and reset while invisible. */
-      pill.style.transform = flightTransform();
-      timers.push(
-        setTimeout(() => {
-          pill.classList.remove("is-visible");
-          timers.push(setTimeout(teleportHome, 300));
-        }, 350),
-      );
-    };
-
-    const undock = () => {
-      if (reduceMotion) {
-        pill.classList.toggle("is-visible", engaged);
-        return;
-      }
-      /* After a fast scroll jump the button can be several viewports
-         away; a flight from there is a violent streak across the
-         screen. Just fade in at the corner instead. */
-      if (
-        Math.abs(target.getBoundingClientRect().top) >
-        window.innerHeight * 1.5
-      ) {
-        teleportHome();
-        pill.classList.add("is-visible");
-        return;
-      }
-      /* Appear on top of the real button and fly back to the corner. */
-      teleportHome();
-      pill.classList.add("is-teleporting");
-      pill.style.transform = flightTransform();
-      void pill.offsetWidth;
-      pill.classList.remove("is-teleporting");
-      pill.classList.add("is-visible");
-      pill.style.transform = "";
-    };
+    const ctaSection = target.closest("section") ?? target;
+    const scrolly = document.querySelector(".about-section--scrolly");
 
     const update = () => {
-      const next = nearCta ? "docked" : engaged ? "floating" : "hidden";
-      if (next === state) return;
-      clearTimers();
-
-      if (next === "docked" && state === "floating") {
-        dock();
-      } else if (next === "floating" && state === "docked") {
-        undock();
-      } else if (next === "floating") {
-        teleportHome();
-        pill.classList.add("is-visible");
-      } else {
-        /* hidden, or a jump the morphs don't cover (e.g. deep link) */
-        pill.classList.remove("is-visible");
-        if (next === "hidden") timers.push(setTimeout(teleportHome, 300));
-      }
-      state = next;
+      /* Stay out of the laptop tour entirely: the bar only appears
+         once the scrolly section has scrolled fully out of view. */
+      const engaged = scrolly
+        ? scrolly.getBoundingClientRect().bottom <= 0
+        : window.scrollY > window.innerHeight * 0.8;
+      /* The bar starts sliding away as "Free for all, forever" appears,
+         a beat before the section's own download button arrives. */
+      const nearCta =
+        ctaSection.getBoundingClientRect().top < window.innerHeight;
+      bar.classList.toggle("is-visible", engaged && !nearCta);
     };
 
     /*
       The cookie consent banner (#consent-popup) pins itself to the
       viewport bottom above everything else until dismissed, exactly
-      where the pill sits. While it is visible, raise the pill to rest
+      where the bar sits. While it is visible, raise the bar to rest
       on top of it.
     */
     const consent = document.getElementById("consent-popup");
@@ -479,7 +415,7 @@ const panelImages = await optimisePanelImages();
           offset = window.innerHeight - r.top;
         }
       }
-      pill.style.bottom = offset ? `calc(1.25rem + ${offset}px)` : "";
+      bar.style.bottom = offset ? `calc(0.75rem + ${offset}px)` : "";
     };
     if (consent) {
       new MutationObserver(syncBannerOffset).observe(consent, {
@@ -491,22 +427,11 @@ const panelImages = await optimisePanelImages();
     window.addEventListener("resize", syncBannerOffset);
 
     const onScroll = () => {
-      engaged = window.scrollY > window.innerHeight * 0.8;
       syncBannerOffset();
       update();
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(
-        ([entry]) => {
-          nearCta = entry.isIntersecting;
-          update();
-        },
-        { threshold: 0.1 },
-      ).observe(target);
-    }
   }
 
   function init() {
