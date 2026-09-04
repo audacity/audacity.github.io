@@ -215,7 +215,7 @@ function WorkspaceCanvas({
   onWorkspaceChange,
   // Tour-only: when the laptop tour's split animation has the tool
   // "armed", flip a data attribute on the root so the CSS rule below
-  // styles the package's `Cut / Split` ToolButton in its pressed state.
+  // styles the package's `Cut / Split` toggle button in its on state.
   // The package ships split as a plain ToolButton (not a ToggleToolButton)
   // so it has no built-in `isActive` prop — this is the workaround.
   splitToolActive = false,
@@ -306,19 +306,19 @@ function WorkspaceCanvas({
             // toolbars below it.
             ".workspace-canvas .application-header{" +
             "background-color:#2E353C;}" +
-            // Split tool "armed" state — the package ships split as a
-            // plain ToolButton (no isActive prop), so when the laptop
-            // tour wants to show the tool as active we paint it in the
-            // same primary-blue the ToggleToolButton's "on" state uses
-            // for the envelope toggle next to it. Secondary's pressed
-            // color is too close to idle to read as active.
+            // Split tool "armed" state. The package renders split as a
+            // ToggleToolButton now (it was a plain ToolButton when this
+            // override was written, and the old .tool-button selector
+            // matched nothing), but still exposes no prop to switch it
+            // on — so the tour forces the button's own on-state colors,
+            // which it ships as CSS variables on the element.
             '.workspace-canvas[data-split-tool-active="true"] ' +
-            '.tool-button[aria-label="Cut / Split"]{' +
-            "background-color:#4a90e2!important;" +
+            '.toggle-tool-button[aria-label="Cut / Split"]{' +
+            "background-color:var(--toggle-on-bg,#4a90e2)!important;" +
             "color:#fff!important;}" +
             '.workspace-canvas[data-split-tool-active="true"] ' +
-            '.tool-button[aria-label="Cut / Split"]:hover{' +
-            "background-color:#5ba3ff!important;}" +
+            '.toggle-tool-button[aria-label="Cut / Split"]:hover{' +
+            "background-color:var(--toggle-on-hover-bg,#5ba3ff)!important;}" +
             // Lift the playhead above selected clips. The package ships
             // `.playhead-cursor` at z-index 1000, and the override
             // earlier pushes selected clips to 9999 — without this rule
