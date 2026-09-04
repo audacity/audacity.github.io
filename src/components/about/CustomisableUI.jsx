@@ -17,7 +17,7 @@ import {
   generateSpeechWaveform,
   generateDecayingSineWave,
   generateSineWave,
-} from "@dilsonspickles/components";
+} from "@audacity-ui/components";
 
 const NOOP = () => {};
 

@@ -2,8 +2,8 @@
 /**
  * Component map for the curated UI examples. This module and the
  * interactive islands under `../interactive/` are the ONLY places allowed
- * to import `@dilsonspickles/components`, and they must do so via deep
- * subpaths (`@dilsonspickles/components/Button`) so a hydrated island
+ * to import `@audacity-ui/components`, and they must do so via deep
+ * subpaths (`@audacity-ui/components/Button`) so a hydrated island
  * bundles only the components it uses — never the package index, which
  * pulls every chunk and stylesheet.
  *
@@ -22,26 +22,26 @@ import type { ComponentType } from "react";
 // tofu-box icon glyphs. Importing it here covers both consumers: the site
 // (static import via UIExample.tsx) and the editor (arrives with the
 // dynamically imported registry chunk).
-import "@dilsonspickles/components/style.css";
-import { TransportButton } from "@dilsonspickles/components/TransportButton";
-import { Button } from "@dilsonspickles/components/Button";
-import { ToolButton } from "@dilsonspickles/components/ToolButton";
-import { ToggleToolButton } from "@dilsonspickles/components/ToggleToolButton";
-import { Checkbox } from "@dilsonspickles/components/Checkbox";
-import { Knob } from "@dilsonspickles/components/Knob";
-import { GhostButton } from "@dilsonspickles/components/GhostButton";
-import { PanKnob } from "@dilsonspickles/components/PanKnob";
-import { NumberStepper } from "@dilsonspickles/components/NumberStepper";
-import { FilterChip } from "@dilsonspickles/components/FilterChip";
-import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
-import { Clip } from "@dilsonspickles/components/Clip";
-import { ApplicationHeader } from "@dilsonspickles/components/ApplicationHeader";
-import { ProjectToolbar } from "@dilsonspickles/components/ProjectToolbar";
-import { TrackControlPanel } from "@dilsonspickles/components/TrackControlPanel";
-import { TimelineRuler } from "@dilsonspickles/components/TimelineRuler";
-import { VerticalRuler } from "@dilsonspickles/components/VerticalRuler";
-import { SelectionToolbar } from "@dilsonspickles/components/SelectionToolbar";
-import { TimeCode } from "@dilsonspickles/components/TimeCode";
+import "@audacity-ui/components/style.css";
+import { TransportButton } from "@audacity-ui/components/TransportButton";
+import { Button } from "@audacity-ui/components/Button";
+import { ToolButton } from "@audacity-ui/components/ToolButton";
+import { ToggleToolButton } from "@audacity-ui/components/ToggleToolButton";
+import { Checkbox } from "@audacity-ui/components/Checkbox";
+import { Knob } from "@audacity-ui/components/Knob";
+import { GhostButton } from "@audacity-ui/components/GhostButton";
+import { PanKnob } from "@audacity-ui/components/PanKnob";
+import { NumberStepper } from "@audacity-ui/components/NumberStepper";
+import { FilterChip } from "@audacity-ui/components/FilterChip";
+import { MasterMeter } from "@audacity-ui/components/MasterMeter";
+import { Clip } from "@audacity-ui/components/Clip";
+import { ApplicationHeader } from "@audacity-ui/components/ApplicationHeader";
+import { ProjectToolbar } from "@audacity-ui/components/ProjectToolbar";
+import { TrackControlPanel } from "@audacity-ui/components/TrackControlPanel";
+import { TimelineRuler } from "@audacity-ui/components/TimelineRuler";
+import { VerticalRuler } from "@audacity-ui/components/VerticalRuler";
+import { SelectionToolbar } from "@audacity-ui/components/SelectionToolbar";
+import { TimeCode } from "@audacity-ui/components/TimeCode";
 import { resolveUIExampleProps, uiExampleMeta } from "./registryData";
 import type { UIExampleMeta } from "../../../../manual-editor/src/uiExample/meta";
 

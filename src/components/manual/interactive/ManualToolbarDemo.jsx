@@ -1,14 +1,14 @@
 // Deep subpaths + the global stylesheet, per the interactive-island rules
 // in UIExample/registry.tsx — the island must carry its own CSS because
 // article pages don't import the package stylesheet.
-import "@dilsonspickles/components/style.css";
+import "@audacity-ui/components/style.css";
 import {
   Toolbar,
   ToolbarButtonGroup,
   ToolbarDivider,
-} from "@dilsonspickles/components/Toolbar";
-import { TransportButton } from "@dilsonspickles/components/TransportButton";
-import { ToolButton } from "@dilsonspickles/components/ToolButton";
+} from "@audacity-ui/components/Toolbar";
+import { TransportButton } from "@audacity-ui/components/TransportButton";
+import { ToolButton } from "@audacity-ui/components/ToolButton";
 
 /**
  * Recreation of the Audacity 4 toolbar for the manual hub. Each button

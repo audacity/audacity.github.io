@@ -2,8 +2,8 @@ import { Component, useRef, useState, type ReactNode } from "react";
 // The package's global stylesheet (theme custom properties + icon font),
 // then the one component this island needs — deep subpath, same discipline
 // as UIExample/registry.tsx, so the bundle carries only this component.
-import "@dilsonspickles/components/style.css";
-import { TrackControlPanel } from "@dilsonspickles/components/TrackControlPanel";
+import "@audacity-ui/components/style.css";
+import { TrackControlPanel } from "@audacity-ui/components/TrackControlPanel";
 import { scrollToSection } from "./scrollToSection";
 
 /*

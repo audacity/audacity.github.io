@@ -4,7 +4,7 @@ import {
   ThemeProvider,
   darkTheme,
   generateSpeechWaveform,
-} from "@dilsonspickles/components";
+} from "@audacity-ui/components";
 
 const PHASES = [
   { edge: "right", from: 1, to: 1, duration: 700 },

@@ -16,8 +16,8 @@ import {
   darkTheme,
   generateSpeechWaveform,
   generateSineWave,
-} from "@dilsonspickles/components";
-import "@dilsonspickles/components/style.css";
+} from "@audacity-ui/components";
+import "@audacity-ui/components/style.css";
 
 function useAnimatedLevels(seed = 0, enabled = true) {
   const [levels, setLevels] = useState({ a: 30, b: 25, c: 18 });
