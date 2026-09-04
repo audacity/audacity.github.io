@@ -4,10 +4,10 @@ import {
   ToolbarDivider,
   TransportButton,
   ToolButton,
-} from "@dilsonspickles/components";
+} from "@audacity-ui/components";
 
 /**
- * Smoke test for @dilsonspickles/components 0.2.0 onwards — verifying that
+ * Smoke test for @audacity-ui/components 0.2.0 onwards — verifying that
  * the components render standalone without ThemeProvider or
  * AccessibilityProfileProvider wrappers.
  */

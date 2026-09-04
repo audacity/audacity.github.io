@@ -2,18 +2,18 @@ import { Component, useEffect, useState, type ReactNode } from "react";
 // Global stylesheet once, then deep subpaths only — the interactive-island
 // rules in UIExample/registry.tsx. Every subpath used here must be listed
 // in astro.config.mjs optimizeDeps BEFORE the dev server starts.
-import "@dilsonspickles/components/style.css";
-import { ApplicationHeader } from "@dilsonspickles/components/ApplicationHeader";
-import { ProjectToolbar } from "@dilsonspickles/components/ProjectToolbar";
-import { TimelineRuler } from "@dilsonspickles/components/TimelineRuler";
-import { TrackControlPanel } from "@dilsonspickles/components/TrackControlPanel";
-import { TrackControlSidePanel } from "@dilsonspickles/components/TrackControlSidePanel";
-import { Clip } from "@dilsonspickles/components/Clip";
-import { MasterMeter } from "@dilsonspickles/components/MasterMeter";
-import { TimeCode } from "@dilsonspickles/components/TimeCode";
-import { SelectionToolbar } from "@dilsonspickles/components/SelectionToolbar";
-import { VerticalRuler } from "@dilsonspickles/components/VerticalRuler";
-import { PlayheadCursor } from "@dilsonspickles/components/PlayheadCursor";
+import "@audacity-ui/components/style.css";
+import { ApplicationHeader } from "@audacity-ui/components/ApplicationHeader";
+import { ProjectToolbar } from "@audacity-ui/components/ProjectToolbar";
+import { TimelineRuler } from "@audacity-ui/components/TimelineRuler";
+import { TrackControlPanel } from "@audacity-ui/components/TrackControlPanel";
+import { TrackControlSidePanel } from "@audacity-ui/components/TrackControlSidePanel";
+import { Clip } from "@audacity-ui/components/Clip";
+import { MasterMeter } from "@audacity-ui/components/MasterMeter";
+import { TimeCode } from "@audacity-ui/components/TimeCode";
+import { SelectionToolbar } from "@audacity-ui/components/SelectionToolbar";
+import { VerticalRuler } from "@audacity-ui/components/VerticalRuler";
+import { PlayheadCursor } from "@audacity-ui/components/PlayheadCursor";
 import ManualToolbarDemo from "./ManualToolbarDemo";
 import {
   CLIP_WAVEFORM_LEFT,

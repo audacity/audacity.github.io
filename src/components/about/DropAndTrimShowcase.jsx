@@ -5,7 +5,7 @@ import {
   ThemeProvider,
   darkTheme,
   generateSpeechWaveform,
-} from "@dilsonspickles/components";
+} from "@audacity-ui/components";
 
 const TRACK_GAP = 4;
 const PIXELS_PER_SECOND = 60;

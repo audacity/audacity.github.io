@@ -229,7 +229,7 @@ html.entrance-timeout {
 /*
   Design-system icon colour fix.
 
-  @dilsonspickles/components inlines Icon.css — which sets `.icon { color:
+  @audacity-ui/components inlines Icon.css — which sets `.icon { color:
   inherit }` — into all 45 component bundles that use an icon. `.icon` and
   `.transport-button__icon` are both single-class selectors, so which one wins
   is decided by whichever bundle Vite happens to emit last, not by intent.

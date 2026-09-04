@@ -2,7 +2,7 @@
  * Per-variant props for the curated UI examples — PURE DATA, deliberately
  * split from `registry.tsx` (which holds the component references): this
  * module is imported by the manual editor's bun test suite, which cannot
- * load `@dilsonspickles/components` (CSS side-effect imports). Keep this
+ * load `@audacity-ui/components` (CSS side-effect imports). Keep this
  * file free of DS-package and React imports.
  *
  * Keys mirror `manual-editor/src/uiExample/meta.ts` ids; the coverage test

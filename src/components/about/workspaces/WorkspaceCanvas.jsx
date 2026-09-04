@@ -15,7 +15,7 @@ import {
   generateDecayingSineWave,
   generateSineWave,
   CLIP_CONTENT_OFFSET,
-} from "@dilsonspickles/components";
+} from "@audacity-ui/components";
 
 const NATIVE_W = 1280;
 

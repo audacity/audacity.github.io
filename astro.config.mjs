@@ -11,7 +11,7 @@ import compressor from "astro-compressor";
 const NO_EXTERNAL = [
   "@datapunt/matomo-tracker-react",
   "@datapunt/matomo-tracker-js",
-  "@dilsonspickles/components",
+  "@audacity-ui/components",
   "gsap",
 ];
 
@@ -106,31 +106,31 @@ export default defineConfig({
       /*
         react/react-dom must be pre-bundled alongside the design system, not
         just the package on its own. Left out, ThemeProvider inside
-        @dilsonspickles/components resolves a second, null React and throws
+        @audacity-ui/components resolves a second, null React and throws
         "Cannot read properties of null (reading 'useMemo')" during hydration,
         which takes down every island on /about that uses it.
       */
       include: [
-        "@dilsonspickles/components",
+        "@audacity-ui/components",
         // Deep-subpath island imports must be pre-bundled in the SAME
         // optimize pass as react. A subpath first discovered while the dev
         // server is running lands in a second pass with its own React copy,
         // and every island on the page dies on "null useState" — add new
         // interactive-island subpaths here BEFORE starting the server.
-        "@dilsonspickles/components/TrackControlPanel",
-        "@dilsonspickles/components/TrackControlSidePanel",
-        "@dilsonspickles/components/Toolbar",
-        "@dilsonspickles/components/TransportButton",
-        "@dilsonspickles/components/ToolButton",
-        "@dilsonspickles/components/ApplicationHeader",
-        "@dilsonspickles/components/ProjectToolbar",
-        "@dilsonspickles/components/TimelineRuler",
-        "@dilsonspickles/components/Clip",
-        "@dilsonspickles/components/MasterMeter",
-        "@dilsonspickles/components/SelectionToolbar",
-        "@dilsonspickles/components/VerticalRuler",
-        "@dilsonspickles/components/PlayheadCursor",
-        "@dilsonspickles/components/TimeCode",
+        "@audacity-ui/components/TrackControlPanel",
+        "@audacity-ui/components/TrackControlSidePanel",
+        "@audacity-ui/components/Toolbar",
+        "@audacity-ui/components/TransportButton",
+        "@audacity-ui/components/ToolButton",
+        "@audacity-ui/components/ApplicationHeader",
+        "@audacity-ui/components/ProjectToolbar",
+        "@audacity-ui/components/TimelineRuler",
+        "@audacity-ui/components/Clip",
+        "@audacity-ui/components/MasterMeter",
+        "@audacity-ui/components/SelectionToolbar",
+        "@audacity-ui/components/VerticalRuler",
+        "@audacity-ui/components/PlayheadCursor",
+        "@audacity-ui/components/TimeCode",
         "react",
         "react-dom",
       ],

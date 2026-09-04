@@ -8,7 +8,7 @@ import IntroOverlay from "./IntroOverlay.jsx";
 import WorkspaceCanvas from "../workspaces/WorkspaceCanvas.jsx";
 import { WORKSPACE_CONFIGS } from "../workspaces/workspaceConfigs.js";
 import { STOPS } from "./stops.js";
-import { generateSpeechWaveform } from "@dilsonspickles/components";
+import { generateSpeechWaveform } from "@audacity-ui/components";
 
 // The per-stop laptop shifts (stop.laptop.x, e.g. "28vw") were tuned around
 // a ~1300px canvas. On wider viewports a raw vw shift keeps growing while the
