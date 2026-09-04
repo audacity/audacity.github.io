@@ -1,7 +1,7 @@
 ---
 /**
  * Renders every screenshot in the installed
- * @dilsonspickles/audacity-ui-screenshots package, grouped by category —
+ * vendored ui-shots bank (src/assets/ui-shots), grouped by category —
  * a complete index of the shot library, driven by the package manifest so
  * it stays current with every version bump.
  *
@@ -13,7 +13,7 @@ import UIShot from "./UIShot.astro";
 const manifests = import.meta.glob<{
   version: string;
   images: { id: string }[];
-}>("/node_modules/@dilsonspickles/audacity-ui-screenshots/manifest.json", {
+}>("/src/assets/ui-shots/manifest.json", {
   eager: true,
   import: "default",
 });

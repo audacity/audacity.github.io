@@ -4,7 +4,8 @@ import { Image } from "astro:assets";
 /**
  * Pixel-true screenshot of a real application component, rendered from the
  * Audacity source by the shotbox harness (~/code/audacity-shotbox) and
- * delivered as the versioned @dilsonspickles/audacity-ui-screenshots package.
+ * vendored into src/assets/ui-shots/ (copied straight from a shotbox
+ * render; the site build needs no external package for them).
  *
  * Sibling of UIExample: UIExample renders interactive design-system
  * re-implementations; UIShot shows the actual application, captured at 4x.
@@ -13,13 +14,13 @@ import { Image } from "astro:assets";
  *   <UIShot name="trackpanel/WaveTrackItem" alt="A stereo track header" />
  *   <UIShot name="buttons/FlatButton-accent" state="hover" theme="dark" />
  *
- * `name` is the shot id from the package manifest (category/Component);
+ * `name` is the shot id from the manifest (category/Component);
  * `state` appends an interaction-state suffix (normal/hover/pressed/disabled)
  * for shots that declare states. Images render at their logical 1x size
  * (from the manifest) unless `width` overrides it.
  *
- * Degrades to a visible placeholder (plus a build warning) when the package
- * or a specific image is missing — content never breaks the build.
+ * Degrades to a visible placeholder (plus a build warning) when a
+ * specific image is missing — content never breaks the build.
  */
 interface Props {
   name: string;
@@ -31,7 +32,7 @@ interface Props {
 
 const { name, state, theme = "light", alt = "", width } = Astro.props;
 
-const PKG = "/node_modules/@dilsonspickles/audacity-ui-screenshots";
+const PKG = "/src/assets/ui-shots";
 
 /*
   Globbed as ImageMetadata, not ?url: the URL form hands Astro a string it
@@ -40,13 +41,13 @@ const PKG = "/node_modules/@dilsonspickles/audacity-ui-screenshots";
   below and come out as WebP at the sizes actually displayed.
 */
 const images = import.meta.glob<ImageMetadata>(
-  "/node_modules/@dilsonspickles/audacity-ui-screenshots/{light,dark}/**/*.png",
+  "/src/assets/ui-shots/{light,dark}/**/*.png",
   { eager: true, import: "default" },
 );
 const manifests = import.meta.glob<{
   scale: number;
   images: { id: string; width: number; height: number }[];
-}>("/node_modules/@dilsonspickles/audacity-ui-screenshots/manifest.json", {
+}>("/src/assets/ui-shots/manifest.json", {
   eager: true,
   import: "default",
 });
@@ -57,7 +58,7 @@ const meta = Object.values(manifests)[0]?.images.find((i) => i.id === id);
 
 if (!image) {
   console.warn(
-    `UIShot: no image for "${id}" (${theme}) — is @dilsonspickles/audacity-ui-screenshots installed and does the shot exist?`,
+    `UIShot: no image for "${id}" (${theme}) — does the shot exist in src/assets/ui-shots?`,
   );
 }
 

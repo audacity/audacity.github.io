@@ -17,7 +17,7 @@
 import { Image } from "astro:assets";
 
 const images = import.meta.glob<ImageMetadata>(
-  "/node_modules/@dilsonspickles/audacity-ui-screenshots/light/app/MainWindow.png",
+  "/src/assets/ui-shots/light/app/MainWindow.png",
   { eager: true, import: "default" },
 );
 const image = Object.values(images)[0];
@@ -25,10 +25,10 @@ const image = Object.values(images)[0];
 const regionFiles = import.meta.glob<{
   window: { w: number; h: number };
   regions: Record<string, { x: number; y: number; w: number; h: number }>;
-}>(
-  "/node_modules/@dilsonspickles/audacity-ui-screenshots/light/app/MainWindow.regions.json",
-  { eager: true, import: "default" },
-);
+}>("/src/assets/ui-shots/light/app/MainWindow.regions.json", {
+  eager: true,
+  import: "default",
+});
 const data = Object.values(regionFiles)[0];
 
 const TARGETS: Record<string, { href: string; label: string }> = {
