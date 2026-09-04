@@ -47,7 +47,6 @@ module.exports = {
     fontFamily: {
       sans: ["Muse Sans", "system-ui", "sans-serif"],
       display: ["MuseDisplay-Harmony", "system-ui", "sans-serif"],
-      symphony: ["Muse Display Symphony", "system-ui", "sans-serif"],
       harmony: [
         "Muse Display Harmony",
         "Muse Display Fallback",

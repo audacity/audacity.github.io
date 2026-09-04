@@ -8,9 +8,22 @@
   # Netlify ignore semantics: exit 0 = skip the build.
   ignore = '[ "$BRANCH" = "manual/editor-drafts" ] && [ "$CONTEXT" = "branch-deploy" ]'
 
+# The cohort cookie only matters on HTML documents. Static assets skip the
+# edge function entirely: one less invocation per asset, and — critically —
+# the function was defeating 304 revalidation on everything it wrapped.
 [[edge_functions]]
   function = "cohort"
   path = "/*"
+  excludedPath = [
+    "/_astro/*",
+    "/fonts/*",
+    "/videos/*",
+    "/effects/*",
+    "/*.svg",
+    "/*.ico",
+    "/*.png",
+    "/*.webp",
+  ]
 
 # Netlify's default for static files is max-age=0,must-revalidate — every
 # page view re-validates every font, bundle and video, which showed up as
