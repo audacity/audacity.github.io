@@ -7,3 +7,4 @@ docs/au4-manual-audit.md
 # Prettier's markdown emphasis normalisation corrupts MDX comments ({/* */} -> {/_ _/}).
 # The lint-staged hook never formats mdx; manual prettier runs must not either.
 src/content/manual/**/*.mdx
+src/assets/ui-shots/
