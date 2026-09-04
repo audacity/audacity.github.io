@@ -6,6 +6,10 @@ function ScrollIndicator({
   onJump,
   visible = true,
   orientation = "vertical",
+  // 0..1 through the active stop. The active pip renders as a track that
+  // fills with this, so every scroll tick shows visible motion — the cue
+  // for how far the next stop is.
+  progress = 0,
 }) {
   const isHorizontal = orientation === "horizontal";
   // Horizontal variant lives along the bottom of the sticky area
@@ -74,6 +78,22 @@ function ScrollIndicator({
               transition:
                 "height 280ms cubic-bezier(0.65,0.05,0.2,1), background-color 200ms ease-out, transform 160ms ease-out",
             };
+        // The active pip is a dim track with a bright fill scrubbed by
+        // scroll progress. transform-scaled (not height/width) so the
+        // fill tracks the scroll with no transition lag.
+        const fillStyle = active
+          ? {
+              display: "block",
+              width: "100%",
+              height: "100%",
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.92)",
+              transform: isHorizontal
+                ? `scaleX(${Math.max(0.12, progress)})`
+                : `scaleY(${Math.max(0.12, progress)})`,
+              transformOrigin: isHorizontal ? "left center" : "center top",
+            }
+          : undefined;
         return (
           <button
             key={s.id}
@@ -83,8 +103,18 @@ function ScrollIndicator({
             onClick={() => onJump(i)}
             aria-label={`Jump to stop ${i + 1}: ${s.heading}`}
             aria-current={active ? "true" : "false"}
-            style={dotStyle}
-          />
+            style={
+              active
+                ? {
+                    ...dotStyle,
+                    background: "rgba(255,255,255,0.28)",
+                    overflow: "hidden",
+                  }
+                : dotStyle
+            }
+          >
+            {active && <span aria-hidden="true" style={fillStyle} />}
+          </button>
         );
       })}
       {/* Hover grows the pip for a friendlier click target — but not the

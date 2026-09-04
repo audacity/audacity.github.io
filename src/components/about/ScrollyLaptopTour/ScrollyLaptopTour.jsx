@@ -279,6 +279,11 @@ function DesktopTour() {
   const tourPanelRef = useRef(null);
   const panelRefs = useRef([]);
   const [stopIndex, setStopIndex] = useState(0);
+  // 0..1 progress through the CURRENT stop's scroll driver. Feeds the
+  // indicator's fill so scrolling always shows visible motion — without
+  // it the pinned section gives no feedback between stop boundaries and
+  // reads as "stuck" (or gets flicked straight past).
+  const [stopProgress, setStopProgress] = useState(0);
   const [clipOverrides, setClipOverrides] = useState(null);
   const [extraClips, setExtraClips] = useState(null);
   const [splitFrame, setSplitFrame] = useState(null);
@@ -306,6 +311,42 @@ function DesktopTour() {
   const scrolledStop = STOPS[stopIndex];
   const stop = STOPS.find((s) => s.id === renderStopId) ?? scrolledStop;
   const introStop = STOPS.find((s) => s.panelSide === "intro") ?? STOPS[0];
+
+  useEffect(() => {
+    let raf = null;
+    const measure = () => {
+      raf = null;
+      const mid = window.innerHeight / 2;
+      const els = panelRefs.current.filter(Boolean);
+      const last = els[els.length - 1];
+      for (const el of els) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) {
+          // The sticky stage un-pins when the last driver's bottom meets
+          // the viewport bottom — mid never reaches the last driver's
+          // end. Normalize the final stop against the un-pin point so
+          // its pip actually fills before the page scrolls on.
+          const denom =
+            el === last
+              ? Math.max(1, r.height - window.innerHeight / 2)
+              : r.height;
+          setStopProgress(Math.max(0, Math.min(1, (mid - r.top) / denom)));
+          return;
+        }
+      }
+    };
+    const onScroll = () => {
+      if (raf === null) raf = requestAnimationFrame(measure);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
+    return () => {
+      if (raf !== null) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     let cleanup = () => {};
@@ -1831,9 +1872,9 @@ function DesktopTour() {
     laptopTransition = "transform 900ms cubic-bezier(0.65, 0.05, 0.36, 1)";
   } else {
     transform = `translate3d(${capViewportShift(stop.laptop.x)}, ${stop.laptop.y}, 0) scale(${stop.laptop.scale})`;
-    // scroll-snap-stop: always forces a hard scroll landing on each
-    // panel. Use a shorter fast-start ease so the laptop is
-    // essentially in place by the time the snap finishes.
+    // No scroll-snap exists here (stale comment removed) — scrolling is
+    // fully native. The fast-start ease just settles the laptop quickly
+    // after a stop change.
     laptopTransition = "transform 360ms cubic-bezier(0.2, 0, 0.2, 1)";
   }
 
@@ -1926,6 +1967,12 @@ function DesktopTour() {
               transformOrigin: "center center",
               transition: laptopTransition,
               willChange: "transform",
+              // The mockup is display-only here (handlers are NOOPs, the
+              // cursor is choreographed), but the package's components
+              // contain real scroll containers — a wheel over the laptop
+              // was captured by an inner scroller and the page "stuck".
+              // Inert to input, the wheel falls through to the page.
+              pointerEvents: "none",
             }}
           >
             <LaptopFrame lidRef={lidRef} lidAngle={lidAngle}>
@@ -2054,6 +2101,7 @@ function DesktopTour() {
               (s) => !s.noScrollPanel && s.panelSide !== "intro",
             ).findIndex((s) => s.id === scrolledStop.id),
           )}
+          progress={stopProgress}
           onJump={(i) => {
             const visible = STOPS.filter(
               (s) => !s.noScrollPanel && s.panelSide !== "intro",
@@ -2104,8 +2152,12 @@ function DesktopTour() {
                 // that matches the browser chrome height, because the
                 // scroll region and the pinned region interpret viewport
                 // differently as chrome toggles.
-                height: "130svh",
-                minHeight: "130svh",
+                // 130svh originally; trimmed once the indicator pips
+                // became clickable — overshooting a stop is now a cheap
+                // click to fix, and 7 stops at 130 made the pinned section
+                // a 9-screen scroll.
+                height: "120svh",
+                minHeight: "120svh",
                 pointerEvents: "none",
               }}
               aria-label={s.heading}

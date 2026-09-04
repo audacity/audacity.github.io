@@ -319,6 +319,19 @@ function WorkspaceCanvas({
             '.workspace-canvas[data-split-tool-active="true"] ' +
             '.toggle-tool-button[aria-label="Cut / Split"]:hover{' +
             "background-color:var(--toggle-on-hover-bg,#5ba3ff)!important;}" +
+            // The package's native --on state colors the background but
+            // leaves the icon its idle gray, so a natively-toggled button
+            // (the Clip envelope on its tour stop) read differently from
+            // the forced split state above. White icon for every toggled
+            // button, so both actives match.
+            // The component passes the active icon color INLINE on the
+            // inner Icon element (theme.foreground.icon.inverse — which is
+            // dark in darkTheme, wrong against the blue active bg), so the
+            // override must target the icon's descendants and carry
+            // !important to outrank the inline style.
+            ".workspace-canvas .toggle-tool-button--on *," +
+            ".workspace-canvas .toggle-tool-button--on-hover *{" +
+            "color:#fff!important;}" +
             // Lift the playhead above selected clips. The package ships
             // `.playhead-cursor` at z-index 1000, and the override
             // earlier pushes selected clips to 9999 — without this rule
