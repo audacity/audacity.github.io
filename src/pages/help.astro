@@ -5,6 +5,7 @@ import HelpSearch from "../components/help/HelpSearch.astro";
 import ForumSVG from "../components/inlineSVG/ForumSVG";
 import DiscordSVG from "../components/inlineSVG/DiscordSVG";
 import GithubSVG from "../components/inlineSVG/GithubSVG";
+import AudacityMarkSVG from "../components/inlineSVG/AudacityMarkSVG";
 
 const pageTitle = "Audacity ® | Help";
 const pageDescription =
@@ -52,6 +53,13 @@ const community: HelpEntry[] = [
     description: "Report a bug or request a feature on the Audacity repo.",
     href: "https://github.com/audacity/audacity/issues",
     external: true,
+  },
+  {
+    title: "Contribute",
+    icon: AudacityMarkSVG,
+    description:
+      "Development, testing, translation, and other ways to take part.",
+    href: "/contribute",
   },
 ];
 ---
@@ -159,7 +167,7 @@ const community: HelpEntry[] = [
         >
           Community &amp; support
         </h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {
             community.map((item) => (
               <li>
