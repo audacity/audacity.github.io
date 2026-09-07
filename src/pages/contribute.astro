@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+/*
+  The canonical landing page for "how do I contribute to Audacity" links.
+
+  This page exists so external documents (the audacity/audacity repo's
+  CONTRIBUTING.md, forum posts, videos) can point at stable URLs WE own:
+  /contribute and its section anchors. The outbound destinations here
+  (GitBooks, the forum, GitHub) move and break from time to time; when
+  they do, this one page is the only thing that needs editing, and every
+  inbound link keeps working. Born 11 Sep 2026, when the support site's
+  restructure 404'd the /community/translators target that the upstream
+  CONTRIBUTING.md relied on.
+
+  Anchors are a public contract: #develop, #test, #translate,
+  #support-users, #feedback. Don't rename them.
+*/
+
+const pageTitle = "Audacity ® | Contribute";
+const pageDescription =
+  "Ways to contribute to Audacity: development, testing, translation, and helping other users.";
+
+interface Way {
+  id: string;
+  title: string;
+  body: string;
+  links: { label: string; href: string; external?: boolean }[];
+}
+
+const ways: Way[] = [
+  {
+    id: "develop",
+    title: "Develop",
+    body: "Audacity is mostly written in C++. Build instructions live in the repository, coding standards and process in the developer resources. Contributing code requires signing the CLA.",
+    links: [
+      {
+        label: "Build instructions (BUILDING.md)",
+        href: "https://github.com/audacity/audacity/blob/master/BUILDING.md",
+        external: true,
+      },
+      {
+        label: "Developer resources",
+        href: "https://audacity.gitbook.io/dev",
+        external: true,
+      },
+      { label: "Sign the CLA", href: "/CLA" },
+      { label: "Developer Discord", href: "/devserver" },
+    ],
+  },
+  {
+    id: "test",
+    title: "Test and report bugs",
+    body: "Development builds are attached to pull requests in the repository's Actions tab. Report problems with unmerged changes on the pull request itself; report problems with released or merged code in the issue tracker. Bugs need reproduction steps.",
+    links: [
+      {
+        label: "Development builds",
+        href: "https://github.com/audacity/audacity/actions",
+        external: true,
+      },
+      {
+        label: "Report a bug",
+        href: "https://github.com/audacity/audacity/issues/new/choose",
+        external: true,
+      },
+    ],
+  },
+  {
+    id: "translate",
+    title: "Translate",
+    body: "Audacity is translated by volunteers. The translation workflow is community-run; ask in the forum or the developer Discord to get started with your language.",
+    links: [
+      {
+        label: "Audacity Forum",
+        href: "https://forum.audacityteam.org/",
+        external: true,
+      },
+      { label: "Developer Discord", href: "/devserver" },
+    ],
+  },
+  {
+    id: "support-users",
+    title: "Support other users",
+    body: "The most active Audacity user community is the forum. Helping others with their problems there is a contribution in itself, and video tutorials help too. If you make one, say which Audacity version you are using, so the tutorial stays useful as versions change.",
+    links: [
+      {
+        label: "Audacity Forum",
+        href: "https://forum.audacityteam.org/",
+        external: true,
+      },
+    ],
+  },
+  {
+    id: "feedback",
+    title: "Feedback and feature requests",
+    body: "Ideas and requests are discussed in the forum's feature section. A concrete, code-level proposal can also be filed as an enhancement request in the issue tracker.",
+    links: [
+      {
+        label: "Feature discussion on the forum",
+        href: "https://forum.audacityteam.org/c/feedback-and-discussion-forum/adding-features-to-audacity/22",
+        external: true,
+      },
+      {
+        label: "File an enhancement request",
+        href: "https://github.com/audacity/audacity/issues/new/choose",
+        external: true,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  showPromoBanner={false}
+>
+  <main id="main">
+    <section class="bg-background-deep">
+      <div class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16">
+        <div class="flex flex-col gap-4">
+          <h1
+            class="font-harmony text-40 md:text-48 text-text-contrast leading-tight"
+          >
+            Contribute
+          </h1>
+          <p class="text-18 text-text-contrast/70 max-w-2xl">
+            Audacity is free, open source software built with its community.
+            These are the ways to take part.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div
+      class="max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16 flex flex-col gap-12"
+    >
+      {
+        ways.map((way) => (
+          <section
+            id={way.id}
+            aria-labelledby={`${way.id}-heading`}
+            class="flex flex-col gap-4 scroll-mt-24"
+          >
+            <h2
+              id={`${way.id}-heading`}
+              class="font-harmony text-28 md:text-32 text-text-primary"
+            >
+              {way.title}
+            </h2>
+            <p class="text-16 md:text-18 text-text-primary/80 max-w-3xl">
+              {way.body}
+            </p>
+            <ul class="flex flex-wrap gap-3">
+              {way.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener" : undefined}
+                    class="inline-flex items-center gap-1.5 rounded-full border border-text-primary/20 px-4 py-2 text-14 font-semibold text-text-primary hover:border-accent hover:text-accent transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>

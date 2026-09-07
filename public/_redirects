@@ -105,8 +105,12 @@
 /download/legacy-mac/	/download/mac
 /help/	https://support.audacityteam.org/
 /contact/	/FAQ#i-have-a-question-or-issue-with-audacity-is-there-a-support-team-i-can-contact
-/community/	https://support.audacityteam.org/community/contributing
-/community/users/	https://support.audacityteam.org/community/contributing
-/community/developers/	https://audacity.gitbook.io/dev
-/community/translators/	https://support.audacityteam.org/community/contributing/translating
+# The /community shortlinks land on our own /contribute page (11 Sep 2026):
+# they used to forward into the support GitBook, whose restructure 404'd
+# the targets while upstream docs still linked them. /contribute's anchors
+# are the stable receivers; its outbound links are ours to repair.
+/community/	/contribute	301
+/community/users/	/contribute#support-users	301
+/community/developers/	/contribute#develop	301
+/community/translators/	/contribute#translate	301
 /copyright/	https://github.com/audacity/audacity/blob/master/LICENSE.txt
