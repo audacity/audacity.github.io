@@ -27,6 +27,13 @@ const ICON = {
       <path d="M3 20a6 6 0 0 1 12 0M16 6a3 3 0 0 1 0 6M18 20a6 6 0 0 0-3-5" />
     </>
   ),
+  more: (
+    <>
+      <circle cx="6" cy="12" r="1.4" />
+      <circle cx="12" cy="12" r="1.4" />
+      <circle cx="18" cy="12" r="1.4" />
+    </>
+  ),
   leave: (
     <path d="M5 4a2 2 0 0 1 2-1.7l2 .3a2 2 0 0 1 1.7 2l-.3 2a2 2 0 0 1-1 1.5 12 12 0 0 0 4.8 4.8 2 2 0 0 1 1.5-1l2-.3a2 2 0 0 1 2 1.7l.3 2A2 2 0 0 1 20 20 16 16 0 0 1 4 4z" />
   ),
@@ -50,9 +57,12 @@ function Svg({ name, leave }) {
   );
 }
 
-function DecorCtrl({ name, label }) {
+function DecorCtrl({ name, label, className = "" }) {
   return (
-    <div className="flex flex-col items-center gap-1.5" aria-hidden>
+    <div
+      className={`flex-col items-center gap-1.5 ${className || "flex"}`}
+      aria-hidden
+    >
       <span
         className="flex items-center justify-center rounded-full"
         style={{ width: 40, height: 40, background: "#2a2f37" }}
@@ -75,9 +85,12 @@ function CallControls({ hidden, chatOpen, onToggleChat, onLeave }) {
         visibility: hidden ? "hidden" : "visible",
       }}
     >
+      {/* Narrow widths do what a real call app does: never wrap the bar,
+          show fewer controls, and stand a "More" tile in for the rest.
+          Raise hand and People yield first; they are decorative anyway. */}
       <DecorCtrl name="mic" label="Mute" />
       <DecorCtrl name="video" label="Video" />
-      <DecorCtrl name="hand" label="Raise hand" />
+      <DecorCtrl name="hand" label="Raise hand" className="hidden sm:flex" />
 
       <div className="flex flex-col items-center gap-1.5">
         <button
@@ -99,7 +112,8 @@ function CallControls({ hidden, chatOpen, onToggleChat, onLeave }) {
         </small>
       </div>
 
-      <DecorCtrl name="people" label="People" />
+      <DecorCtrl name="people" label="People" className="hidden sm:flex" />
+      <DecorCtrl name="more" label="More" className="flex sm:hidden" />
 
       <div className="flex flex-col items-center gap-1.5">
         <button
