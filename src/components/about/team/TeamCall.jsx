@@ -101,8 +101,13 @@ function TeamCall() {
           {/* Stage — relative so the chat panel can overlay without affecting layout */}
           <div className="relative flex">
             <div className="flex-1 p-3.5">
-              {callEnded ? (
-                <div className="flex flex-col items-center justify-center gap-5 w-full sm:aspect-[4/3] lg:aspect-auto lg:h-[440px]">
+              {/* The call layout stays MOUNTED through the ended state,
+                  visibility-hidden, and the ended panel overlays it — same
+                  trick the control bar uses — so the window's height never
+                  moves when leaving or rejoining. Tile videos park via
+                  videoEnabled while ended. */}
+              {callEnded && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-5">
                   <p
                     className="font-sans font-semibold text-white"
                     style={{ fontSize: 18 }}
@@ -122,47 +127,55 @@ function TeamCall() {
                     Rejoin
                   </button>
                 </div>
-              ) : effectiveView === "grid" ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:grid-rows-3 gap-2.5 lg:h-[440px]">
-                  {TEAM_ROSTER.map((m, i) => (
-                    <CallTile
-                      key={m.id}
-                      member={m}
-                      variant="grid"
-                      fill
-                      active={i === activeIndex}
-                      videoEnabled={inView}
-                      onSelect={() => selectSpeaker(i)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col sm:flex-row items-stretch gap-2.5 lg:h-[440px]">
-                  <div className="w-full sm:w-[58%] aspect-[4/3] lg:aspect-auto">
-                    <CallTile
-                      member={active}
-                      variant="speaker"
-                      active
-                      videoEnabled={inView}
-                    />
-                  </div>
-                  <div className="grid w-full sm:w-[42%] grid-cols-2 grid-rows-5 gap-2">
-                    {others.map((m) => {
-                      const realIndex = TEAM_ROSTER.findIndex(
-                        (x) => x.id === m.id,
-                      );
-                      return (
-                        <CallTile
-                          key={m.id}
-                          member={m}
-                          variant="sidebar"
-                          onSelect={() => selectSpeaker(realIndex)}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
               )}
+              <div className={callEnded ? "invisible" : undefined}>
+                {effectiveView === "grid" ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:grid-rows-3 gap-2.5 lg:h-[440px]">
+                    {TEAM_ROSTER.map((m, i) => (
+                      <CallTile
+                        key={m.id}
+                        member={m}
+                        variant="grid"
+                        fill
+                        active={i === activeIndex}
+                        videoEnabled={inView && !callEnded}
+                        onSelect={() => selectSpeaker(i)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-stretch gap-2.5 lg:h-[440px]">
+                    <div className="w-full sm:w-[58%] aspect-[4/3] lg:aspect-auto">
+                      <CallTile
+                        member={active}
+                        variant="speaker"
+                        active
+                        videoEnabled={inView && !callEnded}
+                      />
+                    </div>
+                    {/* h below sm: grid-rows-5 is 1fr rows, and 1fr of an auto
+                      height grid sizes to content — tiles whose only content
+                      is absolutely positioned (photos, videos) have none, so
+                      pinning the one initials-only member deflated his row
+                      and shrank the window. */}
+                    <div className="grid w-full sm:w-[42%] grid-cols-2 grid-rows-5 gap-2 h-[240px] sm:h-auto">
+                      {others.map((m) => {
+                        const realIndex = TEAM_ROSTER.findIndex(
+                          (x) => x.id === m.id,
+                        );
+                        return (
+                          <CallTile
+                            key={m.id}
+                            member={m}
+                            variant="sidebar"
+                            onSelect={() => selectSpeaker(realIndex)}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Chat — an overlay INSIDE the call window on every size. The
