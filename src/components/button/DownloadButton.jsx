@@ -44,6 +44,15 @@ function DownloadButton({ surface } = {}) {
       href: audacityReleases.win[0].browser_download_url,
       releaseName: audacityReleases.win[0].name,
     },
+    // Linux was missing entirely: the MuseHub primary has an os-linux
+    // flavor but this secondary didn't, so Linux visitors saw no direct
+    // download at all. x86_64 AppImage; ARM users have /download.
+    {
+      osClass: "os-linux",
+      osLabel: "Linux",
+      href: audacityReleases.lin[0].browser_download_url,
+      releaseName: audacityReleases.lin[0].name,
+    },
   ];
 
   const renderDownloadLink = (link) => (
