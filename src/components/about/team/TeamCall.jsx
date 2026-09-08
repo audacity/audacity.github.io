@@ -165,30 +165,18 @@ function TeamCall() {
               )}
             </div>
 
-            {/* Chat — mobile: full-screen overlay; desktop: absolute right-side overlay */}
-            {!callEnded &&
-              chatOpen &&
-              (isMobile ? (
-                <div
-                  className="fixed inset-0 z-50 flex"
-                  style={{ background: "rgba(0,0,0,0.6)" }}
-                  onClick={() => setChatOpen(false)}
-                >
-                  <div
-                    className="ml-auto h-full"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <ChatPanel open onClose={() => setChatOpen(false)} />
-                  </div>
-                </div>
-              ) : (
-                <div
-                  className="absolute inset-y-0 right-0 z-10"
-                  style={{ width: 300 }}
-                >
-                  <ChatPanel open onClose={() => setChatOpen(false)} />
-                </div>
-              ))}
+            {/* Chat — an overlay INSIDE the call window on every size. The
+                mobile variant used to be a fixed full-screen takeover, which
+                sat on top of the site nav; contained here, the page chrome
+                stays reachable and the call still shows at the panel's edge. */}
+            {!callEnded && chatOpen && (
+              <div
+                className="absolute inset-y-0 right-0 z-10"
+                style={{ width: "min(85%, 300px)" }}
+              >
+                <ChatPanel open onClose={() => setChatOpen(false)} />
+              </div>
+            )}
           </div>
 
           <CallControls
