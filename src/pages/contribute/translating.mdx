@@ -1,0 +1,93 @@
+---
+layout: "../../layouts/PageLayout.astro"
+title: Audacity ® | Translating Audacity
+description: How to translate Audacity into your language using Transifex.
+heading: Translating Audacity
+intro: Audacity is translated into many languages by volunteers. It is a way to contribute right in Audacity's interface, without writing any code.
+variant: guide
+showPromoBanner: false
+---
+
+import Figure from "../../components/Figure.astro";
+
+{/*
+  The translating guide. Content restored from audacity-support
+  (community/contributing/translating.md) after the support GitBook's
+  restructure 404'd its hosted copy; this page is the live home, and
+  /contribute#translate plus the /community/translators/ shortlink land here.
+
+  Written as markdown against PageLayout's "guide" variant, which carries the
+  type ramp and media framing this page used to spell out inline. The Discord
+  link stays the translator-specific invite from the original guide, per Alex.
+*/}
+
+## Join the project on Transifex
+
+Translation happens on Transifex. Find the Audacity project at
+[explore.transifex.com/audacity/audacity](https://explore.transifex.com/audacity/audacity/) and:
+
+1. Click the **Join this project** button on the right side.
+2. Select the language you would like to contribute to from the dropdown.
+3. Click **Join project** if the language is available to join, or **Request language** if it is not listed yet.
+
+<Figure
+  src={[
+    "/contribute/translating/join-project.webm",
+    "/contribute/translating/join-project.mp4",
+  ]}
+  alt="The Audacity project page on Transifex Explore: the JOIN THIS PROJECT button on the right, then the language dropdown, then Join Project"
+  width={1440}
+  height={900}
+  caption="Select the language you want to translate Audacity to, then join or request it."
+/>
+
+Once you are approved as a translator you receive an email notification. The
+project then appears in your Transifex dashboard and you can start
+contributing.
+
+<Figure
+  src="/contribute/translating/transifex-dashboard.png"
+  alt="The Audacity project dashboard in Transifex, showing source string and word counts, localization activity, per-language progress, and the Translate button at the top right"
+  width={1441}
+  height={901}
+  caption="The Audacity project dashboard in Transifex."
+/>
+
+## Translate strings
+
+1. Click **Translate** at the top right.
+2. Select **Audacity** from the resource overview to start editing.
+3. Select a string and type the corresponding translation in your language.
+4. Click **Save translation** and move to the next string.
+
+<Figure
+  src={[
+    "/contribute/translating/transifex-editor.webm",
+    "/contribute/translating/transifex-editor.mp4",
+  ]}
+  alt="The Transifex editor with the Audacity resource open: selecting a string, typing the translation, and saving it"
+  width={1440}
+  height={900}
+  caption="The Transifex editor, translating strings one by one."
+/>
+
+The editor has keyboard shortcuts that speed the workflow up, listed under its
+overflow menu. The most useful is **Tab**, which saves the current string and
+moves straight to the next one.
+
+<Figure
+  src="/contribute/translating/transifex-shortcuts-menu.png"
+  alt="The Transifex editor's overflow menu, open on Editor Preferences, Show source string in English, and Keyboard Shortcuts"
+  width={407}
+  height={169}
+/>
+
+## Join the translator community
+
+Questions, and notice of upcoming releases that need translation, live in two
+places:
+
+- [The translator channel on Discord](https://discord.gg/UvNH4cFjVP)
+- [The audacity-translation mailing list](https://sourceforge.net/projects/audacity/lists/audacity-translation)
+
+And that's it. Happy translating!
