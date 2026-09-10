@@ -1,17 +1,19 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import dashboardShot from "../../assets/img/contribute/transifex-dashboard.png";
-import shortcutsShot from "../../assets/img/contribute/transifex-shortcuts.png";
 
 /*
-  The translating guide, republished here 9 Sep 2026 from
-  audacity/audacity-support (community/contributing/translating.md, last
-  revised June 2026) after the support GitBook's restructure 404'd its
-  hosted copy. This page is the live home; /contribute#translate and the
-  /community/translators/ shortlink both land here. The two workflow
-  demos were 15 MB of GIF in the source repo — they ship as short muted
-  mp4 loops instead.
+  The translating guide. Content restored from audacity-support
+  (community/contributing/translating.md) after the support GitBook's
+  restructure 404'd its hosted copy; this page is the live home, and
+  /contribute#translate plus the /community/translators/ shortlink land
+  here.
+
+  Merged from two parallel efforts (9-10 Sep 2026): Teetow's
+  feat/translating-page branch supplied the freshly captured media
+  (webm+mp4 sources, 1440x900 screenshots), the figure semantics and the
+  video aria-labels; the hub styling and wiring come from the page that
+  had already shipped. The Discord link stays the translator-specific
+  invite from the original guide, per Alex.
 */
 
 const pageTitle = "Audacity ® | Translating Audacity";
@@ -58,46 +60,74 @@ const pageDescription =
             rel="noopener">explore.transifex.com/audacity/audacity</a
           > and:
         </p>
-        <ul
-          class="list-disc pl-5 flex flex-col gap-2 text-16 md:text-18 text-text-primary/80 marker:text-text-primary/40"
+        <ol
+          class="list-decimal pl-5 flex flex-col gap-2 text-16 md:text-18 text-text-primary/80 marker:text-text-primary/40"
         >
-          <li>Click the <strong>Join this project</strong> button.</li>
-          <li>Select the language you would like to contribute to.</li>
+          <li>
+            Click the <strong>Join this project</strong> button on the right side.
+          </li>
+          <li>
+            Select the language you would like to contribute to from the
+            dropdown.
+          </li>
           <li>
             Click <strong>Join project</strong> if the language is available to join,
             or <strong>Request language</strong> if it is not listed yet.
           </li>
-        </ul>
-        <video
-          src="/videos/contribute/transifex-join.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          class="w-full rounded-lg border border-text-primary/15"></video>
-        <p class="text-14 text-text-primary/60">
-          Select the language you want to translate Audacity to, then join or
-          request it.
-        </p>
+        </ol>
+        <figure class="flex flex-col gap-2">
+          <video
+            width="1440"
+            height="900"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="The Audacity project page on Transifex Explore: the JOIN THIS PROJECT button on the right, then the language dropdown, then Join Project"
+            class="w-full h-auto rounded-lg border border-text-primary/15"
+          >
+            <source
+              src="/contribute/translating/join-project.webm"
+              type="video/webm"
+            />
+            <source
+              src="/contribute/translating/join-project.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <figcaption class="text-14 text-text-primary/60">
+            Select the language you want to translate Audacity to, then join or
+            request it.
+          </figcaption>
+        </figure>
         <p class="text-16 md:text-18 text-text-primary/80">
           Once you are approved as a translator you receive an email
           notification. The project then appears in your Transifex dashboard and
           you can start contributing.
         </p>
-        <Image
-          src={dashboardShot}
-          alt="The Audacity project dashboard in Transifex"
-          class="w-full rounded-lg border border-text-primary/15"
-        />
+        <figure class="flex flex-col gap-2">
+          <img
+            src="/contribute/translating/transifex-dashboard.png"
+            alt="The Audacity project dashboard in Transifex, showing source string and word counts, localization activity, per-language progress, and the Translate button at the top right"
+            width="1441"
+            height="901"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto rounded-lg border border-text-primary/15"
+          />
+          <figcaption class="text-14 text-text-primary/60">
+            The Audacity project dashboard in Transifex.
+          </figcaption>
+        </figure>
       </section>
 
       <section class="flex flex-col gap-4">
         <h2 class="font-harmony text-28 md:text-32 text-text-primary">
           Translate strings
         </h2>
-        <ul
-          class="list-disc pl-5 flex flex-col gap-2 text-16 md:text-18 text-text-primary/80 marker:text-text-primary/40"
+        <ol
+          class="list-decimal pl-5 flex flex-col gap-2 text-16 md:text-18 text-text-primary/80 marker:text-text-primary/40"
         >
           <li>Click <strong>Translate</strong> at the top right.</li>
           <li>
@@ -110,28 +140,46 @@ const pageDescription =
           <li>
             Click <strong>Save translation</strong> and move to the next string.
           </li>
-        </ul>
-        <video
-          src="/videos/contribute/transifex-editor.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          class="w-full rounded-lg border border-text-primary/15"></video>
-        <p class="text-14 text-text-primary/60">
-          The Transifex editor, translating strings one by one.
-        </p>
+        </ol>
+        <figure class="flex flex-col gap-2">
+          <video
+            width="1440"
+            height="900"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="The Transifex editor with the Audacity resource open: selecting a string, typing the translation, and saving it"
+            class="w-full h-auto rounded-lg border border-text-primary/15"
+          >
+            <source
+              src="/contribute/translating/transifex-editor.webm"
+              type="video/webm"
+            />
+            <source
+              src="/contribute/translating/transifex-editor.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <figcaption class="text-14 text-text-primary/60">
+            The Transifex editor, translating strings one by one.
+          </figcaption>
+        </figure>
         <p class="text-16 md:text-18 text-text-primary/80">
           The editor has keyboard shortcuts that speed the workflow up, listed
           under its overflow menu. The most useful is
           <strong>Tab</strong>, which saves the current string and moves
           straight to the next one.
         </p>
-        <Image
-          src={shortcutsShot}
-          alt="The Transifex editor's keyboard shortcut list"
-          class="w-full max-w-md rounded-lg border border-text-primary/15"
+        <img
+          src="/contribute/translating/transifex-shortcuts-menu.png"
+          alt="The Transifex editor's overflow menu, open on Editor Preferences, Show source string in English, and Keyboard Shortcuts"
+          width="407"
+          height="169"
+          loading="lazy"
+          decoding="async"
+          class="h-auto max-w-full rounded-lg border border-text-primary/15"
         />
       </section>
 
