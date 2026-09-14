@@ -188,7 +188,7 @@ Code contributors can be found on Github in the [commit history](https://github.
 
 ### Where can I stay up to date with the latest Audacity news and updates?
 
-Check out our [blog](/blog), subscribe to Audacity [YouTube Channel](https://www.youtube.com/@audacity), or follow us on [Facebook](https://www.facebook.com/Audacity/) or [Twitter](https://twitter.com/getaudacity).
+Check out our [blog](/blog), subscribe to Audacity [YouTube Channel](https://www.youtube.com/@audacity), or follow us on [Facebook](https://www.facebook.com/Audacity/) or [X](https://x.com/audacity_app).
 
 ### I have a question or issue with Audacity. Is there a support team I can contact?
 
