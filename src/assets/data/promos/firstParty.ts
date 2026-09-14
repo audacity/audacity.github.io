@@ -77,7 +77,9 @@ export const firstPartyPromos: Record<string, PromoData> = {
   },
   audioComExitPopup: {
     type: "exit-popup",
-    isActive: true,
+    // Deactivated 14 Sep 2026 with audio.com's blessing; the machinery
+    // stays for the next promo cycle. Flip back to true to restore.
+    isActive: false,
     priority: 50,
     // Both slash forms: suppressOnPaths matches the pathname exactly, unlike
     // routeAllowlist's prefix matching.
