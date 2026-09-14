@@ -54,7 +54,12 @@ const navLabels = {
   signUp: t("nav.signUp"),
 };
 
-const ogImage = image || "/apple-touch-icon.png";
+/*
+  Absolute, because several link scrapers refuse relative og:image URLs.
+  The default is the branded 1200x630 share card; a page's `image` prop
+  still overrides it (and survives being passed as an absolute URL).
+*/
+const ogImage = new URL(image || "/og-image.png", Astro.site).href;
 const ogUrl = canonical || Astro.url.href;
 
 const isNoAdPage =
