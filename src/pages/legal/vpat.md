@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/PageLayout.astro"
-title: Audacity ® | VPAT – Accessibility Conformance Report
+title: VPAT – Accessibility Conformance Report | Audacity
 ---
 
 # Voluntary Product Accessibility Template (VPAT)

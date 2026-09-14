@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/PageLayout.astro"
-title: Audacity ® | Cookie Policy
+title: Cookie Policy | Audacity
 ---
 
 Last updated: 3. July 2026

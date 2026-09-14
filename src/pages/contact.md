@@ -1,6 +1,6 @@
 ---
 layout: "../layouts/PageLayout.astro"
-title: Audacity ® | Contact Us
+title: Contact Us | Audacity
 ---
 
 ## Contact Us

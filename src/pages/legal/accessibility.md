@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/PageLayout.astro"
-title: Audacity ® | Accessibility Statement
+title: Accessibility Statement | Audacity
 ---
 
 # Accessibility Statement – Audacity

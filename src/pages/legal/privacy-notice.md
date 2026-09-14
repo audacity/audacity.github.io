@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/PageLayout.astro"
-title: Audacity ® | Desktop Privacy Policy
+title: Desktop Privacy Policy | Audacity
 ---
 
 ## **About the Privacy Notice**

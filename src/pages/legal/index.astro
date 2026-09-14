@@ -7,31 +7,31 @@ const legalPages = import.meta.glob("./*.md", { eager: true }) as Record<
 >;
 
 const pages = Object.entries(legalPages).map(([path, page]) => ({
-  title: page.frontmatter?.title?.replace("Audacity ® | ", "") || "Untitled",
+  title: page.frontmatter?.title?.replace(" | Audacity", "") || "Untitled",
   url: `/legal/${path.replace(/^\.\/|\.md$/g, "")}`,
 }));
 ---
 
-<BaseLayout title="Audacity ® | Legal">
+<BaseLayout title="Legal | Audacity">
   <section id="main" class="pt-8 pb-16">
     <div class="max-w-screen-lg mx-6 sm:mx-12 md:mx-16 lg:mx-32 xl:mx-auto">
       <h1>Legal Documents</h1>
-      
+
       <p class="my-6 text-lg">
-        This page contains legal documents, policies, and compliance information related to Audacity and its services.
+        This page contains legal documents, policies, and compliance information
+        related to Audacity and its services.
       </p>
 
       <ul class="my-8 space-y-4">
-        {pages.map((page) => (
-          <li>
-            <a 
-              href={page.url} 
-              class="text-blue-700 hover:underline text-lg"
-            >
-              {page.title}
-            </a>
-          </li>
-        ))}
+        {
+          pages.map((page) => (
+            <li>
+              <a href={page.url} class="text-blue-700 hover:underline text-lg">
+                {page.title}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </div>
   </section>
