@@ -56,7 +56,7 @@ contributing.
 ## Translate strings
 
 1. Click **Translate** at the top right.
-2. Select **Audacity** from the resource overview to start editing.
+2. Select the **audacity4** resource to start editing. The older `audacity` resource holds Audacity 3's strings.
 3. Select a string and type the corresponding translation in your language.
 4. Click **Save translation** and move to the next string.
 
@@ -81,6 +81,66 @@ moves straight to the next one.
   width={407}
   height={169}
 />
+
+## Releases and string freeze
+
+Source strings are extracted from Audacity's code and added to Transifex as
+development goes on, so there is usually something waiting to be translated
+before a release is announced. Finished translations are pulled back out of
+Transifex regularly and ship with the next release — there is no need to send
+files to anyone.
+
+The deadline that matters is the **string freeze**:
+
+- When the release candidate is built and regression testing starts, the
+  strings for that release are frozen. Historically that lands about two weeks
+  before the release date.
+- The team emails the
+  [audacity-translation mailing list](https://sourceforge.net/projects/audacity/lists/audacity-translation)
+  with the planned release date. That email is your signal that translations are
+  being accepted for that release.
+- Later release candidates fix bugs found during testing; they do not normally
+  add new text.
+- If something does have to change after the freeze, the team announces it and
+  usually patches the text itself rather than leaving it to you.
+
+Missing a cutoff is not the end of it. Every major release is followed by patch
+releases, and translations submitted after a cutoff go into the next one.
+
+## Translating outside Transifex
+
+You do not have to work in the browser. Transifex will hand you the file for
+your language, which you can translate in an editor of your choice and upload
+back — Transifex is still the only place the team collects translations from.
+
+Audacity 4 uses Qt's translation system, so your language is a `.ts` file where
+Audacity 3 used `.po`. Tools built around `.po` files will not open it.
+
+One thing to know before you pick a tool: the strings carry notes about **where
+in the app** each one appears, added specifically to help translators choose the
+right wording. POEdit opens `.ts` files and can sort by context, but it does not
+read the context as a message context, so those notes are not available to you
+there. [Qt Linguist](https://doc.qt.io/qt-6/qtlinguist-index.html) does read
+them.
+
+### Trying your translation in Audacity
+
+Audacity loads compiled `.qm` files, not `.ts`. In Qt Linguist,
+**File → Release** writes `audacity_<code>.qm` beside your `.ts` file. Copy it
+into Audacity's `locale` folder and restart:
+
+- **Windows:** `C:\Program Files\Audacity 4\locale`, or
+  `%LOCALAPPDATA%\Audacity\Audacity4\locale` if you would rather not write to
+  Program Files
+- **macOS:** `~/Library/Application Support/Audacity/Audacity4/locale`
+- **Linux:** `~/.local/share/Audacity/Audacity4/locale`
+
+A file in the user folder is used when it is newer than the one that ships with
+Audacity, so the copy you just built wins. This works for languages Audacity
+already ships; a language that is new to Audacity has to come through Transifex
+first.
+
+When you are happy with it, upload the `.ts` file back to Transifex.
 
 ## Join the translator community
 

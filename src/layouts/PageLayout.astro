@@ -40,6 +40,13 @@ const isGuide = frontmatter.variant === "guide";
   32px harmony headings, 16/18 body, accent links, and media framed in a
   hairline-bordered rounded box. Videos need saying explicitly — Typography
   styles figures and images but has no opinion about <video>.
+
+  prose-code: Typography dresses inline code in literal backtick
+  pseudo-elements, so `.ts` renders with its backticks showing. A quiet pill
+  instead, tinted from the text colour: background-light is the body's own
+  colour and background-medium is a hair off it, so either would leave the
+  pill invisible. break-words so a long Windows path can't push the page
+  wider than a phone screen.
 */
 const guideProse = `max-w-none
   prose-p:text-16 md:prose-p:text-18 prose-p:text-text-primary/80
@@ -50,6 +57,8 @@ const guideProse = `max-w-none
   prose-a:text-accent prose-a:underline prose-a:underline-offset-4 prose-a:decoration-accent/40 hover:prose-a:decoration-accent
   prose-img:rounded-lg prose-img:border prose-img:border-text-primary/15
   prose-figure:my-6 prose-figcaption:text-text-primary/60 prose-figcaption:mt-2
+  prose-code:text-text-primary prose-code:font-medium prose-code:bg-text-primary/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:break-words
+  prose-code:before:content-none prose-code:after:content-none
   [&_video]:w-full [&_video]:h-auto [&_video]:rounded-lg [&_video]:border [&_video]:border-text-primary/15`;
 
 /*
