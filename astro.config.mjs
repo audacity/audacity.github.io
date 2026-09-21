@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
@@ -17,6 +16,14 @@ const NO_EXTERNAL = [
 
 export default defineConfig({
   site: "https://www.audacityteam.org",
+  /*
+    Astro 7 changed the default from `true` to `'jsx'` (React-style
+    whitespace stripping). That rewrites whitespace in the server HTML and
+    React islands then fail hydration sitewide (#418/#423) because the
+    client render disagrees. `true` is the lossless compressor Astro 6
+    shipped with — identical output to what production has always served.
+  */
+  compressHTML: true,
   /*
     English only for the Audacity 4 release. fr/de/es and their fallback map
     live on the i18n/main branch; widening this array and restoring the
@@ -56,12 +63,13 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+  /*
+    Tailwind runs through postcss.config.cjs (tailwindcss + autoprefixer +
+    postcss-import + nesting), which Vite picks up on its own. The
+    @astrojs/tailwind integration only ever duplicated that wiring — and it
+    stops at Astro 5, so it left with the Astro 7 upgrade.
+  */
   integrations: [
-    tailwind({
-      // Example: Disable injecting a basic `base.css` import on every page.
-      // Useful if you need to define and/or import your own custom `base.css`.
-      applyBaseStyles: false,
-    }),
     react(),
     mdx(),
     icon({
