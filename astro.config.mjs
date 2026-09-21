@@ -5,6 +5,7 @@ import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 
 import sitemap from "@astrojs/sitemap";
+import rehypeExternalLinks from "rehype-external-links";
 
 // https://astro.build/config
 import compressor from "astro-compressor";
@@ -48,6 +49,24 @@ export default defineConfig({
       "/manual/home-screen/project/cloud-projects-and-audio-files",
     // Selection renamed on 3 Sep 2026: the toolbar timecode is the playhead.
     "/manual/toolbar/selection": "/manual/toolbar/playhead-position",
+  },
+  /*
+    Every outbound link in markdown opens in a new tab. The guides expect to
+    be read with the thing they link to open alongside — Transifex, the Qt
+    docs, the mailing list — so taking the tab loses the reader's place.
+
+    Done here rather than per-link so the pages stay plain markdown: raw
+    <a> tags would be the only way to say it inline, and they cost the
+    markdown its portability, trip MD033, and reformat badly under prettier.
+
+    rel is "noopener" to match every hand-written external link in the
+    .astro components. The plugin's own default is "nofollow", which we do
+    not want — these are links we are happy to vouch for.
+  */
+  markdown: {
+    rehypePlugins: [
+      [rehypeExternalLinks, { target: "_blank", rel: ["noopener"] }],
+    ],
   },
   i18n: {
     defaultLocale: "en",
