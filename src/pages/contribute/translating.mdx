@@ -1,0 +1,142 @@
+---
+layout: "../../layouts/PageLayout.astro"
+title: Translating Audacity | Audacity
+description: How to translate Audacity into your language using Transifex.
+heading: Translating Audacity
+intro: Audacity is translated into many languages by volunteers. It is a way to contribute right in Audacity's interface, without writing any code.
+variant: guide
+showPromoBanner: false
+---
+
+import Figure from "../../components/Figure.astro";
+
+## Join the project on Transifex
+
+Translation happens on Transifex. Find the Audacity project at
+[explore.transifex.com/audacity/audacity](https://explore.transifex.com/audacity/audacity/) and:
+
+1. Click the **Join this project** button on the right side.
+2. Select the language you would like to contribute to from the dropdown.
+3. Click **Join project** if the language is available to join, or **Request language** if it is not listed yet.
+
+<Figure
+  src={[
+    "/contribute/translating/join-project.webm",
+    "/contribute/translating/join-project.mp4",
+  ]}
+  alt="The Audacity project on Transifex Explore: the JOIN THIS PROJECT button, then the language dropdown — Albanian, which is available to join, then Adyghe, which the project does not carry yet and which offers Request Language instead"
+  width={1440}
+  height={900}
+  caption="Select the language you want to translate Audacity to, then join or request it."
+/>
+
+Once you are approved as a translator you receive an email notification. The
+project then appears in your Transifex dashboard and you can start
+contributing.
+
+<Figure
+  src="/contribute/translating/transifex-dashboard.png"
+  alt="The Audacity project dashboard in Transifex, showing source string and word counts, localization activity, per-language progress, and the Translate button at the top right"
+  width={1440}
+  height={900}
+  caption="The Audacity project dashboard in Transifex."
+/>
+
+## Translate strings
+
+1. Click **Translate** at the top right.
+2. Select the **Audacity 4** resource to start editing. The **Audacity 3** resource alongside it holds the previous app's strings.
+3. Select a string and type the corresponding translation in your language.
+4. Click **Save Changes** and move to the next string.
+
+<Figure
+  src={[
+    "/contribute/translating/transifex-editor.webm",
+    "/contribute/translating/transifex-editor.mp4",
+  ]}
+  alt="The Swedish page of the Audacity project on Transifex, listing the Audacity 3 and Audacity 4 resources, then the editor open on Audacity 4: the string list filtered down to Make-up Gain, Apply Make-up Gain selected, the Swedish translation typed into the editing pane, and Save Changes clicked"
+  width={1440}
+  height={900}
+  caption="Pick the Audacity 4 resource, then translate strings one at a time."
+/>
+
+The editor has keyboard shortcuts that speed the workflow up, listed under its
+overflow menu. The most useful is **Tab**, which saves the current string and
+moves straight to the next one.
+
+<Figure
+  src="/contribute/translating/transifex-shortcuts-menu.png"
+  alt="The Transifex editor's overflow menu, open on Editor Preferences, Show source string in English, and Keyboard Shortcuts"
+  width={407}
+  height={169}
+/>
+
+## Releases and string freeze
+
+Source strings are extracted from Audacity's code and added to Transifex as
+development goes on, so there is usually something waiting to be translated
+before a release is announced. Finished translations are pulled back out of
+Transifex regularly and ship with the next release — there is no need to send
+files to anyone.
+
+The deadline that matters is the **string freeze**:
+
+- When the release candidate is built and regression testing starts, the
+  strings for that release are frozen. Historically that lands about two weeks
+  before the release date.
+- The team emails the
+  [audacity-translation mailing list](https://sourceforge.net/projects/audacity/lists/audacity-translation)
+  with the planned release date. That email is your signal that translations are
+  being accepted for that release.
+- Later release candidates fix bugs found during testing; they do not normally
+  add new text.
+- If something does have to change after the freeze, the team announces it and
+  usually patches the text itself rather than leaving it to you.
+
+Missing a cutoff is not the end of it. Every major release is followed by patch
+releases, and translations submitted after a cutoff go into the next one.
+
+## Translating outside Transifex
+
+You do not have to work in the browser. Transifex will hand you the file for
+your language, which you can translate in an editor of your choice and upload
+back — Transifex is still the only place the team collects translations from.
+
+Audacity 4 uses Qt's translation system, so your language is a `.ts` file where
+Audacity 3 used `.po`. Tools built around `.po` files will not open it.
+
+One thing to know before you pick a tool: the strings carry notes about **where
+in the app** each one appears, added specifically to help translators choose the
+right wording. POEdit opens `.ts` files and can sort by context, but it does not
+read the context as a message context, so those notes are not available to you
+there. [Qt Linguist](https://doc.qt.io/qt-6/qtlinguist-index.html) does read
+them.
+
+### Trying your translation in Audacity
+
+Audacity loads compiled `.qm` files, not `.ts`. In Qt Linguist,
+**File → Release** writes `audacity_<code>.qm` beside your `.ts` file. Copy it
+into Audacity's `locale` folder and restart:
+
+- **Windows:** `C:\Program Files\Audacity 4\locale`, or
+  `%LOCALAPPDATA%\Audacity\Audacity4\locale` if you would rather not write to
+  Program Files
+- **macOS:** `~/Library/Application Support/Audacity/Audacity4/locale`
+- **Linux:** `~/.local/share/Audacity/Audacity4/locale`
+
+A file in the user folder is used when it is newer than the one that ships with
+Audacity, so the copy you just built wins. This works for languages Audacity
+already ships; a language that is new to Audacity has to come through Transifex
+first.
+
+When you are happy with it, upload the `.ts` file back to Transifex.
+
+## Join the translator community
+
+Questions, and notice of upcoming releases that need translation, live in two
+places:
+
+- [The translator channel on Discord](https://discord.gg/UvNH4cFjVP)
+- [The audacity-translation mailing list](https://sourceforge.net/projects/audacity/lists/audacity-translation)
+
+And that's it. Happy translating!

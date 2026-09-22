@@ -4,6 +4,8 @@ import BaseLayout from "./BaseLayout.astro";
 interface Props {
   frontmatter: {
     title: string;
+    description?: string;
+    showPromoBanner?: boolean;
     /*
       Opt in to the Pagefind index. Off by default: this layout also carries
       the legal pages (CLA, privacy, cookies, VPAT), and surfacing those in
@@ -17,14 +19,66 @@ interface Props {
     */
     heading?: string;
     intro?: string;
+    /*
+      "guide": a walkthrough written as markdown — the contribute guides. It
+      takes the hub's content width rather than the reading measure, because
+      these pages carry full-width screenshots and screen recordings that a
+      65ch column would shrink past legibility, and it names the type ramp
+      and media framing those pages were built with. Everything else (legal,
+      FAQ, contact) leaves it unset and renders as before.
+    */
+    variant?: "guide";
   };
 }
 
 const { frontmatter } = Astro.props;
 const indexed = frontmatter.searchable === true;
+const isGuide = frontmatter.variant === "guide";
+
+/*
+  The guide ramp, kept close to what these pages were hand-written with:
+  32px harmony headings, 16/18 body, accent links, and media framed in a
+  hairline-bordered rounded box. Videos need saying explicitly — Typography
+  styles figures and images but has no opinion about <video>.
+
+  prose-code: Typography dresses inline code in literal backtick
+  pseudo-elements, so `.ts` renders with its backticks showing. A quiet pill
+  instead, tinted from the text colour: background-light is the body's own
+  colour and background-medium is a hair off it, so either would leave the
+  pill invisible. break-words so a long Windows path can't push the page
+  wider than a phone screen.
+*/
+const guideProse = `max-w-none
+  prose-p:text-16 md:prose-p:text-18 prose-p:text-text-primary/80
+  prose-li:text-16 md:prose-li:text-18 prose-li:text-text-primary/80 prose-li:my-1
+  prose-h2:font-harmony prose-h2:text-24 md:prose-h2:text-32 prose-h2:font-normal prose-h2:leading-tight prose-h2:text-text-primary prose-h2:mt-12 prose-h2:mb-4
+  prose-h3:text-18 md:prose-h3:text-20 prose-h3:font-semibold prose-h3:text-text-primary prose-h3:mt-8 prose-h3:mb-3
+  prose-strong:text-text-primary prose-strong:font-semibold
+  prose-a:text-accent prose-a:underline prose-a:underline-offset-4 prose-a:decoration-accent/40 hover:prose-a:decoration-accent
+  prose-img:rounded-lg prose-img:border prose-img:border-text-primary/15
+  prose-figure:my-6 prose-figcaption:text-text-primary/60 prose-figcaption:mt-2
+  prose-code:text-text-primary prose-code:font-medium prose-code:bg-text-primary/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:break-words
+  prose-code:before:content-none prose-code:after:content-none
+  [&_video]:w-full [&_video]:h-auto [&_video]:rounded-lg [&_video]:border [&_video]:border-text-primary/15`;
+
+/*
+  The shell sets the page's measure, the column inside it carries the prose
+  rules: a guide's wrapper width would otherwise sit on the same element as
+  Typography's own max-width and the two would race.
+*/
+const shellClass = isGuide
+  ? "max-w-screen-lg mx-auto px-6 xs:px-12 md:px-8 py-12 md:py-16"
+  : "py-12 md:py-20";
+const columnClass = isGuide
+  ? `prose prose-blue ${guideProse}`
+  : "prose prose-blue mx-4 sm:mx-auto";
 ---
 
-<BaseLayout title={frontmatter.title}>
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  showPromoBanner={frontmatter.showPromoBanner}
+>
   {
     frontmatter.heading && (
       <section class="bg-background-deep">
@@ -43,12 +97,14 @@ const indexed = frontmatter.searchable === true;
   }
   <article
     id="main"
-    class="mx-4 sm:mx-auto py-12 md:py-20 prose prose-blue"
+    class={shellClass}
     data-pagefind-body={indexed ? true : undefined}
     data-pagefind-filter={indexed
       ? `type:${frontmatter.searchType ?? "FAQ"}`
       : undefined}
   >
-    <slot />
+    <div class={columnClass}>
+      <slot />
+    </div>
   </article>
 </BaseLayout>

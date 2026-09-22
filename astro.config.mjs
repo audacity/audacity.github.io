@@ -4,6 +4,7 @@ import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
 
 import sitemap from "@astrojs/sitemap";
+import { satteri } from "@astrojs/markdown-satteri";
 
 // https://astro.build/config
 import compressor from "astro-compressor";
@@ -13,6 +14,38 @@ const NO_EXTERNAL = [
   "@audacity-ui/components",
   "gsap",
 ];
+
+/*
+  Every outbound link in markdown opens in a new tab. The guides expect to be
+  read with the thing they link to open alongside — Transifex, the Qt docs,
+  the mailing list — so taking the tab loses the reader's place.
+
+  Done here rather than per-link so the pages stay plain markdown: raw <a>
+  tags would be the only way to say it inline, and they cost the markdown its
+  portability, trip MD033, and reformat badly under prettier.
+
+  Written against Sätteri's visitor API rather than as a rehype plugin.
+  Astro 7 made Sätteri the default Markdown processor, and `rehypePlugins`
+  is now the legacy path — using it pulls @astrojs/markdown-remark back in
+  and moves the whole site off Sätteri, which is not a trade worth making
+  for two attributes.
+
+  Protocol-relative and scheme-relative hrefs are left alone: only http(s)
+  is outbound for certain. rel is "noopener", matching every hand-written
+  external link in the .astro components.
+*/
+const externalLinks = {
+  name: "external-links-open-in-new-tab",
+  element: {
+    filter: ["a"],
+    visit(node, ctx) {
+      const href = node.properties?.href;
+      if (typeof href !== "string" || !/^https?:\/\//i.test(href)) return;
+      ctx.setProperty(node, "target", "_blank");
+      ctx.setProperty(node, "rel", "noopener");
+    },
+  },
+};
 
 export default defineConfig({
   site: "https://www.audacityteam.org",
@@ -55,6 +88,9 @@ export default defineConfig({
       "/manual/home-screen/project/cloud-projects-and-audio-files",
     // Selection renamed on 3 Sep 2026: the toolbar timecode is the playhead.
     "/manual/toolbar/selection": "/manual/toolbar/playhead-position",
+  },
+  markdown: {
+    processor: satteri({ hastPlugins: [externalLinks] }),
   },
   i18n: {
     defaultLocale: "en",
