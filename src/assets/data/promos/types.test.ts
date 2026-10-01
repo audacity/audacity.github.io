@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { isPromoDateActive } from "./types";
-import type { PromoData } from "./types";
+import { getCurrentTopList, isPromoDateActive } from "./types";
+import type { PromoData, TopListCampaign } from "./types";
 
 const makePromo = (overrides: Partial<PromoData> = {}): PromoData => ({
   type: "banner",
@@ -77,5 +77,32 @@ describe("isPromoDateActive", () => {
     test("returns false after window", () => {
       expect(isPromoDateActive(promo, "2026-05-14")).toBe(false);
     });
+  });
+});
+
+describe("getCurrentTopList", () => {
+  const list = (startDate: string, endDate: string): TopListCampaign => ({
+    startDate,
+    endDate,
+    items: [{ name: startDate, tagline: "", href: "" }],
+  });
+  const sept = list("2026-09-07", "2026-09-30");
+  const oct = list("2026-10-01", "2026-10-29");
+  const nov = list("2026-10-29", "2026-11-27");
+
+  test("picks the active window", () => {
+    expect(getCurrentTopList([sept, oct, nov], "2026-10-10")).toBe(oct);
+  });
+
+  test("on an overlapping boundary day, the newer window wins", () => {
+    expect(getCurrentTopList([oct, nov], "2026-10-29")).toBe(nov);
+  });
+
+  test("falls back to the latest past window in a gap", () => {
+    expect(getCurrentTopList([sept, nov], "2026-10-10")).toBe(sept);
+  });
+
+  test("never shows an upcoming window early", () => {
+    expect(getCurrentTopList([nov], "2026-10-10")).toBeUndefined();
   });
 });

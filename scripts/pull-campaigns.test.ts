@@ -3,9 +3,11 @@ import {
   assertUrlsFromSource,
   buildCampaignBundle,
   cellText,
+  classifyPlacement,
   extractPromoTable,
   formatReport,
   mapRowToPromo,
+  mapRowToTopList,
   mergeCampaignBundleAdditively,
   parseCliArgs,
   parseConfluencePageReference,
@@ -145,6 +147,8 @@ describe("resolveTimeline", () => {
         copy: "X",
         placement: "Top Banner",
         urls: [],
+        productLinks: [],
+        copyLines: [],
       },
     ];
     const [resolved] = resolveTimeline(rows, TODAY);
@@ -236,6 +240,7 @@ describe("mergeCampaignBundleAdditively", () => {
           },
         },
         videoPromos: {},
+        topLists: {},
       },
       {
         bannerPromos: {
@@ -247,6 +252,7 @@ describe("mergeCampaignBundleAdditively", () => {
           },
         },
         videoPromos: {},
+        topLists: {},
         summary: "ignored",
         ignoredEntries: ["past-row"],
       },
@@ -278,6 +284,7 @@ describe("assertUrlsFromSource", () => {
         },
       },
       videoPromos: {},
+      topLists: {},
       summary: "",
       ignoredEntries: [],
     };
@@ -297,6 +304,7 @@ describe("assertUrlsFromSource", () => {
         },
       },
       videoPromos: {},
+      topLists: {},
       summary: "",
       ignoredEntries: [],
     };
@@ -321,6 +329,7 @@ describe("assertUrlsFromSource", () => {
           },
         },
       },
+      topLists: {},
       summary: "",
       ignoredEntries: [],
     };
@@ -348,6 +357,7 @@ describe("formatReport", () => {
       {
         bannerPromos: {},
         videoPromos: {},
+        topLists: {},
         summary: "2 banner + 1 video promo(s)",
         ignoredEntries: ["Apr 29 to May 13 — audacityExplained (past)"],
       },
@@ -376,12 +386,14 @@ describe("renderCampaignModule", () => {
         },
       },
       videoPromos: {},
+      topLists: {},
       summary: "1 banner + 0 video promo(s)",
       ignoredEntries: ["should not appear in file"],
     });
 
     expect(rendered).toContain("campaignBannerPromos");
     expect(rendered).toContain("campaignVideoPromos");
+    expect(rendered).toContain("campaignTopLists");
     expect(rendered).toContain("Denoiser");
     expect(rendered).toContain("do not edit");
 
@@ -395,5 +407,188 @@ describe("renderCampaignModule", () => {
 
     // The sync report (summary + ignored rows) is not baked into the file.
     expect(rendered).not.toContain("should not appear in file");
+  });
+});
+
+// Shaped like the calendar's real "Top-5" rows: linked names in the product
+// cell, a "Name: tagline" list in the copy cell. The newest row lists its
+// copy in a different order to prove pairing is by name.
+const UTM = "utm_source=AU&amp;utm_content=top-trending-plugins";
+const topListRow = (dates: string, names: string[], copyOrder = names) => `
+    <tr>
+      <td><p>${dates}</p></td>
+      <td><div class="content-wrapper">${names
+        .map(
+          (name, i) =>
+            `<p><a href="https://www.musehub.com/${i === 0 ? "bundle" : "plugin"}/p${i}?${UTM}">${name.replace(/&/g, "&amp;")}</a></p>`,
+        )
+        .join("")}</div></td>
+      <td><ul>${copyOrder
+        .map(
+          (name) =>
+            `<li><strong>${name.replace(/&/g, "&amp;")}:</strong> ${name} tagline</li>`,
+        )
+        .join("")}</ul></td>
+      <td><div class="content-wrapper"><p>Top-5 trending plugins for Audacity</p></div></td>
+      <td>NA</td><td></td><td></td>
+    </tr>`;
+
+const OCT = [
+  "Soap Voice Clean & Capture Bundle",
+  "MuseFX",
+  "Speaker Splitter Pro",
+  "Trinity EQ",
+  "Graillon 3",
+];
+const SEPT = [
+  "Extract:Dialogue 2",
+  "MuseFX",
+  "LANDR FX Voice",
+  "Soap Voice Cleaner",
+  "Graillon 3",
+];
+const AUG = ["A", "B", "C", "D", "E"];
+
+const topListTable = (rows: string) => `
+<table><tbody>
+  <tr><th>Dates (From - to )</th><th>Partner/product</th><th>Copy</th><th>Audacity</th><th>MuseScore.org</th><th>Results</th><th>Notes</th></tr>
+  ${rows}
+</tbody></table>`;
+
+describe("classifyPlacement", () => {
+  test("recognises Top-5 rows without catching Top Banner", () => {
+    expect(classifyPlacement("Top-5 trending plugins for Audacity")).toBe(
+      "top-list",
+    );
+    expect(classifyPlacement("Top 5 plugins")).toBe("top-list");
+    expect(classifyPlacement("Top Banner")).toBe("banner");
+  });
+});
+
+describe("mapRowToTopList", () => {
+  test("pairs linked names with taglines by name and keeps hrefs verbatim", () => {
+    const [row] = extractPromoTable(
+      topListTable(topListRow("Oct 1-Oct 29", OCT, [...OCT].reverse())),
+    );
+    const mapped = mapRowToTopList(row, {
+      startDate: "2026-10-01",
+      endDate: "2026-10-29",
+    });
+    if ("error" in mapped) throw new Error(mapped.error);
+
+    expect(mapped.id).toBe("topList20261001");
+    expect(mapped.list.items.map((item) => item.name)).toEqual(OCT);
+    expect(mapped.list.items[0]).toEqual({
+      name: "Soap Voice Clean & Capture Bundle",
+      tagline: "Soap Voice Clean & Capture Bundle tagline",
+      href: "https://www.musehub.com/bundle/p0?utm_source=AU&utm_content=top-trending-plugins",
+    });
+  });
+
+  test("handles a colon inside a product name", () => {
+    const [row] = extractPromoTable(
+      topListTable(topListRow("Sept 7-Oct 1", SEPT)),
+    );
+    const mapped = mapRowToTopList(row, {});
+    if ("error" in mapped) throw new Error(mapped.error);
+    expect(mapped.list.items[0]).toMatchObject({
+      name: "Extract:Dialogue 2",
+      tagline: "Extract:Dialogue 2 tagline",
+    });
+  });
+
+  test("reports a missing tagline instead of guessing", () => {
+    const [row] = extractPromoTable(
+      topListTable(topListRow("Oct 1-Oct 29", OCT, OCT.slice(0, 4))),
+    );
+    const mapped = mapRowToTopList(row, {});
+    expect("error" in mapped && mapped.error).toContain("Graillon 3");
+  });
+
+  test("reports a list that is not five long", () => {
+    const [row] = extractPromoTable(
+      topListTable(topListRow("Oct 1-Oct 29", OCT.slice(0, 4))),
+    );
+    const mapped = mapRowToTopList(row, {});
+    expect("error" in mapped && mapped.error).toContain("found 4");
+  });
+});
+
+describe("buildCampaignBundle with top lists", () => {
+  const html = topListTable(
+    topListRow("Oct 29-Nov 27", AUG) +
+      topListRow("Oct 1-Oct 29", OCT) +
+      topListRow("Aug 1-Aug 30", AUG) +
+      topListRow("July 1-July 30", AUG),
+  );
+
+  test("keeps current, upcoming and only the latest past list", () => {
+    const rows = extractPromoTable(html);
+    const timeline = resolveTimeline(rows, new Date("2026-10-10T00:00:00Z"));
+    const bundle = buildCampaignBundle(rows, timeline, "2026-10-10");
+
+    expect(Object.keys(bundle.topLists)).toEqual([
+      "topList20261029",
+      "topList20261001",
+      "topList20260801",
+    ]);
+    expect(
+      bundle.ignoredEntries.some((entry) => entry.includes("topList20260701")),
+    ).toBe(true);
+    expect(Object.keys(bundle.bannerPromos)).toEqual([]);
+  });
+
+  test("keeps the latest past list as a fallback once every window has ended", () => {
+    const rows = extractPromoTable(html);
+    const timeline = resolveTimeline(rows, new Date("2026-12-10T00:00:00Z"));
+    const bundle = buildCampaignBundle(rows, timeline, "2026-12-10");
+
+    expect(Object.keys(bundle.topLists)).toEqual(["topList20261029"]);
+    expect(
+      bundle.ignoredEntries.some((entry) => entry.includes("topList20260801")),
+    ).toBe(true);
+  });
+
+  test("throws on a broken current list but only notes a broken old one", () => {
+    const broken = topListRow("Oct 1-Oct 29", OCT.slice(0, 4));
+    const today = new Date("2026-10-10T00:00:00Z");
+
+    const current = extractPromoTable(topListTable(broken));
+    expect(() =>
+      buildCampaignBundle(
+        current,
+        resolveTimeline(current, today),
+        "2026-10-10",
+      ),
+    ).toThrow("found 4");
+
+    const later = new Date("2027-01-10T00:00:00Z");
+    const past = extractPromoTable(
+      topListTable(topListRow("Dec 1-Jan 5", OCT) + broken),
+    );
+    const bundle = buildCampaignBundle(
+      past,
+      resolveTimeline(past, later),
+      "2027-01-10",
+    );
+    expect(
+      bundle.ignoredEntries.some((entry) => entry.includes("found 4")),
+    ).toBe(true);
+  });
+
+  test("top-list hrefs are held to the URL integrity check", () => {
+    const rows = extractPromoTable(
+      topListTable(topListRow("Oct 1-Oct 29", OCT)),
+    );
+    const bundle = buildCampaignBundle(
+      rows,
+      resolveTimeline(rows, new Date("2026-10-10T00:00:00Z")),
+      "2026-10-10",
+    );
+    const sourceUrls = rows.flatMap((row) => row.urls);
+    expect(() => assertUrlsFromSource(bundle, sourceUrls)).not.toThrow();
+    expect(() => assertUrlsFromSource(bundle, sourceUrls.slice(1))).toThrow(
+      "not found in Confluence",
+    );
   });
 });

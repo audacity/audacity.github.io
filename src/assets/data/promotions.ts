@@ -5,11 +5,21 @@ import type {
   TrackingConfig,
   PromoData,
   FilterOptions,
+  TopListCampaign,
+  TopListItem,
 } from "./promos/types";
 
-import { getFilteredPromos, isPromoDateActive } from "./promos/types";
+import {
+  getCurrentTopList,
+  getFilteredPromos,
+  isPromoDateActive,
+} from "./promos/types";
 import { firstPartyPromos } from "./promos/firstParty";
-import { campaignBannerPromos, campaignVideoPromos } from "./promos/campaigns";
+import {
+  campaignBannerPromos,
+  campaignTopLists,
+  campaignVideoPromos,
+} from "./promos/campaigns";
 
 export type {
   PromoType,
@@ -18,6 +28,8 @@ export type {
   TrackingConfig,
   PromoData,
   FilterOptions,
+  TopListCampaign,
+  TopListItem,
 };
 
 export { getFilteredPromos, isPromoDateActive };
@@ -45,3 +57,11 @@ const promoData: Record<string, PromoData> = {
 };
 
 export default promoData;
+
+/**
+ * The "Top-5 trending plugins" list for today, from the Confluence calendar.
+ * Shared by the homepage section and the footer's plugin column. Resolved at
+ * build time, so a new window goes live with the next deploy.
+ */
+export const getTopPlugins = (today?: string): TopListItem[] =>
+  getCurrentTopList(Object.values(campaignTopLists), today)?.items ?? [];

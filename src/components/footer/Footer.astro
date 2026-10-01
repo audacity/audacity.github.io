@@ -13,6 +13,7 @@ import TwitterSVG from "../inlineSVG/TwitterSVG";
 import YoutubeSVG from "../inlineSVG/YoutubeSVG";
 import DiscordSVG from "../inlineSVG/DiscordSVG";
 import { useTranslations } from "../../i18n";
+import { getTopPlugins } from "../../assets/data/promotions";
 
 const t = useTranslations(Astro.currentLocale);
 const localePrefix =
@@ -101,37 +102,18 @@ const social = [
   { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
-/* The same MuseHub plugin destinations and campaign as the homepage's
-   Top-5 section, with utm_content marking these as footer clicks. */
-const MUSEHUB_UTM =
-  "utm_medium=Referral&utm_source=au&utm_campaign=MH_WW_REF_AU_WEB_ALL_030926_crosslink&utm_content=footer";
-const plugins = [
-  {
-    href: `https://www.musehub.com/plugin/extractdialogue-2?${MUSEHUB_UTM}`,
-    label: "Extract:Dialogue 2",
-    external: true,
-  },
-  {
-    href: `https://www.musehub.com/plugin/musefx?${MUSEHUB_UTM}`,
-    label: "MuseFX",
-    external: true,
-  },
-  {
-    href: `https://www.musehub.com/plugin/landr-fx-voice?${MUSEHUB_UTM}`,
-    label: "LANDR FX Voice",
-    external: true,
-  },
-  {
-    href: `https://www.musehub.com/plugin/soap-voice-cleaner?${MUSEHUB_UTM}`,
-    label: "Soap Voice Cleaner",
-    external: true,
-  },
-  {
-    href: `https://www.musehub.com/plugin/graillon-3?${MUSEHUB_UTM}`,
-    label: "Graillon",
-    external: true,
-  },
-];
+/* The same MuseHub destinations and campaign as the homepage's Top-5
+   section, with utm_content marking these as footer clicks. */
+function asFooterLink(href: string) {
+  const url = new URL(href);
+  url.searchParams.set("utm_content", "footer");
+  return url.toString();
+}
+const plugins = getTopPlugins().map((plugin) => ({
+  href: asFooterLink(plugin.href),
+  label: plugin.name,
+  external: true,
+}));
 ---
 
 <footer class="bg-background-deep py-12">
@@ -240,33 +222,37 @@ const plugins = [
         </div>
 
         <!-- Plugins Column -->
-        <div>
-          <p class="font-harmony text-32 text-text-contrast">
-            {t("footer.nav.plugins")}
-          </p>
-          <ul class="mt-2 space-y-2 md:space-y-0">
-            {
-              plugins.map((link) => (
-                <li class="w-fit">
-                  <a
-                    href={
-                      link.external ? link.href : `${localePrefix}${link.href}`
-                    }
-                    aria-label={
-                      link.external
-                        ? `External link to ${link.label}`
-                        : `Link to ${link.label}`
-                    }
-                    target={link.external ? "_blank" : undefined}
-                    class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+        {
+          plugins.length > 0 && (
+            <div>
+              <p class="font-harmony text-32 text-text-contrast">
+                {t("footer.nav.plugins")}
+              </p>
+              <ul class="mt-2 space-y-2 md:space-y-0">
+                {plugins.map((link) => (
+                  <li class="w-fit">
+                    <a
+                      href={
+                        link.external
+                          ? link.href
+                          : `${localePrefix}${link.href}`
+                      }
+                      aria-label={
+                        link.external
+                          ? `External link to ${link.label}`
+                          : `Link to ${link.label}`
+                      }
+                      target={link.external ? "_blank" : undefined}
+                      class="text-text-contrast/75 hover:text-accent hover:underline transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
       </div>
     </div>
 

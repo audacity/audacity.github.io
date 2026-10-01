@@ -123,10 +123,5 @@
 
   "plugins.heading": "Top-5 trending plugins for Audacity",
   "plugins.distributor": "MuseHub is the official distributor of Audacity",
-  "plugins.soapVoiceBundle": "Clean up spoken voice and create instant transcripts",
-  "plugins.musefx": "Essential collection of mix effects",
-  "plugins.speakerSplitterPro": "Automatically split mixed-speaker audio into separate tracks",
-  "plugins.trinityEq": "Shape your sound with precision and warmth",
-  "plugins.graillon": "Real-time vocal tuner",
   "plugins.badgeAlt": "Download on MuseHub"
 }

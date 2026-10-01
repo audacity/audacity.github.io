@@ -56,6 +56,23 @@ export type PromoData = {
   };
 };
 
+/** One entry in a curated MuseHub list, e.g. the homepage's "Top-5 trending plugins". */
+export type TopListItem = {
+  name: string;
+  tagline: string;
+  /** Destination exactly as given in the promo calendar, campaign params included. */
+  href: string;
+};
+
+/** A curated list that runs for a date window, like a banner campaign. */
+export type TopListCampaign = {
+  /** ISO date string (YYYY-MM-DD). */
+  startDate?: string;
+  /** ISO date string (YYYY-MM-DD), inclusive. */
+  endDate?: string;
+  items: TopListItem[];
+};
+
 export type FilterOptions = {
   type?: PromoType;
   os?: string | null;
@@ -105,4 +122,20 @@ export const getFilteredPromos = (
 
     return true;
   });
+};
+
+/**
+ * The list to show today: the active window with the latest start, else the
+ * most recently started past window, so the section never goes empty between
+ * calendar rows. Upcoming windows are never shown early.
+ */
+export const getCurrentTopList = (
+  lists: TopListCampaign[],
+  today = new Date().toISOString().slice(0, 10),
+): TopListCampaign | undefined => {
+  const started = lists
+    .filter((list) => !list.startDate || list.startDate <= today)
+    .sort((a, b) => (b.startDate ?? "").localeCompare(a.startDate ?? ""));
+  const active = started.find((list) => !list.endDate || today <= list.endDate);
+  return active ?? started[0];
 };

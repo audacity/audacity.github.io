@@ -3,7 +3,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
-import type { PromoData } from "../src/assets/data/promos/types";
+import type {
+  PromoData,
+  TopListCampaign,
+  TopListItem,
+} from "../src/assets/data/promos/types";
 
 /**
  * Campaign promo pull pipeline.
@@ -17,7 +21,8 @@ import type { PromoData } from "../src/assets/data/promos/types";
  *      preserving destination URLs verbatim (UTM params must never change).
  *   3. Resolves the (year-less) date ranges via a monotonic walk anchored on
  *      today, then keeps only currently-active and upcoming promos.
- *   4. Maps each row to a typed PromoData entry using fixed site conventions.
+ *   4. Maps each row to a typed PromoData entry using fixed site conventions,
+ *      or — for "Top-5" rows — to a TopListCampaign of linked names + taglines.
  *   5. Optionally runs an LLM pass that may only tidy human-authored copy
  *      (typos, length) — never URLs, dates, types, or tracking. Skipped when
  *      no backend is available, and a no-op when the copy is already clean.
@@ -48,6 +53,9 @@ const VIDEO_TRACKING = {
   category: "Video embed",
   action: "Watch release video",
 } as const;
+// The homepage section is headed "Top-5", so a list of any other length is
+// treated as a calendar mistake rather than rendered.
+const TOP_LIST_SIZE = 5;
 
 const MONTHS: Record<string, number> = {
   jan: 0,
@@ -91,6 +99,10 @@ export type ExtractedRow = {
   copy: string;
   placement: string; // the "Audacity" column
   urls: string[];
+  /** Linked text in the product cell, in order, e.g. a Top-5 row's names. */
+  productLinks: { text: string; href: string }[];
+  /** The copy cell split on paragraphs, list items and line breaks. */
+  copyLines: string[];
 };
 
 export type ResolvedDates = {
@@ -102,6 +114,7 @@ export type ResolvedDates = {
 export type CampaignBundle = {
   bannerPromos: Record<string, PromoData>;
   videoPromos: Record<string, PromoData>;
+  topLists: Record<string, TopListCampaign>;
   summary: string;
   ignoredEntries: string[];
 };
@@ -109,6 +122,7 @@ export type CampaignBundle = {
 type ExistingCampaignPromos = {
   bannerPromos: Record<string, PromoData>;
   videoPromos: Record<string, PromoData>;
+  topLists: Record<string, TopListCampaign>;
 };
 
 type ClaudeCliConfig = { command: string; model?: string };
@@ -273,6 +287,24 @@ function collectUrls(fragment: string): string[] {
   return [...urls];
 }
 
+function collectLinks(fragment: string): { text: string; href: string }[] {
+  return [
+    ...fragment.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi),
+  ]
+    .map((match) => ({
+      text: cellText(match[2]),
+      href: decodeEntities(match[1]),
+    }))
+    .filter((link) => link.text);
+}
+
+function splitLines(fragment: string): string[] {
+  return fragment
+    .split(/<\/(?:p|li|div)>|<br\s*\/?>/i)
+    .map(cellText)
+    .filter(Boolean);
+}
+
 /**
  * Locate the promo calendar table (identified by its "Partner/product" header)
  * and return one ExtractedRow per data row. Returns [] if the table is absent.
@@ -306,6 +338,8 @@ export function extractPromoTable(storageHtml: string): ExtractedRow[] {
         ...collectUrls(cells[2]),
         ...collectUrls(cells[3]),
       ],
+      productLinks: collectLinks(cells[1]),
+      copyLines: splitLines(cells[2]),
     });
   }
 
@@ -410,11 +444,15 @@ export function resolveTimeline(
 // Row -> PromoData mapping
 // ---------------------------------------------------------------------------
 
-type PromoType = "banner" | "video" | "skip";
+type PromoType = "banner" | "video" | "top-list" | "skip";
 
-function classifyPlacement(placement: string): PromoType {
+export function classifyPlacement(placement: string): PromoType {
   const value = placement.toLowerCase();
   if (value.includes("taken down")) return "skip";
+  // "Top-5 trending plugins for Audacity". Checked before "banner" so a
+  // future "Top-5 banner" wording still lands here; "Top Banner" has no digit.
+  if (/\btop[\s-]*\d/.test(value) || value.includes("trending"))
+    return "top-list";
   if (value.includes("video")) return "video";
   if (value.includes("banner")) return "banner";
   return "skip"; // "N/A", blank, MuseScore-only
@@ -477,7 +515,7 @@ export function mapRowToPromo(
   dates: ResolvedDates,
 ): { id: string; promo: PromoData } | null {
   const type = classifyPlacement(row.placement);
-  if (type === "skip") return null;
+  if (type === "skip" || type === "top-list") return null;
 
   const product = deriveProductName(row);
   const id = toCamelCaseId(product);
@@ -527,6 +565,66 @@ export function mapRowToPromo(
   return { id, promo };
 }
 
+/** Loose key for pairing a linked name with its "Name: tagline" copy line. */
+function nameKey(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+/**
+ * Convert a Top-5 row into a TopListCampaign. Names and destinations come
+ * from the product cell's links; taglines from the copy cell's
+ * "Name: tagline" lines, paired by name rather than position since both
+ * cells are edited by hand. Returns an error message instead of guessing
+ * when the two cells disagree.
+ */
+export function mapRowToTopList(
+  row: ExtractedRow,
+  dates: ResolvedDates,
+): { id: string; list: TopListCampaign } | { error: string } {
+  // Match "<name>:" as a prefix first, so names that contain a colon
+  // ("Extract:Dialogue 2") still pair; fall back to the text before the
+  // first colon for spelling drift like "&" vs "and".
+  const findTagline = (name: string): string | undefined => {
+    const key = nameKey(name);
+    for (const line of row.copyLines) {
+      const rest = line.slice(name.length).match(/^\s*:\s*(.+)$/);
+      if (line.toLowerCase().startsWith(name.toLowerCase()) && rest)
+        return rest[1].trim();
+    }
+    for (const line of row.copyLines) {
+      const colon = line.indexOf(":");
+      if (colon > 0 && nameKey(line.slice(0, colon)) === key)
+        return line.slice(colon + 1).trim();
+    }
+    return undefined;
+  };
+
+  const links = row.productLinks.filter((link) =>
+    link.href.includes("musehub.com"),
+  );
+  if (links.length !== TOP_LIST_SIZE) {
+    return {
+      error: `expected ${TOP_LIST_SIZE} MuseHub links, found ${links.length}`,
+    };
+  }
+
+  const items: TopListItem[] = [];
+  for (const link of links) {
+    const tagline = findTagline(link.text);
+    if (!tagline) return { error: `no "${link.text}: …" line in the copy` };
+    items.push({ name: link.text, tagline, href: link.href });
+  }
+
+  const list: TopListCampaign = { items };
+  if (dates.startDate) list.startDate = dates.startDate;
+  if (dates.endDate) list.endDate = dates.endDate;
+  const id = `topList${(dates.startDate ?? "").replace(/-/g, "")}`;
+  return { id, list };
+}
+
 // ---------------------------------------------------------------------------
 // Bundle assembly
 // ---------------------------------------------------------------------------
@@ -544,11 +642,38 @@ export function buildCampaignBundle(
 ): CampaignBundle {
   const bannerPromos: Record<string, PromoData> = {};
   const videoPromos: Record<string, PromoData> = {};
+  const topLists: Record<string, TopListCampaign> = {};
   const ignoredEntries: string[] = [];
   const usedIds = new Set<string>();
+  // The table runs newest-first, so the first past list seen is the latest
+  // one. It is kept as the fallback for gaps between calendar windows.
+  let keptPastTopList = false;
 
   rows.forEach((row, index) => {
-    const mapped = mapRowToPromo(row, timeline[index] ?? {});
+    const dates = timeline[index] ?? {};
+
+    if (classifyPlacement(row.placement) === "top-list") {
+      const isPast = Boolean(dates.endDate && dates.endDate < today);
+      const mapped = mapRowToTopList(row, dates);
+      if ("error" in mapped) {
+        // A broken current/upcoming list must not ship silently; a broken
+        // old one is history.
+        if (!isPast) {
+          throw new Error(`Top list row "${row.dates}": ${mapped.error}`);
+        }
+        ignoredEntries.push(`${row.dates} — top list (${mapped.error})`);
+        return;
+      }
+      if (isPast && keptPastTopList) {
+        ignoredEntries.push(`${row.dates} — ${mapped.id} (past)`);
+        return;
+      }
+      if (isPast) keptPastTopList = true;
+      topLists[mapped.id] = mapped.list;
+      return;
+    }
+
+    const mapped = mapRowToPromo(row, dates);
     if (!mapped) {
       if (row.dates || row.copy) {
         ignoredEntries.push(`${row.dates} — ${row.product || row.copy}`.trim());
@@ -573,9 +698,10 @@ export function buildCampaignBundle(
 
   const bannerCount = Object.keys(bannerPromos).length;
   const videoCount = Object.keys(videoPromos).length;
-  const summary = `${bannerCount} banner + ${videoCount} video promo(s) active or upcoming as of ${today}`;
+  const topListCount = Object.keys(topLists).length;
+  const summary = `${bannerCount} banner + ${videoCount} video promo(s) + ${topListCount} top list(s) active, upcoming or latest as of ${today}`;
 
-  return { bannerPromos, videoPromos, summary, ignoredEntries };
+  return { bannerPromos, videoPromos, topLists, summary, ignoredEntries };
 }
 
 export function mergeCampaignBundleAdditively(
@@ -591,11 +717,13 @@ export function mergeCampaignBundleAdditively(
     ...existing.videoPromos,
     ...fresh.videoPromos,
   };
-  const summary = `${Object.keys(bannerPromos).length} banner + ${Object.keys(videoPromos).length} video promo(s) after additive merge as of ${today}`;
+  const topLists = { ...existing.topLists, ...fresh.topLists };
+  const summary = `${Object.keys(bannerPromos).length} banner + ${Object.keys(videoPromos).length} video promo(s) + ${Object.keys(topLists).length} top list(s) after additive merge as of ${today}`;
 
   return {
     bannerPromos,
     videoPromos,
+    topLists,
     summary,
     ignoredEntries: fresh.ignoredEntries,
   };
@@ -609,14 +737,16 @@ async function loadExistingCampaignPromos(
     const imported = (await import(moduleHref)) as {
       campaignBannerPromos?: Record<string, PromoData>;
       campaignVideoPromos?: Record<string, PromoData>;
+      campaignTopLists?: Record<string, TopListCampaign>;
     };
 
     return {
       bannerPromos: imported.campaignBannerPromos ?? {},
       videoPromos: imported.campaignVideoPromos ?? {},
+      topLists: imported.campaignTopLists ?? {},
     };
   } catch {
-    return { bannerPromos: {}, videoPromos: {} };
+    return { bannerPromos: {}, videoPromos: {}, topLists: {} };
   }
 }
 
@@ -658,6 +788,9 @@ export function assertUrlsFromSource(
     ...Object.values(bundle.videoPromos),
   ]) {
     promoUrls(promo).forEach(check);
+  }
+  for (const list of Object.values(bundle.topLists)) {
+    list.items.forEach((item) => check(item.href));
   }
 }
 
@@ -840,11 +973,13 @@ export function renderCampaignModule(bundle: CampaignBundle): string {
   // printed to stdout at pull time instead.
   return [
     '// Generated by "bun run pull-campaigns" — do not edit. Source of truth is the Confluence promo calendar (see .env).',
-    'import type { PromoData } from "./types";',
+    'import type { PromoData, TopListCampaign } from "./types";',
     "",
     `export const campaignBannerPromos: Record<string, PromoData> = ${JSON.stringify(bundle.bannerPromos, null, 2)};`,
     "",
     `export const campaignVideoPromos: Record<string, PromoData> = ${JSON.stringify(bundle.videoPromos, null, 2)};`,
+    "",
+    `export const campaignTopLists: Record<string, TopListCampaign> = ${JSON.stringify(bundle.topLists, null, 2)};`,
     "",
   ].join("\n");
 }
