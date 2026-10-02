@@ -14,48 +14,64 @@ export type ReleaseDirectory = {
 };
 
 export const audacityReleases: ReleaseDirectory = {
-  version: "4.0.0",
+  version: "4.0.1",
   win: [
     {
       name: "x86_64 MSI installer",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-win-4.0.0-x86_64.msi",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-win-4.0.1-x86_64.msi",
       checksum:
-        "2aecc44d28a004d15ae7c23c099f232ba8c5b3e6b19ebdbaf7d6c596316dc5b3",
+        "efb652bf04168f5d4893f28b7cefaaf5ef385d9251544540ac774e3bf54793a3",
       type: ".msi",
     },
     {
       name: "ARM64 MSI installer",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-win-4.0.0-arm64.msi",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-win-4.0.1-arm64.msi",
       checksum:
-        "a5b222a9cf8f03cccef57c912428427eb9387f0e88fa590d9c2b1d83794b222c",
+        "b6606d9bcb1a49254f1966c7edc68d78f7eadd04eebe7d4676350f32ca675f49",
       type: ".msi",
+    },
+    {
+      name: "x86_64 portable archive",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-win-4.0.1-x86_64.7z",
+      checksum:
+        "9c5e0379626dee8a573af91ba5355311b9001dcf310294dd4dc9aa6887593d03",
+      type: ".7z",
+    },
+    {
+      name: "ARM64 portable archive",
+      browser_download_url:
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-win-4.0.1-arm64.7z",
+      checksum:
+        "bafa562f9fc3960eae50ac64b656360b5bd2824af3396ed0809551a1f8eb716e",
+      type: ".7z",
     },
   ],
   mac: [
     {
       name: "Universal DMG",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-macOS-4.0.0-universal.dmg",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-macOS-4.0.1-universal.dmg",
       checksum:
-        "03bdb378bc333695af8cba1ff0b91775cf17961a6f23a34edc6a94e3ca7c85ab",
+        "473db7ce0d846d2d45df97e8e83ff4c70fc835eff6bcc9e119d8eac34f979794",
       type: ".dmg",
     },
     {
       name: "ARM64 DMG (Apple Silicon)",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-macOS-4.0.0-arm64.dmg",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-macOS-4.0.1-arm64.dmg",
       checksum:
-        "266201f3151b09e46a5ab8e0ce1a16cefdd53a66fc7c979e943b2c88d6500c51",
+        "278c8647b78c77af7f07dbd5e7d9bfc950bc14168047b65738716b61d12055ec",
       type: ".dmg",
     },
     {
       name: "x86_64 DMG (Intel)",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-macOS-4.0.0-x86_64.dmg",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-macOS-4.0.1-x86_64.dmg",
       checksum:
-        "4a5edd087bd5078aa2cd4e93c085a1172c9d791533c96b416a36bd82838a868b",
+        "9794b0b3a3a795bdc097b411a5776ba59dc451cb1524f58c9714c30cca2564be",
       type: ".dmg",
     },
   ],
@@ -63,17 +79,17 @@ export const audacityReleases: ReleaseDirectory = {
     {
       name: "x86_64 AppImage",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-linux-4.0.0-x86_64.AppImage",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-linux-4.0.1-x86_64.AppImage",
       checksum:
-        "772663b0b407be44232193b8402cde4da4665c7f6e81edb5b70e3b14e8b9b5b4",
+        "ca2f04f172124d1f18ac608749854c5d31f04ab266a758c348190c05d9b2087c",
       type: ".AppImage",
     },
     {
       name: "ARM64 AppImage",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-linux-4.0.0-aarch64.AppImage",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-linux-4.0.1-aarch64.AppImage",
       checksum:
-        "e5def4e76febc4ab2dea7525a43aa62ddfa092434d164c1ea039687889a6104d",
+        "3abc517f26f00197eaac9c4e56b35dc53d8e933764b41077950e8526cd4aa075",
       type: ".AppImage",
     },
   ],
@@ -81,9 +97,9 @@ export const audacityReleases: ReleaseDirectory = {
     {
       name: "Source code",
       browser_download_url:
-        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-sources-4.0.0.tar.xz",
+        "https://github.com/audacity/audacity/releases/download/Audacity-4.0.1/audacity-sources-4.0.1.tar.xz",
       checksum:
-        "b29076f99fa5d2f522d001db472a896db81f9effefd15948c940571753858058",
+        "6cf1230a1aa940a9188476737d342100c5de6480a476f253fc844bd031d7e6f4",
       type: ".tar.xz",
     },
   ],
