@@ -43,7 +43,7 @@ const steps = [
   <section class="mx-8 max-w-screen-md xl:max-w-screen-lg md:mx-auto">
     <div
       class="flex flex-col items-center justify-center"
-      style="height: 90vh;"
+      style="min-height: 90vh; min-height: 90svh;"
     >
       <AppMarks />
       <div class="text-center">
@@ -79,7 +79,7 @@ const steps = [
         marker and label, so the label centres on the step by construction.
       */
       }
-      <ol class="mt-8 grid w-full grid-cols-3 gap-x-4">
+      <ol class="mt-6 md:mt-8 grid w-full grid-cols-3 gap-x-4">
         {
           steps.map((step, i) => (
             <li class="flex flex-col items-center gap-3">
@@ -122,7 +122,7 @@ const steps = [
         }
       </ol>
 
-      <div class="mt-12">
+      <div class="mt-8 md:mt-12">
         <JoinAudioDotComButton
           client:load
           href="https://audio.com/audacity/auth/sign-in?mtm_campaign=audacityteamorg&mtm_content=post_download_button"
