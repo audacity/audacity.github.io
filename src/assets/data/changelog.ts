@@ -54,6 +54,164 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "4.0.1",
+    date: "2026-09-30",
+    releaseUrl:
+      "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.1",
+    intro: [
+      "Many of these fixes come from community contributors. Thank you all!",
+    ],
+    changes: [],
+    sections: [
+      {
+        title: "Features",
+        changes: [
+          {
+            text: "Export multiple: export each track, or each labelled region, to its own file",
+            refs: [11136],
+          },
+          {
+            text: "Portable Windows version that runs without installation",
+            refs: [11932],
+          },
+          {
+            text: "Restored missing Audacity 3 keyboard shortcuts",
+            refs: [12062],
+          },
+          {
+            text: '"Open in file manager" on the Cloud projects tab',
+            refs: [11801],
+          },
+          {
+            text: "Clickable carousel dots on the Welcome screen (by danielmolinas)",
+            refs: [11247],
+          },
+          {
+            text: "Liquid Glass app icon on macOS (by JoshBashed)",
+            refs: [11923],
+          },
+        ],
+      },
+      {
+        title: "Accessibility",
+        changes: [
+          {
+            text: "The timeline and the track vertical rulers are now part of keyboard navigation",
+            refs: [11367, 11368],
+          },
+          {
+            text: 'Opening the Effects panel focuses the "Add effect" button',
+            refs: [11416],
+          },
+          {
+            text: "Toast notifications are announced by screen readers and reachable by keyboard",
+            refs: [11645],
+          },
+        ],
+      },
+      {
+        title: "Bug fixes",
+        changes: [
+          {
+            text: "Fixed project corruption after a failed save",
+            refs: [12296],
+          },
+          {
+            text: "Fixed clips being messed up when converting .aup3 projects",
+            refs: [12209],
+          },
+          {
+            text: "Fixed opening projects and files with non-ASCII characters in their name or folder (by jonata)",
+            refs: [11973, 11976, 12004, 12057],
+          },
+          {
+            text: "Fixed other non-ASCII text issues: presets with Unicode names, starting a new project, and the input device always being the system default on Windows",
+            refs: [8267, 11468, 12107],
+          },
+          {
+            text: "Fixed Audacity failing to launch with Windows Smart App Control enabled",
+            refs: [12167],
+          },
+          {
+            text: "Fixed the AppImage failing to install or start on some Linux distributions (by kfl)",
+            refs: [10135, 12093, 11915],
+          },
+          {
+            text: "Fixed crash when opening the Effect menu in German",
+            refs: [12025],
+          },
+          {
+            text: 'Fixed "Audacity quit unexpectedly" dialogs popping up during plugin validation',
+            refs: [11427],
+          },
+          {
+            text: "Fixed VST3 setting changes being reverted on playback start",
+            refs: [11892],
+          },
+          {
+            text: "Fixed typing values into effect controls",
+            refs: [11643, 11668],
+          },
+          {
+            text: "Dragging clips and labels across tracks is faster and no longer crashes, and dragging a duplicated clip onto its original no longer makes it disappear (by jonata)",
+            refs: [12097, 12081],
+          },
+          {
+            text: "Realtime effect windows stay open on edits and undo/redo, and undo/redo is faster with many effects",
+            refs: [12187],
+          },
+          {
+            text: "Fixed clips flickering when selecting after applying an effect",
+            refs: [11145],
+          },
+          {
+            text: "Fixed the playhead drifting from bars and beats above 120 BPM",
+            refs: [11925],
+          },
+          {
+            text: "The view no longer jumps on pause or double-click, and selecting a track by its header no longer moves the playhead (by jonata)",
+            refs: [11148, 12013, 11972],
+          },
+          {
+            text: "Fixed new labels being placed at the wrong position, and the first label's name not being editable right away (by RiccardoCampo)",
+            refs: [11682, 10083],
+          },
+          {
+            text: 'No more "-9996 Invalid device" error dialog when input monitoring can\'t open the device (by jonata)',
+            refs: [12070],
+          },
+          { text: "Fixed exported file names being truncated", refs: [11966] },
+          {
+            text: "Fixed opening files dropped on the macOS Dock icon",
+            refs: [11961],
+          },
+          {
+            text: "Fixed upper-case extensions such as .WAV not being recognized on Linux",
+            refs: [12007],
+          },
+          { text: "Fixed shortcuts not being saved", refs: [11903] },
+          {
+            text: "Fixed tooltips on the gain, volume and graphic EQ sliders",
+            refs: [10410, 11841],
+          },
+          {
+            text: "Fixed the meter dB range not being translated (by jonata)",
+            refs: [11940],
+          },
+          {
+            text: "Cloud: fixed resuming uploads after a lost connection, mono audio imported as stereo, and broken project audio previews",
+            refs: [11609, 12155, 11568],
+          },
+          {
+            text: "Cloud: no more redundant sync dialog on save, error when overwriting a local copy, or half-initialized window after a failed open",
+            refs: [11373, 11460, 11374],
+          },
+        ],
+      },
+    ],
+    outro: [],
+  },
+  {
     version: "4.0.0",
     date: "2026-09-03",
     releaseUrl:
