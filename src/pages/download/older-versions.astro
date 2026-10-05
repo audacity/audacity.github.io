@@ -131,15 +131,17 @@ const fmt = (iso: string) =>
 
                   <div class="grid gap-2 px-5 pb-5 pl-12 sm:grid-cols-2 lg:grid-cols-4">
                     {[
-                      { label: "Windows", href: r.win },
-                      { label: "macOS", href: r.mac },
-                      { label: "Linux", href: r.linux },
+                      { label: "Windows", href: r.win, os: "Windows" },
+                      { label: "macOS", href: r.mac, os: "OS X" },
+                      { label: "Linux", href: r.linux, os: "Linux" },
                       { label: "Manual", href: r.manual },
                     ]
                       .filter((l) => l.href)
                       .map((l) => (
                         <a
                           href={l.href}
+                          data-older-download={l.os}
+                          data-release={r.version}
                           class="flex items-center justify-between gap-2 rounded-lg border border-text-primary/15 px-4 py-3 font-semibold text-accent transition-colors hover:border-accent hover:bg-accent/5"
                         >
                           {l.label}
@@ -199,6 +201,35 @@ const fmt = (iso: string) =>
     </div>
   </main>
 </BaseLayout>
+
+<script>
+  import { trackBinaryDownloadChoice } from "../../utils/matomo";
+
+  /*
+    Installers go on to /post-download the same way the main download
+    buttons do: the file starts from the link itself, and the redirect
+    follows once the browser has had time to begin it. The manual is
+    left out because the post-download page is about getting started with
+    the app, not with a zip of docs.
+  */
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(
+      "a[data-older-download]",
+    );
+    if (!link?.dataset.olderDownload) return;
+
+    trackBinaryDownloadChoice({
+      os: link.dataset.olderDownload,
+      releaseName: link.dataset.release,
+      url: link.href,
+      source: "older-versions",
+    });
+
+    setTimeout(() => {
+      window.location.href = "/post-download";
+    }, 2000);
+  });
+</script>
 
 <style>
   /*
