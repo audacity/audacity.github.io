@@ -389,19 +389,46 @@ const panelImages = await optimisePanelImages();
       /*
         The bar no longer leaves the page: it hands the visitor to the
         CTA section's own MuseHub/direct pair. href="#download" stays as
-        the no-JS fallback; with JS we smooth-scroll (unless the visitor
-        prefers reduced motion).
+        the no-JS fallback.
+
+        The animation is GSAP's ScrollToPlugin, not native smooth
+        scrolling: the scroll-driven sections above the CTA fight the
+        browser's own animation (observed: multi-second stalls, landing
+        viewports short, or not moving at all), while GSAP writes the
+        scroll position every frame and re-resolves the target on the
+        way in, so it always lands exactly. The tour already ships GSAP.
       */
       e.preventDefault();
-      /*
-        Instant on purpose, not smooth: the scroll-driven sections above
-        the CTA run their own scroll handling, and browser smooth
-        scrolling loses the fight — observed as a multi-second stall that
-        lands viewports short on long hops, and a silent no-op on short
-        ones. An instant jump is unambiguous and always lands exactly
-        (and doubles as the reduced-motion behaviour).
-      */
-      ctaSection.scrollIntoView({ behavior: "auto", block: "start" });
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (reduced) {
+        ctaSection.scrollIntoView({ behavior: "auto", block: "start" });
+        return;
+      }
+      void (async () => {
+        const [{ gsap }, { ScrollToPlugin }] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollToPlugin"),
+        ]);
+        gsap.registerPlugin(ScrollToPlugin);
+        /*
+          The target's document position can shift a little while the
+          tween is in flight (the plugin resolves it once, at start), so
+          a short settle pass closes any remaining gap on arrival.
+        */
+        const glide = (duration) =>
+          gsap.to(window, {
+            duration,
+            ease: duration > 0.5 ? "power2.inOut" : "power1.out",
+            scrollTo: { y: ctaSection, autoKill: false },
+            onComplete: () => {
+              const off = Math.abs(ctaSection.getBoundingClientRect().top);
+              if (off > 4 && duration > 0.5) glide(0.25);
+            },
+          });
+        glide(1.1);
+      })();
     });
     target.addEventListener("click", () => {
       trackEvent("Promo CTA", "AU4 closing section download", "audacity-4");
