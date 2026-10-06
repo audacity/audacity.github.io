@@ -377,12 +377,19 @@ const panelImages = await optimisePanelImages();
   function initFloatingCta() {
     const bar = document.getElementById("au4-cta-bar");
     const cta = document.getElementById("au4-floating-cta");
-    const target = document.querySelector<HTMLElement>(
-      "[data-au4-download-cta]",
-    );
-    if (!bar || !cta || !target) return;
+    if (!bar || !cta) return;
 
-    const ctaSection = target.closest("section") ?? target;
+    /*
+      Resolved PER USE, never captured: the CTA section lives inside a
+      hydrated island, and when React hydration mismatches (browser
+      extensions mutating the DOM before hydrate is enough to cause it)
+      the island's DOM is REPLACED, not adopted. A node captured at
+      DOMContentLoaded is then detached, its rects read as zeros, and
+      the bar never shows. Looking the section up by id each time stays
+      correct no matter how often the island re-renders. The bar and
+      the button are static page HTML, so capturing those is safe.
+    */
+    const getCtaSection = () => document.getElementById("download");
 
     cta.addEventListener("click", (e) => {
       trackEvent("Promo CTA", "AU4 sticky download bar", "audacity-4");
@@ -402,6 +409,8 @@ const panelImages = await optimisePanelImages();
       const reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      const ctaSection = getCtaSection();
+      if (!ctaSection) return;
       if (reduced) {
         ctaSection.scrollIntoView({ behavior: "auto", block: "start" });
         return;
@@ -417,21 +426,35 @@ const panelImages = await optimisePanelImages();
           tween is in flight (the plugin resolves it once, at start), so
           a short settle pass closes any remaining gap on arrival.
         */
-        const glide = (duration) =>
+        const glide = (duration) => {
+          const section = getCtaSection();
+          if (!section) return;
           gsap.to(window, {
             duration,
             ease: duration > 0.5 ? "power2.inOut" : "power1.out",
-            scrollTo: { y: ctaSection, autoKill: false },
+            scrollTo: { y: section, autoKill: false },
             onComplete: () => {
-              const off = Math.abs(ctaSection.getBoundingClientRect().top);
+              const sec = getCtaSection();
+              if (!sec) return;
+              const off = Math.abs(sec.getBoundingClientRect().top);
               if (off > 4 && duration > 0.5) glide(0.25);
             },
           });
+        };
         glide(1.1);
       })();
     });
-    target.addEventListener("click", () => {
-      trackEvent("Promo CTA", "AU4 closing section download", "audacity-4");
+    /*
+      Delegated for the same reason: a listener bound to the island's
+      wrapper dies with the node on a hydration re-render.
+    */
+    document.addEventListener("click", (e) => {
+      if (
+        e.target instanceof Element &&
+        e.target.closest("[data-au4-download-cta]")
+      ) {
+        trackEvent("Promo CTA", "AU4 closing section download", "audacity-4");
+      }
     });
     /*
       Show the bar once the visitor has scrolled a viewport in, and
@@ -448,8 +471,10 @@ const panelImages = await optimisePanelImages();
         : window.scrollY > window.innerHeight * 0.8;
       /* The bar starts sliding away as "Free for all, forever" appears,
          a beat before the section's own download button arrives. */
-      const nearCta =
-        ctaSection.getBoundingClientRect().top < window.innerHeight;
+      const ctaSection = getCtaSection();
+      const nearCta = ctaSection
+        ? ctaSection.getBoundingClientRect().top < window.innerHeight
+        : false;
       bar.classList.toggle("is-visible", engaged && !nearCta);
     };
 
