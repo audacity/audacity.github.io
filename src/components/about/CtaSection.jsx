@@ -1,8 +1,17 @@
 import React from "react";
+import DownloadMuseHubButton from "../button/DownloadMuseHubButton";
+import DownloadButton from "../button/DownloadButton";
 
 function CtaSection() {
   return (
-    <section className="bg-background-dark px-6 lg:px-10 py-28 lg:py-40">
+    /*
+      id="download": the sticky bar's button scrolls here instead of
+      leaving the page, and it gives the section a shareable anchor.
+    */
+    <section
+      id="download"
+      className="bg-background-dark px-6 lg:px-10 py-28 lg:py-40"
+    >
       <div className="max-w-screen-xl mx-auto text-center">
         <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-8xl leading-[1.02] max-w-4xl mx-auto">
           Free for all, forever
@@ -12,24 +21,23 @@ function CtaSection() {
           Linux.
         </p>
 
-        <div className="mt-10 lg:mt-12 flex flex-wrap items-center justify-center gap-3">
-          {/* This component renders statically (no client directive), so
-              click tracking is wired up by the page script via the data
-              attributes rather than React handlers. */}
-          <a
-            href="/download"
+        <div className="mt-10 lg:mt-12 flex flex-col items-center gap-5">
+          {/*
+            The same MuseHub-primary / direct-download-secondary pair as the
+            homepage hero and the feature pages: per-OS installer links,
+            Matomo download events and the /post-download hand-off all live
+            in the shared button components. The wrapper keeps
+            data-au4-download-cta so the page script's surface tracking and
+            the sticky bar's show/hide geometry stay wired to this spot
+            (clicks on either button bubble to it).
+          */}
+          <div
             data-au4-download-cta
-            className="inline-flex items-center justify-center rounded-full bg-accent text-text-contrast px-7 py-3.5 font-muse-sans text-base font-semibold hover:opacity-90 transition-opacity"
+            className="flex flex-col items-center gap-4 text-text-contrast"
           >
-            Download Audacity 4
-          </a>
-          <a
-            href="/manual"
-            data-au4-manual-cta
-            className="inline-flex items-center justify-center rounded-full border border-white/20 text-text-contrast px-7 py-3.5 font-muse-sans text-base hover:border-white/40 transition-colors"
-          >
-            Read the manual
-          </a>
+            <DownloadMuseHubButton />
+            <DownloadButton />
+          </div>
         </div>
       </div>
     </section>

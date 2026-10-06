@@ -70,18 +70,19 @@ const panelImages = await optimisePanelImages();
         <div class="cta-finale__swoosh" data-cta-swoosh aria-hidden="true">
           <HeroSwoosh />
         </div>
-        <CtaSection />
+        <CtaSection client:load />
       </div>
     </div>
   </div>
 
   {
     /*
-      Sticky download bar. The page's only download button lives in the
+      Sticky download bar. The page's download buttons live in the
       closing CTA section, several viewports down; this bar keeps the
       action reachable once the visitor has started scrolling, and
-      slides away as the closing CTA section takes over. Hidden until
-      the script decides otherwise.
+      slides away as the closing CTA section takes over. Clicking it
+      scrolls to that section (the script upgrades the #download jump
+      to a smooth scroll). Hidden until the script decides otherwise.
     */
   }
   <div id="au4-cta-bar" class="au4-cta-bar">
@@ -92,7 +93,7 @@ const panelImages = await optimisePanelImages();
     </p>
     <a
       id="au4-floating-cta"
-      href="/download"
+      href="#download"
       class="inline-flex items-center justify-center rounded-full border border-white/20 text-text-contrast px-5 py-2.5 font-muse-sans text-sm font-semibold hover:border-white/40 transition-colors whitespace-nowrap"
     >
       Download Audacity 4
@@ -267,7 +268,12 @@ const panelImages = await optimisePanelImages();
   .about-section--cta .cta-finale {
     position: relative;
   }
-  .about-section--cta .cta-finale > section {
+  /*
+    Descendant, not child: CtaSection hydrates now (the download buttons
+    need React handlers), so an <astro-island> wrapper sits between
+    .cta-finale and the <section>.
+  */
+  .about-section--cta .cta-finale section {
     position: relative;
     z-index: 1;
   }
@@ -298,7 +304,7 @@ const panelImages = await optimisePanelImages();
     spills out around the panel's edges. Overrides CtaSection's inner
     max-w-screen-xl container (only on this page, via the .cta-finale scope).
   */
-  .about-section--cta .cta-finale > section > div {
+  .about-section--cta .cta-finale section > div {
     max-width: 44rem;
     padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
     background-color: rgba(9, 7, 26, 0.85);
@@ -376,24 +382,62 @@ const panelImages = await optimisePanelImages();
     );
     if (!bar || !cta || !target) return;
 
-    cta.addEventListener("click", () => {
+    const ctaSection = target.closest("section") ?? target;
+
+    cta.addEventListener("click", (e) => {
       trackEvent("Promo CTA", "AU4 sticky download bar", "audacity-4");
+      /*
+        The bar no longer leaves the page: it hands the visitor to the
+        CTA section's own MuseHub/direct pair. href="#download" stays as
+        the no-JS fallback.
+
+        The animation is GSAP's ScrollToPlugin, not native smooth
+        scrolling: the scroll-driven sections above the CTA fight the
+        browser's own animation (observed: multi-second stalls, landing
+        viewports short, or not moving at all), while GSAP writes the
+        scroll position every frame and re-resolves the target on the
+        way in, so it always lands exactly. The tour already ships GSAP.
+      */
+      e.preventDefault();
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (reduced) {
+        ctaSection.scrollIntoView({ behavior: "auto", block: "start" });
+        return;
+      }
+      void (async () => {
+        const [{ gsap }, { ScrollToPlugin }] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollToPlugin"),
+        ]);
+        gsap.registerPlugin(ScrollToPlugin);
+        /*
+          The target's document position can shift a little while the
+          tween is in flight (the plugin resolves it once, at start), so
+          a short settle pass closes any remaining gap on arrival.
+        */
+        const glide = (duration) =>
+          gsap.to(window, {
+            duration,
+            ease: duration > 0.5 ? "power2.inOut" : "power1.out",
+            scrollTo: { y: ctaSection, autoKill: false },
+            onComplete: () => {
+              const off = Math.abs(ctaSection.getBoundingClientRect().top);
+              if (off > 4 && duration > 0.5) glide(0.25);
+            },
+          });
+        glide(1.1);
+      })();
     });
     target.addEventListener("click", () => {
       trackEvent("Promo CTA", "AU4 closing section download", "audacity-4");
     });
-    document
-      .querySelector("[data-au4-manual-cta]")
-      ?.addEventListener("click", () => {
-        trackEvent("Promo CTA", "AU4 closing section manual", "audacity-4");
-      });
-
     /*
       Show the bar once the visitor has scrolled a viewport in, and
       slide it away while the closing CTA section is on screen so the
-      section's own button takes over without the two competing.
+      section's own buttons take over without the two competing.
     */
-    const ctaSection = target.closest("section") ?? target;
     const scrolly = document.querySelector(".about-section--scrolly");
 
     const update = () => {
