@@ -489,8 +489,20 @@ const panelImages = await optimisePanelImages();
       let offset = 0;
       if (consent) {
         const r = consent.getBoundingClientRect();
-        if (r.height > 0 && r.top < window.innerHeight) {
-          offset = window.innerHeight - r.top;
+        /*
+          Offset only while the banner actually intersects the viewport.
+          The old `r.top < innerHeight` check alone was catastrophically
+          wrong once consent is accepted: the banner element stays in the
+          document, scrolls away with the page, its top goes thousands of
+          pixels NEGATIVE — and `innerHeight - r.top` launched the bar
+          ~7000px off-screen on every scroll tick. Broken for every
+          consent-accepted visitor since launch day; invisible in testing
+          because fresh profiles always have the banner pinned on screen.
+        */
+        const onScreen =
+          r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
+        if (onScreen) {
+          offset = Math.max(0, window.innerHeight - r.top);
         }
       }
       bar.style.bottom = offset ? `calc(0.75rem + ${offset}px)` : "";
