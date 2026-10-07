@@ -1,0 +1,152 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ReleaseNotes from "../../components/changelog/ReleaseNotes.astro";
+import "../../styles/icons.css";
+import { audacityReleases } from "../../assets/data/audacityReleases";
+import { changelog } from "../../assets/data/changelog";
+
+/*
+  One page per release. The changelog data is newest-first, so prev/next
+  derive from the neighbours: "newer" walks toward index 0.
+*/
+export function getStaticPaths() {
+  return changelog.map((entry, i) => ({
+    params: { version: entry.version },
+    props: {
+      entry,
+      newer: i > 0 ? changelog[i - 1].version : null,
+      older: i < changelog.length - 1 ? changelog[i + 1].version : null,
+    },
+  }));
+}
+
+const { entry, newer, older } = Astro.props;
+const isCurrent = entry.version === audacityReleases.version;
+
+const fmt = (iso: string) =>
+  new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+/*
+  The description wants to say something specific about the release; the
+  intro's first line usually does, and the generic fallback covers the
+  patch releases whose intro is thanks-to-contributors boilerplate.
+*/
+const firstIntro = entry.intro[0] ?? "";
+const description =
+  firstIntro.length > 40 && !/contributor/i.test(firstIntro)
+    ? firstIntro
+    : `What changed in Audacity ${entry.version}, released ${fmt(entry.date)}.`;
+---
+
+<BaseLayout
+  title={`Audacity ${entry.version} Release Notes | Audacity`}
+  description={description}
+  canonical={`https://www.audacityteam.org/changelog/${entry.version}/`}
+>
+  <main id="main">
+    <section class="bg-background-medium border-b border-text-primary/10">
+      <div
+        class="mx-auto max-w-screen-lg px-6 xs:px-12 md:px-8 py-8 md:py-10 flex flex-col gap-3"
+      >
+        <nav class="text-14 text-text-primary/60">
+          <a
+            href="/changelog/"
+            class="hover:text-accent hover:underline underline-offset-4"
+            >Changelog</a
+          >
+          <span class="mx-1.5" aria-hidden="true">/</span>
+          <span class="text-text-primary/80">{entry.version}</span>
+        </nav>
+        <h1
+          class="font-harmony text-40 md:text-56 text-text-primary leading-tight flex items-center gap-4"
+        >
+          Audacity {entry.version}
+          {
+            isCurrent && (
+              <span class="rounded-full bg-accent/10 px-3 py-1 text-14 font-semibold text-accent font-muse-sans">
+                Current
+              </span>
+            )
+          }
+        </h1>
+        <p class="text-16 text-text-primary/60">
+          Released {fmt(entry.date)}
+        </p>
+      </div>
+    </section>
+
+    <div
+      class="mx-auto max-w-screen-lg px-6 xs:px-12 md:px-8 py-10 md:py-14 flex flex-col gap-10"
+    >
+      <ReleaseNotes entry={entry} />
+
+      {
+        /*
+          Newer on the left, older on the right: the list reads
+          newest-first everywhere else on the site, so the directions
+          match the index a visitor just came from.
+        */
+      }
+      <nav
+        class="flex items-center justify-between gap-4 border-t border-text-primary/10 pt-6"
+        aria-label="Adjacent releases"
+      >
+        {
+          newer ? (
+            <a
+              href={`/changelog/${newer}/`}
+              class="inline-flex items-center gap-1.5 text-14 font-semibold text-accent hover:underline underline-offset-4"
+            >
+              <span
+                class="icon icon-caret-right rotate-180"
+                aria-hidden="true"
+              />
+              {newer}
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          older ? (
+            <a
+              href={`/changelog/${older}/`}
+              class="inline-flex items-center gap-1.5 text-14 font-semibold text-accent hover:underline underline-offset-4"
+            >
+              {older}
+              <span class="icon icon-caret-right" aria-hidden="true" />
+            </a>
+          ) : (
+            <span />
+          )
+        }
+      </nav>
+
+      <section
+        class="rounded-xl border border-text-primary/10 bg-background-medium p-6 flex flex-col gap-2"
+      >
+        <h2 class="text-18 font-semibold text-text-primary">
+          Want this build?
+        </h2>
+        <p class="text-16 text-text-primary/70 max-w-2xl">
+          {
+            isCurrent
+              ? "This is the current release — the download page has installers for every platform."
+              : "Installers for this release, along with the offline manual that shipped with it, are available from this site."
+          }
+        </p>
+        <a
+          href={isCurrent ? "/download" : "/download/older-versions"}
+          class="w-fit font-semibold text-accent hover:underline underline-offset-4"
+        >
+          {isCurrent ? "Download Audacity" : "Browse older versions"}
+        </a>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
