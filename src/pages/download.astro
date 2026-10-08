@@ -8,9 +8,19 @@ import {
   preReleaseList,
   type PreReleaseEntry,
 } from "../assets/data/audacityReleases";
+import { changelog } from "../assets/data/changelog";
 import { useTranslations } from "../i18n";
 
 const { version } = audacityReleases;
+
+/*
+  Release data and changelog notes land on different cadences (4.0.1's
+  installers were live three days before its notes), so the link only
+  deep-links when the page exists and falls back to the index otherwise.
+*/
+const versionChangelogHref = changelog.some((e) => e.version === version)
+  ? `/changelog/${version}/`
+  : "/changelog/";
 const sourceDownloads = audacityReleases.src ?? [];
 const primarySourceDownload = sourceDownloads[0] ?? null;
 const activeDownloadEntries = preReleaseList.filter(
@@ -52,7 +62,7 @@ const formatCampaignLinkLabel = (
             <span class="px-2 text-text-primary/30">|</span>
             <a
               class="text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
-              href="/changelog">{t("download.viewChangelog")}</a
+              href={versionChangelogHref}>{t("download.viewChangelog")}</a
             >
           </p>
         </div>
