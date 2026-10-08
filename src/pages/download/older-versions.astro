@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import "../../styles/icons.css";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { olderReleases } from "../../assets/data/olderReleases";
+import { changelog } from "../../assets/data/changelog";
 
 const current = audacityReleases.version;
 
@@ -24,6 +25,13 @@ const isOlderThanCurrent = (v: string) => {
   return a !== x ? a < x : b !== y ? b < y : c < z;
 };
 const releases = olderReleases.filter((r) => isOlderThanCurrent(r.version));
+
+/*
+  Which versions have a page under /changelog/ — today that's all of
+  them, but the two datasets are maintained by hand on different
+  cadences, so the row link is guarded rather than assumed.
+*/
+const notedVersions = new Set(changelog.map((e) => e.version));
 
 /*
   The extension is the one thing that distinguishes these links at a glance —
@@ -151,6 +159,15 @@ const fmt = (iso: string) =>
                         </a>
                       ))}
                   </div>
+                  {notedVersions.has(r.version) && (
+                    <a
+                      href={`/changelog/${r.version}/`}
+                      class="mx-5 mb-5 ml-12 flex w-fit items-center gap-1.5 text-14 font-semibold text-accent hover:underline underline-offset-4"
+                    >
+                      What changed in {r.version}
+                      <span class="icon icon-caret-right" aria-hidden="true" />
+                    </a>
+                  )}
                 </details>
               </li>
             ))
