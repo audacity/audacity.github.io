@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ReleaseNotes from "../../components/changelog/ReleaseNotes.astro";
+import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
+import DownloadButton from "../../components/button/DownloadButton";
 import "../../styles/icons.css";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { changelog } from "../../assets/data/changelog";
@@ -127,26 +129,49 @@ const description =
         }
       </nav>
 
-      <section
-        class="rounded-xl border border-text-primary/10 bg-background-medium p-6 flex flex-col gap-2"
-      >
-        <h2 class="text-18 font-semibold text-text-primary">
-          Want this build?
-        </h2>
-        <p class="text-16 text-text-primary/70 max-w-2xl">
-          {
-            isCurrent
-              ? "This is the current release — the download page has installers for every platform."
-              : "Installers for this release, along with the offline manual that shipped with it, are available from this site."
-          }
-        </p>
-        <a
-          href={isCurrent ? "/download" : "/download/older-versions"}
-          class="w-fit font-semibold text-accent hover:underline underline-offset-4"
-        >
-          {isCurrent ? "Download Audacity" : "Browse older versions"}
-        </a>
-      </section>
+      {
+        /*
+          The current release closes with the same MuseHub-primary /
+          direct-download pair as the homepage hero and the audacity-4
+          CTA: per-OS installer links, Matomo download events and the
+          /post-download hand-off all live in the shared components.
+          Older releases point at the archive instead.
+        */
+      }
+      {
+        isCurrent ? (
+          <section class="rounded-xl border border-text-primary/10 bg-background-medium p-6 flex flex-col gap-4">
+            <div class="flex flex-col gap-1">
+              <h2 class="text-18 font-semibold text-text-primary">
+                Get Audacity {entry.version}
+              </h2>
+              <p class="text-16 text-text-primary/70 max-w-2xl">
+                Free for macOS, Windows, and Linux.
+              </p>
+            </div>
+            <div class="flex flex-col items-start gap-3">
+              <DownloadMuseHubButton client:load />
+              <DownloadButton client:load />
+            </div>
+          </section>
+        ) : (
+          <section class="rounded-xl border border-text-primary/10 bg-background-medium p-6 flex flex-col gap-2">
+            <h2 class="text-18 font-semibold text-text-primary">
+              Want this build?
+            </h2>
+            <p class="text-16 text-text-primary/70 max-w-2xl">
+              Installers for this release, along with the offline manual that
+              shipped with it, are available from this site.
+            </p>
+            <a
+              href="/download/older-versions"
+              class="w-fit font-semibold text-accent hover:underline underline-offset-4"
+            >
+              Browse older versions
+            </a>
+          </section>
+        )
+      }
     </div>
   </main>
 </BaseLayout>
