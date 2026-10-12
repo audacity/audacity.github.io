@@ -11,7 +11,7 @@ function handleButtonClick(eventName) {
 }
 
 function JoinAudioDotComButton(props) {
-  const { href, matomoEventName, large } = props;
+  const { href, matomoEventName, large, label = "Continue" } = props;
   return (
     <a
       onClick={() => {
@@ -22,7 +22,7 @@ function JoinAudioDotComButton(props) {
       } bg-accent w-fit text-white rounded-full hover:opacity-90 transition-opacity font-semibold`}
       href={href}
     >
-      Continue
+      {label}
     </a>
   );
 }

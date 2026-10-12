@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import AudioComFeatureStrip from "../components/audiocom/AudioComFeatureStrip.astro";
 import OsToggle from "../components/OsToggle.astro";
 
 export interface Props {
@@ -91,4 +92,6 @@ const {
     <OsToggle />
     <slot />
   </article>
+
+  <AudioComFeatureStrip />
 </BaseLayout>
