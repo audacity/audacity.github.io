@@ -4,6 +4,9 @@ import "../../styles/icons.css";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { olderReleases } from "../../assets/data/olderReleases";
 import { changelog } from "../../assets/data/changelog";
+import { assertReleaseDataInSync } from "../../assets/data/assertReleaseData";
+
+assertReleaseDataInSync();
 
 const current = audacityReleases.version;
 
