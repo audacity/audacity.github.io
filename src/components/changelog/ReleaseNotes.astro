@@ -1,0 +1,94 @@
+---
+/*
+  The body of one release's notes: intro prose, the flat change list,
+  titled sections, outro, and the GitHub release link. Extracted from the
+  old single-page /changelog accordion so the per-release pages and
+  anything else that wants to show a release (a blog embed, say) render
+  notes identically.
+*/
+import type { ChangelogEntry } from "../../assets/data/changelog";
+
+interface Props {
+  entry: ChangelogEntry;
+}
+
+const { entry } = Astro.props;
+---
+
+<div class="flex flex-col gap-4 text-16 text-text-primary/80">
+  {entry.intro.map((p) => <p class="max-w-3xl">{p}</p>)}
+
+  {
+    entry.changes.length > 0 && (
+      <ul class="flex max-w-3xl list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
+        {entry.changes.map((c) => (
+          <li>
+            {c.text}
+            {/*
+              Trailing rather than leading, where the release notes put
+              them: a column of numbers down the left is the first thing
+              you read and the last thing you need.
+            */}
+            {c.refs.map((n) => (
+              <a
+                href={`https://github.com/audacity/audacity/issues/${n}`}
+                target="_blank"
+                rel="noopener"
+                class="ml-1.5 whitespace-nowrap text-14 tabular-nums text-text-primary/45 underline decoration-text-primary/20 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent"
+              >
+                #{n}
+              </a>
+            ))}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    (entry.sections ?? []).map((section) => (
+      <section class="flex max-w-3xl flex-col gap-3">
+        {section.title && (
+          <h2 class="pt-2 text-18 font-semibold text-text-primary">
+            {section.title}
+          </h2>
+        )}
+        {(section.intro ?? []).map((p) => (
+          <p>{p}</p>
+        ))}
+        <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
+          {section.changes.map((c) => (
+            <li>
+              {c.text}
+              {c.refs.map((n) => (
+                <a
+                  href={`https://github.com/audacity/audacity/issues/${n}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="ml-1.5 whitespace-nowrap text-14 tabular-nums text-text-primary/45 underline decoration-text-primary/20 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent"
+                >
+                  #{n}
+                </a>
+              ))}
+            </li>
+          ))}
+        </ul>
+        {(section.outro ?? []).map((p) => (
+          <p>{p}</p>
+        ))}
+      </section>
+    ))
+  }
+
+  {entry.outro.map((p) => <p class="max-w-3xl">{p}</p>)}
+
+  <a
+    href={entry.releaseUrl}
+    target="_blank"
+    rel="noopener"
+    class="inline-flex w-fit items-center gap-1.5 text-14 font-semibold text-accent hover:underline underline-offset-4"
+  >
+    Release {entry.version} on GitHub
+    <span class="icon icon-share" aria-hidden="true"></span>
+  </a>
+</div>

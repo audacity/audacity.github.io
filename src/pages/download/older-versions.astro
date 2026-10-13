@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import "../../styles/icons.css";
 import { audacityReleases } from "../../assets/data/audacityReleases";
 import { olderReleases } from "../../assets/data/olderReleases";
+import { changelog } from "../../assets/data/changelog";
 
 const current = audacityReleases.version;
 
@@ -24,6 +25,13 @@ const isOlderThanCurrent = (v: string) => {
   return a !== x ? a < x : b !== y ? b < y : c < z;
 };
 const releases = olderReleases.filter((r) => isOlderThanCurrent(r.version));
+
+/*
+  Which versions have a page under /changelog/ — today that's all of
+  them, but the two datasets are maintained by hand on different
+  cadences, so the row link is guarded rather than assumed.
+*/
+const notedVersions = new Set(changelog.map((e) => e.version));
 
 /*
   The extension is the one thing that distinguishes these links at a glance —
@@ -75,10 +83,10 @@ const fmt = (iso: string) =>
             href="/download"
             class="text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
             >download {current}</a
-          > instead — it has the latest fixes.
+          > instead for the latest fixes.
         </p>
         <p class="text-16 text-text-primary/60 max-w-2xl">
-          Not sure which one you need? The <a
+          Looking for a specific version? The <a
             href="/changelog"
             class="text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
             >changelog</a
@@ -151,6 +159,14 @@ const fmt = (iso: string) =>
                         </a>
                       ))}
                   </div>
+                  {notedVersions.has(r.version) && (
+                    <a
+                      href={`/changelog/${r.version}/`}
+                      class="mx-5 mb-5 ml-12 block w-fit text-text-primary/60 underline underline-offset-4 decoration-text-primary/30 transition-colors hover:text-accent hover:decoration-accent"
+                    >
+                      Read the changelog
+                    </a>
+                  )}
                 </details>
               </li>
             ))

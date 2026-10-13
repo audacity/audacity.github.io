@@ -11,6 +11,10 @@ const current = audacityReleases.version;
   behind the version the download pages were offering. Generated from the
   release notes now, so it can't drift from what actually shipped.
 
+  Each release has its own page under /changelog/<version>/ — this index
+  is the directory. The old single-page accordion grew past 38 releases,
+  and a deep link into 2,000 lines of collapsed rows served nobody.
+
   Not under /download/: everything else in that namespace hands you a
   binary, and the people who want this are as often updating an existing
   install as choosing one to download.
@@ -22,6 +26,8 @@ const fmt = (iso: string) =>
     year: "numeric",
     timeZone: "UTC",
   });
+
+const versions = changelog.map((e) => e.version);
 ---
 
 <BaseLayout
@@ -56,120 +62,32 @@ const fmt = (iso: string) =>
           {changelog.length} releases
         </h2>
 
-        {
-          /*
-          Same disclosure idiom as /download/older-versions — it's the same
-          list of the same releases, so it shouldn't read as a different kind
-          of page. The newest is open because that's what most visitors came
-          to read; 365 changes across 38 releases is not a page to scroll.
-        */
-        }
         <ul
           class="release-list divide-y divide-text-primary/10 overflow-hidden rounded-xl border border-text-primary/15 bg-white"
         >
           {
-            changelog.map((entry, i) => (
-              <li id={entry.version}>
-                <details open={i === 0}>
-                  <summary class="flex cursor-pointer items-center gap-3 px-5 py-4 transition-colors hover:bg-accent/5">
-                    <span
-                      class="chev icon icon-medium icon-caret-right shrink-0 text-text-primary/50"
-                      aria-hidden="true"
-                    />
-                    <span class="text-18 font-semibold text-text-primary">
-                      {entry.version}
+            changelog.map((entry) => (
+              <li>
+                <a
+                  href={`/changelog/${entry.version}/`}
+                  class="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-accent/5"
+                >
+                  <span class="text-18 font-semibold text-text-primary">
+                    {entry.version}
+                  </span>
+                  {entry.version === current && (
+                    <span class="rounded-full bg-accent/10 px-2 py-0.5 text-12 font-semibold text-accent">
+                      Current
                     </span>
-                    {entry.version === current && (
-                      <span class="rounded-full bg-accent/10 px-2 py-0.5 text-12 font-semibold text-accent">
-                        Current
-                      </span>
-                    )}
-                    <span class="ml-auto text-14 tabular-nums text-text-primary/50">
-                      {fmt(entry.date)}
-                    </span>
-                  </summary>
-
-                  <div class="flex flex-col gap-4 px-5 pb-6 pl-12 text-16 text-text-primary/80">
-                    {entry.intro.map((p) => (
-                      <p class="max-w-3xl">{p}</p>
-                    ))}
-
-                    {entry.changes.length > 0 && (
-                      <ul class="flex max-w-3xl list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
-                        {entry.changes.map((c) => (
-                          <li>
-                            {c.text}
-                            {/*
-                              Trailing rather than leading, where the release
-                              notes put them: a column of numbers down the left
-                              is the first thing you read and the last thing
-                              you need. Still linked — people follow these
-                              tickets and comment on them, which a bare number
-                              doesn't let them do.
-                            */}
-                            {c.refs.map((n) => (
-                              <a
-                                href={`https://github.com/audacity/audacity/issues/${n}`}
-                                target="_blank"
-                                rel="noopener"
-                                class="ml-1.5 whitespace-nowrap text-14 tabular-nums text-text-primary/45 underline decoration-text-primary/20 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent"
-                              >
-                                #{n}
-                              </a>
-                            ))}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {(entry.sections ?? []).map((section) => (
-                      <section class="flex max-w-3xl flex-col gap-3">
-                        {section.title && (
-                          <h3 class="pt-2 text-16 font-semibold text-text-primary">
-                            {section.title}
-                          </h3>
-                        )}
-                        {(section.intro ?? []).map((p) => (
-                          <p>{p}</p>
-                        ))}
-                        <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-text-primary/30">
-                          {section.changes.map((c) => (
-                            <li>
-                              {c.text}
-                              {c.refs.map((n) => (
-                                <a
-                                  href={`https://github.com/audacity/audacity/issues/${n}`}
-                                  target="_blank"
-                                  rel="noopener"
-                                  class="ml-1.5 whitespace-nowrap text-14 tabular-nums text-text-primary/45 underline decoration-text-primary/20 underline-offset-2 transition-colors hover:text-accent hover:decoration-accent"
-                                >
-                                  #{n}
-                                </a>
-                              ))}
-                            </li>
-                          ))}
-                        </ul>
-                        {(section.outro ?? []).map((p) => (
-                          <p>{p}</p>
-                        ))}
-                      </section>
-                    ))}
-
-                    {entry.outro.map((p) => (
-                      <p class="max-w-3xl">{p}</p>
-                    ))}
-
-                    <a
-                      href={entry.releaseUrl}
-                      target="_blank"
-                      rel="noopener"
-                      class="inline-flex w-fit items-center gap-1.5 text-14 font-semibold text-accent hover:underline underline-offset-4"
-                    >
-                      Release {entry.version} on GitHub
-                      <span class="icon icon-share" aria-hidden="true" />
-                    </a>
-                  </div>
-                </details>
+                  )}
+                  <span class="ml-auto text-14 tabular-nums text-text-primary/50">
+                    {fmt(entry.date)}
+                  </span>
+                  <span
+                    class="icon icon-medium icon-caret-right shrink-0 text-text-primary/40"
+                    aria-hidden="true"
+                  />
+                </a>
               </li>
             ))
           }
@@ -197,85 +115,20 @@ const fmt = (iso: string) =>
   </main>
 </BaseLayout>
 
-<script>
+<script define:vars={{ versions }}>
   /*
     Deep links like /changelog#3.6.0 are how the blog posts and release
-    announcements point at a specific version. Blink will open a closed
-    <details> to reach a hash target, but not every engine does, so the row
-    is opened here rather than relying on it — otherwise the link lands on a
-    collapsed row and looks broken.
+    announcements have always pointed at a specific version. The notes now
+    live on their own pages, so an arriving hash forwards there — replace,
+    not assign, so Back doesn't bounce through the index. Hashes that
+    don't name a release (or #main from the skip link) stay put.
   */
-  const openTarget = () => {
+  const forward = () => {
     const id = decodeURIComponent(location.hash.slice(1));
-    if (!id) return;
-    const row = document.getElementById(id);
-    if (!row) return;
-    const details = row.querySelector("details");
-    if (!details) return;
-    details.open = true;
-
-    /*
-      Not scrolled in the same frame as the open: the row above is expanded
-      at parse time and the webfonts land a moment later, both of which move
-      this row after the scroll would have been calculated. Waiting for
-      fonts, then a frame, puts the summary where it was asked to go rather
-      than a screenful past it.
-    */
-    const settle = () => row.scrollIntoView({ block: "start" });
-    document.fonts.ready.then(() => requestAnimationFrame(settle));
+    if (id && versions.includes(id)) {
+      location.replace(`/changelog/${id}/`);
+    }
   };
-
-  openTarget();
-  window.addEventListener("hashchange", openTarget);
+  forward();
+  window.addEventListener("hashchange", forward);
 </script>
-
-<style>
-  /*
-    Mirrors /download/older-versions. Duplicated rather than shared: it's a
-    dozen lines, and the alternative is a global stylesheet rule keyed to a
-    class name that two pages happen to agree on.
-  */
-  /*
-    Deep-linked rows sit under the fixed nav without this. In the page's own
-    stylesheet rather than a utility class: it's load-bearing for /changelog
-    links working, and shouldn't depend on a class surviving a purge.
-  */
-  .release-list > li {
-    scroll-margin-top: 6rem;
-  }
-
-  .release-list summary {
-    list-style: none;
-  }
-  .release-list summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .release-list .chev {
-    transition: transform 200ms ease;
-  }
-  .release-list details[open] > summary .chev {
-    transform: rotate(90deg);
-  }
-
-  @supports (interpolate-size: allow-keywords) {
-    .release-list details::details-content {
-      block-size: 0;
-      overflow: hidden;
-      transition:
-        block-size 200ms ease,
-        content-visibility 200ms allow-discrete;
-      interpolate-size: allow-keywords;
-    }
-    .release-list details[open]::details-content {
-      block-size: auto;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .release-list .chev,
-    .release-list details::details-content {
-      transition: none;
-    }
-  }
-</style>
