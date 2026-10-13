@@ -26,6 +26,18 @@ export type OlderRelease = {
 
 export const olderReleases: OlderRelease[] = [
   {
+    version: "4.0.0",
+    date: "2026-09-03",
+    releaseUrl:
+      "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0",
+    win: "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-win-4.0.0-x86_64.msi",
+    mac: "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-macOS-4.0.0-universal.dmg",
+    linux:
+      "https://github.com/audacity/audacity/releases/download/Audacity-4.0.0/audacity-linux-4.0.0-x86_64.AppImage",
+    // 4.0 has no manual tarball: the manual moved onto this site.
+    manual: null,
+  },
+  {
     version: "3.7.9",
     date: "2026-09-01",
     releaseUrl:
