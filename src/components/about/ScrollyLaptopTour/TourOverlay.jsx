@@ -1,4 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+/*
+  The stage WorkspaceCanvas draws is a fixed 1280-wide layout scaled to
+  fit; this overlay shares its box, so overlay-width / 1280 is the same
+  scale factor. Fixed-pixel widgets drawn here (the mock context menu)
+  must shrink by it, or the %-authored cursor choreography lands on the
+  wrong rows once the stage is smaller than it was authored at.
+*/
+const STAGE_NATIVE_W = 1280;
+
+function useStageScale(ref) {
+  const [scale, setScale] = useState(1);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const ro = new ResizeObserver((entries) => {
+      for (const e of entries) {
+        setScale(e.contentRect.width / STAGE_NATIVE_W);
+      }
+    });
+    ro.observe(node);
+    return () => ro.disconnect();
+  }, [ref]);
+  return scale;
+}
 
 const rectStyle = ({ x, y, w, h }, extra = {}) => ({
   position: "absolute",
@@ -566,7 +591,7 @@ function SplitDemo({ button, clip, frame }) {
   );
 }
 
-function ClipGroupsDemo({ overlay, frame }) {
+function ClipGroupsDemo({ overlay, frame, stageScale }) {
   if (!frame) return null;
   const isHand = frame.cursor === "open" || frame.cursor === "closed";
   const offset = isHand ? "-14px, -8px" : "-3px, -2px";
@@ -579,6 +604,7 @@ function ClipGroupsDemo({ overlay, frame }) {
           x={overlay.menuPos.x}
           y={overlay.menuPos.y}
           hoverGroup={frame.hoverGroup}
+          stageScale={stageScale}
         />
       )}
       <div
@@ -662,7 +688,7 @@ function EnvelopesDemo({ frame }) {
   );
 }
 
-function MockContextMenu({ x, y, hoverGroup }) {
+function MockContextMenu({ x, y, hoverGroup, stageScale = 1 }) {
   const items = [
     { key: "rename", label: "Rename clip" },
     { key: "cut", label: "Cut" },
@@ -676,57 +702,65 @@ function MockContextMenu({ x, y, hoverGroup }) {
         position: "absolute",
         left: `${x}%`,
         top: `${y}%`,
-        width: 160,
-        background: "#22262F",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: 4,
-        padding: "4px 0",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.55)",
-        fontFamily: "Inter, sans-serif",
-        fontSize: 11,
-        color: "#e4e5e7",
-        zIndex: 25,
-        animation: "group-menu-in 140ms ease-out both",
+        transform: `scale(${stageScale})`,
         transformOrigin: "top left",
+        zIndex: 25,
       }}
     >
       <div
         style={{
-          padding: "3px 12px 5px",
-          fontSize: 9,
-          color: "rgba(255,255,255,0.45)",
-          textTransform: "uppercase",
-          letterSpacing: "0.07em",
+          width: 160,
+          background: "#22262F",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 4,
+          padding: "4px 0",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.55)",
+          fontFamily: "Inter, sans-serif",
+          fontSize: 11,
+          color: "#e4e5e7",
+          zIndex: 25,
+          animation: "group-menu-in 140ms ease-out both",
+          transformOrigin: "top left",
         }}
       >
-        Clip properties
-      </div>
-      {items.map((it) => (
         <div
-          key={it.key}
           style={{
-            padding: "4px 12px",
-            background:
-              hoverGroup && it.key === "group"
-                ? "rgba(96, 165, 250, 0.28)"
-                : "transparent",
-            color: "#e4e5e7",
+            padding: "3px 12px 5px",
+            fontSize: 9,
+            color: "rgba(255,255,255,0.45)",
+            textTransform: "uppercase",
+            letterSpacing: "0.07em",
           }}
         >
-          {it.label}
+          Clip properties
         </div>
-      ))}
-      <style>{`
+        {items.map((it) => (
+          <div
+            key={it.key}
+            style={{
+              padding: "4px 12px",
+              background:
+                hoverGroup && it.key === "group"
+                  ? "rgba(96, 165, 250, 0.28)"
+                  : "transparent",
+              color: "#e4e5e7",
+            }}
+          >
+            {it.label}
+          </div>
+        ))}
+        <style>{`
         @keyframes group-menu-in {
           from { opacity: 0; transform: scale(0.96); }
           to { opacity: 1; transform: scale(1); }
         }
       `}</style>
+      </div>
     </div>
   );
 }
 
-function GroupDemo({ v1, v2, v1Header, v2Header }) {
+function GroupDemo({ v1, v2, v1Header, v2Header, stageScale }) {
   const [frame, setFrame] = useState(null);
 
   useEffect(() => {
@@ -881,6 +915,7 @@ function GroupDemo({ v1, v2, v1Header, v2Header }) {
           x={v2Header.x + 0.5}
           y={v2Header.y + 3.5}
           hoverGroup={frame.hoverGroup}
+          stageScale={stageScale}
         />
       )}
       <div
@@ -905,9 +940,12 @@ function GroupDemo({ v1, v2, v1Header, v2Header }) {
 }
 
 function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
+  const rootRef = useRef(null);
+  const stageScale = useStageScale(rootRef);
   if (!overlay && !target) return null;
   return (
     <div
+      ref={rootRef}
       style={{
         position: "absolute",
         inset: 0,
@@ -938,6 +976,7 @@ function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
           v2={overlay.v2}
           v1Header={overlay.v1Header}
           v2Header={overlay.v2Header}
+          stageScale={stageScale}
         />
       )}
       {overlay?.kind === "overlap" && (
@@ -953,7 +992,11 @@ function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
       {overlay?.kind === "drop" && <DropDemo frame={splitFrame} />}
       {overlay?.kind === "multi-select" && <DropDemo frame={splitFrame} />}
       {overlay?.kind === "clip-groups" && (
-        <ClipGroupsDemo overlay={overlay} frame={splitFrame} />
+        <ClipGroupsDemo
+          overlay={overlay}
+          frame={splitFrame}
+          stageScale={stageScale}
+        />
       )}
       {overlay?.kind === "envelopes" && <EnvelopesDemo frame={envelopeFrame} />}
       {target && (
