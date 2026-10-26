@@ -22,6 +22,42 @@ interface WithPosition {
 }
 
 /**
+ * The line a JSX flow element's OPENING TAG ends on.
+ *
+ * mdast records only where the element starts. Prettier writes a tag too long
+ * for the line with one attribute per line and the `>` on a line of its own:
+ *
+ *     <Callout
+ *       type="warning"
+ *       title="No focus trap, and Escape does not close this modal"
+ *     >
+ *       The export modal is a plain overlay …
+ *     </Callout>
+ *
+ * Measured from the element's start, that tag's first child looked three
+ * lines away — as if a blank line separated them — so the round trip wrote
+ * the blank lines in, Prettier then read the children as markdown rather
+ * than as the JSX block it had formatted, and the file never round-tripped
+ * (`accessibility/modals-and-menus.mdx`, `demo/uishot-test.mdx`,
+ * 2026-10-26). The attributes carry positions: when the last one sits on a
+ * later line than the element's start, the tag is in that wrapped form and
+ * its `>` is on the line after.
+ */
+function openingTagEndLine(node: {
+  attributes?: WithPosition[];
+  position?: WithPosition["position"];
+}): number {
+  const start = node.position?.start.line ?? 0;
+  let lastAttributeLine = start;
+  for (const attribute of node.attributes ?? []) {
+    const line = attribute.position?.end.line;
+    if (line !== undefined && line > lastAttributeLine)
+      lastAttributeLine = line;
+  }
+  return lastAttributeLine > start ? lastAttributeLine + 1 : start;
+}
+
+/**
  * Decide whether a JSX flow element's block children were separated from the
  * opening/closing tags by a blank line in the source, so we can reproduce it.
  *
@@ -35,6 +71,7 @@ interface WithPosition {
  */
 function blankLinePlan(node: {
   children: WithPosition[];
+  attributes?: WithPosition[];
   position?: WithPosition["position"];
 }): { lead: boolean; trail: boolean } {
   const children = node.children;
@@ -46,7 +83,7 @@ function blankLinePlan(node: {
 
   if (np && fp && lp) {
     return {
-      lead: fp.start.line - np.start.line >= 2,
+      lead: fp.start.line - openingTagEndLine(node) >= 2,
       trail: np.end.line - lp.end.line >= 2,
     };
   }
@@ -164,8 +201,58 @@ export function parseMdx(source: string): Root {
   return createProcessor().parse(source) as Root;
 }
 
+/** Minimal shape of an mdast node for the walk below. */
+interface WalkNode {
+  type: string;
+  value?: string;
+  children?: WalkNode[];
+}
+
+/**
+ * Write the soft line break before an inline JSX element as a space.
+ *
+ * Why: the editor's write path runs its output through Prettier
+ * (`formatMdx`), and Prettier's `mdx` parser keeps MDX 1 semantics — a line
+ * that BEGINS with a JSX tag starts a JSX block, even in the middle of a
+ * paragraph. A paragraph stringified as
+ *
+ *     It also has **no Escape handler** —{" "}
+ *     <Shortcut client:load keys="esc" /> leaves it open.
+ *
+ * therefore comes back from Prettier with a blank line before `<Shortcut`:
+ * one paragraph has become two — a real content change on a save that was
+ * only asked to open the page (`accessibility/modals-and-menus.mdx`,
+ * 2026-10-26). remark itself is fine (the tag continues the paragraph, as
+ * MDX 2 reads it); only Prettier's reading differs, so the serializer never
+ * hands it that shape. A soft break and a space render identically, so the
+ * break before an inline JSX element becomes a space. Expressions
+ * (`{" "}`) and text at line start are left alone: Prettier reads them as
+ * paragraph content.
+ */
+function joinSoftBreaksBeforeInlineJsx(node: WalkNode): void {
+  const children = node.children;
+  if (!children) return;
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    const next = children[i + 1];
+    if (
+      child.type === "text" &&
+      typeof child.value === "string" &&
+      child.value.endsWith("\n") &&
+      next?.type === "mdxJsxTextElement"
+    ) {
+      child.value = `${child.value.slice(0, -1)} `;
+    }
+    joinSoftBreaksBeforeInlineJsx(child);
+  }
+}
+
 export function stringifyMdx(tree: Root): string {
-  return createProcessor().stringify(tree);
+  // Clone so the caller's tree (the adapter's, or a parse the caller may
+  // still inspect) is not rewritten under it.
+  const copy = structuredClone(tree) as Root & WalkNode;
+  joinSoftBreaksBeforeInlineJsx(copy);
+  return createProcessor().stringify(copy);
 }
 
 export function roundTrip(source: string): string {

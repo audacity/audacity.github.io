@@ -1,0 +1,8 @@
+# A bare `bun test` discovers every test file under the repo, which sweeps in
+# the Playwright specs in e2e/ (run by `bun run test:e2e`) and the manual
+# editor's suite in manual-editor/ (run from that directory, where its own
+# bunfig.toml preloads the DOM it needs) — hundreds of failures that mean
+# nothing. The gate is `bun run test` (src and scripts); this keeps a bare run
+# to the site's own tests. Explicit paths still work: `bun test ./scripts`.
+[test]
+root = "src"
