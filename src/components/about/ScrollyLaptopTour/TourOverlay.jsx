@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 /*
   The stage WorkspaceCanvas draws is a fixed 1280-wide layout scaled to
@@ -9,10 +9,15 @@ import React, { useEffect, useRef, useState } from "react";
 */
 const STAGE_NATIVE_W = 1280;
 
-function useStageScale(ref) {
+/*
+  Returns a callback ref, not a ref object: the overlay renders null
+  between tour steps, so its node mounts later than the component and
+  an effect keyed on a ref object would never see it.
+*/
+function useStageScale() {
+  const [node, setNode] = useState(null);
   const [scale, setScale] = useState(1);
   useEffect(() => {
-    const node = ref.current;
     if (!node) return;
     const ro = new ResizeObserver((entries) => {
       for (const e of entries) {
@@ -21,8 +26,8 @@ function useStageScale(ref) {
     });
     ro.observe(node);
     return () => ro.disconnect();
-  }, [ref]);
-  return scale;
+  }, [node]);
+  return [setNode, scale];
 }
 
 const rectStyle = ({ x, y, w, h }, extra = {}) => ({
@@ -940,8 +945,7 @@ function GroupDemo({ v1, v2, v1Header, v2Header, stageScale }) {
 }
 
 function TourOverlay({ overlay, targetId, target, splitFrame, envelopeFrame }) {
-  const rootRef = useRef(null);
-  const stageScale = useStageScale(rootRef);
+  const [rootRef, stageScale] = useStageScale();
   if (!overlay && !target) return null;
   return (
     <div
