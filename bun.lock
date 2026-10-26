@@ -9,7 +9,7 @@
         "@astrojs/mdx": "^8.0.1",
         "@astrojs/react": "^6.0.6",
         "@astrojs/sitemap": "^3.7.4",
-        "@audacity-ui/components": "0.10.3",
+        "@audacity-ui/components": "0.11.0",
         "@fontsource-variable/signika": "^5.2.8",
         "@fontsource/twinkle-star": "^5.2.8",
         "@types/react": "^18.3.29",
@@ -117,7 +117,7 @@
 
     "@astrojs/yaml2ts": ["@astrojs/yaml2ts@0.2.4", "", { "dependencies": { "yaml": "^2.8.3" } }, "sha512-8oddpOae35pJsXPQXhTkM0ypfKPskVsh2bCxRtbf7e+/Epw2nReakFYpLKjZMEr75CsoF203PMnCocpfz0s69A=="],
 
-    "@audacity-ui/components": ["@audacity-ui/components@0.10.3", "", { "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-Ihr5CA2PuLHy0vh0ihkBMCdFloqjCoXRYnq/aI2bhmdvuBRYbloCtdLgPN8QzoxMOF2CLmq1c01W3PrSdRrmGQ=="],
+    "@audacity-ui/components": ["@audacity-ui/components@0.11.0", "", { "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-z+HZmuABxkxyxLdDaCLIGTFXfx56ZlFyaUvLbN0lePVpffeNc012JzgDnluNHUuXPKEx3pb7M2BLsrepC46xlA=="],
 
     "@babel/code-frame": ["@babel/code-frame@7.29.7", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.29.7", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="],
 
