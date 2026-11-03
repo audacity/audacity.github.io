@@ -54,6 +54,86 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "4.0.2",
+    date: "2026-11-02",
+    releaseUrl:
+      "https://github.com/audacity/audacity/releases/tag/Audacity-4.0.2",
+    intro: [
+      "While we work hard to add new features and bring back missing ones in the upcoming 4.1, this patch release fixes many crashes and project corruption issues.",
+    ],
+    changes: [
+      {
+        text: "Fixed project corruption when loading projects that contain empty clips",
+        refs: [12544],
+      },
+      {
+        text: "Fixed duplicate .aup4 extensions and errors when replacing projects during Save As",
+        refs: [12123],
+      },
+      {
+        text: "Fixed project corruption when copying between projects",
+        refs: [12436],
+      },
+      {
+        text: "Fixed incorrect pitch and clip loss when moving clips across tracks with different sample rates",
+        refs: [12436],
+      },
+      {
+        text: "Fixed a crash when opening projects with sample snapping enabled",
+        refs: [12569],
+      },
+      {
+        text: "Fixed a crash when selecting Repeat Last Effect after closing a project",
+        refs: [12573],
+      },
+      {
+        text: "Fixed a crash when the Split shortcut is not set",
+        refs: [12595],
+      },
+      {
+        text: "Fixed missing metadata in certain file formats and incorrect title and artist fields",
+        refs: [12515],
+      },
+      {
+        text: "Restored automatic saving during recording",
+        refs: [12539],
+      },
+      {
+        text: "Restored trim, clear selection, and zoom shortcuts. Added PgUp and PgDown timeline scrolling",
+        refs: [12570],
+      },
+      {
+        text: "Fixed NTSC frame snapping",
+        refs: [12292],
+      },
+      {
+        text: "Fixed point labels linking to adjacent labels and guidelines during label stretching",
+        refs: [12181],
+      },
+      {
+        text: "Fixed context menu access on collapsed clips",
+        refs: [12205],
+      },
+      {
+        text: "Improved playback latency from input meter display",
+        refs: [12431],
+      },
+      {
+        text: "Improved the status bar layout in narrow windows",
+        refs: [12151],
+      },
+      {
+        text: "Linux: Fixed File > Import returning no files (Thanks, jonata!)",
+        refs: [],
+      },
+      {
+        text: "Fixed incorrect handling of CJK characters during text trimming (Thanks, xphenomenon!)",
+        refs: [],
+      },
+    ],
+    outro: [],
+  },
+  {
     version: "4.0.1",
     date: "2026-09-30",
     releaseUrl:
