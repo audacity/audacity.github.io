@@ -284,7 +284,7 @@ const experimentBootstrapData = experiments;
           for (var i = 0; i < input.length; i++) {
             hash = ((hash << 5) + hash + input.charCodeAt(i)) | 0;
           }
-          return Math.abs(hash) % 100;
+          return Math.abs(hash) % 10000;
         }
 
         function isValidVariant(experiment, variant) {
@@ -309,7 +309,7 @@ const experimentBootstrapData = experiments;
             var cumulative = 0;
             for (var j = 0; j < experiment.variants.length; j++) {
               cumulative += experiment.variants[j].weight;
-              if (slot < cumulative) {
+              if (slot < Math.round(cumulative * 100)) {
                 variant = experiment.variants[j].name;
                 break;
               }

@@ -12,11 +12,11 @@ function setEnv(ab: string | null, abId: number | null): void {
 }
 
 describe("hashToSlot", () => {
-  test("returns a number between 0 and 99", () => {
+  test("returns a number between 0 and 9999", () => {
     for (let id = 0; id < 1000; id++) {
       const slot = hashToSlot(id, "test-experiment");
       expect(slot).toBeGreaterThanOrEqual(0);
-      expect(slot).toBeLessThan(100);
+      expect(slot).toBeLessThan(10000);
     }
   });
 
@@ -27,8 +27,8 @@ describe("hashToSlot", () => {
   });
 
   test("different experiment names produce different slots for same user", () => {
-    expect(hashToSlot(12345, "experiment-a")).toBe(83);
-    expect(hashToSlot(12345, "experiment-b")).toBe(82);
+    expect(hashToSlot(12345, "experiment-a")).toBe(8883);
+    expect(hashToSlot(12345, "experiment-b")).toBe(8882);
   });
 
   test("different user IDs produce different slots for same experiment", () => {
@@ -86,6 +86,36 @@ describe("getVariant", () => {
     // "a" should get ~80% (allow 10% tolerance)
     expect(counts.a).toBeGreaterThan(total * 0.7);
     expect(counts.a).toBeLessThan(total * 0.9);
+  });
+
+  test("supports fractional weights (10% control + four 22.5% arms)", () => {
+    const experiment: Experiment = {
+      name: "fractional",
+      variants: [
+        { name: "control", weight: 10 },
+        { name: "a", weight: 22.5 },
+        { name: "b", weight: 22.5 },
+        { name: "c", weight: 22.5 },
+        { name: "d", weight: 22.5 },
+      ],
+      enabled: true,
+    };
+    const counts: Record<string, number> = {
+      control: 0,
+      a: 0,
+      b: 0,
+      c: 0,
+      d: 0,
+    };
+    // Every possible cookie id (the edge function issues 0–99999).
+    const total = 100000;
+    for (let id = 0; id < total; id++) {
+      counts[getVariant(experiment, id)]++;
+    }
+    expect(counts.control / total).toBeCloseTo(0.1, 2);
+    for (const arm of ["a", "b", "c", "d"]) {
+      expect(counts[arm] / total).toBeCloseTo(0.225, 2);
+    }
   });
 
   test("is deterministic", () => {

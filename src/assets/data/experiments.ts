@@ -11,7 +11,8 @@ export type Experiment = {
 
 /**
  * Register experiments here. Each experiment needs a unique name, two or more
- * weighted variants, and an `enabled` flag.
+ * weighted variants, and an `enabled` flag. Weights are percentages summing to
+ * 100 and may carry up to two decimals (e.g. 22.5).
  *
  * Example 50/50 test:
  *

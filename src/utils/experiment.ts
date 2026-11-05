@@ -13,14 +13,20 @@ export function getAbId(): number | null {
   return Number.isFinite(val) ? val : null;
 }
 
-/** Deterministic hash (djb2) of abId + experiment name → 0‑99 */
+/**
+ * Slots per experiment. Weights are percentages, so 10000 slots (basis points)
+ * lets a weight carry two decimals — e.g. a 10% control plus four 22.5% arms.
+ */
+export const SLOTS = 10000;
+
+/** Deterministic hash (djb2) of abId + experiment name → 0‑9999 */
 export function hashToSlot(abId: number, experimentName: string): number {
   const input = `${abId}:${experimentName}`;
   let hash = 5381;
   for (let i = 0; i < input.length; i++) {
     hash = ((hash << 5) + hash + input.charCodeAt(i)) | 0;
   }
-  return Math.abs(hash) % 100;
+  return Math.abs(hash) % SLOTS;
 }
 
 export function getForcedVariant(experimentName: string): string | null {
@@ -43,7 +49,7 @@ export function getVariant(experiment: Experiment, abId: number): string {
   let cumulative = 0;
   for (const v of experiment.variants) {
     cumulative += v.weight;
-    if (slot < cumulative) return v.name;
+    if (slot < Math.round((cumulative * SLOTS) / 100)) return v.name;
   }
   return experiment.variants[experiment.variants.length - 1].name;
 }
