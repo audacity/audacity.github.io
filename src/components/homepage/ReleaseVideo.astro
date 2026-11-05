@@ -5,6 +5,7 @@ import museHubBadge from "../../assets/img/musehub/musehub-badge-b-black.svg";
 import releaseVideoThumb from "../../assets/img/release-video-thumb.webp";
 import { useTranslations } from "../../i18n";
 import { getTopPlugins } from "../../assets/data/promotions";
+import SaleSpot from "../promo/SaleSpot.astro";
 
 const t = useTranslations(Astro.currentLocale);
 
@@ -62,7 +63,7 @@ const museHubURL = plugins[0]
       <!-- Top-5 plugins -->
       {
         plugins.length > 0 && (
-          <div class="w-full md:w-1/2 flex flex-col gap-7">
+          <div class="promo-spot-top5 w-full md:w-1/2 flex flex-col gap-7">
             <div class="flex flex-col gap-1">
               <h2 class="font-harmony text-32 md:text-40 text-text-primary">
                 {t("plugins.heading")}
@@ -111,6 +112,9 @@ const museHubURL = plugins[0]
           </div>
         )
       }
+
+      <!-- Sale promo, arm d of the promo-spot test: replaces the Top-5 block -->
+      <SaleSpot arm="d" />
     </div>
   </div>
 </section>

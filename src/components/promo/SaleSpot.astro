@@ -1,0 +1,171 @@
+---
+/*
+  One spot of the "promo-spot" experiment. The homepage renders all four;
+  every one is hidden by default and CSS (input.css) reveals the one matching
+  the visitor's data-exp-promo-spot arm, set before paint by the BaseLayout
+  bootstrap. Nothing here hydrates — a small script runs the countdowns,
+  dismissal and analytics.
+*/
+import {
+  saleSpotCopy as copy,
+  saleSpotHref,
+  type SaleSpotArm,
+} from "../../assets/data/promos/saleSpot";
+
+interface Props {
+  arm: SaleSpotArm;
+}
+
+const { arm } = Astro.props;
+const href = saleSpotHref(arm);
+const dismissible = arm === "a" || arm === "c";
+const units = ["d", "h", "m", "s"] as const;
+// Spelled out, not built from `arm`: input.css reveals these per arm, and
+// Tailwind drops any rule whose class never appears literally in the source.
+const spotClass = {
+  a: "promo-spot promo-spot-a",
+  b: "promo-spot promo-spot-b",
+  c: "promo-spot promo-spot-c",
+  d: "promo-spot promo-spot-d",
+}[arm];
+---
+
+{
+  arm === "d" ? (
+    <div class:list={[spotClass, "w-full md:w-1/2"]} data-promo-arm={arm}>
+      <div class="flex flex-col gap-7">
+        <h2 class="font-harmony text-32 md:text-40 text-text-primary">
+          {copy.cardHeading}
+        </h2>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          data-promo-link
+          class="grid sm:grid-cols-[1fr_200px] overflow-hidden rounded-lg bg-musehub-onyx hover:opacity-95 transition-opacity"
+        >
+          <div class="flex flex-col gap-6 p-6 text-musehub-turquoise">
+            <div class="flex flex-col">
+              <span class="border-t border-musehub-turquoise/60 pt-2 pb-3 text-20">
+                {copy.cardDates}
+              </span>
+              <span class="border-y border-musehub-turquoise/60 py-3 font-harmony text-56 lg:text-64 leading-none">
+                {copy.cardTitle}
+              </span>
+            </div>
+            <span class="flex gap-5" data-promo-countdown aria-hidden="true">
+              {units.map((u) => (
+                <span class="flex flex-col items-center">
+                  <span
+                    class="font-harmony text-40 leading-none tabular-nums"
+                    data-unit={u}
+                  >
+                    --
+                  </span>
+                  <span class="text-12 mt-1">{copy.units[u]}</span>
+                </span>
+              ))}
+            </span>
+          </div>
+          <div class="relative flex flex-col justify-between gap-6 overflow-hidden bg-musehub-turquoise p-6 text-musehub-onyx">
+            <svg
+              class="pointer-events-none absolute -right-16 top-1/2 h-64 w-64 -translate-y-1/2 opacity-30"
+              viewBox="0 0 264 264"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <circle cx="132" cy="132" r="131" />
+              <circle cx="132" cy="132" r="107" />
+              <circle cx="132" cy="132" r="83" />
+            </svg>
+            <span class="relative text-16 leading-snug">
+              {copy.cardOfferLabel}
+            </span>
+            <span class="relative font-harmony text-64 leading-none">
+              {copy.cardDiscount}
+            </span>
+          </div>
+        </a>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          data-promo-link
+          class="w-fit rounded-full bg-musehub-turquoise px-8 py-3 text-18 font-semibold text-musehub-onyx hover:brightness-110 transition"
+        >
+          {copy.cardButton}
+        </a>
+      </div>
+    </div>
+  ) : (
+    <div
+      class:list={[
+        spotClass,
+        arm === "c" &&
+          "fixed inset-x-4 z-40 mx-auto w-auto max-w-fit bottom-[calc(var(--promo-sticky-offset,0px)+1rem)] transition-[bottom] duration-500",
+      ]}
+      data-promo-arm={arm}
+    >
+      <div
+        class:list={[
+          "relative flex items-center justify-center bg-musehub-onyx text-text-contrast",
+          arm === "c"
+            ? "rounded-full py-3 pl-6 pr-12 shadow-lg md:py-4 md:pl-8 md:pr-14"
+            : "min-h-12 px-12 py-2",
+          arm === "a" && "border-b border-musehub-turquoise/40",
+        ]}
+      >
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          data-promo-link
+          class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+        >
+          <span class="font-harmony text-18 md:text-20 whitespace-nowrap">
+            {copy.barLead}{" "}
+            <span class="text-musehub-turquoise">{copy.barOffer}</span>
+          </span>
+          <span
+            class="hidden sm:flex items-baseline gap-3 font-harmony text-20 tabular-nums"
+            data-promo-countdown
+            aria-hidden="true"
+          >
+            {units.map((u) => (
+              <span>
+                <span data-unit={u}>--</span>
+                <span class="ml-0.5 font-sans text-12 text-musehub-turquoise">
+                  {u}
+                </span>
+              </span>
+            ))}
+          </span>
+          <span class="rounded-full bg-musehub-turquoise px-4 py-1.5 text-16 font-semibold text-musehub-onyx whitespace-nowrap">
+            {copy.barButton}
+          </span>
+        </a>
+        {dismissible && (
+          <button
+            type="button"
+            data-promo-dismiss
+            aria-label={copy.dismiss}
+            class="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 p-1 text-musehub-turquoise hover:text-text-contrast"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+              <path
+                d="M1 1l12 12M13 1L1 13"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<script>
+  import "../../assets/js/saleSpot.js";
+</script>

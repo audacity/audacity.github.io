@@ -119,6 +119,28 @@
     display: contents;
   }
 
+  /* MuseHub sale promo-spot test (homepage). Every spot starts hidden and the
+     visitor's arm reveals one; control and no-cookie visitors see none. Arm d
+     takes the Top-5 plugins block's place. The closable spots (a, c) stay
+     hidden once closed, and all of them once the sale has ended. */
+  .promo-spot {
+    display: none;
+  }
+
+  html[data-exp-promo-spot="a"] .promo-spot-a,
+  html[data-exp-promo-spot="b"] .promo-spot-b,
+  html[data-exp-promo-spot="c"] .promo-spot-c,
+  html[data-exp-promo-spot="d"] .promo-spot-d {
+    display: block;
+  }
+
+  html[data-exp-promo-spot="d"]:not([data-promo-expired]) .promo-spot-top5,
+  html[data-promo-dismissed] .promo-spot-a,
+  html[data-promo-dismissed] .promo-spot-c,
+  html[data-promo-expired] .promo-spot {
+    display: none;
+  }
+
   html:not([data-os]) .os-win,
   html[data-os="win"] .os-win,
   html[data-os="mac"] .os-mac,

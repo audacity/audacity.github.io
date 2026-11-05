@@ -6,16 +6,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import FeatureCards from "../components/homepage/FeatureCards.astro";
 import FAQ from "../components/homepage/FAQ.astro";
 import Audiodotcom from "../components/homepage/Audiodotcom.astro";
+import SaleSpot from "../components/promo/SaleSpot.astro";
+import SaleSpotGate from "../components/promo/SaleSpotGate.astro";
 ---
 
 <BaseLayout
   title="Audacity | Free, Open Source Audio Editor and Recorder"
   blurNavOnScroll={true}
 >
+  <SaleSpotGate slot="header-top" />
+  <SaleSpot arm="a" slot="header-top" />
   <HeroBanner />
+  <SaleSpot arm="b" />
   <ReleaseVideo />
   <FeatureCards />
   <Audiodotcom />
   <BlogPosts />
   <FAQ />
+  <SaleSpot arm="c" />
 </BaseLayout>

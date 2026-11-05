@@ -1,0 +1,26 @@
+---
+/*
+  Pre-paint gate for the sale promo spots (SaleSpot.astro). Place it before
+  the first spot on the page — the top banner, in the site header — so a
+  closed banner or a finished sale is hidden before any spot paints.
+*/
+import {
+  SALE_SPOT_CAMPAIGN,
+  SALE_SPOT_ENDS_AT,
+} from "../../assets/data/promos/saleSpot";
+---
+
+<script
+  is:inline
+  define:vars={{ campaign: SALE_SPOT_CAMPAIGN, endsAt: SALE_SPOT_ENDS_AT }}
+>
+  var root = document.documentElement;
+  if (Date.now() >= Date.parse(endsAt)) {
+    root.setAttribute("data-promo-expired", "");
+  }
+  try {
+    if (localStorage.getItem("promo-dismissed:" + campaign)) {
+      root.setAttribute("data-promo-dismissed", "");
+    }
+  } catch (e) {}
+</script>
