@@ -37,7 +37,14 @@ const museHubURL = plugins[0]
       data-entrance-group="120"
     >
       <!-- Our latest release -->
-      <div class="w-full md:w-1/2 flex flex-col gap-6">
+      {
+        /*
+        gap-4 is the 16px between the heading and the thumbnail, matched by
+        the sale card's column in SaleSpot.astro so the two blocks stay in
+        vertical sync. The body and link below keep their 24px via mt-2.
+      */
+      }
+      <div class="w-full md:w-1/2 flex flex-col gap-4">
         {
           /*
           The three headings in this section share one scale so they stay
@@ -63,12 +70,12 @@ const museHubURL = plugins[0]
           matomoEventName={releaseVideo.title}
           playButton="none"
         />
-        <p class="text-16 leading-snug text-text-primary">
+        <p class="mt-2 text-16 leading-snug text-text-primary">
           {t("release.body")}
         </p>
         <a
           href="/audacity-4"
-          class="w-fit font-muse-sans text-16 text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
+          class="mt-2 w-fit font-muse-sans text-16 text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
         >
           {t("release.learnMore")}
         </a>
