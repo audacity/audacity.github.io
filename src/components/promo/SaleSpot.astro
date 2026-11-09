@@ -51,7 +51,12 @@ const spotClass = {
           down below xl so the content fits the box in the narrower md/lg
           columns; at xl the column is 576px and the sizes are Figma's.
         */}
-        <div class="grid w-full sm:aspect-video sm:grid-cols-[1fr_140px] xl:grid-cols-[1fr_200px] overflow-hidden rounded-lg bg-musehub-onyx">
+        {/*
+          Between sm and md the section is stacked and the card is full
+          width, so the offer panel takes the Large banner's share (375 of
+          983, about 38%) rather than the two-column widths.
+        */}
+        <div class="grid w-full sm:aspect-video sm:grid-cols-[1fr_38%] md:grid-cols-[1fr_140px] xl:grid-cols-[1fr_200px] overflow-hidden rounded-lg bg-musehub-onyx">
           {/*
             The column is a size container so the title can be sized from
             the column's own width: "Holiday Sale" in Harmony is about 3.6×
@@ -67,9 +72,16 @@ const spotClass = {
               {copy.cardTitle}
             </p>
           </div>
-          <div class="relative flex min-h-[160px] flex-col overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx sm:min-h-0 lg:p-6">
+          {/*
+            The offer panel is a size container too. In the Large banner the
+            discount is 176px in a 375px panel, 47% of its width, and the
+            rings are 110% of it, so both scale from the panel here: 94px in
+            the 200px panel at xl, 66px at md, and far larger when the card
+            is full width between sm and md.
+          */}
+          <div class="relative flex min-h-[160px] flex-col overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx [container-type:inline-size] sm:min-h-0 lg:p-6">
             <svg
-              class="pointer-events-none absolute left-[55px] top-1/2 size-[200px] -translate-y-1/2 opacity-30 xl:left-[75px] xl:size-[264px]"
+              class="pointer-events-none absolute left-[22cqw] top-1/2 size-[110cqw] -translate-y-1/2 opacity-30"
               viewBox="0 0 264 264"
               fill="none"
               stroke="currentColor"
@@ -79,10 +91,10 @@ const spotClass = {
               <circle cx="132" cy="132" r="107.5" />
               <circle cx="132" cy="132" r="83" />
             </svg>
-            <p class="relative font-sans text-[13px] font-medium leading-tight tracking-[0.3px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
+            <p class="relative font-sans text-[13px] font-medium leading-tight tracking-[0.3px] sm:text-16 md:text-[13px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
               {copy.cardOfferLabel}
             </p>
-            <p class="relative flex flex-1 items-center font-harmony text-48 leading-none lg:text-64 xl:text-[96px]">
+            <p class="relative flex flex-1 items-center font-harmony text-[clamp(48px,47cqw,128px)] leading-none">
               {copy.cardDiscount}
             </p>
           </div>
