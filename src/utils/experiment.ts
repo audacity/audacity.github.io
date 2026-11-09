@@ -71,9 +71,24 @@ export function resolveVariant(experiment: Experiment): string | null {
     return forced;
   }
   if (!experiment.enabled) return null;
+  if (isExcludedOs(experiment)) return null;
   const abId = getAbId();
   if (abId === null) return null;
   return getVariant(experiment, abId);
+}
+
+/**
+ * The visitor's OS as the BaseLayout bootstrap wrote it to <html data-os>
+ * before paint ("win", "mac", "linux"), or null outside a document.
+ */
+export function getOs(): string | null {
+  if (typeof document === "undefined") return null;
+  return document.documentElement?.getAttribute?.("data-os") ?? null;
+}
+
+export function isExcludedOs(experiment: Experiment): boolean {
+  const os = getOs();
+  return os !== null && (experiment.excludeOs ?? []).includes(os);
 }
 
 export function getAllAssignments(): Record<string, string> {

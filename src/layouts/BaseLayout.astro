@@ -303,8 +303,16 @@ const experimentBootstrapData = experiments;
             variant = null;
           }
           // A valid ?ab= force previews any experiment, enabled or not.
-          // Otherwise only enabled experiments auto-assign a cohort.
-          if (!variant && experiment.enabled && Number.isFinite(abId)) {
+          // Otherwise only enabled experiments auto-assign a cohort, and
+          // never on an OS the experiment excludes (see excludeOs).
+          var excluded =
+            experiment.excludeOs && experiment.excludeOs.indexOf(os) !== -1;
+          if (
+            !variant &&
+            experiment.enabled &&
+            !excluded &&
+            Number.isFinite(abId)
+          ) {
             var slot = hashToSlot(abId, experiment.name);
             var cumulative = 0;
             for (var j = 0; j < experiment.variants.length; j++) {

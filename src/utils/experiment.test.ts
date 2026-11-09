@@ -2,13 +2,23 @@ import { afterEach, describe, expect, test } from "bun:test";
 import { hashToSlot, getVariant, resolveVariant } from "./experiment";
 import type { Experiment } from "../assets/data/experiments";
 
-// resolveVariant / getVariant read window.location.search (?ab= force) and
-// document.cookie (aud_ab_id). Stub them so the force/cohort logic runs in node.
+// resolveVariant / getVariant read window.location.search (?ab= force),
+// document.cookie (aud_ab_id) and <html data-os>. Stub them so the
+// force/cohort/OS logic runs in node.
 type StubGlobals = { window: unknown; document: unknown };
 const stub = globalThis as unknown as StubGlobals;
-function setEnv(ab: string | null, abId: number | null): void {
+function setEnv(
+  ab: string | null,
+  abId: number | null,
+  os: string | null = "win",
+): void {
   stub.window = { location: { search: ab ? `?ab=${ab}` : "" } };
-  stub.document = { cookie: abId === null ? "" : `aud_ab_id=${abId}` };
+  stub.document = {
+    cookie: abId === null ? "" : `aud_ab_id=${abId}`,
+    documentElement: {
+      getAttribute: (name: string) => (name === "data-os" ? os : null),
+    },
+  };
 }
 
 describe("hashToSlot", () => {
@@ -202,6 +212,36 @@ describe("resolveVariant", () => {
   test("an enabled experiment is null without a cookie or force", () => {
     setEnv(null, null);
     expect(resolveVariant(live)).toBeNull();
+  });
+
+  describe("excludeOs", () => {
+    const noLinux: Experiment = {
+      ...live,
+      name: "no-linux",
+      excludeOs: ["linux"],
+    };
+
+    test("an excluded OS gets no cohort, even with a cookie", () => {
+      setEnv(null, 12345, "linux");
+      expect(resolveVariant(noLinux)).toBeNull();
+    });
+
+    test("other operating systems are assigned as usual", () => {
+      setEnv(null, 12345, "mac");
+      expect(resolveVariant(noLinux)).not.toBeNull();
+      setEnv(null, 12345, "win");
+      expect(resolveVariant(noLinux)).not.toBeNull();
+    });
+
+    test("an unknown OS (no data-os yet) is not excluded", () => {
+      setEnv(null, 12345, null);
+      expect(resolveVariant(noLinux)).not.toBeNull();
+    });
+
+    test("a ?ab= force still previews on an excluded OS", () => {
+      setEnv("no-linux:treatment", null, "linux");
+      expect(resolveVariant(noLinux)).toBe("treatment");
+    });
   });
 
   test("an invalid forced arm does not apply to a dark experiment", () => {

@@ -7,12 +7,21 @@ export type Experiment = {
   name: string;
   variants: Variant[];
   enabled: boolean;
+  /**
+   * Operating systems left out of the experiment, as the pre-paint bootstrap
+   * writes them to <html data-os>: "win", "mac" or "linux". Visitors on these
+   * get no cohort and no data-exp-* attribute, so they see the control
+   * experience and are not reported in the Matomo branch dimension. A ?ab=
+   * force still previews any arm.
+   */
+  excludeOs?: string[];
 };
 
 /**
  * Register experiments here. Each experiment needs a unique name, two or more
  * weighted variants, and an `enabled` flag. Weights are percentages summing to
- * 100 and may carry up to two decimals (e.g. 22.5).
+ * 100 and may carry up to two decimals (e.g. 22.5). An optional `excludeOs`
+ * keeps named operating systems out of the test entirely.
  *
  * Example 50/50 test:
  *
@@ -82,6 +91,9 @@ export const experiments: Experiment[] = [
   //   c       — sticky footer pill (closable)
   //   d       — sale card in place of the Top-5 trending plugins block
   // See src/assets/data/promos/saleSpot.ts for copy, dates and links.
+  // Linux is out of the test (spec: MuseHub isn't available on Linux), so
+  // Linux visitors see the homepage as today and are not counted in any
+  // branch, the control included.
   {
     name: "promo-spot",
     variants: [
@@ -92,6 +104,7 @@ export const experiments: Experiment[] = [
       { name: "d", weight: 22.5 },
     ],
     enabled: true,
+    excludeOs: ["linux"],
   },
 ];
 
