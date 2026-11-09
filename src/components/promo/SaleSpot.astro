@@ -56,8 +56,15 @@ const spotClass = {
             <p class="border-t border-musehub-turquoise pt-1.5 font-sans text-16 font-medium leading-tight tracking-[0.3px] lg:pt-2 lg:text-20">
               {copy.cardDates}
             </p>
-            <p class="mt-2 border-y border-musehub-turquoise py-2 font-harmony text-40 leading-none lg:mt-3 lg:py-3 lg:text-56 xl:text-[80px] xl:leading-[1.2]">
-              {copy.cardTitle}
+            {/*
+              One word per line, and the block stretches to the column's
+              bottom edge so its lower rule closes the card. Sizes are set
+              so two lines fill the box at each column width.
+            */}
+            <p class="mt-2 flex flex-1 flex-col justify-center border-y border-musehub-turquoise py-2 font-harmony text-56 leading-none md:text-48 lg:mt-3 lg:py-3 lg:text-64 xl:text-[96px]">
+              {copy.cardTitle.split(" ").map((word) => (
+                <span class="block">{word}</span>
+              ))}
             </p>
           </div>
           <div class="relative flex min-h-[160px] flex-col overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx sm:min-h-0 lg:p-6">
