@@ -1,7 +1,7 @@
 /*
   Runtime for the homepage sale promo (components/promo/SaleSpot.astro):
-  countdowns, dismissal, and the promo_impression / promo_click /
-  promo_dismiss events the "promo-spot" experiment is read from.
+  dismissal, and the promo_impression / promo_click / promo_dismiss events
+  the "promo-spot" experiment is read from.
 
   Event name is "<arm>|<campaign>|<first|repeat>". "first" marks the
   visitor's first ever promo impression (and clicks on that page view), so
@@ -9,7 +9,6 @@
 */
 import {
   SALE_SPOT_CAMPAIGN,
-  SALE_SPOT_COUNTDOWN_TO,
   SALE_SPOT_EXPERIMENT,
 } from "../data/promos/saleSpot";
 import { trackEvent } from "../../utils/matomo";
@@ -49,24 +48,6 @@ const track = (action) =>
     action,
     `${arm}|${SALE_SPOT_CAMPAIGN}|${viewKind ?? "first"}`,
   );
-
-function startCountdown() {
-  const target = Date.parse(SALE_SPOT_COUNTDOWN_TO);
-  const fields = spot.querySelectorAll("[data-unit]");
-  const pad = (n) => String(n).padStart(2, "0");
-  const tick = () => {
-    const left = Math.max(0, Math.floor((target - Date.now()) / 1000));
-    const values = {
-      d: Math.floor(left / 86400),
-      h: Math.floor(left / 3600) % 24,
-      m: Math.floor(left / 60) % 60,
-      s: left % 60,
-    };
-    fields.forEach((el) => (el.textContent = pad(values[el.dataset.unit])));
-  };
-  tick();
-  setInterval(tick, 1000);
-}
 
 function watchImpression() {
   const record = () => {
@@ -117,7 +98,6 @@ function clearConsentBar() {
 }
 
 if (arm && isShowing()) {
-  startCountdown();
   watchImpression();
   if (arm === "c") clearConsentBar();
 

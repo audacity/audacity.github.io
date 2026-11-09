@@ -2,9 +2,9 @@
  * The MuseHub Black Friday & Year End sale promo, shown on the homepage in
  * one of four spots by the "promo-spot" experiment (see experiments.ts).
  *
- * Copy, numbers and dates are placeholders from the Figma mockups until
- * MuseHub signs off the final copy — every string the visitor reads lives
- * here so that swap is one file.
+ * Copy and dates follow the "Without countdown" frames of the Figma file
+ * "Promotional not banners" (node 107-425 and siblings) — every string the
+ * visitor reads lives here so a copy change is one file.
  */
 
 export type SaleSpotArm = "a" | "b" | "c" | "d";
@@ -21,9 +21,6 @@ export const SALE_SPOT_CAMPAIGN = "mh-bf-2026";
  */
 export const SALE_SPOT_ENDS_AT = "2027-01-05T00:00:00+01:00";
 
-/** What the countdowns count down to. */
-export const SALE_SPOT_COUNTDOWN_TO = SALE_SPOT_ENDS_AT;
-
 const SALE_URL =
   "https://www.musehub.com/category/on-sale?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_091126_crosslink";
 
@@ -39,18 +36,17 @@ export const saleSpotHref = (arm: SaleSpotArm): string =>
   `${SALE_URL}&utm_content=${UTM_CONTENT[arm]}`;
 
 export const saleSpotCopy = {
-  /** Bars (A, B, C): "<lead> <offer>" then the countdown and button. */
-  barLead: "MuseHub Black Friday:",
-  barOffer: "Up to 88% off",
-  barButton: "Shop deals",
+  /** Bars (A, B, C): "<lead> <offer>" then the button. */
+  barLead: "MuseHub:",
+  barOffer: "Get up to 50% off select plugins, apps and sample packs",
+  barButton: "Shop the sale",
   dismiss: "Close the MuseHub sale banner",
 
   /** Card (D), in place of the Top-5 trending plugins block. */
-  cardHeading: "MuseHub Sale",
-  cardDates: "24 Nov – 1 Dec",
+  cardHeading: "Explore plugins during the MuseHub sale",
+  cardDates: "9 Nov – 4 Jan",
   cardTitle: "Black Friday",
-  cardOfferLabel: "Up to 83% off apps, plug-ins, sounds and courses",
-  cardDiscount: "-83%",
+  cardOfferLabel: "Up to 50% off select plugins, apps and sample packs",
+  cardDiscount: "-50%",
   cardButton: "Shop Black Friday deals",
-  units: { d: "Days", h: "Hours", m: "Min", s: "Sec" },
 };
