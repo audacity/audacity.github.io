@@ -194,12 +194,20 @@ const spotClass = {
       ]}
       data-promo-arm={arm}
     >
+      {/*
+        Below md the bars (A, B) follow "Campaign bar / Mobile" in the MH
+        Sales Campaign file: a 56px bar, 16px left and 8px right padding,
+        8px gaps, one 20px Harmony line in turquoise ("MuseHub: Up to 50%
+        off") that clips rather than wraps, a 36px "Shop" button and a
+        36px close. From md they are the 48px desktop campaign bar. The
+        sticky pill (C) keeps its shape and takes the short copy below md.
+      */}
       <div
         class:list={[
-          "flex items-center justify-center bg-musehub-onyx text-text-contrast",
+          "flex items-center bg-musehub-onyx text-text-contrast",
           arm === "c"
-            ? "gap-4 rounded-full py-3 pl-6 pr-3 shadow-[0_0_28px_rgba(0,212,255,0.28),0_14px_40px_-6px_rgba(0,0,0,0.35)] md:gap-7 md:py-4 md:pl-8"
-            : "relative min-h-12 gap-8 px-14 py-1.5",
+            ? "justify-center gap-2 rounded-full py-3 pl-4 pr-2 shadow-[0_0_28px_rgba(0,212,255,0.28),0_14px_40px_-6px_rgba(0,0,0,0.35)] md:gap-7 md:py-4 md:pl-8 md:pr-3"
+            : "h-14 gap-2 pl-4 pr-2 md:relative md:h-auto md:min-h-12 md:justify-center md:gap-8 md:px-14 md:py-1.5",
           arm === "a" && "border-b border-musehub-turquoise",
         ]}
       >
@@ -209,28 +217,34 @@ const spotClass = {
           rel="noopener"
           data-promo-link
           class:list={[
-            "flex flex-wrap items-center justify-center gap-y-1",
-            arm === "c" ? "gap-x-4 md:gap-x-7" : "gap-x-8",
+            "flex min-w-0 items-center gap-2",
+            arm === "c"
+              ? "md:gap-7"
+              : "flex-1 md:flex-none md:flex-wrap md:justify-center md:gap-x-8 md:gap-y-1",
           ]}
         >
           <span
             class:list={[
-              "font-harmony leading-none",
+              "min-w-0 flex-1 truncate font-harmony text-20 leading-none text-musehub-turquoise md:flex-none md:overflow-visible md:whitespace-normal md:text-text-contrast",
               arm === "c"
-                ? "text-20 tracking-[0.3px] md:text-[26px]"
-                : "text-20 md:text-[28px]",
+                ? "tracking-[0.3px] md:text-[26px]"
+                : "md:text-[28px]",
             ]}
           >
             {copy.barLead}{" "}
-            <span class="text-musehub-turquoise">{copy.barOffer}</span>
+            <span class="text-musehub-turquoise">
+              <span class="md:hidden">{copy.barOfferShort}</span>
+              <span class="hidden md:inline">{copy.barOffer}</span>
+            </span>
           </span>
           <span
             class:list={[
-              "flex items-center rounded-full bg-musehub-turquoise font-sans text-[15px] font-medium leading-5 text-musehub-onyx whitespace-nowrap",
-              arm === "c" ? "px-[22px] py-3" : "h-9 px-3",
+              "flex h-9 shrink-0 items-center rounded-full bg-musehub-turquoise px-3 font-sans text-[15px] font-medium leading-5 text-musehub-onyx whitespace-nowrap",
+              arm === "c" && "md:h-auto md:px-[22px] md:py-3",
             ]}
           >
-            {copy.barButton}
+            <span class="md:hidden">{copy.barButtonShort}</span>
+            <span class="hidden md:inline">{copy.barButton}</span>
           </span>
         </a>
         {dismissible && (
@@ -239,12 +253,13 @@ const spotClass = {
             data-promo-dismiss
             aria-label={copy.dismiss}
             class:list={[
-              "flex size-10 shrink-0 items-center justify-center text-text-contrast/80 hover:text-text-contrast",
-              arm === "a" && "absolute right-4 top-1/2 -translate-y-1/2",
+              "flex size-9 shrink-0 items-center justify-center text-text-contrast/80 hover:text-text-contrast md:size-10",
+              arm === "a" &&
+                "md:absolute md:right-4 md:top-1/2 md:-translate-y-1/2",
             ]}
           >
             <svg
-              class={arm === "c" ? "size-[18px]" : "size-4"}
+              class:list={["size-4", arm === "c" && "md:size-[18px]"]}
               viewBox="0 0 16 16"
               aria-hidden="true"
             >

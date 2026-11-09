@@ -40,6 +40,13 @@ export const saleSpotCopy = {
   barLead: "MuseHub:",
   barOffer: "Get up to 50% off select plugins, apps and sample packs",
   barButton: "Shop the sale",
+  /**
+   * Below md the bars follow "Campaign bar / Mobile" in the MH Sales
+   * Campaign file: one short line ("Black Friday: Up to 83% off" there)
+   * and a one-word button, since the full offer does not fit a 375px bar.
+   */
+  barOfferShort: "Up to 50% off",
+  barButtonShort: "Shop",
   dismiss: "Close the MuseHub sale banner",
 
   /** Card (D), in place of the Top-5 trending plugins block. */
