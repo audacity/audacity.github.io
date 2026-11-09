@@ -198,9 +198,12 @@ const spotClass = {
         Below md the bars (A, B) follow "Campaign bar / Mobile" in the MH
         Sales Campaign file: a 56px bar, 16px left and 8px right padding,
         8px gaps, one 20px Harmony line in turquoise ("MuseHub: Up to 50%
-        off") that clips rather than wraps, a 36px "Shop" button and a
-        36px close. From md they are the 48px desktop campaign bar. The
-        sticky pill (C) keeps its shape and takes the short copy below md.
+        off") that clips rather than wraps, a 36px button and a 36px
+        close. The button keeps "Shop the sale" down to xs (480px) and is
+        the frame's one-word "Shop" only below that, where the 375px bar
+        would clip the message. From md they are the 48px desktop campaign
+        bar. The sticky pill (C) keeps its shape and takes the short copy
+        below md.
       */}
       <div
         class:list={[
@@ -243,8 +246,8 @@ const spotClass = {
               arm === "c" && "md:h-auto md:px-[22px] md:py-3",
             ]}
           >
-            <span class="md:hidden">{copy.barButtonShort}</span>
-            <span class="hidden md:inline">{copy.barButton}</span>
+            <span class="xs:hidden">{copy.barButtonShort}</span>
+            <span class="hidden xs:inline">{copy.barButton}</span>
           </span>
         </a>
         {dismissible && (

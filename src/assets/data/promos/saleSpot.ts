@@ -42,8 +42,9 @@ export const saleSpotCopy = {
   barButton: "Shop the sale",
   /**
    * Below md the bars follow "Campaign bar / Mobile" in the MH Sales
-   * Campaign file: one short line ("Black Friday: Up to 83% off" there)
-   * and a one-word button, since the full offer does not fit a 375px bar.
+   * Campaign file: one short line ("Black Friday: Up to 83% off" there),
+   * since the full offer does not fit a 375px bar. The one-word button is
+   * used only below xs (480px).
    */
   barOfferShort: "Up to 50% off",
   barButtonShort: "Shop",
