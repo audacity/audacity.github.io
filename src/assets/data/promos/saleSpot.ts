@@ -48,5 +48,5 @@ export const saleSpotCopy = {
   cardTitle: "Black Friday",
   cardOfferLabel: "Up to 50% off select plugins, apps and sample packs",
   cardDiscount: "-50%",
-  cardButton: "Shop Black Friday deals",
+  cardButton: "Shop the Holiday Sale",
 };

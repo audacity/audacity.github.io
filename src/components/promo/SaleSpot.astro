@@ -39,7 +39,7 @@ const spotClass = {
       class:list={[spotClass, "w-full min-w-0 md:w-1/2"]}
       data-promo-arm={arm}
     >
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-4">
         {/* Same scale as the headings in ReleaseVideo.astro; keep in step. */}
         <h2 class="font-harmony text-32 text-text-primary md:text-24 md:leading-[48px] min-[896px]:text-32 min-[896px]:leading-[48px] min-[1104px]:text-40">
           {copy.cardHeading}
@@ -59,15 +59,6 @@ const spotClass = {
             <p class="mt-2 border-y border-musehub-turquoise py-2 font-harmony text-40 leading-none lg:mt-3 lg:py-3 lg:text-56 xl:text-[80px] xl:leading-[1.2]">
               {copy.cardTitle}
             </p>
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener"
-              data-promo-link
-              class="mt-4 flex items-center justify-center rounded-full bg-musehub-turquoise px-3 py-2.5 text-center font-sans text-16 font-medium leading-5 text-musehub-onyx hover:brightness-110 transition sm:mt-auto lg:px-5 lg:py-[14px] lg:text-20 lg:leading-6"
-            >
-              {copy.cardButton}
-            </a>
           </div>
           <div class="relative flex min-h-[160px] flex-col overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx sm:min-h-0 lg:p-6">
             <svg
@@ -89,6 +80,15 @@ const spotClass = {
             </p>
           </div>
         </div>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          data-promo-link
+          class="mt-2 w-fit rounded-full bg-musehub-turquoise px-5 py-[14px] font-sans text-20 font-medium leading-6 text-musehub-onyx hover:brightness-110 transition"
+        >
+          {copy.cardButton}
+        </a>
       </div>
     </div>
   ) : (
