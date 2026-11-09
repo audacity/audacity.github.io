@@ -35,17 +35,31 @@ const spotClass = {
 
 {
   arm === "d" ? (
-    <div class:list={[spotClass, "w-full md:w-1/2"]} data-promo-arm={arm}>
+    <div
+      class:list={[spotClass, "w-full min-w-0 md:w-1/2"]}
+      data-promo-arm={arm}
+    >
       <div class="flex flex-col gap-6">
-        <h2 class="font-harmony text-32 md:text-40 text-text-primary">
+        {/*
+          One line at every width from md up, in the 48px the video's heading
+          occupies, so the card's top edge sits level with the thumbnail's.
+        */}
+        <h2 class="font-harmony text-32 text-text-primary md:flex md:h-12 md:items-center md:whitespace-nowrap md:text-24 lg:text-32 xl:text-40">
           {copy.cardHeading}
         </h2>
-        <div class="grid sm:grid-cols-[1fr_200px] overflow-hidden rounded-lg bg-musehub-onyx">
-          <div class="flex flex-col p-6 text-musehub-turquoise">
-            <p class="border-t border-musehub-turquoise pt-2 font-sans text-20 font-medium leading-tight tracking-[0.3px]">
+        {/*
+          Same box as the release video beside it: both columns are md:w-1/2
+          under identical headings, and the thumbnail is w-full aspect-video,
+          so a 16:9 card lands at the same height at every width. Type steps
+          down below xl so the content fits the box in the narrower md/lg
+          columns; at xl the column is 576px and the sizes are Figma's.
+        */}
+        <div class="grid w-full sm:aspect-video sm:grid-cols-[1fr_140px] xl:grid-cols-[1fr_200px] overflow-hidden rounded-lg bg-musehub-onyx">
+          <div class="flex min-h-0 flex-col p-4 text-musehub-turquoise lg:p-6">
+            <p class="border-t border-musehub-turquoise pt-1.5 font-sans text-16 font-medium leading-tight tracking-[0.3px] lg:pt-2 lg:text-20">
               {copy.cardDates}
             </p>
-            <p class="mt-3 border-y border-musehub-turquoise py-3 font-harmony text-56 leading-none lg:text-[80px] lg:leading-[1.2]">
+            <p class="mt-2 border-y border-musehub-turquoise py-2 font-harmony text-40 leading-none lg:mt-3 lg:py-3 lg:text-56 xl:text-[80px] xl:leading-[1.2]">
               {copy.cardTitle}
             </p>
             <a
@@ -53,14 +67,14 @@ const spotClass = {
               target="_blank"
               rel="noopener"
               data-promo-link
-              class="mt-10 flex items-center justify-center rounded-full bg-musehub-turquoise px-5 py-[14px] font-sans text-20 font-medium leading-6 text-musehub-onyx hover:brightness-110 transition"
+              class="mt-4 flex items-center justify-center rounded-full bg-musehub-turquoise px-3 py-2.5 text-center font-sans text-16 font-medium leading-5 text-musehub-onyx hover:brightness-110 transition sm:mt-auto lg:px-5 lg:py-[14px] lg:text-20 lg:leading-6"
             >
               {copy.cardButton}
             </a>
           </div>
-          <div class="relative flex min-h-[200px] flex-col overflow-hidden bg-musehub-turquoise p-6 text-musehub-onyx">
+          <div class="relative flex min-h-[160px] flex-col overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx sm:min-h-0 lg:p-6">
             <svg
-              class="pointer-events-none absolute left-[75px] top-1/2 size-[264px] -translate-y-1/2 opacity-30"
+              class="pointer-events-none absolute left-[55px] top-1/2 size-[200px] -translate-y-1/2 opacity-30 xl:left-[75px] xl:size-[264px]"
               viewBox="0 0 264 264"
               fill="none"
               stroke="currentColor"
@@ -70,10 +84,10 @@ const spotClass = {
               <circle cx="132" cy="132" r="107.5" />
               <circle cx="132" cy="132" r="83" />
             </svg>
-            <p class="relative w-[152px] font-sans text-[15px] font-medium leading-5 tracking-[0.3px]">
+            <p class="relative font-sans text-[13px] font-medium leading-tight tracking-[0.3px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
               {copy.cardOfferLabel}
             </p>
-            <p class="relative flex flex-1 items-center font-harmony text-64 leading-none lg:text-[96px]">
+            <p class="relative flex flex-1 items-center font-harmony text-48 leading-none lg:text-64 xl:text-[96px]">
               {copy.cardDiscount}
             </p>
           </div>
