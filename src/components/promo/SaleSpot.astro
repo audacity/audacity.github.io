@@ -52,11 +52,18 @@ const spotClass = {
           columns; at xl the column is 576px and the sizes are Figma's.
         */}
         <div class="grid w-full sm:aspect-video sm:grid-cols-[1fr_140px] xl:grid-cols-[1fr_200px] overflow-hidden rounded-lg bg-musehub-onyx">
-          <div class="flex min-h-0 flex-col p-4 text-musehub-turquoise lg:p-6">
+          {/*
+            The column is a size container so the title can be sized from
+            the column's own width: "Holiday Sale" in Harmony is about 3.6×
+            its font size wide, so 27cqw of the column fills the line at
+            every width. Below sm the card is full width and the clamp's
+            ceiling takes over.
+          */}
+          <div class="flex min-h-0 flex-col p-4 text-musehub-turquoise [container-type:inline-size] lg:p-6">
             <p class="border-t border-musehub-turquoise pt-1.5 font-sans text-16 font-medium leading-tight tracking-[0.3px] lg:pt-2 lg:text-20">
               {copy.cardDates}
             </p>
-            <p class="mt-2 border-y border-musehub-turquoise py-2 font-harmony text-40 leading-none lg:mt-3 lg:py-3 lg:text-56 xl:text-[80px] xl:leading-[1.2]">
+            <p class="mt-2 whitespace-nowrap border-y border-musehub-turquoise py-2 font-harmony text-[clamp(40px,27cqw,96px)] leading-none lg:mt-3 lg:py-3">
               {copy.cardTitle}
             </p>
           </div>
