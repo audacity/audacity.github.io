@@ -198,8 +198,9 @@ const spotClass = {
         The bars (A, B) are a fixed 48px tall at every width, the rule on A
         included (border-box). Below md they follow "Campaign bar / Mobile"
         in the MH Sales Campaign file for everything but height: 16px left
-        and 8px right padding, 8px gaps, one 20px Harmony line in turquoise
-        ("MuseHub: Up to 50% off") that clips rather than wraps, a 36px
+        and 8px right padding, 8px gaps, one 20px Harmony line ("MuseHub:
+        Up to 50% off", the lead in white as on desktop rather than the
+        frame's all-turquoise) that clips rather than wraps, a 36px
         button and a 36px close. The button keeps "Shop the sale" down to
         xs (480px) and is the frame's one-word "Shop" only below that,
         where the 375px bar would clip the message. From md they are the
@@ -229,7 +230,7 @@ const spotClass = {
         >
           <span
             class:list={[
-              "min-w-0 flex-1 truncate font-harmony text-20 leading-none text-musehub-turquoise md:flex-none md:overflow-visible md:whitespace-normal md:text-text-contrast",
+              "min-w-0 flex-1 truncate font-harmony text-20 leading-none md:flex-none md:overflow-visible md:whitespace-normal",
               arm === "c"
                 ? "tracking-[0.3px] md:text-[26px]"
                 : "md:text-[28px]",
