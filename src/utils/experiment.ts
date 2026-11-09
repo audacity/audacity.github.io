@@ -29,9 +29,29 @@ export function hashToSlot(abId: number, experimentName: string): number {
   return Math.abs(hash) % SLOTS;
 }
 
-export function getForcedVariant(experimentName: string): string | null {
+/** sessionStorage key the BaseLayout bootstrap remembers a ?ab= force under. */
+export const FORCE_KEY = "audacity-ab";
+
+/**
+ * The raw force string ("name:variant|name2:variant2"), from the URL when the
+ * page was opened with ?ab=, otherwise the one the bootstrap remembered for
+ * this tab. The bootstrap strips the query string before paint, so by the time
+ * module scripts run the stored copy is usually the one that applies.
+ * ?ab=off (or an empty ?ab=) means "no force".
+ */
+export function getForceString(): string | null {
   if (typeof window === "undefined") return null;
   const raw = new URLSearchParams(window.location.search).get("ab");
+  if (raw !== null) return raw && raw !== "off" ? raw : null;
+  try {
+    return sessionStorage.getItem(FORCE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function getForcedVariant(experimentName: string): string | null {
+  const raw = getForceString();
   if (!raw) return null;
   for (const segment of raw.split("|")) {
     const [name, variant] = segment.split(":");
@@ -56,8 +76,9 @@ export function getVariant(experiment: Experiment, abId: number): string {
 
 /**
  * Resolve the active variant for an experiment:
- *  - a valid forced variant (?ab=name:variant) always wins — this previews any
- *    experiment, enabled or not, with or without a cohort cookie;
+ *  - a valid forced variant (?ab=name:variant, remembered for the tab by the
+ *    bootstrap) always wins — this previews any experiment, enabled or not,
+ *    with or without a cohort cookie;
  *  - otherwise only enabled experiments auto-assign a cohort by hashing the
  *    aud_ab_id cookie;
  *  - returns null when nothing applies.

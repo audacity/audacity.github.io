@@ -23,6 +23,10 @@ export type Experiment = {
  * 100 and may carry up to two decimals (e.g. 22.5). An optional `excludeOs`
  * keeps named operating systems out of the test entirely.
  *
+ * Preview any arm with ?ab=name:variant (several: ?ab=a:x|b:y). The force is
+ * remembered for the rest of the tab and dropped from the URL; ?ab=off ends
+ * the preview.
+ *
  * Example 50/50 test:
  *
  *   {

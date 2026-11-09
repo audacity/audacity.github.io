@@ -266,11 +266,42 @@ const experimentBootstrapData = experiments;
           return null;
         }
 
-        function getForcedVariant(experimentName) {
+        /* A ?ab=name:variant force is remembered for the rest of the tab
+           (sessionStorage "audacity-ab") and stripped from the URL, so one
+           tagged visit previews an arm across every page without the query
+           string following you around. ?ab=off forgets it. */
+        var FORCE_KEY = "audacity-ab";
+        function getForceString() {
           var search = new URLSearchParams(window.location.search);
           var raw = search.get("ab");
-          if (!raw) return null;
-          var segments = raw.split("|");
+          if (raw === null) {
+            try {
+              return sessionStorage.getItem(FORCE_KEY);
+            } catch (e) {
+              return null;
+            }
+          }
+          var force = raw && raw !== "off" ? raw : null;
+          try {
+            if (force) sessionStorage.setItem(FORCE_KEY, force);
+            else sessionStorage.removeItem(FORCE_KEY);
+          } catch (e) {}
+          search.delete("ab");
+          var query = search.toString();
+          try {
+            history.replaceState(
+              history.state,
+              "",
+              location.pathname + (query ? "?" + query : "") + location.hash,
+            );
+          } catch (e) {}
+          return force;
+        }
+        var forceString = getForceString();
+
+        function getForcedVariant(experimentName) {
+          if (!forceString) return null;
+          var segments = forceString.split("|");
           for (var i = 0; i < segments.length; i++) {
             var pair = segments[i].split(":");
             if (pair[0] === experimentName && pair[1]) return pair[1];

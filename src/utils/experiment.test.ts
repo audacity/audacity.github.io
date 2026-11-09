@@ -3,16 +3,26 @@ import { hashToSlot, getVariant, resolveVariant } from "./experiment";
 import type { Experiment } from "../assets/data/experiments";
 
 // resolveVariant / getVariant read window.location.search (?ab= force),
-// document.cookie (aud_ab_id) and <html data-os>. Stub them so the
-// force/cohort/OS logic runs in node.
-type StubGlobals = { window: unknown; document: unknown };
+// sessionStorage (the force remembered for the tab), document.cookie
+// (aud_ab_id) and <html data-os>. Stub them so the force/cohort/OS logic
+// runs in node.
+type StubGlobals = {
+  window: unknown;
+  document: unknown;
+  sessionStorage: unknown;
+};
 const stub = globalThis as unknown as StubGlobals;
 function setEnv(
   ab: string | null,
   abId: number | null,
   os: string | null = "win",
+  stored: string | null = null,
 ): void {
-  stub.window = { location: { search: ab ? `?ab=${ab}` : "" } };
+  // ab === "" models a bare "?ab=" in the URL.
+  stub.window = { location: { search: ab === null ? "" : `?ab=${ab}` } };
+  stub.sessionStorage = {
+    getItem: (key: string) => (key === "audacity-ab" ? stored : null),
+  };
   stub.document = {
     cookie: abId === null ? "" : `aud_ab_id=${abId}`,
     documentElement: {
@@ -182,9 +192,40 @@ describe("resolveVariant", () => {
 
   const origWindow = stub.window;
   const origDocument = stub.document;
+  const origStorage = stub.sessionStorage;
   afterEach(() => {
     stub.window = origWindow;
     stub.document = origDocument;
+    stub.sessionStorage = origStorage;
+  });
+
+  describe("a force remembered for the tab", () => {
+    test("applies on later pages with no ?ab= in the URL", () => {
+      setEnv(null, 12345, "win", "dark:treatment");
+      expect(resolveVariant(dark)).toBe("treatment");
+    });
+
+    test("a ?ab= in the URL wins over the remembered one", () => {
+      setEnv("dark:control", null, "win", "dark:treatment");
+      expect(resolveVariant(dark)).toBe("control");
+    });
+
+    test("?ab=off ends the preview even while one is remembered", () => {
+      setEnv("off", null, "win", "dark:treatment");
+      expect(resolveVariant(dark)).toBeNull();
+    });
+
+    test("a bare ?ab= ends the preview too", () => {
+      setEnv("", null, "win", "dark:treatment");
+      expect(resolveVariant(dark)).toBeNull();
+    });
+
+    test("no sessionStorage at all is not an error", () => {
+      setEnv(null, 12345);
+      stub.sessionStorage = undefined;
+      expect(resolveVariant(dark)).toBeNull();
+      expect(resolveVariant(live)).not.toBeNull();
+    });
   });
 
   test("forces a DARK experiment via ?ab=, even with no cookie", () => {
