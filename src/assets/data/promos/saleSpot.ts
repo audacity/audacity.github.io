@@ -45,7 +45,7 @@ export const saleSpotCopy = {
   /** Card (D), in place of the Top-5 trending plugins block. */
   cardHeading: "Explore plugins during the MuseHub sale",
   cardDates: "9 Nov – 4 Jan",
-  cardTitle: "Black Friday",
+  cardTitle: "Holiday Sale",
   cardOfferLabel: "Up to 50% off select plugins, apps and sample packs",
   cardDiscount: "-50%",
   cardButton: "Shop the Holiday Sale",
