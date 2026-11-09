@@ -195,22 +195,23 @@ const spotClass = {
       data-promo-arm={arm}
     >
       {/*
-        Below md the bars (A, B) follow "Campaign bar / Mobile" in the MH
-        Sales Campaign file: a 56px bar, 16px left and 8px right padding,
-        8px gaps, one 20px Harmony line in turquoise ("MuseHub: Up to 50%
-        off") that clips rather than wraps, a 36px button and a 36px
-        close. The button keeps "Shop the sale" down to xs (480px) and is
-        the frame's one-word "Shop" only below that, where the 375px bar
-        would clip the message. From md they are the 48px desktop campaign
-        bar. The sticky pill (C) keeps its shape and takes the short copy
-        below md.
+        The bars (A, B) are a fixed 48px tall at every width, the rule on A
+        included (border-box). Below md they follow "Campaign bar / Mobile"
+        in the MH Sales Campaign file for everything but height: 16px left
+        and 8px right padding, 8px gaps, one 20px Harmony line in turquoise
+        ("MuseHub: Up to 50% off") that clips rather than wraps, a 36px
+        button and a 36px close. The button keeps "Shop the sale" down to
+        xs (480px) and is the frame's one-word "Shop" only below that,
+        where the 375px bar would clip the message. From md they are the
+        desktop campaign bar. The sticky pill (C) keeps its shape and takes
+        the short copy below md.
       */}
       <div
         class:list={[
           "flex items-center bg-musehub-onyx text-text-contrast",
           arm === "c"
             ? "justify-center gap-2 rounded-full py-3 pl-4 pr-2 shadow-[0_0_28px_rgba(0,212,255,0.28),0_14px_40px_-6px_rgba(0,0,0,0.35)] md:gap-7 md:py-4 md:pl-8 md:pr-3"
-            : "h-14 gap-2 pl-4 pr-2 md:relative md:h-auto md:min-h-12 md:justify-center md:gap-8 md:px-14 md:py-1.5",
+            : "h-12 gap-2 pl-4 pr-2 md:relative md:justify-center md:gap-8 md:px-14",
           arm === "a" && "border-b border-musehub-turquoise",
         ]}
       >
