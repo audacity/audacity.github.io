@@ -75,18 +75,30 @@ export function getVariant(experiment: Experiment, abId: number): string {
 }
 
 /**
- * Resolve the active variant for an experiment:
+ * Resolve the variant the visitor is shown:
  *  - a valid forced variant (?ab=name:variant, remembered for the tab by the
  *    bootstrap) always wins — this previews any experiment, enabled or not,
  *    with or without a cohort cookie;
  *  - otherwise only enabled experiments auto-assign a cohort by hashing the
- *    aud_ab_id cookie;
+ *    aud_ab_id cookie, and a muted experiment shows that cohort nothing;
  *  - returns null when nothing applies.
  *
  * Keep this in sync with the inline bootstrap in BaseLayout.astro, which has to
  * re-implement the same rule in vanilla JS to set data-exp-* before paint.
  */
 export function resolveVariant(experiment: Experiment): string | null {
+  const variant = resolveAssignment(experiment);
+  if (!experiment.muted || variant === getForcedVariant(experiment.name)) {
+    return variant;
+  }
+  return null;
+}
+
+/**
+ * Resolve the visitor's cohort as reported to Matomo: as resolveVariant, but
+ * a muted experiment still reports the assigned cohort.
+ */
+export function resolveAssignment(experiment: Experiment): string | null {
   const forced = getForcedVariant(experiment.name);
   if (forced !== null && experiment.variants.some((v) => v.name === forced)) {
     return forced;
@@ -115,7 +127,7 @@ export function isExcludedOs(experiment: Experiment): boolean {
 export function getAllAssignments(): Record<string, string> {
   const result: Record<string, string> = {};
   for (const exp of experiments) {
-    const variant = resolveVariant(exp);
+    const variant = resolveAssignment(exp);
     if (variant !== null) result[exp.name] = variant;
   }
   return result;

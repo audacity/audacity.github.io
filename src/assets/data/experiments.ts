@@ -15,13 +15,21 @@ export type Experiment = {
    * force still previews any arm.
    */
   excludeOs?: string[];
+  /**
+   * Assign cohorts and report them to Matomo as usual, but show everyone the
+   * control experience: no data-exp-* attribute is set for an assigned arm.
+   * For checking assignment and tracking in production before launch. A ?ab=
+   * force still shows the forced arm.
+   */
+  muted?: boolean;
 };
 
 /**
  * Register experiments here. Each experiment needs a unique name, two or more
  * weighted variants, and an `enabled` flag. Weights are percentages summing to
  * 100 and may carry up to two decimals (e.g. 22.5). An optional `excludeOs`
- * keeps named operating systems out of the test entirely.
+ * keeps named operating systems out of the test entirely, and `muted` runs
+ * the assignment and tracking while everyone sees the control.
  *
  * Preview any arm with ?ab=name:variant (several: ?ab=a:x|b:y). The force is
  * remembered for the rest of the tab and dropped from the URL; ?ab=off ends
@@ -108,6 +116,7 @@ export const experiments: Experiment[] = [
       { name: "d", weight: 22.5 },
     ],
     enabled: true,
+    muted: true,
     excludeOs: ["linux"],
   },
 ];

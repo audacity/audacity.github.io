@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { hashToSlot, getVariant, resolveVariant } from "./experiment";
+import {
+  hashToSlot,
+  getVariant,
+  resolveAssignment,
+  resolveVariant,
+} from "./experiment";
 import type { Experiment } from "../assets/data/experiments";
 
 // resolveVariant / getVariant read window.location.search (?ab= force),
@@ -282,6 +287,33 @@ describe("resolveVariant", () => {
     test("a ?ab= force still previews on an excluded OS", () => {
       setEnv("no-linux:treatment", null, "linux");
       expect(resolveVariant(noLinux)).toBe("treatment");
+    });
+  });
+
+  describe("muted", () => {
+    const muted: Experiment = { ...live, name: "muted", muted: true };
+
+    test("the cohort is assigned and reported, but not shown", () => {
+      setEnv(null, 12345);
+      expect(resolveAssignment(muted)).not.toBeNull();
+      expect(resolveVariant(muted)).toBeNull();
+    });
+
+    test("a ?ab= force still shows the forced arm", () => {
+      setEnv("muted:treatment", 12345);
+      expect(resolveVariant(muted)).toBe("treatment");
+      expect(resolveAssignment(muted)).toBe("treatment");
+    });
+
+    test("an invalid force shows nothing and reports the cohort", () => {
+      setEnv("muted:bogus", 12345);
+      expect(resolveVariant(muted)).toBeNull();
+      expect(resolveAssignment(muted)).not.toBeNull();
+    });
+
+    test("a muted experiment that is also disabled assigns nobody", () => {
+      setEnv(null, 12345);
+      expect(resolveAssignment({ ...muted, enabled: false })).toBeNull();
     });
   });
 

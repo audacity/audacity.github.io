@@ -333,6 +333,7 @@ const experimentBootstrapData = experiments;
           if (variant && !isValidVariant(experiment, variant)) {
             variant = null;
           }
+          var forced = !!variant;
           // A valid ?ab= force previews any experiment, enabled or not.
           // Otherwise only enabled experiments auto-assign a cohort, and
           // never on an OS the experiment excludes (see excludeOs).
@@ -355,7 +356,9 @@ const experimentBootstrapData = experiments;
             }
           }
 
-          if (variant) {
+          // A muted experiment shows its cohort the control experience;
+          // matomoTracking.js still reports the cohort.
+          if (variant && (forced || !experiment.muted)) {
             document.documentElement.setAttribute(
               "data-exp-" + experiment.name,
               variant,
