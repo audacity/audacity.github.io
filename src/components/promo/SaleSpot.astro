@@ -65,10 +65,15 @@ const spotClass = {
             ceiling takes over.
           */}
           <div class="flex min-h-0 flex-col p-4 text-musehub-turquoise [container-type:inline-size] lg:p-6">
-            <p class="border-t border-musehub-turquoise pt-1.5 font-sans text-16 font-medium leading-tight tracking-[0.3px] lg:pt-2 lg:text-20">
+            {/*
+              Below sm the card follows the Mobile banner in Figma: 15px
+              eyebrow 8px under the top rule, then a 64px title in a 120px
+              block between two rules (12px above and below a 96px line).
+            */}
+            <p class="border-t border-musehub-turquoise pt-2 font-sans text-[15px] font-medium leading-5 tracking-[0.3px] sm:pt-1.5 sm:text-16 sm:leading-tight lg:pt-2 lg:text-20">
               {copy.cardDates}
             </p>
-            <p class="mt-2 whitespace-nowrap border-y border-musehub-turquoise py-2 font-harmony text-[clamp(40px,27cqw,96px)] leading-none lg:mt-3 lg:py-3">
+            <p class="mt-2 whitespace-nowrap border-y border-musehub-turquoise py-3 font-harmony text-[64px] leading-[1.5] sm:py-2 sm:text-[clamp(40px,27cqw,96px)] sm:leading-none lg:mt-3 lg:py-3">
               {copy.cardTitle}
             </p>
           </div>
@@ -79,9 +84,14 @@ const spotClass = {
             the 200px panel at xl, 66px at md, and far larger when the card
             is full width between sm and md.
           */}
-          <div class="relative flex min-h-[160px] flex-col overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx [container-type:inline-size] sm:min-h-0 lg:p-6">
+          {/*
+            Below sm the panel is the Mobile banner's: 16px padding, 15px
+            label, 4px gap, then the discount at 96px on a 176px line, with
+            the rings (72% of the panel) tucked into the top-right corner.
+          */}
+          <div class="relative flex flex-col gap-1 overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx [container-type:inline-size] sm:gap-0 lg:p-6">
             <svg
-              class="pointer-events-none absolute left-[22cqw] top-1/2 size-[110cqw] -translate-y-1/2 opacity-30"
+              class="pointer-events-none absolute -top-8 left-[46cqw] size-[72cqw] opacity-30 sm:left-[22cqw] sm:top-1/2 sm:size-[110cqw] sm:-translate-y-1/2"
               viewBox="0 0 264 264"
               fill="none"
               stroke="currentColor"
@@ -91,10 +101,10 @@ const spotClass = {
               <circle cx="132" cy="132" r="107.5" />
               <circle cx="132" cy="132" r="83" />
             </svg>
-            <p class="relative font-sans text-[13px] font-medium leading-tight tracking-[0.3px] sm:text-16 md:text-[13px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
+            <p class="relative font-sans text-[15px] font-medium leading-5 tracking-[0.3px] sm:text-16 sm:leading-tight md:text-[13px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
               {copy.cardOfferLabel}
             </p>
-            <p class="relative flex flex-1 items-center font-harmony text-[clamp(48px,47cqw,128px)] leading-none">
+            <p class="relative flex flex-1 items-center font-harmony text-[96px] leading-[176px] sm:text-[clamp(48px,47cqw,128px)] sm:leading-none">
               {copy.cardDiscount}
             </p>
           </div>
@@ -104,7 +114,7 @@ const spotClass = {
           target="_blank"
           rel="noopener"
           data-promo-link
-          class="mt-2 w-fit rounded-full bg-musehub-turquoise px-[22px] py-3 font-sans text-[15px] font-medium leading-5 text-musehub-onyx hover:brightness-110 transition"
+          class="mt-2 w-full rounded-full bg-musehub-turquoise px-[22px] py-3 text-center font-sans text-[15px] font-medium leading-5 text-musehub-onyx hover:brightness-110 transition sm:w-fit"
         >
           {copy.cardButton}
         </a>
