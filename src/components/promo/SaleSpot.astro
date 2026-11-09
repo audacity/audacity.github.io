@@ -85,6 +85,11 @@ const spotClass = {
             is full width between sm and md.
           */}
           {/*
+            The panel itself is the size container and carries no padding:
+            cqw resolves against a container's content box, so padding on
+            the container would shrink every cqw measure below by 32–48px.
+            The padding sits on the inner wrapper instead.
+
             Below sm the panel is the Mobile banner's: 16px padding, 15px
             label, 4px gap, then the discount at 96px on a 176px line.
 
@@ -93,9 +98,12 @@ const spotClass = {
             concentric — they share one right edge and one centre line, so
             they nest towards the right: diameters 246/200/155 in a 343px
             panel, right edge 60px past the panel's, centre 92px down. In
-            the desktop banners they are concentric, centred 77% across.
+            the Large banner (the sm–lg reference) they are concentric at
+            109% of the panel, centred 76.5% across; in the 200px panel of
+            the site's own frame (xl) they are 264px, centred 103.5% across,
+            so only their left arcs show. Both are vertically centred.
           */}
-          <div class="relative flex flex-col gap-1 overflow-hidden bg-musehub-turquoise p-4 text-musehub-onyx [container-type:inline-size] sm:gap-0 lg:p-6">
+          <div class="relative overflow-hidden bg-musehub-turquoise text-musehub-onyx [container-type:inline-size]">
             <svg
               class="pointer-events-none absolute right-[-17.5cqw] top-[-9cqw] size-[72cqw] opacity-[0.17] sm:hidden"
               viewBox="0 0 246 246"
@@ -123,7 +131,7 @@ const spotClass = {
               />
             </svg>
             <svg
-              class="pointer-events-none absolute left-[22cqw] top-1/2 hidden size-[110cqw] -translate-y-1/2 opacity-[0.17] sm:block"
+              class="pointer-events-none absolute left-[22cqw] top-1/2 hidden size-[110cqw] -translate-y-1/2 opacity-[0.17] sm:block xl:left-[37.5cqw] xl:size-[132cqw]"
               viewBox="0 0 264 264"
               fill="none"
               stroke="currentColor"
@@ -148,12 +156,22 @@ const spotClass = {
                 vector-effect="non-scaling-stroke"
               />
             </svg>
-            <p class="relative font-sans text-[15px] font-medium leading-5 tracking-[0.3px] sm:text-16 sm:leading-tight md:text-[13px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
-              {copy.cardOfferLabel}
-            </p>
-            <p class="relative flex flex-1 items-center font-harmony text-[96px] leading-[176px] sm:text-[clamp(48px,47cqw,128px)] sm:leading-none">
-              {copy.cardDiscount}
-            </p>
+            {/*
+              The discount is 47% of the panel width in the Large banner and
+              48% (96px of 200) in the site's frame, vertically centred in
+              the panel. It is centred on the panel wherever the label leaves
+              room for that (sm, xl); in the narrow md/lg panels the label
+              runs to four or five lines, so there it centres in the space
+              under the label instead.
+            */}
+            <div class="relative flex h-full flex-col gap-1 p-4 sm:gap-0 lg:p-6">
+              <p class="relative font-sans text-[15px] font-medium leading-5 tracking-[0.3px] sm:text-16 sm:leading-tight md:text-[13px] lg:text-[15px] lg:leading-5 xl:w-[152px]">
+                {copy.cardOfferLabel}
+              </p>
+              <p class="font-harmony text-[96px] leading-[176px] sm:absolute sm:left-4 sm:top-1/2 sm:-translate-y-1/2 sm:text-[47cqw] sm:leading-none md:static md:flex md:flex-1 md:translate-y-0 md:items-center xl:absolute xl:left-6 xl:top-1/2 xl:-translate-y-1/2 xl:text-[48cqw]">
+                {copy.cardDiscount}
+              </p>
+            </div>
           </div>
         </div>
         <a
