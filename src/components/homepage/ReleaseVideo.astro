@@ -38,7 +38,18 @@ const museHubURL = plugins[0]
     >
       <!-- Our latest release -->
       <div class="w-full md:w-1/2 flex flex-col gap-6">
-        <h2 class="font-harmony text-32 md:text-40 text-text-primary">
+        {
+          /*
+          The three headings in this section share one scale so they stay
+          the same size side by side: 24px at md and 32px at lg, where the
+          columns are too narrow for the longer ones at 40px, and 40px from
+          xl. The 48px line box at md and lg keeps the boxes below level.
+          Keep in step with the Top-5 heading and SaleSpot.astro's.
+        */
+        }
+        <h2
+          class="font-harmony text-32 text-text-primary md:text-24 md:leading-[48px] lg:text-32 lg:leading-[48px] xl:text-40"
+        >
           {t("release.heading")}
         </h2>
         <FeaturedVideo
@@ -65,7 +76,7 @@ const museHubURL = plugins[0]
         plugins.length > 0 && (
           <div class="promo-spot-top5 w-full md:w-1/2 flex flex-col gap-7">
             <div class="flex flex-col gap-1">
-              <h2 class="font-harmony text-32 md:text-40 text-text-primary">
+              <h2 class="font-harmony text-32 text-text-primary md:text-24 md:leading-[48px] lg:text-32 lg:leading-[48px] xl:text-40">
                 {t("plugins.heading")}
               </h2>
               <p class="text-16 text-text-primary/60">
