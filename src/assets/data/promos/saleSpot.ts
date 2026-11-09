@@ -22,7 +22,7 @@ export const SALE_SPOT_CAMPAIGN = "mh-bf-2026";
 export const SALE_SPOT_ENDS_AT = "2027-01-05T00:00:00+01:00";
 
 const SALE_URL =
-  "https://www.musehub.com/category/on-sale?utm_medium=Referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_091126_crosslink";
+  "https://www.musehub.com/category/on-sale?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_091126_crosslink";
 
 /** utm_content per spot, as agreed with MuseHub on the Confluence page. */
 const UTM_CONTENT: Record<SaleSpotArm, string> = {
