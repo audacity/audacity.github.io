@@ -108,15 +108,9 @@ export const features: FeatureEntry[] = [
     icon: "icon-waveform",
     showInFooter: true,
   },
-  {
-    slug: "vocal-remover",
-    title: "Free Vocal Remover – Remove Vocals from Any Song | Audacity",
-    shortTitle: "Vocal Remover",
-    description:
-      "Remove vocals from any song for free. AI-powered stem separation for karaoke, remixes, and covers. No limits, no subscription.",
-    icon: "icon-microphone",
-    showInFooter: true,
-  },
+  // "vocal-remover" is parked (src/pages/features/_vocal-remover.astro):
+  // its walkthrough needs the OpenVINO plugins, which Audacity 4 doesn't
+  // support yet. Restore the entry and the page together when it does.
   {
     slug: "delay",
     title: "Free Delay Effect – Add Echo to Audio | Audacity",
