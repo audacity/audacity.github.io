@@ -219,27 +219,27 @@ export const campaignTopLists: Record<string, TopListCampaign> = {
       {
         name: "Soap Voice Clean & Capture Bundle",
         tagline: "Clean up spoken voice and create instant transcripts",
-        href: "https://www.musehub.com/bundle/soap-voice-recording-bundle?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_291026_crosslink&utm_content=top-trending-plugins",
+        href: "https://www.musehub.com/bundle/soap-voice-recording-bundle?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_101126_crosslink&utm_content=top-trending-plugins",
       },
       {
         name: "MuseFX",
         tagline: "Essential collection of mix effects",
-        href: "https://www.musehub.com/plugin/musefx?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_291026_crosslink&utm_content=top-trending-plugins",
+        href: "https://www.musehub.com/plugin/musefx?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_101126_crosslink&utm_content=top-trending-plugins",
       },
       {
         name: "Speaker Splitter Pro",
         tagline: "Automatically split mixed-speaker audio into separate tracks",
-        href: "https://www.musehub.com/plugin/speaker-splitter-pro?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_291026_crosslink&utm_content=top-trending-plugins",
+        href: "https://www.musehub.com/plugin/speaker-splitter-pro?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_101126_crosslink&utm_content=top-trending-plugins",
       },
       {
         name: "Trinity EQ",
         tagline: "Shape your sound with precision and warmth",
-        href: "https://www.musehub.com/plugin/trinity-eq?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_291026_crosslink&utm_content=top-trending-plugins",
+        href: "https://www.musehub.com/plugin/trinity-eq?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_101126_crosslink&utm_content=top-trending-plugins",
       },
       {
         name: "Voice by Auribus",
         tagline: "AI-powered professional vocals",
-        href: "https://www.musehub.com/plugin/auribus?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_291026_crosslink&utm_content=top-trending-plugins",
+        href: "https://www.musehub.com/plugin/auribus?utm_medium=referral&utm_source=AU&utm_campaign=MH_WW_REF_AU_WEB_ALL_101126_crosslink&utm_content=top-trending-plugins",
       },
     ],
     startDate: "2026-10-29",
