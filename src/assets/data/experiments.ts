@@ -100,7 +100,8 @@ export const experiments: Experiment[] = [
   //   control — homepage as today, no promo
   //   a       — top banner above the site header (closable)
   //   b       — bar under the hero
-  //   c       — sticky footer pill (closable)
+  //   c       — sticky footer pill (closable); killed 12 Nov 2026, its
+  //             share split evenly across a, b and d
   //   d       — sale card in place of the Top-5 trending plugins block
   // See src/assets/data/promos/saleSpot.ts for copy, dates and links.
   // Linux is out of the test (spec: MuseHub isn't available on Linux), so
@@ -110,10 +111,9 @@ export const experiments: Experiment[] = [
     name: "promo-spot",
     variants: [
       { name: "control", weight: 10 },
-      { name: "a", weight: 22.5 },
-      { name: "b", weight: 22.5 },
-      { name: "c", weight: 22.5 },
-      { name: "d", weight: 22.5 },
+      { name: "a", weight: 30 },
+      { name: "b", weight: 30 },
+      { name: "d", weight: 30 },
     ],
     enabled: true,
     muted: false,
