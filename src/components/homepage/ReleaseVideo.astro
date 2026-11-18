@@ -5,7 +5,6 @@ import museHubBadge from "../../assets/img/musehub/musehub-badge-b-black.svg";
 import releaseVideoThumb from "../../assets/img/release-video-thumb.webp";
 import { useTranslations } from "../../i18n";
 import { getTopPlugins } from "../../assets/data/promotions";
-import SaleSpot from "../promo/SaleSpot.astro";
 
 const t = useTranslations(Astro.currentLocale);
 
@@ -39,22 +38,18 @@ const museHubURL = plugins[0]
       <!-- Our latest release -->
       {
         /*
-        gap-4 is the 16px between the heading and the thumbnail, matched by
-        the sale card's column in SaleSpot.astro so the two blocks stay in
-        vertical sync. The body and link below keep their 24px via mt-2.
+        gap-4 is the 16px between the heading and the thumbnail. The body
+        and link below keep their 24px via mt-2.
       */
       }
       <div class="w-full md:w-1/2 flex flex-col gap-4">
         {
           /*
-          The three headings in this section share one scale so they stay
-          the same size side by side. The longest, the sale card's, is about
-          480px at 40px and 385px at 32px, and a column here is (viewport −
-          104px) / 2 below xl, so the cut-ins sit where the text actually
-          fits: 32px once the column passes ~395px (896px viewport), 40px
-          once it passes ~500px (1104px viewport). The 48px line box in
-          between keeps the boxes below level. Keep in step with the Top-5
-          heading and SaleSpot.astro's.
+          The two headings in this section share one scale so they stay
+          the same size side by side. A column here is (viewport − 104px) / 2
+          below xl; the heading steps to 32px at an 896px viewport and 40px
+          at 1104px. The 48px line box in between keeps the boxes below
+          level. Keep in step with the Top-5 heading.
         */
         }
         <h2
@@ -84,7 +79,7 @@ const museHubURL = plugins[0]
       <!-- Top-5 plugins -->
       {
         plugins.length > 0 && (
-          <div class="promo-spot-top5 w-full md:w-1/2 flex flex-col gap-7">
+          <div class="w-full md:w-1/2 flex flex-col gap-7">
             <div class="flex flex-col gap-1">
               <h2 class="font-harmony text-32 text-text-primary md:text-24 md:leading-[48px] min-[896px]:text-32 min-[896px]:leading-[48px] min-[1104px]:text-40">
                 {t("plugins.heading")}
@@ -133,9 +128,6 @@ const museHubURL = plugins[0]
           </div>
         )
       }
-
-      <!-- Sale promo, arm d of the promo-spot test: replaces the Top-5 block -->
-      <SaleSpot arm="d" />
     </div>
   </div>
 </section>

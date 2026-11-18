@@ -93,34 +93,6 @@ export const experiments: Experiment[] = [
     ],
     enabled: false,
   },
-  // MuseHub Black Friday sale: which homepage spot sells a seasonal promo
-  // best. Control sees no promo; each arm is one placement, and its
-  // utm_content tells MuseHub which spot a sale came from. Runs 9–22 Nov 2026,
-  // then the winner goes to 100% until the sale ends 4 Jan 2027.
-  //   control — homepage as today, no promo
-  //   a       — top banner above the site header (closable)
-  //   b       — bar under the hero
-  //   c       — sticky footer pill (closable); killed 12 Nov 2026, its
-  //             share split evenly across a, b and d
-  //   d       — sale card in place of the Top-5 trending plugins block
-  // See src/assets/data/promos/saleSpot.ts for copy, dates and links.
-  // Linux is out of the test (spec: MuseHub isn't available on Linux), so
-  // Linux visitors see the homepage as today and are not counted in any
-  // branch, the control included.
-  // Killed 18 Nov 2026, ahead of the planned 22 Nov end: everyone now sees
-  // the control (no promo).
-  {
-    name: "promo-spot",
-    variants: [
-      { name: "control", weight: 10 },
-      { name: "a", weight: 30 },
-      { name: "b", weight: 30 },
-      { name: "d", weight: 30 },
-    ],
-    enabled: false,
-    muted: false,
-    excludeOs: ["linux"],
-  },
 ];
 
 export function getExperiment(name: string): Experiment | undefined {
