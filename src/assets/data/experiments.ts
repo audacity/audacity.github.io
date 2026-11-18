@@ -107,6 +107,8 @@ export const experiments: Experiment[] = [
   // Linux is out of the test (spec: MuseHub isn't available on Linux), so
   // Linux visitors see the homepage as today and are not counted in any
   // branch, the control included.
+  // Killed 18 Nov 2026, ahead of the planned 22 Nov end: everyone now sees
+  // the control (no promo).
   {
     name: "promo-spot",
     variants: [
@@ -115,7 +117,7 @@ export const experiments: Experiment[] = [
       { name: "b", weight: 30 },
       { name: "d", weight: 30 },
     ],
-    enabled: true,
+    enabled: false,
     muted: false,
     excludeOs: ["linux"],
   },
