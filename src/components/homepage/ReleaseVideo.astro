@@ -1,10 +1,17 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import FeaturedVideo from "../video/FeaturedVideo";
-import museHubBadge from "../../assets/img/musehub/musehub-badge-b-black.svg";
-import releaseVideoThumb from "../../assets/img/release-video-thumb.webp";
 import { useTranslations } from "../../i18n";
 import { getTopPlugins } from "../../assets/data/promotions";
+import releaseScreenshot from "../../assets/img/release-card/audacity-4-screenshot.png";
+import headphones from "../../assets/img/release-card/musehub-headphones.svg";
+import playTriangle from "../../assets/img/release-card/play-triangle.svg";
+import museHubGlyph from "../../assets/img/musehub/musehub-glyph.svg";
+import soapIcon from "../../assets/img/plugins/soap-voice-clean-capture.png";
+import museFxIcon from "../../assets/img/plugins/musefx.png";
+import speakerSplitterIcon from "../../assets/img/plugins/speaker-splitter-pro.png";
+import trinityEqIcon from "../../assets/img/plugins/trinity-eq.png";
 
 const t = useTranslations(Astro.currentLocale);
 
@@ -12,119 +19,300 @@ const RELEASE_VIDEO_ID = "BTQymidLYIM";
 
 const releaseVideo = {
   title: t("video.release.title"),
-  placeholderImage: releaseVideoThumb.src,
   imageAltText: t("video.release.alt"),
   videoURL: `https://www.youtube-nocookie.com/embed/${RELEASE_VIDEO_ID}?autoplay=1`,
 };
 
 /* Names, taglines and campaign-tagged links come from the Confluence promo
-   calendar via "bun run pull-campaigns". */
-const plugins = getTopPlugins();
+   calendar via "bun run pull-campaigns". The section shows four, as in the
+   "Audacity_plugins_section" frame in Figma; the footer lists the whole
+   window. */
+const plugins = getTopPlugins().slice(0, 4);
 
-/* The badge carries the same campaign params as the list it sits under. */
-const museHubURL = plugins[0]
-  ? `https://www.musehub.com/${new URL(plugins[0].href).search}`
-  : "https://www.musehub.com/";
+/* The calendar carries no artwork, so each entry's icon is looked up here by
+   its MuseHub slug (the last path segment of the link). The tiles follow the
+   Figma frame: the Soap bundle's art is cut out on a yellow tile, Speaker
+   Splitter's is a crop of its store art with the "Pro" label painted over, and
+   Trinity EQ's is a 40×28 picture on a navy tile. Entries with no art here
+   get a plain tile. */
+type PluginArt = {
+  icon: ImageMetadata;
+  tile?: "soap" | "speaker-splitter" | "trinity";
+};
+const pluginArt: Record<string, PluginArt> = {
+  "soap-voice-recording-bundle": { icon: soapIcon, tile: "soap" },
+  musefx: { icon: museFxIcon },
+  "speaker-splitter-pro": {
+    icon: speakerSplitterIcon,
+    tile: "speaker-splitter",
+  },
+  "trinity-eq": { icon: trinityEqIcon, tile: "trinity" },
+};
+const slugOf = (href: string) =>
+  new URL(href).pathname.split("/").filter(Boolean).pop() ?? "";
+
+/* The badge and the "More plugins" link carry the same campaign params as
+   the list they sit under. */
+const campaign = plugins[0] ? new URL(plugins[0].href).search : "";
+const museHubURL = `https://www.musehub.com/${campaign}`;
+const morePluginsURL = `https://www.musehub.com/plugin${campaign}`;
 ---
 
-<section class="bg-background-light">
+{
+  /*
+  Layout follows the "Audacity_plugins_section" frame (1440 wide): an 1113px
+  content box with a 449px release column, a 164px gutter and a 499px plugins
+  column, so the columns are 40.34% and 44.83% of the box and the gutter is
+  what justify-between leaves. box-content keeps the 1113px for the content
+  itself at every padding. The frame's top edge is 38–44px above the headings
+  and 63px below the badge; below md the columns stack as elsewhere on the
+  homepage. Figma has this frame at one width only, so the narrower layouts
+  follow the homepage's own breakpoints.
+*/
+}
+<section class="bg-white">
   <div
-    class="mx-auto px-6 xs:px-12 md:px-8 py-10 md:py-12 lg:py-16 max-w-screen-xl"
+    class="mx-auto box-content max-w-[1113px] px-6 xs:px-12 md:px-8 pt-10 pb-12 lg:pb-16"
   >
     <div
-      class="flex flex-col md:flex-row gap-12 md:gap-10 xl:gap-16"
+      class="flex flex-col md:flex-row md:justify-between gap-12 md:gap-8"
       data-entrance-group="120"
     >
       <!-- Our latest release -->
-      {
-        /*
-        gap-4 is the 16px between the heading and the thumbnail. The body
-        and link below keep their 24px via mt-2.
-      */
-      }
-      <div class="w-full md:w-1/2 flex flex-col gap-4">
+      <div class="w-full md:w-[40.34%] flex flex-col">
         {
           /*
-          The two headings in this section share one scale so they stay
-          the same size side by side. A column here is (viewport − 104px) / 2
-          below xl; the heading steps to 32px at an 896px viewport and 40px
-          at 1104px. The 48px line box in between keeps the boxes below
-          level. Keep in step with the Top-5 heading.
+          Both headings are Heading S from the design system: Harmony 44px on
+          a 40px line with 0.5px tracking. They step down where the columns
+          get too narrow for "Top trending plugins for Audacity" on one line
+          (446px at 44px): 40px from lg, 32px below.
         */
         }
         <h2
-          class="font-harmony text-32 text-text-primary md:text-24 md:leading-[48px] min-[896px]:text-32 min-[896px]:leading-[48px] min-[1104px]:text-40"
+          class="font-harmony text-32 leading-[1.1] tracking-[0.5px] text-[#0d0d10] lg:text-40 lg:leading-10 xl:text-[44px]"
         >
           {t("release.heading")}
         </h2>
-        <FeaturedVideo
-          client:load
-          placeholderImage={releaseVideo.placeholderImage}
-          imageAltText={releaseVideo.imageAltText}
-          videoURL={releaseVideo.videoURL}
-          matomoEventName={releaseVideo.title}
-          playButton="none"
-        />
-        <p class="mt-2 text-16 leading-snug text-text-primary">
+        {
+          /*
+          The thumbnail is composed rather than one image: a 449×253 card on
+          the primary purple, the Audacity 4 screenshot in its lower-right
+          281×196 under a purple fade, the MuseHub headphones at top right,
+          the two Harmony lines at left and a play button. The card is a size
+          container and every measure inside is in cqw of its 449px, so it
+          keeps the frame's proportions at any width (the aspect ratio makes
+          cqw good for the vertical measures too). It carries no padding:
+          cqw is the content box, and padding would shrink every measure.
+        */
+        }
+        <div class="mt-[22px]">
+          <FeaturedVideo
+            client:load
+            imageAltText={releaseVideo.imageAltText}
+            videoURL={releaseVideo.videoURL}
+            matomoEventName={releaseVideo.title}
+          >
+            <div
+              class="relative w-full aspect-[449/253] overflow-hidden rounded-2xl bg-text-primary [container-type:inline-size]"
+            >
+              <div class="absolute bottom-0 right-0 h-[43.65cqw] w-[62.58cqw]">
+                <Image
+                  src={releaseScreenshot}
+                  widths={[320, 640, 960]}
+                  sizes="(min-width: 768px) 281px, 62vw"
+                  alt=""
+                  class="size-full object-cover"
+                />
+                {
+                  /* The screenshot's second fill in Figma: the primary purple
+                     at 80% fading out from its lower-left towards the top
+                     right. */
+                }
+                <div
+                  class="absolute inset-0 bg-[linear-gradient(236.25deg,rgba(15,0,77,0.8)_43.18%,rgba(15,0,77,0)_71.77%)]"
+                >
+                </div>
+              </div>
+              <img
+                src={headphones.src}
+                width={headphones.width}
+                height={headphones.height}
+                alt=""
+                class="absolute left-[77.51cqw] top-[6.62cqw] h-auto w-[15.14cqw]"
+              />
+              <div
+                class="absolute left-[5.57cqw] top-[19.11cqw] flex flex-col gap-[2.23cqw] whitespace-pre-line font-harmony leading-[1.0025]"
+              >
+                <p class="text-[8.02cqw] text-accent">
+                  {t("release.card.eyebrow")}
+                </p>
+                <p class="text-[10.69cqw] text-text-contrast">
+                  {t("release.card.title")}
+                </p>
+              </div>
+              {
+                /* The play button: an 84px circle of #F81F58 at 80% with a
+                   16px background blur, and the frame's rounded triangle
+                   turned to point right, 2px right and 1.5px down of the
+                   circle's centre. */
+              }
+              <span
+                aria-hidden="true"
+                class="absolute left-[41.2cqw] top-[17.82cqw] size-[18.71cqw] rounded-full bg-[#f81f58]/80 backdrop-blur-[16px]"
+              ></span>
+              <img
+                src={playTriangle.src}
+                width={playTriangle.width}
+                height={playTriangle.height}
+                alt=""
+                class="absolute left-[48.02cqw] top-[24.96cqw] h-auto w-[6.04cqw] rotate-90"
+              />
+            </div>
+          </FeaturedVideo>
+        </div>
+        <p
+          class="mt-[21px] text-16 leading-[18px] tracking-[0.01em] text-text-primary/60"
+        >
           {t("release.body")}
         </p>
-        <a
-          href="/audacity-4"
-          class="mt-2 w-fit font-muse-sans text-16 text-text-primary underline underline-offset-4 decoration-text-primary/40 hover:text-accent hover:decoration-accent transition-colors"
-        >
-          {t("release.learnMore")}
-        </a>
       </div>
 
-      <!-- Top-5 plugins -->
+      <!-- Top trending plugins -->
       {
         plugins.length > 0 && (
-          <div class="w-full md:w-1/2 flex flex-col gap-7">
-            <div class="flex flex-col gap-1">
-              <h2 class="font-harmony text-32 text-text-primary md:text-24 md:leading-[48px] min-[896px]:text-32 min-[896px]:leading-[48px] min-[1104px]:text-40">
-                {t("plugins.heading")}
-              </h2>
-              <p class="text-16 text-text-primary/60">
-                {t("plugins.distributor")}
-              </p>
-            </div>
+          <div class="w-full md:w-[44.83%] flex flex-col">
+            <h2 class="font-harmony text-32 leading-[1.1] tracking-[0.5px] text-[#0d0d10] lg:text-40 lg:leading-10 xl:text-[44px]">
+              {t("plugins.heading")}
+            </h2>
+            <p class="mt-2.5 font-sans text-[15px] leading-5 text-black/60">
+              {t("plugins.distributor")}
+            </p>
 
             {/*
-            Below xl the columns are too narrow for "Name. Tagline" on one
-            line, so each entry stacks its tagline under the name instead
-            of wrapping mid-sentence. At xl+ the entries return to the
-            single-line form.
-          */}
-            <ul class="flex flex-col gap-2.5 xl:gap-1">
-              {plugins.map((plugin) => (
-                <li class="text-18 leading-[1.4] text-gray-900">
-                  <a
-                    href={plugin.href}
-                    class="whitespace-nowrap text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {plugin.name}.
-                  </a>{" "}
-                  <span class="block xl:inline text-18 text-text-primary/80">
-                    {plugin.tagline}
-                  </span>
-                </li>
-              ))}
+              Each entry is a 48px tile, 17px of gap and two lines: the name
+              in Muse Sans Bold 18 on the MuseHub indigo, the tagline at 15/20.
+              Rows start every 66px in the frame: 50px of row and 16px of gap.
+            */}
+            <ul class="mt-[26px] flex flex-col gap-4">
+              {plugins.map((plugin) => {
+                const art = pluginArt[slugOf(plugin.href)];
+                return (
+                  <li>
+                    <a
+                      href={plugin.href}
+                      class="group flex items-start gap-[17px]"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      {art?.tile === "soap" ? (
+                        <span class="mt-0.5 block size-12 shrink-0 overflow-hidden rounded-lg bg-[#fff301]">
+                          <Image
+                            src={art.icon}
+                            width={96}
+                            height={96}
+                            alt=""
+                            class="size-full object-cover"
+                          />
+                        </span>
+                      ) : art?.tile === "speaker-splitter" ? (
+                        <span class="relative mt-0.5 block size-12 shrink-0 overflow-hidden rounded-lg">
+                          <Image
+                            src={art.icon}
+                            width={128}
+                            height={128}
+                            alt=""
+                            class="absolute left-[-16.63%] top-[-17.02%] size-[134.83%] max-w-none"
+                          />
+                          <span class="absolute left-[26px] top-[41px] h-1 w-[7px] bg-[#fa7701]" />
+                          <span class="absolute left-[19px] top-[41px] h-1 w-[7px] bg-[#0f3045]" />
+                          <span class="absolute left-[18px] top-[45px] h-[3px] w-[15px] bg-[#0b2430]" />
+                        </span>
+                      ) : art?.tile === "trinity" ? (
+                        <span class="relative mt-0.5 block size-12 shrink-0 rounded-lg bg-[#10202f]">
+                          <Image
+                            src={art.icon}
+                            width={120}
+                            height={84}
+                            alt=""
+                            class="absolute left-1 top-3 h-7 w-10 object-cover"
+                          />
+                        </span>
+                      ) : art ? (
+                        <span class="mt-0.5 block size-12 shrink-0 overflow-hidden rounded-lg">
+                          <Image
+                            src={art.icon}
+                            width={96}
+                            height={96}
+                            alt=""
+                            class="size-full object-cover"
+                          />
+                        </span>
+                      ) : (
+                        <span class="mt-0.5 block size-12 shrink-0 rounded-lg bg-background-medium" />
+                      )}
+                      <span class="mt-px flex min-w-0 flex-col">
+                        <span class="text-18 font-bold leading-[1.5] text-[#3b3c9c] group-hover:underline underline-offset-4">
+                          {plugin.name}
+                          {plugin.badge && (
+                            <span class="ml-1.5 inline-block h-4 rounded-sm bg-[#3b3c9c] px-1 align-middle font-sans text-12 font-medium leading-4 text-text-contrast no-underline">
+                              {plugin.badge}
+                            </span>
+                          )}
+                        </span>
+                        <span class="text-[15px] leading-5 text-black/80">
+                          {plugin.tagline}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
 
-            <a
-              href={museHubURL}
-              class="w-fit hover:opacity-90 transition-opacity"
-              target="_blank"
-              rel="noopener"
-            >
-              <Image
-                src={museHubBadge}
-                alt={t("plugins.badgeAlt")}
-                class="w-[170px] h-auto"
-              />
-            </a>
+            {/*
+              The badge is the frame's own composition: a 142×47 box holding
+              a 140×45 indigo rounded rectangle, the MuseHub glyph and two
+              lines of white text. The link beside it is vertically centred
+              on the badge, 27px to its right.
+            */}
+            <div class="mt-[35px] flex flex-wrap items-center gap-x-[27px] gap-y-4">
+              <a
+                href={museHubURL}
+                class="relative block h-[47px] w-[142px] shrink-0 hover:opacity-90 transition-opacity"
+                target="_blank"
+                rel="noopener"
+                aria-label={t("plugins.badgeAlt")}
+              >
+                <span class="absolute inset-px rounded-lg bg-[#3b3c9c]" />
+                <img
+                  src={museHubGlyph.src}
+                  width={museHubGlyph.width}
+                  height={museHubGlyph.height}
+                  alt=""
+                  class="absolute left-[14.21px] top-[9.95px] h-[27.39px] w-[24.79px]"
+                />
+                <span
+                  aria-hidden="true"
+                  class="absolute left-12 top-[3px] whitespace-nowrap font-sans text-10 font-medium leading-[18.39px] text-text-contrast"
+                >
+                  download on
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="absolute left-12 top-3 whitespace-nowrap font-harmony text-[25px] leading-[33.43px] tracking-[0.02em] text-text-contrast"
+                >
+                  musehub
+                </span>
+              </a>
+              <a
+                href={morePluginsURL}
+                class="font-sans text-[15px] font-medium leading-5 text-[#3b3c9c] underline underline-offset-[3px] hover:text-accent transition-colors"
+                target="_blank"
+                rel="noopener"
+              >
+                {t("plugins.more")}
+              </a>
+            </div>
           </div>
         )
       }

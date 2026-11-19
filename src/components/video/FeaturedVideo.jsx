@@ -17,6 +17,7 @@ function FeaturedVideo(props) {
     textColor = "text-text-primary",
     matomoEventName,
     playButton = "youtube",
+    children,
   } = props;
 
   function handleVideoClick() {
@@ -57,6 +58,19 @@ function FeaturedVideo(props) {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         ></iframe>
+      ) : children ? (
+        /* A composed thumbnail (markup rather than one image) supplied by the
+           caller; it plays the video like the image does. */
+        <div
+          role="button"
+          tabIndex="0"
+          aria-label={imageAltText}
+          className="w-full cursor-pointer"
+          onClick={() => handleVideoClick()}
+          onKeyDown={(e) => e.key === "Enter" && handleVideoClick()}
+        >
+          {children}
+        </div>
       ) : (
         <div className="thumbnail-container grid grid-cols-1 grid-rows-1 place-items-center [grid-template-areas:'main']">
           <img

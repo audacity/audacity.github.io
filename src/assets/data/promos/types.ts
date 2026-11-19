@@ -62,6 +62,8 @@ export type TopListItem = {
   tagline: string;
   /** Destination exactly as given in the promo calendar, campaign params included. */
   href: string;
+  /** Optional tag shown after the name on the homepage, e.g. "-20%". */
+  badge?: string;
 };
 
 /** A curated list that runs for a date window, like a banner campaign. */
