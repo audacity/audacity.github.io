@@ -1,7 +1,5 @@
 ---
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
-import DownloadButton from "../../components/button/DownloadButton";
-import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -276,22 +274,4 @@ import Shortcut from "../../components/Shortcut.astro";
     <strong>How do I compress multiple tracks at once?</strong><br />Use a
     master effects workflow to process the mixed output in one pass.
   </p>
-
-  <h2>Download Audacity Free</h2>
-  <p>
-    Ready to even out your levels and improve clarity? Download Audacity for
-    free on Windows, macOS, and Linux.
-  </p>
-  <div
-    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
-  >
-    <DownloadMuseHubButton client:load />
-    <noscript>
-      <DownloadMuseHubButton client:load />
-    </noscript>
-    <DownloadButton client:load />
-    <noscript>
-      <DownloadButton client:load />
-    </noscript>
-  </div>
 </FeaturePageLayout>

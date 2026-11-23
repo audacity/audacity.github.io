@@ -1,7 +1,5 @@
 ---
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
-import DownloadButton from "../../components/button/DownloadButton";
-import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -144,15 +142,4 @@ import Shortcut from "../../components/Shortcut.astro";
     <strong>Can I sync echo to tempo?</strong><br />Yes, by converting beat
     values to seconds and setting delay time accordingly.
   </p>
-
-  <h2>Download Audacity Free</h2>
-  <p>Use Audacity's free Echo effect on Windows, macOS, and Linux.</p>
-  <div
-    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
-  >
-    <DownloadMuseHubButton client:load />
-    <noscript><DownloadMuseHubButton client:load /></noscript>
-    <DownloadButton client:load />
-    <noscript><DownloadButton client:load /></noscript>
-  </div>
 </FeaturePageLayout>

@@ -1,7 +1,5 @@
 ---
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
-import DownloadButton from "../../components/button/DownloadButton";
-import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 ---
 
 <FeaturePageLayout
@@ -316,18 +314,4 @@ import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton
     apply Reverb with Wet Only on the copy, and mix the two tracks independently for
     full control over the wet/dry balance.
   </p>
-
-  <h2>Download Audacity Free</h2>
-  <p>
-    Ready to add reverb to your audio? Download Audacity for free on Windows,
-    macOS, or Linux.
-  </p>
-  <div
-    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
-  >
-    <DownloadMuseHubButton client:load />
-    <noscript><DownloadMuseHubButton client:load /></noscript>
-    <DownloadButton client:load />
-    <noscript><DownloadButton client:load /></noscript>
-  </div>
 </FeaturePageLayout>
