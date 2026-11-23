@@ -115,5 +115,6 @@
 /community/translators/	/contribute/translating	301
 /copyright/	https://github.com/audacity/audacity/blob/master/LICENSE.txt
 
-# parked until Audacity 4 supports the OpenVINO plugins (see src/pages/features/_vocal-remover.astro)
+# parked until Audacity 4 supports the OpenVINO plugins (see the _*.astro files in src/pages/features)
 /features/vocal-remover/	/features/	302
+/features/transcription/	/features/	302

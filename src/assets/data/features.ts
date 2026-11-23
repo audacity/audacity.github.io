@@ -48,14 +48,9 @@ export const features: FeatureEntry[] = [
       "Add natural reverb to vocals, instruments, and podcasts. Room, hall, and cathedral presets included.",
     icon: "icon-cycle",
   },
-  {
-    slug: "transcription",
-    title: "Free AI Audio Transcription – Speech to Text | Audacity",
-    shortTitle: "AI Transcription",
-    description:
-      "Transcribe speech to text locally with Whisper AI. No uploads, no minute limits, no subscription.",
-    icon: "icon-waveform",
-  },
+  // "transcription" is parked (src/pages/features/_transcription.astro):
+  // its walkthrough needs the OpenVINO plugins, which Audacity 4 doesn't
+  // support yet. Restore the entry and the page together when it does.
   {
     slug: "delete",
     title: "Free Audio Delete Tool – Remove Sections Fast | Audacity",
