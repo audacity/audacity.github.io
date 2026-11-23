@@ -1,7 +1,5 @@
 ---
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
-import DownloadButton from "../../components/button/DownloadButton";
-import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import Shortcut from "../../components/Shortcut.astro";
 ---
 
@@ -180,18 +178,4 @@ import Shortcut from "../../components/Shortcut.astro";
     <strong>Delay or Echo for beginners?</strong><br />Echo is simpler; Delay
     offers more creative control.
   </p>
-
-  <h2>Download Audacity Free</h2>
-  <p>
-    Download Audacity for free on Windows, macOS, and Linux to start building
-    custom delay effects.
-  </p>
-  <div
-    class="not-prose mt-8 flex flex-col w-full md:w-fit gap-4 items-center sm:items-start text-left"
-  >
-    <DownloadMuseHubButton client:load />
-    <noscript><DownloadMuseHubButton client:load /></noscript>
-    <DownloadButton client:load />
-    <noscript><DownloadButton client:load /></noscript>
-  </div>
 </FeaturePageLayout>

@@ -17,6 +17,10 @@ module.exports = {
     lavender: {
       200: "#CBC3FF", // Lavender 200 — Audacity 4 "New" nav badge
     },
+    musehub: {
+      turquoise: "#00D4FF", // MuseHub Turquoise 400 — sale promo accents
+      onyx: "#0D0B18", // MuseHub Onyx 950 — sale promo surfaces
+    },
     // Legacy primary brand colors (consider deprecating)
     primary: {
       DEFAULT: "#1D4ED8", // blue-700

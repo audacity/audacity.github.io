@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import OsToggle from "../components/OsToggle.astro";
+import DoMoreWithPlugins from "../components/promo/DoMoreWithPlugins.astro";
+import { getFeaturePluginBlock } from "../assets/data/featurePluginBlocks";
 
 export interface Props {
   title: string;
@@ -28,6 +30,10 @@ const {
   standfirst,
   breadcrumb,
 } = Astro.props;
+
+/* MUSH-2270: the MuseHub block for this page, by its /features/<slug>/. */
+const slug = Astro.url.pathname.split("/").filter(Boolean).pop() ?? "";
+const pluginBlock = getFeaturePluginBlock(slug);
 ---
 
 <BaseLayout
@@ -90,5 +96,13 @@ const {
   >
     <OsToggle />
     <slot />
+    {
+      pluginBlock && (
+        <DoMoreWithPlugins
+          href={pluginBlock.href}
+          subline={pluginBlock.subline}
+        />
+      )
+    }
   </article>
 </BaseLayout>

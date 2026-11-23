@@ -10,6 +10,7 @@ import type { ReleaseInfo } from "../assets/data/audacityReleases";
 import { changelog } from "../assets/data/changelog";
 import type { MuseHubReleaseInfo } from "../assets/data/museHubReleases";
 import { useTranslations } from "../i18n";
+import { museHubTrendingPluginsURL } from "../assets/data/museHubLinks";
 
 export interface Props {
   title: string;
@@ -37,6 +38,19 @@ const versionChangelogHref = changelog.some((e) => e.version === version)
   ? `/changelog/${version}/`
   : "/changelog/";
 const t = useTranslations(Astro.currentLocale);
+
+/*
+  The Plugins card deep-links to MuseHub's trending plugins, tagged per page
+  (MUSH-2266 Windows, MUSH-2267 Mac). Linux keeps the plain MuseHub link:
+  MuseHub isn't available there.
+*/
+const pluginsContent: Record<string, string> = {
+  Windows: "download-win",
+  macOS: "download-mac",
+};
+const pluginsURL = pluginsContent[OS]
+  ? museHubTrendingPluginsURL(pluginsContent[OS])
+  : "https://musehub.com/";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -141,7 +155,7 @@ const t = useTranslations(Astro.currentLocale);
           title="Plugins"
           description="Elevate your productions with a vast selection of plugins, sound effects, loops and more."
           linkText="Link to musehub"
-          targetURL="https://musehub.com/"
+          targetURL={pluginsURL}
         />
       </div>
     </section>

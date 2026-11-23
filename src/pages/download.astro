@@ -10,6 +10,7 @@ import {
 } from "../assets/data/audacityReleases";
 import { changelog } from "../assets/data/changelog";
 import { useTranslations } from "../i18n";
+import { museHubTrendingPluginsURL } from "../assets/data/museHubLinks";
 
 const { version } = audacityReleases;
 
@@ -199,23 +200,30 @@ const formatCampaignLinkLabel = (
             onto its own line.
           */
           }
+          {
+            /*
+            MUSH-2269: this slot was the offline manual, whose link went to
+            the Audacity 3 manual's GitHub releases. It now promotes plugins
+            on MuseHub, tagged as coming from /download.
+          */
+          }
           <a
-            href="https://github.com/audacity/audacity-manual/releases"
+            href={museHubTrendingPluginsURL("download-all")}
             target="_blank"
             rel="noopener"
             class="group flex flex-col gap-1 rounded-xl border border-text-primary/15 bg-white p-5 transition-colors hover:border-accent hover:bg-accent/5"
           >
             <span
               class="text-16 font-semibold text-text-primary transition-colors group-hover:text-accent"
-              >{t("download.offlineManual")}</span
+              >{t("download.plugins")}</span
             >
             <span class="text-14 text-text-primary/60"
-              >{t("download.downloadManual")}</span
+              >{t("download.pluginsDesc")}</span
             >
             <span
               class="mt-auto pt-3 inline-flex items-center gap-1.5 text-14 font-semibold text-accent"
             >
-              Open<span class="icon icon-share" aria-hidden="true"></span>
+              MuseHub<span class="icon icon-share" aria-hidden="true"></span>
             </span>
           </a>
 

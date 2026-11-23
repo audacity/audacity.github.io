@@ -54,23 +54,42 @@ function MuseHubPanel({ panel, idx, src }) {
   );
 }
 
-function MuseHub({ images = {} }) {
+/* pluginsHref: the MuseHub trending-plugins link, tagged by the page that
+   mounts the section (MUSH-2268). The section's call to action: a pill in
+   the page's download-button geometry (h-12/14, px-6/8, rounded-full),
+   white so it reads as MuseHub's rather than the page's red download
+   action. It sits at the header's right on wide screens, bottom-aligned
+   with the intro, and under the intro below lg. An anchor, not a button. */
+function MuseHub({ images = {}, pluginsHref }) {
   const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
       <div className="max-w-[1600px] mx-auto w-full">
         <header
           ref={headerEntrance.ref}
-          className="max-w-3xl"
+          className="lg:flex lg:items-end lg:justify-between lg:gap-12"
           style={headerEntrance.style}
         >
-          <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-            More from MuseHub
-          </h2>
-          <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Open "Get Effects" to browse thousands of plugins, samples, and
-            oneshots from MuseHub. Including free and paid options.
-          </p>
+          <div className="max-w-3xl">
+            <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+              More from MuseHub
+            </h2>
+            <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
+              Open "Get Effects" to browse thousands of plugins, samples, and
+              oneshots from MuseHub. Including free and paid options.
+            </p>
+          </div>
+          {pluginsHref && (
+            <a
+              href={pluginsHref}
+              target="_blank"
+              rel="noopener"
+              className="mt-8 lg:mt-0 inline-flex h-12 lg:h-14 w-fit shrink-0 items-center gap-2 rounded-full bg-white px-6 lg:px-8 font-semibold text-background-deep hover:opacity-90 transition-opacity"
+            >
+              Get effects on MuseHub
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          )}
         </header>
 
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
