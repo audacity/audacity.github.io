@@ -1,0 +1,37 @@
+---
+/*
+  The "Get more plugins" block (MUSH-2270), the same block as on
+  plugins.audacityteam.org: MuseHub lockup, heading, one subline, and a
+  "Browse MuseHub" pill. The whole block is the link, so the pill is styling
+  on an anchor rather than a button (MUSH-2215: every block is a plain link).
+*/
+import MuseHubLockupSVG from "../inlineSVG/MuseHubLockupSVG";
+
+export interface Props {
+  href: string;
+  subline: string;
+}
+const { href, subline } = Astro.props;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener"
+  class="group not-prose mt-14 flex flex-col items-start rounded-2xl bg-musehub-onyx p-8 text-text-contrast no-underline sm:p-12 lg:p-16"
+>
+  <MuseHubLockupSVG className="h-9 text-text-contrast sm:h-10" />
+  <span
+    class="mt-10 font-sans text-40 font-semibold leading-none tracking-tight sm:mt-14 sm:text-56"
+  >
+    Get more plugins
+  </span>
+  <span class="mt-3 text-18 text-text-contrast/60 sm:mt-4 sm:text-24">
+    {subline}
+  </span>
+  <span
+    class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-18 font-semibold text-musehub-onyx transition group-hover:bg-musehub-turquoise sm:mt-10 sm:text-20"
+  >
+    Browse MuseHub <span aria-hidden="true">&rarr;</span>
+  </span>
+</a>
