@@ -37,6 +37,18 @@ const versionChangelogHref = changelog.some((e) => e.version === version)
   ? `/changelog/${version}/`
   : "/changelog/";
 const t = useTranslations(Astro.currentLocale);
+
+/*
+  MUSH-2266: on the Windows page the Plugins card deep-links to MuseHub's
+  trending plugins with the cross-link UTMs. The date in utm_campaign is the
+  launch day (DDMMYY) and has to match the day this goes live. Mac and Linux
+  keep the plain MuseHub link for now.
+*/
+const PLUGINS_LINK_LAUNCH_DAY = "241126";
+const pluginsURL =
+  OS === "Windows"
+    ? `https://www.musehub.com/category/plugin/trending-plugins?utm_source=AU&utm_medium=referral&utm_campaign=MH_WW_REF_AU_WEB_ALL_${PLUGINS_LINK_LAUNCH_DAY}_crosslink&utm_content=download-win`
+    : "https://musehub.com/";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -141,7 +153,7 @@ const t = useTranslations(Astro.currentLocale);
           title="Plugins"
           description="Elevate your productions with a vast selection of plugins, sound effects, loops and more."
           linkText="Link to musehub"
-          targetURL="https://musehub.com/"
+          targetURL={pluginsURL}
         />
       </div>
     </section>
