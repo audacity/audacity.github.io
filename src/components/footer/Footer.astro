@@ -14,6 +14,7 @@ import YoutubeSVG from "../inlineSVG/YoutubeSVG";
 import DiscordSVG from "../inlineSVG/DiscordSVG";
 import { useTranslations } from "../../i18n";
 import { getTopPlugins } from "../../assets/data/promotions";
+import { withMuseHubLaunchDay } from "../../assets/data/museHubLinks";
 
 const t = useTranslations(Astro.currentLocale);
 const localePrefix =
@@ -102,10 +103,12 @@ const social = [
   { href: "https://discord.gg/audacity", label: "Discord", external: true },
 ];
 
-/* The same MuseHub destinations and campaign as the homepage's Top-5
-   section, with utm_content marking these as footer clicks. */
+/* MUSH-2265: the same MuseHub destinations as the homepage's trending-
+   plugins block, on the launch-day campaign, with utm_content marking
+   these as footer clicks. The footer's other MuseHub links keep their own
+   campaign. */
 function asFooterLink(href: string) {
-  const url = new URL(href);
+  const url = new URL(withMuseHubLaunchDay(href));
   url.searchParams.set("utm_content", "footer");
   return url.toString();
 }
