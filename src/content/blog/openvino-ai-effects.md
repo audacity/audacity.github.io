@@ -10,33 +10,33 @@ draft: false
 
 Intel has built a suite of AI tools for Audacity, useful for spoken word audio and music alike. These AI features run 100% locally on your PC.
 
-## AI tools for podcasts 
+## AI tools for podcasts
 
-For spoken word content, the OpenVINO effects contain a noise supression and a transcription plugin. 
+For spoken word content, the OpenVINO effects contain a noise supression and a transcription plugin.
 
-The **Noise Suppression** does what it says on the tin - it suppresses noise. As such it behaves similar to Audacity's built-in Noise Removal effect. 
-* [More information on noise suppression](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/noise_suppression/README.md)
+The **Noise Suppression** does what it says on the tin - it suppresses noise. As such it behaves similar to Audacity's built-in Noise Removal effect.
 
-The **Transcription** powered by [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) can both transcribe and translate words and outputs to a label track. If you want to export these transcriptions, you can do so via File → Export Other → Export Labels. 
+- [More information on noise suppression](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/noise_suppression/README.md)
 
-* [More information on transcription](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/whisper_transcription/README.md)
+The **Transcription** powered by [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) can both transcribe and translate words and outputs to a label track. If you want to export these transcriptions, you can do so via File → Export Other → Export Labels.
 
-## AI tools for music 
+- [More information on transcription](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/whisper_transcription/README.md)
 
-For music, both generation and separation plugins are part of the OpenVINO effects. 
+## AI tools for music
+
+For music, both generation and separation plugins are part of the OpenVINO effects.
 
 **Music Generation** and **Music Style Remix** use Stable Diffusion (and [Riffusion](https://github.com/riffusion/riffusion) in particular) to generate new music from a prompt, or based on pre-existing music, respectively.
 
-* More information on [Music Generation](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/music_generation/README.md) and [Music Style Remix](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/music_style_remix/README.md)
+- More information on [Music Generation](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/music_generation/README.md) and [Music Style Remix](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/music_style_remix/README.md)
 
 **Music Separation** can split a song into either it's vocal and instrumental parts, or into vocals, drums, bass and a combined "anything else" part. This is ideal for creating covers and playalongs.
 
-* [More information on music separation](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/music_separation/README.md)
-
+- [More information on music separation](https://github.com/intel/openvino-plugins-ai-audacity/blob/v3.4.2-R1/doc/feature_doc/music_separation/README.md)
 
 ## Download and installation
 
-The OpenVINO plugins are currently available for download here:  https://github.com/intel/openvino-plugins-ai-audacity/releases. 
+The OpenVINO plugins are available for download on the [OpenVINO download page](/download/openvino).
 
 Currently, only a Windows version is available for download. The project may be [compiled on Linux](https://github.com/intel/openvino-plugins-ai-audacity/blob/main/doc/build_doc/linux/README.md) and macOS, though no instructions are available for the latter yet.
 

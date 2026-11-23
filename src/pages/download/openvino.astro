@@ -7,12 +7,15 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const { win, mac, version, revision } = openvinoReleases;
 const audaversion = audacityReleases.version;
 // Determine if major.minor match between OpenVINO and Audacity
-const sameMinor = version.split('.').slice(0, 2).join('.') === audaversion.split('.').slice(0, 2).join('.');
+const sameMinor =
+  version.split(".").slice(0, 2).join(".") ===
+  audaversion.split(".").slice(0, 2).join(".");
 
 import DownloadButton from "../../components/button/DownloadButton";
 import Audacity_Logo from "../../assets/img/Audacity_Logo.svg";
 import DownloadMuseHubButton from "../../components/button/DownloadMuseHubButton";
 import SplitDownloadButton from "../../components/button/SplitDownloadButton";
+import { museHubURL } from "../../assets/data/museHubLinks";
 ---
 
 <BaseLayout
@@ -45,6 +48,15 @@ import SplitDownloadButton from "../../components/button/SplitDownloadButton";
           client:load
         />
       </div>
+      {/* MUSH-2271: a plain link, not a button, beside the installers. */}
+      <a
+        href={museHubURL("/plugin/openvino", "openvino-download")}
+        target="_blank"
+        rel="noopener"
+        class="hyperlink mt-4"
+      >
+        Also available on MuseHub
+      </a>
 
       <div
         class="prose prose-blue mx-6 sm:mx-12 md:mx-24 lg:mx-auto pt-16 pb-40"
