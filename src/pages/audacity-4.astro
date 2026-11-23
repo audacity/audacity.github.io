@@ -9,6 +9,7 @@ import Workspaces from "../components/about/Workspaces.jsx";
 import CustomisableUI from "../components/about/CustomisableUI.jsx";
 import EffectWindows from "../components/about/EffectWindows.jsx";
 import MuseHub from "../components/about/MuseHub.jsx";
+import { museHubTrendingPluginsURL } from "../assets/data/museHubLinks";
 import AudioCom from "../components/about/AudioCom.jsx";
 import UnderTheHood from "../components/about/UnderTheHood.jsx";
 import CtaSection from "../components/about/CtaSection.jsx";
@@ -57,7 +58,11 @@ const panelImages = await optimisePanelImages();
       <EffectWindows client:visible />
     </div>
     <div class="about-section about-section--musehub">
-      <MuseHub images={panelImages} client:visible />
+      <MuseHub
+        images={panelImages}
+        pluginsHref={museHubTrendingPluginsURL("audacity-4")}
+        client:visible
+      />
     </div>
     <div class="about-section about-section--under-the-hood">
       <UnderTheHood client:visible />

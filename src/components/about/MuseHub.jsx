@@ -54,7 +54,9 @@ function MuseHubPanel({ panel, idx, src }) {
   );
 }
 
-function MuseHub({ images = {} }) {
+/* pluginsHref: the MuseHub trending-plugins link, tagged by the page that
+   mounts the section (MUSH-2268). A plain link, not a button. */
+function MuseHub({ images = {}, pluginsHref }) {
   const headerEntrance = useEntrance();
   return (
     <section className="bg-background-dark px-6 lg:px-10 py-24 lg:py-32">
@@ -71,6 +73,16 @@ function MuseHub({ images = {} }) {
             Open "Get Effects" to browse thousands of plugins, samples, and
             oneshots from MuseHub. Including free and paid options.
           </p>
+          {pluginsHref && (
+            <a
+              href={pluginsHref}
+              target="_blank"
+              rel="noopener"
+              className="mt-6 inline-block text-base md:text-lg font-semibold text-text-contrast underline underline-offset-4 hover:opacity-80"
+            >
+              Browse trending plugins on MuseHub
+            </a>
+          )}
         </header>
 
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
