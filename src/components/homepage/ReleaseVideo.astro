@@ -5,6 +5,10 @@ import FeaturedVideo from "../video/FeaturedVideo";
 import releaseVideoThumb from "../../assets/img/release-video-thumb.webp";
 import { useTranslations } from "../../i18n";
 import { getTopPlugins } from "../../assets/data/promotions";
+import {
+  museHubURL,
+  withMuseHubLaunchDay,
+} from "../../assets/data/museHubLinks";
 import museHubGlyph from "../../assets/img/musehub/musehub-glyph.svg";
 import soapIcon from "../../assets/img/plugins/soap-voice-clean-capture.png";
 import museFxIcon from "../../assets/img/plugins/musefx.png";
@@ -26,7 +30,9 @@ const releaseVideo = {
    calendar via "bun run pull-campaigns". The section shows four, as in the
    "Audacity_plugins_section" frame in Figma; the footer lists the whole
    window. */
-const plugins = getTopPlugins().slice(0, 4);
+const plugins = getTopPlugins()
+  .slice(0, 4)
+  .map((plugin) => ({ ...plugin, href: withMuseHubLaunchDay(plugin.href) }));
 
 /* The calendar carries no artwork, so each entry's icon is looked up here by
    its MuseHub slug (the last path segment of the link). The tiles follow the
@@ -50,11 +56,15 @@ const pluginArt: Record<string, PluginArt> = {
 const slugOf = (href: string) =>
   new URL(href).pathname.split("/").filter(Boolean).pop() ?? "";
 
-/* The badge and the "More plugins" link carry the same campaign params as
-   the list they sit under. */
-const campaign = plugins[0] ? new URL(plugins[0].href).search : "";
-const museHubURL = `https://www.musehub.com/${campaign}`;
-const morePluginsURL = `https://www.musehub.com/plugin${campaign}`;
+/* MUSH-2265: the badge goes to MuseHub's front page and the "More plugins"
+   link to its trending-plugins category, both tagged as clicks from this
+   block, on the same launch-day campaign as the list (the calendar's links
+   are retagged above). */
+const museHubHomeURL = museHubURL("/", "top-trending-plugins");
+const morePluginsURL = museHubURL(
+  "/category/plugin/trending-plugins",
+  "top-trending-plugins",
+);
 ---
 
 {
@@ -209,7 +219,7 @@ const morePluginsURL = `https://www.musehub.com/plugin${campaign}`;
             */}
             <div class="mt-[35px] flex flex-wrap items-center gap-x-[27px] gap-y-4">
               <a
-                href={museHubURL}
+                href={museHubHomeURL}
                 class="relative block h-[47px] w-[142px] shrink-0 hover:opacity-90 transition-opacity"
                 target="_blank"
                 rel="noopener"
