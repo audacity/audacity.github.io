@@ -112,11 +112,15 @@ function asFooterLink(href: string) {
   url.searchParams.set("utm_content", "footer");
   return url.toString();
 }
-const plugins = getTopPlugins().map((plugin) => ({
-  href: asFooterLink(plugin.href),
-  label: plugin.name,
-  external: true,
-}));
+/* The same four as the homepage block: MUSH-2265 lists those four for the
+   footer and asks for the calendar's fifth, Voice by Auribus, to go. */
+const plugins = getTopPlugins()
+  .slice(0, 4)
+  .map((plugin) => ({
+    href: asFooterLink(plugin.href),
+    label: plugin.name,
+    external: true,
+  }));
 ---
 
 <footer class="bg-background-deep py-12">
