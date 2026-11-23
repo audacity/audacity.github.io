@@ -55,7 +55,11 @@ function MuseHubPanel({ panel, idx, src }) {
 }
 
 /* pluginsHref: the MuseHub trending-plugins link, tagged by the page that
-   mounts the section (MUSH-2268). A plain link, not a button. */
+   mounts the section (MUSH-2268). The section's call to action: a pill in
+   the page's download-button geometry (h-12/14, px-6/8, rounded-full),
+   white so it reads as MuseHub's rather than the page's red download
+   action. It sits at the header's right on wide screens, bottom-aligned
+   with the intro, and under the intro below lg. An anchor, not a button. */
 function MuseHub({ images = {}, pluginsHref }) {
   const headerEntrance = useEntrance();
   return (
@@ -63,24 +67,27 @@ function MuseHub({ images = {}, pluginsHref }) {
       <div className="max-w-[1600px] mx-auto w-full">
         <header
           ref={headerEntrance.ref}
-          className="max-w-3xl"
+          className="lg:flex lg:items-end lg:justify-between lg:gap-12"
           style={headerEntrance.style}
         >
-          <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
-            More from MuseHub
-          </h2>
-          <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
-            Open "Get Effects" to browse thousands of plugins, samples, and
-            oneshots from MuseHub. Including free and paid options.
-          </p>
+          <div className="max-w-3xl">
+            <h2 className="font-harmony text-text-contrast text-5xl md:text-6xl lg:text-7xl leading-[1.05]">
+              More from MuseHub
+            </h2>
+            <p className="mt-6 text-text-contrast/70 text-base md:text-lg">
+              Open "Get Effects" to browse thousands of plugins, samples, and
+              oneshots from MuseHub. Including free and paid options.
+            </p>
+          </div>
           {pluginsHref && (
             <a
               href={pluginsHref}
               target="_blank"
               rel="noopener"
-              className="mt-6 inline-block text-base md:text-lg font-semibold text-text-contrast underline underline-offset-4 hover:opacity-80"
+              className="mt-8 lg:mt-0 inline-flex h-12 lg:h-14 w-fit shrink-0 items-center gap-2 rounded-full bg-white px-6 lg:px-8 font-semibold text-background-deep hover:opacity-90 transition-opacity"
             >
-              Browse trending plugins on MuseHub
+              Get effects on MuseHub
+              <span aria-hidden="true">&rarr;</span>
             </a>
           )}
         </header>
