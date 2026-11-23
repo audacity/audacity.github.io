@@ -10,6 +10,7 @@ import type { ReleaseInfo } from "../assets/data/audacityReleases";
 import { changelog } from "../assets/data/changelog";
 import type { MuseHubReleaseInfo } from "../assets/data/museHubReleases";
 import { useTranslations } from "../i18n";
+import { museHubTrendingPluginsURL } from "../assets/data/museHubLinks";
 
 export interface Props {
   title: string;
@@ -39,16 +40,17 @@ const versionChangelogHref = changelog.some((e) => e.version === version)
 const t = useTranslations(Astro.currentLocale);
 
 /*
-  MUSH-2266: on the Windows page the Plugins card deep-links to MuseHub's
-  trending plugins with the cross-link UTMs. The date in utm_campaign is the
-  launch day (DDMMYY) and has to match the day this goes live. Mac and Linux
-  keep the plain MuseHub link for now.
+  The Plugins card deep-links to MuseHub's trending plugins, tagged per page
+  (MUSH-2266 Windows, MUSH-2267 Mac). Linux keeps the plain MuseHub link:
+  MuseHub isn't available there.
 */
-const PLUGINS_LINK_LAUNCH_DAY = "241126";
-const pluginsURL =
-  OS === "Windows"
-    ? `https://www.musehub.com/category/plugin/trending-plugins?utm_source=AU&utm_medium=referral&utm_campaign=MH_WW_REF_AU_WEB_ALL_${PLUGINS_LINK_LAUNCH_DAY}_crosslink&utm_content=download-win`
-    : "https://musehub.com/";
+const pluginsContent: Record<string, string> = {
+  Windows: "download-win",
+  macOS: "download-mac",
+};
+const pluginsURL = pluginsContent[OS]
+  ? museHubTrendingPluginsURL(pluginsContent[OS])
+  : "https://musehub.com/";
 ---
 
 <BaseLayout title={title} description={description}>
