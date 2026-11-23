@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import OsToggle from "../components/OsToggle.astro";
-import GetMorePlugins from "../components/promo/GetMorePlugins.astro";
+import DoMoreWithPlugins from "../components/promo/DoMoreWithPlugins.astro";
 import { getFeaturePluginBlock } from "../assets/data/featurePluginBlocks";
 
 export interface Props {
@@ -98,7 +98,10 @@ const pluginBlock = getFeaturePluginBlock(slug);
     <slot />
     {
       pluginBlock && (
-        <GetMorePlugins href={pluginBlock.href} subline={pluginBlock.subline} />
+        <DoMoreWithPlugins
+          href={pluginBlock.href}
+          subline={pluginBlock.subline}
+        />
       )
     }
   </article>

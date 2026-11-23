@@ -1,7 +1,7 @@
 import { museHubURL } from "./museHubLinks";
 
 /*
-  MUSH-2270: the "Get more plugins" block on the feature pages, keyed by the
+  MUSH-2270: the "Do more with plugins" block on the feature pages, keyed by the
   page's slug under /features/. Each page promotes the MuseHub category that
   fits it. Pages with no entry (cut, trim, split, ...) get no block. The
   targets are Guillaume Mourier's "use now" column; the per-effect categories
@@ -13,7 +13,7 @@ export type FeaturePluginBlock = {
   path: string;
   /** utm_content for the click. */
   content: string;
-  /** The line under "Get more plugins". */
+  /** The line under "Do more with plugins". */
   subline: string;
 };
 

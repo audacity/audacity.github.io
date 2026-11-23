@@ -1,8 +1,8 @@
 ---
 /*
-  The "Get more plugins" block (MUSH-2270), the same block as on
-  plugins.audacityteam.org: MuseHub lockup, heading, one subline, and a
-  "Browse MuseHub" pill. The whole block is the link, so the pill is styling
+  The "Do more with plugins" block (MUSH-2270), the feature pages' version
+  of the plugins.audacityteam.org block: MuseHub lockup, heading, one
+  subline, and a "Browse MuseHub" pill. The whole block is the link, so the pill is styling
   on an anchor rather than a button (MUSH-2215: every block is a plain link).
 */
 import MuseHubLockupSVG from "../inlineSVG/MuseHubLockupSVG";
@@ -24,7 +24,7 @@ const { href, subline } = Astro.props;
   <span
     class="mt-10 font-sans text-40 font-semibold leading-none tracking-tight sm:mt-14 sm:text-56"
   >
-    Get more plugins
+    Do more with plugins
   </span>
   <span class="mt-3 text-18 text-text-contrast/60 sm:mt-4 sm:text-24">
     {subline}
