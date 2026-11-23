@@ -2,11 +2,9 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import FeaturedVideo from "../video/FeaturedVideo";
+import releaseVideoThumb from "../../assets/img/release-video-thumb.webp";
 import { useTranslations } from "../../i18n";
 import { getTopPlugins } from "../../assets/data/promotions";
-import releaseScreenshot from "../../assets/img/release-card/audacity-4-screenshot.png";
-import headphones from "../../assets/img/release-card/musehub-headphones.svg";
-import playTriangle from "../../assets/img/release-card/play-triangle.svg";
 import museHubGlyph from "../../assets/img/musehub/musehub-glyph.svg";
 import soapIcon from "../../assets/img/plugins/soap-voice-clean-capture.png";
 import museFxIcon from "../../assets/img/plugins/musefx.png";
@@ -19,6 +17,7 @@ const RELEASE_VIDEO_ID = "BTQymidLYIM";
 
 const releaseVideo = {
   title: t("video.release.title"),
+  placeholderImage: releaseVideoThumb.src,
   imageAltText: t("video.release.alt"),
   videoURL: `https://www.youtube-nocookie.com/embed/${RELEASE_VIDEO_ID}?autoplay=1`,
 };
@@ -93,82 +92,15 @@ const morePluginsURL = `https://www.musehub.com/plugin${campaign}`;
         >
           {t("release.heading")}
         </h2>
-        {
-          /*
-          The thumbnail is composed rather than one image: a 449×253 card on
-          the primary purple, the Audacity 4 screenshot in its lower-right
-          281×196 under a purple fade, the MuseHub headphones at top right,
-          the two Harmony lines at left and a play button. The card is a size
-          container and every measure inside is in cqw of its 449px, so it
-          keeps the frame's proportions at any width (the aspect ratio makes
-          cqw good for the vertical measures too). It carries no padding:
-          cqw is the content box, and padding would shrink every measure.
-        */
-        }
         <div class="mt-[22px]">
           <FeaturedVideo
             client:load
+            placeholderImage={releaseVideo.placeholderImage}
             imageAltText={releaseVideo.imageAltText}
             videoURL={releaseVideo.videoURL}
             matomoEventName={releaseVideo.title}
-          >
-            <div
-              class="relative w-full aspect-[449/253] overflow-hidden rounded-2xl bg-text-primary [container-type:inline-size]"
-            >
-              <div class="absolute bottom-0 right-0 h-[43.65cqw] w-[62.58cqw]">
-                <Image
-                  src={releaseScreenshot}
-                  widths={[320, 640, 960]}
-                  sizes="(min-width: 768px) 281px, 62vw"
-                  alt=""
-                  class="size-full object-cover"
-                />
-                {
-                  /* The screenshot's second fill in Figma: the primary purple
-                     at 80% fading out from its lower-left towards the top
-                     right. */
-                }
-                <div
-                  class="absolute inset-0 bg-[linear-gradient(236.25deg,rgba(15,0,77,0.8)_43.18%,rgba(15,0,77,0)_71.77%)]"
-                >
-                </div>
-              </div>
-              <img
-                src={headphones.src}
-                width={headphones.width}
-                height={headphones.height}
-                alt=""
-                class="absolute left-[77.51cqw] top-[6.62cqw] h-auto w-[15.14cqw]"
-              />
-              <div
-                class="absolute left-[5.57cqw] top-[19.11cqw] flex flex-col gap-[2.23cqw] whitespace-pre-line font-harmony leading-[1.0025]"
-              >
-                <p class="text-[8.02cqw] text-accent">
-                  {t("release.card.eyebrow")}
-                </p>
-                <p class="text-[10.69cqw] text-text-contrast">
-                  {t("release.card.title")}
-                </p>
-              </div>
-              {
-                /* The play button: an 84px circle of #F81F58 at 80% with a
-                   16px background blur, and the frame's rounded triangle
-                   turned to point right, 2px right and 1.5px down of the
-                   circle's centre. */
-              }
-              <span
-                aria-hidden="true"
-                class="absolute left-[41.2cqw] top-[17.82cqw] size-[18.71cqw] rounded-full bg-[#f81f58]/80 backdrop-blur-[16px]"
-              ></span>
-              <img
-                src={playTriangle.src}
-                width={playTriangle.width}
-                height={playTriangle.height}
-                alt=""
-                class="absolute left-[48.02cqw] top-[24.96cqw] h-auto w-[6.04cqw] rotate-90"
-              />
-            </div>
-          </FeaturedVideo>
+            playButton="none"
+          />
         </div>
         <p
           class="mt-[21px] text-16 leading-[18px] tracking-[0.01em] text-text-primary/60"
