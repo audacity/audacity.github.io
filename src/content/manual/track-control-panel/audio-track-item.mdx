@@ -9,6 +9,7 @@ draft: false
 
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import UIShot from "../../../components/manual/UIShot.astro";
+import { museHubURL } from "../../../assets/data/museHubLinks";
 
 <UIShot
   name="app/SceneSpotlightWaveTrackItem"
@@ -143,6 +144,11 @@ they can be changed or removed at any time without altering the audio.
 
 The button is hidden while the track is collapsed, or when the track is too
 short for it to fit.
+
+The list of available effects grows with the plugins you install. For
+mixing tools beyond the built-in set, from metering to stereo width,
+<a href={museHubURL("/category/plugin", "manual-mixing-panning")}>MuseHub</a>
+has plugins that load into this same panel.
 
 See [Apply your first effect](/manual/getting-started/apply-your-first-effect) for
 a fuller walkthrough.
