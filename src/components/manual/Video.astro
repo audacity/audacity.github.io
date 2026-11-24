@@ -1,0 +1,42 @@
+---
+/*
+  A YouTube video in a manual page, on the site's click-to-load player: the
+  thumbnail is served from this repo, and nothing is requested from YouTube
+  until the reader presses play, and then from the cookieless domain. Same
+  behaviour as the homepage's release video, so the manual adds no tracking
+  the rest of the site doesn't already have.
+
+  Usage in MDX:
+    import Video from "../../../components/manual/Video.astro";
+    import thumb from "../../../assets/img/manual/video/<name>.webp";
+    <Video id="<youtube id>" title="<video title>" thumbnail={thumb} />
+*/
+import type { ImageMetadata } from "astro";
+import FeaturedVideo from "../video/FeaturedVideo";
+
+interface Props {
+  /** The YouTube video id, the part after `v=` in its address. */
+  id: string;
+  /** The video's title, used as the player's accessible name and alt text. */
+  title: string;
+  /** A thumbnail from this repo, 16:9. */
+  thumbnail: ImageMetadata;
+  /** Optional caption under the player. */
+  caption?: string;
+}
+
+const { id, title, thumbnail, caption } = Astro.props;
+---
+
+<div class="not-prose my-8">
+  <FeaturedVideo
+    client:visible
+    placeholderImage={thumbnail.src}
+    imageAltText={`${title} (video, press to play)`}
+    videoURL={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+    title={title}
+    showTitle={false}
+    label={caption}
+    matomoEventName={`manual: ${title}`}
+  />
+</div>
