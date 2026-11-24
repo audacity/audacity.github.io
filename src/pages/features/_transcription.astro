@@ -1,4 +1,12 @@
 ---
+/*
+  Parked, not deleted. The leading underscore keeps Astro from building this
+  route: the walkthrough leans on the OpenVINO plugins, which Audacity 4
+  doesn't support yet. public/_redirects sends /features/transcription/ to
+  /features/ meanwhile. To bring it back, rename the file to
+  transcription.astro, restore its entry in src/assets/data/features.ts and
+  drop the redirect.
+*/
 import FeaturePageLayout from "../../layouts/FeaturePageLayout.astro";
 import Shortcut from "../../components/Shortcut.astro";
 ---
