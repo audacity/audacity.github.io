@@ -9,6 +9,7 @@ order: 6
 
 import UIShot from "../../components/manual/UIShot.astro";
 import BestPractices from "../../components/manual/BestPractices.astro";
+import { museHubURL } from "../../assets/data/museHubLinks";
 
 A high [dynamic range](https://en.wikipedia.org/wiki/Dynamic_range_compression) can lead to quiet parts of a track being too quiet compared to its loud parts, causing the listener to constantly adjust the volume to keep things at an acceptable level. Audacity has several tools to help reduce the dynamic range and increase the loudness of a track.
 
@@ -47,3 +48,11 @@ A limiter is effectively identical to a compressor, with the difference that it'
 - Typically, limiters are used as a "last line of defense" to prevent clipping.
 
 </BestPractices>
+
+## Plugins for this
+
+Audacity's Compressor and Limiter cover most material. For a different
+character, a multiband compressor or a loudness-matching limiter,
+<a href={museHubURL("/category/plugin", "manual-dynamic-range")}>MuseHub</a>
+has third-party dynamics plugins that run as realtime effects in the same
+way.

@@ -11,6 +11,7 @@ draft: false
 import Callout from "../../../components/manual/Callout.astro";
 import Shortcut from "../../../components/manual/Shortcut.jsx";
 import UIShot from "../../../components/manual/UIShot.astro";
+import { museHubURL } from "../../../assets/data/museHubLinks";
 
 Before you apply anything, it helps to know that Audacity can apply an effect
 in two different ways, and the difference matters once you want to change your
@@ -98,7 +99,7 @@ track. This stage of shaping the combined sound is what "mastering" means.
 ## Getting more effects
 
 Audacity ships with a starter set, and takes plugins in the **VST3**, **VST**,
-**LV2**, **LADSPA** and (on macOS) **Audio Units** formats. MuseHub carries a
+**LV2**, **LADSPA** and (on macOS) **Audio Units** formats. <a href={museHubURL("/category/plugin", "manual-realtime-effects")}>MuseHub</a> carries a
 curated collection, and more are gathered at
 [plugins.audacityteam.org](https://plugins.audacityteam.org/). Installed
 plugins appear after you restart Audacity.
