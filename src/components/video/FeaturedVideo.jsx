@@ -17,6 +17,10 @@ function FeaturedVideo(props) {
     textColor = "text-text-primary",
     matomoEventName,
     playButton = "youtube",
+    // The manual embeds a video under its own prose, where a heading
+    // repeating the video's title reads as a page section. The title still
+    // names the iframe for assistive tech.
+    showTitle = true,
   } = props;
 
   function handleVideoClick() {
@@ -29,7 +33,7 @@ function FeaturedVideo(props) {
 
   return (
     <div className="flex flex-col gap-2 lg:gap-4 w-full">
-      {title && (
+      {title && showTitle && (
         <div className="flex flex-col xs:flex-row xs:justify-between md:h-10">
           <h3
             className={`content-center text-18 lg:text-24 font-semibold ${textColor}`}

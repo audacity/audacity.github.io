@@ -8,11 +8,10 @@
 
 # in-app links
 /realtime-video	https://www.youtube.com/watch?v=DTRnDNR9LR8
-/errors	https://support.audacityteam.org/troubleshooting/error-codes
-/changelog	https://support.audacityteam.org/additional-resources/changelog
+/errors	https://support.audacityteam.org/au3/troubleshooting/error-codes
 
 # required for MS store
-/Setup-Exit-Codes/	https://support.audacityteam.org/troubleshooting/error-codes/installation-exit-codes
+/Setup-Exit-Codes/	https://support.audacityteam.org/au3/troubleshooting/error-codes/installation-exit-codes
 
 #website links
 /gitbook-plugins	https://app.gitbook.com/invite/-MhmG2mhIIHTtQPuHV_k/kY9XD8X03nb2bluFgolK
@@ -69,9 +68,9 @@
 /mh-pluginmanager	https://musehub.com/plugins?utm_source=au&utm_medium=mh-pluginmanager&utm_campaign=mh_plugins
 
 # old website links
-/help/faq	https://manual.audacityteam.org/man/faq.html
+/help/faq	/FAQ
 /download/plug-ins/	https://plugins.audacityteam.org/
-/help/documentation/	https://support.audacityteam.org/
+/help/documentation/	/help/
 # Was /FAQ#team--news (old-site mapping), but the Audacity 4 promo page
 # lived at /about for a while, so send it there. 302 alongside /au4 while
 # the launch-day route could still change.
@@ -103,7 +102,6 @@
 /download/source/	/download
 /download/legacy-windows/	/download/windows
 /download/legacy-mac/	/download/mac
-/help/	https://support.audacityteam.org/
 /contact/	/FAQ#i-have-a-question-or-issue-with-audacity-is-there-a-support-team-i-can-contact
 # The /community shortlinks land on our own /contribute page (11 Sep 2026):
 # they used to forward into the support GitBook, whose restructure 404'd
@@ -117,3 +115,7 @@
 
 # parked until Audacity 4 supports the OpenVINO plugins (see src/pages/features/_vocal-remover.astro)
 /features/vocal-remover/	/features/	302
+
+# the manual pages that lived under new-in-audacity-4 moved up a level (24 Nov 2026)
+/manual/new-in-audacity-4/audacity-3-to-4-transition-guide/	/manual/audacity-3-to-4-transition-guide/	301
+/manual/basics/installing-ffmpeg/	/manual/installing-ffmpeg/	301
