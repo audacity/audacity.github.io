@@ -117,3 +117,7 @@
 
 # parked until Audacity 4 supports the OpenVINO plugins (see src/pages/features/_vocal-remover.astro)
 /features/vocal-remover/	/features/	302
+
+# the manual pages that lived under new-in-audacity-4 moved up a level (24 Nov 2026)
+/manual/new-in-audacity-4/audacity-3-to-4-transition-guide/	/manual/audacity-3-to-4-transition-guide/	301
+/manual/basics/installing-ffmpeg/	/manual/installing-ffmpeg/	301
