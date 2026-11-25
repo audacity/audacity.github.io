@@ -1,0 +1,303 @@
+---
+title: "Dynamics Processing"
+section: "Plugins"
+sectionOrder: 170
+order: 25
+stream: "plugins"
+draft: false
+---
+
+import Callout from "../../../../../components/manual/Callout.astro";
+
+### Broadcast Limiter II
+
+Gives you the possibility to overdrive an audio track without introducing ugly digital distortion noise.
+
+**[Download: RFT-Limiter-II.ny](/plugins/files/RFT-Limiter-II.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Edgar-rft
+
+Gives you the possibility to overdrive an audio track without introducing ugly digital distortion noise. The Limiter cuts all peaks above the given threshold, rounds the edges to reduce ugly distortion, while simultaneously amplifying the whole track to the maximum limit. This is a "soft clipping" effect.
+
+Parameters:
+
+1. **Threshold:** sets the 'cutting edge' in a linear volume number from 0.0 to 1.0
+
+The minimum threshold is -90dB, so you can set the threshold slider to 0.0 and listen to 1-bit of a 16-bit recording if you want. The plugin has no memory limits, it can process audio tracks of several hours in length without problems.
+
+</details>
+
+### Broadcast Limiter III
+
+Similar to Broadcast Limiter II with an added Exciter
+
+**[Download: RFT-Limiter-III.ny](/plugins/files/RFT-Limiter-III.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Edgar-rft
+
+Is in principle a similar "soft clipping" effect as [Broadcast Limiter II](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#broadcast-limiter-ii), but adds an Exciter to control or intensify the high-range distortion. This function is often desired by musicians to make e.g. electric guitars or drum sets sound more aggressive.
+
+Parameters:
+
+1. **Exciter:** controls the high-range distortion in linear numbers from 1 to 10
+2. **Threshold:** sets the 'cutting edge' in a linear volume number from 0.0 to 1.0
+
+The plugin has no memory limits, it can process audio tracks of several hours in length without problems.\\
+
+</details>
+
+### Hyperexp
+
+The Hyperexp effect is a type of compression.
+
+**[Download: hyperexp.ny](/plugins/files/hyperexp.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steven Jones.
+
+The Hyperexp effect is a type of compression. High amplitude sections of approximately unity are relatively unchanged. Low amplitude sections are greatly amplified. The effect is a partial nullification of the amplitude envelope. There is one parameter, which is to choose to normalize or not, the default choice being "yes".
+
+</details>
+
+### Level Speech
+
+This effect is designed to mitigate problems in speech recordings where there are very large variations in the loudness / amplitude of the recorded voice or voices.
+
+**[Download: LevelSpeech.ny](/plugins/files/LevelSpeech.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steve Daulton
+
+This effect is designed to mitigate problems in speech recordings where there are very large variations in the loudness / amplitude of the recorded voice or voices. A typical situation might be a conference recording where one person's voice is much louder than the other people present.
+
+Technically, it is a special kind of "dynamic range compression" effect, to "level" out variations in amplitude (reduce dynamic range), particularly for speech recordings. Usage of the effect is greatly simplified compared to most _traditional_ compressor effect, by combining control of all of the effect parameters into a single "Leveling Amount" control.
+
+Parameters:
+
+1. **Leveling Amount (%):** (0 to 100% default 50%) Higher values produce a stronger effect.
+
+</details>
+
+### Limiter (Audacity &lt;3.6)
+
+Use the _Limiter_ effect to pass signals below a specified input level unaffected or gently reduced, while preventing the peaks of stronger signals from exceeding this threshold. Mastering engineers often use limiting combined with make-up gain to increase the perceived loudness of an audio recording during the audio mastering process.
+
+This limiter effect provides two basic types of effect; "limiting" and "clipping". The "limiting" effect is a special kind of [dynamic compression](https://manual.audacityteam.org/man/compressor.html) that responds very rapidly to peaks in the waveform. The "clipping" effect is a kind of [distortion](http://en.wikipedia.org/wiki/Distortion\_\(music\)) that changes the shape of the waves by "clipping" off the high and low peaks.
+
+**[Download: limiter.ny](/plugins/files/limiter.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+![](../../../../../assets/img/manual/plugins/image.png)
+
+Author: Steve Daulton
+
+Usage:
+
+### Type
+
+Soft Limit (default) progressively reduces the [gain](https://manual.audacityteam.org/man/glossary.html#gain) as the amplitude of the waveform approaches the ["Limit to (dB)"](https://manual.audacityteam.org/man/limiter.html#limit\_to) threshold and prevents the waveform from exceeding that level.
+
+Hard Limit makes no change to the audio until the peaks reach the "Limit to (dB)" threshold. Where the input level (after applying optional [input gain](https://manual.audacityteam.org/man/limiter.html#Input\_Gain)) exceeds the threshold, an equal amount of negative gain is applied so that the peaks never exceed the threshold.
+
+Hard Clipping is the simplest method for reducing peaks. It just chops off the peaks at the "Limit to" threshold. Note that [clipping](https://manual.audacityteam.org/man/glossary.html#clipping) causes distortion. Hard clipping may be useful for purposefully introducing distortion on high peaks, for example to add high harmonics to percussive sounds. Excessive use of hard clipping creates a harsh distortion that is usually unpleasant. For heavier use of distortion the "Soft Clipping" option may be preferable. Hard clipping may also be useful for producing synthetic signals for scientific purposes.
+
+Soft Clipping works in much the same way as "Hard Clipping", but is less fierce in that it "squashes" the peaks rather than cutting them off flat. Soft clipping starts to reduce the peaks a little below the threshold level and progressively increases its effect as the input level increases such that the threshold is never exceeded. When applied heavily, the effect is similar to a "Fuzz Box" effect.
+
+The difference between "Hard" and "Soft" clipping is that "Hard" clipping cuts off the peaks flat, whereas "Soft" clipping rounds the corners where the waveform has been clipped, resulting in a softer sounding distortion.
+
+### Input Gain
+
+Amplifies the audio before applying the limiter.
+
+As the limiter acts on audio peaks that exceed the [Limit to (dB)](https://manual.audacityteam.org/man/limiter.html#limit\_to) threshold, it will clearly have little or no effect on audio tracks in which all of the audio is below the threshold level. In such cases, the audio should be amplified before limiting so that the limiter can work properly. Amplification could be applied using Audacity's [Amplify](https://manual.audacityteam.org/man/amplify.html) effect, or more conveniently using the "Input Gain" controls.
+
+For mono tracks, only the "mono/Left" gain control has any affect. For stereo tracks the left and right channel gains may be adjusted independently of each other.
+
+### Limit to (dB)
+
+Limits the amplitude (after optional amplifying) to this level.
+
+Whichever [type](https://manual.audacityteam.org/man/limiter.html#type) is selected, the limiter prevents the waveform from exceeding this level. (Note that [makeup gain](https://manual.audacityteam.org/man/limiter.html#mugain), if used, is applied to the waveform _after_ it has been limited.)
+
+### Hold
+
+This applies only to the "Hard Limiter" and "Soft Limiter" settings. It has no effect when using either of the "Clip" settings.
+
+In order to catch even the most sudden peak, the limiter "looks ahead" to see when the next peak is coming, and begins to reduce the gain just a little in advance of the peak. The gain level is then held at the reduced level for a short while before being released back to the normal level. Looking ahead and holding the gain level allows the gain to adjust more smoothly and reduces the amount of distortion. The shorter the "Hold" duration, the faster the limiter responds to changes in input level. It is generally desirable for the limiter to respond very rapidly, but responding _too_ rapidly will produce distortion, especial when processing low frequency sounds such as a double bass.
+
+Normally this control can be left at the default (10 ms) setting.
+
+### Apply makeup gain
+
+Amplifies the output (post limiter) close to 0 dB (usually just a little below 0 dB). This is useful when using the limiter to maximize loudness.
+
+Basically, a limiter reduces the gain (negative amplification) when the audio exceeds the "threshold" ("Limit to") level. The "Hold" time is how long (in milliseconds) the gain remains at the reduced level before returning back to normal. Usually you would want the gain to return back to normal pretty quickly after the peak has passed because you normally only want to limit the peaks and then return back to normal as quickly as possible. However, there is a problem if the limiter responds too quickly, and this is most noticeable when processing bass instruments.
+
+If there is a very low note, say below 100 Hz, then the time from one peak to the next may be longer than the "hold" time. Thus the gain will start to reduce as the peak level rises, then will start to "release" (return to normal gain) between one peak and the next. This rapid "fluttering" of the gain level distorts the waveform, which is usually undesirable. The solution to the problem is simple - just hold the gain at the reduced level for a little while so that the limiter is responding to the overall shape of the note and not the individual waveform peaks.
+
+</details>
+
+### Limiter (legacy)
+
+A "lookahead" dynamic range limiter to compress peaks that extend beyond the set threshold value.
+
+**[Download: limiter-legacy.ny](/plugins/files/limiter-legacy.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steve Daulton.
+
+A "lookahead" dynamic range limiter to compress peaks that extend beyond the set threshold value. This is not a "wave shaper", it is a very fast compressor and is able to limit the maximum peaks with minimal harmonic distortion.
+
+This limiter is an ideal choice for peak limiting live music recordings due to the exceptionally low harmonic distortion. For best results the audio should be normalized to 0 dB before applying this effect.
+
+Parameters:
+
+1. **Limit to (dB):** (-10 dB to 0 dB) Sets the maximum peak level. As peaks in the original audio approach this level the gain is reduced so as to prevent the peaks exceeding the set level.
+2. **Hold (ms):** (1 to 50 ms Default = 10 ms) Holds the gain at the reduced level after a peak is detected so as to prevent the gain from "riding the waveform" which would cause harmonic distortion.
+3. **Make-up Gain (0=No, 1=Yes):** (Default = 1) When enabled (set to 1) the output is amplified by an amount equal to the "Limit" level. If the input audio has a peak level of 0 dB, the peak output level will also be 0 dB. When disabled the peaks are limited only.
+
+Shorter _Hold_ times allow the peaks to be tracked more accurately and the limiter will respond faster to the dynamics. If there are high levels of very low bass it will be necessary to increase the Hold time to avoid distortion. The default 10 ms hold time is sufficient for frequencies down to 100 Hz without distortion. To cleanly limit high amplitude, very low frequency bass (down to 50 Hz) the Hold should be increased to 20 ms. Setting the hold to 50 ms is sufficient right down to 20 Hz but the delay before the gain level "recovers" is likely to be too slow for most material.
+
+**Additional notes:**
+
+* **Threshold level:** The **Limit to (dB)** control has a range of -10 dB to 0 dB. The effect is not designed to work beyond this range. When set to 0 dB there will be no change to the audio (though any over 0 dB audio will be clipped). If set below -10 dB the _knee_ will be so soft that all of the audio will be compressed, not just the peaks.
+* **Stereo Tracks:** As is normal for this type of effect, the left/right channels of a stereo track are processed independently.
+* **Lookahead:** The limiter looks ahead for peaks and will begin to change the gain just before the peak occurs. This ensures that all peaks, no matter how fast they occur, will be caught. The lookahead time is roughly a quarter of the hold time.
+* **Knee:** The "hardness" of the knee depends on the threshold (Limit To) level. When the threshold is close to zero a hard knee is used but as the threshold is lowered the knee becomes softer so as to provide a smooth transition in gain level even with a very fast attack time. A typical threshold level of around -3 dB will have a relatively "soft knee" so as to avoid unnecessary distortion. That is, the amount of compression (compression ratio) progressively increases as the input gets louder. At the "Limit to" level the compression ratio is infinite (brick wall) which ensures that peaks will not exceed the limit.
+* **Creative use:** The limiter can be used on its own, or can be used to limit peaks after running a compressor that does not use lookahead (such as the SC4 LADSPA compressor). This can produce "crisper" compression than using a lookahead compressor such as the standard Audacity compressor or Chris's dynamics compressor.
+* **Over 0 dB input:** The input waveform should not exceed 0 dB. Over 0 dB input signals are treated as _illegal_ and will be hard clipped to 0 dB before processing with the limiter. If necessary, the Amplify or Normalize effects should be run before applying this limiter to ensure that the input does not exceed 0 dB.
+
+</details>
+
+### Limiter (2)
+
+The same as [Limiter](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#limiter-audacity-36) except that the make up gain control is a multi-choice selection rather than a slider.
+
+**[Download: Limiter2.ny](/plugins/files/Limiter2.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steve Daulton.
+
+The same as [Limiter](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#limiter-audacity-36) except that the make up gain control is a multi-choice selection rather than a slider.
+
+Parameters:
+
+1. **Limit to (dB):** (-10 dB to 0 dB)
+2. **Hold (ms):** (1 ms to 50 ms Default = 10 ms)
+3. **Apply Make-up Gain:** \[No, Yes (default)]
+
+</details>
+
+### Noise Gate
+
+Noise Gates may be used to cut the level of noise between sections of a recording.
+
+**[Download: Noisegate.ny](/plugins/files/Noisegate.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steve Daulton.
+
+Noise Gates may be used to cut the level of noise between sections of a recording. While this is essentially a very simple effect, this Noise Gate has a number of features and settings that allow it to be both effective and unobtrusive and well suited to most types of audio.
+
+Parameters:
+
+1. **Select Function:** \[Apply the Noise Gate effect | Test the noise level | View one of the Help screens].
+2. **Stereo Linking:** \[Link Stereo Tracks _(gate audio when both channels fall below the gate threshold)_| Don't Link Stereo _(gate channels independently)_]
+3. **Apply Low-Cut filter:** \[No _(Do not apply filter)_ | 10Hz 6dB/octave | 20Hz 6dB/octave] _Removes sub-sonic frequencies including DC offset._
+4. **Gate frequencies above:** \[0 kHz to 10 kHz] _Applies the gate only to frequencies above the set level which may be useful for reducing tape hiss, but will also introduce some 'phase shift'. Setting this below 0.1 kHz will switch this feature off._
+5. **Level reduction:** \[-100 dB to 0 dB] _How much the gated sections are reduced in volume. Values below -96 dB 'shut' the gate to produce absolute silence._
+6. **Gate threshold:** \[-96 dB to -6 dB] _When the audio level drops below this threshold the gate will 'close' and the output level will be reduced. When the audio level rises above this threshold the gate will 'open' and the output will return to the same level as the input._
+7. **Attack/Decay:** \[10 to 1000 milliseconds] _How quickly the gate opens and closes. At the minimum (10 ms) the gate will fully open and close almost instantly as the audio level crosses the threshold. At the maximum (1000 ms), the gate will begin to slowly open (fade-in) 1 second before the sound level exceeds the Threshold, and will gradually close (fade-out) after the sound level drops below the Threshold over a period of 1 second._
+
+For more detailed information and usage tips, read the help file included in this [ZIP package](https://wiki.audacityteam.org/w/images/a/a6/NoiseGate.zip), or the help screens included in the plugin.
+
+</details>
+
+<Callout type="info">
+This effect requires the entire audio selection to be loaded into RAM. If there is insufficient available memory, the plugin and Audacity will crash. The maximum length that can be processed is dependent on the sample rate, length of audio selection, operating system, and available RAM. Please test carefully before using this effect on long (> 45 minutes) tracks to verify the limits on your computer.
+</Callout>
+
+### Pop Mute
+
+The effect is like an "upside-down" [Noise Gate](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#noise-gate). Whereas a [Noise Gate](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#noise-gate) attenuates sounds that are below a specified threshold level, Pop Mute attenuates sounds that are above a specified threshold level.
+
+**[Download: Popmute.ny](/plugins/files/Popmute.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steve Daulton
+
+The effect is like an "upside-down" [Noise Gate](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#noise-gate). Whereas a [Noise Gate](/plugins/nyquist-plugins/effect-plugins/dynamics-processing/#noise-gate) attenuates sounds that are below a specified threshold level, Pop Mute attenuates sounds that are above a specified threshold level. The effect can be used to heavily attenuate loud sounds. It may be useful for rescuing recordings that suffer from loud clicks or pops.
+
+Sounds (such as 'pops') that have a peak level above the 'Threshold' level will be lowered to a 'residual' level set by the 'Mute Level'. Be aware that ALL sounds above the threshold will be affected. Take care to avoid selecting loud sounds that should not be muted.
+
+The effect 'looks ahead' for peaks so that it can begin to lower the level of the sound smoothly a short time before the peak occurs. This is set by the 'Look ahead' time value. After the peak has passed, the level will smoothly return to normal over a period set by the 'Release time' setting.
+
+To attenuate brief clicks, time values of around 5 ms are likely to work well. For larger pops, values of 10 ms or more may sound better. For reverberant sounds such as hand claps, the 'Release time' may be increased so as to catch some of the reverberation.
+
+Parameters:
+
+1. **View Help:** \[No | Yes] (default "No") View the built-in help screen.
+2. **Threshold:** \[-24 dB to 0 dB] (default -6 dB) This is the level above which sounds are acted on (reduced in level)
+3. **Mute Level:** \[-100 dB to 0 dB] (default -24 dB) How much to reduce the peak level by.
+4. **Look ahead:** \[1 to 100 milliseconds] (default 10 millisecond) How far to look ahead for the next "pop" or "crackle".
+5. **Release time:** \[1 to 1000 milliseconds] (default 10 millisecond) How rapidly to "release" the effect and return to normal volume after the pop has passed.
+
+</details>
+
+### Text Envelope
+
+Provides an alternative to the "Envelope Tool" that is accessible for visually impaired and other users that do not use pointing devices
+
+**[Download: TextEnvelope.ny](/plugins/files/TextEnvelope.ny)**
+
+<details>
+
+<summary>Details</summary>
+
+Author: Steve Daulton.
+
+Provides an alternative to the "Envelope Tool" that is accessible for visually impaired and other users that do not use pointing devices.\
+This effect provides a means to shape the volume level of a track or selection by fading from one control point level to the next. Control points are defined by a pair of numbers, the first of which sets the time position of the control point and the second defines the amplification level. Initial and final amplification settings may also be defined.\
+Help screens are available in the 'Select Function' control of this effect.
+
+Parameters:
+
+1. **Select function:** \[choices: Apply Effect, View Quick Help, View Examples, View Tips. Default = "Apply Effect"]
+2. **Time Units:** \[choices: milliseconds, seconds, minutes, percent. Default = seconds]
+3. **Amplification Units:** \[choices: dB or Percent. Default = dB]
+4. **Initial Amplification** \[Numeric input. Default = none]
+5. **Final Amplification** \[Numeric input. Default = none]
+6. **Intermediate Control Points as pairs of time and amplification** \[Pairs of numbers. Default = none]
+
+Note: Decimal values must use a dot as the decimal separator.
+
+</details>

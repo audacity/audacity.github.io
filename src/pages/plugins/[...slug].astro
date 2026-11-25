@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import ManualArticle from "../../components/manual/ManualArticle.astro";
+import { hrefFor } from "../../components/manual/streams";
+
+/*
+  The plugins directory, ported from plugins.audacityteam.org. Its pages live
+  in the manual collection under src/content/manual/plugins/ with
+  stream: "plugins", and render at /plugins/<path>: the "plugins/" folder is
+  this stream's root, so it drops out of the address, and the folder's own
+  index page is /plugins itself (an undefined slug matches the route's root).
+*/
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "manual",
+    ({ data }) => !data.draft && data.stream === "plugins",
+  );
+  return entries.map((entry) => {
+    const href = hrefFor("plugins", entry.id);
+    const slug =
+      href === "/plugins" ? undefined : href.slice("/plugins/".length);
+    return { params: { slug }, props: { entry } };
+  });
+}
+
+const { entry } = Astro.props;
+---
+
+<ManualArticle entry={entry} />

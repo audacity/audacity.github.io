@@ -2,6 +2,9 @@
 export interface TreeNode {
   title: string;
   slug: string;
+  /* The page's address: the sidebar computes it per stream, since the plugins
+     stream lives at /plugins rather than /manual. */
+  href: string;
   order: number;
   children: TreeNode[];
 }
@@ -44,7 +47,7 @@ const { nodes, currentSlug, depth, numbered = false } = Astro.props;
         >
           <div class="flex items-center gap-1">
             <a
-              href={`/manual/${node.slug}`}
+              href={node.href}
               class:list={[
                 "flex-1 block py-1",
                 isActive
