@@ -13,7 +13,7 @@ const { current } = Astro.props;
   section exists and is empty than to hide it and have readers wonder where the
   tutorials went. Once a page is filed into it, it becomes a link on its own.
 */
-const streams = await getStreamEntryPoints();
+const streams = (await getStreamEntryPoints()).filter((s) => !s.standalone);
 ---
 
 <nav aria-label="Documentation sections" class="mb-6">

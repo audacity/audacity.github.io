@@ -1,6 +1,6 @@
 # Plugins site into the manual — design
 
-**Date:** 2026-11-25 · **Branch:** `docs/manual-plugins` · **Status:** awaiting Alex's approval
+**Date:** 2026-11-25 · **Branch:** `docs/manual-plugins` · **Status:** approved 25 Nov; revised the same day, see Revision below
 
 ## Intent
 
@@ -106,3 +106,21 @@ address is its file path), so the layout question is deferred, not decided.
 - Escaping of Nyquist's `*SCRATCH*`, `;;` and `<` in prose.
 - Whether to keep GitBook's `<details><summary>Details</summary>` blocks or
   open them inline; keep them unless they break MDX.
+
+## Revision, 25 Nov 2026: its own space at /plugins
+
+Having seen the pages in the manual, Alex drew the line differently: the
+manual documents what ships in the box (including the stock Nyquist
+plugins), while this content is a directory of third-party and downloadable
+plugins. So it moves out to `audacityteam.org/plugins`, approach 1, with
+the cheapest build: a fourth stream, `plugins`, in the same collection.
+The pages stay in `src/content/manual/plugins/` and keep the sidebar,
+search, pagination and components; `streams.ts` gives each stream a base
+path, and a `/plugins/[...slug]` route renders the stream through the
+shared `ManualArticle` template with the `plugins/` folder dropped from
+the address. The stream is marked standalone: out of the manual's switcher
+and landing cards, listed on the /help hub, and the sidebar shows a
+"Plugins" block with a way back to the manual instead of the switcher.
+Downloads moved to `/plugins/files/`. The old `/download/plug-ins/` and
+`/about/features/plug-ins/` redirects now land on `/plugins/`. A designed
+catalogue landing for `/plugins` is a later, separate job.

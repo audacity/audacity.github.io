@@ -34,6 +34,9 @@ export const MANUAL_STREAMS = [
   "getting-started",
   "how-to",
   "reference",
+  /* The plugins directory: same collection and components, its own space at
+     /plugins. See components/manual/streams.ts. */
+  "plugins",
 ] as const;
 
 /*

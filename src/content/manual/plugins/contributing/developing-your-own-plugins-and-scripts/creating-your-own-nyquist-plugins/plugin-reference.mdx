@@ -4,7 +4,7 @@ description: "This page offers a detailed look at the structure and syntax of Ny
 section: "Plugins"
 sectionOrder: 170
 order: 36
-stream: "reference"
+stream: "plugins"
 draft: false
 ---
 
@@ -66,7 +66,7 @@ In this example (derived from the [High-Pass Filter](https://manual.audacityteam
 The other headers enable various options and properties, including the plugin's controls.
 
 <Callout type="info">
-Full descriptions of all plugin headers are provide on the [Nyquist Plugin Headers](/manual/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/headers-reference/) page.
+Full descriptions of all plugin headers are provide on the [Nyquist Plugin Headers](/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/headers-reference/) page.
 </Callout>
 
 ## Nyquist Plugin Widgets
@@ -234,7 +234,7 @@ Other global variables provided by Nyquist can be found in the [Nyquist manual i
 
 Property lists are defined for the global variables \*AUDACITY\*, \*PROJECT\*, \*SELECTION\*, \*SYSTEM-DIR\*, \*SYSTEM-TIME\*, and \*TRACK\*.
 
-For examples using property lists, see the [Nyquist Property List Tutorial](/manual/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/tutorials/property-list-tutorial/).
+For examples using property lists, see the [Nyquist Property List Tutorial](/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/tutorials/property-list-tutorial/).
 
 ### \*AUDACITY\*
 
@@ -362,7 +362,7 @@ Nyquist handles multi-channel sounds as an _array_ of _sounds_. The first elemen
 
 Returning an array of sounds to a mono track is an error._To return a stereo sound without error, a stereo track must be selected before running the Nyquist code._
 
-For more information about stereo tracks, see the [Nyquist Stereo Track Tutorial](/manual/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/tutorials/stereo-tracks-tutorial/).
+For more information about stereo tracks, see the [Nyquist Stereo Track Tutorial](/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/tutorials/stereo-tracks-tutorial/).
 
 ### String / Text
 
@@ -515,6 +515,6 @@ A working example may be found in the [RMS effect](https://github.com/audacity/a
 ## See Also
 
 * [Nyquist](https://manual.audacityteam.org/man/nyquist.html) in the Audacity manual
-* Nyquist [Basics ](/manual/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/basics/)and [Tutorials](/manual/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/tutorials/)
+* Nyquist [Basics ](/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/basics/)and [Tutorials](/plugins/contributing/developing-your-own-plugins-and-scripts/creating-your-own-nyquist-plugins/tutorials/)
 * [Nyquist 3.02 Reference Manual](http://www.cs.cmu.edu/~rbd/doc/nyquist/)
 * [XLISP 2.0 Manual](http://www.audacity-forum.de/download/edgar/nyquist/nyquist-doc/xlisp/xlisp-index.htm)

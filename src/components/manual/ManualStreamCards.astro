@@ -6,7 +6,7 @@ import { getStreamEntryPoints } from "./streamEntries";
   Astro's own docs use: name the mode, say who it's for, link in. A mode with
   nothing published yet says so plainly rather than linking to an empty page.
 */
-const cards = await getStreamEntryPoints();
+const cards = (await getStreamEntryPoints()).filter((c) => !c.standalone);
 ---
 
 <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 not-prose mb-10">

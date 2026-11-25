@@ -3,7 +3,7 @@ title: "Filters and EQ"
 section: "Plugins"
 sectionOrder: 170
 order: 26
-stream: "reference"
+stream: "plugins"
 draft: false
 ---
 
@@ -13,7 +13,7 @@ import Callout from "../../../../../components/manual/Callout.astro";
 
 A band-rejection filter that passes most frequencies unaltered, but stops those in a specific range.
 
-**[Download: Bandstop.ny](/manual/plugins/files/Bandstop.ny)**
+**[Download: Bandstop.ny](/plugins/files/Bandstop.ny)**
 
 <details>
 
@@ -39,7 +39,7 @@ For even narrower notches a _notch filter_ should be used.
 
 Type I Chebyshev filters can provide a steeper [roll-off](http://en.wikipedia.org/wiki/Roll-off) than [Butterworth filters](http://en.wikipedia.org/wiki/Butterworth\_filter) but at the expense of more [ripple](http://en.wikipedia.org/wiki/Ripple\_\(filters\)#Frequency-domain\_ripple) in the [passband](http://en.wikipedia.org/wiki/Passband).
 
-**[Download: ChebyI.ny](/manual/plugins/files/ChebyI.ny)**
+**[Download: ChebyI.ny](/plugins/files/ChebyI.ny)**
 
 <details>
 
@@ -68,7 +68,7 @@ The high-pass and low-pass filters may be used one after the other to produce a 
 
 An Equalizer (EQ) that can modify more than one band at a time.
 
-**[Download: 15bandEQ.ny](/manual/plugins/files/15bandEQ.ny)**
+**[Download: 15bandEQ.ny](/plugins/files/15bandEQ.ny)**
 
 <details>
 
@@ -84,7 +84,7 @@ An Equalizer (EQ) that can modify more than one band at a time. You have 15 band
 
 The name 'comb' filter comes from how it acts on the audio spectrum it's applied to: it looks like a comb with the teeth pointing up.
 
-**[Download: comb.ny](/manual/plugins/files/comb.ny)**
+**[Download: comb.ny](/plugins/files/comb.ny)**
 
 <details>
 
@@ -108,7 +108,7 @@ Parameters:
 
 Customizable single-band equalizer.
 
-**[Download: eqcustom.ny](/manual/plugins/files/eqcustom.ny)**
+**[Download: eqcustom.ny](/plugins/files/eqcustom.ny)**
 
 <details>
 
@@ -130,7 +130,7 @@ Parameters:
 
 This equalizer is modelled on the EQ section of the Allen & Heath GL series mixing desk.
 
-**[Download: Desk-eq.ny](/manual/plugins/files/Desk-eq.ny)**
+**[Download: Desk-eq.ny](/plugins/files/Desk-eq.ny)**
 
 <details>
 
@@ -158,7 +158,7 @@ Parameters:
 
 A high pass filter with Q, or resonance.
 
-**[Download: highpass2.ny](/manual/plugins/files/highpass2.ny)**
+**[Download: highpass2.ny](/plugins/files/highpass2.ny)**
 
 <details>
 
@@ -166,7 +166,7 @@ A high pass filter with Q, or resonance.
 
 Author: [David R.Sky](https://audionyq.com/david\_r\_sky)
 
-A high pass filter with Q, or resonance. A high pass filter attenuates frequencies below a given cut-off point. The higher Q is, the more the cut-off frequency will resonate (produce a tone). Applied to white noise, both this filter and the low pass filter with Q can be used to produce wind-like sounds at a constant frequency. See the [high pass filter (LFO)](/manual/plugins/nyquist-plugins/effect-plugins/filters-and-eq/#high-pass-filter-lfo) and low pass filter (LFO) for ability to modulate a fixed resonance cut-off frequency.
+A high pass filter with Q, or resonance. A high pass filter attenuates frequencies below a given cut-off point. The higher Q is, the more the cut-off frequency will resonate (produce a tone). Applied to white noise, both this filter and the low pass filter with Q can be used to produce wind-like sounds at a constant frequency. See the [high pass filter (LFO)](/plugins/nyquist-plugins/effect-plugins/filters-and-eq/#high-pass-filter-lfo) and low pass filter (LFO) for ability to modulate a fixed resonance cut-off frequency.
 
 Parameters:
 
@@ -179,7 +179,7 @@ Parameters:
 
 A high pass filter with a low frequency oscillator (LFO).
 
-**[Download: hplfo.ny](/manual/plugins/files/hplfo.ny)**
+**[Download: hplfo.ny](/plugins/files/hplfo.ny)**
 
 <details>
 
@@ -200,7 +200,7 @@ Parameters:
 
 ### High Pass Filter (LFO) - Alternative version
 
-**[Download: lfohp.ny](/manual/plugins/files/lfohp.ny)**
+**[Download: lfohp.ny](/plugins/files/lfohp.ny)**
 
 <details>
 
@@ -221,7 +221,7 @@ Parameters:
 
 A filter for removing the sound of [mains hum](https://en.wikipedia.org/wiki/Mains\_hum) from recordings.
 
-**[Download: De-hum.ny](/manual/plugins/files/De-hum.ny)**
+**[Download: De-hum.ny](/plugins/files/De-hum.ny)**
 
 <details>
 
@@ -256,7 +256,7 @@ First, select 50 or 60 Hz with the first control as appropriate, then set the ot
 
 A low pass filter with a low frequency oscillator (LFO).
 
-**[Download: lplfo.ny](/manual/plugins/files/lplfo.ny)**
+**[Download: lplfo.ny](/plugins/files/lplfo.ny)**
 
 <details>
 
@@ -277,7 +277,7 @@ Parameters:
 
 ### Low Pass Filter (LFO) - Alternative version
 
-**[Download: lfolp.ny](/manual/plugins/files/lfolp.ny)**
+**[Download: lfolp.ny](/plugins/files/lfolp.ny)**
 
 <details>
 
@@ -298,7 +298,7 @@ Parameters:
 
 A low pass filter with Q, or resonance.
 
-**[Download: lowpass2.ny](/manual/plugins/files/lowpass2.ny)**
+**[Download: lowpass2.ny](/plugins/files/lowpass2.ny)**
 
 <details>
 
@@ -306,7 +306,7 @@ A low pass filter with Q, or resonance.
 
 Author: [David R.Sky](https://audionyq.com/david\_r\_sky)
 
-A low pass filter with Q, or resonance. A low pass filter attenuates frequencies above a given cut-off point. The higher Q is, the more the cut-off frequency will resonate (produce a tone). Applied to white noise, both this filter and the high pass filter with Q can be used to produce wind-like sounds at a constant frequency. See the [low pass filter (LFO)](/manual/plugins/nyquist-plugins/effect-plugins/filters-and-eq/#low-pass-filter-lfo) and [high pass filter (LFO)](/manual/plugins/nyquist-plugins/effect-plugins/filters-and-eq/#high-pass-filter-lfo) for ability to modulate a fixed resonance cut-off frequency.
+A low pass filter with Q, or resonance. A low pass filter attenuates frequencies above a given cut-off point. The higher Q is, the more the cut-off frequency will resonate (produce a tone). Applied to white noise, both this filter and the high pass filter with Q can be used to produce wind-like sounds at a constant frequency. See the [low pass filter (LFO)](/plugins/nyquist-plugins/effect-plugins/filters-and-eq/#low-pass-filter-lfo) and [high pass filter (LFO)](/plugins/nyquist-plugins/effect-plugins/filters-and-eq/#high-pass-filter-lfo) for ability to modulate a fixed resonance cut-off frequency.
 
 1. **Cut-off frequency:** \[20 - 10000 Hz, default 1000]
 2. **Filter q (resonance):** \[0 - 5, default 1]
@@ -317,7 +317,7 @@ A low pass filter with Q, or resonance. A low pass filter attenuates frequencies
 
 A multiband equalizer.
 
-**[Download: multibandeq.ny](/manual/plugins/files/multibandeq.ny)**
+**[Download: multibandeq.ny](/plugins/files/multibandeq.ny)**
 
 <details>
 
@@ -333,7 +333,7 @@ Select total number of bands (T, from 2 to 30), band number (1 to 30, depending 
 
 Loosely based on the Mutron stomp box from the late 70's. Basically it is a filter controlled by an envelope follower.
 
-**[Download: Mutron.ny](/manual/plugins/files/Mutron.ny)**
+**[Download: Mutron.ny](/plugins/files/Mutron.ny)**
 
 <details>
 
@@ -356,7 +356,7 @@ Parameters:
 
 A notch filter cuts out a "notch" in the spectrum of your audio.
 
-**[Download: notch.ny](/manual/plugins/files/notch.ny)**
+**[Download: notch.ny](/plugins/files/notch.ny)**
 
 <details>
 
@@ -379,7 +379,7 @@ Parameters:
 
 A parametric equalizer is a variable equalizer effect which provides control of three parameters: amplitude, center frequency and bandwidth.
 
-**[Download: Parametric.ny](/manual/plugins/files/Parametric.ny)**
+**[Download: Parametric.ny](/plugins/files/Parametric.ny)**
 
 <details>
 
@@ -401,7 +401,7 @@ Parameters:
 
 Like someone is playing around with the cut-off frequency knob of your low pass filter.
 
-**[Download: randomlp.ny](/manual/plugins/files/randomlp.ny)**
+**[Download: randomlp.ny](/plugins/files/randomlp.ny)**
 
 <details>
 
@@ -423,7 +423,7 @@ Parameters:
 
 A filter with low pass, high pass and band pass options with a "resonance" control.
 
-**[Download: Resonant.ny](/manual/plugins/files/Resonant.ny)**
+**[Download: Resonant.ny](/plugins/files/Resonant.ny)**
 
 <details>
 
@@ -448,7 +448,7 @@ Parameters:
 
 A shelf filter with options for high shelf, low shelf or mid-band.
 
-**[Download: Shelf.ny](/manual/plugins/files/Shelf.ny)**
+**[Download: Shelf.ny](/plugins/files/Shelf.ny)**
 
 <details>
 
@@ -473,7 +473,7 @@ Parameters:
 
 An Equalizer (EQ) that can modify one band at a time.
 
-**[Download: 10bandeq.ny](/manual/plugins/files/10bandeq.ny)**
+**[Download: 10bandeq.ny](/plugins/files/10bandeq.ny)**
 
 <details>
 
@@ -493,7 +493,7 @@ Warning: This effect can cause data loss on macOS. See [#5864](https://github.co
 
 This is the vocal reduction and isolation effect that was included in Audacity prior version 3.5.&#x20;
 
-**[Download: vocalrediso.ny](/manual/plugins/files/vocalrediso.ny)**
+**[Download: vocalrediso.ny](/plugins/files/vocalrediso.ny)**
 
 <details>
 

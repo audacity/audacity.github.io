@@ -19,6 +19,10 @@ export interface StreamEntryPoint {
   blurb: string;
   count: number;
   href: string;
+  /* A stream that is its own space (the plugins directory at /plugins) rather
+     than one of the manual's modes: listed on the /help hub, left out of the
+     manual's switcher and landing cards. */
+  standalone: boolean;
 }
 
 export async function getStreamEntryPoints(): Promise<StreamEntryPoint[]> {
@@ -37,7 +41,10 @@ export async function getStreamEntryPoints(): Promise<StreamEntryPoint[]> {
       label: s.label,
       blurb: s.blurb,
       count: pages.length,
-      href: `/manual/${s.id}`,
+      /* A manual stream's landing is /manual/<stream>; a standalone stream's
+         is its base itself. */
+      href: s.base === "/manual" ? `/manual/${s.id}` : s.base,
+      standalone: s.standalone,
     };
   });
 }
