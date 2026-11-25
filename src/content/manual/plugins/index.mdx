@@ -1,0 +1,91 @@
+---
+title: "Audacity Plugins"
+description: "This site features download links to various plugins for Audacity, which can be used to extend Audacity's functionality to better match your workflow."
+section: "Plugins"
+sectionOrder: 170
+order: 1
+stream: "reference"
+draft: false
+---
+
+import Callout from "../../../components/manual/Callout.astro";
+import { museHubURL } from "../../../assets/data/museHubLinks";
+
+- [Pitch and Tempo plugins](/manual/plugins/realtime-effects/pitch-and-tempo/)
+- [Delay and Reverb plugins](/manual/plugins/realtime-effects/delay-and-reverb/)
+- [Distortion plugins](/manual/plugins/realtime-effects/distortion/)
+- [Dynamics Processing plugins](/manual/plugins/realtime-effects/dynamics-processing/)
+- [Filter plugins](/manual/plugins/realtime-effects/filters/)
+- [Equalizer plugins](/manual/plugins/realtime-effects/equalizers/)
+- [Modulation plugins](/manual/plugins/realtime-effects/modulation/)
+- [Noise Removal and Repair plugins](/manual/plugins/realtime-effects/noise-removal-and-repair/)
+- [Plugin Suites](/manual/plugins/realtime-effects/plugin-suites/) — Recommended: [MuseFX](/manual/plugins/realtime-effects/plugin-suites/#muse-fx)
+- [AI plugins](/manual/plugins/ai-plugins/ai-plugins/)
+
+![MuseHub: Do more with plugins. Find effects for Audacity on MuseHub.](../../../assets/img/manual/plugins/do-more-with-plugins2x.png)
+
+<a href={museHubURL("/category/plugin/trending-plugins", "plugins-home")} class="button primary">Browse trending plugins</a>
+
+On this site you can find download links for [equalizer plugins](/manual/plugins/realtime-effects/equalizers/), [filter plugins](/manual/plugins/realtime-effects/filters/), [delay and reverb plugins](/manual/plugins/realtime-effects/delay-and-reverb/), and more. If you'd like to download many plugins at once, you also can try entire [plugin suites](/manual/plugins/realtime-effects/plugin-suites/).
+
+<Callout type="tip">
+All plugins in the **realtime effects** section can be used instantly and non-destructively from the effects panel in Audacity.
+
+This means that you can change the effect settings while playing, and come back to your settings after doing many other things - without the need to undo anything, or to wait for the effect to be applied to the track.
+</Callout>
+
+Further information about using realtime effects can be found here:
+
+[Apply your first effect](/manual/getting-started/apply-your-first-effect/)
+
+## Installing plugins
+
+When you install plugins, they're automatically enabled the next time you restart Audacity. Alternatively, you can also locate and enable them via **Effect -> Plugin Manager -> Rescan Plugins**. Further instructions can be found here:
+
+[support.audacityteam.org/basics/installing-plugins](https://support.audacityteam.org/basics/installing-plugins)
+
+## Popular plugins
+
+* [ACX Check](/manual/plugins/analyzers/analysis-plugins/#acx-check), a plugin to check if an audio book complies with the ACX guidelines
+* [**MuseFX**](/manual/plugins/realtime-effects/plugin-suites/#muse-fx), an effects library from Audacity's sister project.
+* [**FFmpeg**](/manual/installing-ffmpeg/), a library to import and export various media formats such as M4A, WMA and MP4.
+
+## Contributing to this site
+
+<Callout type="tip">
+If you want to add your own plugin, or one that you found on the web, read the [contributing instructions](/manual/plugins/contributing/adding-plugins-to-this-site/).
+</Callout>
+
+## Plugin formats supported by Audacity
+
+### Nyquist plugins
+
+Audacity has built-in support for Nyquist effects on all operating systems. You can download additional Nyquist plugins, or create your own using the [Nyquist programming language](http://wiki.audacityteam.org/wiki/Nyquist_Plug-ins_Reference). Nyquist code can be conveniently tested using "[Nyquist Prompt](http://manual.audacityteam.org/man/nyquist_prompt.html)" under the Effect menu.
+
+### **LV2 plugins**
+
+Audacity has built-in support for [LV2](http://lv2plug.in/) plugins, which are an extensible successor of LADSPA effects. LV2 plugins are mostly built for Linux, but Audacity supports LV2 on all operating systems. To install LV2 plugins, place them in the [system LV2 location](http://manual.audacityteam.org/man/effect_menu.html#LV2_effects) then use the Plugin Manager to enable the new plugins as in the plugin installation instructions.
+
+### **VST plugins**
+
+Audacity can load VST effects (but not VST instruments) on all operating systems.
+
+### VST3 plugins
+
+Starting with Audacity 3.2, VST3 effects are also supported on all operating systems.
+
+### Audio Unit plugins
+
+On Mac OS X only, you can add [Audio Unit](http://wiki.audacityteam.org/wiki/Audio_Units) plugins to the [system plugin directories](http://manual.audacityteam.org/man/effect_menu.html#add_audio_unit).
+
+### LADSPA plugins
+
+LADSPA is superseded by LV2. These plugins are mostly built for Linux.
+
+## Other sources
+
+This site is only meant as a starting point for effects. There are many more plugins, particularly VST3 ones, available on various vendor sites, directories and online stores. Some of them are listed below:
+
+* [Hitsquad](http://www.hitsquad.com/): [Windows](http://www.hitsquad.com/smm/win95/PLUGINS_VST/), [Mac](http://www.hitsquad.com/smm/mac/PLUGINS_VST/)
+* [KVR Audio](http://www.kvraudio.com/): [Windows](http://www.kvraudio.com/q.php?search=1\&os\[]=win32\&ty\[]=e\&f1\[]=vst\&pr\[]=f\&sh\[]=s), [Mac](http://www.kvraudio.com/q.php?search=1\&os\[]=mac32\&ty\[]=e\&f1\[]=vst\&pr\[]=f\&sh\[]=s)
+* [plugins4free](https://plugins4free.com/)
